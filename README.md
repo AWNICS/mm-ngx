@@ -209,7 +209,7 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
 
 # Contributing
 
-Please see the [CONTRIBUTING](https://github.com/AWNICS/mesomeds-ng2.git/CONTRIBUTING.md) file for guidelines.
+Please see the [CONTRIBUTING](https://github.com/AWNICS/mesomeds-ng2.git/master/CONTRIBUTING.md) file for guidelines.
 
 # Advanced Seed Option
 
