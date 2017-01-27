@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base href="<%= APP_BASE %>">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        <%= APP_TITLE %>
+    </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/favicon/favicon-<%= ENV_CONFIG.ENV %>.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://use.fontawesome.com/97829cb060.js"></script>
+
+    <!-- Scripts for modal window -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.js"></script>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <script>
+        $(document).on("click", "a[href*='#']:not([href='#'])", function() {
+            if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+                var target = $(this.hash);
+                target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top - 100
+                    }, 1000);
+                    return false;
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+    <sd-app>Loading...</sd-app>
+
+    <script>
+        // Fixes undefined module function in SystemJS bundle
+        function module() {}
+    </script>
+
+    <!-- shims:js -->
+    <!-- endinject -->
+
+    <% if (BUILD_TYPE === 'dev') { %>
+        <script src="<%= APP_BASE %>app/system-config.js"></script>
+        <% } %>
+
+            <!-- libs:js -->
+            <!-- endinject -->
+
+            <!-- inject:js -->
+            <!-- endinject -->
+
+            <% if (BUILD_TYPE === 'dev') { %>
+                <script>
+                    System.import('<%= BOOTSTRAP_MODULE %>')
+                        .catch(function(e) {
+                            console.error(e.stack || e,
+                                'Not expecting this error? Report it at https://github.com/mgechev/angular-seed/issues');
+                        });
+                </script>
+                <% } %>
+
+</body>
+
+</html>

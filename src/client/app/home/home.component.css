@@ -1,0 +1,81 @@
+header {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    padding: 4.5em 0 2.5em 0;
+    text-align: center;
+    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+    height: 100vh;
+    min-height: 35em;
+}
+
+.jumbotron {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    padding: 4.5em 0 2.5em 0;
+    text-align: center;
+    font-weight: 900;
+    justify-content: center;
+    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+}
+
+input {
+    margin: 5px;
+    padding: 5px;
+    text-align: left;
+    text-indent: 2px;
+    color: #808080;
+    font-weight: normal;
+    width: 30%;
+    border: 0.5px solid #d0e4f8;
+    border-radius: 4px;
+}
+
+a:link,
+a:visited,
+a:active {
+    color: #d0e4f8;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+}
+
+#myBtn1 {
+    background-color: #FFFFFF;
+    color: #4696e5;
+    margin: 20px 10px 0px 0px;
+    padding: 5px 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    border: 1.5px solid #d0e4f8;
+    border-radius: 6px;
+}
+
+#myBtn2 {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    margin: 20px 10px 0px 0px;
+    padding: 5px 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    background-image: url("/mm/images/overlay.png"), url("/mm/images/pattern-size1.svg");
+    border: 1.5px solid #d0e4f8;
+    border-radius: 6px;
+}
+
+#myBtn1:hover {
+    box-shadow: 0px 4px 10px #FFFFFF;
+}
+
+#myBtn2:hover {
+    box-shadow: 0px 4px 10px #FFFFFF;
+}
