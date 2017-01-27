@@ -1,4 +1,4 @@
-# mesomeds-ng2
+# MESOMEDS
 Angular 2 Web application for the Mesomeds delivery pilot
 
 # How to start
