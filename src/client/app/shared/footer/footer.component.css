@@ -1,0 +1,25 @@
+footer {
+    background-color: #F5F5F5;
+    color: #9E9E9E;
+    height: 25%;
+    width: 100%;
+    padding: 30px 0px 30px 0px;
+    text-align: center;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    margin: 20px;
+    color: #9E9E9E;
+}
+
+a:hover {
+    color: dodgerblue;
+}
+
+#glyph {
+    float: right;
+    margin-right: 10px;
+    color: dodgerblue;
+}

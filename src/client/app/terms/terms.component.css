@@ -1,0 +1,15 @@
+body {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+    color: #d0e4f8;
+}
+
+a:hover {
+    color: #FFFFFF;
+}
