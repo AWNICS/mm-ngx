@@ -126,6 +126,7 @@ Now open your browser at http://localhost:5555
 - [How to extend?](#how-to-extend)
 - [Running tests](#running-tests)
 - [Advanced Seed Option](#advanced-seed-option)
+- [Contributors](#contributors)
 - [License](#license)
 
 # Configuration
@@ -207,10 +208,6 @@ $ npm run e2e.live
 ```
 You can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
 
-# Contributing
-
-Please see the [CONTRIBUTING](https://github.com/AWNICS/mesomeds-ng2.git/master/CONTRIBUTING.md) file for guidelines.
-
 # Advanced Seed Option
 
 An [advanced option to this seed exists here](https://github.com/NathanWalker/angular-seed-advanced) which mirrors the latest changes here but adds core support for:
@@ -229,3 +226,11 @@ An [advanced option to this seed exists here](https://github.com/NathanWalker/an
 - [Electron](http://electron.atom.io/) cross platform desktop apps (Mac, Windows and Linux). [Setup instructions here](#electron-app).
 
 You may use it to learn how to extend this seed for your own use cases or use the advanced seed if your project needs those features.
+
+# Contributors
+
+- Rahul Vishwakarma
+- Arun Gadag
+
+# License
+MIT
