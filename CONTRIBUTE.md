@@ -33,7 +33,6 @@ Local configuration:
     ```
     git commit -m "Updated the code with some text information" --author="Rahul Vishwakarma <rahul@awnics.com>"
     ```
-    
 
 6. Add the upstream repository (Original repository) for pull or updating your code
     ```
