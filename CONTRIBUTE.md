@@ -37,7 +37,7 @@ Local configuration:
 6. Add the upstream repository (Original repository) for pull or updating your code
     ```
     git remote add upstream https://github.com/AWNICS/mesomeds-ng2
-    git remote
+    git remote -v
     git pull upstream master
 	```
     Note: Pull does a fetch and merge automatically, otherwise we will need to fetch (git fetch upstream) 
