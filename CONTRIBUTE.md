@@ -1,7 +1,7 @@
 
 A. Pre-requisite:
     git config --global user.name "Rahul Vishwakarma"
-    git config --global user.email rahul@awnics.com
+    git config --global user.email "rahul@awnics.com"
 
 
 1. Fork the repository on github.com (https://github.com/AWNICS/mesomeds-ng2)
@@ -17,7 +17,8 @@ A. Pre-requisite:
     git status 
 
 5. Commit the changes to the local repository 
-    git commit -m "Updated the code with some text information"
+    git commit -m "Updated the code with some text information" --author="Rahul Vishwakarma <rahul@awnics.com>"
+    
 
 6. Add the upstream repository (Original repository) for pull or updating your code
     git remote add upstream https://github.com/AWNICS/mesomeds-ng2
