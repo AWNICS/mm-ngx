@@ -14,13 +14,10 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class HomeComponent{ 
 
-  tel:any;
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
 
     open() {
         this.modalHtml.open();
-    }
-    constructor() {
     }
 }
