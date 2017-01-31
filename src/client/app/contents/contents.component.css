@@ -17,7 +17,7 @@ a:hover {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     font-weight: 600;
-    border: 1.5px solid #4696e5;
+    border: 1.5px solid #EEEEEE;
     border-radius: 6px;
 }
 
@@ -30,7 +30,7 @@ a:hover {
     font-size: 20px;
     font-weight: 600;
     background-image: url("/mm/images/overlay.png"), url("/mm/images/pattern-size1.svg");
-    border: 1.5px solid #d0e4f8;
+    border: 1.5px solid #4696e5;
     border-radius: 6px;
 }
 

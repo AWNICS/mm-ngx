@@ -15,7 +15,6 @@ import {
 import { AppComponent } from './app.component';
 import { ContentsComponent } from './contents/contents.component';
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 import { TermsComponent } from './terms/terms.component';
 import { ModalComponent } from './modal/modal.component';
 
@@ -25,7 +24,6 @@ export function main() {
 
     let config: Route[] = [
       { path: '', component: HomeComponent },
-      { path: 'about', component: AboutComponent },
       { path: 'terms', component: TermsComponent },
       { path: 'modal', component: ModalComponent },
       { path: 'contents', component:ContentsComponent }
@@ -34,7 +32,7 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, TermsComponent, AppComponent,
-          ContentsComponent, HomeComponent, AboutComponent, ModalComponent],
+          ContentsComponent, HomeComponent, ModalComponent],
         providers: [
           { provide: APP_BASE_HREF, useValue: '/' }
         ]
