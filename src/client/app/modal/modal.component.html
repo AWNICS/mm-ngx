@@ -5,19 +5,39 @@
         </modal-header>
         <modal-body>
             <div class="form-group">
-                <input type="tel" style="width: 100%;" class="form-control" required [(ngModel)]="tel" name="tel" id="tel" value="{{tel}}" placeholder="Mobile number">
+                <div class="input-group">
+                    <input type="tel" style="width: 100%;" class="form-control" required [(ngModel)]="tel" name="tel" id="tel" placeholder="Mobile number">
+                    <div class="input-group-addon">
+                        <i class="fa fa-mobile" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
             <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="validationModal.close()">Request callback</button>
             <p style="text-align: center;"> Or
             </p>
             <div class="form-group">
-                <input type="text" style="width: 100%;" class="form-control" [(ngModel)]="fullName" name="fullName" id="fullName" placeholder="Full name">
+                <div class="input-group">
+                    <input type="text" style="width: 100%;" class="form-control" [(ngModel)]="fullName" name="fullName" id="fullName" placeholder="Full name">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <input type="tel" style="width: 100%;" class="form-control" [(ngModel)]="watel" name="watel" id="watel" value="{{tel}}" placeholder="Phone/Whatsapp">
+                <div class="input-group">
+                    <input type="tel" style="width: 100%;" class="form-control" [(ngModel)]="watel" name="watel" id="watel" value="{{tel}}" placeholder="Phone/Whatsapp">
+                    <div class="input-group-addon">
+                        <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <input type="email" style="width: 100%;" class="form-control" [(ngModel)]="mail" name="mail" id="mail" placeholder="Email">
+                <div class="input-group">
+                    <input type="email" style="width: 100%;" class="form-control" [(ngModel)]="mail" name="mail" id="mail" placeholder="Email">
+                    <div class="input-group-addon">
+                        <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="uFile"> <span class="glyphicon glyphicon-folder-open"></span> Upload prescription:</label>
@@ -28,7 +48,7 @@
                 <textarea class="form-control" [(ngModel)]="manual" name="manual" rows="5" id="manual"></textarea>
             </div>
             <div class="checkbox">
-                <label><input type="checkbox" style="float:left; height:12px; width:12px;" checked required [(ngModel)]="check" name="check" id="check">I agree to <a href="/terms" style="color: #4696e5;" target="_blank">Terms and Conditions</a></label>
+                <label><input type="checkbox" style="float:left; height:12px; width:12px;" checked required [(ngModel)]="check" name="check" id="check">I agree to <a href="/terms" target="_blank">Terms and Conditions</a></label>
             </div>
         </modal-body>
         <modal-footer>

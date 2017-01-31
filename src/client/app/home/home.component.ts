@@ -15,7 +15,6 @@ export class HomeComponent{
 
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
-
     open() {
         this.modalHtml.open();
     }
