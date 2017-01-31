@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { NameListService } from '../shared/name-list/name-list.service';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { ModalComponent } from '../modal/modal.component';

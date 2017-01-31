@@ -10,8 +10,7 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['modal.component.css'],
 })
 export class ModalComponent {
-  constructor() {
-    }
+
     @ViewChild('modal')
     modal: ModalComponent;
     open(){
