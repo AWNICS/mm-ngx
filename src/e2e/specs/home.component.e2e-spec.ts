@@ -25,12 +25,12 @@ describe('Home', () => {
     expect(placeOrderSubmitButton.isEnabled()).toEqual(true);
   });
 
-  it("should open the modal window on validation of the form field", () => {
+ /* it("should open the modal window on validation of the form field", () => {
     browser.get("/");
     let placeOrderSubmitButton = element(
           by.css("input[type=submit]"));
     expect(placeOrderSubmitButton.isEnabled()).toEqual(true);
     expect(element(by.css('sd-modal')).isPresent()).toEqual(true);
-  });
+  });*/
 
 });

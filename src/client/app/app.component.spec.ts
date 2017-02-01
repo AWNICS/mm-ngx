@@ -13,26 +13,20 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { ContentsComponent } from './contents/contents.component';
 import { HomeComponent } from './home/home.component';
-import { TermsComponent } from './terms/terms.component';
-import { ModalComponent } from './modal/modal.component';
 
 export function main() {
 
   describe('App component', () => {
 
     let config: Route[] = [
-      { path: '', component: HomeComponent },
-      { path: 'terms', component: TermsComponent },
-      { path: 'modal', component: ModalComponent },
-      { path: 'contents', component:ContentsComponent }
+      { path: '', component: HomeComponent }
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent, TermsComponent, AppComponent,
-          ContentsComponent, HomeComponent, ModalComponent],
+        declarations: [TestComponent, AppComponent,
+          HomeComponent],
         providers: [
           { provide: APP_BASE_HREF, useValue: '/' }
         ]
