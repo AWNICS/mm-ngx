@@ -16,6 +16,7 @@ export class HomeComponent{
   @Output() tel:number;
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
+
     open() {
         this.modalHtml.open();
     }
