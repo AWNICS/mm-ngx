@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
@@ -13,10 +14,10 @@ import {
   RouterTestingModule
 } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { ContentsComponent } from './contents/contents.component';
-import { HomeComponent } from './home/home.component';
 import { TermsComponent } from './terms/terms.component';
-import { ModalComponent } from './modal/modal.component';
+import { HomeComponent } from './home/home.component';
 
 export function main() {
 
@@ -25,14 +26,17 @@ export function main() {
     let config: Route[] = [
       { path: '', component: HomeComponent },
       { path: 'terms', component: TermsComponent },
-      { path: 'modal', component: ModalComponent },
       { path: 'contents', component:ContentsComponent }
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent, TermsComponent, AppComponent,
-          ContentsComponent, HomeComponent, ModalComponent],
+        declarations: [
+            TestComponent, FooterComponent, 
+            TermsComponent, AppComponent,
+            ContentsComponent, HomeComponent
+          ],
+        schemas: [NO_ERRORS_SCHEMA],
         providers: [
           { provide: APP_BASE_HREF, useValue: '/' }
         ]
@@ -46,7 +50,7 @@ export function main() {
           .then(() => {
             let fixture = TestBed.createComponent(TestComponent);
             let compiled = fixture.nativeElement;
-
+            console.log('App components test ');
             expect(compiled).toBeTruthy();
           });
       }));

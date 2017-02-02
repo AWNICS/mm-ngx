@@ -1,13 +1,12 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   async,
   TestBed
  } from '@angular/core/testing';
-
 import { Observable } from 'rxjs/Observable';
 
 import { HomeComponent } from './home.component';
-import { NameListService } from '../shared/name-list/name-list.service';
 
 export function main() {
   describe('Home component', () => {
@@ -17,9 +16,8 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule],
         declarations: [HomeComponent],
-        providers: [
-          { provide: NameListService, useValue: new MockNameListService() }
-        ]
+        schemas: [NO_ERRORS_SCHEMA]
+        
       });
 
     });
@@ -32,24 +30,20 @@ export function main() {
             let fixture = TestBed.createComponent(HomeComponent);
             let homeInstance = fixture.debugElement.componentInstance;
             let homeDOMEl = fixture.debugElement.nativeElement;
-            let mockNameListService = <MockNameListService>fixture.debugElement.injector.get(NameListService);
-            let nameListServiceSpy = spyOn(mockNameListService, 'get').and.callThrough();
-
-            mockNameListService.returnValue = ['1', '2', '3'];
-
             fixture.detectChanges();
 
-            expect(homeInstance.nameListService).toEqual(jasmine.any(MockNameListService));
-            expect(homeDOMEl.querySelectorAll('li').length).toEqual(3);
-            expect(nameListServiceSpy.calls.count()).toBe(1);
-
-            homeInstance.newName = 'Minko';
-            homeInstance.addName();
-
+            //Change the name model in the component bound to the h2 tag in the html
+            let testName:string = 'Mesomeds Landing';
+            homeInstance.name = testName;
+            console.log('Home component test name is: '+testName);
+            //Update the test bed with the changes
             fixture.detectChanges();
 
-            expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
-            expect(homeDOMEl.querySelectorAll('li')[3].textContent).toEqual('Minko');
+            //Test whether the test value was updated in the bound html's text property
+            expect(homeDOMEl.querySelectorAll('h1')[0].textContent).toEqual('Mesomeds Landing');
+
+            //expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
+            //expect(homeDOMEl.querySelectorAll('li')[3].textContent).toEqual('Minko');
           });
 
       }));

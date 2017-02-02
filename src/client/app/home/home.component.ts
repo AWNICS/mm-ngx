@@ -13,6 +13,13 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class HomeComponent{ 
 
+  items:Array<string>;
+  name:string = 'Mesomeds Home';
+
+  getName() {
+    return name;
+  }
+
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
 
