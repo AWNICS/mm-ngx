@@ -15,11 +15,23 @@ a:visited {
 }
 
 a:hover {
-    color: dodgerblue;
+    color: #0D47A1;
 }
 
 #glyph {
     float: right;
-    margin-right: 10px;
-    color: dodgerblue;
+    margin-right: 15px;
+    color: #2196F3;
+}
+
+.fa-facebook-official:hover {
+    color: #0D47A1;
+}
+
+.fa-twitter-square:hover {
+    color: #03A9F4;
+}
+
+.fa-github-square:hover {
+    color: #212121;
 }

@@ -2,7 +2,7 @@ import { browser, element, by } from 'protractor';
 
 describe('Modal', () => {
 
-  beforeEach(async () => {
+  /*beforeEach(async () => {
     return await browser.get('/modal');
   });
 
@@ -23,6 +23,6 @@ describe('Modal', () => {
     let submitButton = element(
           by.css("input[type=submit]"));
     expect(submitButton.isEnabled()).toEqual(true);
-  });
+  });*/
 
 });
