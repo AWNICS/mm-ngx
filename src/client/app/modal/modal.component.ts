@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 
 /**
  * This class represents the lazy loaded ModalComponent.
@@ -10,6 +10,8 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['modal.component.css'],
 })
 export class ModalComponent {
+
+    @Input() result:number;
 
     @ViewChild('modal')
     modal: ModalComponent;

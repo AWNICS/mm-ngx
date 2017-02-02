@@ -17,7 +17,6 @@ export function main() {
         imports: [FormsModule],
         declarations: [HomeComponent],
         schemas: [NO_ERRORS_SCHEMA]
-        
       });
 
     });
@@ -30,16 +29,18 @@ export function main() {
             let fixture = TestBed.createComponent(HomeComponent);
             let homeInstance = fixture.debugElement.componentInstance;
             let homeDOMEl = fixture.debugElement.nativeElement;
+
             fixture.detectChanges();
 
-            //Change the name model in the component bound to the h2 tag in the html
+            //1. Change the name model in the component bound to the h2 tag in the html
             let testName:string = 'Mesomeds Landing';
             homeInstance.name = testName;
             console.log('Home component test name is: '+testName);
-            //Update the test bed with the changes
+
+            //2. Update the test bed with the changes
             fixture.detectChanges();
 
-            //Test whether the test value was updated in the bound html's text property
+            //3. Test whether the test value was updated in the bound html's text property
             expect(homeDOMEl.querySelectorAll('h1')[0].textContent).toEqual('Mesomeds Landing');
 
             //expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
@@ -50,7 +51,7 @@ export function main() {
   });
 }
 
-class MockNameListService {
+/*class MockNameListService {
 
   returnValue: string[];
 
@@ -60,4 +61,4 @@ class MockNameListService {
       observer.complete();
     });
   }
-}
+}*/

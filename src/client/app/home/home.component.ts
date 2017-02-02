@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Output } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { ModalComponent } from '../modal/modal.component';
@@ -15,11 +15,12 @@ export class HomeComponent{
 
   items:Array<string>;
   name:string = 'Mesomeds Home';
+  @Output() tel:number;
 
   getName() {
     return name;
   }
-
+  
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
 

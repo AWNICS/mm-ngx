@@ -18,7 +18,9 @@ describe('Home', () => {
     console.log('\nTest the place order button on home page\n');
     expect(placeOrderSubmitButton.isEnabled()).toEqual(false);
   });
-/*
+  
+  /*
+  
   it("should only enable place order button when the user types correct mobile number", () => {
     browser.get("/");
     let placeOrderSubmitButton = element(
@@ -34,4 +36,5 @@ describe('Home', () => {
     expect(element(by.css('sd-modal')).isPresent()).toEqual(true);
   });
   */
+
 });
