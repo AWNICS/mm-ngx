@@ -13,7 +13,14 @@ import { ModalComponent } from '../modal/modal.component';
 })
 export class HomeComponent{ 
 
+  items:Array<string>;
+  name:string = 'Mesomeds Home';
   @Output() tel:number;
+
+  getName() {
+    return name;
+  }
+  
   @ViewChild(ModalComponent)
     modalHtml: ModalComponent;
 

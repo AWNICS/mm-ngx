@@ -198,6 +198,7 @@ $ npm run serve.coverage
 
 # npm install webdriver-manager <- Install this first for e2e testing
 # npm run webdriver-update <- You will need to run this the first time
+# node ./node_modules/protractor/bin/webdriver-manager update
 $ npm run webdriver-start
 $ npm run serve.e2e
 $ npm run e2e
