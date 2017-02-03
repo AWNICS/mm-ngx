@@ -27,6 +27,10 @@ describe('Home', () => {
           by.css("input[type=submit]"));
     expect(placeOrderSubmitButton.isEnabled()).toEqual(true);
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 947036888381bd1fdd66406dfc432790afe7ac40
   it("should open the modal window on validation of the form field", () => {
     browser.get("/");
     let placeOrderSubmitButton = element(

@@ -52,7 +52,7 @@ a:hover {
     color: #FFFFFF;
 }
 
-#myBtn1 {
+#btnHomePlaceOrder {
     background-color: #FFFFFF;
     color: #4696e5;
     margin: 20px 10px 0px 0px;
@@ -72,16 +72,16 @@ a:hover {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     font-weight: 600;
-    background-image: url("/mm/images/overlay.png"), url("/mm/images/pattern-size1.svg");
+    background-image: url("./assets/png/overlay.png"), url("./assets/png/pattern-size1.svg");
     border: 1.5px solid #42A5F5;
     border-radius: 6px;
 }
 
-#myBtn1:hover {
+#btnHomePlaceOrder:hover {
     box-shadow: 0px 4px 10px #FFFFFF;
 }
 
-#myBtn1:disabled {
+#btnHomePlaceOrder:disabled {
     box-shadow: 0px 0px 0px #FFFFFF;
 }
 

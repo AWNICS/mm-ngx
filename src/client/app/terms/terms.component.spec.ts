@@ -36,4 +36,8 @@ export function main() {
   selector: 'test-terms-cmp',
   template: '<sd-terms></sd-terms>'
 })
+<<<<<<< HEAD
 class TestTermsComponent {}
+=======
+class TestTermsComponent {}
+>>>>>>> 947036888381bd1fdd66406dfc432790afe7ac40
