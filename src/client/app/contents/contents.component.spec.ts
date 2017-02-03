@@ -25,8 +25,8 @@ export function main() {
           .then(() => {
             let fixture = TestBed.createComponent(TestComponent);
             let contentsDOMEl = fixture.debugElement.children[0].nativeElement;
-
-              expect(contentsDOMEl.querySelectorAll('h2')[0].textContent).toEqual('Features');
+            console.log('Content components test ');
+            expect(contentsDOMEl.querySelectorAll('h2')[0].textContent).toEqual('Get Medicines, Health care products, cosmetics and much more delivered to your doorstep.');
           });
         }));
     });
