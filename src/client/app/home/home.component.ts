@@ -27,7 +27,7 @@ export class HomeComponent{
     open(tel:number) {
         let result:boolean = isNaN(tel);
         if( result == true || tel.toString().length < 10) {
-          alert("Please enter a valid 10 digit phone number!");
+          alert;
         } else {
           this.modalHtml.open();
         }
