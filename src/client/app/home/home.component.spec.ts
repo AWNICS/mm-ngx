@@ -52,9 +52,7 @@ export function main() {
 }
 
 /*class MockNameListService {
-
   returnValue: string[];
-
   get(): Observable<string[]> {
     return Observable.create((observer: any) => {
       observer.next(this.returnValue);
