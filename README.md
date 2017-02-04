@@ -1,7 +1,7 @@
 # MESOMEDS
 Angular 2 Web application for the Mesomeds delivery pilot
 
-https://travis-ci.org/AWNICS/mesomeds-ng2.svg?branch=master
+https://travis-ci.org/AWNICS/mesomeds-ng2.svg
 
 
 # How to start
