@@ -26,7 +26,7 @@ export class HomeComponent{
 
     open(tel:number) {
         let result:boolean = isNaN(tel);
-        if( result == true || tel.toString().length < 10) {
+        if( result == true || tel.toString().length < 10 || tel.toString().match(/^\s*$/g)) {
           alert;
         } else {
           this.modalHtml.open();
