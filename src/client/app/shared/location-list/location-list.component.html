@@ -1,5 +1,5 @@
-<select required>
-  <option *ngFor="let location of locations">
+<select required id="selectLocation" (change)="onSelect()">
+  <option *ngFor="let location of locations" value="{{location.name}}">
     {{location.name}}
   </option>
 </select>

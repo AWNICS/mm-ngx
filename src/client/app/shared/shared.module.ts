@@ -11,7 +11,7 @@ import { LocationService } from './location-list/location-list.service';
  */
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   declarations: [FooterComponent, LocationListComponent],
   exports: [FooterComponent, LocationListComponent,
     CommonModule, FormsModule, RouterModule]
