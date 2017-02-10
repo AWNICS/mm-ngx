@@ -5,16 +5,16 @@ import { Component, ViewChild, Input } from '@angular/core';
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-modal',
-  templateUrl: 'modal.component.html',
-  styleUrls: ['modal.component.css'],
+  selector: 'sd-order-window',
+  templateUrl: 'order-window.component.html',
+  styleUrls: ['order-window.component.css'],
 })
-export class ModalComponent {
+export class OrderWindowComponent {
 
     @Input() result:number;
 
     @ViewChild('modal')
-    modal: ModalComponent;
+    modal: OrderWindowComponent;
     open(){
         this.modal.open();
     }
