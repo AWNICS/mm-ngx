@@ -5,8 +5,6 @@ import { Http } from '@angular/http';
 @Injectable()
 export class LocationService {
 
-    locations:any;
-
     constructor(private http:Http) {
         console.log("Loading the application from LocationService");
     }

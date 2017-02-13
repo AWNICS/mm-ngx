@@ -5,7 +5,11 @@
             <p>Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #validateForm="ngForm">
                 <div class="row">
-                    <location-list></location-list>
+                    <select required id="selectLocation" (change)="setLocation($event.target.value)">
+                        <option *ngFor="let location of locations" [value]="location.name">
+                            {{location.name}}
+                        </option>
+                    </select>
                     <input type="tel" required [(ngModel)]="tel" name="tel" id="tel" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
                     <button type="submit" id="btnHomePlaceOrder" (click)="open(tel)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
                     <sd-order-window [result]="tel"></sd-order-window>

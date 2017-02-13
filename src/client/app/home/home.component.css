@@ -88,3 +88,21 @@ a:hover {
 #myBtn2:hover {
     box-shadow: 0px 4px 10px #FFFFFF;
 }
+
+select {
+    font-size: 14px;
+    margin: 5px;
+    padding: 10px 5px 10px 2px;
+    text-align: left;
+    text-indent: 2px;
+    color: #808080;
+    font-weight: normal;
+    width: 12%;
+    border: 0.5px solid #d0e4f8;
+    border-radius: 4px;
+}
+
+select:active,
+select:focus {
+    box-shadow: 0px 2px 10px #FFFFFF;
+}

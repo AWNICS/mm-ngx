@@ -1,5 +1,5 @@
 <modal #modal>
-    <form #modalForm="ngForm">
+    <form #modalForm="ngForm" onsubmit="onSubmit()">
         <modal-header [show-close]="true">
             <h4 class="modal-title">Fill in the details below:</h4>
         </modal-header>
@@ -12,7 +12,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Request callback</button>
+            <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="requestCallback(tel)">Request callback</button>
             <p style="text-align: center;"> Or
             </p>
             <div class="form-group">
@@ -53,7 +53,7 @@
         </modal-body>
         <modal-footer>
             <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-            <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="modal.close()">Submit</button>
+            <button type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="onSubmit(fullName,watel,mail,uFile,manual,check)">Submit</button>
         </modal-footer>
     </form>
 </modal>
