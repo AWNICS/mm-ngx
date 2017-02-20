@@ -2,7 +2,9 @@
     <div class="container">
         <div class="jumbotron">
             <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
-            <p>Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
+            <a (click)="selectLanguage('es')" *ngIf="lang !== 'es'">Español</a>
+            <a (click)="selectLanguage('en-US')" *ngIf="lang !== 'en-US'">English</a>
+            <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #validateForm="ngForm">
                 <div class="row">
                     <select required id="selectLocation">
@@ -11,9 +13,9 @@
                         </option>
                     </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
-                    <button type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
+                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
                     <mm-order-window [result]="mobileNumber"></mm-order-window>
-                    <a href="#myIndex"> <button type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
+                    <a href="#myIndex"> <button i18n type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
                 </div>
             </form>
         </div>

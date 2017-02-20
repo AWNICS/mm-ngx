@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, OnInit,EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
@@ -18,16 +18,24 @@ export class HomeComponent implements OnInit {
 
   pageTitle: string = "Mesomeds";
   errorMessage: string;
+  public lang: string;
 
   locations: Location[];
 
   @Output() mobileNumber: number;
   @Output() location: string;
-  
+
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  constructor(private _locationService: LocationService) { }
+  public constructor(private _locationService: LocationService) {
+    this.lang = localStorage.getItem('lang') || 'en-US';
+  }
+
+  public selectLanguage = (lang: string) => {
+    localStorage.setItem('lang', lang);
+    window.location.href = '/';
+  }
 
   open(mobileNumber: number) {
     let result: boolean = isNaN(mobileNumber);
@@ -39,10 +47,10 @@ export class HomeComponent implements OnInit {
     this.location = (<HTMLInputElement>document.getElementById("selectLocation")).value;
     console.log(this.location);
   }
-  
+
   ngOnInit(): void {
     this._locationService.getLocation()
-    .subscribe(locations => this.locations = locations,
-    error => this.errorMessage = <any>error);
+      .subscribe(locations => this.locations = locations,
+      error => this.errorMessage = <any>error);
   }
 }

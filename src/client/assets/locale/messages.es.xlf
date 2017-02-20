@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="f83c5959a9749f137dc01f594daf05c14be8abf0" datatype="html">
+        <source>Order Meds, at your ease<x id="LINE_BREAK" ctype="lb"/> You focus on healing, we do the running! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></source>
+        <target>Orden Meds, en su facilidad<x id="LINE_BREAK" ctype="lb"/> Usted se centra en la curación, hacemos el correr! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></target>
+        <note priority="1" from="description"> Tagline for the product</note>
+        <note priority="1" from="meaning">Brief introduction </note>
+      </trans-unit>
+      <trans-unit id="c10ebaf85d5ffdd63b43cfac9a6dabdff4b033b2" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Place Order </source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Realizar pedido</target>
+      </trans-unit>
+      <trans-unit id="ad80b701d62c61b898ccbf6d1b1ad40ba6deaf31" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Learn more </source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Aprende más</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
