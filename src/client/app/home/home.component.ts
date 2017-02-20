@@ -1,7 +1,8 @@
-import { Component, ViewChild, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, Input, Output, OnInit,EventEmitter } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
+import { OrderRequest } from '../order-window/order-request';
 import { LocationService } from '../shared/location/location.service';
 import { Location } from '../shared/location/location';
 /**
@@ -9,48 +10,39 @@ import { Location } from '../shared/location/location';
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-home',
+  selector: 'mm-home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent implements OnInit { 
+export class HomeComponent implements OnInit {
 
-  constructor(private locationService: LocationService) {}
+  pageTitle: string = "Mesomeds";
+  errorMessage: string;
 
-  locations:Location[];
-  loc: string;
+  locations: Location[];
 
-  //items:Array<string>;
-  name:string = 'Mesomeds';
-  @Output() tel:number;
-
-  getName() {
-    return name;
-  }
+  @Output() mobileNumber: number;
+  @Output() location: string;
   
   @ViewChild(OrderWindowComponent)
-    modalHtml: OrderWindowComponent;
+  modalHtml: OrderWindowComponent;
 
-    open(tel:number) {
-        let result:boolean = isNaN(tel);
-        if( result == true || tel.toString().length < 10 || tel.toString().match(/^\s*$/g)) {
-          alert;
-        } else {
-          console.log("Number you have entered is " + tel);
-          this.modalHtml.open();
-        }
-    }
+  constructor(private _locationService: LocationService) { }
 
-    setLocation(value:string) {
-      var setLocation = value;
-      console.log("This is new value:" + " " + setLocation);
+  open(mobileNumber: number) {
+    let result: boolean = isNaN(mobileNumber);
+    if (result == true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
+      alert;
+    } else {
+      this.modalHtml.open();
     }
-    
-    getLocations(): void {
-        this.locationService.getLocation().subscribe(locations => this.locations = locations);
-    }
-
-    ngOnInit():void {
-        this.getLocations();
-    }
+    this.location = (<HTMLInputElement>document.getElementById("selectLocation")).value;
+    console.log(this.location);
+  }
+  
+  ngOnInit(): void {
+    this._locationService.getLocation()
+    .subscribe(locations => this.locations = locations,
+    error => this.errorMessage = <any>error);
+  }
 }

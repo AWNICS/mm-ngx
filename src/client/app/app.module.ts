@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +14,7 @@ import { TermsModule } from './terms/terms.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, AppRoutingModule, ContentsModule, 
+  imports: [BrowserModule, HttpModule, AppRoutingModule, ContentsModule, FormsModule,
   HomeModule, OrderWindowModule, TermsModule, SharedModule.forRoot()],
   declarations: [AppComponent],
   providers: [{

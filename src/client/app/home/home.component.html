@@ -1,23 +1,23 @@
 <header id="myHeader">
     <div class="container">
         <div class="jumbotron">
-            <h1 style="color: #FFFFFF;"><b>{{name}}</b></h1>
+            <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
             <p>Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #validateForm="ngForm">
                 <div class="row">
-                    <select required id="selectLocation" (change)="setLocation($event.target.value)">
+                    <select required id="selectLocation">
                         <option *ngFor="let location of locations" [value]="location.name">
                             {{location.name}}
                         </option>
                     </select>
-                    <input type="tel" required [(ngModel)]="tel" name="tel" id="tel" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
-                    <button type="submit" id="btnHomePlaceOrder" (click)="open(tel)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
-                    <sd-order-window [result]="tel"></sd-order-window>
+                    <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
+                    <button type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
+                    <mm-order-window [result]="mobileNumber"></mm-order-window>
                     <a href="#myIndex"> <button type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
                 </div>
             </form>
         </div>
     </div>
 </header>
-<sd-contents></sd-contents>
-<sd-footer></sd-footer>
+<mm-contents></mm-contents>
+<mm-footer></mm-footer>
