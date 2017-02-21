@@ -24,6 +24,20 @@ a:hover {
     color: #2196F3;
 }
 
+#lang {
+    float: left;
+    margin-left: 25px;
+    margin-bottom: 15px;
+    color: #2196F3;
+    background-color: #F5F5F5;
+    text-decoration: none;
+}
+
+#lang:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .fa-facebook-official:hover {
     color: #0D47A1;
 }

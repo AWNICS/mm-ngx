@@ -2,8 +2,6 @@
     <div class="container">
         <div class="jumbotron">
             <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
-            <a (click)="selectLanguage('es')" *ngIf="lang !== 'es'">Español</a>
-            <a (click)="selectLanguage('en-US')" *ngIf="lang !== 'en-US'">English</a>
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #validateForm="ngForm">
                 <div class="row">

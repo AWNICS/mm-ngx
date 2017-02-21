@@ -18,23 +18,16 @@ export class HomeComponent implements OnInit {
 
   pageTitle: string = "Mesomeds";
   errorMessage: string;
-  public lang: string;
 
   locations: Location[];
 
   @Output() mobileNumber: number;
-  @Output() location: string;
+  location: string;
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
   public constructor(private _locationService: LocationService) {
-    this.lang = localStorage.getItem('lang') || 'en-US';
-  }
-
-  public selectLanguage = (lang: string) => {
-    localStorage.setItem('lang', lang);
-    window.location.href = '/';
   }
 
   open(mobileNumber: number) {
