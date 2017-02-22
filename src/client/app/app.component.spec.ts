@@ -32,7 +32,7 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterTestingModule.withRoutes(config)],
         declarations: [
-            TestComponent, FooterComponent, 
+            TestComponent, FooterComponent,
             TermsComponent, AppComponent,
             ContentsComponent, HomeComponent
           ],

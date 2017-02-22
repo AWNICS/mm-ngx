@@ -8,19 +8,19 @@ import { Location } from './location';
 @Injectable()
 export class LocationService {
 
-    private _locationUrl = "src/client/app/shared/data/location.json";
+    private _locationUrl = 'src/client/app/shared/data/location.json';
 
     constructor(private _http:Http) {}
 
-    getLocation(): Observable<Location[]>{
+    getLocation(): Observable<Location[]> {
         return this._http.get(this._locationUrl)
                 .map((response: Response) => <Location[]> response.json())
-                .do(data => console.log("All: " + JSON.stringify(data)))
+                .do(data => console.log('All: ' + JSON.stringify(data)))
                 .catch(this.handleError);
     }
 
     private handleError(error: Response) {
         console.error(error);
-        return Observable.throw(error.json().error || "Server error");
+        return Observable.throw(error.json().error || 'Server error');
     }
 }
