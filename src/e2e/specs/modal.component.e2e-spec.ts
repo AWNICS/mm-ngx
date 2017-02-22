@@ -5,7 +5,7 @@ describe('Modal', () => {
     return await browser.get('/modal');
   });
   it('should have phone number fields pre filled', () => {
-    expect(element(by.css('sd-modal tel watel')).getText()).toEqual('tel');
+    expect(element(by.css('mm-modal tel watel')).getText()).toEqual('tel');
   });
   it("should have submit button be disabled initially", () => {
     browser.get("/modal");

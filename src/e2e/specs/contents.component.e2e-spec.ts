@@ -7,7 +7,7 @@ describe('Contents', () => {
   });
 
   it('should load all the sections correctly', () => {
-    expect(element(by.css('sd-contents')).isPresent()).toEqual(true);
+    expect(element(by.css('mm-contents')).isPresent()).toEqual(true);
   });
 
 });

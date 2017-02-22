@@ -7,7 +7,7 @@ describe('Home', () => {
   });
   it('should have an input form to type mobile number', () => {
     console.log('\nTest the home input form\n');
-    expect(element(by.css('sd-home form input')).isPresent()).toEqual(true);
+    expect(element(by.css('mm-home form input')).isPresent()).toEqual(true);
   });
   it('should have place order button be disabled initially', () => {
     browser.get('/');
@@ -28,7 +28,7 @@ describe('Home', () => {
     let placeOrderSubmitButton = element(
           by.css("input[type=submit]"));
     expect(placeOrderSubmitButton.isEnabled()).toEqual(true);
-    expect(element(by.css('sd-modal')).isPresent()).toEqual(true);
+    expect(element(by.css('mm-modal')).isPresent()).toEqual(true);
   });
   */
 });
