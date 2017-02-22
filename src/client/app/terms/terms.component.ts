@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-terms',
+  selector: 'mm-terms',
   templateUrl: 'terms.component.html',
   styleUrls: ['terms.component.css'],
 })

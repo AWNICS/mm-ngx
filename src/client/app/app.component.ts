@@ -7,8 +7,8 @@ import './operators';
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-app',
-  templateUrl: 'app.component.html',
+  selector: 'mm-app',
+  templateUrl: 'app.component.html'
 })
 export class AppComponent {
   constructor() {

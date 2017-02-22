@@ -1,35 +1,49 @@
-import { Component, ViewChild, Output } from '@angular/core';
+import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
+import { OrderRequest } from '../order-window/order-request';
+import { LocationService } from '../shared/location/location.service';
+import { Location } from '../shared/location/location';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-home',
+  selector: 'mm-home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent{ 
+export class HomeComponent implements OnInit {
 
-  items:Array<string>;
-  name:string = 'Mesomeds';
-  @Output() tel:number;
+  pageTitle: string = "Mesomeds";
+  errorMessage: string;
 
-  getName() {
-    return name;
-  }
-  
+  locations: Location[];
+
+  @Output() mobileNumber: number;
+  location: string;
+
   @ViewChild(OrderWindowComponent)
-    modalHtml: OrderWindowComponent;
+  modalHtml: OrderWindowComponent;
 
-    open(tel:number) {
-        let result:boolean = isNaN(tel);
-        if( result == true || tel.toString().length < 10 || tel.toString().match(/^\s*$/g)) {
-          alert;
-        } else {
-          this.modalHtml.open();
-        }
+  public constructor(private _locationService: LocationService) {
+  }
+
+  open(mobileNumber: number) {
+    let result: boolean = isNaN(mobileNumber);
+    if (result == true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
+      alert;
+    } else {
+      this.modalHtml.open();
     }
+    this.location = (<HTMLInputElement>document.getElementById("selectLocation")).value;
+    console.log(this.location);
+  }
+
+  ngOnInit(): void {
+    this._locationService.getLocation()
+      .subscribe(locations => this.locations = locations,
+      error => this.errorMessage = <any>error);
+  }
 }

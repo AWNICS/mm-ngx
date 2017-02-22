@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
  */
 @Component({
   moduleId: module.id,
-  selector: 'sd-thanks',
+  selector: 'mm-thanks',
   templateUrl: 'thanks.component.html',
   styleUrls: ['thanks.component.css'],
 })
