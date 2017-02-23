@@ -32,7 +32,7 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule, RouterTestingModule.withRoutes(config)],
         declarations: [
-            TestComponent, FooterComponent, 
+            TestComponent, FooterComponent,
             TermsComponent, AppComponent,
             ContentsComponent, HomeComponent
           ],
@@ -59,7 +59,7 @@ export function main() {
 
 @Component({
   selector: 'test-cmp',
-  template: '<sd-app></sd-app>'
+  template: '<mm-app></mm-app>'
 })
 
 class TestComponent {

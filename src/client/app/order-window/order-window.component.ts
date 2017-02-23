@@ -11,11 +11,19 @@ import { OrderRequestService } from './order-request.service';
   templateUrl: 'order-window.component.html',
   styleUrls: ['order-window.component.css'],
 })
-export class OrderWindowComponent implements OnInit{
+export class OrderWindowComponent implements OnInit {
 
     @Input() result: number;
 
     orderRequest: OrderRequest;
+
+    tel:number;
+    fullname:string;
+    watel:number;
+    mail:string;
+    uFile:string;
+    manual:string;
+    termsAccepted: boolean;
 
     @ViewChild('modal')
     modal: OrderWindowComponent;
@@ -23,10 +31,11 @@ export class OrderWindowComponent implements OnInit{
     constructor(private orderRequestService: OrderRequestService) { }
 
     ngOnInit() {
+        console.log('Loading in order window component');
     }
 
-    open(){
-        console.log("This is coming from order window component: " + this.result);
+    open() {
+        console.log('This is coming from order window component: ' + this.result);
         this.modal.open();
     }
 

@@ -8,10 +8,10 @@ import { Component } from '@angular/core';
   templateUrl: 'footer.component.html',
   styleUrls: ['footer.component.css'],
 })
-export class FooterComponent { 
+export class FooterComponent {
 
   public lang: string;
-  
+
   public constructor() {
     this.lang = localStorage.getItem('lang') || 'en-US';
   }

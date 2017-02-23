@@ -9,4 +9,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: 'terms.component.html',
   styleUrls: ['terms.component.css'],
 })
-export class TermsComponent{ }
+export class TermsComponent { }

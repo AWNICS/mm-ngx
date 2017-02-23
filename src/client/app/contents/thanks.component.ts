@@ -8,4 +8,4 @@ import { Component } from '@angular/core';
   templateUrl: 'thanks.component.html',
   styleUrls: ['thanks.component.css'],
 })
-export class ThanksComponent{ } 
+export class ThanksComponent { }
