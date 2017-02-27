@@ -39,6 +39,13 @@ export class OrderWindowComponent implements OnInit {
         this.modal.open();
     }
 
+    /*
+    extract the value of all the variables from HTML template.
+    compose orderRequest object
+    pass the orderRequest object to OrderRequest service
+    return success or failure with a confirmation ID
+    */
+    
     onSubmit() {
         this.modal.close();
     }
