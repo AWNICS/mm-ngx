@@ -7,6 +7,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 
 import { HomeComponent } from './home.component';
+import { LocationService } from '../shared/location/location.service';
 
 export function main() {
   describe('Home component', () => {
@@ -16,6 +17,7 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule],
         declarations: [HomeComponent],
+        providers: [LocationService],
         schemas: [NO_ERRORS_SCHEMA]
       });
 
@@ -34,8 +36,8 @@ export function main() {
 
             //1. Change the name model in the component bound to the h2 tag in the html
             let testName:string = 'Mesomeds Landing';
-            homeInstance.name = testName;
-            console.log('Home component test name is: '+testName);
+            homeInstance.pageTitle = testName;
+            console.log('Home component test name is: '+ testName);
 
             //2. Update the test bed with the changes
             fixture.detectChanges();
@@ -46,7 +48,6 @@ export function main() {
             //expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
             //expect(homeDOMEl.querySelectorAll('li')[3].textContent).toEqual('Minko');
           });
-
       }));
   });
 }

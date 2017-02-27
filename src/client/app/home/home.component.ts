@@ -27,8 +27,8 @@ export class HomeComponent implements OnInit {
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  public constructor(private _locationService: LocationService) {
-  }
+  //public constructor(private _locationService: LocationService) {
+ // }
 
   open(mobileNumber: number) {
     let result: boolean = isNaN(mobileNumber);
@@ -42,8 +42,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._locationService.getLocation()
-      .subscribe(locations => this.locations = locations,
-      error => this.errorMessage = <any>error);
+   // this._locationService.getLocation()
+    //  .subscribe(locations => this.locations = locations,
+   //   error => this.errorMessage = <any>error);
   }
 }
