@@ -16,34 +16,34 @@ import { Location } from '../shared/location/location';
 })
 export class HomeComponent implements OnInit {
 
-  pageTitle: string = "Mesomeds";
+  pageTitle: string = 'Mesomeds';
   errorMessage: string;
 
   locations: Location[];
 
-  @Output() mobileNumber: number;
+  mobileNumber: number;
   location: string;
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  public constructor(private _locationService: LocationService) {
-  }
+  //public constructor(private _locationService: LocationService) {
+ // }
 
   open(mobileNumber: number) {
     let result: boolean = isNaN(mobileNumber);
-    if (result == true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
-      alert;
+    if (result === true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
+      return;
     } else {
       this.modalHtml.open();
     }
-    this.location = (<HTMLInputElement>document.getElementById("selectLocation")).value;
+    this.location = (<HTMLInputElement>document.getElementById('selectLocation')).value;
     console.log(this.location);
   }
 
   ngOnInit(): void {
-    this._locationService.getLocation()
-      .subscribe(locations => this.locations = locations,
-      error => this.errorMessage = <any>error);
+   // this._locationService.getLocation()
+    //  .subscribe(locations => this.locations = locations,
+   //   error => this.errorMessage = <any>error);
   }
 }

@@ -34,7 +34,7 @@ export function main() {
 
 @Component({
   selector: 'test-terms-cmp',
-  template: '<sd-terms></sd-terms>'
+  template: '<mm-terms></mm-terms>'
 })
 
 class TestTermsComponent {}

@@ -3,13 +3,13 @@
         <div class="jumbotron">
             <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
-            <form #validateForm="ngForm">
+            <form #f="ngForm">
                 <div class="row">
-                    <select required id="selectLocation">
+                    <select required id="selectLocation" ngModel name="name">
                         <option *ngFor="let location of locations" [value]="location.name">
                             {{location.name}}
                         </option>
-                    </select>
+                    </select>{{f.value | json}}
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
                     <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
                     <mm-order-window [result]="mobileNumber"></mm-order-window>

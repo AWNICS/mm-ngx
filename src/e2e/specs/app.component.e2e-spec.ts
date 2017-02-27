@@ -12,7 +12,7 @@ describe('App', () => {
 
 /*
   it('should load all the components correctly', () => {
-    expect(element(by.css('sd-app sd-contents sd-footer sd-home autofocus on form')));
+    expect(element(by.css('mm-app mm-contents mm-footer mm-home autofocus on form')));
   });
 */
 
