@@ -5,7 +5,7 @@
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
                 <div class="row">
-                    <select required id="selectLocation" ngModel name="name">
+                    <select required id="selectLocation" ngModel name="location">
                         <option *ngFor="let location of locations" [value]="location.name">
                             {{location.name}}
                         </option>

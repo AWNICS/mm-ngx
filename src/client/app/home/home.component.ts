@@ -27,10 +27,10 @@ export class HomeComponent implements OnInit {
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  //public constructor(private _locationService: LocationService) {
- // }
+ // public constructor(private _locationService: LocationService) {
+  //}
 
-  open(mobileNumber: number) {
+  open(mobileNumber: any) {
     let result: boolean = isNaN(mobileNumber);
     if (result === true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
       return;
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
    // this._locationService.getLocation()
-    //  .subscribe(locations => this.locations = locations,
-   //   error => this.errorMessage = <any>error);
+   //   .subscribe(locations => this.locations = locations,
+    //  error => this.errorMessage = <any>error);
   }
 }

@@ -45,7 +45,7 @@ export class OrderWindowComponent implements OnInit {
     pass the orderRequest object to OrderRequest service
     return success or failure with a confirmation ID
     */
-    
+
     onSubmit() {
         this.modal.close();
     }
