@@ -21,14 +21,16 @@ export class HomeComponent implements OnInit {
 
   locations: Location[];
 
-  mobileNumber: number;
-  location: string;
-
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
- // public constructor(private _locationService: LocationService) {
-  //}
+  mobileNumber: number;
+  location: string;
+
+  current:string = 'RT Nagar';
+
+  public constructor(private _locationService: LocationService) {
+  }
 
   open(mobileNumber: any) {
     let result: boolean = isNaN(mobileNumber);
@@ -42,8 +44,9 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   // this._locationService.getLocation()
-   //   .subscribe(locations => this.locations = locations,
-    //  error => this.errorMessage = <any>error);
+    this._locationService.getLocation()
+      .subscribe(locations => this.locations = locations,
+      error => this.errorMessage = <any>error);
   }
+
 }

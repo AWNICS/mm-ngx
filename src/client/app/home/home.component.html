@@ -5,11 +5,11 @@
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
                 <div class="row">
-                    <select required id="selectLocation" ngModel name="location">
+                    <select required id="selectLocation" [(ngModel)]="current" name="location">
                         <option *ngFor="let location of locations" [value]="location.name">
                             {{location.name}}
                         </option>
-                    </select>{{f.value | json}}
+                    </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
                     <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
                     <mm-order-window [result]="mobileNumber"></mm-order-window>

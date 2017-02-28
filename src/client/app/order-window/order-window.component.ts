@@ -40,18 +40,25 @@ export class OrderWindowComponent implements OnInit {
     }
 
     /*
+    traditional approach. use it as a back up only.
     extract the value of all the variables from HTML template.
     compose orderRequest object
     pass the orderRequest object to OrderRequest service
     return success or failure with a confirmation ID
     */
 
-    onSubmit() {
+    onSubmit(values:any) {
         this.modal.close();
+        console.log(values);
     }
 
-    requestCallback(tel:number) {
+    /*
+    try out reactive forms
+    */
+    requestCallback(values:any) {
         this.modal.close();
+        console.log(values);
+        console.log(values.tel);
     }
 
     close() {
