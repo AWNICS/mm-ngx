@@ -1,6 +1,8 @@
-import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderRequest } from './order-request';
 import { OrderRequestService } from './order-request.service';
+import { Router } from '@angular/router';
 
 /**
  * This class represents the lazy loaded ModalComponent.
@@ -15,23 +17,23 @@ export class OrderWindowComponent implements OnInit {
 
     @Input() result: number;
 
-    orderRequest: OrderRequest;
-
-    tel:number;
-    fullname:string;
-    watel:number;
-    mail:string;
-    uFile:string;
-    manual:string;
-    termsAccepted: boolean;
+    orderRequest: FormGroup;
 
     @ViewChild('modal')
     modal: OrderWindowComponent;
 
-    constructor(private orderRequestService: OrderRequestService) { }
+    constructor(private fb: FormBuilder, private router: Router) {}
 
     ngOnInit() {
-        console.log('Loading in order window component');
+        this.orderRequest = this.fb.group({
+            tel: [ ''],
+            fullname: [''],
+            watel: [ ''],
+            mail: [''],
+            uFile:[''],
+            manual:[''],
+            termsAccepted:[true]
+        });
     }
 
     open() {
@@ -47,19 +49,15 @@ export class OrderWindowComponent implements OnInit {
     return success or failure with a confirmation ID
     */
 
-    onSubmit(values:any) {
+    onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }) {
         this.modal.close();
-        console.log(values);
+        console.log(value, 'Is form valid? ' + valid);
+        this.router.navigate(['/thanks']);
     }
 
     /*
     try out reactive forms
     */
-    requestCallback(values:any) {
-        this.modal.close();
-        console.log(values);
-        console.log(values.tel);
-    }
 
     close() {
         this.modal.close();

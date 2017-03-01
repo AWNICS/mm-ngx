@@ -7,8 +7,4 @@ import { OrderRequest } from './order-request';
 
 @Injectable()
 export class OrderRequestService {
-
-    orderRequest: OrderRequest[];
-
-    constructor(private _http:Http) {}
 }

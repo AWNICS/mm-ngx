@@ -1,23 +1,23 @@
 <modal #modal>
-    <form #modalForm="ngForm">
+    <form novalidate [formGroup]="orderRequest" (ngSubmit)="onSubmit(orderRequest)">
         <modal-header [show-close]="true">
             <h4 class="modal-title" i18n>Fill in the details below:</h4>
         </modal-header>
         <modal-body>
             <div class="form-group">
                 <div class="input-group">
-                    <input type="tel" style="width: 100%;" class="form-control" [value]="result" [(ngModel)]="result" name="tel" id="tel" placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10">
+                    <input type="tel" style="width: 100%;" class="form-control" formControlName="tel" [(ngModel)]="result" placeholder="Mobile number">
                     <div class="input-group-addon">
                         <i class="fa fa-mobile" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>
-            <button i18n type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="requestCallback(modalForm.value)">Request callback</button>
+            <button i18n type="submit" class="btn btn-primary" [disabled]="orderRequest.invalid">Request callback</button>
             <p style="text-align: center;" i18n> Or
             </p>
             <div class="form-group">
                 <div class="input-group">
-                    <input type="text" style="width: 100%;" class="form-control" [(ngModel)]="fullname" name="fullname" id="fullname" placeholder="Full name">
+                    <input type="text" style="width: 100%;" class="form-control" formControlName="fullname" placeholder="Full name">
                     <div class="input-group-addon">
                         <i class="fa fa-user-o" aria-hidden="true"></i>
                     </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <div class="input-group">
-                    <input type="tel" style="width: 100%;" class="form-control" [value]="result" [ngModel]="result" name="watel" id="watel" placeholder="Phone/Whatsapp" pattern="\d{10}" minlength="10" maxlength="10">
+                    <input type="tel" style="width: 100%;" class="form-control" formControlName="watel" [(ngModel)]="result" placeholder="Phone/Whatsapp">
                     <div class="input-group-addon">
                         <i class="fa fa-whatsapp" aria-hidden="true"></i>
                     </div>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <div class="input-group">
-                    <input type="email" style="width: 100%;" class="form-control" [(ngModel)]="mail" name=" mail" id="mail" placeholder="Email">
+                    <input type="email" style="width: 100%;" class="form-control" formControlName="mail" placeholder="Email">
                     <div class="input-group-addon">
                         <i class="fa fa-envelope-o" aria-hidden="true"></i>
                     </div>
@@ -41,19 +41,19 @@
             </div>
             <div class="form-group">
                 <label for="uFile" i18n> <span class="glyphicon glyphicon-folder-open"></span> Upload prescription:</label>
-                <input type="file" style="width: 100%;" class="form-control" multiple [(ngModel)]="uFile" name="uFile" id="uFile" placeholder="Email">
+                <input type="file" style="width: 100%;" class="form-control" multiple formControlName="uFile" placeholder="Email">
             </div>
             <div class="form-group">
                 <label i18n><span class="glyphicon glyphicon-edit"></span> Enter manually:</label>
-                <textarea class="form-control" [(ngModel)]="manual" name="manual" id="manual" rows="5"></textarea>
+                <textarea formControlName="manual" class="form-control" rows="5"></textarea>
             </div>
             <div class="checkbox">
-                <label i18n><input type="checkbox" style="float:left; height:12px; width:12px;" checked required [(ngModel)]="termsAccepted" name="termsAccepted" id="termsAccepted">I agree to <a href="/terms" target="_blank">Terms and Conditions</a></label>
+                <label i18n><input type="checkbox" style="float:left; height:12px; width:12px;" formControlName="termsAccepted" required>I agree to <a href="/terms" target="_blank">Terms and Conditions</a></label>
             </div>
         </modal-body>
         <modal-footer>
             <button i18n type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-            <button i18n type="button" class="btn btn-primary" [disabled]="!modalForm.valid" (click)="onSubmit(modalForm.value)"><a href="/thanks" style="color: #FFFFFF;">Submit</a></button>
+            <button i18n type="submit" class="btn btn-primary" [disabled]="orderRequest.invalid">Submit</button>
         </modal-footer>
     </form>
 </modal>
