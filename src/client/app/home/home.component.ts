@@ -18,31 +18,30 @@ export class HomeComponent implements OnInit {
 
   pageTitle: string = 'Mesomeds';
   errorMessage: string;
-
+  location: string;
+  mobileNumber: number;
   locations: Location[];
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  mobileNumber: number;
-  location: string;
+  current:string = 'RT Nagar'; //first string to load in the select field
 
-  current:string = 'RT Nagar';
-
-  public constructor(private _locationService: LocationService) {
+  constructor(private _locationService: LocationService) { //constructor for LocationService
   }
 
-  open(mobileNumber: any) {
-    let result: boolean = isNaN(mobileNumber);
-    if (result === true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
+  //function to validate the phone number entered and open the OrderWindow else show an alert
+  open(value: any) {
+    let result: boolean = isNaN(value.mobileNumber);
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
       return;
     } else {
       this.modalHtml.open();
     }
-    this.location = (<HTMLInputElement>document.getElementById('selectLocation')).value;
-    console.log(this.location);
+    console.log(value.location);
   }
 
+  //initializes the select field options from LocationService
   ngOnInit(): void {
     this._locationService.getLocation()
       .subscribe(locations => this.locations = locations,

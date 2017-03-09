@@ -11,8 +11,8 @@
                         </option>
                     </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
-                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
-                    <mm-order-window [result]="mobileNumber"></mm-order-window>
+                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
+                    <mm-order-window [result]="mobileNumber" [location]="current"></mm-order-window>
                     <a href="#myIndex"> <button i18n type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
                 </div>
             </form>

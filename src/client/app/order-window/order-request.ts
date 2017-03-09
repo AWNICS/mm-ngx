@@ -6,4 +6,6 @@ export interface OrderRequest {
     uFile:string;
     manual:string;
     termsAccepted:boolean;
+    confirmationId: number;
+    location:string;
 }
