@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/toPromise';
 
@@ -11,14 +12,14 @@ export class OrderRequestService {
     /*
     3.update timer
     */
-    constructor(private http: Http) {
+    constructor(private http: Http, private router: Router) {
    }
 
     /*
     1. requescallback
     */
     requestCallBack(orderRequest: OrderRequest) {
-        return orderRequest.tel;
+        this.router.navigate(['/thanks']);
     }
 
     /*
@@ -37,7 +38,7 @@ export class OrderRequestService {
         + '\n Primary tel no: ' + orderRequest.tel
         + '\n Whatsapp no: ' + orderRequest.watel
         + '\n termsAccepted: ' + orderRequest.termsAccepted);
-        return orderRequest;
+        this.router.navigate(['/thanks']);
     }
 
     //genereates a random number and returns the same

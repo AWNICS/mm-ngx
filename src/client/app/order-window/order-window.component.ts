@@ -18,6 +18,7 @@ export class OrderWindowComponent implements OnInit {
     @Input() result: number; //input for telephone field
     @Input() location: string; //input for location from homeComponent
 
+    userDetail: FormGroup;
     userDetails: FormGroup;
     orderRequest: OrderRequest;
 
@@ -33,6 +34,16 @@ export class OrderWindowComponent implements OnInit {
     //intialization of the variables in FormBuilder
     ngOnInit():void {
         this.userDetails = this.fb.group({
+            tel: [''],
+            location: [''],
+            fullname: [''],
+            watel: [ ''],
+            mail: [''],
+            uFile:[''],
+            manual:[''],
+            termsAccepted:[true]
+        });
+        this.userDetail = this.fb.group({
             tel: [''],
             location: [''],
             fullname: [''],
@@ -67,7 +78,11 @@ export class OrderWindowComponent implements OnInit {
         console.log(value, 'Is the form valid? ' + valid);
         this.orderRequestService.submitOrderRequest(value);
         this.modal.close();
-        this.router.navigate(['/thanks']);
+    }
+
+    requestCallback({value, valid}:{value:OrderRequest, valid: boolean}) {
+        this.orderRequestService.requestCallBack(value);
+        this.modal.close();
     }
 
     //function to close modal window

@@ -8,7 +8,7 @@ import { Location } from './location';
 @Injectable()
 export class LocationService {
 
-    private _locationUrl = 'src/client/app/shared/data/location.json';
+    private _locationUrl = 'assets/location.json';
 
     constructor(private _http:Http) {}
 

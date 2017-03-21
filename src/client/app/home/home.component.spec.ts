@@ -17,7 +17,9 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule],
         declarations: [HomeComponent],
-        providers: [LocationService],
+        providers: [
+          { provide: LocationService, useValue: new MockLocationService() }
+        ],
         schemas: [NO_ERRORS_SCHEMA]
       });
 
@@ -31,6 +33,16 @@ export function main() {
             let fixture = TestBed.createComponent(HomeComponent);
             let homeInstance = fixture.debugElement.componentInstance;
             let homeDOMEl = fixture.debugElement.nativeElement;
+            /*let mockLocationService = fixture.debugElement.injector.get(LocationService) as MockLocationService;
+            let mockLocationSpy= spyOn(mockLocationService, 'getLocation').and.callThrough();
+
+            mockLocationService.returnValue = ['Hebbal', 'Malleshwaram', 'RT Nagar'];
+
+            fixture.detectChanges();
+
+            expect(homeInstance._locationService).toEqual(jasmine.any(MockLocationService));
+            expect(homeDOMEl.querySelectorAll('select').length).toEqual(1);
+            expect(mockLocationSpy.calls.count()).toBe(1);*/
 
             fixture.detectChanges();
 
@@ -44,20 +56,17 @@ export function main() {
 
             //3. Test whether the test value was updated in the bound html's text property
             expect(homeDOMEl.querySelectorAll('h1')[0].textContent).toEqual('Mesomeds Landing');
-
-            //expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
-            //expect(homeDOMEl.querySelectorAll('li')[3].textContent).toEqual('Minko');
           });
       }));
   });
 }
 
-/*class MockNameListService {
+class MockLocationService {
   returnValue: string[];
-  get(): Observable<string[]> {
+  getLocation(): Observable<string[]> {
     return Observable.create((observer: any) => {
       observer.next(this.returnValue);
       observer.complete();
     });
   }
-}*/
+}
