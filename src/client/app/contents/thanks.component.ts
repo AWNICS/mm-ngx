@@ -8,26 +8,40 @@ import { OrderRequestService } from '../order-window/order-request.service';
   moduleId: module.id,
   selector: 'mm-thanks',
   templateUrl: 'thanks.component.html',
-  styleUrls: ['thanks.component.css'],
+  styleUrls: ['thanks.component.css']
 })
 export class ThanksComponent implements OnInit {
 
-  confirmId:any;
-  errorMessage:any;
+  confirmId: any;
+  orderRequest: OrderRequest;
 
-  constructor(private orderRequestService: OrderRequestService ) {}
+  constructor(private orderRequestService: OrderRequestService) { }
 
   ngOnInit() {
+    this.myFunction(); // function call to loading page
     console.log('Thank you component is loaded');
     this.confirmId = this.orderRequestService.randomNumber();
-   // this.customerDetails = this.orderRequestService.getDetails();
+    // this.orderRequest.confirmationId = this.orderRequestService.randomNumber();
+    // console.log('This is from Thank you component: ' + this.orderRequest.confirmationId);
+    // this.customerDetails = this.orderRequestService.getDetails();
     //console.log(this.customerDetails);
   }
- }
 
-/*
-ngOnInit(): void {
-    this._locationService.getLocation()
-      .subscribe(locations => this.locations = locations,
-      error => this.errorMessage = <any>error);
-  }*/
+
+  /**
+   * specify the loading page timeout
+   * @memberOf ThanksComponent
+   */
+  myFunction() {
+    setTimeout(this.showPage, 2000);
+  }
+
+  /**
+   * display and hide the elements after the load time.
+   * @memberOf ThanksComponent
+   */
+  showPage() {
+    document.getElementById('loader').style.display = 'none';
+    document.getElementById('myDiv').style.display = 'block';
+  }
+}

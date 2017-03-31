@@ -1,4 +1,5 @@
-export interface OrderRequest {
+export class OrderRequest {
+    id: number;
     tel:number;
     fullname:string;
     watel: number;

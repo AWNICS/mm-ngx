@@ -43,9 +43,8 @@ export class HomeComponent implements OnInit {
 
   //initializes the select field options from LocationService
   ngOnInit(): void {
-    this._locationService.getLocation()
-      .subscribe(locations => this.locations = locations,
-      error => this.errorMessage = <any>error);
+    this._locationService.getLocations()
+      .then(locations => this.locations = locations);
   }
 
 }

@@ -32,6 +32,11 @@ export class ProjectConfig extends SeedConfig {
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];
 
+    this.addPackageBundles({
+      name: 'angular-in-memory-web-api',
+      path: 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',

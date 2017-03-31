@@ -27,10 +27,12 @@ export function main() {
       });
     });
 
+    // checking for the Observable from LocationService
     it('should return an Observable when get called', async(() => {
       expect(TestBed.get(LocationService).getLocation()).toEqual(jasmine.any(Observable));
     }));
 
+    // getting the names from the mockBackend
     it('should resolve to list of names when get called', async(() => {
       let locationService = TestBed.get(LocationService);
       let mockBackend = TestBed.get(MockBackend);

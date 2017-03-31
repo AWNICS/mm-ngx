@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { OrderRequest } from './order-request';
 import { OrderRequestService } from './order-request.service';
 import { Router } from '@angular/router';
+import { AdminService } from '../admin/admin.service';
+import { Http } from '@angular/http';
 
 /**
  * This class represents the lazy loaded ModalComponent.
@@ -18,9 +20,9 @@ export class OrderWindowComponent implements OnInit {
     @Input() result: number; //input for telephone field
     @Input() location: string; //input for location from homeComponent
 
-    userDetail: FormGroup;
     userDetails: FormGroup;
     orderRequest: OrderRequest;
+    orderRequests: OrderRequest[] = [];
 
     @ViewChild('modal')
     modal: OrderWindowComponent;
@@ -28,7 +30,8 @@ export class OrderWindowComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private orderRequestService: OrderRequestService
+        private orderRequestService: OrderRequestService,
+        private adminService: AdminService
         ) {}
 
     //intialization of the variables in FormBuilder
@@ -43,22 +46,12 @@ export class OrderWindowComponent implements OnInit {
             manual:[''],
             termsAccepted:[true]
         });
-        this.userDetail = this.fb.group({
-            tel: [''],
-            location: [''],
-            fullname: [''],
-            watel: [ ''],
-            mail: [''],
-            uFile:[''],
-            manual:[''],
-            termsAccepted:[true]
-        });
     }
 
     //function to open modal window
     open() {
-        console.log('This is coming from order window component: ' + this.result);
-        console.log('This is coming from order window component: ' + this.location);
+        //console.log('This is coming from order window component: ' + this.result); // for debugging purpose only
+        //console.log('This is coming from order window component: ' + this.location); // for debugging purpose only
         this.modal.open();
     }
 
@@ -75,8 +68,9 @@ export class OrderWindowComponent implements OnInit {
 
     //function to continue workflow after submitting the form
     onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        console.log(value, 'Is the form valid? ' + valid);
+        // console.log(value, 'Is the form valid? ' + valid); // for debuggin purpose only
         this.orderRequestService.submitOrderRequest(value);
+        this.add({value, valid});
         this.modal.close();
     }
 
@@ -88,5 +82,16 @@ export class OrderWindowComponent implements OnInit {
     //function to close modal window
     close() {
         this.modal.close();
+    }
+
+    add({ value, valid }: { value: OrderRequest, valid: boolean }):void {
+        let result = JSON.stringify(value);
+        if(!result) {
+            return;
+        }
+        this.adminService.create(value)
+        .then(orderRequest => {
+            this.orderRequests.push(orderRequest);
+        });
     }
  }

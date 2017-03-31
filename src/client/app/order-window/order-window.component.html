@@ -1,9 +1,10 @@
 <modal #modal>
-    <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
-        <modal-header [show-close]="true">
-            <h4 class="modal-title" i18n>Fill in the details below:</h4>
-        </modal-header>
-        <modal-body>
+
+    <modal-header [show-close]="true">
+        <h4 class="modal-title" i18n>Fill in the details below:</h4>
+    </modal-header>
+    <modal-body>
+        <form novalidate [formGroup]="userDetails" (ngSubmit)="requestCallback(userDetails)">
             <div class="form-group">
                 <div class="input-group">
                     <input type="tel" style="width: 100%;" class="form-control" formControlName="tel" [(ngModel)]="result" placeholder="Mobile number">
@@ -18,8 +19,10 @@
                 </div>
             </div>
             <button i18n type="submit" class="btn btn-primary" [disabled]="userDetails.invalid">Request callback</button>
-            <p style="text-align: center;" i18n> Or
-            </p>
+        </form>
+        <p style="text-align: center;" i18n> Or
+        </p>
+        <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
             <div class="form-group">
                 <div class="input-group">
                     <input type="text" style="width: 100%;" class="form-control" formControlName="fullname" placeholder="Full name">
@@ -55,10 +58,10 @@
             <div class="checkbox">
                 <label i18n><input type="checkbox" style="float:left; height:12px; width:12px;" formControlName="termsAccepted" required>I agree to <a href="/terms" target="_blank">Terms and Conditions</a></label>
             </div>
-        </modal-body>
-        <modal-footer>
-            <button i18n type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
             <button i18n type="submit" class="btn btn-primary" [disabled]="userDetails.invalid">Submit</button>
-        </modal-footer>
-    </form>
+        </form>
+    </modal-body>
+    <modal-footer>
+        <button i18n type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+    </modal-footer>
 </modal>

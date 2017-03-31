@@ -33,16 +33,6 @@ export function main() {
             let fixture = TestBed.createComponent(HomeComponent);
             let homeInstance = fixture.debugElement.componentInstance;
             let homeDOMEl = fixture.debugElement.nativeElement;
-            /*let mockLocationService = fixture.debugElement.injector.get(LocationService) as MockLocationService;
-            let mockLocationSpy= spyOn(mockLocationService, 'getLocation').and.callThrough();
-
-            mockLocationService.returnValue = ['Hebbal', 'Malleshwaram', 'RT Nagar'];
-
-            fixture.detectChanges();
-
-            expect(homeInstance._locationService).toEqual(jasmine.any(MockLocationService));
-            expect(homeDOMEl.querySelectorAll('select').length).toEqual(1);
-            expect(mockLocationSpy.calls.count()).toBe(1);*/
 
             fixture.detectChanges();
 

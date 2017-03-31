@@ -6,8 +6,8 @@
             <form #f="ngForm">
                 <div class="row">
                     <select required id="selectLocation" [(ngModel)]="current" name="location">
-                        <option *ngFor="let location of locations" [value]="location.name">
-                            {{location.name}}
+                        <option *ngFor="let location of locations" [value]="location.location">
+                            {{location.location}}
                         </option>
                     </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
