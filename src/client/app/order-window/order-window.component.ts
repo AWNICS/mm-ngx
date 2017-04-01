@@ -99,7 +99,5 @@ export class OrderWindowComponent implements OnInit {
         .then(orderRequest => {
             this.orderRequests.push(orderRequest);
         });
-        this.adminService.getOrderRequests()
-            .then(orderRequests => this.orderRequests = orderRequests);
     }
  }
