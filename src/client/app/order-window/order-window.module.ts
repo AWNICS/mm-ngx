@@ -10,7 +10,13 @@ import { SharedModule } from '../shared/shared.module';
 import { OrderRequestService } from './order-request.service';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, OrderWindowRoutingModule, SharedModule, Ng2Bs3ModalModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    OrderWindowRoutingModule,
+    SharedModule,
+    Ng2Bs3ModalModule,
+    ReactiveFormsModule],
   declarations: [OrderWindowComponent],
   exports: [OrderWindowComponent],
   providers: [OrderRequestService]

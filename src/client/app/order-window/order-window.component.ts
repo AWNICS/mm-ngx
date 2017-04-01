@@ -84,6 +84,12 @@ export class OrderWindowComponent implements OnInit {
         this.modal.close();
     }
 
+    /**
+     * adds a new entry into the table
+     * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
+     * @returns {void}
+     * @memberOf OrderWindowComponent
+     */
     add({ value, valid }: { value: OrderRequest, valid: boolean }):void {
         let result = JSON.stringify(value);
         if(!result) {
@@ -93,5 +99,7 @@ export class OrderWindowComponent implements OnInit {
         .then(orderRequest => {
             this.orderRequests.push(orderRequest);
         });
+        this.adminService.getOrderRequests()
+            .then(orderRequests => this.orderRequests = orderRequests);
     }
  }

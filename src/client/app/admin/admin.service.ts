@@ -29,25 +29,16 @@ export class AdminService {
       .catch(this.handleError);
   }
 
-  /*create(fullname: string): Promise<OrderRequest> {
-    console.log('Create method called in admin service'); // for debugging purpose only
-    return this.http
-      .post(this.url, JSON.stringify({fullname: fullname}), { headers: this.headers, method: 'post' })
-      .toPromise()
-      .then(res => res.json().data)
-      .catch(this.handleError);
-  }*/
-
-/**
+  /**
    * creates a new entry
-   * @param {string} fullName
-   * @returns {Promise<OrderRequest>}
+   * @param {OrderRequest} orderRequest
+   * @returns
    * @memberOf AdminService
    */
   create(orderRequest: OrderRequest) {
     console.log('Create object called. Value is: ' + JSON.stringify(orderRequest));
     return this.http
-    .post(this.url, JSON.stringify(orderRequest), { headers: this.headers, method: 'post' })
+    .post(this.url, JSON.stringify(orderRequest), { headers: this.headers})
     .toPromise()
     .then(res => res.json().data)
     .catch(this.handleError);
@@ -69,8 +60,8 @@ export class AdminService {
   }
 
   /**
-   * deletes an entry
-   * @param {string} fullname
+   * deletes an entry using confirmationId
+   * @param {number} id
    * @returns {Promise<void>}
    * @memberOf AdminService
    */

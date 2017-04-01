@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { OrderRequest } from '../order-window/order-request';
 import { AdminService } from './admin.service';
@@ -10,7 +10,7 @@ import { AdminService } from './admin.service';
     styleUrls: ['admin.component.css']
 })
 
-export class AdminComponent implements OnInit{
+export class AdminComponent implements OnInit {
     orderRequests: OrderRequest[];
     selectedOrderRequest: OrderRequest;
     title: string = 'Welcome Admin';
@@ -32,7 +32,8 @@ export class AdminComponent implements OnInit{
             watel: [ ''],
             mail: [''],
             termsAccepted:[''],
-            confirmationId: ['']
+            confirmationId: [''],
+            manual: ['']
         });
     }
 
@@ -53,7 +54,6 @@ export class AdminComponent implements OnInit{
      */
     onSelect(orderRequest: OrderRequest): void {
         this.selectedOrderRequest = orderRequest;
-        console.log('This is the selected entry: ' + this.selectedOrderRequest.fullname);
     }
 
     /**
@@ -76,14 +76,15 @@ export class AdminComponent implements OnInit{
      * @memberOf AdminComponent
      */
     add({ value, valid }: { value: OrderRequest, valid: boolean }):void {
-        let result = JSON.stringify(value);
-        if(!result) {
+        if(!value) {
             return;
         }
         this.adminService.create(value)
         .then(orderRequest => {
             this.orderRequests.push(orderRequest);
         });
+        this.selectedOrderRequest = null;
+        this.customerDetails.reset();
     }
 
     /**

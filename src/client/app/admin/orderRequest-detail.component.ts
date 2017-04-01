@@ -10,24 +10,11 @@ import { AdminService } from './admin.service';
     styleUrls: ['orderRequest-detail.component.css']
 })
 
-export class OrderRequestDetailComponent{
+export class OrderRequestDetailComponent {
     @Input() orderRequest: OrderRequest; // input for the employee detail block to edit
 
     customerDetails: FormGroup;
-    constructor( private adminService: AdminService, private fb: FormBuilder) {}
-
-    /*ngOnInit(): void {
-        this.customerDetails = this.fb.group({
-            fullname: [''],
-            tel: [''],
-            watel: [''],
-            location: [''],
-            mail: [''],
-            manual: [''],
-            termsAccepted: [''],
-            confirmationId: ['']
-        });
-    }*/
+    constructor(private adminService: AdminService) {}
 
     save(): void {
         this.adminService.update(this.orderRequest);

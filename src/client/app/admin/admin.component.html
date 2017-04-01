@@ -28,54 +28,63 @@
     <br/>
     <form novalidate [formGroup]="customerDetails" (ngSubmit)="add(customerDetails)">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" style="width: 100%;" class="form-control" formControlName="fullname" placeholder="Full name">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="tel" style="width: 100%;" class="form-control" formControlName="tel" placeholder="Primary No">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="tel" style="width: 100%;" class="form-control" formControlName="watel" placeholder="Phone/Whatsapp">
                     </div>
                 </div>
             </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" style="width: 100%;" class="form-control" formControlName="manual" placeholder="Enter manually">
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" style="width: 100%;" class="form-control" formControlName="location" placeholder="Location">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="email" style="width: 100%;" class="form-control" formControlName="mail" placeholder="Email">
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <div class="form-group">
                     <div class="input-group">
                         <input type="text" style="width: 100%;" class="form-control" formControlName="termsAccepted" placeholder="TermsAccepted">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="number" style="width: 100%;" class="form-control" formControlName="confirmationId" placeholder="Confirmation ID" required>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="number" style="width: 100%;" class="form-control" formControlName="confirmationId" placeholder="Confirmation ID" required>
+                    </div>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="customerDetails.invalid">Add</button>

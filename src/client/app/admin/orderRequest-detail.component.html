@@ -13,7 +13,7 @@
             <input [(ngModel)]="orderRequest.watel" placeholder="Whatsapp" />
         </div>
         <div class="col-sm-3">
-            <label>Location: </label>
+            <label>Location: </label><br/>
             <input [(ngModel)]="orderRequest.location" placeholder="Location" />
         </div>
     </div>
@@ -37,30 +37,3 @@
     </div>
     <button class="btn btn-default" style="margin: 5px;" (click)="save()">Save</button>
 </div>
-<!-- <div class="container">
-    <form novalidate [formGroup]="customerDetails" (ngSubmit)="save(customerDetails)">
-        <div class="form-group">
-            <div class="input-group">
-                <input type="text" style="width: 100%;" class="form-control" formControlName="fullname" placeholder="Full name">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="tel" style="width: 100%;" class="form-control" formControlName="watel" [value]="result" placeholder="Phone/Whatsapp">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="input-group">
-                <input type="email" style="width: 100%;" class="form-control" formControlName="mail" placeholder="Email">
-            </div>
-        </div>
-        <div class="form-group">
-            <input type="file" style="width: 100%;" class="form-control" multiple formControlName="uFile" placeholder="Email">
-        </div>
-        <div class="form-group">
-            <textarea formControlName="manual" class="form-control" rows="5"></textarea>
-        </div>
-        <button i18n type="submit" class="btn btn-primary" [disabled]="customerDetails.invalid">Submit</button>
-    </form>
-</div>
--->
