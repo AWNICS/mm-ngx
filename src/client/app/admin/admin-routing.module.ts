@@ -5,7 +5,7 @@ import { AdminComponent } from './admin.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'admin/requests', component: AdminComponent }
+      { path: 'admin', component: AdminComponent }
     ])
   ],
   exports: [RouterModule]

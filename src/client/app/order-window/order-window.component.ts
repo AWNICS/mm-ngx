@@ -4,7 +4,6 @@ import { OrderRequest } from './order-request';
 import { OrderRequestService } from './order-request.service';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin/admin.service';
-import { Http } from '@angular/http';
 
 /**
  * This class represents the lazy loaded ModalComponent.
@@ -21,8 +20,7 @@ export class OrderWindowComponent implements OnInit {
     @Input() location: string; //input for location from homeComponent
 
     userDetails: FormGroup;
-    orderRequest: OrderRequest;
-    orderRequests: OrderRequest[] = [];
+    orderRequests: OrderRequest[]= [];
 
     @ViewChild('modal')
     modal: OrderWindowComponent;
@@ -76,6 +74,7 @@ export class OrderWindowComponent implements OnInit {
 
     requestCallback({value, valid}:{value:OrderRequest, valid: boolean}) {
         this.orderRequestService.requestCallBack(value);
+        this.add({value, valid});
         this.modal.close();
     }
 

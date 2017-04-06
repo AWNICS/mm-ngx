@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderRequest } from '../order-window/order-request';
 import { AdminService } from './admin.service';
 
@@ -17,24 +17,24 @@ export class AdminComponent implements OnInit {
     customerDetails: FormGroup;
 
     constructor(private adminService: AdminService, private fb: FormBuilder) {
-        this.getOrderRequests();
     }
 
     /**
      * FormGroup initialization
      * @memberOf AdminComponent
      */
-    ngOnInit():void {
+    ngOnInit() {
         this.customerDetails = this.fb.group({
-            tel: [''],
-            location: [''],
-            fullname: [''],
-            watel: [ ''],
+            tel: ['', [Validators.required]],
+            location: ['', [Validators.required]],
+            fullname: ['', [Validators.required]],
+            watel: ['', [Validators.required]],
             mail: [''],
-            termsAccepted:[''],
+            termsAccepted: [''],
             confirmationId: [''],
             manual: ['']
         });
+        this.getOrderRequests();
     }
 
     /**
@@ -75,14 +75,12 @@ export class AdminComponent implements OnInit {
      * @returns {void}
      * @memberOf AdminComponent
      */
-    add({ value, valid }: { value: OrderRequest, valid: boolean }):void {
-        if(!value) {
-            return;
-        }
+    add({ value, valid }: { value: OrderRequest, valid: boolean }): void {
         this.adminService.create(value)
-        .then(orderRequest => {
-            this.orderRequests.push(orderRequest);
-        });
+            .then(orderRequest => {
+                this.orderRequests.push(orderRequest);
+                console.log('All: ' + JSON.stringify(this.orderRequests));
+            });
         this.selectedOrderRequest = null;
         this.customerDetails.reset();
     }

@@ -1,6 +1,6 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { OrderRequest } from '../order-window/order-request';
-import { Location } from '../shared/location/location';
+import { OrderRequest } from '../../order-window/order-request';
+import { Location } from '../location/location';
 
 export class InMemoryDataService implements InMemoryDbService {
 

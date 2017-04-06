@@ -16,7 +16,7 @@ import { SharedModule } from './shared/shared.module';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './admin/in-memory-data.service';
+import { InMemoryDataService } from './shared/database/in-memory-data.service';
 
 @NgModule({
   imports: [

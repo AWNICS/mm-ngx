@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { OrderRequest } from '../order-window/order-request';
 import { OrderRequestService } from '../order-window/order-request.service';
 /**
@@ -10,38 +10,30 @@ import { OrderRequestService } from '../order-window/order-request.service';
   templateUrl: 'thanks.component.html',
   styleUrls: ['thanks.component.css']
 })
-export class ThanksComponent implements OnInit {
+export class ThanksComponent implements OnInit, AfterContentChecked {
 
   confirmId: any;
   orderRequest: OrderRequest;
 
-  constructor(private orderRequestService: OrderRequestService) { }
+  constructor(private orderRequestService: OrderRequestService) {
+   }
 
   ngOnInit() {
-    this.myFunction(); // function call to loading page
     console.log('Thank you component is loaded');
     this.confirmId = this.orderRequestService.randomNumber();
-    // this.orderRequest.confirmationId = this.orderRequestService.randomNumber();
-    // console.log('This is from Thank you component: ' + this.orderRequest.confirmationId);
-    // this.customerDetails = this.orderRequestService.getDetails();
-    //console.log(this.customerDetails);
   }
 
-
-  /**
-   * specify the loading page timeout
-   * @memberOf ThanksComponent
-   */
-  myFunction() {
-    setTimeout(this.showPage, 2000);
+  ngAfterContentChecked() {
+    this.myFunction();
   }
 
-  /**
-   * display and hide the elements after the load time.
-   * @memberOf ThanksComponent
-   */
+   myFunction() {
+      setTimeout(this.showPage, 3000);
+  }
+
   showPage() {
     document.getElementById('loader').style.display = 'none';
     document.getElementById('myDiv').style.display = 'block';
   }
+
 }
