@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { OrderRequest } from '../order-window/order-request';
 import { OrderRequestService } from '../order-window/order-request.service';
+import { AdminService } from '../admin/admin.service';
 /**
  * This class represents the lazy loaded ThanksComponent.
  */
@@ -12,26 +13,34 @@ import { OrderRequestService } from '../order-window/order-request.service';
 })
 export class ThanksComponent implements OnInit, AfterContentChecked {
 
-  confirmId: any;
-  orderRequest: OrderRequest;
+  orderRequests: OrderRequest[];
 
-  constructor(private orderRequestService: OrderRequestService) {
-   }
+  constructor(private adminService: AdminService) {}
 
   ngOnInit() {
     console.log('Thank you component is loaded');
-    this.confirmId = this.orderRequestService.randomNumber();
+    this.getOrderRequests();
+  }
+
+  getOrderRequests():void {
+    this.adminService.getOrderRequests()
+    .then(orderRequests => this.orderRequests = orderRequests);
   }
 
   ngAfterContentChecked() {
     this.myFunction();
   }
 
+   /**
+    * 
+    * @memberOf ThanksComponent
+    */
    myFunction() {
-      setTimeout(this.showPage, 3000);
+      setTimeout(this.showPage(),2000);
   }
 
-  showPage() {
+  showPage () {
+    console.log(document.getElementsByTagName('h1').item(0).innerText);
     document.getElementById('loader').style.display = 'none';
     document.getElementById('myDiv').style.display = 'block';
   }

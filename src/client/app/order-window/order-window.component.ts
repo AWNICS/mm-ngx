@@ -9,18 +9,19 @@ import { AdminService } from '../admin/admin.service';
  * This class represents the lazy loaded ModalComponent.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'mm-order-window',
-  templateUrl: 'order-window.component.html',
-  styleUrls: ['order-window.component.css'],
+    moduleId: module.id,
+    selector: 'mm-order-window',
+    templateUrl: 'order-window.component.html',
+    styleUrls: ['order-window.component.css'],
 })
 export class OrderWindowComponent implements OnInit {
 
     @Input() result: number; //input for telephone field
     @Input() location: string; //input for location from homeComponent
+    @Output() orderRequests: OrderRequest[] = [];
 
+    confirmId: number;
     userDetails: FormGroup;
-    orderRequests: OrderRequest[]= [];
 
     @ViewChild('modal')
     modal: OrderWindowComponent;
@@ -30,55 +31,62 @@ export class OrderWindowComponent implements OnInit {
         private router: Router,
         private orderRequestService: OrderRequestService,
         private adminService: AdminService
-        ) {}
+    ) { }
 
-    //intialization of the variables in FormBuilder
-    ngOnInit():void {
+    /**
+     * initialising form group
+     * @memberOf OrderWindowComponent
+     */
+    ngOnInit(): void {
+        this.confirmId = this.orderRequestService.randomNumber();
+        console.log('ID from Oninit: ' + this.confirmId); // for debug purpose only
         this.userDetails = this.fb.group({
             tel: [''],
             location: [''],
             fullname: [''],
-            watel: [ ''],
+            watel: [''],
             mail: [''],
-            uFile:[''],
-            manual:[''],
-            termsAccepted:[true]
+            uFile: [''],
+            manual: [''],
+            termsAccepted: [true],
+            confirmationId: [this.confirmId]
         });
     }
 
-    //function to open modal window
+    /**
+     * function to open the modal window
+     * @memberOf OrderWindowComponent
+     */
     open() {
-        //console.log('This is coming from order window component: ' + this.result); // for debugging purpose only
-        //console.log('This is coming from order window component: ' + this.location); // for debugging purpose only
         this.modal.open();
     }
 
-    /*
-    traditional approach. use it as a back up only.
-    1.validate all the form variables
-    2.extract the value of all the variables from HTML template.
-    3.compose orderRequest object
-    4.pass the orderRequest object to OrderRequest service
-    5.confirmation ID is generated in the service and updated to orderRequest information
-    6.OrderRequestService returns orderRequest object with a confirmation ID or failure
-    7.In thank you page, show orderRequest information with confirmation ID
-    */
-
-    //function to continue workflow after submitting the form
+    /**
+     * sends a request to the service to create a new entry and redirect to thank you page.
+     * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
+     * @memberOf OrderWindowComponent
+     */
     onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        // console.log(value, 'Is the form valid? ' + valid); // for debuggin purpose only
         this.orderRequestService.submitOrderRequest(value);
-        this.add({value, valid});
+        this.add({ value, valid });
         this.modal.close();
     }
 
-    requestCallback({value, valid}:{value:OrderRequest, valid: boolean}) {
+    /**
+     * sends a request to the service to create a new entry and redirect to thank you page.
+     * @param {{value:OrderRequest, valid: boolean}} {value, valid}
+     * @memberOf OrderWindowComponent
+     */
+    requestCallback({ value, valid }: { value: OrderRequest, valid: boolean }) {
         this.orderRequestService.requestCallBack(value);
-        this.add({value, valid});
+        this.add({ value, valid });
         this.modal.close();
     }
 
-    //function to close modal window
+    /**
+     * function to close the modal window
+     * @memberOf OrderWindowComponent
+     */
     close() {
         this.modal.close();
     }
@@ -89,14 +97,14 @@ export class OrderWindowComponent implements OnInit {
      * @returns {void}
      * @memberOf OrderWindowComponent
      */
-    add({ value, valid }: { value: OrderRequest, valid: boolean }):void {
+    add({ value, valid }: { value: OrderRequest, valid: boolean }): void {
         let result = JSON.stringify(value);
-        if(!result) {
+        if (!result) {
             return;
         }
         this.adminService.create(value)
-        .then(orderRequest => {
-            this.orderRequests.push(orderRequest);
-        });
+            .then(orderRequest => {
+                this.orderRequests.push(orderRequest);
+            });
     }
- }
+}

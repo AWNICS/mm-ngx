@@ -48,7 +48,8 @@ export class OrderRequestService {
         2. Or disable the primary number field.
         */
         + '\n Whatsapp no: ' + orderRequest.watel
-        + '\n termsAccepted: ' + orderRequest.termsAccepted);
+        + '\n termsAccepted: ' + orderRequest.termsAccepted
+        + '\n Confirmation ID: ' + orderRequest.confirmationId);
         this.router.navigate(['/thanks']);
     }
 

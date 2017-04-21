@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { OrderRequest } from '../order-window/order-request';
 import { AdminService } from './admin.service';
+//import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 
 @Component({
     moduleId: module.id,
@@ -15,8 +16,35 @@ export class AdminComponent implements OnInit {
     selectedOrderRequest: OrderRequest;
     title: string = 'Welcome Admin';
     customerDetails: FormGroup;
+    //source: LocalDataSource;
+
+   /* settings = {
+  columns: {
+    id: {
+      title: 'ID',
+      filter: false
+    },
+    name: {
+      title: 'Full Name',
+      filter: false
+    },
+    username: {
+      title: 'User Name',
+      filter: false
+    },
+    email: {
+      title: 'Email',
+      filter: false
+    }
+  }
+};*/
 
     constructor(private adminService: AdminService, private fb: FormBuilder) {
+       /* this.source = new LocalDataSource();
+        this.adminService.getOrderRequests()
+        .then((orderRequests) => {
+      this.source.load(orderRequests);
+    });*/
     }
 
     /**

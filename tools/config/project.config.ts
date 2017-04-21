@@ -37,6 +37,16 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
     });
 
+    this.addPackageBundles({
+      name: 'ng2-smart-table',
+      path: 'node_modules/ng2-smart-table/ng2-smart-table.ts'
+    });
+
+    this.addPackageBundles({
+      name: 'ng2-completer',
+      path: 'node_modules/ng2-completer/ng2-completer.umd.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',

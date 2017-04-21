@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -18,6 +18,9 @@ import { SharedModule } from './shared/shared.module';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './shared/database/in-memory-data.service';
 
+//ng2-smart-tables
+//import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -31,14 +34,16 @@ import { InMemoryDataService } from './shared/database/in-memory-data.service';
     ReactiveFormsModule,
     TermsModule,
     SharedModule.forRoot(),
-    InMemoryWebApiModule.forRoot(InMemoryDataService)
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
+   // Ng2SmartTableModule
     ],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 
 })
 export class AppModule { }

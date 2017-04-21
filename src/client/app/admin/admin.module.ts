@@ -9,6 +9,8 @@ import { OrderWindowModule } from '../order-window/order-window.module';
 import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
 
+//import { Ng2SmartTableModule } from 'ng2-smart-table'; // ng2-smart-table
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     OrderWindowModule,
     SharedModule
+    //Ng2SmartTableModule
     ],
   declarations: [AdminComponent, OrderRequestDetailComponent],
   exports: [AdminComponent],
