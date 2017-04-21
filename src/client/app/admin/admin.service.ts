@@ -35,12 +35,12 @@ export class AdminService {
    * @returns
    * @memberOf AdminService
    */
-  create(orderRequest: OrderRequest) {
-    console.log('Create object called. Value is: ' + JSON.stringify(orderRequest));
+  create(orderRequest: OrderRequest): Promise<OrderRequest> {
+    console.log('Create object called. Value is: ' + JSON.stringify(orderRequest)); // for debugging purpose only
     return this.http
     .post(this.url, JSON.stringify(orderRequest), { headers: this.headers})
     .toPromise()
-    .then(res => res.json().data)
+    .then(res => res.json().data as OrderRequest)
     .catch(this.handleError);
   }
 
@@ -51,23 +51,26 @@ export class AdminService {
    * @memberOf AdminService
    */
   update(orderRequest: OrderRequest): Promise<OrderRequest> {
+    console.log('This is in update function: ' + orderRequest.id); // for debugging purpose only
     const url = `${this.url}/${orderRequest.id}`;
+    console.log('URL is: ' + url); // for debugging purpose only
     return this.http
       .put(url, JSON.stringify(orderRequest), { headers: this.headers })
       .toPromise()
-      .then(() => null)
+      .then(() => orderRequest)
       .catch(this.handleError);
   }
 
   /**
-   * deletes an entry using confirmationId
-   * @param {number} id
+   * deleting an entry using id
+   * @param {OrderRequest} orderRequest
    * @returns {Promise<void>}
    * @memberOf AdminService
    */
-  delete(id: number): Promise<void> {
-    const url = `${this.url}/${id}`;
-    return this.http.delete(url, { headers: this.headers })
+  delete(orderRequest: OrderRequest): Promise<void> {
+    const url = `${this.url}/${orderRequest.id}`;
+    console.log('delete service ID: ' + orderRequest.id); // for debugging
+    return this.http.delete(url,{ headers: this.headers })
       .toPromise()
       .then(() => null)
       .catch(this.handleError);

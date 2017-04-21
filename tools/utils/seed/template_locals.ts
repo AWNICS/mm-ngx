@@ -17,11 +17,7 @@ export class TemplateLocalsBuilder {
     this.stringifySystemConfigDev = true;
     return this;
   }
-<<<<<<< HEAD
-  wihtoutStringifiedEnvConfig() {
-=======
   withoutStringifiedEnvConfig() {
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     this.stringifyEnvConfig = false;
     return this;
   }

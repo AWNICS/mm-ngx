@@ -141,11 +141,7 @@ function registerTask(taskname: string, path: string): void {
     const task = normalizeTask(require(TASK), TASK);
 
     if (changeFileManager.pristine || task.shallRun(changeFileManager.lastChangedFiles)) {
-<<<<<<< HEAD
-      const result = task.run(done);
-=======
       const result = task.run(done, changeFileManager.lastChangedFiles);
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
       if (result && typeof result.catch === 'function') {
         result.catch((e: any) => {
           util.log(`Error while running "${TASK}"`, e);

@@ -22,10 +22,6 @@ export = () => {
   return gulp.src(src, {'base': '.'})
     .pipe(plugins.tslint())
     .pipe(plugins.tslint.report({
-<<<<<<< HEAD
-      emitError: require('is-ci')
-=======
       emitError: require('is-ci') || Config.FORCE_TSLINT_EMIT_ERROR
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     }));
 };

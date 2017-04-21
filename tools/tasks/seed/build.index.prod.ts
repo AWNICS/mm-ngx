@@ -16,11 +16,7 @@ export = () => {
   return gulp.src(join(Config.APP_SRC, 'index.html'))
     .pipe(injectJs())
     .pipe(injectCss())
-<<<<<<< HEAD
-    .pipe(plugins.template(new TemplateLocalsBuilder().wihtoutStringifiedEnvConfig().build()))
-=======
     .pipe(plugins.template(new TemplateLocalsBuilder().withoutStringifiedEnvConfig().build()))
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     .pipe(gulp.dest(Config.APP_DEST));
 };
 
@@ -46,11 +42,7 @@ function injectJs() {
  * Injects the bundled CSS files for the production environment.
  */
 function injectCss() {
-<<<<<<< HEAD
-  return inject(join(Config.CSS_DEST, Config.CSS_PROD_BUNDLE));
-=======
   return inject(join(Config.CSS_DEST, `${Config.CSS_BUNDLE_NAME}.css`));
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
 }
 
 /**
@@ -66,15 +58,11 @@ function transformPath() {
     } else {
       slice_after = 3;
     }
-<<<<<<< HEAD
-    arguments[0] = Config.APP_BASE + path.slice(slice_after, path.length).join(sep) + `?${Date.now()}`;
-=======
     arguments[0] = Config.APP_BASE + path.slice(slice_after, path.length).join(sep);
     const queryString = Config.QUERY_STRING_GENERATOR();
     if (queryString) {
       arguments[0] += `?${queryString}`;
     }
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     return slash(plugins.inject.transform.apply(plugins.inject.transform, arguments));
   };
 }

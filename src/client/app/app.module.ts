@@ -19,7 +19,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './shared/database/in-memory-data.service';
 
 //ng2-smart-tables
-//import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
@@ -35,7 +35,7 @@ import { InMemoryDataService } from './shared/database/in-memory-data.service';
     TermsModule,
     SharedModule.forRoot(),
     InMemoryWebApiModule.forRoot(InMemoryDataService),
-   // Ng2SmartTableModule
+    Ng2SmartTableModule
     ],
   declarations: [AppComponent],
   providers: [{

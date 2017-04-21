@@ -18,13 +18,13 @@ export class ThanksComponent implements OnInit, AfterContentChecked {
   constructor(private adminService: AdminService) {}
 
   ngOnInit() {
-    console.log('Thank you component is loaded');
+    //console.log('Thank you component is loaded');
     this.getOrderRequests();
   }
 
   getOrderRequests():void {
     this.adminService.getOrderRequests()
-    .then(orderRequests => this.orderRequests = orderRequests);
+    .then(orderRequests => this.orderRequests = orderRequests.slice(-1));
   }
 
   ngAfterContentChecked() {
@@ -40,7 +40,7 @@ export class ThanksComponent implements OnInit, AfterContentChecked {
   }
 
   showPage () {
-    console.log(document.getElementsByTagName('h1').item(0).innerText);
+    //console.log(document.getElementsByTagName('h1').item(0).innerText);
     document.getElementById('loader').style.display = 'none';
     document.getElementById('myDiv').style.display = 'block';
   }

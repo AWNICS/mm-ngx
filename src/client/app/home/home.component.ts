@@ -17,7 +17,7 @@ import { Location } from '../shared/location/location';
 export class HomeComponent implements OnInit {
 
   pageTitle: string = 'Mesomeds';
-  errorMessage: string;
+  //errorMessage: boolean = false;
   location: string;
   mobileNumber: number;
   locations: Location[];
@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
     let result: boolean = isNaN(value.mobileNumber);
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
       return;
+      //this.errorMessage = true;
     } else {
       this.modalHtml.open();
     }

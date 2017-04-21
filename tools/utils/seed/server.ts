@@ -62,11 +62,7 @@ export function serveProd() {
   let root = resolve(process.cwd(), Config.PROD_DEST);
   let server = express();
 
-<<<<<<< HEAD
-  for (let proxy of Config.getProxyMiddleware()) {
-=======
   for (let proxy of Config.PROXY_MIDDLEWARE) {
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     server.use(proxy);
   }
 

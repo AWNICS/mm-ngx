@@ -24,8 +24,6 @@
       "node"
     ]
   },
-<<<<<<< HEAD
-=======
   "files": [
     "gulpfile.ts",
     "tools/manual_typings/seed/autoprefixer.d.ts",
@@ -40,7 +38,6 @@
     "tools/manual_typings/seed/systemjs-builder.d.ts",
     "tools/manual_typings/seed/tildify.d.ts"
   ],
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
   "exclude": [
     "node_modules",
     "dist",

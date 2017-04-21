@@ -1,24 +1,16 @@
 {
-<<<<<<< HEAD
-  "build.dev": [
-=======
   "initialize": [
     "noop"
   ],
 
   "build.dev": [
     "initialize",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "clean.once",
     "build.assets.dev",
     "build.html_css",
     "build.js.dev",
-<<<<<<< HEAD
-    "build.index.dev"
-=======
     "build.index.dev",
     "sw.manifest.static"
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
   ],
 
   "build.dev.watch": [
@@ -27,20 +19,14 @@
   ],
 
   "build.e2e": [
-<<<<<<< HEAD
-=======
     "initialize",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "clean.e2e",
     "tslint",
     "build.js.e2e"
   ],
 
   "build.prod": [
-<<<<<<< HEAD
-=======
     "initialize",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "check.tools",
     "clean.prod",
     "tslint",
@@ -51,19 +37,12 @@
     "build.bundles",
     "build.bundles.app",
     "minify.bundles",
-<<<<<<< HEAD
-    "build.index.prod"
-  ],
-
-  "build.prod.exp": [
-=======
     "build.index.prod",
     "sw.manifest.static"
   ],
 
   "build.prod.aot": [
     "initialize",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "check.tools",
     "clean.prod",
     "tslint",
@@ -71,16 +50,6 @@
     "build.html_css",
     "copy.prod",
     "compile.ahead.prod",
-<<<<<<< HEAD
-    "build.js.prod.exp",
-    "build.bundles",
-    "build.bundles.app.exp",
-    "minify.bundles",
-    "build.index.prod"
-  ],
-
-  "build.test": [
-=======
     "build.js.prod.aot",
     "build.bundles",
     "build.bundles.app.aot",
@@ -110,17 +79,12 @@
   "build.test": [
     "initialize",
     "clean.once",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "build.assets.dev",
     "build.html_css",
     "build.js.dev",
     "build.js.test",
-<<<<<<< HEAD
-    "build.index.dev"
-=======
     "build.index.dev",
     "sw.manifest.static"
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
   ],
 
   "test.watch": [
@@ -149,10 +113,6 @@
     "server.prod"
   ],
 
-<<<<<<< HEAD
-  "serve.prod.exp": [
-    "build.prod.exp",
-=======
   "serve.prod.aot": [
     "build.prod.aot",
     "server.prod"
@@ -160,7 +120,6 @@
 
   "serve.prod.rollup.aot": [
     "build.prod.rollup.aot",
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     "server.prod"
   ],
 
@@ -169,7 +128,3 @@
     "karma.run"
   ]
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09

@@ -1,8 +1,9 @@
 <mm-navbar></mm-navbar>
 <div class="container">
     <h1>{{title}}</h1>
-    <!--ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table -->
-    <div class="container">
+    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)"><br/><br/>
+    <ng2-smart-table [settings]="settings" [source]="source" (createConfirm)="onCreateConfirm($event)" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)" (create)="onCreate($event); modal.show()" (delete)="onDelete($event)" (edit)="onSave($event)"></ng2-smart-table>
+    <!-- <div class="container">
         <table>
             <thead>
                 <th>Fullname</th>
@@ -104,5 +105,58 @@
     <div id="edit" style="display: none;">
         <mm-order-detail [orderRequest]="selectedOrderRequest"></mm-order-detail>
     </div>
-    <br/>
+    <br/> -->
 </div>
+
+<app-modal #modal>
+    <div class="app-modal-header">
+        <button type="button" class="close" data-dismiss="modal" (click)="modal.hide()">&times;</button>
+        <h3>Add new order requests</h3>
+    </div>
+    <div class="app-modal-body">
+        <form novalidate [formGroup]="userDetails" (ngSubmit)="onSubmit(userDetails)">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" style="width: 100%;" class="form-control" formControlName="fullname" placeholder="Full name">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="tel" style="width: 100%;" class="form-control" formControlName="tel" placeholder="Mobile number">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="tel" style="width: 100%;" class="form-control" formControlName="watel" placeholder="Phone/Whatsapp">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" style="width: 100%;" class="form-control" formControlName="location" placeholder="Location">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="email" style="width: 100%;" class="form-control" formControlName="mail" placeholder="Email">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" style="width: 100%;" class="form-control" formControlName="manual" placeholder="Manual message">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" style="width: 100%;" class="form-control" formControlName="termsAccepted" placeholder="Terms accepted">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="number" style="width: 100%;" class="form-control" formControlName="confirmationId" placeholder="Confirmation ID">
+                </div>
+            </div>
+            <button type="button" class="btn btn-default" (click)="modal.hide()">Close</button>
+            <button i18n type="submit" class="btn btn-primary" [disabled]="userDetails.invalid">Submit</button>
+        </form>
+    </div>
+</app-modal>
