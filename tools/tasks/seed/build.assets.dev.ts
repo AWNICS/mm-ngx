@@ -10,9 +10,16 @@ import Config from '../../config';
  */
 export =
   class BuildAssetsTask extends AssetsTask {
+<<<<<<< HEAD
     run() {
       let paths: string[] = [
         join(Config.APP_SRC, '**'),
+=======
+    run(done: any) {
+      let paths: string[] = [
+        join(Config.APP_SRC, '**'),
+        join(Config.NPM_BASE, '@angular', 'service-worker', 'bundles', 'worker-basic.js'),
+>>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
         '!' + join(Config.APP_SRC, '**', '*.ts'),
         '!' + join(Config.APP_SRC, '**', '*.scss'),
         '!' + join(Config.APP_SRC, '**', '*.sass')
@@ -22,4 +29,7 @@ export =
         .pipe(gulp.dest(Config.APP_DEST));
     }
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09

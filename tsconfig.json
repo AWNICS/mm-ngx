@@ -24,6 +24,23 @@
       "node"
     ]
   },
+<<<<<<< HEAD
+=======
+  "files": [
+    "gulpfile.ts",
+    "tools/manual_typings/seed/autoprefixer.d.ts",
+    "tools/manual_typings/seed/cssnano.d.ts",
+    "tools/manual_typings/seed/express-history-api-fallback.d.ts",
+    "tools/manual_typings/seed/istream.d.ts",
+    "tools/manual_typings/seed/karma.d.ts",
+    "tools/manual_typings/seed/merge-stream.d.ts",
+    "tools/manual_typings/seed/open.d.ts",
+    "tools/manual_typings/seed/operators.d.ts",
+    "tools/manual_typings/seed/slash.d.ts",
+    "tools/manual_typings/seed/systemjs-builder.d.ts",
+    "tools/manual_typings/seed/tildify.d.ts"
+  ],
+>>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
   "exclude": [
     "node_modules",
     "dist",

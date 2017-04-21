@@ -1,3 +1,7 @@
 *.js
 *.js.map
+<<<<<<< HEAD
 
+=======
+env/env-config.interface.metadata.json
+>>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09

@@ -22,6 +22,10 @@ export = () => {
   let es: any = require('event-stream');
   return gulp.src([
     join(Config.APP_SRC, '**'),
+<<<<<<< HEAD
+=======
+    join(Config.NPM_BASE, '@angular', 'service-worker', 'bundles', 'worker-basic.min.js'),
+>>>>>>> a26407968cf5b7270e75b6bdfec46bdbe415fa09
     '!' + join(Config.APP_SRC, 'tsconfig.json'),
     '!' + join(Config.APP_SRC, '**', '*.ts'),
     '!' + join(Config.APP_SRC, '**', '*.css'),
