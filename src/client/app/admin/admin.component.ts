@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { OrderRequest } from '../order-window/order-request';
 import { AdminService } from './admin.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { CreateModalComponent } from './create-modal.component';
+import { EditModalComponent } from './edit-modal.component';
 
 @Component({
     moduleId: module.id,
@@ -13,11 +16,16 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 
 export class AdminComponent implements OnInit {
     orderRequests: OrderRequest[];
-    //selectedOrderRequest: OrderRequest;
     title: string = 'Welcome Admin';
     customerDetails: FormGroup;
-    userDetails: FormGroup;
+    //userDetails: FormGroup;
     source: LocalDataSource; // setting LocalDataSource for the table
+
+    @ViewChild(CreateModalComponent)
+    modalHtml: CreateModalComponent;
+
+    @ViewChild(EditModalComponent)
+    modalHtml1: EditModalComponent;
 
     /**
      * settings for the smart table
@@ -27,7 +35,7 @@ export class AdminComponent implements OnInit {
         mode: 'external',
         actions: {
             columnTitle: 'Actions'
-        },
+        },/*
         delete: {
             confirmDelete: true
         },
@@ -36,7 +44,7 @@ export class AdminComponent implements OnInit {
         },
         edit: {
             confirmSave: true
-        },
+        },*/
         columns: {
             id: {
                 title: 'ID',
@@ -104,18 +112,6 @@ export class AdminComponent implements OnInit {
             manual: [''],
             id: ['']
         });
-
-        this.userDetails = this.fb.group({
-            tel: [''],
-            location: [''],
-            fullname: [''],
-            watel: [''],
-            mail: [''],
-            uFile: [''],
-            manual: [''],
-            termsAccepted: [true],
-            confirmationId: ['']
-        });
     }
 
     onSearch(query: string = '') {
@@ -152,7 +148,7 @@ export class AdminComponent implements OnInit {
           this.adminService.getOrderRequests()
               .then(orderRequests => this.orderRequests = orderRequests);
       }
-  
+
       /**
        * sets the selectedOrderRequest
        * @param {OrderRequest} orderRequest
@@ -161,7 +157,7 @@ export class AdminComponent implements OnInit {
     /*   onSelect(orderRequest: OrderRequest): void {
            this.selectedOrderRequest = orderRequest;
        }
-   
+
        /**
         * displays and hides the edit block on button click
         * @memberOf AdminComponent
@@ -174,7 +170,7 @@ export class AdminComponent implements OnInit {
              document.getElementById('edit').style.display = 'none';
          }
      }
- 
+
      /**
       * passing the orderRequest object to the in memory db service
       * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
@@ -190,7 +186,7 @@ export class AdminComponent implements OnInit {
          this.selectedOrderRequest = null;
          this.customerDetails.reset();
      }
- 
+
      /**
       * deletes an entry from the table
       * @param {OrderRequest} orderRequest
@@ -213,8 +209,9 @@ export class AdminComponent implements OnInit {
         this.source = new LocalDataSource();
         this.adminService.getOrderRequests()
             .then((orderRequests) => {
+                this.orderRequests = orderRequests;
                 this.source.load(orderRequests);
-                console.log(' OrderRequests: ' + JSON.stringify(orderRequests) + ' \n ');
+                //console.log(' OrderRequests: ' + JSON.stringify(orderRequests) + ' \n ');
             });
     }
 
@@ -225,7 +222,7 @@ export class AdminComponent implements OnInit {
      */
     onDeleteConfirm(event: any) {
         let orderRequest: OrderRequest = event.data;
-        console.log('Delete function called: ' + JSON.stringify(orderRequest));
+        //console.log('Delete function called: ' + JSON.stringify(orderRequest));
         this.adminService.delete(orderRequest)
             .then(() => null);//{
         //this.source.remove(event.data);
@@ -265,87 +262,25 @@ export class AdminComponent implements OnInit {
     }
 
     onCreate(event: any) {
-        console.log(event);
+        this.modalHtml.open('sm');
+        //console.log(event);
     }
 
-    onDelete(event: any) {
-        console.log(event);
+    onDelete(orderRequest: any) {
+        //console.log(orderRequest.data);
+        this.adminService.delete(orderRequest.data)
+        .then(() => {
+            this.orderRequests = this.orderRequests.filter(o => o !== orderRequest);
+        });
+        //this.source.remove(event.data);
+        //this.getOrderRequests();
     }
 
     onSave(event: any) {
-        console.log(event);
+        //console.log('Edit function from admin component: ' + JSON.stringify(event.data));
+        this.adminService.setDetails(event.data);
+        //this.modalHtml.open('sm');
+        //console.log(event);
+        this.modalHtml1.open('sm');
     }
-    /*
-      showAlert() {
-          alert('Button clicked');
-      }*/
-}
-
-@Component({
-    selector: 'app-modal',
-    template: `
-  <div (click)="onContainerClicked($event)" class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
-       [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <ng-content select=".app-modal-header"></ng-content>
-        </div>
-        <div class="modal-body" (click)="onSubmit($event)">
-          <ng-content select=".app-modal-body"></ng-content>
-        </div>
-        <div class="modal-footer">
-          <ng-content select=".app-modal-footer"></ng-content>
-        </div>
-      </div>
-    </div>
-  </div>
-  `,
-    styles: [`
-    .modal {
-      background: rgba(0,0,0,0.6);
-    }
-  `]
-})
-export class ModalComponent {
-
-    orderRequests: OrderRequest[];
-    public visible = false;
-    private visibleAnimate = false;
-
-    constructor(private adminService: AdminService) {
-
-    }
-
-    public show(): void {
-        this.visible = true;
-        setTimeout(() => this.visibleAnimate = true, 100);
-    }
-
-    public hide(): void {
-        this.visibleAnimate = false;
-        setTimeout(() => this.visible = false, 300);
-    }
-
-    public onContainerClicked(event: MouseEvent): void {
-        if ((<HTMLElement>event.target).classList.contains('modal')) {
-            this.hide();
-        }
-        console.log(event);
-    }
-
-    onSubmit(event:any) {
-        console.log(event);
-    }
-
-    /*onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }): void {
-        let result = JSON.stringify(value);
-        if (!result) {
-            return;
-        }
-        this.adminService.create(value)
-            .then(orderRequest => {
-                this.orderRequests.push(orderRequest);
-            });
-    }*/
 }

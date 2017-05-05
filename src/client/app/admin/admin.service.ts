@@ -14,8 +14,17 @@ export class AdminService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/orderRequests';  // URL to web api
+  private data: any;
 
   constructor(private http: Http) { }
+
+  public setDetails(eventData: any) {
+    this.data = eventData;
+  }
+
+  public getDetails() {
+    return this.data;
+  }
 
   /**
    * fetches the orderRequest details of all the customers
@@ -36,7 +45,7 @@ export class AdminService {
    * @memberOf AdminService
    */
   create(orderRequest: OrderRequest): Promise<OrderRequest> {
-    console.log('Create object called. Value is: ' + JSON.stringify(orderRequest)); // for debugging purpose only
+    //console.log('Create object called. Value is: ' + JSON.stringify(orderRequest)); // for debugging purpose only
     return this.http
     .post(this.url, JSON.stringify(orderRequest), { headers: this.headers})
     .toPromise()
@@ -51,9 +60,11 @@ export class AdminService {
    * @memberOf AdminService
    */
   update(orderRequest: OrderRequest): Promise<OrderRequest> {
-    console.log('This is in update function: ' + orderRequest.id); // for debugging purpose only
+    //console.log('This is in update service: ' + orderRequest);
+    //console.log('This is in update service: ' + JSON.stringify(orderRequest));
+    //console.log('This is in update function: ' + orderRequest.confirmationId); // for debugging purpose only
     const url = `${this.url}/${orderRequest.id}`;
-    console.log('URL is: ' + url); // for debugging purpose only
+    //console.log('URL is: ' + url); // for debugging purpose only
     return this.http
       .put(url, JSON.stringify(orderRequest), { headers: this.headers })
       .toPromise()
@@ -69,7 +80,7 @@ export class AdminService {
    */
   delete(orderRequest: OrderRequest): Promise<void> {
     const url = `${this.url}/${orderRequest.id}`;
-    console.log('delete service ID: ' + orderRequest.id); // for debugging
+    //console.log('delete service ID: ' + orderRequest.confirmationId); // for debugging
     return this.http.delete(url,{ headers: this.headers })
       .toPromise()
       .then(() => null)

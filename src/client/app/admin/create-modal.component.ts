@@ -1,45 +1,41 @@
 import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { OrderRequest } from './order-request';
-import { OrderRequestService } from './order-request.service';
+import { OrderRequest } from '../order-window/order-request';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin/admin.service';
+import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 
 /**
  * This class represents the lazy loaded ModalComponent.
  */
 @Component({
     moduleId: module.id,
-    selector: 'mm-order-window',
-    templateUrl: 'order-window.component.html',
-    styleUrls: ['order-window.component.css'],
+    selector: 'mm-create-modal',
+    templateUrl: 'create-modal.component.html',
+    styleUrls: ['create-modal.component.css'],
 })
-export class OrderWindowComponent implements OnInit {
+export class CreateModalComponent implements OnInit {
 
-    @Input() result: number; //input for telephone field
-    @Input() location: string; //input for location from homeComponent
-    @Output() orderRequests: OrderRequest[] = [];
-
-    confirmId: number;
+    orderRequests: OrderRequest[] = [];
     userDetails: FormGroup;
+    source: LocalDataSource;
+    @Input() orderRequest: OrderRequest;
 
     @ViewChild('modal')
-    modal: OrderWindowComponent;
+    modal: CreateModalComponent;
 
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private orderRequestService: OrderRequestService,
         private adminService: AdminService
-    ) { }
+    ) {
+     }
 
     /**
      * initialising form group
      * @memberOf OrderWindowComponent
      */
     ngOnInit(): void {
-        this.confirmId = this.orderRequestService.randomNumber();
-        //console.log('ID from Oninit: ' + this.confirmId); // for debug purpose only
         this.userDetails = this.fb.group({
             tel: [''],
             location: [''],
@@ -49,7 +45,7 @@ export class OrderWindowComponent implements OnInit {
             uFile: [''],
             manual: [''],
             termsAccepted: [true],
-            confirmationId: [this.confirmId]
+            confirmationId: ['']
         });
     }
 
@@ -57,28 +53,16 @@ export class OrderWindowComponent implements OnInit {
      * function to open the modal window
      * @memberOf OrderWindowComponent
      */
-    open() {
-        this.modal.open();
+    open(size: string) {
+        this.modal.open(size);
     }
 
     /**
-     * sends a request to the service to create a new entry and redirect to thank you page.
+     * sends a request to the service to create a new entry.
      * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
      * @memberOf OrderWindowComponent
      */
     onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        this.orderRequestService.submitOrderRequest(value);
-        this.add({ value, valid });
-        this.modal.close();
-    }
-
-    /**
-     * sends a request to the service to create a new entry and redirect to thank you page.
-     * @param {{value:OrderRequest, valid: boolean}} {value, valid}
-     * @memberOf OrderWindowComponent
-     */
-    requestCallback({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        this.orderRequestService.requestCallBack(value);
         this.add({ value, valid });
         this.modal.close();
     }
