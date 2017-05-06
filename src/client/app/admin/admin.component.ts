@@ -46,6 +46,11 @@ export class AdminComponent implements OnInit {
             confirmSave: true
         },*/
         columns: {
+            /*dp: {
+                title: 'Display Picture',
+                type: 'html',
+                valuePrepareFunction: (value: any) => {return `<img scr="value" />`}
+            },*/
             id: {
                 title: 'ID',
                 filter: false
@@ -272,7 +277,7 @@ export class AdminComponent implements OnInit {
         .then(() => {
             this.orderRequests = this.orderRequests.filter(o => o !== orderRequest);
         });
-        //this.source.remove(event.data);
+        this.source.remove(orderRequest.data);
         //this.getOrderRequests();
     }
 

@@ -19,6 +19,7 @@ export class EditModalComponent implements OnInit {
     //orderRequests: OrderRequest[] = [];
     userDetails: FormGroup;
     source: LocalDataSource;
+    data: any;
     //@Input() orderRequest: OrderRequest;
 
     @ViewChild('modal')
@@ -56,18 +57,18 @@ export class EditModalComponent implements OnInit {
      * @memberOf OrderWindowComponent
      */
     open(size: string) {
-        let data = this.adminService.getDetails();
+        this.data = this.adminService.getDetails();
         this.userDetails = this.fb.group({
-            id:[data.id],
-            tel: [data.tel],
-            location: [data.location],
-            fullname: [data.fullname],
-            watel: [data.watel],
-            mail: [data.mail],
-            uFile: [data.uFile],
-            manual: [data.manual],
-            termsAccepted: [data.termsAccepted],
-            confirmationId: [data.confirmationId]
+            id:[this.data.id],
+            tel: [this.data.tel],
+            location: [this.data.location],
+            fullname: [this.data.fullname],
+            watel: [this.data.watel],
+            mail: [this.data.mail],
+            uFile: [this.data.uFile],
+            manual: [this.data.manual],
+            termsAccepted: [this.data.termsAccepted],
+            confirmationId: [this.data.confirmationId]
         });
         this.modal.open(size);
     }
@@ -104,5 +105,6 @@ export class EditModalComponent implements OnInit {
         }
         this.adminService.update(value)
             .then(() => null);
+            //this.source.update(this.data, value);
     }
 }
