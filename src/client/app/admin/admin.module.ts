@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminComponent } from './admin.component';
 import { CreateModalComponent } from './create-modal.component';
 import { EditModalComponent } from './edit-modal.component';
-import { OrderRequestDetailComponent } from './orderRequest-detail.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { OrderWindowModule } from '../order-window/order-window.module';
 import { AdminService } from './admin.service';
@@ -15,6 +14,10 @@ import { Ng2SmartTableModule } from 'ng2-smart-table'; // ng2-smart-table
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal'; // ng2-modal-window
 
+/**
+ * @export
+ * @class AdminModule
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -26,8 +29,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal'; // ng2-modal-wi
     Ng2SmartTableModule,
     Ng2Bs3ModalModule
     ],
-  declarations: [AdminComponent, CreateModalComponent, EditModalComponent, 
-  OrderRequestDetailComponent],
+  declarations: [AdminComponent, CreateModalComponent, EditModalComponent],
   exports: [AdminComponent],
   providers: [AdminService]
 })

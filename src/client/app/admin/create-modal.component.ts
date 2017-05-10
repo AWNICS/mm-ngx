@@ -97,7 +97,5 @@ export class CreateModalComponent implements OnInit {
                 this.source.add(orderRequest);
                 this.source.refresh();
             });
-        //this.adminService.setNewDetails(value);
-            //this.source.add(value);
     }
 }

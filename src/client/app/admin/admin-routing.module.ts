@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 
+/**
+ * @export
+ * @class AdminRoutingModule
+ */
 @NgModule({
   imports: [
     RouterModule.forChild([
@@ -10,4 +14,5 @@ import { AdminComponent } from './admin.component';
   ],
   exports: [RouterModule]
 })
+
 export class AdminRoutingModule { }

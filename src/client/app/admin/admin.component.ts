@@ -7,6 +7,11 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { CreateModalComponent } from './create-modal.component';
 import { EditModalComponent } from './edit-modal.component';
 
+/**
+ * @export
+ * @class AdminComponent
+ * @implements {OnInit}
+ */
 @Component({
     moduleId: module.id,
     selector: 'mm-admin',
@@ -18,7 +23,6 @@ export class AdminComponent implements OnInit {
     orderRequests: OrderRequest[];
     title: string = 'Welcome Admin';
     customerDetails: FormGroup;
-    //userDetails: FormGroup;
     source: LocalDataSource = new LocalDataSource(); // setting LocalDataSource for the table
 
     @ViewChild(CreateModalComponent)
@@ -35,16 +39,7 @@ export class AdminComponent implements OnInit {
         mode: 'external',
         actions: {
             columnTitle: 'Actions'
-        },/*
-        delete: {
-            confirmDelete: true
         },
-        add: {
-            confirmCreate: true
-        },
-        edit: {
-            confirmSave: true
-        },*/
         columns: {
             /*dp: {
                 title: 'Display Picture',
@@ -97,6 +92,13 @@ export class AdminComponent implements OnInit {
         }
     };
 
+    /**
+     * Creates an instance of AdminComponent.
+     * @param {AdminService} adminService
+     * @param {FormBuilder} fb
+     *
+     * @memberof AdminComponent
+     */
     constructor(private adminService: AdminService, private fb: FormBuilder) {
         this.getOrderRequests();
     }
@@ -144,71 +146,10 @@ export class AdminComponent implements OnInit {
         // 'AND' by default, so changing to 'OR' by setting false here
     }
 
-    /**
-     * returns the orderRequests
-     * @returns
-     * @memberOf AdminComponent
-     */
-    /*  getOrderRequests(): void {
-          this.adminService.getOrderRequests()
-              .then(orderRequests => this.orderRequests = orderRequests);
-      }
-
-      /**
-       * sets the selectedOrderRequest
-       * @param {OrderRequest} orderRequest
-       * @memberOf AdminComponent
-       */
-    /*   onSelect(orderRequest: OrderRequest): void {
-           this.selectedOrderRequest = orderRequest;
-       }
-
-       /**
-        * displays and hides the edit block on button click
-        * @memberOf AdminComponent
-        */
-    /* edit(): void {
-         let result = document.getElementById('edit').style.display;
-         if (result === 'none') {
-             document.getElementById('edit').style.display = 'block';
-         } else {
-             document.getElementById('edit').style.display = 'none';
-         }
-     }
-
-     /**
-      * passing the orderRequest object to the in memory db service
-      * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
-      * @returns {void}
-      * @memberOf AdminComponent
-      */
-    /* add({ value, valid }: { value: OrderRequest, valid: boolean }): void {
-         this.adminService.create(value)
-             .then(orderRequest => {
-                 this.orderRequests.push(orderRequest);
-                 console.log('All: ' + JSON.stringify(this.orderRequests));
-             });
-         this.selectedOrderRequest = null;
-         this.customerDetails.reset();
-     }
-
-     /**
-      * deletes an entry from the table
-      * @param {OrderRequest} orderRequest
-      * @memberOf AdminComponent
-      */
-    /*  delete(orderRequest: OrderRequest): void {
-          this.adminService
-              .delete(orderRequest.confirmationId)
-              .then(() => {
-                  this.orderRequests = this.orderRequests.filter((o: any) => o !== orderRequest);
-                  if (this.selectedOrderRequest === orderRequest) { this.selectedOrderRequest = null; }
-              });
-      }*/
 
     /**
-     * get the list of orderRequests
-     * @memberOf AdminComponent
+     * function to get the orderRequests stored in the database
+     * @memberof AdminComponent
      */
     getOrderRequests() {
         this.adminService.getOrderRequests()
@@ -218,10 +159,20 @@ export class AdminComponent implements OnInit {
             });
     }
 
+    /**
+     * function to open the modal window on create
+     * @param {*} event
+     * @memberof AdminComponent
+     */
     onCreate(event: any) {
         this.modalHtml.openModal(this.source);
     }
 
+    /**
+     * delete function that removes a row from the table
+     * @param {*} orderRequest
+     * @memberof AdminComponent
+     */
     onDelete(orderRequest: any) {
         this.adminService.delete(orderRequest.data)
         .then(() => {
@@ -230,6 +181,11 @@ export class AdminComponent implements OnInit {
         this.source.remove(orderRequest.data);
     }
 
+    /**
+     * edit function that sets the data for a selected row and open modal window
+     * @param {*} event
+     * @memberof AdminComponent
+     */
     onSave(event: any) {
         this.adminService.setDetails(event.data);
         this.modalHtml1.openModal(this.source);

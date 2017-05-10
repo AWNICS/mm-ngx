@@ -57,6 +57,11 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/ng2-completer/ng2-completer.umd.js'
     });
 
+    this.addPackageBundles({
+      name: 'lodash',
+      path: 'node_modules/lodash/lodash'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',

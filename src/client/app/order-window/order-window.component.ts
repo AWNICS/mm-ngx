@@ -39,7 +39,6 @@ export class OrderWindowComponent implements OnInit {
      */
     ngOnInit(): void {
         this.confirmId = this.orderRequestService.randomNumber();
-        //console.log('ID from Oninit: ' + this.confirmId); // for debug purpose only
         this.userDetails = this.fb.group({
             tel: [''],
             location: [''],
@@ -67,7 +66,7 @@ export class OrderWindowComponent implements OnInit {
      * @memberOf OrderWindowComponent
      */
     onSubmit({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        this.orderRequestService.submitOrderRequest(value);
+        this.orderRequestService.submitOrderRequest();
         this.add({ value, valid });
         this.modal.close();
     }
@@ -78,7 +77,7 @@ export class OrderWindowComponent implements OnInit {
      * @memberOf OrderWindowComponent
      */
     requestCallback({ value, valid }: { value: OrderRequest, valid: boolean }) {
-        this.orderRequestService.requestCallBack(value);
+        this.orderRequestService.requestCallBack();
         this.add({ value, valid });
         this.modal.close();
     }

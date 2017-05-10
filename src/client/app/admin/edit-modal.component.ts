@@ -16,11 +16,9 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 })
 export class EditModalComponent implements OnInit {
 
-    //orderRequests: OrderRequest[] = [];
     userDetails: FormGroup;
     source: LocalDataSource;
     data: any;
-    //@Input() orderRequest: OrderRequest;
 
     @ViewChild('modal')
     modal: EditModalComponent;
@@ -37,8 +35,6 @@ export class EditModalComponent implements OnInit {
      * @memberOf OrderWindowComponent
      */
     ngOnInit(): void {
-        //console.log(this.orderRequest);
-        //console.log('From edit modal component: ' + JSON.stringify(this.orderRequest));
         this.userDetails = this.fb.group({
             tel: [''],
             location: [''],
@@ -103,7 +99,6 @@ export class EditModalComponent implements OnInit {
      * @memberOf OrderWindowComponent
      */
     edit({ value, valid }: { value: OrderRequest, valid: boolean }): void {
-        //console.log('This is in edit function: ' + value + 'and: ' + JSON.stringify(value));
         let result = JSON.stringify(value);
         if (!result) {
             return;
@@ -114,6 +109,5 @@ export class EditModalComponent implements OnInit {
                 this.source.refresh();
                 return null;
             });
-            //this.source.update(this.data, value);
     }
 }
