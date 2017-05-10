@@ -19,7 +19,7 @@ export class AdminComponent implements OnInit {
     title: string = 'Welcome Admin';
     customerDetails: FormGroup;
     //userDetails: FormGroup;
-    source: LocalDataSource; // setting LocalDataSource for the table
+    source: LocalDataSource = new LocalDataSource(); // setting LocalDataSource for the table
 
     @ViewChild(CreateModalComponent)
     modalHtml: CreateModalComponent;
@@ -211,81 +211,27 @@ export class AdminComponent implements OnInit {
      * @memberOf AdminComponent
      */
     getOrderRequests() {
-        this.source = new LocalDataSource();
         this.adminService.getOrderRequests()
             .then((orderRequests) => {
                 this.orderRequests = orderRequests;
                 this.source.load(orderRequests);
-                //console.log(' OrderRequests: ' + JSON.stringify(orderRequests) + ' \n ');
             });
     }
 
-    /**
-     * calling delete method from the adminService
-     * @param {*} event
-     * @memberOf AdminComponent
-     */
-    onDeleteConfirm(event: any) {
-        let orderRequest: OrderRequest = event.data;
-        //console.log('Delete function called: ' + JSON.stringify(orderRequest));
-        this.adminService.delete(orderRequest)
-            .then(() => null);//{
-        //this.source.remove(event.data);
-        //});
-        //this.source.remove(event.data);
-        event.confirm.resolve();
-        this.getOrderRequests();
-    }
-
-    /**
-     * updates an entry
-     * @param {*} event
-     * @memberOf AdminComponent
-     */
-    onSaveConfirm(event: any) {
-        //console.log('onSaveConfirm: ' + JSON.stringify(event.newData));
-        this.adminService.update(event.newData)
-            .then(() => null);//{
-        //this.source.update(event.newData, JSON.stringify(event.newData));
-        //});
-        //event.confirm.resolve(event.newData);
-        this.getOrderRequests();
-    }
-
-    /**
-     * creating a new entry from the smart table
-     * @param {*} event
-     * @memberOf AdminComponent
-     */
-    onCreateConfirm(event: any) {
-        this.adminService.create(event.newData)
-            .then(() => null);//{
-        //this.source.add(event.newData);
-        //});
-        event.confirm.resolve(event.newData);
-        this.getOrderRequests();
-    }
-
     onCreate(event: any) {
-        this.modalHtml.open('sm');
-        //console.log(event);
+        this.modalHtml.openModal(this.source);
     }
 
     onDelete(orderRequest: any) {
-        //console.log(orderRequest.data);
         this.adminService.delete(orderRequest.data)
         .then(() => {
             this.orderRequests = this.orderRequests.filter(o => o !== orderRequest);
         });
         this.source.remove(orderRequest.data);
-        //this.getOrderRequests();
     }
 
     onSave(event: any) {
-        //console.log('Edit function from admin component: ' + JSON.stringify(event.data));
         this.adminService.setDetails(event.data);
-        //this.modalHtml.open('sm');
-        //console.log(event);
-        this.modalHtml1.open('sm');
+        this.modalHtml1.openModal(this.source);
     }
 }

@@ -57,6 +57,11 @@ export class CreateModalComponent implements OnInit {
         this.modal.open(size);
     }
 
+    openModal(source: any) {
+        this.source = source;
+        this.modal.open('sm');
+    }
+
     /**
      * sends a request to the service to create a new entry.
      * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
@@ -89,7 +94,10 @@ export class CreateModalComponent implements OnInit {
         this.adminService.create(value)
             .then(orderRequest => {
                 this.orderRequests.push(orderRequest);
+                this.source.add(orderRequest);
+                this.source.refresh();
             });
+        //this.adminService.setNewDetails(value);
             //this.source.add(value);
     }
 }

@@ -15,6 +15,7 @@ export class AdminService {
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/orderRequests';  // URL to web api
   private data: any;
+  private newData: any;
 
   constructor(private http: Http) { }
 
@@ -24,6 +25,14 @@ export class AdminService {
 
   public getDetails() {
     return this.data;
+  }
+
+  public setNewDetails(eventData: any) {
+    this.newData = eventData;
+  }
+
+  public getNewDetails() {
+    return this.newData;
   }
 
   /**

@@ -73,6 +73,11 @@ export class EditModalComponent implements OnInit {
         this.modal.open(size);
     }
 
+    openModal(source: any) {
+        this.source = source;
+        this.open('sm');
+    }
+
     /**
      * sends a request to the service to create a new entry.
      * @param {{ value: OrderRequest, valid: boolean }} { value, valid }
@@ -104,7 +109,11 @@ export class EditModalComponent implements OnInit {
             return;
         }
         this.adminService.update(value)
-            .then(() => null);
+            .then(() => {
+                this.source.update(this.data, value);
+                this.source.refresh();
+                return null;
+            });
             //this.source.update(this.data, value);
     }
 }
