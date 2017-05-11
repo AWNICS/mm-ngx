@@ -9,4 +9,6 @@ export class OrderRequest {
     termsAccepted:boolean;
     confirmationId: number;
     location:string;
+    dp: string;
+    button: string;
 }

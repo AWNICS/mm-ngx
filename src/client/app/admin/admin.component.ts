@@ -6,6 +6,8 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { CreateModalComponent } from './create-modal.component';
 import { EditModalComponent } from './edit-modal.component';
+import { ButtonRenderComponent } from './button-render.component';
+import { ImageRenderComponent } from './image-render.component';
 
 /**
  * @export
@@ -41,11 +43,20 @@ export class AdminComponent implements OnInit {
             columnTitle: 'Actions'
         },
         columns: {
-            /*dp: {
+            dp: {
                 title: 'Display Picture',
+                type: 'custom',
+                filter: false,
+                renderComponent: ImageRenderComponent, ButtonRenderComponent
+            },
+            link: {
+                title: 'Link',
                 type: 'html',
-                valuePrepareFunction: (value: any) => {return `<img scr="value" />`}
-            },*/
+                filter: false,
+                valuePrepareFunction: (value: any) => {
+                    return '<a href="https://www.linkedin.com/in/arun-gadag-44220b106" target="_blank">LinkedIn</a>';
+                }
+            },
             id: {
                 title: 'ID',
                 filter: false
@@ -81,14 +92,13 @@ export class AdminComponent implements OnInit {
             confirmationId: {
                 title: 'Confirmation ID',
                 filter: false
-            }
-            /*button: {
+            },
+            button: {
                 title: 'Button',
-                type: 'html',
-                valuePrepareFunction: (value: any) => {
-                    return '<button (click)="showAlert()">Test</button>';
-                }
-            }*/
+                type: 'custom',
+                filter: false,
+                renderComponent: ButtonRenderComponent
+            }
         }
     };
 
@@ -117,7 +127,9 @@ export class AdminComponent implements OnInit {
             termsAccepted: [''],
             confirmationId: [''],
             manual: [''],
-            id: ['']
+            id: [''],
+            dp: [''],
+            button: ['']
         });
     }
 

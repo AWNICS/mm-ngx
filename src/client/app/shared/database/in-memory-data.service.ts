@@ -16,7 +16,9 @@ export class InMemoryDataService implements InMemoryDbService {
         mail: 'arun.gdg@gmail.com',
         manual: 'This is testing',
         termsAccepted: true,
-        uFile: ''
+        uFile: '',
+        dp: 'assets/jpg/arun.jpg',
+        button: 'You clicked me!'
       }
     ];
 
