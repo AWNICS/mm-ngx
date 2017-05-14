@@ -6,9 +6,10 @@ import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { OrderWindowModule } from '../order-window/order-window.module';
 import { ContentsModule } from '../contents/contents.module';
+import { LiveConsultantModule } from '../liveConsultant/live-consultant.module';
 
 @NgModule({
-  imports: [CommonModule, HomeRoutingModule, SharedModule, OrderWindowModule, ContentsModule],
+  imports: [CommonModule, HomeRoutingModule, SharedModule, OrderWindowModule, ContentsModule, LiveConsultantModule],
   declarations: [HomeComponent],
   exports: [HomeComponent]
 })

@@ -15,7 +15,7 @@
                     <div class="alert alert-danger" *ngIf="f.invalid && f.touched"> Number is required</div>
                     <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
                     <mm-order-window [result]="mobileNumber" [location]="current"></mm-order-window>
-                    <a href="#myIndex"> <button i18n type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
+                    <button i18n type="button" id="myBtn2" (click)="openConsultant()"><span class="glyphicon glyphicon-chevron-down"></span> Consult Now </button>
                 </div>
             </form>
         </div>
@@ -23,3 +23,4 @@
 </header>
 <mm-contents></mm-contents>
 <mm-footer></mm-footer>
+<mm-live-consultant></mm-live-consultant>

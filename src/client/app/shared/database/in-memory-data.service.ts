@@ -1,6 +1,7 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { OrderRequest } from '../../order-window/order-request';
 import { Location } from '../location/location';
+import { DoctorDetails } from './doctorDetails';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -22,6 +23,22 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
+    let doctorDetails: DoctorDetails[] = [
+      {
+        name: 'Dr. Joseph',
+        picUrl: 'assets/jpg/a.jpg',
+        breifDescription: {
+          speciality: 'Pediatrics',
+          experience: 15,
+          description: 'Visiting doctor at St.Johns'
+        },
+        status: 'Online',
+        waitingTime: 10,
+        rating: 4,
+        videoUrl: 'https://www.youtube.com/watch?v=papuvlVeZg8'
+      }
+    ];
+
     let locations: Location[] = [
       {
           location: 'RT Nagar'
@@ -39,6 +56,6 @@ export class InMemoryDataService implements InMemoryDbService {
           location: 'Sadashivanagar'
       }
     ];
-    return {orderRequests, locations};
+    return {orderRequests, locations, doctorDetails};
   }
 }

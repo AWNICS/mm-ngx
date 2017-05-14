@@ -6,9 +6,8 @@ import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { CreateModalComponent } from './create-modal.component';
 import { EditModalComponent } from './edit-modal.component';
-import { ButtonRenderComponent } from './button-render.component';
 import { ImageRenderComponent } from './image-render.component';
-
+import { MailToComponent } from './mailTo.component';
 /**
  * @export
  * @class AdminComponent
@@ -40,22 +39,15 @@ export class AdminComponent implements OnInit {
     settings = {
         mode: 'external',
         actions: {
-            columnTitle: 'Actions'
+            columnTitle: 'Actions',
+            position: 'right'
         },
         columns: {
             dp: {
                 title: 'Display Picture',
                 type: 'custom',
                 filter: false,
-                renderComponent: ImageRenderComponent, ButtonRenderComponent
-            },
-            link: {
-                title: 'Link',
-                type: 'html',
-                filter: false,
-                valuePrepareFunction: (value: any) => {
-                    return '<a href="https://www.linkedin.com/in/arun-gadag-44220b106" target="_blank">LinkedIn</a>';
-                }
+                renderComponent: ImageRenderComponent
             },
             id: {
                 title: 'ID',
@@ -79,7 +71,9 @@ export class AdminComponent implements OnInit {
             },
             mail: {
                 title: 'Email',
-                filter: false
+                filter: false,
+                type: 'custom',
+                renderComponent: MailToComponent
             },
             manual: {
                 title: 'Manual message',
@@ -92,12 +86,6 @@ export class AdminComponent implements OnInit {
             confirmationId: {
                 title: 'Confirmation ID',
                 filter: false
-            },
-            button: {
-                title: 'Button',
-                type: 'custom',
-                filter: false,
-                renderComponent: ButtonRenderComponent
             }
         }
     };

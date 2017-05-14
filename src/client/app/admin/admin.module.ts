@@ -12,8 +12,8 @@ import { AdminService } from './admin.service';
 import { SharedModule } from '../shared/shared.module';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table'; // ng2-smart-table
-import { ButtonRenderComponent } from './button-render.component'; //component to render the button
 import { ImageRenderComponent } from './image-render.component';
+import { MailToComponent } from './mailTo.component';
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal'; // ng2-modal-window
 
@@ -36,14 +36,14 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal'; // ng2-modal-wi
     AdminComponent,
     CreateModalComponent,
     EditModalComponent,
-    ButtonRenderComponent,
     ImageRenderComponent,
-    UploadModalComponent
+    UploadModalComponent,
+    MailToComponent
     ],
   entryComponents: [
-    ButtonRenderComponent,
     ImageRenderComponent,
-    UploadModalComponent
+    UploadModalComponent,
+    MailToComponent
   ],
   exports: [AdminComponent],
   providers: [AdminService]

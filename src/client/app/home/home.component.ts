@@ -2,6 +2,7 @@ import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angu
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
+import { LiveConsultantComponent } from '../liveConsultant/live-consultant.component';
 import { OrderRequest } from '../order-window/order-request';
 import { LocationService } from '../shared/location/location.service';
 import { Location } from '../shared/location/location';
@@ -25,9 +26,12 @@ export class HomeComponent implements OnInit {
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
+  @ViewChild(LiveConsultantComponent)
+  modalHtml1: LiveConsultantComponent;
+
   current:string = 'RT Nagar'; //first string to load in the select field
 
-  constructor(private _locationService: LocationService) { //constructor for LocationService
+  constructor(private locationService: LocationService) { //constructor for LocationService
   }
 
   //function to validate the phone number entered and open the OrderWindow else show an alert
@@ -42,10 +46,19 @@ export class HomeComponent implements OnInit {
     console.log(value.location);
   }
 
-  //initializes the select field options from LocationService
-  ngOnInit(): void {
-    this._locationService.getLocations()
-      .then(locations => this.locations = locations);
+  openConsultant() {
+    this.modalHtml1.open();
   }
 
+  //initializes the select field options from LocationService
+  ngOnInit(): void {
+    this.getLocations();
+  }
+
+  getLocations() {
+    this.locationService.getLocations()
+    .then(locations => {
+      this.locations = locations;
+    });
+  }
 }
