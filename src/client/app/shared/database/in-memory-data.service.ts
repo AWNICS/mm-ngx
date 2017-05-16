@@ -32,7 +32,46 @@ export class InMemoryDataService implements InMemoryDbService {
           experience: 15,
           description: 'Visiting doctor at St.Johns'
         },
-        status: 'Online',
+        status: 'online',
+        waitingTime: 10,
+        rating: 4,
+        videoUrl: 'http://www.youtube.com/watch?v=papuvlVeZg8'
+      },
+      {
+        name: 'Dr. Jordan',
+        picUrl: 'assets/jpg/a.jpg',
+        breifDescription: {
+          speciality: 'Pediatrics',
+          experience: 15,
+          description: 'Visiting doctor at St.Johns'
+        },
+        status: 'offline',
+        waitingTime: 10,
+        rating: 4,
+        videoUrl: 'http://www.youtube.com/watch?v=papuvlVeZg8'
+      },
+      {
+        name: 'Dr. George',
+        picUrl: 'assets/jpg/a.jpg',
+        breifDescription: {
+          speciality: 'Pediatrics',
+          experience: 15,
+          description: 'Visiting doctor at St.Johns'
+        },
+        status: 'busy',
+        waitingTime: 10,
+        rating: 4,
+        videoUrl: 'http://www.youtube.com/watch?v=papuvlVeZg8'
+      },
+      {
+        name: 'Dr. Shweta',
+        picUrl: 'assets/jpg/a.jpg',
+        breifDescription: {
+          speciality: 'Pediatrics',
+          experience: 15,
+          description: 'Visiting doctor at St.Johns'
+        },
+        status: 'away',
         waitingTime: 10,
         rating: 4,
         videoUrl: 'http://www.youtube.com/watch?v=papuvlVeZg8'

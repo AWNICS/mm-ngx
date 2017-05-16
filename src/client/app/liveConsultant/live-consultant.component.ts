@@ -20,12 +20,14 @@ export class LiveConsultantComponent {
 
     doctorDetails: DoctorDetails[];
 
-    constructor(private liveConsultantService: LiveConsultantService) { }
+    constructor(private liveConsultantService: LiveConsultantService) {
+        this.getDoctorDetails();
+     }
 
     getDoctorDetails() {
         this.liveConsultantService.getDoctorDetails()
-        .then((doctorDetails) => {
-            this.doctorDetails = doctorDetails;
+        .then((doctorDetail) => {
+            this.doctorDetails = doctorDetail;
         });
     }
 
@@ -34,7 +36,6 @@ export class LiveConsultantComponent {
      * @memberOf OrderWindowComponent
      */
     open() {
-        this.getDoctorDetails();
         this.modal.open();
     }
 
