@@ -35,7 +35,7 @@ export class InMemoryDataService implements InMemoryDbService {
         status: 'Online',
         waitingTime: 10,
         rating: 4,
-        videoUrl: 'https://www.youtube.com/watch?v=papuvlVeZg8'
+        videoUrl: 'http://www.youtube.com/watch?v=papuvlVeZg8'
       }
     ];
 

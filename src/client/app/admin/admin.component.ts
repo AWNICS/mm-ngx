@@ -46,6 +46,7 @@ export class AdminComponent implements OnInit {
             dp: {
                 title: 'Display Picture',
                 type: 'custom',
+                width: 'auto',
                 filter: false,
                 renderComponent: ImageRenderComponent
             },

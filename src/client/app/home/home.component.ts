@@ -46,8 +46,13 @@ export class HomeComponent implements OnInit {
     console.log(value.location);
   }
 
-  openConsultant() {
-    this.modalHtml1.open();
+  openConsultant(value: any) {
+    let result: boolean = isNaN(value.mobileNumber);
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
+      return;
+    } else {
+      this.modalHtml1.open();
+    }
   }
 
   //initializes the select field options from LocationService

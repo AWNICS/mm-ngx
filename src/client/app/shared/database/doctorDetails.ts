@@ -7,7 +7,7 @@ export class DoctorDetails {
       description: string;
   };
   status: string;
-  waitingTime: number;
+  waitingTime: number; // in seconds
   rating: number;
   videoUrl: string;
 }
