@@ -6,15 +6,15 @@
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
                 <div class="row">
-                    <select required id="selectLocation" [(ngModel)]="current" name="location">
-                        <option *ngFor="let location of locations" [value]="location.location">
-                            {{location.location}}
+                    <select required id="selectSpeciality" [(ngModel)]="current" name="speciality">
+                        <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
+                            {{speciality.speciality}}
                         </option>
                     </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
                     <div class="alert alert-danger" *ngIf="f.invalid && f.touched"> Number is required</div>
                     <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"> Place Order </button>
-                    <mm-order-window [result]="mobileNumber" [location]="current"></mm-order-window>
+                    <mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>
                     <button i18n type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
                 </div>
             </form>
@@ -23,4 +23,4 @@
 </header>
 <mm-contents></mm-contents>
 <mm-footer></mm-footer>
-<mm-live-consultant></mm-live-consultant>
+<mm-doctors-list></mm-doctors-list>

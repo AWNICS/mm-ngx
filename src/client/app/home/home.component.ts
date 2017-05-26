@@ -2,10 +2,10 @@ import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angu
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
-import { LiveConsultantComponent } from '../liveConsultant/live-consultant.component';
+import { DoctorsListComponent } from '../doctorsList/doctors-list.component';
 import { OrderRequest } from '../order-window/order-request';
-import { LocationService } from '../shared/location/location.service';
-import { Location } from '../shared/location/location';
+import { SpecialityService } from '../shared/speciality/speciality.service';
+import { Specialities } from '../shared/speciality/speciality';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -18,20 +18,19 @@ import { Location } from '../shared/location/location';
 export class HomeComponent implements OnInit {
 
   pageTitle: string = 'Mesomeds';
-  //errorMessage: boolean = false;
-  location: string;
+  speciality: string;
   mobileNumber: number;
-  locations: Location[];
+  specialities: Specialities[];
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  @ViewChild(LiveConsultantComponent)
-  modalHtml1: LiveConsultantComponent;
+  @ViewChild(DoctorsListComponent)
+  modalHtml1: DoctorsListComponent;
 
-  current:string = 'RT Nagar'; //first string to load in the select field
+  current:string = 'Select'; //first string to load in the select field
 
-  constructor(private locationService: LocationService) { //constructor for LocationService
+  constructor(private specialityService: SpecialityService) { //constructor for LocationService
   }
 
   //function to validate the phone number entered and open the OrderWindow else show an alert
@@ -43,7 +42,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.modalHtml.open();
     }
-    console.log(value.location);
+    console.log(value.speciality);
   }
 
   openConsultant(value: any) {
@@ -57,13 +56,13 @@ export class HomeComponent implements OnInit {
 
   //initializes the select field options from LocationService
   ngOnInit(): void {
-    this.getLocations();
+    this.getSpecialities();
   }
 
-  getLocations() {
-    this.locationService.getLocations()
-    .then(locations => {
-      this.locations = locations;
+  getSpecialities() {
+    this.specialityService.getSpecialities()
+    .then(Specialities => {
+      this.specialities = Specialities;
     });
   }
 }

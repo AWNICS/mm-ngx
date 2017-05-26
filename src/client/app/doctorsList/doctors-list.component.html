@@ -1,4 +1,4 @@
-<modal #consultantModal>
+<modal style="z-index: 1049;" #doctorsList>
     <modal-header [show-close]="true">
         Available doctors:
     </modal-header>
@@ -37,24 +37,33 @@
                                         <div class="led-box led-red"></div>
                                     </div>
                                 </div>
-                                <img src="assets/jpg/user.jpg" data-toggle="tooltip" title="{{doctorDetail.status}}" class="img-circle" style="height: 100px; width: 100px;" alt="Not found" />
+                                <img src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" class="img-circle" style="height: 100px; width: 100px;" alt="Not found" />
                             </div>
                             <div class="col-sm-9">
                                 <h3 class="card-title">{{doctorDetail.name}}</h3>
                                 <p class="card-text">Doctor is {{doctorDetail.breifDescription.experience}} years experienced in {{doctorDetail.breifDescription.speciality}}. <br/> {{doctorDetail.breifDescription.description}}
                                 </p>
+                                <rating [(ngModel)]="doctorDetail.rating" [readonly]="true"> </rating>
                             </div>
                         </div>
                     </div>
-                    <button href="#demo" data-toggle="collapse" class="btn btn-primary" style="float: right;">Details <span class="glyphicon glyphicon-chevron-down"></span></button>
-                    <div id="demo" class="collapse">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    <br/>
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <button type="button" class="btn btn-info" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
+                            <button type="button" id="something" class="btn btn-info collapsed" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" style="float: right; margin: 2px;"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
+                            <div id="{{doctorDetail.collapseId}}" class="panel-collapse collapse">
+                                <div class="panel-body">Doctor status: {{doctorDetail.status}}</div>
+                                <img id="thumbnail" src="{{doctorDetail.thumbnailUrl}}" data-toggle="tooltip" title="Click to play" (click)="openModal(doctorDetail)" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </modal-body>
     <modal-footer>
-        <button i18n type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="doctorsList.dismiss()">Cancel</button>
     </modal-footer>
 </modal>
+<mm-video-modal></mm-video-modal>

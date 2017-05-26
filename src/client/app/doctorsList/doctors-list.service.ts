@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 
@@ -11,12 +12,31 @@ import 'rxjs/add/operator/toPromise';
  */
 @Injectable()
 
-export class LiveConsultantService {
+export class DoctorsListService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/doctorDetails';  // URL to web api
+  private selectedDoctor: DoctorDetails;
+  private videoUrl: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
+
+  setSelectedDoctor(doctor: DoctorDetails) {
+    this.selectedDoctor = doctor;
+    this.router.navigate(['/doctorLive']);
+  }
+
+  getSelectedDoctor() {
+    return this.selectedDoctor;
+  }
+
+  setVideoUrl(videoUrl: string) {
+    this.videoUrl = videoUrl;
+  }
+
+  getVideoUrl() {
+    return this.videoUrl;
+  }
 
   /**
    * get the doctor details from db

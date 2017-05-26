@@ -1,0 +1,240 @@
+#video {
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    border: 1 solid black;
+    border-radius: 4px;
+    box-shadow: 2px 4px 10px grey;
+}
+
+#profile {
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    border-radius: 4px;
+    box-shadow: 2px 4px 10px grey;
+}
+
+#feedback {
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    border-radius: 4px;
+    box-shadow: 2px 4px 10px grey;
+}
+
+textarea {
+    border: 1 solid lightgrey;
+    width: 100%;
+    border-radius: 4px;
+    margin: 4px;
+    padding: 4px;
+    text-indent: 4px;
+}
+
+.col-sm-2 {
+    color: darkgrey;
+}
+
+.styling {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.test {
+    float: left;
+    display: block;
+    padding: 2px;
+    color: darkgrey;
+}
+
+.led-box {
+    height: 30px;
+    width: 25%;
+    margin: 10px 0;
+    float: left;
+}
+
+.led-box p {
+    font-size: 12px;
+    text-align: center;
+    margin: 1em;
+}
+
+.led-red {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #F00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+}
+
+.led-yellow {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #FF0;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
+}
+
+.led-green {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #ABFF00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+}
+
+.led-blue {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #24E0FF;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+}
+
+#chatBody {
+    overflow-y: scroll;
+}
+
+input {
+    border: 0.5px solid lightgrey;
+    border-radius: 2px;
+    color: #3F8CFF;
+    font-weight: 25;
+    width: 90%;
+    height: auto;
+    text-indent: 2px;
+}
+
+#chatPicLeft {
+    float: left;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+#chatPicRight {
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+}
+
+
+/*
+#message {
+    margin: 15px;
+    padding: 15px;
+    color: #000;
+    background-color: #fff;
+    border: 0.5px solid whitesmoke;
+    border-radius: 4px;
+}
+*/
+
+ul {
+    list-style-type: none;
+    display: block;
+}
+
+li {
+    list-style-type: none;
+    display: block;
+}
+
+.sent {
+    float: left;
+    margin: 10px;
+    padding: 5px;
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 15px;
+    width: 100%;
+    text-indent: 2px;
+}
+
+.reply {
+    float: right;
+    color: #FFFFFF;
+    background-color: #9E9E9E;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    border-radius: 15px;
+    width: 100%;
+    text-indent: 2px;
+    text-align: right;
+}
+
+.well {
+    margin-top: 20px;
+    overflow-y: scroll;
+}
+
+
+/*
+.sentTime {
+    float: left;
+}
+
+.replyTime {
+    float: right;
+}
+*/
+
+
+/*
+.btnDefault,
+.btnUpload {
+    width: 10%;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    box-shadow: 2px 4px 10px #E6E6E6;
+    color: #333333;
+    cursor: pointer;
+    font-weight: 400;
+    display: inline-block;
+    margin: 2px;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+.btnDefault:focus,
+.btnDefault:hover,
+.btnUpload:focus,
+.btnUpload:hover {
+    background-color: #E6E6E6;
+}
+
+.btnM {
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 6px 12px;
+    width: 10%;
+    margin: 2px;
+}
+
+.customUpload {
+    overflow: hidden;
+    position: relative;
+    display: block;
+}
+
+.customUpload input.upload {
+    cursor: pointer;
+    margin: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}*/

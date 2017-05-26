@@ -4,18 +4,18 @@ import { MockBackend } from '@angular/http/testing';
 
 import { Observable } from 'rxjs/Observable';
 
-import { LocationService } from './location.service';
+import { SpecialityService } from './speciality.service';
 
 export function main() {
-  describe('Location Service', () => {
-    let locationService: LocationService;
+  describe('Speciality Service', () => {
+    let specialityService: SpecialityService;
     let mockBackend: MockBackend;
 
     beforeEach(() => {
 
       TestBed.configureTestingModule({
         providers: [
-          LocationService,
+          SpecialityService,
           MockBackend,
           BaseRequestOptions,
           {
@@ -29,20 +29,20 @@ export function main() {
 
     // checking for the Observable from LocationService
     it('should return an Observable when get called', async(() => {
-      expect(TestBed.get(LocationService).getLocation()).toEqual(jasmine.any(Observable));
+      expect(TestBed.get(SpecialityService).getSpecialities()).toEqual(jasmine.any(Observable));
     }));
 
     // getting the names from the mockBackend
     it('should resolve to list of names when get called', async(() => {
-      let locationService = TestBed.get(LocationService);
+      let specialityService = TestBed.get(SpecialityService);
       let mockBackend = TestBed.get(MockBackend);
 
       mockBackend.connections.subscribe((c: any) => {
-        c.mockRespond(new Response(new ResponseOptions({ body: '["RT Nagar", "Hebbal"]' })));
+        c.mockRespond(new Response(new ResponseOptions({ body: '["General Medicine", "Family Medicine"]' })));
       });
 
-      locationService.getLocation().subscribe((data: any) => {
-        expect(data).toEqual(['RT Nagar', 'Hebbal']);
+      specialityService.getSpecialities().subscribe((data: any) => {
+        expect(data).toEqual(['General Medicine', 'Family Medicine']);
       });
     }));
   });

@@ -1,0 +1,131 @@
+<mm-navbar></mm-navbar>
+<h1>{{selectedDoctor.name}}</h1>
+<div class="container-fluid" id="profile">
+    <div class="row">
+        <div class="col-sm-2">
+            <div [ngSwitch]="selectedDoctor.status">
+                <div *ngSwitchCase="'online'">
+                    <div class="led-box led-green"></div>
+                </div>
+                <div *ngSwitchCase="'offline'">
+                    <div class="led-box led-red"></div>
+                </div>
+                <div *ngSwitchCase="'busy'">
+                    <div class="led-box led-blue"></div>
+                </div>
+                <div *ngSwitchCase="'away'">
+                    <div class="led-box led-yellow"></div>
+                </div>
+                <div *ngSwitchDefault>
+                    <div class="led-box led-red"></div>
+                </div>
+            </div>
+            <img class="img-circle" src="{{selectedDoctor.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <ul class="styling">
+                    <li class="test"><strong>{{selectedDoctor.name}}</strong></li>
+                    <li class="test">{{selectedDoctor.breifDescription.speciality}}</li>
+                    <li class="test">{{selectedDoctor.breifDescription.experience}} years</li>
+                </ul>
+            </div>
+            <div class="row">
+                {{selectedDoctor.breifDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
+                <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
+                </rating>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="video">
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#appearCall">Video & Audio Chat</a></li>
+        <li><a data-toggle="pill" href="#history">History</a></li>
+        <li><a data-toggle="pill" href="#reports">Reports</a></li>
+        <li><a data-toggle="pill" href="#treatmentPlan">Treatment Plan</a></li>
+        <li><a data-toggle="pill" href="#chat">Chat</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="appearCall" class="tab-pane fade in active">
+            <h3>Video & Audio Chat</h3>
+            <iframe [src]="safeUrl" width="800" height="640" frameborder="0"></iframe>
+        </div>
+        <div id="history" class="tab-pane fade">
+            <h3>History</h3>
+            <p>The space is filled with user's history of visits, consulations, etc.</p>
+        </div>
+        <div id="reports" class="tab-pane fade">
+            <h3>Reports</h3>
+            <p>Reports are prescriptions given by doctor, previous reports of the patient, any scan details in the history, treatment plans, etc.</p>
+        </div>
+        <div id="treatmentPlan" class="tab-pane fade">
+            <h3>Treatment Plan</h3>
+            <p>This section will contain the current treatment plan.</p>
+        </div>
+        <div id="chat" class="tab-pane fade">
+            <div class="container-fluid">
+                <div class="well well-lg">
+                    <div class="row">
+                        <ul>
+                            <li *ngFor="let sentMessage of sentMessages">
+                                <div class="sent">
+                                    <div class="row">
+                                        <div class="col-sm-1"><img id="chatPicLeft" class="img-circle" src="{{selectedDoctor.picUrl}}" /></div>
+                                        <div class="col-sm-10">{{sentMessage.message}}</div>
+                                        <div class="col-sm-1 sentTime">{{sentMessage.sentTime}}</div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li *ngFor="let replyMessage of replyMessages">
+                                <div class="reply">
+                                    <div class="row">
+                                        <div class="col-sm-1 replyTime">{{replyMessage.replyTime}}</div>
+                                        <div class="col-sm-10">{{replyMessage.message}}</div>
+                                        <div class="col-sm-1"><img id="chatPicRight" class="img-circle" src="{{selectedDoctor.picUrl}}" /></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <!--div *ngIf="messages=sentMessages; replyMessage">
+                            <div class="sent" *ngFor="let sentMessage of sentMessages">
+                                <img id="chatPicLeft" class="img-circle" src="{{selectedDoctor.picUrl}}" /> {{sentMessage.message}}
+                            </div>
+                        </div>
+                        <ng-template #replyMessage>
+                            <div class="reply" *ngFor="let replyMessage of replyMessages">
+                                <img id="chatPicRight" class="img-circle" src="{{selectedDoctor.picUrl}}" /> {{replyMessage.message}}
+                            </div>
+                        </ng-template>
+                        <ng-template #error>There is an error...</ng-template-->
+                    </div>
+                </div>
+                <div class='chatFooter'>
+                    <div class="row">
+                        <input type="text" placeholder="User type here..." #sentMessage #replyMessage/>
+                        <button class="btn btn-default btn-md" (click)="addSentMessages(sentMessage.value); sentMessage.value=''">Send</button>
+                        <button class="btn btn-default btn-md" (click)="addReplyMessages(replyMessage.value); replyMessage.value=''">Reply</button>
+                        <!--label class="customUpload btnUpload btnM">
+                            <input type="file" class="upload">
+                            <span class="glyphicon glyphicon-paperclip"></span>
+                        </label-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="feedback">
+    <div class="row">
+        <div class="col-sm-12">
+            <label><h4>Feedback: </h4></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <textarea placeholder="Type here..."></textarea>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+</div>

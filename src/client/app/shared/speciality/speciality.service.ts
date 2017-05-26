@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 
-import { Location } from './location';
+import { Specialities } from './speciality';
 
 @Injectable()
-export class LocationService {
+export class SpecialityService {
 
-    private _locationUrl = 'api/locations';
+    private specialityUrl = 'api/specialities';
 
     constructor(private _http:Http) {}
 
-    getLocations(): Promise<Location[]> {
-        return this._http.get(this._locationUrl)
+    getSpecialities(): Promise<Specialities[]> {
+        return this._http.get(this.specialityUrl)
         .toPromise()
-        .then(response => response.json().data as Location[])
+        .then(response => response.json().data as Specialities[])
         .catch(this.handleError);
     }
 

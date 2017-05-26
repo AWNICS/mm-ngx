@@ -17,7 +17,7 @@ import { AdminService } from '../admin/admin.service';
 export class OrderWindowComponent implements OnInit {
 
     @Input() result: number; //input for telephone field
-    @Input() location: string; //input for location from homeComponent
+    @Input() speciality: string; //input for speciality from homeComponent
     @Output() orderRequests: OrderRequest[] = [];
 
     confirmId: number;
@@ -41,7 +41,7 @@ export class OrderWindowComponent implements OnInit {
         this.confirmId = this.orderRequestService.randomNumber();
         this.userDetails = this.fb.group({
             tel: [''],
-            location: [''],
+            speciality: [''],
             fullname: [''],
             watel: [''],
             mail: [''],

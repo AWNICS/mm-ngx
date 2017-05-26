@@ -10,4 +10,7 @@ export class DoctorDetails {
   waitingTime: number; // in seconds
   rating: number;
   videoUrl: string;
+  appearUrl: string;
+  collapseId: string;
+  thumbnailUrl: string;
 }

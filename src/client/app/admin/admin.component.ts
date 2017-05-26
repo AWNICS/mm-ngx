@@ -70,6 +70,10 @@ export class AdminComponent implements OnInit {
                 title: 'Location',
                 filter: false
             },
+            speciality: {
+                title: 'Speciality',
+                filter: false
+            },
             mail: {
                 title: 'Email',
                 filter: false,

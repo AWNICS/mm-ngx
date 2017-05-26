@@ -12,8 +12,9 @@ import { ContentsModule } from './contents/contents.module';
 import { HomeModule } from './home/home.module';
 import { OrderWindowModule } from './order-window/order-window.module';
 import { TermsModule } from './terms/terms.module';
-import { LiveConsultantModule } from './liveConsultant/live-consultant.module';
+import { DoctorsListModule } from './doctorsList/doctors-list.module';
 import { SharedModule } from './shared/shared.module';
+import { DoctorLiveModule } from './doctorLive/doctor-live.module';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -34,10 +35,11 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     OrderWindowModule,
     ReactiveFormsModule,
     TermsModule,
-    LiveConsultantModule,
+    DoctorsListModule,
     SharedModule.forRoot(),
     InMemoryWebApiModule.forRoot(InMemoryDataService),
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    DoctorLiveModule
     ],
   declarations: [AppComponent],
   providers: [{

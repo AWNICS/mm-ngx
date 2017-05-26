@@ -54,3 +54,43 @@
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
 }
+
+
+/* Icon when the collapsible content is shown */
+
+
+/*
+.btn:after {
+    font-family: "Glyphicons Halflings";
+    content: "\e113";
+    float: right;
+    margin-left: 15px;
+}
+
+*/
+
+
+/* Icon when the collapsible content is hidden */
+
+
+/*
+.btn.collapsed:after {
+    content: "\e114";
+}*/
+
+#thumbnail {
+    margin: 20px;
+    padding: 5px;
+    height: 30%;
+    width: 30%;
+}
+
+#thumbnail:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+modal {
+    overflow: auto !important;
+}

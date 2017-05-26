@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 })
 
 export class NavbarComponent {
-    userTitle: string = 'Home';
-    adminTitle: string = 'Admin';
+    home: string = 'Home';
+    admin: string = 'Admin';
 }

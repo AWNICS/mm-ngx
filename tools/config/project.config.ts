@@ -62,6 +62,11 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/lodash/lodash'
     });
 
+    this.addPackageBundles({
+      name: 'ngx-rating',
+      path: 'node_modules/ngx-rating/index.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
