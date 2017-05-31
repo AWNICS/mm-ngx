@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { ReplyMessage } from '../shared/database/replyMessage';
-import { SentMessage } from '../shared/database/sentMessage';
+import { Message } from '../shared/database/message';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -9,38 +8,23 @@ import 'rxjs/add/operator/toPromise';
 export class LiveChatService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private sentUrl = 'api/sentMessages';  // URL to web api
-  private replyUrl = 'api/replyMessages';
+  private url = 'api/messages';  // URL to web api
 
   constructor(private http: Http) { }
 
-  getSentMessages(): Promise<SentMessage[]> {
-    return this.http.get(this.sentUrl)
+  getMessages(): Promise<Message[]> {
+    return this.http.get(this.url)
       .toPromise()
-      .then(response => response.json().data as SentMessage[])
+      .then(response => response.json().data as Message[])
       .catch(this.handleError);
   }
 
-  getReplyMessages(): Promise<ReplyMessage[]> {
-    return this.http.get(this.replyUrl)
-      .toPromise()
-      .then(response => response.json().data as ReplyMessage[])
-      .catch(this.handleError);
-  }
-
-  createSentMessages(message: string, sentTime:any): Promise<SentMessage> {
+  createMessages(text: string, sentTime:any, type: any): Promise<Message> {
+    console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' );
     return this.http
-    .post(this.sentUrl, JSON.stringify({message: message, sentTime: sentTime}), { headers: this.headers})
+    .post(this.url, JSON.stringify({text: text, sentTime: sentTime, type: type}), { headers: this.headers})
     .toPromise()
-    .then(res => res.json().data as SentMessage)
-    .catch(this.handleError);
-  }
-
-  createReplyMessages(message:string, replyTime:any): Promise<ReplyMessage> {
-    return this.http
-    .post(this.sentUrl, JSON.stringify({message: message, replyTime: replyTime}), {headers: this.headers})
-    .toPromise()
-    .then(res => res.json().data as ReplyMessage)
+    .then(res => res.json().data as Message)
     .catch(this.handleError);
   }
 

@@ -26,12 +26,12 @@
             <div class="row">
                 <ul class="styling">
                     <li class="test"><strong>{{selectedDoctor.name}}</strong></li>
-                    <li class="test">{{selectedDoctor.breifDescription.speciality}}</li>
-                    <li class="test">{{selectedDoctor.breifDescription.experience}} years</li>
+                    <li class="test">{{selectedDoctor.briefDescription.speciality}}</li>
+                    <li class="test">{{selectedDoctor.briefDescription.experience}} years</li>
                 </ul>
             </div>
             <div class="row">
-                {{selectedDoctor.breifDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
+                {{selectedDoctor.briefDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
                 <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
                 </rating>
             </div>
@@ -64,52 +64,45 @@
             <p>This section will contain the current treatment plan.</p>
         </div>
         <div id="chat" class="tab-pane fade">
-            <div class="container-fluid">
-                <div class="well well-lg">
-                    <div class="row">
-                        <ul>
-                            <li *ngFor="let sentMessage of sentMessages">
-                                <div class="sent">
-                                    <div class="row">
-                                        <div class="col-sm-1"><img id="chatPicLeft" class="img-circle" src="{{selectedDoctor.picUrl}}" /></div>
-                                        <div class="col-sm-10">{{sentMessage.message}}</div>
-                                        <div class="col-sm-1 sentTime">{{sentMessage.sentTime}}</div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li *ngFor="let replyMessage of replyMessages">
-                                <div class="reply">
-                                    <div class="row">
-                                        <div class="col-sm-1 replyTime">{{replyMessage.replyTime}}</div>
-                                        <div class="col-sm-10">{{replyMessage.message}}</div>
-                                        <div class="col-sm-1"><img id="chatPicRight" class="img-circle" src="{{selectedDoctor.picUrl}}" /></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <!--div *ngIf="messages=sentMessages; replyMessage">
-                            <div class="sent" *ngFor="let sentMessage of sentMessages">
-                                <img id="chatPicLeft" class="img-circle" src="{{selectedDoctor.picUrl}}" /> {{sentMessage.message}}
+            <div class="container-fluid chat-container">
+                <div class="container chat-header">
+                    <img class="img-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
+                    <p style="float: left; margin: 10px;">{{selectedDoctor.name}}</p>
+                </div>
+                <div class="container chat-body" id="chatBody">
+                    <div *ngFor="let message of messages">
+                        <div *ngIf="message.type; else alignRight">
+                            <div *ngIf="message.picUrl; else alternateUrl">
+                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                            </div>
+                            <ng-template #alternateUrl>
+                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                            </ng-template>
+                            <div class="message-card">
+                                <div>{{message.text}}</div>
+                                <div style="float:right; margin-top:-18px;font-size:12px;"> {{message.sentTime}}</div>
                             </div>
                         </div>
-                        <ng-template #replyMessage>
-                            <div class="reply" *ngFor="let replyMessage of replyMessages">
-                                <img id="chatPicRight" class="img-circle" src="{{selectedDoctor.picUrl}}" /> {{replyMessage.message}}
+                        <ng-template #alignRight>
+                            <div *ngIf="message.picUrl; else alternateUrl">
+                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                            </div>
+                            <ng-template #alternateUrl>
+                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                            </ng-template>
+                            <div class="message-card-right">
+                                <div>{{message.text}}</div>
+                                <div style="float:left; margin-top:-18px;font-size:12px;">{{message.sentTime}}</div>
                             </div>
                         </ng-template>
-                        <ng-template #error>There is an error...</ng-template-->
                     </div>
                 </div>
-                <div class='chatFooter'>
-                    <div class="row">
-                        <input type="text" placeholder="User type here..." #sentMessage #replyMessage/>
-                        <button class="btn btn-default btn-md" (click)="addSentMessages(sentMessage.value); sentMessage.value=''">Send</button>
-                        <button class="btn btn-default btn-md" (click)="addReplyMessages(replyMessage.value); replyMessage.value=''">Reply</button>
-                        <!--label class="customUpload btnUpload btnM">
-                            <input type="file" class="upload">
-                            <span class="glyphicon glyphicon-paperclip"></span>
-                        </label-->
-                    </div>
+                <div class="container chat-footer">
+                    <input type="text" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage #replyMessage/>
+                    <button type="submit" class="submit-button" (click)="addMessages(sentMessage.value); sentMessage.value=''">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">Reply</button>
                 </div>
             </div>
         </div>

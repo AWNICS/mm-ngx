@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit {
     let result: boolean = isNaN(value.mobileNumber);
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
       return;
-      //this.errorMessage = true;
     } else {
       this.modalHtml.open();
     }
@@ -47,7 +46,9 @@ export class HomeComponent implements OnInit {
 
   openConsultant(value: any) {
     let result: boolean = isNaN(value.mobileNumber);
-    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
+    let speciality: string = value.speciality;
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
+    || speciality === null || speciality === 'Select') {
       return;
     } else {
       this.modalHtml1.open();

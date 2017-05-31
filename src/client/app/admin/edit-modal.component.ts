@@ -38,6 +38,7 @@ export class EditModalComponent implements OnInit {
         this.userDetails = this.fb.group({
             tel: [''],
             location: [''],
+            speciality: [''],
             fullname: [''],
             watel: [''],
             mail: [''],
@@ -58,6 +59,7 @@ export class EditModalComponent implements OnInit {
             id:[this.data.id],
             tel: [this.data.tel],
             location: [this.data.location],
+            speciality: [this.data.speciality],
             fullname: [this.data.fullname],
             watel: [this.data.watel],
             mail: [this.data.mail],

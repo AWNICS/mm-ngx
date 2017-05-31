@@ -2,8 +2,7 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { OrderRequest } from '../../order-window/order-request';
 import { Specialities } from '../speciality/speciality';
 import { DoctorDetails } from './doctorDetails';
-import { ReplyMessage } from './replyMessage';
-import { SentMessage } from './sentMessage';
+import { Message } from './message';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -21,16 +20,18 @@ export class InMemoryDataService implements InMemoryDbService {
         termsAccepted: true,
         uFile: '',
         dp: 'assets/jpg/arun.jpg',
-        button: 'You clicked me!'
+        button: 'You clicked me!',
+        speciality: 'General Medicine'
       }
     ];
 
     let doctorDetails: DoctorDetails[] = [
       {
+        id: 1,
         name: 'Dr. Joseph',
-        picUrl: 'assets/jpg/user.jpg',
-        breifDescription: {
-          speciality: 'Pediatrics',
+        picUrl: 'assets/png/docMale.png',
+        briefDescription: {
+          speciality: 'General Medicine',
           experience: 15,
           description: 'Visiting doctor at St.Johns'
         },
@@ -40,14 +41,16 @@ export class InMemoryDataService implements InMemoryDbService {
         videoUrl: 'https://www.youtube.com/embed/aatr_2MstrI?enablejsapi=1&autoplay=1',
         appearUrl: 'https://appear.in/spiffy-chameleon',
         collapseId: 'collapse1',
-        thumbnailUrl: 'assets/png/Symphony.png'
+        thumbnailUrl: 'assets/png/Symphony.png',
+        lastUpdateTime: '21:29'
       },
       {
+        id: 2,
         name: 'Dr. Jordan',
-        picUrl: 'assets/jpg/user.jpg',
-        breifDescription: {
-          speciality: 'Pediatrics',
-          experience: 15,
+        picUrl: 'assets/png/docMale.png',
+        briefDescription: {
+          speciality: 'Dietician',
+          experience: 12,
           description: 'Visiting doctor at St.Johns'
         },
         status: 'offline',
@@ -56,14 +59,16 @@ export class InMemoryDataService implements InMemoryDbService {
         videoUrl: 'https://www.youtube.com/embed/psuRGfAaju4?enablejsapi=1&autoplay=1',
         appearUrl: 'https://appear.in/creative-yak',
         collapseId: 'collapse2',
-        thumbnailUrl: 'assets/png/fireflies.png'
+        thumbnailUrl: 'assets/png/fireflies.png',
+        lastUpdateTime: '03:00'
       },
       {
+        id: 3,
         name: 'Dr. George',
-        picUrl: 'assets/jpg/user.jpg',
-        breifDescription: {
-          speciality: 'Pediatrics',
-          experience: 15,
+        picUrl: 'assets/png/docMale.png',
+        briefDescription: {
+          speciality: 'Psychiatrist',
+          experience: 10,
           description: 'Visiting doctor at St.Johns'
         },
         status: 'busy',
@@ -72,14 +77,16 @@ export class InMemoryDataService implements InMemoryDbService {
         videoUrl: 'https://www.youtube.com/embed/papuvlVeZg8?enablejsapi=1&autoplay=1',
         appearUrl: 'https://appear.in/majestic-dinosaur',
         collapseId: 'collapse3',
-        thumbnailUrl: 'assets/png/rockabye.png'
+        thumbnailUrl: 'assets/png/rockabye.png',
+        lastUpdateTime: '20:00'
       },
       {
+        id: 4,
         name: 'Dr. Shweta',
-        picUrl: 'assets/jpg/user.jpg',
-        breifDescription: {
-          speciality: 'Pediatrics',
-          experience: 15,
+        picUrl: 'assets/jpg/docFemale.jpg',
+        briefDescription: {
+          speciality: 'Gynaecologist',
+          experience: 5,
           description: 'Visiting doctor at St.Johns'
         },
         status: 'away',
@@ -88,7 +95,8 @@ export class InMemoryDataService implements InMemoryDbService {
         videoUrl: 'https://www.youtube.com/embed/60ItHLz5WEA?enablejsapi=1&autoplay=1',
         appearUrl: 'https://appear.in/loyal-trout',
         collapseId: 'collapse4',
-        thumbnailUrl: 'assets/png/faded.png'
+        thumbnailUrl: 'assets/png/faded.png',
+        lastUpdateTime: '20:30'
       }
     ];
 
@@ -103,7 +111,7 @@ export class InMemoryDataService implements InMemoryDbService {
           speciality: 'Family Medicine'
       },
       {
-          speciality: 'Gyaenocologist'
+          speciality: 'Gynaecologist'
       },
       {
           speciality: 'Dietician'
@@ -113,20 +121,45 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    let replyMessages: ReplyMessage[] = [
+    let messages: Message[] = [
       {
-        message: 'Hello there',
-        replyTime: '12:27'
+        user: 'Jack',
+        id: 23423,
+        text: 'I have been wondering where you have been for so long. You expect me to behave normal after so many years?',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sent'
+      },
+      {
+        user: 'Jessie',
+        id: 54486,
+        text: 'I understand the situation. I did not mean to hurt your feelings back then. I am sorry!',
+        picUrl: 'assets/png/female3.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'delivered'
+      },
+      {
+        user: 'Jessie',
+        id: 54486,
+        text: 'I understand the situation. I did not mean to hurt your feelings back then. I am sorry!',
+        picUrl: 'assets/png/female3.png',
+        lastUpdateTime: '',
+        type: '',
+        status: 'delivered'
+      },
+      {
+        user: 'Jack',
+        id: 23423,
+        text: 'I have been wondering where you have been for so long. You expect me to behave normal after so many years?',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: '',
+        status: 'sent'
       }
     ];
 
-    let sentMessages: SentMessage[] = [
-      {
-        message: 'How are you?',
-        sentTime: '12:26'
-      }
-    ];
-
-    return {orderRequests, specialities, doctorDetails, replyMessages, sentMessages};
+    return {orderRequests, specialities, doctorDetails, messages};
   }
 }

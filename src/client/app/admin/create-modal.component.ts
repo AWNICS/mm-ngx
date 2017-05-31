@@ -38,14 +38,15 @@ export class CreateModalComponent implements OnInit {
     ngOnInit(): void {
         this.userDetails = this.fb.group({
             tel: [''],
-            location: [''],
+            location: ['Bangalore'],
             fullname: [''],
             watel: [''],
             mail: [''],
             uFile: [''],
             manual: [''],
             termsAccepted: [true],
-            confirmationId: ['']
+            confirmationId: [''],
+            speciality: ['']
         });
     }
 

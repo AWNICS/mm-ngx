@@ -11,4 +11,5 @@ export class OrderRequest {
     location:string;
     dp: string;
     button: string;
+    speciality: string;
 }

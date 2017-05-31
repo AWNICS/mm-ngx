@@ -1,7 +1,8 @@
 export class DoctorDetails {
+  id: number;
   name: string;
   picUrl: string;
-  breifDescription: {
+  briefDescription: {
       speciality: string;
       experience: number;
       description: string;
@@ -13,4 +14,5 @@ export class DoctorDetails {
   appearUrl: string;
   collapseId: string;
   thumbnailUrl: string;
+  lastUpdateTime: any;
 }

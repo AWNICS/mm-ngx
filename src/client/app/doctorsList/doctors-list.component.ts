@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DoctorsListService } from './doctors-list.service';
@@ -21,9 +21,7 @@ export class DoctorsListComponent {
 
     @ViewChild(VideoModalComponent)
     videoModal: VideoModalComponent;
-
     doctorDetails: DoctorDetails[];
-    //selectedDoctor: DoctorDetails;
     safeUrl: any;
 
     constructor(private doctorsListService: DoctorsListService, private router: Router, private domSanitizer: DomSanitizer) {

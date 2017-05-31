@@ -3,8 +3,7 @@ import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LiveChatService } from './live-chat.service';
-import { SentMessage } from '../shared/database/sentMessage';
-import { ReplyMessage } from '../shared/database/replyMessage';
+import { Message } from '../shared/database/message';
 
 /**
  * This class represents the lazy loaded ModalComponent.
@@ -19,11 +18,8 @@ export class DoctorLiveComponent {
 
     selectedDoctor: DoctorDetails;
     safeUrl: any;
-    messages: any[];
-    sentMessages: SentMessage[];
-    replyMessages: ReplyMessage[];
+    messages: Message[];
     sentTime: any;
-    replyTime: any;
 
     constructor(
         private doctorsListService: DoctorsListService,
@@ -32,43 +28,47 @@ export class DoctorLiveComponent {
         ) {
         this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
         this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
-        this.getSentMessages();
-        this.getReplyMessages();
+        this.getMessages();
      }
 
-     getSentMessages() {
-         this.liveChatService.getSentMessages()
-         .then(sentMessages => {
-             this.sentMessages = sentMessages;
+     getMessages() {
+         this.liveChatService.getMessages()
+         .then(messages => {
+             this.messages = messages;
          });
-         this.messages = this.sentMessages;
      }
 
-     getReplyMessages() {
-         this.liveChatService.getReplyMessages()
-         .then(replyMessages => {
-             this.replyMessages = replyMessages;
-         });
-         this.messages = this.replyMessages;
-     }
-
-     addSentMessages(sentMessage: string): void {
-        if (!sentMessage) { return; }
+     addMessages(message: string): void {
+        if (!message) { return; }
         let time = new Date();
+        let type = '';
         this.sentTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createSentMessages(sentMessage, this.sentTime)
-            .then(sentMessage => {
-        this.sentMessages.push(sentMessage);
+        this.liveChatService.createMessages(message, this.sentTime, type)
+            .then(message => {
+        this.messages.push(message);
+        this.scrollToBottom();
       });
     }
 
-    addReplyMessages(replyMessage:string): void {
-        if(!replyMessage) { return; }
+    addReplyMessages(message: string): void {
+        if (!message) { return; }
         let time = new Date();
-        this.replyTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createReplyMessages(replyMessage, this.replyTime)
-        .then(replyMessage => {
-            this.replyMessages.push(replyMessage);
-        });
+        let type = 'in';
+        this.sentTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(message, this.sentTime, type)
+            .then(message => {
+        this.messages.push(message);
+        this.scrollToBottom();
+      });
+    }
+
+    /**
+     * Function to scroll the focus to the last line in the chatBody
+     * @memberof DoctorLiveComponent
+     */
+    scrollToBottom() {
+        let chatBody = document.getElementById('chatBody');
+        let height = chatBody.scrollHeight;
+        chatBody.scrollTop = height;
     }
 }
