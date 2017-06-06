@@ -42,8 +42,9 @@ export class DoctorLiveComponent {
         if (!message) { return; }
         let time = new Date();
         let type = '';
+        let contentType = 'text';
         this.sentTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(message, this.sentTime, type)
+        this.liveChatService.createMessages(message, this.sentTime, type, contentType)
             .then(message => {
         this.messages.push(message);
         this.scrollToBottom();
@@ -54,8 +55,9 @@ export class DoctorLiveComponent {
         if (!message) { return; }
         let time = new Date();
         let type = 'in';
+        let contentType = 'text';
         this.sentTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(message, this.sentTime, type)
+        this.liveChatService.createMessages(message, this.sentTime, type, contentType)
             .then(message => {
         this.messages.push(message);
         this.scrollToBottom();
@@ -70,5 +72,44 @@ export class DoctorLiveComponent {
         let chatBody = document.getElementById('chatBody');
         let height = chatBody.scrollHeight;
         chatBody.scrollTop = height;
+    }
+
+    createRadio() {
+        let message = '';
+        let type = 'in';
+        let contentType = 'radio';
+        let time = new Date();
+        this.sentTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(message, this.sentTime, type, contentType)
+        .then(message => {
+            this.messages.push(message);
+            this.scrollToBottom();
+        });
+    }
+
+    createSlider() {
+        let message = '';
+        let type = 'in';
+        let contentType = 'slider';
+        let time = new Date();
+        this.sentTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(message, this.sentTime, type, contentType)
+        .then(message => {
+            this.messages.push(message);
+            this.scrollToBottom();
+        });
+    }
+
+    createCheckbox() {
+        let message = '';
+        let type = 'in';
+        let contentType = 'checkbox';
+        let time = new Date();
+        this.sentTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(message, this.sentTime, type, contentType)
+        .then(message => {
+            this.messages.push(message);
+            this.scrollToBottom();
+        });
     }
 }

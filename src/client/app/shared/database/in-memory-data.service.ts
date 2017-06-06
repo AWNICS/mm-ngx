@@ -129,7 +129,8 @@ export class InMemoryDataService implements InMemoryDbService {
         picUrl: 'assets/png/male1.png',
         lastUpdateTime: '',
         type: 'in',
-        status: 'sent'
+        status: 'sent',
+        contentType: 'text'
       },
       {
         user: 'Jessie',
@@ -138,25 +139,28 @@ export class InMemoryDataService implements InMemoryDbService {
         picUrl: 'assets/png/female3.png',
         lastUpdateTime: '',
         type: 'in',
-        status: 'delivered'
+        status: 'delivered',
+        contentType: 'text'
       },
       {
-        user: 'Jessie',
+        user: 'Dr. George',
         id: 54486,
         text: 'I understand the situation. I did not mean to hurt your feelings back then. I am sorry!',
         picUrl: 'assets/png/female3.png',
         lastUpdateTime: '',
         type: '',
-        status: 'delivered'
+        status: 'delivered',
+        contentType: 'radio'
       },
       {
-        user: 'Jack',
+        user: 'Dr. Shwetha',
         id: 23423,
         text: 'I have been wondering where you have been for so long. You expect me to behave normal after so many years?',
         picUrl: 'assets/png/male1.png',
         lastUpdateTime: '',
         type: '',
-        status: 'sent'
+        status: 'sent',
+        contentType: 'checkbox'
       }
     ];
 

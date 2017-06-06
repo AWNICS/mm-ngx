@@ -19,10 +19,10 @@ export class LiveChatService {
       .catch(this.handleError);
   }
 
-  createMessages(text: string, sentTime:any, type: any): Promise<Message> {
+  createMessages(text: string, sentTime:any, type: string, contentType:string): Promise<Message> {
     console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' );
     return this.http
-    .post(this.url, JSON.stringify({text: text, sentTime: sentTime, type: type}), { headers: this.headers})
+    .post(this.url, JSON.stringify({text: text, sentTime: sentTime, type: type, contentType: contentType}), { headers: this.headers})
     .toPromise()
     .then(res => res.json().data as Message)
     .catch(this.handleError);
