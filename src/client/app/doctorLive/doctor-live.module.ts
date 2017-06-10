@@ -8,13 +8,17 @@ import { LiveChatService } from './live-chat.service';
 import { RadioMessageComponent } from './radio-message.component';
 import { SliderMessageComponent } from './slider-message.component';
 import { CheckBoxMessageComponent } from './checkbox-message.component';
+import { ImageMessageComponent } from './image-message.component';
+import { VideoMessageComponent } from './video-message.component';
+import { TextMessageComponent } from './text-message.component';
 
 // module for star rating
 import { RatingModule } from 'ngx-rating';
 
 @NgModule({
   imports: [CommonModule, SharedModule, DoctorLiveRoutingModule, RatingModule],
-  declarations: [DoctorLiveComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent],
+  declarations: [DoctorLiveComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
+  ImageMessageComponent, VideoMessageComponent, TextMessageComponent],
   exports: [DoctorLiveComponent],
   providers: [LiveChatService]
 })

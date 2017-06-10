@@ -7,10 +7,19 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class LiveChatService {
 
+  public message: Message;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/messages';  // URL to web api
 
   constructor(private http: Http) { }
+
+  setMessage(message: Message) {
+    this.message = message;
+  }
+
+  getMessage() {
+    return this.message;
+  }
 
   getMessages(): Promise<Message[]> {
     return this.http.get(this.url)
@@ -19,13 +28,22 @@ export class LiveChatService {
       .catch(this.handleError);
   }
 
-  createMessages(text: string, sentTime:any, type: string, contentType:string): Promise<Message> {
-    console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' );
+  createMessages(newMessage: Message): Promise<Message> {
+    // console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' ); for debug purpose only
     return this.http
-    .post(this.url, JSON.stringify({text: text, sentTime: sentTime, type: type, contentType: contentType}), { headers: this.headers})
+    .post(this.url, JSON.stringify(newMessage), { headers: this.headers})
     .toPromise()
     .then(res => res.json().data as Message)
     .catch(this.handleError);
+  }
+
+  update(message:Message): Promise<Message> {
+    const url = `${this.url}/${message.id}`;
+    return this.http
+      .put(url, JSON.stringify(message), { headers: this.headers })
+      .toPromise()
+      .then(()=> message)
+      .catch(this.handleError);
   }
 
   /**

@@ -124,43 +124,35 @@ export class InMemoryDataService implements InMemoryDbService {
     let messages: Message[] = [
       {
         user: 'Jack',
-        id: 23423,
-        text: 'I have been wondering where you have been for so long. You expect me to behave normal after so many years?',
+        id: 1,
+        text: 'Hello',
         picUrl: 'assets/png/male1.png',
         lastUpdateTime: '',
         type: 'in',
         status: 'sent',
-        contentType: 'text'
+        contentType: 'text',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
       },
       {
         user: 'Jessie',
-        id: 54486,
-        text: 'I understand the situation. I did not mean to hurt your feelings back then. I am sorry!',
-        picUrl: 'assets/png/female3.png',
-        lastUpdateTime: '',
-        type: 'in',
-        status: 'delivered',
-        contentType: 'text'
-      },
-      {
-        user: 'Dr. George',
-        id: 54486,
-        text: 'I understand the situation. I did not mean to hurt your feelings back then. I am sorry!',
+        id: 2,
+        text: 'Hi',
         picUrl: 'assets/png/female3.png',
         lastUpdateTime: '',
         type: '',
         status: 'delivered',
-        contentType: 'radio'
-      },
-      {
-        user: 'Dr. Shwetha',
-        id: 23423,
-        text: 'I have been wondering where you have been for so long. You expect me to behave normal after so many years?',
-        picUrl: 'assets/png/male1.png',
-        lastUpdateTime: '',
-        type: '',
-        status: 'sent',
-        contentType: 'checkbox'
+        contentType: 'text',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
       }
     ];
 

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { Message } from '../shared/database/message';
+import { LiveChatService } from './live-chat.service';
 
 @Component({
     selector: 'mm-radio-message',
     template: `
-        <label *ngFor="let item of radioItems">
+        <p>Select one among the below:</p>
+        <label *ngFor="let item of items">
             <input type="radio" name="options" (click)="model.options = item">
             {{item}}
         </label><br/>
@@ -12,11 +15,30 @@ import { Component } from '@angular/core';
 })
 
 export class RadioMessageComponent {
-    items = 'one two three four';
-    radioItems = this.items.split(' ');
+    message: Message;
+    items:string[] = [''];
     model = { options: '' };
 
+    constructor(private liveChatService:LiveChatService) {
+        this.message = this.liveChatService.getMessage();
+        this.items = this.message.contentData.data;
+    }
+
     submit() {
-        console.log(JSON.stringify(this.model));
+        this.message.contentType = 'text';
+        this.message.text = 'User submitted: ' + this.model.options;
+        this.message.type = '';
+        this.edit(this.message);
+    }
+
+    edit(message: Message): void {
+        let result = JSON.stringify(message);
+        if (!result) {
+            return;
+        }
+        this.liveChatService.update(this.message)
+            .then(() => {
+                return null;
+            });
     }
 }

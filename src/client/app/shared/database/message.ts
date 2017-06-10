@@ -6,8 +6,11 @@ export class Message {
     type: string;
     status: string; //sent,seen,notSent,error(unauthorised,connectionFailed)
     contentType: string; //text,image,radio,checkbox,slider,video
-    /*contentData: {
+    contentData: { // data that needs to be sent to the component
         data:string[];
-    };*/
+    };
+    responseData: { // data that componenet send out to the web services
+        data:string[];
+    };
     lastUpdateTime: any;
 }

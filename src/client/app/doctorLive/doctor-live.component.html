@@ -81,7 +81,7 @@
                             <div class="message-card">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        {{message.text}}
+                                        <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message></mm-radio-message>
@@ -92,11 +92,18 @@
                                     <div *ngSwitchCase="'checkbox'">
                                         <mm-checkbox-message></mm-checkbox-message>
                                     </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message></mm-image-message>
+                                    </div>
                                     <div *ngSwitchDefault>
-                                        {{message.text}}
+                                        <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                 </div>
-                                <div style="float:right; margin-top:-18px;font-size:12px;"> {{message.sentTime}}</div>
+                                <div style="float:right; margin-top:-18px;font-size:12px;">
+                                    {{message.lastUpdateTime}}</div>
                             </div>
                         </div>
                         <ng-template #alignRight>
@@ -109,7 +116,7 @@
                             <div class="message-card-right">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        {{message.text}}
+                                        <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message></mm-radio-message>
@@ -120,11 +127,18 @@
                                     <div *ngSwitchCase="'checkbox'">
                                         <mm-checkbox-message></mm-checkbox-message>
                                     </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message></mm-image-message>
+                                    </div>
                                     <div *ngSwitchDefault>
-                                        {{message.text}}
+                                        <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                 </div>
-                                <div style="float:left; margin-top:-18px;font-size:12px;">{{message.sentTime}}</div>
+                                <div style="float:left; margin-top:-18px;font-size:12px;">
+                                    {{message.lastUpdateTime}}</div>
                             </div>
                         </ng-template>
                     </div>
@@ -138,6 +152,8 @@
                     <button type="button" class="btn btn-default" (click)="createRadio();">Radio</button>
                     <button type="button" class="btn btn-default" (click)="createSlider();">Slider</button>
                     <button type="button" class="btn btn-default" (click)="createCheckbox();">Check box</button>
+                    <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                    <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
                 </div>
             </div>
         </div>
