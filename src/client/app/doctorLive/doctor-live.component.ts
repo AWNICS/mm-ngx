@@ -82,6 +82,7 @@ export class DoctorLiveComponent {
             .then(message => {
         this.messages.push(message);
         this.scrollToBottom();
+        //console.log('This is from chat live component: ' + JSON.stringify(this.messages));
       });
     }
 
@@ -149,10 +150,7 @@ export class DoctorLiveComponent {
             'http://www.gettyimages.co.uk/gi-resources/images/Embed/new/embed2.jpg',
             'http://www.laughspark.info/uploadfiles/funny-sqiuurel-talking-imags-i-5922.jpg',
             'http://demo.elmanawy.info/moraco/layout1/assets/images/portfolio/12.jpg',
-            'http://pbs.twimg.com/media/CnSRWE0UMAALxwk.jpg:orig',
-            'assets/jpg/a.jpg',
-            'assets/jpg/arun.jpg',
-            'assets/jpg/india.jpg'
+            'http://pbs.twimg.com/media/CnSRWE0UMAALxwk.jpg:orig'
         ];
         this.newMessage.contentType = 'image';
         let time = new Date();

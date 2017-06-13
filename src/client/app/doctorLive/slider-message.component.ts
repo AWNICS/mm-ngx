@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Message } from '../shared/database/message';
 import { LiveChatService } from './live-chat.service';
+import { DoctorLiveComponent } from './doctor-live.component';
 
 @Component({
     selector: 'mm-slider-message',
@@ -14,12 +15,12 @@ import { LiveChatService } from './live-chat.service';
     `
 })
 
-export class SliderMessageComponent {
+export class SliderMessageComponent implements OnDestroy {
     title: string = 'Slider Component';
     points:any;
     message: Message;
 
-    constructor(private liveChatService:LiveChatService) {
+    constructor(private liveChatService:LiveChatService, private doctorLiveComponent: DoctorLiveComponent) {
         this.message = this.liveChatService.getMessage();
         //console.log('From slider component: ' + JSON.stringify(this.message)); For debugging purpose only
     }
@@ -27,9 +28,13 @@ export class SliderMessageComponent {
     submit() {
         //console.log(this.points); For debugging purpose only
         this.message.contentType = 'text';
-        this.message.text = 'User submitted: ' + this.points;
-        this.message.type = '';
+        this.message.text = 'Kindly select a number from 0 to 10';
+        this.message.type = 'in';
         this.edit(this.message);
+    }
+
+    ngOnDestroy() {
+        this.doctorLiveComponent.addReplyMessages('You have selected: ' + this.points);
     }
 
      edit(message: Message): void {

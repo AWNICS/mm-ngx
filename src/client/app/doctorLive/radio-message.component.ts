@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Message } from '../shared/database/message';
 import { LiveChatService } from './live-chat.service';
+import { DoctorLiveComponent } from './doctor-live.component';
 
 @Component({
     selector: 'mm-radio-message',
@@ -14,21 +15,27 @@ import { LiveChatService } from './live-chat.service';
     `
 })
 
-export class RadioMessageComponent {
+export class RadioMessageComponent implements OnDestroy {
     message: Message;
+    messages: Message[];
     items:string[] = [''];
     model = { options: '' };
 
-    constructor(private liveChatService:LiveChatService) {
+    constructor(private liveChatService:LiveChatService, private doctorLiveComponent: DoctorLiveComponent) {
         this.message = this.liveChatService.getMessage();
         this.items = this.message.contentData.data;
     }
 
     submit() {
         this.message.contentType = 'text';
-        this.message.text = 'User submitted: ' + this.model.options;
-        this.message.type = '';
+        this.message.text = 'Select one among the below: ' + this.message.contentData.data;
+        this.message.type = 'in';
+        this.message.responseData.data = [this.model.options];
         this.edit(this.message);
+    }
+
+    ngOnDestroy() {
+        this.doctorLiveComponent.addReplyMessages('You have selected: ' +this.model.options);
     }
 
     edit(message: Message): void {
