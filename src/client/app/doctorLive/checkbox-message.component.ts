@@ -4,27 +4,39 @@ import { Message } from '../shared/database/message';
 import { LiveChatService } from './live-chat.service';
 import { DoctorLiveComponent } from './doctor-live.component';
 
+/**
+ * CheckBoxMessageComponent to display check box options
+ * @export
+ * @class CheckBoxMessageComponent
+ * @implements {OnInit}
+ * @implements {OnDestroy}
+ */
 @Component({
     selector: 'mm-checkbox-message',
     template: `
-        <p>Select the most suited options below:</p>
+        <h1>{{title}}</h1>
+        <p>{{header}}</p>
         <form [formGroup]="myForm">
             <div *ngFor="let option of options">
                 <input type="checkbox" (change)="onChange(option.option, $event.target.checked)"> {{option.option}}<br>
             </div>
-            <button (click)="onSubmit(myForm.value);">Submit</button>
+            <button class="btn btn-info" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })
 
 export class CheckBoxMessageComponent implements OnInit, OnDestroy {
+
+    title:string = 'Checkbox Component';
+    header:string = '';
     message: Message;
-    options = [{option:'Option 1'},{option:'Option 2'}];
+    options = [{option: 'Option 1'}, {option: 'Option 2'}, {option: 'Option 3'}, {option: 'Option 4'}];
     myForm: FormGroup;
     selectedOptions:any;
 
     constructor(private liveChatService: LiveChatService, private fb: FormBuilder, private doctorLiveComponent: DoctorLiveComponent) {
         this.message = this.liveChatService.getMessage();
+        this.header = this.message.text;
     }
 
     ngOnInit() {
@@ -33,13 +45,22 @@ export class CheckBoxMessageComponent implements OnInit, OnDestroy {
       });
     }
 
+    /**
+     * creates a new text message on destroying the component
+     * @memberof CheckBoxMessageComponent
+     */
     ngOnDestroy() {
         this.doctorLiveComponent.addReplyMessages('You have selected: ' + this.selectedOptions);
     }
 
+    /**
+     * populates the array with the options selected
+     * @param {string} option
+     * @param {boolean} isChecked
+     * @memberof CheckBoxMessageComponent
+     */
     onChange(option:string, isChecked: boolean) {
       const optionsFormArray = <FormArray>this.myForm.controls.options;
-
       if(isChecked) {
         optionsFormArray.push(new FormControl(option));
       } else {
@@ -49,7 +70,7 @@ export class CheckBoxMessageComponent implements OnInit, OnDestroy {
   }
 
     onSubmit(options:any) {
-      console.log('On submit:' + options.options);
+      //console.log('On submit:' + options.options);
       this.submit(options.options);
       this.selectedOptions = options.options;
     }
@@ -57,8 +78,10 @@ export class CheckBoxMessageComponent implements OnInit, OnDestroy {
     submit(selectedItems:any) {
         console.log('Within the submit: ' + JSON.stringify(selectedItems));
         this.message.contentType = 'text';
-        this.message.text = 'Select the most suited options below: ' ;
+        this.message.text = this.header ;
         this.message.type = 'in';
+        this.message.responseData.data = selectedItems;
+        console.log('Selected options are: ' + this.message.responseData.data);
         this.edit(this.message);
     }
 

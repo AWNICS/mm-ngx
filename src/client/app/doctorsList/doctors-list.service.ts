@@ -8,7 +8,7 @@ import 'rxjs/add/operator/toPromise';
 /**
  * Service to get the doctor details
  * @export
- * @class LiveConsultantService
+ * @class DoctorsListService
  */
 @Injectable()
 
@@ -21,7 +21,7 @@ export class DoctorsListService {
 
   constructor(private http: Http, private router: Router) { }
 
-  setSelectedDoctor(doctor: DoctorDetails) {
+  setSelectedDoctor(doctor: DoctorDetails) { // set the selected doctor
     this.selectedDoctor = doctor;
     this.router.navigate(['/doctorLive']);
   }
@@ -30,7 +30,7 @@ export class DoctorsListService {
     return this.selectedDoctor;
   }
 
-  setVideoUrl(videoUrl: string) {
+  setVideoUrl(videoUrl: string) { // set Url from the selected doctor
     this.videoUrl = videoUrl;
   }
 
@@ -39,9 +39,9 @@ export class DoctorsListService {
   }
 
   /**
-   * get the doctor details from db
+   * get doctors list from the api
    * @returns {Promise<DoctorDetails[]>}
-   * @memberof LiveConsultantService
+   * @memberof DoctorsListService
    */
   getDoctorDetails(): Promise<DoctorDetails[]> {
     return this.http.get(this.url)
@@ -56,7 +56,7 @@ export class DoctorsListService {
    * @private
    * @param {*} error
    * @returns {Promise<any>}
-   * @memberof LiveConsultantService
+   * @memberof DoctorsListService
    */
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

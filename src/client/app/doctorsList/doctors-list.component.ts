@@ -6,7 +6,9 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
 import { VideoModalComponent } from './video-modal.component';
 
 /**
- * This class represents the lazy loaded ModalComponent.
+ * This class represents the lazy loaded DoctorsListComponent.
+ * @export
+ * @class DoctorsListComponent
  */
 @Component({
     moduleId: module.id,
@@ -18,7 +20,6 @@ export class DoctorsListComponent {
 
     @ViewChild('doctorsList')
     doctorsList: DoctorsListComponent;
-
     @ViewChild(VideoModalComponent)
     videoModal: VideoModalComponent;
     doctorDetails: DoctorDetails[];
@@ -26,13 +27,17 @@ export class DoctorsListComponent {
 
     constructor(private doctorsListService: DoctorsListService, private router: Router, private domSanitizer: DomSanitizer) {
         this.getDoctorDetails();
-     }
+    }
 
+    /**
+     * get the doctorlist from the services
+     * @memberof DoctorsListComponent
+     */
     getDoctorDetails() {
         this.doctorsListService.getDoctorDetails()
-        .then((doctorDetail) => {
-            this.doctorDetails = doctorDetail;
-        });
+            .then((doctorDetail) => {
+                this.doctorDetails = doctorDetail;
+            });
     }
 
     open() {
@@ -44,12 +49,13 @@ export class DoctorsListComponent {
     }
 
     openModal(selectedDoctor: DoctorDetails) {
+        // domSanitizer for url passing to iframe
         this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(selectedDoctor.videoUrl);
         this.doctorsListService.setVideoUrl(this.safeUrl);
         this.videoModal.open('lg');
     }
 
-    navigate(selectedDoctor:DoctorDetails) {
+    navigate(selectedDoctor: DoctorDetails) {
         this.doctorsListService.setSelectedDoctor(selectedDoctor);
     }
 }
