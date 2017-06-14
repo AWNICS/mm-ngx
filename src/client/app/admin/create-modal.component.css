@@ -1,0 +1,14 @@
+modal {
+    color: #4696e5;
+}
+
+a:link,
+a:visited {
+    color: #4696e5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #0D47A1;
+}

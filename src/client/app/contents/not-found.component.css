@@ -1,0 +1,30 @@
+header {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    padding: 4.5em 0 2.5em 0;
+    text-align: center;
+    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+    height: 100vh;
+    min-height: 35em;
+}
+
+.jumbotron {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    padding: 4.5em 0 2.5em 0;
+    text-align: center;
+    font-weight: 900;
+    justify-content: center;
+    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+}

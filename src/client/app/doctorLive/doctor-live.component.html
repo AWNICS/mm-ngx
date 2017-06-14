@@ -1,0 +1,175 @@
+<mm-navbar></mm-navbar>
+<h1>{{selectedDoctor.name}}</h1>
+<div class="container-fluid" id="profile">
+    <div class="row">
+        <div class="col-sm-2">
+            <div [ngSwitch]="selectedDoctor.status">
+                <div *ngSwitchCase="'online'">
+                    <div class="led-box led-green"></div>
+                </div>
+                <div *ngSwitchCase="'offline'">
+                    <div class="led-box led-red"></div>
+                </div>
+                <div *ngSwitchCase="'busy'">
+                    <div class="led-box led-blue"></div>
+                </div>
+                <div *ngSwitchCase="'away'">
+                    <div class="led-box led-yellow"></div>
+                </div>
+                <div *ngSwitchDefault>
+                    <div class="led-box led-red"></div>
+                </div>
+            </div>
+            <img class="img-circle" src="{{selectedDoctor.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
+        </div>
+        <div class="col-sm-10">
+            <div class="row">
+                <ul class="styling">
+                    <li class="test"><strong>{{selectedDoctor.name}}</strong></li>
+                    <li class="test">{{selectedDoctor.briefDescription.speciality}}</li>
+                    <li class="test">{{selectedDoctor.briefDescription.experience}} years</li>
+                </ul>
+            </div>
+            <div class="row">
+                {{selectedDoctor.briefDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
+                <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
+                </rating>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="video">
+    <ul class="nav nav-pills">
+        <li class="active"><a data-toggle="pill" href="#appearCall">Video & Audio Chat</a></li>
+        <li><a data-toggle="pill" href="#history">History</a></li>
+        <li><a data-toggle="pill" href="#reports">Reports</a></li>
+        <li><a data-toggle="pill" href="#treatmentPlan">Treatment Plan</a></li>
+        <li><a data-toggle="pill" href="#chat">Chat</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="appearCall" class="tab-pane fade in active">
+            <h3>Video & Audio Chat</h3>
+            <iframe [src]="safeUrl" width="800" height="640" frameborder="0"></iframe>
+        </div>
+        <div id="history" class="tab-pane fade">
+            <h3>History</h3>
+            <p>The space is filled with user's history of visits, consulations, etc.</p>
+        </div>
+        <div id="reports" class="tab-pane fade">
+            <h3>Reports</h3>
+            <p>Reports are prescriptions given by doctor, previous reports of the patient, any scan details in the history, treatment plans, etc.</p>
+        </div>
+        <div id="treatmentPlan" class="tab-pane fade">
+            <h3>Treatment Plan</h3>
+            <p>This section will contain the current treatment plan.</p>
+        </div>
+        <div id="chat" class="tab-pane fade">
+            <div class="container-fluid chat-container">
+                <div class="container chat-header">
+                    <img class="img-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
+                    <p style="float: left; margin: 10px;">{{selectedDoctor.name}}</p>
+                </div>
+                <div class="container chat-body" id="chatBody">
+                    <div *ngFor="let message of messages">
+                        <div *ngIf="message.type; else alignRight">
+                            <div *ngIf="message.picUrl; else alternateUrl">
+                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                            </div>
+                            <ng-template #alternateUrl>
+                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                            </ng-template>
+                            <div class="message-card">
+                                <div [ngSwitch]="message.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                    </div>
+                                </div>
+                                <div style="float:right; margin-top:-18px;font-size:12px;">
+                                    {{message.lastUpdateTime}}</div>
+                            </div>
+                        </div>
+                        <ng-template #alignRight>
+                            <div *ngIf="message.picUrl; else alternateUrl">
+                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                            </div>
+                            <ng-template #alternateUrl>
+                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                            </ng-template>
+                            <div class="message-card-right">
+                                <div [ngSwitch]="message.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                    </div>
+                                </div>
+                                <div style="float:left; margin-top:-18px;font-size:12px;">
+                                    {{message.lastUpdateTime}}</div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="container chat-footer">
+                    <input type="text" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage #replyMessage/>
+                    <button type="submit" class="submit-button" (click)="addMessages(sentMessage.value); sentMessage.value=''">
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">Reply</button>
+                    <button type="button" class="btn btn-default" (click)="createRadio();">Radio</button>
+                    <button type="button" class="btn btn-default" (click)="createSlider();">Slider</button>
+                    <button type="button" class="btn btn-default" (click)="createCheckbox();">Check box</button>
+                    <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                    <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="feedback">
+    <div class="row">
+        <div class="col-sm-12">
+            <label><h4>Feedback: </h4></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <textarea placeholder="Type here..."></textarea>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+</div>

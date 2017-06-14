@@ -1,0 +1,18 @@
+div {
+    color: #ffffff;
+    background-color: #4696e5;
+}
+
+a,
+a:link,
+a:visited,
+a:active {
+    float: right;
+    margin: 5px;
+    color: #d0e4f8;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000000;
+}

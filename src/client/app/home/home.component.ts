@@ -2,9 +2,10 @@ import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angu
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
+import { DoctorsListComponent } from '../doctorsList/doctors-list.component';
 import { OrderRequest } from '../order-window/order-request';
-import { LocationService } from '../shared/location/location.service';
-import { Location } from '../shared/location/location';
+import { SpecialityService } from '../shared/speciality/speciality.service';
+import { Specialities } from '../shared/speciality/speciality';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -17,33 +18,52 @@ import { Location } from '../shared/location/location';
 export class HomeComponent implements OnInit {
 
   pageTitle: string = 'Mesomeds';
-  errorMessage: string;
-
-  locations: Location[];
-
+  speciality: string;
   mobileNumber: number;
-  location: string;
+  specialities: Specialities[];
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
 
-  //public constructor(private _locationService: LocationService) {
- // }
+  @ViewChild(DoctorsListComponent)
+  modalHtml1: DoctorsListComponent;
 
-  open(mobileNumber: number) {
-    let result: boolean = isNaN(mobileNumber);
-    if (result === true || mobileNumber.toString().length < 10 || mobileNumber.toString().match(/^\s*$/g)) {
+  current:string = 'Select'; //first string to load in the select field
+
+  constructor(private specialityService: SpecialityService) { //constructor for LocationService
+  }
+
+  //function to validate the phone number entered and open the OrderWindow else show an alert
+  open(value: any) {
+    let result: boolean = isNaN(value.mobileNumber);
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
       return;
     } else {
       this.modalHtml.open();
     }
-    this.location = (<HTMLInputElement>document.getElementById('selectLocation')).value;
-    console.log(this.location);
+    console.log(value.speciality);
   }
 
+  openConsultant(value: any) {
+    let result: boolean = isNaN(value.mobileNumber);
+    let speciality: string = value.speciality;
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
+    || speciality === null || speciality === 'Select') {
+      return;
+    } else {
+      this.modalHtml1.open();
+    }
+  }
+
+  //initializes the select field options from LocationService
   ngOnInit(): void {
-   // this._locationService.getLocation()
-    //  .subscribe(locations => this.locations = locations,
-   //   error => this.errorMessage = <any>error);
+    this.getSpecialities();
+  }
+
+  getSpecialities() {
+    this.specialityService.getSpecialities()
+    .then(Specialities => {
+      this.specialities = Specialities;
+    });
   }
 }

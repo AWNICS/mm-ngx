@@ -5,11 +5,11 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowser } from '@angular/platform-browser';
 
-import { AppModuleNgFactory } from './app.module.ngfactory';
+//import { AppModuleNgFactory } from './app.module.ngfactory';
 
 enableProdMode();
 
-platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
+//platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
 
 // In order to start the Service Worker located at "./worker.js"
 // uncomment this line. More about Service Workers here

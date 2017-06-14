@@ -1,0 +1,96 @@
+#box {
+    margin: 5px;
+    padding: 5px;
+    border: 0px solid grey;
+    border-radius: 4px;
+    box-shadow: 2px 4px 10px grey;
+}
+
+.led-box {
+    height: 30px;
+    width: 25%;
+    margin: 10px 0;
+    float: left;
+}
+
+.led-box p {
+    font-size: 12px;
+    text-align: center;
+    margin: 1em;
+}
+
+.led-red {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #F00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+}
+
+.led-yellow {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #FF0;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
+}
+
+.led-green {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #ABFF00;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+}
+
+.led-blue {
+    margin: 0 auto;
+    width: 15px;
+    height: 15px;
+    background-color: #24E0FF;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+}
+
+
+/* Icon when the collapsible content is shown */
+
+
+/*
+.btn:after {
+    font-family: "Glyphicons Halflings";
+    content: "\e113";
+    float: right;
+    margin-left: 15px;
+}
+
+*/
+
+
+/* Icon when the collapsible content is hidden */
+
+
+/*
+.btn.collapsed:after {
+    content: "\e114";
+}*/
+
+#thumbnail {
+    margin: 20px;
+    padding: 5px;
+    height: 30%;
+    width: 30%;
+}
+
+#thumbnail:hover {
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+modal {
+    overflow: auto !important;
+}

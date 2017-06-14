@@ -17,7 +17,9 @@ export function main() {
       TestBed.configureTestingModule({
         imports: [FormsModule],
         declarations: [HomeComponent],
-        providers: [LocationService],
+        providers: [
+          { provide: LocationService, useValue: new MockLocationService() }
+        ],
         schemas: [NO_ERRORS_SCHEMA]
       });
 
@@ -44,20 +46,17 @@ export function main() {
 
             //3. Test whether the test value was updated in the bound html's text property
             expect(homeDOMEl.querySelectorAll('h1')[0].textContent).toEqual('Mesomeds Landing');
-
-            //expect(homeDOMEl.querySelectorAll('li').length).toEqual(4);
-            //expect(homeDOMEl.querySelectorAll('li')[3].textContent).toEqual('Minko');
           });
       }));
   });
 }
 
-/*class MockNameListService {
+class MockLocationService {
   returnValue: string[];
-  get(): Observable<string[]> {
+  getLocation(): Observable<string[]> {
     return Observable.create((observer: any) => {
       observer.next(this.returnValue);
       observer.complete();
     });
   }
-}*/
+}

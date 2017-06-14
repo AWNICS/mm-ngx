@@ -62,7 +62,7 @@ export function serveProd() {
   let root = resolve(process.cwd(), Config.PROD_DEST);
   let server = express();
 
-  for (let proxy of Config.getProxyMiddleware()) {
+  for (let proxy of Config.PROXY_MIDDLEWARE) {
     server.use(proxy);
   }
 
@@ -73,4 +73,4 @@ export function serveProd() {
   server.listen(Config.PORT, () =>
     openResource('http://localhost:' + Config.PORT + Config.APP_BASE)
   );
-};
+}

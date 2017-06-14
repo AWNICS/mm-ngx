@@ -24,6 +24,14 @@ header {
     background-size: auto, cover;
 }
 
+.alert {
+    margin-right: 40%;
+    margin-left: 40%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+}
+
 input {
     margin: 5px;
     padding: 5px;

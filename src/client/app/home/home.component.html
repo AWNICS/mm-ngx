@@ -1,3 +1,4 @@
+<mm-navbar></mm-navbar>
 <header id="myHeader">
     <div class="container">
         <div class="jumbotron">
@@ -5,15 +6,16 @@
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
                 <div class="row">
-                    <select required id="selectLocation" ngModel name="name">
-                        <option *ngFor="let location of locations" [value]="location.name">
-                            {{location.name}}
+                    <select required id="selectSpeciality" [(ngModel)]="current" name="speciality">
+                        <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
+                            {{speciality.speciality}}
                         </option>
-                    </select>{{f.value | json}}
+                    </select>
                     <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
-                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(mobileNumber)"><span class="glyphicon glyphicon-modal-window"></span> Place Order </button>
-                    <mm-order-window [result]="mobileNumber"></mm-order-window>
-                    <a href="#myIndex"> <button i18n type="button" id="myBtn2"><span class="glyphicon glyphicon-chevron-down"></span> Learn more </button></a>
+                    <div class="alert alert-danger" *ngIf="f.invalid && f.touched">Select a field and enter a valid mobile number</div>
+                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"> Place Order </button>
+                    <mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>
+                    <button i18n type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
                 </div>
             </form>
         </div>
@@ -21,3 +23,4 @@
 </header>
 <mm-contents></mm-contents>
 <mm-footer></mm-footer>
+<mm-doctors-list></mm-doctors-list>

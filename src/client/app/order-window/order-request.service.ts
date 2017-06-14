@@ -1,14 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
+import { Router } from '@angular/router';
 
 import { OrderRequest } from './order-request';
 
 @Injectable()
 export class OrderRequestService {
 
-    orderRequest: OrderRequest[];
+    constructor(private router: Router) {
+   }
 
-    constructor(private _http:Http) {}
+    requestCallBack() {
+        this.router.navigate(['/thanks']);
+    }
+
+    submitOrderRequest() {
+        this.router.navigate(['/thanks']);
+    }
+
+    randomNumber(): number {
+        let rand: number = Math.floor((Math.random() * 1000000));
+        return rand;
+    }
 }

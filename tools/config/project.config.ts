@@ -14,6 +14,7 @@ export class ProjectConfig extends SeedConfig {
   constructor() {
     super();
     // this.APP_TITLE = 'Put name of your app here';
+    // this.GOOGLE_ANALYTICS_ID = 'Your site's ID';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
@@ -27,10 +28,44 @@ export class ProjectConfig extends SeedConfig {
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
-      ...this.APP_ASSETS,
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];
+
+    this.ROLLUP_INCLUDE_DIR = [
+      ...this.ROLLUP_INCLUDE_DIR,
+      //'node_modules/moment/**'
+    ];
+
+    this.ROLLUP_NAMED_EXPORTS = [
+      ...this.ROLLUP_NAMED_EXPORTS,
+      //{'node_modules/immutable/dist/immutable.js': [ 'Map' ]},
+    ];
+
+    this.addPackageBundles({
+      name: 'angular-in-memory-web-api',
+      path: 'node_modules/angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+    });
+
+    this.addPackageBundles({
+      name: 'ng2-smart-table',
+      path: 'node_modules/ng2-smart-table/bundles/table.umd.js'
+    });
+
+    this.addPackageBundles({
+      name: 'ng2-completer',
+      path: 'node_modules/ng2-completer/ng2-completer.umd.js'
+    });
+
+    this.addPackageBundles({
+      name: 'lodash',
+      path: 'node_modules/lodash/lodash'
+    });
+
+    this.addPackageBundles({
+      name: 'ngx-rating',
+      path: 'node_modules/ngx-rating/index.js'
+    });
 
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
@@ -41,8 +76,13 @@ export class ProjectConfig extends SeedConfig {
     //
     // this.addPackagesBundles(additionalPackages);
 
+    /* Add proxy middleware */
+    // this.PROXY_MIDDLEWARE = [
+    //   require('http-proxy-middleware')('/api', { ws: false, target: 'http://localhost:3003' })
+    // ];
+
     /* Add to or override NPM module configurations: */
-    // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    // this.PLUGIN_CONFIGS['browser-sync'] = { ghostMode: false };
   }
 
 }
