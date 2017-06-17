@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from './doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 
@@ -8,7 +9,6 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
  * @class VideoModalComponent
  */
 @Component({
-    moduleId: module.id,
     selector: 'mm-video-modal',
     template: `
         <modal [cssClass]="cssClass" #videoModal>
@@ -34,7 +34,7 @@ export class VideoModalComponent {
     @ViewChild('videoModal')
     videoModal: VideoModalComponent;
 
-    constructor(private doctorsListService: DoctorsListService) {
+    constructor(private doctorsListService: DoctorsListService, private domSanitizer:DomSanitizer) {
     }
 
     open(size: string) {

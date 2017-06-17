@@ -18,7 +18,7 @@ import { DoctorLiveComponent } from './doctor-live.component';
             <input type="radio" name="options" (click)="model.options = item">
             {{item}}
         </label><br/>
-        <button class="btn btn-info" (click)="submit()">Submit</button>
+        <button type="button" class="btn btn-info" (click)="submit()">Submit</button>
     `
 })
 

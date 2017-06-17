@@ -16,7 +16,7 @@ import { DoctorLiveComponent } from './doctor-live.component';
         <p>{{header}}</p>
         <form>
             <input type="range" name="points" min="0" max="10" [(ngModel)]="points">
-            <button class="btn btn-info" (click)="submit();">Submit</button>
+            <button type="button" class="btn btn-info" (click)="submit();">Submit</button>
         </form>
     `
 })

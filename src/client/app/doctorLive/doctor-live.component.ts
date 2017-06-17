@@ -1,9 +1,10 @@
-import { Component, ViewChild, Output } from '@angular/core';
+import { Component, ViewChild, Output, OnInit } from '@angular/core';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LiveChatService } from './live-chat.service';
 import { Message } from '../shared/database/message';
+import { AppearComponent } from './appear.component';
 
 /**
  * DoctorLive component for consultation
@@ -16,11 +17,13 @@ import { Message } from '../shared/database/message';
     templateUrl: 'doctor-live.component.html',
     styleUrls: ['doctor-live.component.css']
 })
-export class DoctorLiveComponent {
+export class DoctorLiveComponent implements OnInit {
 
     @Output() message:string;
+    @Output() safeUrl: any;
+    @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
+    @ViewChild(AppearComponent) appearComponent: AppearComponent;
     selectedDoctor: DoctorDetails;
-    safeUrl: any;
     messages: Message[];
     newMessage: Message = {
         user: '',
@@ -124,9 +127,12 @@ export class DoctorLiveComponent {
         private domSanitizer: DomSanitizer,
         private liveChatService: LiveChatService
         ) {
-        this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
-        this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
-        this.getMessages();
+     }
+
+     ngOnInit() {
+         this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
+         this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
+         this.getMessages();
      }
 
      /**
@@ -138,6 +144,10 @@ export class DoctorLiveComponent {
          .then(messages => {
              this.messages = messages;
          });
+     }
+
+     openAppear() {
+         this.appearComponent.open('lg');
      }
 
      /**

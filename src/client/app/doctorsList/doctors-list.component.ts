@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DoctorsListService } from './doctors-list.service';
@@ -16,7 +16,7 @@ import { VideoModalComponent } from './video-modal.component';
     templateUrl: 'doctors-list.component.html',
     styleUrls: ['doctors-list.component.css']
 })
-export class DoctorsListComponent {
+export class DoctorsListComponent implements OnInit {
 
     @ViewChild('doctorsList')
     doctorsList: DoctorsListComponent;
@@ -25,7 +25,13 @@ export class DoctorsListComponent {
     doctorDetails: DoctorDetails[];
     safeUrl: any;
 
-    constructor(private doctorsListService: DoctorsListService, private router: Router, private domSanitizer: DomSanitizer) {
+    constructor(
+        private doctorsListService: DoctorsListService,
+        private router: Router,
+        private domSanitizer: DomSanitizer) {
+    }
+
+    ngOnInit() {
         this.getDoctorDetails();
     }
 

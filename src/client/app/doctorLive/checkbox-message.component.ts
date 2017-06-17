@@ -20,7 +20,7 @@ import { DoctorLiveComponent } from './doctor-live.component';
             <div *ngFor="let option of options">
                 <input type="checkbox" (change)="onChange(option.option, $event.target.checked)"> {{option.option}}<br>
             </div>
-            <button class="btn btn-info" (click)="onSubmit(myForm.value);">Submit</button>
+            <button type="button" class="btn btn-info" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })

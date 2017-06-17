@@ -154,6 +154,7 @@
                     <button type="button" class="btn btn-default" (click)="createCheckbox();">Check box</button>
                     <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
                     <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-default" (click)="openAppear();">Appear</button>
                 </div>
             </div>
         </div>
@@ -173,3 +174,4 @@
         </div>
     </div>
 </div>
+<mm-appear [safeUrl]="safeUrl"></mm-appear>
