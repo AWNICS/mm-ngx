@@ -4,7 +4,6 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LiveChatService } from './live-chat.service';
 import { Message } from '../shared/database/message';
-import { AppearComponent } from './appear.component';
 
 /**
  * DoctorLive component for consultation
@@ -22,7 +21,6 @@ export class DoctorLiveComponent implements OnInit {
     @Output() message:string;
     @Output() safeUrl: any;
     @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
-    @ViewChild(AppearComponent) appearComponent: AppearComponent;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     newMessage: Message = {
@@ -122,6 +120,23 @@ export class DoctorLiveComponent implements OnInit {
         }
     };
 
+    appearMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Appear Component',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'appear',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+
     constructor(
         private doctorsListService: DoctorsListService,
         private domSanitizer: DomSanitizer,
@@ -144,10 +159,6 @@ export class DoctorLiveComponent implements OnInit {
          .then(messages => {
              this.messages = messages;
          });
-     }
-
-     openAppear() {
-         this.appearComponent.open('lg');
      }
 
      /**
@@ -259,6 +270,17 @@ export class DoctorLiveComponent implements OnInit {
         let time = new Date();
         this.videoMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.videoMessage)
+        .then(message => {
+            this.messages.push(message);
+            this.scrollToBottom();
+            this.liveChatService.setMessage(message);
+        });
+    }
+
+    createAppear() {
+        let time = new Date();
+        this.appearMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.appearMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from '../shared/database/message';
 import { LiveChatService } from './live-chat.service';
 
@@ -18,15 +18,18 @@ import { LiveChatService } from './live-chat.service';
     `
 })
 
-export class VideoMessageComponent {
+export class VideoMessageComponent implements OnInit {
 
     title:string;
     message: Message;
     url:string;
 
     constructor(private liveChatService:LiveChatService) {
+    }
+
+    ngOnInit() {
         this.message = this.liveChatService.getMessage();
-            this.url = this.message.contentData.data[0];
-            this.title = this.message.text;
+        this.url = this.message.contentData.data[0];
+        this.title = this.message.text;
     }
 }

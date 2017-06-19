@@ -6,7 +6,7 @@
      let noProviders: Object[] = [];
 
       //Define a way to retrieve the local information
-     let locale: string = localStorage.getItem('lang') || 'en-US';;
+     let locale: string = localStorage.getItem('lang') || 'en-US';
 
       //Set the directory to the translation files
      let file: string = `../assets/locale/messages.${locale}.xlf`;
@@ -27,5 +27,5 @@
        xhr.send();
      });
    }
- };
+ }
 

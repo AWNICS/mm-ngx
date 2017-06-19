@@ -15,15 +15,18 @@ import { LiveChatService } from './live-chat.service';
     `
 })
 
-export class ImageMessageComponent {
+export class ImageMessageComponent implements OnInit {
 
     header:string;
     message: Message;
     url:string;
 
     constructor(private liveChatService:LiveChatService) {
+    }
+
+    ngOnInit() {
         this.message = this.liveChatService.getMessage();
-            this.url = this.message.contentData.data[0];
-            this.header = this.message.text;
+        this.url = this.message.contentData.data[0];
+        this.header = this.message.text;
     }
 }

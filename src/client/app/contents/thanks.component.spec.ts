@@ -6,6 +6,7 @@ import {
 
 import { ThanksComponent } from './thanks.component';
 import { OrderRequestService } from '../order-window/order-request.service';
+import { AdminService } from '../admin/admin.service';
 
 class MockOrderRequest {
     constructor() {
@@ -21,7 +22,8 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [TestComponent, ThanksComponent],
           providers: [
-              {provide: OrderRequestService, useValue: new MockOrderRequest()}
+              {provide: OrderRequestService, useValue: new MockOrderRequest()},
+              {provide: AdminService}
           ],
         schemas: [NO_ERRORS_SCHEMA]
       });

@@ -32,7 +32,6 @@ export class ThanksComponent implements OnInit, AfterContentChecked {
   }
 
    /**
-    * 
     * @memberOf ThanksComponent
     */
    myFunction() {
