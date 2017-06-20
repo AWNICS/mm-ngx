@@ -95,6 +95,9 @@
                                     <div *ngSwitchCase="'video'">
                                         <mm-video-message></mm-video-message>
                                     </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
                                     <div *ngSwitchCase="'image'">
                                         <mm-image-message></mm-image-message>
                                     </div>
@@ -130,6 +133,9 @@
                                     <div *ngSwitchCase="'video'">
                                         <mm-video-message></mm-video-message>
                                     </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
                                     <div *ngSwitchCase="'image'">
                                         <mm-image-message></mm-image-message>
                                     </div>
@@ -152,6 +158,7 @@
                     <button type="button" class="btn btn-default" (click)="createRadio();">Radio</button>
                     <button type="button" class="btn btn-default" (click)="createSlider();">Slider</button>
                     <button type="button" class="btn btn-default" (click)="createCheckbox();">Check box</button>
+                    <button type="button" class="btn btn-default" (click)="createAppear();">Appear</button>
                     <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
                     <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
                 </div>

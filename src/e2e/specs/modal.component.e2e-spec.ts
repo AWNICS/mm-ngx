@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+/*import { browser, element, by } from 'protractor';
 
 describe('Modal', () => {
   /*beforeEach(async () => {
@@ -20,4 +20,4 @@ describe('Modal', () => {
           by.css("input[type=submit]"));
     expect(submitButton.isEnabled()).toEqual(true);
   });*/
-});
+//});

@@ -1,3 +1,5 @@
+/*styling for cards in the modal window*/
+
 #box {
     margin: 5px;
     padding: 5px;
@@ -5,6 +7,9 @@
     border-radius: 4px;
     box-shadow: 2px 4px 10px grey;
 }
+
+
+/*status box for doctors*/
 
 .led-box {
     height: 30px;
@@ -19,6 +24,9 @@
     margin: 1em;
 }
 
+
+/*offline state*/
+
 .led-red {
     margin: 0 auto;
     width: 15px;
@@ -27,6 +35,9 @@
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
 }
+
+
+/*away state*/
 
 .led-yellow {
     margin: 0 auto;
@@ -37,6 +48,9 @@
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
 }
 
+
+/*available state*/
+
 .led-green {
     margin: 0 auto;
     width: 15px;
@@ -45,6 +59,9 @@
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
 }
+
+
+/*busy state*/
 
 .led-blue {
     margin: 0 auto;
@@ -56,27 +73,7 @@
 }
 
 
-/* Icon when the collapsible content is shown */
-
-
-/*
-.btn:after {
-    font-family: "Glyphicons Halflings";
-    content: "\e113";
-    float: right;
-    margin-left: 15px;
-}
-
-*/
-
-
-/* Icon when the collapsible content is hidden */
-
-
-/*
-.btn.collapsed:after {
-    content: "\e114";
-}*/
+/*video thumbnails for video profiles*/
 
 #thumbnail {
     margin: 20px;
@@ -90,6 +87,9 @@
     transition: 0.3s;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
+/*scrolling to enable modal window scroll*/
 
 modal {
     overflow: auto !important;

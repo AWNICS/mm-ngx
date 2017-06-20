@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output } from '@angular/core';
+import { Component, ViewChild, Output, OnInit } from '@angular/core';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -6,7 +6,9 @@ import { LiveChatService } from './live-chat.service';
 import { Message } from '../shared/database/message';
 
 /**
- * This class represents the lazy loaded DoctorLiveComponent.
+ * DoctorLive component for consultation
+ * @export
+ * @class DoctorLiveComponent
  */
 @Component({
     moduleId: module.id,
@@ -14,11 +16,12 @@ import { Message } from '../shared/database/message';
     templateUrl: 'doctor-live.component.html',
     styleUrls: ['doctor-live.component.css']
 })
-export class DoctorLiveComponent {
+export class DoctorLiveComponent implements OnInit {
 
     @Output() message:string;
+    @Output() safeUrl: any;
+    @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
     selectedDoctor: DoctorDetails;
-    safeUrl: any;
     messages: Message[];
     newMessage: Message = {
         user: '',
@@ -28,7 +31,7 @@ export class DoctorLiveComponent {
         lastUpdateTime: '',
         type: '',
         status: '',
-        contentType: '',
+        contentType: 'text',
         contentData: {
           data: ['']
         },
@@ -36,17 +39,98 @@ export class DoctorLiveComponent {
           data: ['']
         }
     };
-    newQuestion: Message = {
+    radioMessage: Message = {
         user: 'Rahul',
         id: null,
-        text: 'Can you call me?',
+        text: 'Kindly choose an option: ',
         picUrl: 'assets/jpg/rahul.jpg',
         lastUpdateTime: '',
         type: 'in',
         status: 'sending',
         contentType: 'radio',
         contentData: {
-          data: ['Yes','No','I will see']
+          data: ['Yes','No','Not sure']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+    sliderMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Kindly choose a number from 0 to 10: ',
+        picUrl: 'assets/jpg/rahul.jpg',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'slider',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+    checkboxMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Kindly check the relevent boxes: ',
+        picUrl: 'assets/jpg/rahul.jpg',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'checkbox',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+    imageMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Image Component',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'image',
+        contentData: {
+          data: ['http://photo.sf.co.ua/g/501/1.jpg']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+    videoMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Video Component',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'video',
+        contentData: {
+          data: ['assets/videos/movie.mp4']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+
+    appearMessage: Message = {
+        user: 'Rahul',
+        id: null,
+        text: 'Appear Component',
+        picUrl: 'assets/png/male1.png',
+        lastUpdateTime: '',
+        type: 'in',
+        status: 'sending',
+        contentType: 'appear',
+        contentData: {
+          data: ['']
         },
         responseData: {
           data: ['']
@@ -58,11 +142,18 @@ export class DoctorLiveComponent {
         private domSanitizer: DomSanitizer,
         private liveChatService: LiveChatService
         ) {
-        this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
-        this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
-        this.getMessages();
      }
 
+     ngOnInit() {
+         this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
+         this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
+         this.getMessages();
+     }
+
+     /**
+      * get pre-stored messages
+      * @memberof DoctorLiveComponent
+      */
      getMessages() {
          this.liveChatService.getMessages()
          .then(messages => {
@@ -70,29 +161,38 @@ export class DoctorLiveComponent {
          });
      }
 
+     /**
+      * adding new messages as text
+      * @param {string} message
+      * @returns {void}
+      * @memberof DoctorLiveComponent
+      */
      addMessages(message: string): void {
         if (!message) { return; }
         let time = new Date();
         this.newMessage.text= message;
         this.newMessage.picUrl = 'assets/png/male1.png';
         this.newMessage.type = 'in';
-        this.newMessage.contentType = 'text';
         this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
         this.messages.push(message);
         this.scrollToBottom();
-        //console.log('This is from chat live component: ' + JSON.stringify(this.messages));
       });
     }
 
+    /**
+     * add reply messages as text
+     * @param {string} message
+     * @returns {void}
+     * @memberof DoctorLiveComponent
+     */
     addReplyMessages(message: string): void {
         if (!message) { return; }
         let time = new Date();
         this.newMessage.text= message;
         this.newMessage.picUrl = 'assets/png/female3.png';
         this.newMessage.type = '';
-        this.newMessage.contentType = 'text';
         this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
@@ -101,13 +201,14 @@ export class DoctorLiveComponent {
       });
     }
 
+    /**
+     * create radio message using RadioMessageComponent
+     * @memberof DoctorLiveComponent
+     */
     createRadio() {
-        this.newMessage.contentData.data = ['Yes', 'No', 'Not sure'];
-        this.newMessage.type = 'in';
-        this.newMessage.contentType = 'radio';
         let time = new Date();
-        this.newQuestion.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newQuestion)
+        this.radioMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.radioMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
@@ -115,26 +216,29 @@ export class DoctorLiveComponent {
         });
     }
 
+    /**
+     * create slider message using SliderMessageComponent
+     * @memberof DoctorLiveComponent
+     */
     createSlider() {
-        this.newMessage.type = 'in';
-        this.newMessage.contentType = 'slider';
         let time = new Date();
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
+        this.sliderMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.sliderMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
             this.liveChatService.setMessage(message);
-            // console.log('from create slider: ' + JSON.stringify(message)); for debugging purpose only
         });
     }
 
+    /**
+     * create checkbox message using CheckboxMessageComponent
+     * @memberof DoctorLiveComponent
+     */
     createCheckbox() {
-        this.newMessage.type = 'in';
-        this.newMessage.contentType = 'checkbox';
         let time = new Date();
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
+        this.checkboxMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.checkboxMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
@@ -142,20 +246,15 @@ export class DoctorLiveComponent {
         });
     }
 
+
+    /**
+     * create image message using ImageMessageComponent
+     * @memberof DoctorLiveComponent
+     */
     createImage() {
-        this.newMessage.type = 'in';
-        this.newMessage.contentData.data = [
-            'http://photo.sf.co.ua/g/501/1.jpg',
-            'https://cdn.pixabay.com/photo/2017/01/06/19/15/soap-bubble-1958650_960_720.jpg',
-            'http://www.gettyimages.co.uk/gi-resources/images/Embed/new/embed2.jpg',
-            'http://www.laughspark.info/uploadfiles/funny-sqiuurel-talking-imags-i-5922.jpg',
-            'http://demo.elmanawy.info/moraco/layout1/assets/images/portfolio/12.jpg',
-            'http://pbs.twimg.com/media/CnSRWE0UMAALxwk.jpg:orig'
-        ];
-        this.newMessage.contentType = 'image';
         let time = new Date();
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
+        this.imageMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.imageMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
@@ -163,13 +262,25 @@ export class DoctorLiveComponent {
         });
     }
 
+    /**
+     * create video message using VideoMessageComponent
+     * @memberof DoctorLiveComponent
+     */
     createVideo() {
-        this.newMessage.type = 'in';
-        this.newMessage.contentData.data = ['assets/videos/movie.mp4'];
-        this.newMessage.contentType = 'video';
         let time = new Date();
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
+        this.videoMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.videoMessage)
+        .then(message => {
+            this.messages.push(message);
+            this.scrollToBottom();
+            this.liveChatService.setMessage(message);
+        });
+    }
+
+    createAppear() {
+        let time = new Date();
+        this.appearMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.appearMessage)
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
