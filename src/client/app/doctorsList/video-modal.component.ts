@@ -1,9 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from './doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 
+/**
+ * Component for video modal window
+ * @export
+ * @class VideoModalComponent
+ */
 @Component({
-    moduleId: module.id,
     selector: 'mm-video-modal',
     template: `
         <modal [cssClass]="cssClass" #videoModal>
@@ -21,15 +26,15 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
         }
     `]
 })
+
 export class VideoModalComponent {
 
     videoUrl: string;
     cssClass: string = 'modal-test';
-
     @ViewChild('videoModal')
     videoModal: VideoModalComponent;
 
-    constructor(private doctorsListService: DoctorsListService) {
+    constructor(private doctorsListService: DoctorsListService, private domSanitizer:DomSanitizer) {
     }
 
     open(size: string) {
@@ -37,6 +42,10 @@ export class VideoModalComponent {
         this.videoModal.open(size);
     }
 
+    /**
+     * function to stop playing the video when the modal window is closed
+     * @memberof VideoModalComponent
+     */
     close() {
         let iframe = document.getElementsByTagName('iframe')[0].contentWindow;
         let func = 'pauseVideo'; // to pause the youtube video on closing the modal window

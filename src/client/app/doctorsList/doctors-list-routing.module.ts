@@ -5,7 +5,7 @@ import { DoctorsListComponent } from './doctors-list.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'doctorsList', pathMatch: 'full',component: DoctorsListComponent}
+      { path: 'doctorsList', pathMatch: 'full', component: DoctorsListComponent}
     ])
   ],
   exports: [RouterModule]

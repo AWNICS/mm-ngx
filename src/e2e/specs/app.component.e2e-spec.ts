@@ -1,13 +1,13 @@
-import { browser, element, by } from 'protractor';
+/*import { browser, element, by } from 'protractor';
 
 describe('App', () => {
 
   beforeEach(async () => {
-    return await browser.get('/');
+    return await browser.get('');
   });
 
   it('should have a title', () => {
-    expect(browser.getTitle()).toEqual('Welcome to angular-seed!');
+    expect(browser.getTitle()).toEqual('Mesomeds');
   });
 
 /*
@@ -15,5 +15,6 @@ describe('App', () => {
     expect(element(by.css('mm-app mm-contents mm-footer mm-home autofocus on form')));
   });
 */
-
+/*
 });
+*/

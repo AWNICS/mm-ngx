@@ -4,6 +4,11 @@ import { Message } from '../shared/database/message';
 
 import 'rxjs/add/operator/toPromise';
 
+/**
+ * Service to create,read and update messages
+ * @export
+ * @class LiveChatService
+ */
 @Injectable()
 export class LiveChatService {
 
@@ -29,7 +34,6 @@ export class LiveChatService {
   }
 
   createMessages(newMessage: Message): Promise<Message> {
-    // console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' ); for debug purpose only
     return this.http
     .post(this.url, JSON.stringify(newMessage), { headers: this.headers})
     .toPromise()
