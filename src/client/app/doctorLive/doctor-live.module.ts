@@ -23,7 +23,8 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
   FormsModule, ReactiveFormsModule, Ng2Bs3ModalModule],
   declarations: [DoctorLiveComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
   ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent],
-  exports: [DoctorLiveComponent],
+  exports: [DoctorLiveComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
+  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent],
   providers: [LiveChatService]
 })
 export class DoctorLiveModule { }

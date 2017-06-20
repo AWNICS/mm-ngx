@@ -1,7 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from '../shared/database/message';
 import { LiveChatService } from './live-chat.service';
-import { DoctorLiveComponent } from './doctor-live.component';
 
 /**
  * Slider component in live chat
@@ -21,15 +20,30 @@ import { DoctorLiveComponent } from './doctor-live.component';
     `
 })
 
-export class SliderMessageComponent implements OnDestroy {
+export class SliderMessageComponent implements OnInit {
     title: string = 'Slider Component';
     points:any;
     message: Message;
     header:string;
+    messages: Message[];
+    newMessage: Message = {
+        user: '',
+        id: null,
+        text: '',
+        picUrl: '',
+        lastUpdateTime: '',
+        type: '',
+        status: '',
+        contentType: 'text',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
 
-    constructor(private liveChatService:LiveChatService, private doctorLiveComponent: DoctorLiveComponent) {
-        this.message = this.liveChatService.getMessage();
-        this.header = this.message.text;
+    constructor(private liveChatService:LiveChatService) {
     }
 
     /**
@@ -42,10 +56,33 @@ export class SliderMessageComponent implements OnDestroy {
         this.message.type = 'in';
         this.message.responseData.data = this.points;
         this.edit(this.message);
+        this.addReplyMessages('You have selected: ' + this.points);
     }
 
-    ngOnDestroy() {
-        this.doctorLiveComponent.addReplyMessages('You have selected: ' + this.points);
+    ngOnInit() {
+        this.getMessages();
+        this.message = this.liveChatService.getMessage();
+        this.header = this.message.text;
+    }
+
+    getMessages() {
+         this.liveChatService.getMessages()
+         .then(messages => {
+             this.messages = messages;
+         });
+     }
+
+    addReplyMessages(message: string): void {
+        if (!message) { return; }
+        let time = new Date();
+        this.newMessage.text= message;
+        this.newMessage.picUrl = 'assets/png/female3.png';
+        this.newMessage.type = '';
+        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.newMessage)
+            .then(message => {
+        this.messages.push(message);
+      });
     }
 
      edit(message: Message): void {

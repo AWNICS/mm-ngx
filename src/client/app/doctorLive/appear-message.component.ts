@@ -12,9 +12,14 @@ import { LiveChatService } from './live-chat.service';
     selector: 'mm-appear-message',
     template: `
         <h1>{{title}}</h1>
-        <iframe width="560" height="315" [src]="safeUrl" frameborder="0" allowfullscreen>
-        </iframe>
-    `
+        <button type="button" class="btn btn-info" (click)="submit();"><a [href]="safeUrl" target="_blank">Start</a></button>
+    `,
+    styles: [`
+        a:link,active,visited,hover {
+            color:white;
+            text-decoration:none;
+        }
+    `]
 })
 
 export class AppearMessageComponent implements OnInit {
@@ -27,6 +32,24 @@ export class AppearMessageComponent implements OnInit {
     ngOnInit() {
         this.message = this.liveChatService.getMessage();
         this.title = this.message.text;
+    }
+
+    submit() {
+        this.message.contentType = 'text';
+        this.message.text = 'Kindly leave your valuable feedback!';
+        this.message.type = 'in';
+        this.edit(this.message);
+    }
+
+    edit(message: Message): void {
+        let result = JSON.stringify(message);
+        if (!result) {
+            return;
+        }
+        this.liveChatService.update(this.message)
+            .then(() => {
+                return null;
+            });
     }
 }
 

@@ -11,7 +11,7 @@ import { LiveChatService } from './live-chat.service';
     selector:'mm-image-message',
     template:`
         <h1>{{header}}</h1>
-        <img src="{{url}}" alt="No picture" style="height:100px;width:100px;"/>
+        <img [src]="url" alt="No picture" style="height:100px;width:100px;"/>
     `
 })
 
