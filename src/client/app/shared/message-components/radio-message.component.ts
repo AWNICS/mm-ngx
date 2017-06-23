@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Message } from '../shared/database/message';
-import { LiveChatService } from './live-chat.service';
+import { Component, OnInit } from '@angular/core';
+import { Message } from '../database/message';
+import { LiveChatService } from '../../doctorLive/live-chat.service';
 
 /**
  * RadioMessageComponent to display the radio message
@@ -63,11 +63,7 @@ export class RadioMessageComponent implements OnInit {
         this.edit(this.message);
         this.addReplyMessages('You have selected: ' + this.model.options);
     }
-/*
-    ngOnDestroy() {
-        this.addReplyMessages('You have selected: ' + this.model.options);
-    }
-*/
+
     getMessages() {
          this.liveChatService.getMessages()
          .then(messages => {

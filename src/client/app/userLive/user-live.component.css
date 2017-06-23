@@ -39,7 +39,6 @@ textarea {
 }
 
 .test {
-    float: left;
     display: block;
     padding: 2px;
     color: darkgrey;
