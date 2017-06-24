@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Message } from '../shared/database/message';
+import { UserDetails } from '../shared/database/userDetails';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -13,8 +14,11 @@ import 'rxjs/add/operator/toPromise';
 export class LiveChatService {
 
   public message: Message;
+  public videoMessage: Message;
+  public imageMessage:Message;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/messages';  // URL to web api
+  private userUrl = 'api/userDetails';
 
   constructor(private http: Http) { }
 
@@ -24,6 +28,39 @@ export class LiveChatService {
 
   getMessage() {
     return this.message;
+  }
+
+  /**
+   * setting message for image component
+   * @param {Message} imageMessage
+   * @memberof LiveChatService
+   */
+  setImageMessage(imageMessage:Message) {
+    this.imageMessage = imageMessage;
+  }
+
+  getImageMessage() {
+    return this.imageMessage;
+  }
+
+  /**
+   * setting message for video component
+   * @param {Message} videoMessage
+   * @memberof LiveChatService
+   */
+  setVideoMessage(videoMessage: Message) {
+    this.videoMessage = videoMessage;
+  }
+
+  getVideoMessage() {
+    return this.videoMessage;
+  }
+
+  getUsers(): Promise<UserDetails> {
+    return this.http.get(this.userUrl)
+      .toPromise()
+      .then(response => response.json().data as UserDetails)
+      .catch(this.handleError);
   }
 
   getMessages(): Promise<Message[]> {

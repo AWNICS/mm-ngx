@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Message } from '../shared/database/message';
-import { LiveChatService } from './live-chat.service';
+import { Message } from '../database/message';
+import { LiveChatService } from '../../doctorLive/live-chat.service';
 
 /**
  * Create a video message
@@ -28,7 +28,7 @@ export class VideoMessageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.message = this.liveChatService.getMessage();
+        this.message = this.liveChatService.getVideoMessage();
         this.url = this.message.contentData.data[0];
         this.title = this.message.text;
     }
