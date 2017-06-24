@@ -1,10 +1,10 @@
 import { Component, ViewChild, Output, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
-import { DomSanitizer } from '@angular/platform-browser';
-import { LiveChatService } from './live-chat.service';
-import { Message } from '../shared/database/message';
+import { LiveChatService } from '../doctorLive/live-chat.service';
 import { UserDetails } from '../shared/database/userDetails';
+import { Message } from '../shared/database/message';
 
 /**
  * DoctorLive component for consultation
@@ -13,16 +13,16 @@ import { UserDetails } from '../shared/database/userDetails';
  */
 @Component({
     moduleId: module.id,
-    selector: 'mm-doctor-live',
+    selector: 'mm-user-live',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: 'doctor-live.component.html',
-    styleUrls: ['doctor-live.component.css']
+    templateUrl: 'user-live.component.html',
+    styleUrls: ['user-live.component.css']
 })
-export class DoctorLiveComponent implements OnInit {
+export class UserLiveComponent implements OnInit {
 
     @Output() message:string;
     @Output() safeUrl: any;
-    @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
+    @ViewChild('userLive') userLive: UserLiveComponent;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     userDetails: UserDetails;
@@ -156,7 +156,7 @@ export class DoctorLiveComponent implements OnInit {
          this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
-         this.getUser();
+         this.getUserDetail();
      }
 
      /**
@@ -170,10 +170,10 @@ export class DoctorLiveComponent implements OnInit {
          });
      }
 
-     getUser() {
+     getUserDetail() {
          this.liveChatService.getUsers()
-         .then(users => {
-             this.userDetails = users;
+         .then(userDetails => {
+             this.userDetails = userDetails;
          });
      }
 

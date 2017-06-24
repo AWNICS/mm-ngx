@@ -3,6 +3,7 @@ import { OrderRequest } from '../../order-window/order-request';
 import { Specialities } from '../speciality/speciality';
 import { DoctorDetails } from './doctorDetails';
 import { Message } from './message';
+import { UserDetails } from './userDetails';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -126,7 +127,7 @@ export class InMemoryDataService implements InMemoryDbService {
         user: 'Jack',
         id: 1,
         text: 'Hello',
-        picUrl: 'assets/png/male1.png',
+        picUrl: 'assets/png/docMale.png',
         lastUpdateTime: '',
         type: 'in',
         status: 'sent',
@@ -142,7 +143,7 @@ export class InMemoryDataService implements InMemoryDbService {
         user: 'Jessie',
         id: 2,
         text: 'Hi',
-        picUrl: 'assets/png/female3.png',
+        picUrl: 'assets/png/male2.png',
         lastUpdateTime: '',
         type: '',
         status: 'delivered',
@@ -156,6 +157,22 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    return {orderRequests, specialities, doctorDetails, messages};
+    let userDetails: UserDetails = {
+        id: 1,
+        name: 'Jack',
+        email: 'jack@mail.com',
+        phoneNo: 8970074744,
+        picUrl: 'assets/png/male2.png',
+        briefDescription: {
+            description: 'Have been recovering from severe cold and fever'
+        },
+        status: 'available',
+        waitingTime: null, // in seconds
+        rating: 4,
+        //appearUrl: 'https://appear.in/loyal-trout',
+        lastUpdateTime: ''
+      };
+
+    return {orderRequests, specialities, doctorDetails, messages, userDetails};
   }
 }
