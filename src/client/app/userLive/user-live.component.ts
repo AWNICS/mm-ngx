@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, Output, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
@@ -14,7 +14,6 @@ import { Message } from '../shared/database/message';
 @Component({
     moduleId: module.id,
     selector: 'mm-user-live',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: 'user-live.component.html',
     styleUrls: ['user-live.component.css']
 })
@@ -143,13 +142,8 @@ export class UserLiveComponent implements OnInit {
     constructor(
         private doctorsListService: DoctorsListService,
         private domSanitizer: DomSanitizer,
-        private liveChatService: LiveChatService,
-        private ref: ChangeDetectorRef
+        private liveChatService: LiveChatService
         ) {
-            setInterval(() => {
-                this.getMessages();
-                this.ref.markForCheck();
-            }, 3000);
      }
 
      ngOnInit() {
@@ -157,6 +151,11 @@ export class UserLiveComponent implements OnInit {
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
          this.getUserDetail();
+     }
+
+     addNewEntry(event:any) {
+         this.addReplyMessages(event.value);
+         console.log(event);
      }
 
      /**
