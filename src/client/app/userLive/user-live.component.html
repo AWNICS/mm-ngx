@@ -74,13 +74,13 @@
                                         <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mm-radio-message></mm-radio-message>
+                                        <mm-radio-message (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                     </div>
                                     <div *ngSwitchCase="'slider'">
-                                        <mm-slider-message></mm-slider-message>
+                                        <mm-slider-message (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
                                     </div>
                                     <div *ngSwitchCase="'checkbox'">
-                                        <mm-checkbox-message></mm-checkbox-message>
+                                        <mm-checkbox-message (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
                                         <mm-video-message></mm-video-message>
@@ -112,13 +112,13 @@
                                         <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mm-radio-message></mm-radio-message>
+                                        <mm-radio-message (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                     </div>
                                     <div *ngSwitchCase="'slider'">
-                                        <mm-slider-message></mm-slider-message>
+                                        <mm-slider-message (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
                                     </div>
                                     <div *ngSwitchCase="'checkbox'">
-                                        <mm-checkbox-message></mm-checkbox-message>
+                                        <mm-checkbox-message (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
                                         <mm-video-message></mm-video-message>
