@@ -12,7 +12,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     template:`
         <h1>{{title}}</h1>
         <video width="400" controls>
-            <source src="{{url}}" type="video/mp4">
+            <source [src]="url" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
     `

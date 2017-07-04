@@ -21,7 +21,7 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
         </modal>
     `,
     styles: [`
-        /deep/ .modal-test {
+        /deep/ .modal-style {
             width: 590px;
         }
     `]
@@ -29,12 +29,13 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
 
 export class VideoModalComponent {
 
-    videoUrl: string;
-    cssClass: string = 'modal-test';
+    videoUrl: any = '';
+    cssClass: string = 'modal-style';
     @ViewChild('videoModal')
     videoModal: VideoModalComponent;
 
     constructor(private doctorsListService: DoctorsListService, private domSanitizer:DomSanitizer) {
+        this.videoUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
     }
 
     open(size: string) {

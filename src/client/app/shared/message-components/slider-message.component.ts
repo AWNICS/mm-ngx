@@ -55,7 +55,7 @@ export class SliderMessageComponent implements OnInit {
 
     addNewEntry(): void {
         this.onNewEntryAdded.emit({
-            value: this.responseData
+            value: 'You chose: ' + this.responseData
         });
     }
 
