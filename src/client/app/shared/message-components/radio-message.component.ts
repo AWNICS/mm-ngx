@@ -44,7 +44,7 @@ export class RadioMessageComponent implements OnInit {
     addNewEntry(): void {
         this.responseData = this.model.options;
         this.onNewEntryAdded.emit({
-            value: this.responseData
+            value: 'You chose: ' + this.responseData
         });
     }
 
