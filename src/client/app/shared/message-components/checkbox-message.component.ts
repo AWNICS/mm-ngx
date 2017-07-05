@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { Message } from '../database/message';
 import { LiveChatService } from '../../doctorLive/live-chat.service';
@@ -33,22 +33,9 @@ export class CheckBoxMessageComponent implements OnInit {
     myForm: FormGroup;
     selectedOptions: any;
     messages: Message[];
-    newMessage: Message = {
-        user: '',
-        id: null,
-        text: '',
-        picUrl: '',
-        lastUpdateTime: '',
-        type: '',
-        status: '',
-        contentType: 'text',
-        contentData: {
-            data: ['']
-        },
-        responseData: {
-            data: ['']
-        }
-    };
+
+    @Input() public responseData: string;
+    @Output() public onNewEntryAdded = new EventEmitter();
 
     constructor(private liveChatService: LiveChatService, private fb: FormBuilder) {
     }
@@ -69,19 +56,6 @@ export class CheckBoxMessageComponent implements OnInit {
             });
     }
 
-    addReplyMessages(message: string): void {
-        if (!message) { return; }
-        let time = new Date();
-        this.newMessage.text = message;
-        this.newMessage.picUrl = 'assets/png/female3.png';
-        this.newMessage.type = '';
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
-            .then(message => {
-                this.messages.push(message);
-            });
-    }
-
     /**
      * populates the array with the options selected
      * @param {string} option
@@ -99,20 +73,20 @@ export class CheckBoxMessageComponent implements OnInit {
     }
 
     onSubmit(options: any) {
-        //console.log('On submit:' + options.options);
-        this.submit(options.options);
         this.selectedOptions = options.options;
-        this.addReplyMessages('You have selected: ' + this.selectedOptions);
-    }
-
-    submit(selectedItems: any) {
-        console.log('Within the submit: ' + JSON.stringify(selectedItems));
         this.message.contentType = 'text';
         this.message.text = this.header;
         this.message.type = 'in';
-        this.message.responseData.data = selectedItems;
-        console.log('Selected options are: ' + this.message.responseData.data);
+        this.message.responseData.data = this.selectedOptions;
         this.edit(this.message);
+        this.responseData = this.selectedOptions;
+        this.addNewEntry();
+    }
+
+    addNewEntry(): void {
+        this.onNewEntryAdded.emit({
+            value: 'You chose: ' + this.responseData
+        });
     }
 
     edit(message: Message): void {
