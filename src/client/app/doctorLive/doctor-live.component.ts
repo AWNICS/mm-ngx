@@ -274,7 +274,7 @@ export class DoctorLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setImageMessage(this.imageMessage);
+            //this.liveChatService.setImageMessage(this.imageMessage);
         });
     }
 
@@ -290,7 +290,7 @@ export class DoctorLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setVideoMessage(this.videoMessage);
+            //this.liveChatService.setVideoMessage(this.videoMessage);
         });
     }
 

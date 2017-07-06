@@ -13,39 +13,11 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class LiveChatService {
 
-  public videoMessage: Message;
-  public imageMessage:Message;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/messages';  // URL to web api
   private userUrl = 'api/userDetails';
 
   constructor(private http: Http) { }
-
-  /**
-   * setting message for image component
-   * @param {Message} imageMessage
-   * @memberof LiveChatService
-   */
-  setImageMessage(imageMessage:Message) {
-    this.imageMessage = imageMessage;
-  }
-
-  getImageMessage() {
-    return this.imageMessage;
-  }
-
-  /**
-   * setting message for video component
-   * @param {Message} videoMessage
-   * @memberof LiveChatService
-   */
-  setVideoMessage(videoMessage: Message) {
-    this.videoMessage = videoMessage;
-  }
-
-  getVideoMessage() {
-    return this.videoMessage;
-  }
 
   getUsers(): Promise<UserDetails> {
     return this.http.get(this.userUrl)

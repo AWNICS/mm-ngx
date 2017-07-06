@@ -98,13 +98,13 @@
                                         <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
-                                        <mm-video-message></mm-video-message>
+                                        <mm-video-message [message]="message"></mm-video-message>
                                     </div>
                                     <div *ngSwitchCase="'appear'">
                                         <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
                                     </div>
                                     <div *ngSwitchCase="'image'">
-                                        <mm-image-message></mm-image-message>
+                                        <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message.text"></mm-text-message>
@@ -136,13 +136,13 @@
                                         <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
-                                        <mm-video-message></mm-video-message>
+                                        <mm-video-message [message]="message"></mm-video-message>
                                     </div>
                                     <div *ngSwitchCase="'appear'">
                                         <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
                                     </div>
                                     <div *ngSwitchCase="'image'">
-                                        <mm-image-message></mm-image-message>
+                                        <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message.text"></mm-text-message>
