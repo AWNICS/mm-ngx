@@ -13,7 +13,6 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class LiveChatService {
 
-  public message: Message;
   public videoMessage: Message;
   public imageMessage:Message;
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -21,14 +20,6 @@ export class LiveChatService {
   private userUrl = 'api/userDetails';
 
   constructor(private http: Http) { }
-
-  setMessage(message: Message) {
-    this.message = message;
-  }
-
-  getMessage() {
-    return this.message;
-  }
 
   /**
    * setting message for image component
