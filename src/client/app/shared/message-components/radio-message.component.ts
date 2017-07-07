@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
 import { LiveChatService } from '../../doctorLive/live-chat.service';
 
@@ -23,36 +23,29 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 
 export class RadioMessageComponent implements OnInit {
     title: string = 'Radio Component';
-    message: Message;
+    @Input() message: Message;
     messages: Message[];
     header:string;
     items:string[] = [''];
     model = { options: '' };
-    newMessage: Message = {
-        user: '',
-        id: null,
-        text: '',
-        picUrl: '',
-        lastUpdateTime: '',
-        type: '',
-        status: '',
-        contentType: 'text',
-        contentData: {
-          data: ['']
-        },
-        responseData: {
-          data: ['']
-        }
-    };
+    @Input() public responseData:string;
+    @Output() public onNewEntryAdded = new EventEmitter();
 
     constructor(private liveChatService:LiveChatService) {
     }
 
     ngOnInit() {
         this.getMessages();
-        this.message = this.liveChatService.getMessage();
+        //this.message = this.liveChatService.getMessage();
         this.items = this.message.contentData.data;
         this.header = this.message.text;
+    }
+
+    addNewEntry(): void {
+        this.responseData = this.model.options;
+        this.onNewEntryAdded.emit({
+            value: 'You chose: ' + this.responseData
+        });
     }
 
     submit() {
@@ -61,7 +54,7 @@ export class RadioMessageComponent implements OnInit {
         this.message.type = 'in';
         this.message.responseData.data = [this.model.options];
         this.edit(this.message);
-        this.addReplyMessages('You have selected: ' + this.model.options);
+        this.addNewEntry();
     }
 
     getMessages() {
@@ -70,19 +63,6 @@ export class RadioMessageComponent implements OnInit {
              this.messages = messages;
          });
      }
-
-    addReplyMessages(message: string): void {
-        if (!message) { return; }
-        let time = new Date();
-        this.newMessage.text= message;
-        this.newMessage.picUrl = 'assets/png/female3.png';
-        this.newMessage.type = '';
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
-            .then(message => {
-        this.messages.push(message);
-      });
-    }
 
     edit(message: Message): void {
         let result = JSON.stringify(message);

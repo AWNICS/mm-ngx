@@ -150,7 +150,7 @@ li {
 }
 
 .message-card {
-    background-color: #607D8B;
+    background-color: #546E7A;
     color: #FFFFFF;
     margin: 10px 10px 10px 40px;
     padding: 5px;
@@ -160,8 +160,8 @@ li {
 }
 
 .message-card-right {
-    background-color: #607D8B;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #546E7A;
     margin: 10px 40px 10px 10px;
     padding: 5px;
     border: none;
@@ -179,9 +179,30 @@ li {
 
 .submit-button {
     border: none;
-    background-color: #607D8B;
+    background-color: #546E7A;
     color: #ECEFF1;
     margin: 0px;
     height: auto;
     width: auto;
+}
+
+.social {
+    float: right;
+    list-style-type: none;
+    color: #546E7A;
+}
+
+.social:hover {
+    color: #78909C;
+}
+
+a,
+a:active,
+a:visited {
+    margin: 7px;
+    color: #546E7A;
+}
+
+a:hover {
+    color: #78909C;
 }

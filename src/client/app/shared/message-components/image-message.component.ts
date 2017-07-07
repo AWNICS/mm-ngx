@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctorLive/live-chat.service';
 
 /**
  * ImageMessageComponent to display image
@@ -15,14 +14,13 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     `
 })
 
-export class ImageMessageComponent {
+export class ImageMessageComponent implements OnInit {
 
     header:string='';
-    message: Message;
+    @Input() message: Message;
     url: string;
 
-    constructor(private liveChatService: LiveChatService) {
-        this.message = this.liveChatService.getImageMessage();
+    ngOnInit() {
         this.url = this.message.contentData.data[0];
         this.header = this.message.text;
     }
