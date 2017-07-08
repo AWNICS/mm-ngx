@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Message } from '../shared/database/message';
+import { UserDetails } from '../shared/database/userDetails';
 
 import 'rxjs/add/operator/toPromise';
 
+/**
+ * Service to create,read and update messages
+ * @export
+ * @class LiveChatService
+ */
 @Injectable()
 export class LiveChatService {
 
-  public message: Message;
   private headers = new Headers({ 'Content-Type': 'application/json' });
   private url = 'api/messages';  // URL to web api
+  private userUrl = 'api/userDetails';
 
   constructor(private http: Http) { }
 
-  setMessage(message: Message) {
-    this.message = message;
-  }
-
-  getMessage() {
-    return this.message;
+  getUsers(): Promise<UserDetails> {
+    return this.http.get(this.userUrl)
+      .toPromise()
+      .then(response => response.json().data as UserDetails)
+      .catch(this.handleError);
   }
 
   getMessages(): Promise<Message[]> {
@@ -29,7 +34,6 @@ export class LiveChatService {
   }
 
   createMessages(newMessage: Message): Promise<Message> {
-    // console.log('create messages: ' + text + ' ' + sentTime + ' ' + type + ' ' ); for debug purpose only
     return this.http
     .post(this.url, JSON.stringify(newMessage), { headers: this.headers})
     .toPromise()

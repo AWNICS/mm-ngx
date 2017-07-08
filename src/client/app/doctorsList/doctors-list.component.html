@@ -3,17 +3,6 @@
         Available doctors:
     </modal-header>
     <modal-body>
-        <!--div *ngFor="let doctorDetail of doctorDetails">
-            <label>Name: </label> {{doctorDetail.name}}<br/>
-            <label>Display picture: </label><img src="{{doctorDetail.picUrl}}" alt="Display pic" style="height: 100px; width: 100px;" /><br/>
-            <label>Specialization: </label> {{doctorDetail.breifDescription.speciality}}<br/>
-            <label>Experience: </label> {{doctorDetail.breifDescription.experience}} years<br/>
-            <label>Description: </label> {{doctorDetail.breifDescription.description}}<br/>
-            <label>Status: </label> {{doctorDetail.status}}<br/>
-            <label>Expected waiting time: </label> {{doctorDetail.waitingTime}} mins<br/>
-            <label>Rating: </label> {{doctorDetail.rating}}<br/>
-            <iframe width="400" height="320" src="{{doctorDetail.videoUrl}}" frameborder="1px" allowfullscreen></iframe>
-        </div-->
         <div *ngFor="let doctorDetail of doctorDetails">
             <div class="row" id="box">
                 <div class="card">

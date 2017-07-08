@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+/*import { browser, element, by } from 'protractor';
 
 describe('Home', () => {
 
@@ -30,4 +30,4 @@ describe('Home', () => {
     expect(element(by.css('mm-modal')).isPresent()).toEqual(true);
   });
   */
-});
+//});

@@ -1,46 +1,35 @@
 <mm-navbar></mm-navbar>
-<h1>{{selectedDoctor.name}}</h1>
-<div class="container-fluid" id="profile">
-    <div class="row">
-        <div class="col-sm-2">
-            <div [ngSwitch]="selectedDoctor.status">
-                <div *ngSwitchCase="'online'">
-                    <div class="led-box led-green"></div>
-                </div>
-                <div *ngSwitchCase="'offline'">
-                    <div class="led-box led-red"></div>
-                </div>
-                <div *ngSwitchCase="'busy'">
-                    <div class="led-box led-blue"></div>
-                </div>
-                <div *ngSwitchCase="'away'">
-                    <div class="led-box led-yellow"></div>
-                </div>
-                <div *ngSwitchDefault>
-                    <div class="led-box led-red"></div>
-                </div>
+<div *ngIf="userDetails; else loadthis">
+    <h1>{{userDetails.name}}</h1>
+    <div class="container-fluid" id="profile">
+        <div class="row">
+            <div class="col-sm-2">
+                <img class="img-circle" src="{{userDetails.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
             </div>
-            <img class="img-circle" src="{{selectedDoctor.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
-        </div>
-        <div class="col-sm-10">
-            <div class="row">
-                <ul class="styling">
-                    <li class="test"><strong>{{selectedDoctor.name}}</strong></li>
-                    <li class="test">{{selectedDoctor.briefDescription.speciality}}</li>
-                    <li class="test">{{selectedDoctor.briefDescription.experience}} years</li>
-                </ul>
-            </div>
-            <div class="row">
-                {{selectedDoctor.briefDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
-                <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
-                </rating>
+            <div class="col-sm-10">
+                <div class="row">
+                    <ul class="styling">
+                        <li class="test"><strong>{{userDetails.name}}</strong></li>
+                        <li class="test">Email: {{userDetails.email}}</li>
+                        <li class="test">Phone No: {{userDetails.phoneNo}}</li>
+                    </ul>
+                </div>
+                <div class="row">
+                    {{userDetails.briefDescription.description}} <br/>
+                    <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
+                    </rating>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<ng-template #loadthis>
+    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+</ng-template>
 <div class="container-fluid" id="video">
     <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#chat">Consultation</a></li>
+        <li class="active"><a data-toggle="pill" href="#chat">Consulation</a></li>
         <li><a data-toggle="pill" href="#history">History</a></li>
         <li><a data-toggle="pill" href="#reports">Reports</a></li>
         <li><a data-toggle="pill" href="#treatmentPlan">Treatment Plan</a></li>
@@ -66,19 +55,21 @@
         <div id="chat" class="tab-pane fade in active">
             <div class="container-fluid chat-container">
                 <div class="container chat-header">
-                    <img class="img-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
-                    <p style="float: left; margin: 10px;">{{selectedDoctor.name}}</p>
-                    <div class="social">
-                        <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                        <a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                        <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    <div *ngIf="userDetails">
+                        <img class="img-circle header" src="{{userDetails.picUrl}}" alt="No image" style="height:40px; width:40px;" />
+                        <p style="float: left; margin: 10px;">{{userDetails.name}}</p>
+                        <div class="social">
+                            <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                            <a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                            <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="container chat-body" id="chatBody">
                     <div *ngFor="let message of messages">
                         <div *ngIf="message.type; else alignRight">
                             <div *ngIf="message.picUrl; else alternateUrl">
-                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                                <img class="img-circle" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
                             </div>
                             <ng-template #alternateUrl>
                                 <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
@@ -115,8 +106,8 @@
                             </div>
                         </div>
                         <ng-template #alignRight>
-                            <div *ngIf="message.picUrl; else alternateUrl">
-                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                            <div *ngIf="userDetails; else alternateUrl">
+                                <img class="img-circle" src="{{userDetails.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
                             </div>
                             <ng-template #alternateUrl>
                                 <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />

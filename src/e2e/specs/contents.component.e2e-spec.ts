@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+/*import { browser, element, by } from 'protractor';
 
 describe('Contents', () => {
 
@@ -11,3 +11,4 @@ describe('Contents', () => {
   });
 
 });
+*/
