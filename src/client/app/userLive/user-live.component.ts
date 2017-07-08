@@ -228,7 +228,6 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setMessage(message);
         });
     }
 
@@ -244,7 +243,6 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setMessage(message);
         });
     }
 
@@ -260,7 +258,6 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setMessage(message);
         });
     }
 
@@ -277,7 +274,7 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setImageMessage(this.imageMessage);
+            //this.liveChatService.setImageMessage(this.imageMessage);
         });
     }
 
@@ -293,7 +290,7 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setVideoMessage(this.videoMessage);
+            //this.liveChatService.setVideoMessage(this.videoMessage);
         });
     }
 
@@ -305,7 +302,6 @@ export class UserLiveComponent implements OnInit {
         .then(message => {
             this.messages.push(message);
             this.scrollToBottom();
-            this.liveChatService.setMessage(message);
         });
     }
 

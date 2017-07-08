@@ -23,7 +23,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 
 export class RadioMessageComponent implements OnInit {
     title: string = 'Radio Component';
-    message: Message;
+    @Input() message: Message;
     messages: Message[];
     header:string;
     items:string[] = [''];
@@ -36,7 +36,7 @@ export class RadioMessageComponent implements OnInit {
 
     ngOnInit() {
         this.getMessages();
-        this.message = this.liveChatService.getMessage();
+        //this.message = this.liveChatService.getMessage();
         this.items = this.message.contentData.data;
         this.header = this.message.text;
     }

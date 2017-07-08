@@ -25,12 +25,11 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 export class AppearMessageComponent implements OnInit {
     @Input() safeUrl: string;
     title:string;
-    message: Message;
+    @Input() message: Message;
 
     constructor(private liveChatService: LiveChatService) {}
 
     ngOnInit() {
-        this.message = this.liveChatService.getMessage();
         this.title = this.message.text;
     }
 

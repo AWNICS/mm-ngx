@@ -40,14 +40,14 @@
 </div>
 <div class="container-fluid" id="video">
     <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#appearCall">Video & Audio Chat</a></li>
+        <li class="active"><a data-toggle="pill" href="#chat">Consultation</a></li>
         <li><a data-toggle="pill" href="#history">History</a></li>
         <li><a data-toggle="pill" href="#reports">Reports</a></li>
         <li><a data-toggle="pill" href="#treatmentPlan">Treatment Plan</a></li>
-        <li><a data-toggle="pill" href="#chat">Chat</a></li>
+        <li><a data-toggle="pill" href="#appearCall">Video & Audio Chat</a></li>
     </ul>
     <div class="tab-content">
-        <div id="appearCall" class="tab-pane fade in active">
+        <div id="appearCall" class="tab-pane fade">
             <h3>Video & Audio Chat</h3>
             <iframe [src]="safeUrl" width="800" height="640" frameborder="0"></iframe>
         </div>
@@ -63,11 +63,16 @@
             <h3>Treatment Plan</h3>
             <p>This section will contain the current treatment plan.</p>
         </div>
-        <div id="chat" class="tab-pane fade">
+        <div id="chat" class="tab-pane fade in active">
             <div class="container-fluid chat-container">
                 <div class="container chat-header">
                     <img class="img-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
                     <p style="float: left; margin: 10px;">{{selectedDoctor.name}}</p>
+                    <div class="social">
+                        <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+                    </div>
                 </div>
                 <div class="container chat-body" id="chatBody">
                     <div *ngFor="let message of messages">
@@ -84,22 +89,22 @@
                                         <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mm-radio-message (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                     </div>
                                     <div *ngSwitchCase="'slider'">
-                                        <mm-slider-message (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
                                     </div>
                                     <div *ngSwitchCase="'checkbox'">
-                                        <mm-checkbox-message (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
-                                        <mm-video-message></mm-video-message>
+                                        <mm-video-message [message]="message"></mm-video-message>
                                     </div>
                                     <div *ngSwitchCase="'appear'">
-                                        <mm-appear-message [safeUrl]="safeUrl"></mm-appear-message>
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
                                     </div>
                                     <div *ngSwitchCase="'image'">
-                                        <mm-image-message></mm-image-message>
+                                        <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message.text"></mm-text-message>
@@ -122,22 +127,22 @@
                                         <mm-text-message [message]="message.text"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mm-radio-message (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                     </div>
                                     <div *ngSwitchCase="'slider'">
-                                        <mm-slider-message (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
                                     </div>
                                     <div *ngSwitchCase="'checkbox'">
-                                        <mm-checkbox-message (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
                                     </div>
                                     <div *ngSwitchCase="'video'">
-                                        <mm-video-message></mm-video-message>
+                                        <mm-video-message [message]="message"></mm-video-message>
                                     </div>
                                     <div *ngSwitchCase="'appear'">
-                                        <mm-appear-message [safeUrl]="safeUrl"></mm-appear-message>
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
                                     </div>
                                     <div *ngSwitchCase="'image'">
-                                        <mm-image-message></mm-image-message>
+                                        <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message.text"></mm-text-message>

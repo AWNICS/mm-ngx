@@ -23,7 +23,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 export class SliderMessageComponent implements OnInit {
     title: string = 'Slider Component';
     points:any;
-    message: Message;
+    @Input() message: Message;
     header:string;
     messages: Message[];
     @Input() public responseData:string;
@@ -34,7 +34,6 @@ export class SliderMessageComponent implements OnInit {
 
     ngOnInit() {
         this.getMessages();
-        this.message = this.liveChatService.getMessage();
         this.header = this.message.text;
     }
 
@@ -50,7 +49,6 @@ export class SliderMessageComponent implements OnInit {
         this.edit(this.message);
         this.responseData = this.points;
         this.addNewEntry();
-        //this.addReplyMessages('You have selected: ' + this.points);
     }
 
     addNewEntry(): void {
