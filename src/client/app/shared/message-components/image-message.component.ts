@@ -10,8 +10,16 @@ import { Message } from '../database/message';
     selector:'mm-image-message',
     template:`
         <h1>{{header}}</h1>
-        <img [src]="url" alt="No picture" style="height:100px;width:100px;"/>
-    `
+        <img [src]="url" alt="No picture"/>
+    `,
+    styles: [`
+        img {
+            height: 30%;
+            width: 30%;
+            border: none;
+            border-radius: 10%;
+        }
+    `]
 })
 
 export class ImageMessageComponent implements OnInit {

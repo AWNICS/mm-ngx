@@ -11,8 +11,8 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-appear-message',
     template: `
-        <h1>{{title}}</h1>
-        <button type="button" class="btn btn-info" (click)="submit();"><a [href]="safeUrl" target="_blank">Start</a></button>
+        <h3>{{title}}</h3>
+        <button type="button" class="btn btn-default" (click)="submit();"><a [href]="safeUrl" target="_blank">Start</a></button>
     `,
     styles: [`
         a:link,active,visited,hover {

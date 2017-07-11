@@ -10,11 +10,19 @@ import { Message } from '../database/message';
     selector:'mm-video-message',
     template:`
         <h1>{{title}}</h1>
-        <video width="400" controls>
+        <video controls>
             <source [src]="url" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
-    `
+    `,
+    styles: [`
+        video {
+            width: 80%;
+            height: 80%;
+            border: none;
+            border-radius: 5%;
+        }
+    `]
 })
 
 export class VideoMessageComponent implements OnInit {

@@ -13,20 +13,18 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-checkbox-message',
     template: `
-        <h1>{{title}}</h1>
         <p>{{header}}</p>
         <form [formGroup]="myForm">
             <div *ngFor="let option of options">
                 <input type="checkbox" (change)="onChange(option.option, $event.target.checked)"> {{option.option}}<br>
             </div>
-            <button type="button" class="btn btn-info" (click)="onSubmit(myForm.value);">Submit</button>
+            <button type="button" class="btn btn-default" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })
 
 export class CheckBoxMessageComponent implements OnInit {
 
-    title: string = 'Checkbox Component';
     header: string = '';
     @Input() message: Message;
     options = [{ option: 'Option 1' }, { option: 'Option 2' }, { option: 'Option 3' }, { option: 'Option 4' }];

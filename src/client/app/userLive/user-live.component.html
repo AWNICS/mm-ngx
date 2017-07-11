@@ -77,7 +77,7 @@
                             <div class="message-card">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
@@ -98,10 +98,10 @@
                                         <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                 </div>
-                                <div style="float:right; margin-top:-18px;font-size:12px;">
+                                <div style="float:right; margin-top:-7px;font-size:12px;">
                                     {{message.lastUpdateTime}}</div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                             <div class="message-card-right">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
@@ -136,10 +136,10 @@
                                         <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                 </div>
-                                <div style="float:left; margin-top:-18px;font-size:12px;">
+                                <div style="float:right; margin-top:-7px;font-size:12px;">
                                     {{message.lastUpdateTime}}</div>
                             </div>
                         </ng-template>
