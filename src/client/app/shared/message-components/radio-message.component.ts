@@ -11,18 +11,19 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-radio-message',
     template: `
-        <h1>{{title}}</h1>
         <p>{{header}}</p>
-        <label *ngFor="let item of items">
-            <input type="radio" name="options" (click)="model.options = item">
-            {{item}}
+        <label *ngFor="let item of items" class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="options" (click)="model.options = item">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description">
+                {{item}}
+            </span>
         </label><br/>
-        <button type="button" class="btn btn-info" (click)="submit()">Submit</button>
+        <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
     `
 })
 
 export class RadioMessageComponent implements OnInit {
-    title: string = 'Radio Component';
     @Input() message: Message;
     messages: Message[];
     header:string;

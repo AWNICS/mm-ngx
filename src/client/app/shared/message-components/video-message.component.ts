@@ -9,7 +9,7 @@ import { Message } from '../database/message';
 @Component({
     selector:'mm-video-message',
     template:`
-        <h1>{{title}}</h1>
+        <!--h1>{{title}}</h1-->
         <video controls>
             <source [src]="url" type="video/mp4">
             Your browser does not support HTML5 video.
@@ -17,22 +17,20 @@ import { Message } from '../database/message';
     `,
     styles: [`
         video {
-            width: 80%;
-            height: 80%;
-            border: none;
-            border-radius: 5%;
+            width: 100%    !important;
+            height: auto   !important;
         }
     `]
 })
 
 export class VideoMessageComponent implements OnInit {
 
-    title:string;
+    //title:string;
     @Input() message: Message;
     url:string;
 
     ngOnInit() {
         this.url = this.message.contentData.data[0];
-        this.title = this.message.text;
+        //this.title = this.message.text;
     }
 }

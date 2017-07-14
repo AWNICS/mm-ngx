@@ -9,13 +9,11 @@ import { Message } from '../database/message';
 @Component({
     selector:'mm-image-message',
     template:`
-        <h1>{{header}}</h1>
-        <img [src]="url" alt="No picture"/>
+            <!--h1>{{header}}</h1-->
+            <img [src]="url" alt="Image" height="30%" width="30%">
     `,
     styles: [`
         img {
-            height: 30%;
-            width: 30%;
             border: none;
             border-radius: 10%;
         }
@@ -24,12 +22,12 @@ import { Message } from '../database/message';
 
 export class ImageMessageComponent implements OnInit {
 
-    header:string='';
+    //header:string='';
     @Input() message: Message;
     url: string;
 
     ngOnInit() {
         this.url = this.message.contentData.data[0];
-        this.header = this.message.text;
+        //this.header = this.message.text;
     }
 }

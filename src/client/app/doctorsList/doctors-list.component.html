@@ -1,6 +1,5 @@
 <modal style="z-index: 1049;" #doctorsList>
     <modal-header [show-close]="true">
-        Available doctors:
     </modal-header>
     <modal-body>
         <div *ngFor="let doctorDetail of doctorDetails">
@@ -26,7 +25,7 @@
                                         <div class="led-box led-red"></div>
                                     </div>
                                 </div>
-                                <img src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" class="img-circle" style="height: 100px; width: 100px;" alt="Not found" />
+                                <img class="rounded-circle" src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" style="height: 100px; width: 100px;" alt="Not found" />
                             </div>
                             <div class="col-sm-9">
                                 <h3 class="card-title">{{doctorDetail.name}}</h3>
@@ -39,11 +38,15 @@
                     <br/>
                     <div class="panel-group">
                         <div class="panel panel-default">
-                            <button type="button" class="btn btn-info" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
-                            <button type="button" id="something" class="btn btn-info collapsed" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" style="float: right; margin: 2px;"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
-                            <div id="{{doctorDetail.collapseId}}" class="panel-collapse collapse">
-                                <div class="panel-body">Doctor status: {{doctorDetail.status}}</div>
-                                <img id="thumbnail" src="{{doctorDetail.thumbnailUrl}}" data-toggle="tooltip" title="Click to play" (click)="openModal(doctorDetail)" />
+                            <button type="button" class="btn btn-primary" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
+                            <button type="button" class="btn btn-primary" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" aria-expanded="false" aria-controls="doctorDetail.collapseId" style="float:right; margin:2px;">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                            </button>
+                            <div id="{{doctorDetail.collapseId}}" class="collapse">
+                                <br/><br/>
+                                <div class="card card-block">
+                                    <img id="thumbnail" src="{{doctorDetail.thumbnailUrl}}" data-toggle="tooltip" title="Click to play" (click)="openModal(doctorDetail)" />
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -12,12 +12,18 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     selector: 'mm-appear-message',
     template: `
         <h3>{{title}}</h3>
-        <button type="button" class="btn btn-default" (click)="submit();"><a [href]="safeUrl" target="_blank">Start</a></button>
+        <a [href]="safeUrl" target="_blank">
+        <button type="button" class="btn btn-primary" (click)="submit();">
+            Start
+        </button></a>
     `,
     styles: [`
-        a:link,active,visited,hover {
-            color:white;
-            text-decoration:none;
+        #btn {
+            color: white;
+            background-color: blue;
+            margin: 2px;
+            padding: 5px;
+            text-align: center;
         }
     `]
 })

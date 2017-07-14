@@ -32,19 +32,6 @@ textarea {
     text-indent: 4px;
 }
 
-.styling {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.test {
-    float: left;
-    display: block;
-    padding: 2px;
-    color: darkgrey;
-}
-
 .led-box {
     height: 30px;
     width: 25%;
@@ -105,6 +92,8 @@ input {
     margin: 0px;
 }
 
+
+/*
 ul {
     list-style-type: none;
     display: block;
@@ -114,9 +103,11 @@ li {
     list-style-type: none;
     display: block;
 }
+*/
 
 .chat-container {
     margin: 5px;
+    padding: 10px;
     border: 1px solid #ECEFF1;
     box-shadow: 1px 2px 5px #263238;
 }
@@ -129,11 +120,6 @@ li {
     height: auto;
     background-color: #FFFFFF;
     color: #263238;
-}
-
-.img-circle {
-    border: none;
-    border-radius: 100%;
 }
 
 .header {
@@ -157,8 +143,10 @@ li {
     padding: 10px;
     border: none;
     border-radius: 10px;
-    width: auto;
-    display: inline-block;
+    width: inherit;
+    max-width: 70%;
+    text-align: left;
+    display: block;
     float: left;
     font-size: 16px;
 }
@@ -213,4 +201,9 @@ a:visited {
 
 a:hover {
     color: #78909C;
+}
+
+#appearCall {
+    width: 100% !important;
+    height: auto !important;
 }
