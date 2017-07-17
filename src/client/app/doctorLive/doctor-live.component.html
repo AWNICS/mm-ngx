@@ -1,8 +1,8 @@
-<mm-navbar></mm-navbar>
-<h1>{{selectedDoctor.name}}</h1>
+<mm-navbar></mm-navbar><br/><br/><br/>
+<h3 style="margin-left:1em;">{{selectedDoctor.name}}</h3>
 <div class="container-fluid" id="profile">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-2 col-sm-2 col-lg-2">
             <div [ngSwitch]="selectedDoctor.status">
                 <div *ngSwitchCase="'online'">
                     <div class="led-box led-green"></div>
@@ -20,53 +20,87 @@
                     <div class="led-box led-red"></div>
                 </div>
             </div>
-            <img class="img-circle" src="{{selectedDoctor.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
+            <img class="rounded-circle" src="{{selectedDoctor.picUrl}}" alt="Display pic" style="height: 120px; width: 120px;" />
         </div>
-        <div class="col-sm-10">
+        <div class="col-12 col-sm-6 col-lg-9">
             <div class="row">
-                <ul class="styling">
-                    <li class="test"><strong>{{selectedDoctor.name}}</strong></li>
-                    <li class="test">{{selectedDoctor.briefDescription.speciality}}</li>
-                    <li class="test">{{selectedDoctor.briefDescription.experience}} years</li>
-                </ul>
-            </div>
-            <div class="row">
-                {{selectedDoctor.briefDescription.description}} <br/> Expected waiting time: {{selectedDoctor.waitingTime}} mins<br/>
-                <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
-                </rating>
+                <div class="col">
+                    <strong>{{selectedDoctor.name}}</strong>
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    Specialized in {{selectedDoctor.briefDescription.speciality}}
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    {{selectedDoctor.briefDescription.experience}} years of experience
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    {{selectedDoctor.briefDescription.description}}
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    Expected waiting time: {{selectedDoctor.waitingTime}} mins
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <rating [(ngModel)]="selectedDoctor.rating" [readonly]="true">
+                    </rating>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="container-fluid" id="video">
-    <ul class="nav nav-pills">
-        <li class="active"><a data-toggle="pill" href="#chat">Consultation</a></li>
-        <li><a data-toggle="pill" href="#history">History</a></li>
-        <li><a data-toggle="pill" href="#reports">Reports</a></li>
-        <li><a data-toggle="pill" href="#treatmentPlan">Treatment Plan</a></li>
-        <li><a data-toggle="pill" href="#appearCall">Video & Audio Chat</a></li>
+    <ul class="nav nav-pills nav-justified flex-column flex-sm-row">
+        <li class="nav-item">
+            <a class="nav-link active flex-sm-fill" data-toggle="tab" href="#chat">Consultation</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link flex-sm-fill" data-toggle="tab" href="#history">History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link flex-sm-fill" data-toggle="tab" href="#reports">Reports</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link flex-sm-fill" data-toggle="tab" href="#treatmentPlan">Treatment Plan</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link flex-sm-fill" data-toggle="tab" href="#appearCall">Video & Audio Chat</a>
+        </li>
     </ul>
     <div class="tab-content">
-        <div id="appearCall" class="tab-pane fade">
-            <h3>Video & Audio Chat</h3>
-            <iframe [src]="safeUrl" width="800" height="640" frameborder="0"></iframe>
+        <div id="appearCall" class="tab-pane fade" role="tabpanel">
+            <div class="container-fluid chat-container">
+                <h3>Video & Audio Chat</h3>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="safeUrl" allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
-        <div id="history" class="tab-pane fade">
-            <h3>History</h3>
-            <p>The space is filled with user's history of visits, consulations, etc.</p>
+        <div id="history" class="tab-pane fade" role="tabpanel">
+            <div class="container-fluid chat-container">
+                <h3>History</h3>
+                <p>The space is filled with user's history of visits, consulations, etc.</p>
+            </div>
         </div>
-        <div id="reports" class="tab-pane fade">
-            <h3>Reports</h3>
-            <p>Reports are prescriptions given by doctor, previous reports of the patient, any scan details in the history, treatment plans, etc.</p>
+        <div id="reports" class="tab-pane fade" role="tabpanel">
+            <div class="container-fluid chat-container">
+                <h3>Reports</h3>
+                <p>Reports are prescriptions given by doctor, previous reports of the patient, any scan details in the history, treatment plans, etc.</p>
+            </div>
         </div>
-        <div id="treatmentPlan" class="tab-pane fade">
-            <h3>Treatment Plan</h3>
-            <p>This section will contain the current treatment plan.</p>
+        <div id="treatmentPlan" class="tab-pane fade" role="tabpanel">
+            <div class="container-fluid chat-container">
+                <h3>Treatment Plan</h3>
+                <p>This section will contain the current treatment plan.</p>
+            </div>
         </div>
-        <div id="chat" class="tab-pane fade in active">
+        <div id="chat" class="tab-pane fade show active" role="tabpanel">
             <div class="container-fluid chat-container">
                 <div class="container chat-header">
-                    <img class="img-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
+                    <img class="rounded-circle header" src="{{selectedDoctor.picUrl}}" alt="No image" style="height:40px; width:40px;" />
                     <p style="float: left; margin: 10px;">{{selectedDoctor.name}}</p>
                     <div class="social">
                         <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
@@ -78,15 +112,15 @@
                     <div *ngFor="let message of messages">
                         <div *ngIf="message.type; else alignRight">
                             <div *ngIf="message.picUrl; else alternateUrl">
-                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                                <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
                             </div>
                             <ng-template #alternateUrl>
-                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                                <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
                             </ng-template>
                             <div class="message-card">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
@@ -107,24 +141,25 @@
                                         <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div style="float:right; margin-top:-7px;font-size:12px;">
+                                        {{message.lastUpdateTime}}
                                     </div>
                                 </div>
-                                <div style="float:right; margin-top:-18px;font-size:12px;">
-                                    {{message.lastUpdateTime}}</div>
                             </div>
                         </div>
                         <ng-template #alignRight>
                             <div *ngIf="message.picUrl; else alternateUrl">
-                                <img class="img-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                                <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
                             </div>
                             <ng-template #alternateUrl>
-                                <img class="img-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                                <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
                             </ng-template>
                             <div class="message-card-right">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
@@ -145,11 +180,12 @@
                                         <mm-image-message [message]="message"></mm-image-message>
                                     </div>
                                     <div *ngSwitchDefault>
-                                        <mm-text-message [message]="message.text"></mm-text-message>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div style="float:right; margin-top:-7px;font-size:12px;">
+                                        {{message.lastUpdateTime}}
                                     </div>
                                 </div>
-                                <div style="float:left; margin-top:-18px;font-size:12px;">
-                                    {{message.lastUpdateTime}}</div>
                             </div>
                         </ng-template>
                     </div>
@@ -159,11 +195,11 @@
                     <button type="submit" class="submit-button" (click)="addMessages(sentMessage.value); sentMessage.value=''">
                         <i class="fa fa-paper-plane" aria-hidden="true"></i>
                     </button>
-                    <button type="button" class="btn btn-default" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">Reply</button>
-                    <button type="button" class="btn btn-default" (click)="createRadio();">Radio</button>
-                    <button type="button" class="btn btn-default" (click)="createSlider();">Slider</button>
-                    <button type="button" class="btn btn-default" (click)="createCheckbox();">Check box</button>
-                    <button type="button" class="btn btn-default" (click)="createAppear();">Appear</button>
+                    <button type="button" class="btn btn-primary" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">Reply</button>
+                    <button type="button" class="btn btn-primary" (click)="createRadio();">Radio</button>
+                    <button type="button" class="btn btn-primary" (click)="createSlider();">Slider</button>
+                    <button type="button" class="btn btn-primary" (click)="createCheckbox();">Check box</button>
+                    <button type="button" class="btn btn-primary" (click)="createAppear();">Appear</button>
                     <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
                     <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
                 </div>

@@ -1,5 +1,12 @@
+:host {
+    display: block;
+}
+
+
 /* Reset */
 
+
+/*
 html,
 body,
 div {
@@ -8,12 +15,17 @@ div {
     padding: 0;
 }
 
+*/
+
 
 /* Box-sizing border-box */
 
+
+/*
 * {
     box-sizing: border-box;
 }
+*/
 
 
 /* Set up a default font and some padding to provide breathing room */

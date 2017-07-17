@@ -49,4 +49,9 @@ img {
     padding: 4px;
     border: 1px solid #E0E0E0;
     margin: 30px;
+    /*border-radius: 50%;*/
+}
+
+li {
+    text-align: justify;
 }
