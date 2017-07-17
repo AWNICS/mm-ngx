@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
 import { LiveChatService } from '../../doctorLive/live-chat.service';
 
@@ -11,11 +11,16 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     selector: 'mm-text-message',
     template: `
             <div>
-                {{message}}
+                {{textMessage}}
             </div>
     `
 })
 
-export class TextMessageComponent {
-    @Input() message:string;
+export class TextMessageComponent implements OnInit{
+    @Input() message:Message;
+    textMessage:string;
+
+    ngOnInit() {
+        this.textMessage = this.message.text;
+    }
 }
