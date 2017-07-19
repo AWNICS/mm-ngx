@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
   onWindowScroll() {
     let number = this.document.body.scrollTop;
     //console.log(number);
+    //console.log(document.body.offsetHeight);
     if (number > 800) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
@@ -76,10 +77,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  topFunction() {
+  /*topFunction() {
     this.document.body.scrollTop = 0;
     this.document.documentElement.scrollTop = 0;
-  }
+  }*/
 
   getSpecialities() {
     this.specialityService.getSpecialities()

@@ -109,6 +109,13 @@
                     </div>
                 </div>
                 <div class="container chat-body" id="chatBody">
+                    <div class="row justify-content-center align-items-start">
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> <img class="rounded-circle" src="assets/jpg/chat_bot-02.jpg" alt="No image" height="30px" width="30px" /> A patient is waiting for you...
+                        </div>
+                    </div>
                     <div *ngFor="let message of messages">
                         <div *ngIf="message.type; else alignRight">
                             <div *ngIf="message.picUrl; else alternateUrl">
@@ -117,7 +124,7 @@
                             <ng-template #alternateUrl>
                                 <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
                             </ng-template>
-                            <div class="message-card">
+                            <div class="message-card" id="messages">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
                                         <mm-text-message [message]="message"></mm-text-message>
@@ -143,7 +150,7 @@
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message"></mm-text-message>
                                     </div>
-                                    <div style="float:right; margin-top:-7px;font-size:12px;">
+                                    <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
                                         {{message.lastUpdateTime}}
                                     </div>
                                 </div>
@@ -156,7 +163,7 @@
                             <ng-template #alternateUrl>
                                 <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
                             </ng-template>
-                            <div class="message-card-right">
+                            <div class="message-card-right" id="messages">
                                 <div [ngSwitch]="message.contentType">
                                     <div *ngSwitchCase="'text'">
                                         <mm-text-message [message]="message"></mm-text-message>
@@ -182,7 +189,7 @@
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message"></mm-text-message>
                                     </div>
-                                    <div style="float:right; margin-top:-7px;font-size:12px;">
+                                    <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
                                         {{message.lastUpdateTime}}
                                     </div>
                                 </div>
@@ -191,17 +198,63 @@
                     </div>
                 </div>
                 <div class="container chat-footer">
-                    <input type="text" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage #replyMessage/>
-                    <button type="submit" class="submit-button" (click)="addMessages(sentMessage.value); sentMessage.value=''">
-                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">Reply</button>
-                    <button type="button" class="btn btn-primary" (click)="createRadio();">Radio</button>
-                    <button type="button" class="btn btn-primary" (click)="createSlider();">Slider</button>
-                    <button type="button" class="btn btn-primary" (click)="createCheckbox();">Check box</button>
-                    <button type="button" class="btn btn-primary" (click)="createAppear();">Appear</button>
-                    <button type="button" (click)="createImage();"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
-                    <button type="button" (click)="createVideo();"><i class="fa fa-file-video-o" aria-hidden="true"></i></button>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="input-group">
+                                <input style="border:none; border-radius:0px;" type="text" class="form-control" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage #replyMessage/>
+                                <div class="input-group-btn dropup">
+                                    <button style="border:none; border-radius:0px;" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <table class="table table-responsive">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createRadio();" data-toggle="tooltip" data-placement="bottom" title="Radio">
+                                                        <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createSlider();" data-toggle="tooltip" data-placement="bottom" title="Slider">
+                                                        <i class="fa fa-sliders" aria-hidden="true"></i>
+                                                    </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createCheckbox();" data-toggle="tooltip" data-placement="bottom" title="Checkbox">
+                                                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createAppear();" data-toggle="tooltip" data-placement="bottom" title="Start video call">
+                                                    <i class="fa fa-video-camera" aria-hidden="true"></i>    
+                                                    </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
+                                                            <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
+                                                            <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="input-group-btn">
+                                    <button style="border:none; border-radius:0px;" type="button" class="btn btn-primary" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">
+                                        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

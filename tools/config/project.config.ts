@@ -67,6 +67,11 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/ngx-rating/index.js'
     });
 
+    this.addPackageBundles({
+      name: 'ng2-page-scroll',
+      path: 'node_modules/ng2-page-scroll/bundles/ng2-page-scroll.umd.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',

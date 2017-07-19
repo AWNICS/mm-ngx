@@ -81,30 +81,6 @@ textarea {
     box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
 }
 
-input {
-    color: #263238;
-    background-color: #FFFFFF;
-    font-weight: 25;
-    width: 97%;
-    height: auto;
-    border: none;
-    text-indent: 2px;
-    margin: 0px;
-}
-
-
-/*
-ul {
-    list-style-type: none;
-    display: block;
-}
-
-li {
-    list-style-type: none;
-    display: block;
-}
-*/
-
 .chat-container {
     margin: 5px;
     padding: 10px;
@@ -116,6 +92,7 @@ li {
     display: block;
     width: 100%;
     margin-top: 5px;
+    margin-bottom: 50px;
     padding: 10px;
     height: auto;
     background-color: #FFFFFF;
@@ -133,11 +110,12 @@ li {
     height: 400px;
     padding: 5px;
     background-color: #ECEFF1;
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
 }
 
 .message-card {
-    background-color: #546E7A;
+    background-color: #2c3e50;
     color: #FFFFFF;
     margin: 0px 10px 10px 10px;
     padding: 10px;
@@ -153,7 +131,7 @@ li {
 
 .message-card-right {
     background-color: #FFFFFF;
-    color: #546E7A;
+    color: #2c3e50;
     margin: 0px 10px 10px 10px;
     padding: 10px;
     border: none;
@@ -169,23 +147,14 @@ li {
 .chat-footer {
     margin: 0px;
     padding: 0px;
-    width: auto;
+    width: 100%;
     height: auto;
-}
-
-.submit-button {
-    border: none;
-    background-color: #546E7A;
-    color: #ECEFF1;
-    margin: 0px;
-    height: auto;
-    width: auto;
 }
 
 .social {
     float: right;
     list-style-type: none;
-    color: #546E7A;
+    color: #2c3e50;
 }
 
 .social:hover {
@@ -196,7 +165,7 @@ a,
 a:active,
 a:visited {
     margin: 7px;
-    color: #546E7A;
+    color: #2c3e50;
 }
 
 a:hover {
@@ -206,4 +175,22 @@ a:hover {
 #appearCall {
     width: 100% !important;
     height: auto !important;
+}
+
+.alert {
+    width: auto;
+    height: 50px;
+    padding: 10px;
+    margin: 10px;
+}
+
+table {
+    margin: 0px;
+    padding: 10px;
+    border: none;
+}
+
+#attachmentButton {
+    border: none;
+    border-radius: 0px;
 }

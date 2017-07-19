@@ -13,6 +13,7 @@ import { ImageMessageComponent } from './message-components/image-message.compon
 import { VideoMessageComponent } from './message-components/video-message.component';
 import { TextMessageComponent } from './message-components/text-message.component';
 import { AppearMessageComponent } from './message-components/appear-message.component';
+import { AlertMessageComponent } from './message-components/alert-message.component';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -20,9 +21,9 @@ import { AppearMessageComponent } from './message-components/appear-message.comp
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
   declarations: [FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent],
+  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent],
   exports: [FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent,
+  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent,
     CommonModule, FormsModule, RouterModule]
 })
 export class SharedModule {
