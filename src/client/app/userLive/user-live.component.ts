@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, OnInit, AfterViewChecked } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
@@ -17,7 +17,7 @@ import { Message } from '../shared/database/message';
     templateUrl: 'user-live.component.html',
     styleUrls: ['user-live.component.css']
 })
-export class UserLiveComponent implements OnInit {
+export class UserLiveComponent implements OnInit, AfterViewChecked {
 
     @Output() message:string;
     @Output() safeUrl: any;
@@ -153,6 +153,10 @@ export class UserLiveComponent implements OnInit {
          this.getUserDetail();
      }
 
+     ngAfterViewChecked() {
+         this.scrollToBottom();
+     }
+
      addNewEntry(event:any) {
          this.addReplyMessages(event.value);
          console.log(event);
@@ -192,7 +196,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
         this.messages.push(message);
-        this.scrollToBottom();
       });
     }
 
@@ -212,7 +215,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
         this.messages.push(message);
-        this.scrollToBottom();
       });
     }
 
@@ -227,7 +229,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.radioMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -242,7 +243,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.sliderMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -257,7 +257,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.checkboxMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -273,8 +272,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.imageMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
-            //this.liveChatService.setImageMessage(this.imageMessage);
         });
     }
 
@@ -289,8 +286,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.videoMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
-            //this.liveChatService.setVideoMessage(this.videoMessage);
         });
     }
 
@@ -301,7 +296,6 @@ export class UserLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.appearMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -310,8 +304,7 @@ export class UserLiveComponent implements OnInit {
      * @memberof DoctorLiveComponent
      */
     scrollToBottom() {
-        let chatBody = document.getElementById('chatBody');
-        let height = chatBody.scrollHeight;
-        chatBody.scrollTop = height;
+        let height = document.getElementById('chatBody');
+        height.scrollTop = height.scrollHeight;
     }
 }

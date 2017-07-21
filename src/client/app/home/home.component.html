@@ -1,7 +1,9 @@
 <mm-navbar></mm-navbar>
-<button (click)="topFunction()" id="myBtn" title="Go to top">
-    <i class="fa fa-angle-up" aria-hidden="true"></i>
-</button>
+<a pageScroll [pageScrollDuration]="500" href="#myHeader">
+    <button id="myBtn" title="Go to top">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </button>
+</a>
 <header id="myHeader">
     <div class="container-fluid">
         <div class="jumbotron">

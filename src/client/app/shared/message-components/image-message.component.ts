@@ -10,12 +10,12 @@ import { Message } from '../database/message';
     selector:'mm-image-message',
     template:`
             <!--h1>{{header}}</h1-->
-            <img [src]="url" alt="Image" height="30%" width="30%">
+            <img [src]="url" alt="Image" class="rounded img-fluid">
     `,
     styles: [`
         img {
-            border: none;
-            border-radius: 10%;
+            max-width: 50%;
+            max-height: 50%;
         }
     `]
 })

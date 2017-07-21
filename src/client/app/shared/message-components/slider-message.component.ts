@@ -13,7 +13,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     template: `
         <p>{{header}}</p>
         <form>
-            <input type="range" class="range" name="points" min="0" max="10" [(ngModel)]="points"><br/>
+            <input type="range" class="range" name="points" min="0" max="10" [(ngModel)]="points" title="{{points}}"><br/>
             <button type="button" class="btn btn-primary" (click)="submit();">Submit</button>
         </form>
     `,
