@@ -1,21 +1,40 @@
 <mm-navbar></mm-navbar>
+<a pageScroll [pageScrollDuration]="500" href="#myHeader">
+    <button id="myBtn" title="Go to top">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </button>
+</a>
 <header id="myHeader">
-    <div class="container">
+    <div class="container-fluid">
         <div class="jumbotron">
             <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
-                <div class="row">
-                    <select required id="selectSpeciality" [(ngModel)]="current" name="speciality">
-                        <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
-                            {{speciality.speciality}}
-                        </option>
-                    </select>
-                    <input type="tel" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10"><br/>
-                    <div class="alert alert-danger" *ngIf="f.invalid && f.touched">Select a field and enter a valid mobile number</div>
-                    <button i18n type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"> Place Order </button>
+                <div class="row justify-content-center">
+                    <div class="col-3"></div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <select class="form-control" required id="selectSpeciality" [(ngModel)]="current" name="speciality">
+                                <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
+                                    {{speciality.speciality}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-group">
+                            <input type="tel" class="form-control" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="alert alert-danger" role="alert" *ngIf="f.invalid && f.touched"><small>Select a field and enter a valid mobile number</small></div>
+                </div>
+                <div class="row justify-content-center">
+                    <button i18n class="btn btn-secondary" type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"> Place Order </button>
                     <mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>
-                    <button i18n type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
+                    <button i18n class="btn btn-secondary" type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
                 </div>
             </form>
         </div>

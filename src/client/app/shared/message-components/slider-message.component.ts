@@ -11,19 +11,23 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-slider-message',
     template: `
-        <h1>{{title}}</h1>
         <p>{{header}}</p>
         <form>
-            <input type="range" name="points" min="0" max="10" [(ngModel)]="points">
-            <button type="button" class="btn btn-info" (click)="submit();">Submit</button>
+            <input type="range" class="range" name="points" min="0" max="10" [(ngModel)]="points" title="{{points}}"><br/>
+            <button type="button" class="btn btn-primary" (click)="submit();">Submit</button>
         </form>
-    `
+    `,
+    styles: [`
+        .range {
+            width: 100%;
+            height: auto;
+        }
+    `]
 })
 
 export class SliderMessageComponent implements OnInit {
-    title: string = 'Slider Component';
     points:any;
-    message: Message;
+    @Input() message: Message;
     header:string;
     messages: Message[];
     @Input() public responseData:string;
@@ -34,7 +38,6 @@ export class SliderMessageComponent implements OnInit {
 
     ngOnInit() {
         this.getMessages();
-        this.message = this.liveChatService.getMessage();
         this.header = this.message.text;
     }
 
@@ -50,7 +53,6 @@ export class SliderMessageComponent implements OnInit {
         this.edit(this.message);
         this.responseData = this.points;
         this.addNewEntry();
-        //this.addReplyMessages('You have selected: ' + this.points);
     }
 
     addNewEntry(): void {

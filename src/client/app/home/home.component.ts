@@ -1,4 +1,5 @@
-import { Component, ViewChild, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   speciality: string;
   mobileNumber: number;
   specialities: Specialities[];
+  navIsFixed: boolean = false;
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
@@ -28,9 +30,10 @@ export class HomeComponent implements OnInit {
   @ViewChild(DoctorsListComponent)
   modalHtml1: DoctorsListComponent;
 
-  current:string = 'Select'; //first string to load in the select field
+  current: string = 'Select'; //first string to load in the select field
 
-  constructor(private specialityService: SpecialityService) { //constructor for LocationService
+  constructor( @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
+    private specialityService: SpecialityService) { //constructor for LocationService
   }
 
   //function to validate the phone number entered and open the OrderWindow else show an alert
@@ -48,7 +51,7 @@ export class HomeComponent implements OnInit {
     let result: boolean = isNaN(value.mobileNumber);
     let speciality: string = value.speciality;
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
-    || speciality === null || speciality === 'Select') {
+      || speciality === null || speciality === 'Select') {
       return;
     } else {
       this.modalHtml1.open();
@@ -60,10 +63,29 @@ export class HomeComponent implements OnInit {
     this.getSpecialities();
   }
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    let number = this.document.body.scrollTop;
+    //console.log(number);
+    //console.log(document.body.offsetHeight);
+    if (number > 800) {
+      this.navIsFixed = true;
+      document.getElementById('myBtn').style.display = 'block';
+    } else if (this.navIsFixed && number < 1000) {
+      this.navIsFixed = false;
+      document.getElementById('myBtn').style.display = 'none';
+    }
+  }
+
+  /*topFunction() {
+    this.document.body.scrollTop = 0;
+    this.document.documentElement.scrollTop = 0;
+  }*/
+
   getSpecialities() {
     this.specialityService.getSpecialities()
-    .then(Specialities => {
-      this.specialities = Specialities;
-    });
+      .then(Specialities => {
+        this.specialities = Specialities;
+      });
   }
 }

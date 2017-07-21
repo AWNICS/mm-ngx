@@ -1,4 +1,18 @@
-div {
+:host {
+    display: block;
+}
+
+nav {
+    background-color: #4696e5;
+    color: #d0e4f8;
+    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+}
+
+
+/*div {
     color: #ffffff;
     background-color: #4696e5;
 }
@@ -15,4 +29,4 @@ a:active {
 
 a:hover {
     color: #000000;
-}
+}*/
