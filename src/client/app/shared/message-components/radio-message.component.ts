@@ -19,7 +19,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
                 {{item}}
             </span>
         </label><br/>
-        <button type="button" class="btn btn-primary" (click)="submit()">Submit</button>
+        <button type="button" class="btn btn-secondary" (click)="submit()">Submit</button>
     `
 })
 
@@ -52,7 +52,11 @@ export class RadioMessageComponent implements OnInit {
     submit() {
         this.message.contentType = 'text';
         this.message.text = this.header + this.message.contentData.data;
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
         this.message.responseData.data = [this.model.options];
         this.edit(this.message);
         this.addNewEntry();

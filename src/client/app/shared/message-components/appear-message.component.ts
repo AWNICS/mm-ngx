@@ -13,7 +13,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     template: `
         <h3>{{title}}</h3>
         <a [href]="safeUrl" target="_blank">
-        <button type="button" class="btn btn-primary" (click)="submit();">
+        <button type="button" class="btn btn-secondary" (click)="submit();">
             Start
         </button></a>
     `,
@@ -42,7 +42,11 @@ export class AppearMessageComponent implements OnInit {
     submit() {
         this.message.contentType = 'text';
         this.message.text = 'Kindly leave your valuable feedback!';
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
         this.edit(this.message);
     }
 

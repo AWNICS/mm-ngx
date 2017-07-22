@@ -25,7 +25,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
                     </label>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" (click)="onSubmit(myForm.value);">Submit</button>
+            <button type="button" class="btn btn-secondary" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })
@@ -80,7 +80,11 @@ export class CheckBoxMessageComponent implements OnInit {
         this.selectedOptions = options.options;
         this.message.contentType = 'text';
         this.message.text = this.header;
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
         this.message.responseData.data = this.selectedOptions;
         this.edit(this.message);
         this.responseData = this.selectedOptions;

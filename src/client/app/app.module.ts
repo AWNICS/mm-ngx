@@ -24,7 +24,6 @@ import { InMemoryDataService } from './shared/database/in-memory-data.service';
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
-
 @NgModule({
   imports: [
     BrowserModule,

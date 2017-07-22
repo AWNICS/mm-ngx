@@ -109,15 +109,126 @@
                     </div>
                 </div>
                 <div class="container chat-body" id="chatBody">
-                    <div class="row justify-content-center align-items-start">
+                    <!--div class="row justify-content-center align-items-start">
                         <div class="alert alert-info alert-dismissible fade show" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button> <img class="rounded-circle" src="assets/jpg/chat_bot-02.jpg" alt="No image" height="30px" width="30px" /> A patient is waiting for you...
                         </div>
-                    </div>
+                    </div-->
                     <div *ngFor="let message of messages">
-                        <div *ngIf="message.type; else alignRight">
+                        <div [ngSwitch]="message.type">
+                            <div *ngSwitchCase="'in'">
+                                <div *ngIf="message.picUrl; else alternateUrl">
+                                    <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                                </div>
+                                <ng-template #alternateUrl>
+                                    <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
+                                </ng-template>
+                                <div class="message-card-right" id="messages">
+                                    <div [ngSwitch]="message.contentType">
+                                        <div *ngSwitchCase="'text'">
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                        <div *ngSwitchCase="'radio'">
+                                            <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        </div>
+                                        <div *ngSwitchCase="'slider'">
+                                            <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        </div>
+                                        <div *ngSwitchCase="'checkbox'">
+                                            <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        </div>
+                                        <div *ngSwitchCase="'video'">
+                                            <mm-video-message [message]="message"></mm-video-message>
+                                        </div>
+                                        <div *ngSwitchCase="'appear'">
+                                            <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                        </div>
+                                        <div *ngSwitchCase="'image'">
+                                            <mm-image-message [message]="message"></mm-image-message>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
+                                            {{message.lastUpdateTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'out'">
+                                <div *ngIf="message.picUrl; else alternateUrl">
+                                    <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                                </div>
+                                <ng-template #alternateUrl>
+                                    <img class="rounded-circle" src="assets/jpg/user.jpg" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
+                                </ng-template>
+                                <div class="message-card" id="messages">
+                                    <div [ngSwitch]="message.contentType">
+                                        <div *ngSwitchCase="'text'">
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                        <div *ngSwitchCase="'radio'">
+                                            <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        </div>
+                                        <div *ngSwitchCase="'slider'">
+                                            <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        </div>
+                                        <div *ngSwitchCase="'checkbox'">
+                                            <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        </div>
+                                        <div *ngSwitchCase="'video'">
+                                            <mm-video-message [message]="message"></mm-video-message>
+                                        </div>
+                                        <div *ngSwitchCase="'appear'">
+                                            <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                        </div>
+                                        <div *ngSwitchCase="'image'">
+                                            <mm-image-message [message]="message"></mm-image-message>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
+                                            {{message.lastUpdateTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'doctorAlert'">
+                                <div class="container">
+                                    <div class="row justify-content-center align-items-start">
+                                        <img class="rounded-circle" src="{{message.picUrl}}" alt="Image" style="height:30px; width:30px; display:block; margin: 5px;" />
+                                        <mm-text-message style="margin:5px;" [message]="message"></mm-text-message><br/>
+                                        <div style="float:right; margin:10px;font-size:12px;padding:5px;">
+                                            {{message.lastUpdateTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'userAlert'">
+                                <div class="container" style="display:none;">
+                                    <div class="row justify-content-center align-items-start">
+                                        <img class="rounded-circle" src="{{message.picUrl}}" alt="Image" style="height:30px; width:30px; display:block; margin: 5px;" />
+                                        <mm-text-message style="margin:5px;" [message]="message"></mm-text-message><br/>
+                                        <div style="float:right; margin:10px;font-size:12px;padding:5px;">
+                                            {{message.lastUpdateTime}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchDefault>
+                                <div class="row justify-content-center align-items-start">
+                                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button> <img class="rounded-circle" src="assets/jpg/chat_bot-02.jpg" alt="No image" height="30px" width="30px" /> Welcome to Mesomeds!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--div *ngIf="message.type; else alignRight">
                             <div *ngIf="message.picUrl; else alternateUrl">
                                 <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:left;" />
                             </div>
@@ -155,8 +266,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <ng-template #alignRight>
+                        </div-->
+                        <!--ng-template #alignRight>
                             <div *ngIf="message.picUrl; else alternateUrl">
                                 <img class="rounded-circle" src="{{message.picUrl}}" alt="No image" style="height:30px; width:30px; display:block; float:right;" />
                             </div>
@@ -194,14 +305,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </ng-template>
+                        </ng-template-->
                     </div>
                 </div>
                 <div class="container chat-footer">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="input-group">
-                                <input style="border:none; border-radius:0px;" type="text" class="form-control" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage #replyMessage/>
+                                <input style="border:none; border-radius:0px;" type="text" class="form-control" onfocus="this.value = this.value;" placeholder="Type your message here..." (keydown.enter)="addMessages(sentMessage.value); sentMessage.value=''" #sentMessage/>
                                 <div class="input-group-btn dropup">
                                     <button style="border:none; border-radius:0px;" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-paperclip" aria-hidden="true"></i>
@@ -248,7 +359,7 @@
                                     </div>
                                 </div>
                                 <div class="input-group-btn">
-                                    <button style="border:none; border-radius:0px;" type="button" class="btn btn-primary" (click)="addReplyMessages(replyMessage.value);replyMessage.value=''">
+                                    <button style="border:none; border-radius:0px;" type="button" class="btn btn-primary" (click)="addMessages(sentMessage.value);sentMessage.value=''">
                                         <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                                     </button>
                                 </div>

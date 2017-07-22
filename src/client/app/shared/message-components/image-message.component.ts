@@ -11,13 +11,7 @@ import { Message } from '../database/message';
     template:`
             <!--h1>{{header}}</h1-->
             <img [src]="url" alt="Image" class="rounded img-fluid">
-    `,
-    styles: [`
-        img {
-            max-width: 50%;
-            max-height: 50%;
-        }
-    `]
+    `
 })
 
 export class ImageMessageComponent implements OnInit {

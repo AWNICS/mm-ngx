@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, ViewChild, Output, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { UserDetails } from '../shared/database/userDetails';
     templateUrl: 'doctor-live.component.html',
     styleUrls: ['doctor-live.component.css']
 })
-export class DoctorLiveComponent implements OnInit, AfterViewChecked {
+export class DoctorLiveComponent implements OnInit, AfterViewChecked, OnDestroy {
 
     @Output() message:string;
     @Output() safeUrl: any;
@@ -147,7 +147,7 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         lastUpdateTime: '',
         type: 'alert',
         status: 'sent',
-        contentType: 'alert',
+        contentType: 'text',
         contentData: {
           data: ['']
         },
@@ -173,6 +173,10 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
 
      ngAfterViewChecked() {
          this.scrollToBottom();
+     }
+
+     ngOnDestroy() {
+         //this.updateAlertMessage();
      }
 
      addNewEntry(event:any) {
@@ -217,19 +221,18 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
       });
     }
 
-    /*createAlertMessage(message: string): void {
+    createAlertMessage(message: string): void {
         let time = new Date();
-        this.newMessage.text= message;
-        this.newMessage.picUrl = this.selectedDoctor.picUrl;
-        this.newMessage.type = 'in';
-        this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.liveChatService.createMessages(this.newMessage)
+        this.alertMessage.text= message;
+        this.alertMessage.picUrl = 'assets/jpg/chat_bot-02.jpg';
+        this.alertMessage.type = 'doctorAlert';
+        this.alertMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.alertMessage)
             .then(message => {
         this.messages.push(message);
-        this.scrollToBottom();
       });
     }
-*/
+
     /**
      * add reply messages as text
      * @param {string} message
@@ -241,7 +244,7 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         let time = new Date();
         this.newMessage.text= message;
         this.newMessage.picUrl = this.userDetails.picUrl;
-        this.newMessage.type = '';
+        this.newMessage.type = 'out';
         this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
