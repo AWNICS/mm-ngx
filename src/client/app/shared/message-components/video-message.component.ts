@@ -9,22 +9,26 @@ import { Message } from '../database/message';
 @Component({
     selector:'mm-video-message',
     template:`
-        <h1>{{title}}</h1>
-        <video width="400" controls>
+        <!--h1>{{title}}</h1-->
+        <video controls>
             <source [src]="url" type="video/mp4">
             Your browser does not support HTML5 video.
         </video>
-    `
+    `,
+    styles: [`
+        video {
+            width: 100%    !important;
+            height: auto   !important;
+        }
+    `]
 })
 
 export class VideoMessageComponent implements OnInit {
 
-    title:string;
     @Input() message: Message;
     url:string;
 
     ngOnInit() {
         this.url = this.message.contentData.data[0];
-        this.title = this.message.text;
     }
 }

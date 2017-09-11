@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, OnInit } from '@angular/core';
+import { Component, ViewChild, Output, OnInit, AfterViewChecked } from '@angular/core';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,11 +17,12 @@ import { UserDetails } from '../shared/database/userDetails';
     templateUrl: 'doctor-live.component.html',
     styleUrls: ['doctor-live.component.css']
 })
-export class DoctorLiveComponent implements OnInit {
+export class DoctorLiveComponent implements OnInit, AfterViewChecked {
 
     @Output() message:string;
     @Output() safeUrl: any;
     @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
+    initialTime:any;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     userDetails: UserDetails;
@@ -139,6 +140,23 @@ export class DoctorLiveComponent implements OnInit {
         }
     };
 
+    alertMessage: Message = {
+        user: 'Bot',
+        id: null,
+        text: 'Alert message',
+        picUrl: '',
+        lastUpdateTime: '',
+        type: 'alert',
+        status: 'sent',
+        contentType: 'text',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+
     constructor(
         private doctorsListService: DoctorsListService,
         private domSanitizer: DomSanitizer,
@@ -147,15 +165,21 @@ export class DoctorLiveComponent implements OnInit {
      }
 
      ngOnInit() {
+         this.initialTime = new Date().getHours() + ':' + new Date().getMinutes() ;
          this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
          this.getUser();
+         this.createAlertMessage('A patient is waiting for you.');
+     }
+
+     ngAfterViewChecked() {
+         this.scrollToBottom();
      }
 
      addNewEntry(event:any) {
          this.addReplyMessages(event.value);
-         console.log(event);
+         //console.log(event); //for debugging purposes only
      }
 
      /**
@@ -192,7 +216,18 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
         this.messages.push(message);
-        this.scrollToBottom();
+      });
+    }
+
+    createAlertMessage(message: string): void {
+        let time = new Date();
+        this.alertMessage.text= message;
+        this.alertMessage.picUrl = 'assets/jpg/chat_bot-02.jpg';
+        this.alertMessage.type = 'doctorAlert';
+        this.alertMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.alertMessage)
+            .then(message => {
+        this.messages.push(message);
       });
     }
 
@@ -207,12 +242,11 @@ export class DoctorLiveComponent implements OnInit {
         let time = new Date();
         this.newMessage.text= message;
         this.newMessage.picUrl = this.userDetails.picUrl;
-        this.newMessage.type = '';
+        this.newMessage.type = 'out';
         this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
         this.messages.push(message);
-        this.scrollToBottom();
       });
     }
 
@@ -227,7 +261,6 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.radioMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -242,7 +275,6 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.sliderMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -257,10 +289,8 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.checkboxMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
-
 
     /**
      * create image message using ImageMessageComponent
@@ -273,8 +303,6 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.imageMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
-            //this.liveChatService.setImageMessage(this.imageMessage);
         });
     }
 
@@ -289,8 +317,6 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.videoMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
-            //this.liveChatService.setVideoMessage(this.videoMessage);
         });
     }
 
@@ -301,7 +327,6 @@ export class DoctorLiveComponent implements OnInit {
         this.liveChatService.createMessages(this.appearMessage)
         .then(message => {
             this.messages.push(message);
-            this.scrollToBottom();
         });
     }
 
@@ -310,8 +335,7 @@ export class DoctorLiveComponent implements OnInit {
      * @memberof DoctorLiveComponent
      */
     scrollToBottom() {
-        let chatBody = document.getElementById('chatBody');
-        let height = chatBody.scrollHeight;
-        chatBody.scrollTop = height;
+        let height = document.getElementById('chatBody');
+        height.scrollTop = height.scrollHeight;
     }
 }

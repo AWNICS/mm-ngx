@@ -1,48 +1,49 @@
 <modal style="z-index: 1049;" #doctorsList>
     <modal-header [show-close]="true">
-        Available doctors:
     </modal-header>
     <modal-body>
         <div *ngFor="let doctorDetail of doctorDetails">
-            <div class="row" id="box">
-                <div class="card">
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div [ngSwitch]="doctorDetail.status">
-                                    <div *ngSwitchCase="'online'">
-                                        <div class="led-box led-green"></div>
-                                    </div>
-                                    <div *ngSwitchCase="'offline'">
-                                        <div class="led-box led-red"></div>
-                                    </div>
-                                    <div *ngSwitchCase="'busy'">
-                                        <div class="led-box led-blue"></div>
-                                    </div>
-                                    <div *ngSwitchCase="'away'">
-                                        <div class="led-box led-yellow"></div>
-                                    </div>
-                                    <div *ngSwitchDefault>
-                                        <div class="led-box led-red"></div>
-                                    </div>
+            <div class="card">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div [ngSwitch]="doctorDetail.status">
+                                <div *ngSwitchCase="'online'">
+                                    <div class="led-box led-green"></div>
                                 </div>
-                                <img src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" class="img-circle" style="height: 100px; width: 100px;" alt="Not found" />
+                                <div *ngSwitchCase="'offline'">
+                                    <div class="led-box led-red"></div>
+                                </div>
+                                <div *ngSwitchCase="'busy'">
+                                    <div class="led-box led-blue"></div>
+                                </div>
+                                <div *ngSwitchCase="'away'">
+                                    <div class="led-box led-yellow"></div>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <div class="led-box led-red"></div>
+                                </div>
                             </div>
-                            <div class="col-sm-9">
-                                <h3 class="card-title">{{doctorDetail.name}}</h3>
-                                <p class="card-text">Doctor is {{doctorDetail.briefDescription.experience}} years experienced in {{doctorDetail.briefDescription.speciality}}. <br/> {{doctorDetail.briefDescription.description}}
-                                </p>
-                                <rating [(ngModel)]="doctorDetail.rating" [readonly]="true"> </rating>
-                            </div>
+                            <img class="rounded-circle" src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" style="height: 100px; width: 100px;" alt="Not found" />
+                        </div>
+                        <div class="col-sm-9">
+                            <h3 class="card-title">{{doctorDetail.name}}</h3>
+                            <p class="card-text">Doctor is {{doctorDetail.briefDescription.experience}} years experienced in {{doctorDetail.briefDescription.speciality}}. <br/> {{doctorDetail.briefDescription.description}}
+                            </p>
+                            <rating [(ngModel)]="doctorDetail.rating" [readonly]="true"> </rating>
                         </div>
                     </div>
-                    <br/>
-                    <div class="panel-group">
-                        <div class="panel panel-default">
-                            <button type="button" class="btn btn-info" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
-                            <button type="button" id="something" class="btn btn-info collapsed" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" style="float: right; margin: 2px;"><span class="glyphicon glyphicon-circle-arrow-down"></span></button>
-                            <div id="{{doctorDetail.collapseId}}" class="panel-collapse collapse">
-                                <div class="panel-body">Doctor status: {{doctorDetail.status}}</div>
+                </div>
+                <br/>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <button type="button" class="btn btn-primary" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
+                        <button type="button" class="btn btn-primary" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" aria-expanded="false" aria-controls="doctorDetail.collapseId" style="float:right; margin:2px;">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                            </button>
+                        <div id="{{doctorDetail.collapseId}}" class="collapse">
+                            <br/><br/>
+                            <div class="card card-block">
                                 <img id="thumbnail" src="{{doctorDetail.thumbnailUrl}}" data-toggle="tooltip" title="Click to play" (click)="openModal(doctorDetail)" />
                             </div>
                         </div>

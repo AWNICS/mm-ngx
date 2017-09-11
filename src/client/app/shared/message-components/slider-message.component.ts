@@ -11,21 +11,24 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-slider-message',
     template: `
-        <h1>{{title}}</h1>
         <p>{{header}}</p>
         <form>
-            <input type="range" name="points" min="0" max="10" [(ngModel)]="points">
-            <button type="button" class="btn btn-info" (click)="submit();">Submit</button>
+            <input type="range" class="range" name="points" min="0" max="10" [(ngModel)]="points" title="{{points}}"><br/>
+            <button type="button" class="btn btn-secondary" (click)="submit();">Submit</button>
         </form>
-    `
+    `,
+    styles: [`
+        .range {
+            width: 100%;
+            height: auto;
+        }
+    `]
 })
 
 export class SliderMessageComponent implements OnInit {
-    title: string = 'Slider Component';
     points:any;
     @Input() message: Message;
     header:string;
-    messages: Message[];
     @Input() public responseData:string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
@@ -33,7 +36,6 @@ export class SliderMessageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getMessages();
         this.header = this.message.text;
     }
 
@@ -44,7 +46,12 @@ export class SliderMessageComponent implements OnInit {
     submit() {
         this.message.contentType = 'text';
         this.message.text = this.header;
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
+        //this.message.type = 'in';
         this.message.responseData.data = this.points;
         this.edit(this.message);
         this.responseData = this.points;
@@ -56,13 +63,6 @@ export class SliderMessageComponent implements OnInit {
             value: 'You chose: ' + this.responseData
         });
     }
-
-    getMessages() {
-         this.liveChatService.getMessages()
-         .then(messages => {
-             this.messages = messages;
-         });
-     }
 
      edit(message: Message): void {
         let result = JSON.stringify(message);

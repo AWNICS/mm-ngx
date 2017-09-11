@@ -13,26 +13,30 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
 @Component({
     selector: 'mm-checkbox-message',
     template: `
-        <h1>{{title}}</h1>
         <p>{{header}}</p>
         <form [formGroup]="myForm">
             <div *ngFor="let option of options">
-                <input type="checkbox" (change)="onChange(option.option, $event.target.checked)"> {{option.option}}<br>
+                <div class="form-check form-check-inline">
+                    <label class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox"
+                        (change)="onChange(option.option, $event.target.checked)">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">{{option.option}}</span>
+                    </label>
+                </div>
             </div>
-            <button type="button" class="btn btn-info" (click)="onSubmit(myForm.value);">Submit</button>
+            <button type="button" class="btn btn-secondary" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })
 
 export class CheckBoxMessageComponent implements OnInit {
 
-    title: string = 'Checkbox Component';
     header: string = '';
     @Input() message: Message;
     options = [{ option: 'Option 1' }, { option: 'Option 2' }, { option: 'Option 3' }, { option: 'Option 4' }];
     myForm: FormGroup;
     selectedOptions: any;
-    messages: Message[];
 
     @Input() public responseData: string;
     @Output() public onNewEntryAdded = new EventEmitter();
@@ -42,17 +46,9 @@ export class CheckBoxMessageComponent implements OnInit {
 
     ngOnInit() {
         this.header = this.message.text;
-        this.getMessages();
         this.myForm = this.fb.group({
             options: this.fb.array([])
         });
-    }
-
-    getMessages() {
-        this.liveChatService.getMessages()
-            .then(messages => {
-                this.messages = messages;
-            });
     }
 
     /**
@@ -75,7 +71,11 @@ export class CheckBoxMessageComponent implements OnInit {
         this.selectedOptions = options.options;
         this.message.contentType = 'text';
         this.message.text = this.header;
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
         this.message.responseData.data = this.selectedOptions;
         this.edit(this.message);
         this.responseData = this.selectedOptions;

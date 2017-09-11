@@ -11,26 +11,30 @@ import { DoctorDetails } from '../shared/database/doctorDetails';
 @Component({
     selector: 'mm-video-modal',
     template: `
-        <modal [cssClass]="cssClass" #videoModal>
+        <!--modal [cssClass]="cssClass" #videoModal-->
+        <modal #videoModal>
             <modal-header [show-close]="true" (click)="close()">
             </modal-header>
             <modal-body>
-                <iframe width="560" height="315" [src]="videoUrl" frameborder="0" allowfullscreen>
-                </iframe>
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="videoUrl" allowfullscreen>
+                    </iframe>
+                </div>
             </modal-body>
         </modal>
-    `,
+    `/*,
     styles: [`
         /deep/ .modal-style {
-            width: 590px;
+            width: 100% !important;
+            height: auto !important;
         }
-    `]
+    `]*/
 })
 
 export class VideoModalComponent {
 
     videoUrl: any = '';
-    cssClass: string = 'modal-style';
+    //cssClass: string = 'modal-style';
     @ViewChild('videoModal')
     videoModal: VideoModalComponent;
 
