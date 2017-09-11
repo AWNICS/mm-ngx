@@ -22,6 +22,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     @Output() message:string;
     @Output() safeUrl: any;
     @ViewChild('userLive') userLive: UserLiveComponent;
+    initialTime:any;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     userDetails: UserDetails;
@@ -47,7 +48,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Kindly choose an option: ',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'radio',
         contentData: {
@@ -63,7 +64,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Kindly choose a number from 0 to 10: ',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'slider',
         contentData: {
@@ -79,7 +80,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Kindly check the relevent boxes: ',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'checkbox',
         contentData: {
@@ -95,7 +96,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Image Component',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'image',
         contentData: {
@@ -111,7 +112,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Video Component',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'video',
         contentData: {
@@ -128,9 +129,26 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         text: 'Appear Component',
         picUrl: '',
         lastUpdateTime: '',
-        type: 'in',
+        type: 'out',
         status: 'sending',
         contentType: 'appear',
+        contentData: {
+          data: ['']
+        },
+        responseData: {
+          data: ['']
+        }
+    };
+
+    alertMessage: Message = {
+        user: 'Bot',
+        id: null,
+        text: 'Alert message',
+        picUrl: '',
+        lastUpdateTime: '',
+        type: 'alert',
+        status: 'sent',
+        contentType: 'text',
         contentData: {
           data: ['']
         },
@@ -147,10 +165,12 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
      }
 
      ngOnInit() {
+         this.initialTime = new Date().getHours() + ':' + new Date().getMinutes() ;
          this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
          this.getUserDetail();
+         this.createAlertMessage('Doctor has been intimated. He will get in touch with you soon.');
      }
 
      ngAfterViewChecked() {
@@ -158,8 +178,8 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
      }
 
      addNewEntry(event:any) {
-         this.addReplyMessages(event.value);
-         console.log(event);
+         this.addMessages(event.value);
+         //console.log(event); // for debugging purpose only
      }
 
      /**
@@ -199,6 +219,18 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
       });
     }
 
+    createAlertMessage(message: string): void {
+        let time = new Date();
+        this.alertMessage.text= message;
+        this.alertMessage.picUrl = 'assets/jpg/chat_bot-02.jpg';
+        this.alertMessage.type = 'userAlert';
+        this.alertMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
+        this.liveChatService.createMessages(this.alertMessage)
+            .then(message => {
+        this.messages.push(message);
+      });
+    }
+
     /**
      * add reply messages as text
      * @param {string} message
@@ -210,7 +242,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
         let time = new Date();
         this.newMessage.text= message;
         this.newMessage.picUrl = this.userDetails.picUrl;
-        this.newMessage.type = '';
+        this.newMessage.type = 'out';
         this.newMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
         this.liveChatService.createMessages(this.newMessage)
             .then(message => {
@@ -225,7 +257,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createRadio() {
         let time = new Date();
         this.radioMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.radioMessage.picUrl = this.selectedDoctor.picUrl;
+        this.radioMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.radioMessage)
         .then(message => {
             this.messages.push(message);
@@ -239,7 +271,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createSlider() {
         let time = new Date();
         this.sliderMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.sliderMessage.picUrl = this.selectedDoctor.picUrl;
+        this.sliderMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.sliderMessage)
         .then(message => {
             this.messages.push(message);
@@ -253,7 +285,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createCheckbox() {
         let time = new Date();
         this.checkboxMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.checkboxMessage.picUrl = this.selectedDoctor.picUrl;
+        this.checkboxMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.checkboxMessage)
         .then(message => {
             this.messages.push(message);
@@ -268,7 +300,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createImage() {
         let time = new Date();
         this.imageMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.imageMessage.picUrl = this.selectedDoctor.picUrl;
+        this.imageMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.imageMessage)
         .then(message => {
             this.messages.push(message);
@@ -282,7 +314,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createVideo() {
         let time = new Date();
         this.videoMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.videoMessage.picUrl = this.selectedDoctor.picUrl;
+        this.videoMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.videoMessage)
         .then(message => {
             this.messages.push(message);
@@ -292,7 +324,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     createAppear() {
         let time = new Date();
         this.appearMessage.lastUpdateTime = time.getHours() + ':' + time.getMinutes();
-        this.appearMessage.picUrl = this.selectedDoctor.picUrl;
+        this.appearMessage.picUrl = this.userDetails.picUrl;
         this.liveChatService.createMessages(this.appearMessage)
         .then(message => {
             this.messages.push(message);

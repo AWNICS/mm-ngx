@@ -25,7 +25,7 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
                     </label>
                 </div>
             </div>
-            <button type="button" class="btn btn-primary" (click)="onSubmit(myForm.value);">Submit</button>
+            <button type="button" class="btn btn-secondary" (click)="onSubmit(myForm.value);">Submit</button>
         </form>
     `
 })
@@ -37,7 +37,6 @@ export class CheckBoxMessageComponent implements OnInit {
     options = [{ option: 'Option 1' }, { option: 'Option 2' }, { option: 'Option 3' }, { option: 'Option 4' }];
     myForm: FormGroup;
     selectedOptions: any;
-    messages: Message[];
 
     @Input() public responseData: string;
     @Output() public onNewEntryAdded = new EventEmitter();
@@ -47,17 +46,9 @@ export class CheckBoxMessageComponent implements OnInit {
 
     ngOnInit() {
         this.header = this.message.text;
-        this.getMessages();
         this.myForm = this.fb.group({
             options: this.fb.array([])
         });
-    }
-
-    getMessages() {
-        this.liveChatService.getMessages()
-            .then(messages => {
-                this.messages = messages;
-            });
     }
 
     /**
@@ -80,7 +71,11 @@ export class CheckBoxMessageComponent implements OnInit {
         this.selectedOptions = options.options;
         this.message.contentType = 'text';
         this.message.text = this.header;
-        this.message.type = 'in';
+        if(this.message.type === 'in') {
+            this.message.type = 'in';
+        } else {
+            this.message.type = 'out';
+        }
         this.message.responseData.data = this.selectedOptions;
         this.edit(this.message);
         this.responseData = this.selectedOptions;

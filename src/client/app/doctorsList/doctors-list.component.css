@@ -1,11 +1,13 @@
 /*styling for cards in the modal window*/
 
-#box {
+.card {
     margin: 5px;
     padding: 5px;
     border: 0px solid grey;
     border-radius: 4px;
     box-shadow: 2px 4px 10px grey;
+    width: 100%;
+    height: auto;
 }
 
 

@@ -11,8 +11,7 @@
             <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
             <form #f="ngForm">
                 <div class="row justify-content-center">
-                    <div class="col-3"></div>
-                    <div class="col-3">
+                    <div class="col col-lg-3">
                         <div class="form-group">
                             <select class="form-control" required id="selectSpeciality" [(ngModel)]="current" name="speciality">
                                 <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
@@ -21,12 +20,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col col-lg-3">
                         <div class="form-group">
                             <input type="tel" class="form-control" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10">
                         </div>
                     </div>
-                    <div class="col-3"></div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="alert alert-danger" role="alert" *ngIf="f.invalid && f.touched"><small>Select a field and enter a valid mobile number</small></div>
