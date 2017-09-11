@@ -37,7 +37,6 @@ export class CheckBoxMessageComponent implements OnInit {
     options = [{ option: 'Option 1' }, { option: 'Option 2' }, { option: 'Option 3' }, { option: 'Option 4' }];
     myForm: FormGroup;
     selectedOptions: any;
-    messages: Message[];
 
     @Input() public responseData: string;
     @Output() public onNewEntryAdded = new EventEmitter();
@@ -47,17 +46,9 @@ export class CheckBoxMessageComponent implements OnInit {
 
     ngOnInit() {
         this.header = this.message.text;
-        this.getMessages();
         this.myForm = this.fb.group({
             options: this.fb.array([])
         });
-    }
-
-    getMessages() {
-        this.liveChatService.getMessages()
-            .then(messages => {
-                this.messages = messages;
-            });
     }
 
     /**

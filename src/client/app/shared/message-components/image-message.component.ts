@@ -15,13 +15,10 @@ import { Message } from '../database/message';
 })
 
 export class ImageMessageComponent implements OnInit {
-
-    //header:string='';
     @Input() message: Message;
     url: string;
 
     ngOnInit() {
         this.url = this.message.contentData.data[0];
-        //this.header = this.message.text;
     }
 }

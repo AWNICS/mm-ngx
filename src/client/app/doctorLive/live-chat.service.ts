@@ -50,6 +50,14 @@ export class LiveChatService {
       .catch(this.handleError);
   }
 
+  delete(message:Message): Promise<void> {
+    const url = `${this.url}/${message.id}`;
+    return this.http.delete(url,{ headers: this.headers })
+      .toPromise()
+      .then(() => null)
+      .catch(this.handleError);
+  }
+
   /**
    * error handling
    * @private

@@ -29,7 +29,6 @@ export class SliderMessageComponent implements OnInit {
     points:any;
     @Input() message: Message;
     header:string;
-    messages: Message[];
     @Input() public responseData:string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
@@ -37,7 +36,6 @@ export class SliderMessageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getMessages();
         this.header = this.message.text;
     }
 
@@ -65,13 +63,6 @@ export class SliderMessageComponent implements OnInit {
             value: 'You chose: ' + this.responseData
         });
     }
-
-    getMessages() {
-         this.liveChatService.getMessages()
-         .then(messages => {
-             this.messages = messages;
-         });
-     }
 
      edit(message: Message): void {
         let result = JSON.stringify(message);

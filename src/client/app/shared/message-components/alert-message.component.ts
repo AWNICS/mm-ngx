@@ -12,8 +12,17 @@ import { LiveChatService } from '../../doctorLive/live-chat.service';
     template: `
             <div>
                 {{alertMessage}}
+                <button type="button" class="btn btn-secondary" (click)="onClickClose()">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
             </div>
-    `
+    `,
+    styles: [`
+        button {
+            background-color:none;
+            border:none;
+        }
+    `]
 })
 
 export class AlertMessageComponent implements OnInit {
@@ -26,12 +35,14 @@ export class AlertMessageComponent implements OnInit {
         this.alertMessage = this.message.text;
     }
 
-    edit(message: string): void {
-        this.message.type = message;
+     onClickClose() {
+         this.message.type = '';
+         this.edit();
+     }
+
+    edit(): void {
         let result = JSON.stringify(this.message);
-        if (!result) {
-            return;
-        }
+        //console.log(result); // for debug only
         this.liveChatService.update(this.message)
             .then(() => {
                 return null;

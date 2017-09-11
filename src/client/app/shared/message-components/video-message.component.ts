@@ -25,12 +25,10 @@ import { Message } from '../database/message';
 
 export class VideoMessageComponent implements OnInit {
 
-    //title:string;
     @Input() message: Message;
     url:string;
 
     ngOnInit() {
         this.url = this.message.contentData.data[0];
-        //this.title = this.message.text;
     }
 }

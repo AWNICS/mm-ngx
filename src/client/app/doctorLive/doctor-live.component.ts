@@ -1,4 +1,4 @@
-import { Component, ViewChild, Output, OnInit, AfterViewChecked, OnDestroy } from '@angular/core';
+import { Component, ViewChild, Output, OnInit, AfterViewChecked } from '@angular/core';
 import { DoctorsListService } from '../doctorsList/doctors-list.service';
 import { DoctorDetails } from '../shared/database/doctorDetails';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -17,11 +17,12 @@ import { UserDetails } from '../shared/database/userDetails';
     templateUrl: 'doctor-live.component.html',
     styleUrls: ['doctor-live.component.css']
 })
-export class DoctorLiveComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class DoctorLiveComponent implements OnInit, AfterViewChecked {
 
     @Output() message:string;
     @Output() safeUrl: any;
     @ViewChild('doctorLive') doctorLive: DoctorLiveComponent;
+    initialTime:any;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     userDetails: UserDetails;
@@ -164,24 +165,21 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked, OnDestroy 
      }
 
      ngOnInit() {
+         this.initialTime = new Date().getHours() + ':' + new Date().getMinutes() ;
          this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
          this.getUser();
-         //this.createAlertMessage('A patient is waiting for you.');
+         this.createAlertMessage('A patient is waiting for you.');
      }
 
      ngAfterViewChecked() {
          this.scrollToBottom();
      }
 
-     ngOnDestroy() {
-         //this.updateAlertMessage();
-     }
-
      addNewEntry(event:any) {
          this.addReplyMessages(event.value);
-         console.log(event);
+         //console.log(event); //for debugging purposes only
      }
 
      /**

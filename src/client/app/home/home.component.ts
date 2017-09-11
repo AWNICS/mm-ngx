@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
       || speciality === null || speciality === 'Select') {
       return;
     } else {
-      this.modalHtml1.open();
+      this.modalHtml1.open('lg');
     }
   }
 

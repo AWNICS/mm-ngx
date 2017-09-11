@@ -22,6 +22,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
     @Output() message:string;
     @Output() safeUrl: any;
     @ViewChild('userLive') userLive: UserLiveComponent;
+    initialTime:any;
     selectedDoctor: DoctorDetails;
     messages: Message[];
     userDetails: UserDetails;
@@ -164,11 +165,12 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
      }
 
      ngOnInit() {
+         this.initialTime = new Date().getHours() + ':' + new Date().getMinutes() ;
          this.selectedDoctor = this.doctorsListService.getSelectedDoctor();
          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedDoctor.appearUrl);
          this.getMessages();
          this.getUserDetail();
-         //this.createAlertMessage('Doctor has been intimated. He will get in touch with you soon.');
+         this.createAlertMessage('Doctor has been intimated. He will get in touch with you soon.');
      }
 
      ngAfterViewChecked() {
@@ -177,7 +179,7 @@ export class UserLiveComponent implements OnInit, AfterViewChecked {
 
      addNewEntry(event:any) {
          this.addMessages(event.value);
-         console.log(event);
+         //console.log(event); // for debugging purpose only
      }
 
      /**

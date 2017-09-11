@@ -107,6 +107,7 @@
                         <a href="https://twitter.com" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
                         <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
                     </div>
+                    <div class="row justify-content-md-center">You started the call at {{initialTime}}</div>
                 </div>
                 <div class="container chat-body" id="chatBody">
                     <!--div class="row justify-content-center align-items-start">
@@ -151,7 +152,7 @@
                                         <div *ngSwitchDefault>
                                             <mm-text-message [message]="message"></mm-text-message>
                                         </div>
-                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
+                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:10px;padding:5px 0px 0px 5px;">
                                             {{message.lastUpdateTime}}
                                         </div>
                                     </div>
@@ -190,7 +191,7 @@
                                         <div *ngSwitchDefault>
                                             <mm-text-message [message]="message"></mm-text-message>
                                         </div>
-                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:12px;padding:5px 0px 0px 5px;">
+                                        <div style="float:right; margin:-5px 0px 0px 10px;font-size:10px;padding:5px 0px 0px 5px;">
                                             {{message.lastUpdateTime}}
                                         </div>
                                     </div>
@@ -198,10 +199,10 @@
                             </div>
                             <div *ngSwitchCase="'doctorAlert'">
                                 <div class="container">
-                                    <div class="row justify-content-center align-items-start">
+                                    <div class="row justify-content-center align-items-start" id="doctorAlert">
                                         <img class="rounded-circle" src="{{message.picUrl}}" alt="Image" style="height:30px; width:30px; display:block; margin: 5px;" />
-                                        <mm-text-message style="margin:5px;" [message]="message"></mm-text-message><br/>
-                                        <div style="float:right; margin:10px;font-size:12px;padding:5px;">
+                                        <mm-alert-message style="margin:5px;" [message]="message"></mm-alert-message><br/>
+                                        <div style="float:right; margin:10px;font-size:10px;padding:5px;">
                                             {{message.lastUpdateTime}}
                                         </div>
                                     </div>
@@ -211,14 +212,14 @@
                                 <div class="container" style="display:none;">
                                     <div class="row justify-content-center align-items-start">
                                         <img class="rounded-circle" src="{{message.picUrl}}" alt="Image" style="height:30px; width:30px; display:block; margin: 5px;" />
-                                        <mm-text-message style="margin:5px;" [message]="message"></mm-text-message><br/>
-                                        <div style="float:right; margin:10px;font-size:12px;padding:5px;">
+                                        <mm-alert-message style="margin:5px;" [message]="message"></mm-alert-message><br/>
+                                        <div style="float:right; margin:10px;font-size:10px;padding:5px;">
                                             {{message.lastUpdateTime}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div *ngSwitchDefault>
+                            <!--div *ngSwitchDefault>
                                 <div class="row justify-content-center align-items-start">
                                     <div class="alert alert-info alert-dismissible fade show" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -226,7 +227,7 @@
                                         </button> <img class="rounded-circle" src="assets/jpg/chat_bot-02.jpg" alt="No image" height="30px" width="30px" /> Welcome to Mesomeds!
                                     </div>
                                 </div>
-                            </div>
+                            </div-->
                         </div>
                         <!--div *ngIf="message.type; else alignRight">
                             <div *ngIf="message.picUrl; else alternateUrl">
@@ -351,6 +352,23 @@
                                                     <td>
                                                         <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
                                                             <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Camera">
+                                                            <i class="fa fa-camera" aria-hidden="true"></i>    
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Upload document">
+                                                            <i class="fa fa-file-o" aria-hidden="true"></i>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="External link">
+                                                            <i class="fa fa-external-link" aria-hidden="true"></i>
                                                         </button>
                                                     </td>
                                                 </tr>

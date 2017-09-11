@@ -126,7 +126,7 @@ textarea {
     text-align: left;
     display: block;
     float: left;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .message-card-right {
@@ -141,7 +141,7 @@ textarea {
     text-align: left;
     display: block;
     float: right;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .chat-footer {
