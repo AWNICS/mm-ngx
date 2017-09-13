@@ -46,8 +46,8 @@ export class DoctorsListComponent implements OnInit {
             });
     }
 
-    open() {
-        this.doctorsList.open();
+    open(size:string) {
+        this.doctorsList.open('lg');
     }
 
     close() {

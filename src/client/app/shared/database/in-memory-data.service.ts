@@ -122,40 +122,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    let messages: Message[] = [
-      {
-        user: 'Jack',
-        id: 1,
-        text: 'Hello',
-        picUrl: 'assets/png/docMale.png',
-        lastUpdateTime: '',
-        type: 'in',
-        status: 'sent',
-        contentType: 'text',
-        contentData: {
-          data: ['']
-        },
-        responseData: {
-          data: ['']
-        }
-      },
-      {
-        user: 'Jessie',
-        id: 2,
-        text: 'Hi',
-        picUrl: 'assets/png/male2.png',
-        lastUpdateTime: '',
-        type: '',
-        status: 'delivered',
-        contentType: 'text',
-        contentData: {
-          data: ['']
-        },
-        responseData: {
-          data: ['']
-        }
-      }
-    ];
+    let messages: Message[] = [];
 
     let userDetails: UserDetails = {
         id: 1,
