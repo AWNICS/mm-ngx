@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { OrderRequest } from './order-request';
+import { OrderRequest } from '../shared/database/orderRequest';
 import { OrderRequestService } from './order-request.service';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin/admin.service';

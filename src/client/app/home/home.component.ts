@@ -4,7 +4,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
 import { DoctorsListComponent } from '../doctorsList/doctors-list.component';
-import { OrderRequest } from '../order-window/order-request';
+import { OrderRequest } from '../shared/database/orderRequest';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/speciality/speciality';
 /**

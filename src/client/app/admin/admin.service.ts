@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { OrderRequest } from '../order-window/order-request';
+import { OrderRequest } from '../shared/database/orderRequest';
 
 import 'rxjs/add/operator/toPromise';
 

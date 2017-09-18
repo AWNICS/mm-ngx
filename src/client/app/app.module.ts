@@ -19,7 +19,7 @@ import { UserLiveModule } from './userLive/user-live.module';
 
 // Imports for loading & configuring the in-memory web api
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './shared/database/in-memory-data.service';
+import { InMemoryDataService } from './shared/services/in-memory-data.service';
 
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
