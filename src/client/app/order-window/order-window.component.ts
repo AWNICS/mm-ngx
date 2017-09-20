@@ -104,6 +104,6 @@ export class OrderWindowComponent implements OnInit {
         this.adminService.create(value)
             .then(orderRequest => {
                 this.orderRequests.push(orderRequest);
-            });
+        });
     }
 }

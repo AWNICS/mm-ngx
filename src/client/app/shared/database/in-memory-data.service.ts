@@ -4,6 +4,7 @@ import { Specialities } from '../speciality/speciality';
 import { DoctorDetails } from './doctorDetails';
 import { Message } from './message';
 import { UserDetails } from './userDetails';
+import { ContactUs } from './contact-us';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -103,43 +104,49 @@ export class InMemoryDataService implements InMemoryDbService {
 
     let specialities: Specialities[] = [
       {
-          speciality: 'Select'
+        speciality: 'Select'
       },
       {
-          speciality: 'General Medicine'
+        speciality: 'General Medicine'
       },
       {
-          speciality: 'Family Medicine'
+        speciality: 'Family Medicine'
       },
       {
-          speciality: 'Gynaecologist'
+        speciality: 'Gynaecologist'
       },
       {
-          speciality: 'Dietician'
+        speciality: 'Dietician'
       },
       {
-          speciality: 'Psychiatrist'
+        speciality: 'Psychiatrist'
       }
     ];
 
     let messages: Message[] = [];
 
     let userDetails: UserDetails = {
-        id: 1,
-        name: 'Jack',
-        email: 'jack@mail.com',
-        phoneNo: 8970074744,
-        picUrl: 'assets/png/male2.png',
-        briefDescription: {
-            description: 'Have been recovering from severe cold and fever'
-        },
-        status: 'available',
-        waitingTime: null, // in seconds
-        rating: 4,
-        //appearUrl: 'https://appear.in/loyal-trout',
-        lastUpdateTime: ''
-      };
+      id: 1,
+      name: 'Jack',
+      email: 'jack@mail.com',
+      phoneNo: 8970074744,
+      picUrl: 'assets/png/male2.png',
+      briefDescription: {
+        description: 'Have been recovering from severe cold and fever'
+      },
+      status: 'available',
+      waitingTime: null, // in seconds
+      rating: 4,
+      //appearUrl: 'https://appear.in/loyal-trout',
+      lastUpdateTime: ''
+    };
 
-    return {orderRequests, specialities, doctorDetails, messages, userDetails};
+    let contact: ContactUs[] = [{
+      fullName: 'awnics',
+      emailId: 'awnics@awnics.com',
+      message: 'mesomeds details'
+    }];
+
+    return { orderRequests, specialities, doctorDetails, messages, userDetails, contact };
   }
 }
