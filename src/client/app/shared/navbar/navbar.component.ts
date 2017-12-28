@@ -12,4 +12,6 @@ export class NavbarComponent {
     admin: string = 'Admin';
     user: string = 'User';
     doctor:string = 'Doctor';
+    login: string = 'Login';
+    register: string = 'Register';
 }

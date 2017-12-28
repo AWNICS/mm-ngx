@@ -41,7 +41,7 @@ export class DoctorsListComponent implements OnInit {
      */
     getDoctorDetails() {
         this.doctorsListService.getDoctorDetails()
-            .then((doctorDetail) => {
+            .subscribe((doctorDetail) => {
                 this.doctorDetails = doctorDetail;
             });
     }

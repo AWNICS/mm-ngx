@@ -1,9 +1,9 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { OrderRequest } from '../../order-window/order-request';
+/*import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { OrderRequest } from '../database/orderRequest';
 import { Specialities } from '../speciality/speciality';
-import { DoctorDetails } from './doctorDetails';
-import { Message } from './message';
-import { UserDetails } from './userDetails';
+import { DoctorDetails } from '../database/doctorDetails';
+import { Message } from '../database/message';
+import { UserDetails } from '../database/userDetails';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -143,3 +143,4 @@ export class InMemoryDataService implements InMemoryDbService {
     return {orderRequests, specialities, doctorDetails, messages, userDetails};
   }
 }
+*/
