@@ -1,6 +1,7 @@
 export class Message {
     id: number;
-    user: string;
+    receiverId: string; // id of the user to whom the message was sent
+    senderId: string; // id of the user who has sent the message
     picUrl: string;
     text: string;
     type: string;

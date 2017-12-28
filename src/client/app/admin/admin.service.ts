@@ -13,7 +13,7 @@ import 'rxjs/add/operator/toPromise';
 export class AdminService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = 'api/orderRequests';  // URL to web api
+  private url = 'http://localhost:3000/orderRequest/controllers/';  // URL to web api
   private data: any;
   private newData: any;
 
@@ -41,9 +41,10 @@ export class AdminService {
    * @memberOf AdminService
    */
   getOrderRequests(): Promise<OrderRequest[]> {
-    return this.http.get(this.url)
+    const uri = `${this.url}readAllOrderRequests`;
+    return this.http.get(uri)
       .toPromise()
-      .then(response => response.json().data as OrderRequest[])
+      .then(response => response.json() as OrderRequest[])
       .catch(this.handleError);
   }
 
@@ -54,10 +55,11 @@ export class AdminService {
    * @memberOf AdminService
    */
   create(orderRequest: OrderRequest): Promise<OrderRequest> {
+    const uri = `${this.url}createOrderRequest`;
     return this.http
-    .post(this.url, JSON.stringify(orderRequest), { headers: this.headers})
+    .post(uri, JSON.stringify(orderRequest), { headers: this.headers})
     .toPromise()
-    .then(res => res.json().data as OrderRequest)
+    .then(res => res.json() as OrderRequest)
     .catch(this.handleError);
   }
 
@@ -68,11 +70,11 @@ export class AdminService {
    * @memberOf AdminService
    */
   update(orderRequest: OrderRequest): Promise<OrderRequest> {
-    const url = `${this.url}/${orderRequest.id}`;
+    const uri = `${this.url}updateOrderRequest`;
     return this.http
-      .put(url, JSON.stringify(orderRequest), { headers: this.headers })
+      .put(uri, JSON.stringify(orderRequest), { headers: this.headers })
       .toPromise()
-      .then(() => orderRequest)
+      .then(res => res.json() as OrderRequest)
       .catch(this.handleError);
   }
 
@@ -83,10 +85,10 @@ export class AdminService {
    * @memberOf AdminService
    */
   delete(orderRequest: OrderRequest): Promise<void> {
-    const url = `${this.url}/${orderRequest.id}`;
-    return this.http.delete(url,{ headers: this.headers })
+    const uri = `${this.url}removeOrderRequest/${orderRequest.id}`;
+    return this.http.delete(uri,{ headers: this.headers })
       .toPromise()
-      .then(() => null)
+      .then(res => res.text)
       .catch(this.handleError);
   }
 

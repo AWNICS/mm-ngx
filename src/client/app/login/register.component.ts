@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { LoginService } from './login.service';
+import { UserDetails } from '../shared/database/userDetails';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -12,6 +13,7 @@ import { LoginService } from './login.service';
 })
 export class RegisterComponent implements OnInit {
     registerDetails: FormGroup;
+    userDetails: UserDetails;
 
     constructor(
         private fb: FormBuilder,
@@ -24,16 +26,24 @@ export class RegisterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.registerDetails = this.fb.group({
-            name: '',
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
+            id: null,
+            name: [''],
+            email: [''],
+            phoneNo: [''],
+            picUrl: null,
+            briefDescription: {
+                description: null
+            },
+            status: null,
+            waitingTime: null,
+            rating: null,
+            lastUpdateTime: null
         });
     }
 
-    register(registerDetails: any) {
-        console.log('Registered successfully! ' + registerDetails);
-        this.loginService.registered();
+    register({ value, valid }: {value: UserDetails, valid: boolean}) {
+        //console.log('Registered successfully! ' + registerDetails);
+        this.loginService.createNewUser(value)
+        .subscribe((res) => console.log(res));
     }
 }

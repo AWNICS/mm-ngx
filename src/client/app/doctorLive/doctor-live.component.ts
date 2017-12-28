@@ -27,7 +27,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
     messages: Message[];
     userDetails: UserDetails;
     newMessage: Message = {
-        user: '',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: '',
         picUrl: '',
@@ -43,7 +44,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         }
     };
     radioMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Kindly choose an option: ',
         picUrl: '',
@@ -59,7 +61,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         }
     };
     sliderMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Kindly choose a number from 0 to 10: ',
         picUrl: '',
@@ -75,7 +78,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         }
     };
     checkboxMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Kindly check the relevent boxes: ',
         picUrl: '',
@@ -91,7 +95,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         }
     };
     imageMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Image Component',
         picUrl: '',
@@ -107,7 +112,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         }
     };
     videoMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Video Component',
         picUrl: '',
@@ -124,7 +130,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
     };
 
     appearMessage: Message = {
-        user: 'Rahul',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Appear Component',
         picUrl: '',
@@ -141,7 +148,8 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
     };
 
     alertMessage: Message = {
-        user: 'Bot',
+        receiverId: null,
+        senderId: null,
         id: null,
         text: 'Alert message',
         picUrl: '',

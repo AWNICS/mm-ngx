@@ -19,8 +19,8 @@ import { UserLiveModule } from './userLive/user-live.module';
 import { LoginModule } from './login/login.module';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './shared/services/in-memory-data.service';
+//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+//import { InMemoryDataService } from './shared/services/in-memory-data.service';
 
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -39,7 +39,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     TermsModule,
     DoctorsListModule,
     SharedModule.forRoot(),
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    //InMemoryWebApiModule.forRoot(InMemoryDataService),
     Ng2SmartTableModule,
     DoctorLiveModule,
     UserLiveModule,

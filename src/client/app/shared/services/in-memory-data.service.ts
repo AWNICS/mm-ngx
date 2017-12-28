@@ -1,4 +1,4 @@
-import { InMemoryDbService } from 'angular-in-memory-web-api';
+/*import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { OrderRequest } from '../database/orderRequest';
 import { Specialities } from '../speciality/speciality';
 import { DoctorDetails } from '../database/doctorDetails';
@@ -143,3 +143,4 @@ export class InMemoryDataService implements InMemoryDbService {
     return {orderRequests, specialities, doctorDetails, messages, userDetails};
   }
 }
+*/

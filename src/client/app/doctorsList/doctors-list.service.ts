@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
 import { DoctorDetails } from '../shared/database/doctorDetails';
 
 import 'rxjs/add/operator/toPromise';
@@ -15,7 +17,7 @@ import 'rxjs/add/operator/toPromise';
 export class DoctorsListService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = 'api/doctorDetails';  // URL to web api
+  private url = 'http://localhost:3000/doctor/controllers/getDoctors';  // URL to web api
   private selectedDoctor: DoctorDetails;
   private videoUrl: string;
 
@@ -43,12 +45,11 @@ export class DoctorsListService {
    * @returns {Promise<DoctorDetails[]>}
    * @memberof DoctorsListService
    */
-  getDoctorDetails(): Promise<DoctorDetails[]> {
+  getDoctorDetails(): Observable<DoctorDetails[]> {
     return this.http.get(this.url)
-      .toPromise()
-      .then(response => response.json().data as DoctorDetails[])
-      .catch(this.handleError);
-  }
+    .map((response: Response) => response.json() as DoctorDetails[])
+    .catch(this.handleError);
+}
 
 
   /**

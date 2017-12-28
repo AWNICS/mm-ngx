@@ -1,14 +1,14 @@
 export class OrderRequest {
-    id: number;
-    tel:number;
-    fullname:string;
-    watel: number;
-    mail:string;
-    uFile:string;
-    manual:string;
-    termsAccepted:boolean;
-    confirmationId: number;
-    location:string;
+    id: Date;
+    tel: string;
+    fullname: string;
+    watel: string;
+    mail: string;
+    uFile: string;
+    manual: string;
+    termsAccepted: boolean;
+    confirmationId: string;
+    location: string;
     dp: string;
     button: string;
     speciality: string;

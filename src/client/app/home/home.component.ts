@@ -39,12 +39,12 @@ export class HomeComponent implements OnInit {
   //function to validate the phone number entered and open the OrderWindow else show an alert
   open(value: any) {
     let result: boolean = isNaN(value.mobileNumber);
-    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)) {
+    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
+  || value.speciality === null || value.speciality === 'Select') {
       return;
     } else {
       this.modalHtml.open();
     }
-    console.log(value.speciality);
   }
 
   openConsultant(value: any) {
@@ -66,8 +66,8 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     let number = this.document.body.scrollTop;
-    //console.log(number);
-    //console.log(document.body.offsetHeight);
+    // console.log(number);
+    // console.log(document.body.offsetHeight);
     if (number > 800) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
@@ -84,8 +84,6 @@ export class HomeComponent implements OnInit {
 
   getSpecialities() {
     this.specialityService.getSpecialities()
-      .then(Specialities => {
-        this.specialities = Specialities;
-      });
+      .then( specialities => this.specialities = specialities);
   }
 }
