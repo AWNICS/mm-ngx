@@ -1,4 +1,5 @@
-# MESOMEDS
+# DEVELOP
+# MESOMEDS 
 Angular 2 Web application for the Mesomeds delivery pilot
 
 [![Build Status](https://travis-ci.org/arun-awnics/mesomeds-ng2.svg?branch=master)](https://travis-ci.org/arun-awnics/mesomeds-ng2)
@@ -170,8 +171,27 @@ Visit the [Wiki page](https://github.com/mgechev/angular-seed/wiki) of the proje
 
 # How to update?
 ```
-git remote add upstream https://github.com/mgechev/angular-seed
-git pull upstream master
+### Work with the AWNICS DEVELOP 
+
+# Pull the upstream repository
+git remote add upstream-awn https://github.com/AWNICS/mesomeds-ng2.git
+git pull upstream-awn master
+
+# Start working with the develop branch with a pull-merge
+git checkout develop
+git pull upstream-awn develop
+
+# Commit and push branches to your origin
+git add .
+git commit -m "Updated the code" --author="Rahul Vishwakarma <rahul@awnics.com>"
+git push origin develop
+git push origin master
+
+# Create a pull request for AWNICS repo fron your forked branch
+
+# Build
+npm install (and all other usage docs in this `README` apply).
+
 ```
 
 # Running tests

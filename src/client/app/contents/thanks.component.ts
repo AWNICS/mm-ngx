@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { OrderRequest } from '../shared/database/orderRequest';
+import { OrderRequest } from '../shared/database/order-request';
 import { OrderRequestService } from '../order-window/order-request.service';
 import { AdminService } from '../admin/admin.service';
 /**

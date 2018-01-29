@@ -1,18 +1,18 @@
 export class Message {
-    _id: any; // message id
-    receiverId: number;
+    _id: any;
+    receiverId: number; // id of the user to whom the message was sent
     receiverType: string; // group or individual
-    senderId: number;
-    picUrl: string; // image of the sender or receiver
-    text: string; // message data
-    type: string; // type of the message(checkbox, radio, image, video, etc)
-    status: string; // delivered, read, not-delivered
-    contentType: string; // for radio, checkbox and slider
-    contentData: {
-        data: [string] // for radio, checkbox and slider
+    senderId: number; // id of the user who has sent the message
+    picUrl: string;
+    text: string;
+    type: string;
+    status: string; //sent,seen,notSent,error(unauthorised,connectionFailed)
+    contentType: string; //text,image,radio,checkbox,slider,video
+    contentData: { // data that needs to be sent to the component
+        data:[string];
     };
-    responseData: {
-        data: [string] // for radio, checkbox and slider
+    responseData: { // data that componenet send out to the web services
+        data:[string];
     };
     createdBy: string;
     updatedBy: string;

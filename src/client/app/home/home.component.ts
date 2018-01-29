@@ -3,8 +3,8 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
-import { DoctorsListComponent } from '../doctorsList/doctors-list.component';
-import { OrderRequest } from '../shared/database/orderRequest';
+import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
+import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/speciality/speciality';
 /**

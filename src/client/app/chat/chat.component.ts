@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
-import { UserDetails } from '../shared/database/userDetails';
+import { UserDetails } from '../shared/database/user-details';
 /**
  * This class represents the lazy loaded ChatComponent.
  */

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { LoginService } from './login.service';
-import { UserDetails } from '../shared/database/userDetails';
+import { UserDetails } from '../shared/database/user-details';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
