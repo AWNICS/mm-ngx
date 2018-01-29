@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserLiveComponent } from './user-live.component';
 import { UserLiveRoutingModule } from './user-live-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { DoctorLiveModule } from '../doctorLive/doctor-live.module';
+import { DoctorLiveModule } from '../doctor-live/doctor-live.module';
 
 // module for star rating
 import { RatingModule } from 'ngx-rating';

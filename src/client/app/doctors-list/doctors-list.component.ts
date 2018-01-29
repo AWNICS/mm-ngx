@@ -2,7 +2,7 @@ import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { DoctorsListService } from './doctors-list.service';
-import { DoctorDetails } from '../shared/database/doctorDetails';
+import { DoctorDetails } from '../shared/database/doctor-details';
 import { VideoModalComponent } from './video-modal.component';
 
 /**
@@ -41,7 +41,7 @@ export class DoctorsListComponent implements OnInit {
      */
     getDoctorDetails() {
         this.doctorsListService.getDoctorDetails()
-            .then((doctorDetail) => {
+            .subscribe((doctorDetail) => {
                 this.doctorDetails = doctorDetail;
             });
     }

@@ -6,7 +6,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { OrderWindowModule } from '../order-window/order-window.module';
 import { ContentsModule } from '../contents/contents.module';
-import { DoctorsListModule } from '../doctorsList/doctors-list.module';
+import { DoctorsListModule } from '../doctors-list/doctors-list.module';
 
 // smooth scroll module
 import { Ng2PageScrollModule } from 'ng2-page-scroll';

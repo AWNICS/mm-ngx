@@ -12,15 +12,15 @@ import { ContentsModule } from './contents/contents.module';
 import { HomeModule } from './home/home.module';
 import { OrderWindowModule } from './order-window/order-window.module';
 import { TermsModule } from './terms/terms.module';
-import { DoctorsListModule } from './doctorsList/doctors-list.module';
+import { DoctorsListModule } from './doctors-list/doctors-list.module';
 import { SharedModule } from './shared/shared.module';
-import { DoctorLiveModule } from './doctorLive/doctor-live.module';
-import { UserLiveModule } from './userLive/user-live.module';
-import { ContactUsModule } from './contactUs/contact-us.module';
+import { DoctorLiveModule } from './doctor-live/doctor-live.module';
+import { UserLiveModule } from './user-live/user-live.module';
+import { LoginModule } from './login/login.module';
 
 // Imports for loading & configuring the in-memory web api
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './shared/database/in-memory-data.service';
+//import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+//import { InMemoryDataService } from './shared/services/in-memory-data.service';
 
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -39,11 +39,11 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     TermsModule,
     DoctorsListModule,
     SharedModule.forRoot(),
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
+    //InMemoryWebApiModule.forRoot(InMemoryDataService),
     Ng2SmartTableModule,
     DoctorLiveModule,
     UserLiveModule,
-    ContactUsModule
+    LoginModule
     ],
   declarations: [AppComponent],
   providers: [{

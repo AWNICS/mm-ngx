@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctorLive/live-chat.service';
+import { LiveChatService } from '../../doctor-live/live-chat.service';
 
 /**
  * Slider component in live chat
