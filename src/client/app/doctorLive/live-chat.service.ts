@@ -14,7 +14,7 @@ import 'rxjs/add/operator/toPromise';
 export class LiveChatService {
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
-  private url = 'api/messages';  // URL to web api
+  private url = 'http://localhost:3000/message/controllers/';  // URL to web api
   private userUrl = 'api/userDetails';
 
   constructor(private http: Http) { }
@@ -27,32 +27,34 @@ export class LiveChatService {
   }
 
   getMessages(): Promise<Message[]> {
-    return this.http.get(this.url)
+    const uri = `${this.url}getMessage`;
+    return this.http.get(uri)
       .toPromise()
       .then(response => response.json().data as Message[])
       .catch(this.handleError);
   }
 
   createMessages(newMessage: Message): Promise<Message> {
+    const uri = `${this.url}sendMessage`;
     return this.http
-    .post(this.url, JSON.stringify(newMessage), { headers: this.headers})
+    .post(uri, JSON.stringify(newMessage), { headers: this.headers})
     .toPromise()
     .then(res => res.json().data as Message)
     .catch(this.handleError);
   }
 
   update(message:Message): Promise<Message> {
-    const url = `${this.url}/${message.id}`;
+    const uri = `${this.url}putMessage`;
     return this.http
-      .put(url, JSON.stringify(message), { headers: this.headers })
+      .put(uri, JSON.stringify(message), { headers: this.headers })
       .toPromise()
       .then(()=> message)
       .catch(this.handleError);
   }
 
   delete(message:Message): Promise<void> {
-    const url = `${this.url}/${message.id}`;
-    return this.http.delete(url,{ headers: this.headers })
+    const uri = `${this.url}removeMessage/${message.id}`;
+    return this.http.delete(uri,{ headers: this.headers })
       .toPromise()
       .then(() => null)
       .catch(this.handleError);
