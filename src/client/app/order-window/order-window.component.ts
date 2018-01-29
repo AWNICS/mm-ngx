@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { OrderRequest } from '../shared/database/orderRequest';
+import { OrderRequest } from '../shared/database/order-request';
 import { OrderRequestService } from './order-request.service';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin/admin.service';
@@ -104,6 +104,6 @@ export class OrderWindowComponent implements OnInit {
         this.adminService.create(value)
             .then(orderRequest => {
                 this.orderRequests.push(orderRequest);
-            });
+        });
     }
 }

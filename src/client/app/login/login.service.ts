@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { UserDetails } from '../shared/database/userDetails';
+import { UserDetails } from '../shared/database/user-details';
 import { Observable } from 'rxjs/Rx';
 
 // Import RxJs required methods
@@ -16,7 +16,7 @@ export class LoginService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000/userClone/controllers';  // URL to access server
+    private url = 'http://localhost:3000/user/controllers';  // URL to access server
 
     constructor(private router: Router, private http: Http) {
     }
@@ -37,7 +37,7 @@ export class LoginService {
     }
 
     createNewUser(userDetails: UserDetails): Observable<UserDetails[]> {
-        const url = `${this.url}/createUserClone`;
+        const url = `${this.url}/createUser`;
         this.router.navigate(['/login']);
         return this.http
             .post(url, userDetails, this.options)
@@ -46,7 +46,7 @@ export class LoginService {
     }
 
     update(userDetails: UserDetails): Promise<UserDetails> {
-        const url = `${this.url}/putUserDetails/${userDetails.id}`;
+        const url = `${this.url}/putUser`;
         return this.http
             .put(url, JSON.stringify(userDetails), { headers: this.headers })
             .toPromise()
@@ -55,7 +55,7 @@ export class LoginService {
     }
 
     delete(userDetails: UserDetails): Promise<void> {
-        const url = `${this.url}/removeUserDetails/${userDetails.id}`;
+        const url = `${this.url}/deleteUser/${userDetails.id}`;
         return this.http.delete(url, { headers: this.headers })
             .toPromise()
             .then(() => null)

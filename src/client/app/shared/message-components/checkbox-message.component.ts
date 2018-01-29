@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctorLive/live-chat.service';
+import { LiveChatService } from '../../doctor-live/live-chat.service';
 
 /**
  * CheckBoxMessageComponent to display check box options

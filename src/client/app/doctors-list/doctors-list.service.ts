@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { DoctorDetails } from '../shared/database/doctorDetails';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 import 'rxjs/add/operator/toPromise';
 

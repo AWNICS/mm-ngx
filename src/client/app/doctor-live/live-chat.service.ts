@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Message } from '../shared/database/message';
-import { UserDetails } from '../shared/database/userDetails';
+import { UserDetails } from '../shared/database/user-details';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -42,7 +42,7 @@ export class LiveChatService {
   }
 
   update(message:Message): Promise<Message> {
-    const url = `${this.url}/${message.id}`;
+    const url = `${this.url}/${message._id}`;
     return this.http
       .put(url, JSON.stringify(message), { headers: this.headers })
       .toPromise()
@@ -51,7 +51,7 @@ export class LiveChatService {
   }
 
   delete(message:Message): Promise<void> {
-    const url = `${this.url}/${message.id}`;
+    const url = `${this.url}/${message._id}`;
     return this.http.delete(url,{ headers: this.headers })
       .toPromise()
       .then(() => null)

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctorLive/live-chat.service';
+import { LiveChatService } from '../../doctor-live/live-chat.service';
 
 /**
  * appear component to load the appear call in an iframe
