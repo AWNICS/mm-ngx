@@ -1,6 +1,6 @@
 import { Component, ViewChild, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { OrderRequest } from '../order-window/order-request';
+import { OrderRequest } from '../shared/database/order-request';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin/admin.service';
 import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';

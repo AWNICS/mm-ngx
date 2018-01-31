@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctorLive/live-chat.service';
+import { LiveChatService } from '../../doctor-live/live-chat.service';
 
 /**
  * AlertMessageComponent displays the text from the chat window

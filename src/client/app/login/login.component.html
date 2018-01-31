@@ -1,0 +1,22 @@
+<mm-navbar></mm-navbar>
+<br/>
+<br/>
+<br/>
+<div class="container">
+    <div class="row" *ngIf="error">
+        {{error}}
+    </div>
+    <div class="row">
+        <div class="col col-6">
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Username" #username>
+                    </div>
+                </div>
+                <button i18n type="submit" class="btn btn-primary" (click)="login(username.value); username.value=''">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+<mm-footer></mm-footer>
