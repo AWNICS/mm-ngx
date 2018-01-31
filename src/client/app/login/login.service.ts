@@ -29,6 +29,14 @@ export class LoginService {
         this.router.navigate(['/']);
     }
 
+    getUserByName(username: string): Promise<UserDetails> {
+        const uri = `${this.url}/findUserByName/${username}`;
+        return this.http
+            .get(uri).toPromise()
+            .then(response => response.json() as UserDetails)
+            .catch(this.handleError);
+    }
+
     getUsers(): Promise<UserDetails[]> {
         return this.http
             .get(this.url).toPromise()
