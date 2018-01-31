@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from './login.service';
+import { UserDetails } from '../shared/database/user-details';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -11,11 +12,13 @@ import { LoginService } from './login.service';
   styleUrls: ['login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  loginDetails: FormGroup;
+
+  private user: UserDetails;
+  private error: string;
 
   constructor(
-      private fb: FormBuilder,
-      private loginService: LoginService
+      private loginService: LoginService,
+      private router: Router
   ) { }
 
   /**
@@ -23,14 +26,17 @@ export class LoginComponent implements OnInit {
    * @memberOf LoginComponent
    */
   ngOnInit(): void {
-      this.loginDetails = this.fb.group({
-        username: '',
-        password: ''
-      });
+    console.log('Init');
   }
 
-  login(loginDetails: any) {
-    console.log('Log in details: ' + loginDetails);
-    this.loginService.loggedIn();
+  login(username: string) {
+    this.loginService.getUserByName(username)
+    .then(user => {
+      this.user = user;
+        this.router.navigate(['/chat']);
+    }).catch(e => {
+      this.error = e.statusText;
+      return;
+    });
   }
  }

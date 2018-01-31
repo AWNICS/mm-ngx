@@ -1,19 +1,20 @@
 <mm-navbar></mm-navbar>
+<br/>
+<br/>
+<br/>
 <div class="container">
+    <div class="row" *ngIf="error">
+        {{error}}
+    </div>
     <div class="row">
         <div class="col col-6">
-            <form novalidate [formGroup]="loginDetails" (ngSubmit)="login(loginDetails)">
+            <form>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" style="width: 100%;" class="form-control" formControlName="username" [(ngModel)]="username" placeholder="Username">
+                        <input type="text" class="form-control" placeholder="Username" #username>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="password" style="width: 100%;" class="form-control" formControlName="password" [(ngModel)]="password" placeholder="Password">
-                    </div>
-                </div>
-                <button i18n type="submit" class="btn btn-primary" [disabled]="loginDetails.invalid">Login</button>
+                <button i18n type="submit" class="btn btn-primary" (click)="login(username.value); username.value=''">Login</button>
             </form>
         </div>
     </div>
