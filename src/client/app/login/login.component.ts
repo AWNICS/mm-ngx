@@ -33,11 +33,10 @@ export class LoginComponent implements OnInit {
     this.loginService.getUserByName(username)
     .then(user => {
       this.user = user;
-      if(user) {
         this.router.navigate(['/chat']);
-      } else {
-        this.error = 'User does not exist';
-      }
+    }).catch(e => {
+      this.error = e.statusText;
+      return;
     });
   }
  }
