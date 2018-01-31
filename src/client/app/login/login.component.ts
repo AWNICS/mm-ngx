@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       this.user = user;
         this.router.navigate(['/chat']);
     }).catch(e => {
-      this.error = e.statusText;
+      this.error = 'User not found';
       return;
     });
   }
