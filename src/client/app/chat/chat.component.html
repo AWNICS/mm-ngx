@@ -1,3 +1,95 @@
-<h1>
-    This is chat component
-</h1>
+<div class="container">
+    <div class="row selected-user" *ngIf="selectedUser;">
+        <div class="col col-10">
+            {{selectedUser.name}}
+            <img class="img-lg" src="{{selectedUser.picUrl}}" alt="Display picture" />
+        </div>
+        <div class="col col-2">
+            <a class="logout-button" routerLink="/" (click)="logout()">Logout</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col col-3 list">
+            <div class="row">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="search" aria-describedby="search" placeholder="Search">
+                    </div>
+                </form>
+            </div>
+            <div class="row groupSelect" *ngFor="let group of groups" (click)="getMessage(group)">
+                <div class="col col-3">
+                    <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
+                </div>
+                <div class="col" style="margin:10px;">
+                    <div class="row name">
+                        <span>{{group.name}}</span>
+                    </div>
+                    <div class="row status">
+                        {{group.description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-9 chatBox">
+            <div class="row title" *ngIf="selectedGroup else loadThis">
+                <div class="col col-2">
+                    <img class="img-lg" src="{{selectedGroup.picture}}" alt="Display picture" />
+                </div>
+                <div class="col col-10">
+                    <div class="row">{{selectedGroup.name}}</div>
+                    <div class="row">Created by: {{selectedGroup.createdBy}}</div>
+                    <div class="row" *ngIf="typing">
+                        {{typingMessage}}
+                    </div>
+                </div>
+            </div>
+            <ng-template #loadThis>
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                <span class="sr-only">Loading...</span>
+            </ng-template>
+            <div class="row messageBox" id="messageBox" (scroll)="onScroll($event)">
+                <div class="container" *ngFor="let message of messages">
+                    <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
+                        <div class="row text-box-right">
+                            <div class="row text-message">
+                                <div class="col">
+                                    {{message.createdBy}}
+                                    <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                                </div>
+                                <div class="col">
+                                    {{message.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #alignLeft>
+                        <div class="row text-box-left">
+                            <div class="row text-message">
+                                <div class="col">
+                                    {{message.createdBy}}
+                                    <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                                </div>
+                                <div class="col">
+                                    {{message.text}}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="row">
+                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)" (input)="sendTyping()">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" class="form-control" formControlName="text" placeholder="Type your message...">
+                            <button type="submit" class="btn btn-primary" [disabled]="message.invalid">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
