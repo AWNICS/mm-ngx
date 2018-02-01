@@ -15,40 +15,40 @@ import { Group } from '../shared/database/group';
 export class ChatService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
     //private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000/user/controllers';  
-    private userUrl = 'http://localhost:3000/user/controllers'; 
+    private url = 'http://localhost:3000/user/controllers';
+    private userUrl = 'http://localhost:3000/user/controllers';
     private user: UserDetails;
     private group: Group;
-    private groupUrl = 'http://localhost:3000/group/controllers/';  
-    private messageUrl = 'http://localhost:3000/message/controllers/';  
+    private groupUrl = 'http://localhost:3000/group/controllers/';
+    private messageUrl = 'http://localhost:3000/message/controllers/';
 
     constructor(private router: Router, private http: Http) {
     }
 
     /** GET users from the server */
-    getUsers(): Promise<any> {
+    getUsers(): Promise<UserDetails[]> {
         return this.http.get(this.userUrl)
-        .toPromise()
-        .then(res => res)
-        .catch(this.handleError);
+            .toPromise()
+            .then(res => res.json())
+            .catch(this.handleError);
     }
 
     /**
      * GET userById from the server
      */
-    getUserById(id: number): Promise<any> {
+    getUserById(id: number): Promise<UserDetails> {
         return this.http.get(`${this.userUrl}/getUserById/${id}`)
-        .toPromise()
-        .then(res => res)
-        .catch(this.handleError);
+            .toPromise()
+            .then(res => res.json() as UserDetails)
+            .catch(this.handleError);
     }
 
     /** GET groups from the server */
-    getGroups (userId: number): Promise<any> {
+    getGroups(userId: number): Promise<Group[]> {
         return this.http.get(`${this.groupUrl}getGroups/user/${userId}/groups`)
-        .toPromise()
-        .then(res => res.json())
-        .catch(this.handleError);
+            .toPromise()
+            .then(res => res.json())
+            .catch(this.handleError);
     }
 
     setUser(user: any) {
@@ -63,18 +63,18 @@ export class ChatService {
         this.group = group;
     }
 
-    getGroup(){
+    getGroup() {
         return this.group;
     }
 
     /** GET messages from the server */
-    getMessages(userId: number, groupId: number, offset: number, size: number): Promise<any> {
+    getMessages(userId: number, groupId: number, offset: number, size: number): Promise<Message[]> {
         return this.http.get(
-        `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`
+            `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`
         )
-        .toPromise()
-        .then(res => res.json())
-        .catch(this.handleError);
+            .toPromise()
+            .then(res => res.json())
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Promise<UserDetails> {

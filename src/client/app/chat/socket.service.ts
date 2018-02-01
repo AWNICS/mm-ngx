@@ -2,15 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Message } from '../shared/database/message';
 import * as io from 'socket.io-client';
 
 @Injectable()
 export class SocketService {
     private socket: any;
     private baseUrl = 'http://localhost:3000';
-
-    constructor() {  
-    }
 
     /**
      * connection
@@ -20,6 +18,10 @@ export class SocketService {
         this.socket.on('connect', () => {
             this.socket.emit('user-connected', userId);
         });
+    }
+
+    sendMessage(message: Message) {
+        this.socket.emit('send-message', message);
     }
 
     receiveMessages(): any {
