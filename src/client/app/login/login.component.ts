@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -11,7 +11,7 @@ import { UserDetails } from '../shared/database/user-details';
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   private user: UserDetails;
   private error: string;
@@ -21,19 +21,11 @@ export class LoginComponent implements OnInit {
       private router: Router
   ) { }
 
-  /**
-   * initialising form group
-   * @memberOf LoginComponent
-   */
-  ngOnInit(): void {
-    console.log('Init');
-  }
-
   login(username: string) {
     this.loginService.getUserByName(username)
     .then(user => {
       this.user = user;
-        this.router.navigate(['/chat']);
+        this.router.navigate([`/chat/${user.id}`]);
     }).catch(e => {
       this.error = 'User not found';
       return;

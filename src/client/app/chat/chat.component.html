@@ -2,10 +2,10 @@
     <div class="row selected-user" *ngIf="selectedUser;">
         <div class="col col-10">
             {{selectedUser.name}}
-            <img class="img-lg" src="{{selectedUser.picUrl}}" alt="Display picture" />
+            <img class="img-lg" [src]="selectedUser.picUrl" alt="Display picture" />
         </div>
         <div class="col col-2">
-            <a class="logout-button" routerLink="/" (click)="logout()">Logout</a>
+            <a class="logout-button" routerLink="/login">Logout</a>
         </div>
     </div>
 </div>
@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="row">
-                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)" (input)="sendTyping()">
+                <form novalidate [formGroup]="message" (ngSubmit)="sendMessage(message)">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text" class="form-control" formControlName="text" placeholder="Type your message...">
