@@ -74,7 +74,7 @@ export class ProjectConfig extends SeedConfig {
 
     this.addPackageBundles({
       name: 'socket.io-client',
-      path: 'node_modules/socket.io-client/dist/socket.io.js'
+      path: 'node_modules/socket.io-client/dist/socket.io.slim.js'
     });
 
     // Add packages (e.g. ng2-translate)
