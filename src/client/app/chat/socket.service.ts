@@ -24,7 +24,7 @@ export class SocketService {
         this.socket.emit('send-message', message);
     }
 
-    receiveMessages(): any {
+    receiveMessages(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('receive-message', (data: any) => {
                 observer.next(data);
