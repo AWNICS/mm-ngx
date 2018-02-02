@@ -4,7 +4,7 @@ export class Group {
     url: string; // group url
     description: string; // description of the group
     picture: string; // picture url
-    userIds: string; // ids of the users present in the group
+    userId: number; // ids of the users present in the group
     createdBy: string;
     updatedBy: string;
     createdTime: any;

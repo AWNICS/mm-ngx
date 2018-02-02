@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -10,17 +10,19 @@ import 'rxjs/add/operator/catch';
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
+import { GroupUserMap } from '../shared/database/group-user-map';
 
 @Injectable()
 export class ChatService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    //private options = new RequestOptions({ headers: this.headers }); // Create a request option
+    private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000/user/controllers';
     private userUrl = 'http://localhost:3000/user/controllers';
     private user: UserDetails;
     private group: Group;
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
+    private groupUserMap: GroupUserMap;
 
     constructor(private router: Router, private http: Http) {
     }
@@ -43,6 +45,16 @@ export class ChatService {
             .catch(this.handleError);
     }
 
+    /**
+     * create new user 
+     */
+    /*createDefaultUser(user: UserDetails): Promise<UserDetails> {
+        return this.http.post(`${this.userUrl}/createUser`, user, this.options)
+            .toPromise()
+            .then(response => response.json() as UserDetails)
+            .catch(this.handleError);
+    }*/
+
     /** GET groups from the server */
     getGroups(userId: number): Promise<Group[]> {
         return this.http.get(`${this.groupUrl}getGroups/user/${userId}/groups`)
@@ -50,6 +62,14 @@ export class ChatService {
             .then(res => res.json())
             .catch(this.handleError);
     }
+
+    /** create group  */
+    /*createGroup(group: Group): Promise<Group[]> {
+        return this.http.post(`${this.groupUrl}createGroup`, group, this.options)
+            .toPromise()
+            .then(response => response.json())
+            .catch(this.handleError);
+    }*/
 
     setUser(user: any) {
         this.user = user;

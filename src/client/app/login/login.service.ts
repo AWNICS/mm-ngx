@@ -44,12 +44,12 @@ export class LoginService {
             .catch(this.handleError);
     }
 
-    createNewUser(userDetails: UserDetails): Observable<UserDetails[]> {
+    createNewUser(userDetails: UserDetails): Promise<UserDetails> {
         const url = `${this.url}/createUser`;
         this.router.navigate(['/login']);
         return this.http
-            .post(url, userDetails, this.options)
-            .map((res: Response) => res.text())
+            .post(url, userDetails, this.options).toPromise()
+            .then(response => response.json() as UserDetails)
             .catch(this.handleError);
     }
 
