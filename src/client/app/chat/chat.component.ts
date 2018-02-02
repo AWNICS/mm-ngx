@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, group } from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,7 +18,8 @@ import { Message } from '../shared/database/message';
   templateUrl: 'chat.component.html',
   styleUrls: ['chat.component.css'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+
   private userId: number; // to initialize the user logged in
   private selectedUser: UserDetails;
   private selectedGroup: Group;
@@ -27,6 +28,7 @@ export class ChatComponent implements OnInit {
   private message: FormGroup;
   private oldGroupId = 1;
   private offset = 0;
+  private autoScroll = true;
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +49,12 @@ export class ChatComponent implements OnInit {
     this.getGroups();
     this.createForm();
     this.receiveMessageFromSocket();
+  }
+
+  ngAfterViewChecked() {
+    if(this.autoScroll) {
+      this.scrollToBottom();
+    }
   }
 
   createForm() {
@@ -87,6 +95,7 @@ export class ChatComponent implements OnInit {
         .catch(error => console.log('error: ', error));
     } else {
       this.messages = [];
+      this.autoScroll = true;
       this.offset = 0;
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
@@ -111,6 +120,7 @@ export class ChatComponent implements OnInit {
       this.socketService.sendMessage(value);
     }
     this.message.reset();
+    this.autoScroll = true;
   }
 
   receiveMessageFromSocket() {
@@ -120,10 +130,7 @@ export class ChatComponent implements OnInit {
           this.messages.push(msg);
         }
       });
-  }
-
-  onScroll(event: any) {
-    console.log('Scrolled');
+      this.autoScroll = true;
   }
 
   getGroups() {
@@ -134,5 +141,19 @@ export class ChatComponent implements OnInit {
         });
       })
       .catch(error => console.log('error: ', error));
+  }
+
+  scrollToBottom() {
+    const height = document.getElementById('messageBox');
+      height.scrollTop = height.scrollHeight;
+  }
+
+  onScroll() {
+    this.autoScroll = false;
+    const height = document.getElementById('messageBox');
+    if(height.scrollTop === 0 ) {
+      this.offset = this.offset +20;
+      this.getMessage(this.selectedGroup);
+    }
   }
 }

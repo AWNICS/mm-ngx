@@ -2,3 +2,14 @@ form {
     margin-top: 80px;
     margin-bottom: 400px;
 }
+
+.error {
+    display: block;
+    width: 20%;
+    margin: 2px;
+    padding: 5px;
+    color: #FF0000;
+    border: 1px solid rgba(185, 6, 6, 0.945);
+    background-color: rgba(184, 8, 8, 0.315);
+    border-radius: 4px;
+}
