@@ -50,6 +50,6 @@ export class RegisterComponent implements OnInit {
         value.updatedBy = value.name;
         this.loginService.createNewUser(value)
         .then(response => response)
-        .catch(error => console.log('error: ', error));
+        .catch(error => error);
     }
 }

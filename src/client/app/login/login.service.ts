@@ -9,8 +9,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-//import { OrderRequest } from '../shared/database/orderRequest';
-
 @Injectable()
 export class LoginService {
 
