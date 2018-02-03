@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response } from '@angular/http';
+import { Headers, Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { Group } from '../shared/database/group';
 @Injectable()
 export class ChatService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
-    //private options = new RequestOptions({ headers: this.headers }); // Create a request option
+    private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000/user/controllers';
     private userUrl = 'http://localhost:3000/user/controllers';
     private user: UserDetails;

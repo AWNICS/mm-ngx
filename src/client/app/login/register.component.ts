@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
+import { Group } from '../shared/database/group';
+import { ChatService } from '../chat/chat.service';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -17,7 +19,8 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private chatService: ChatService
     ) { }
 
     /**
@@ -27,23 +30,26 @@ export class RegisterComponent implements OnInit {
     ngOnInit(): void {
         this.registerDetails = this.fb.group({
             id: null,
+            socketId: null,
             name: [''],
             email: [''],
             phoneNo: [''],
             picUrl: null,
-            briefDescription: {
-                description: null
-            },
-            status: null,
-            waitingTime: null,
-            rating: null,
-            lastUpdateTime: null
+            privilege: null,
+            createdTime: '',
+            createdBy: null,
+            updatedTime: '',
+            updatedBy: null
         });
     }
 
-    register({ value, valid }: {value: UserDetails, valid: boolean}) {
-        //console.log('Registered successfully! ' + registerDetails);
+    register({ value, valid }: {value: UserDetails, valid: boolean }) {
+        value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+        value.createdBy = value.name;
+        value.privilege = 'user';
+        value.updatedBy = value.name;
         this.loginService.createNewUser(value)
-        .subscribe((res) => console.log(res));
+        .then(response => response)
+        .catch(error => error);
     }
 }
