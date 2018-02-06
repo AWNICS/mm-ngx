@@ -1,11 +1,5 @@
 <mm-navbar></mm-navbar>
-<br/>
-<br/>
-<br/>
 <div class="container">
-    <div class="row error" *ngIf="error">
-        {{error}}
-    </div>
     <div class="row">
         <div class="col col-6">
             <form>
@@ -14,7 +8,13 @@
                         <input type="text" class="form-control" placeholder="Username" #username>
                     </div>
                 </div>
+                <div class="error" *ngIf="error">
+                    {{error}}
+                </div>
                 <button i18n type="submit" class="btn btn-primary" (click)="login(username.value); username.value=''">Login</button>
+                <a routerLink='/register' routerLinkActive='active'>
+                    Not a member yet? Sign up
+                </a>
             </form>
         </div>
     </div>

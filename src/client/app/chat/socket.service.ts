@@ -28,7 +28,6 @@ export class SocketService {
         const observable = new Observable(observer => {
             this.socket.on('receive-message', (data: any) => {
                 observer.next(data);
-                console.log('message received: ', data);
             });
             return () => {
                 this.socket.disconnect();

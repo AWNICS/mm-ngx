@@ -68,12 +68,10 @@ export class ChatService {
     }
 
     /** GET messages from the server */
-    getMessages(userId: number, groupId: number, offset: number, size: number): Promise<Message[]> {
-        return this.http.get(
-            `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`
-        )
-            .toPromise()
-            .then(res => res.json())
+    getMessages(userId: number, groupId: number, offset: number, size: number): Observable<Message[]> {
+        const uri = `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`;
+        return this.http.get(uri)
+            .map(res => res.json())
             .catch(this.handleError);
     }
 
