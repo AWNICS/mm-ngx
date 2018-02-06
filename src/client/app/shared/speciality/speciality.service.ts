@@ -3,7 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 
-import { Specialities } from './speciality';
+import { Specialities } from '../database/speciality';
 
 const httpOptions = {
     headers: new Headers({ 'Content-Type': 'application/json' })

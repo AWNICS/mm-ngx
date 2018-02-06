@@ -6,7 +6,7 @@ import { OrderWindowComponent } from '../order-window/order-window.component';
 import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
-import { Specialities } from '../shared/speciality/speciality';
+import { Specialities } from '../shared/database/speciality';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
