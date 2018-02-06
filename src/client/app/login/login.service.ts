@@ -9,8 +9,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
-//import { OrderRequest } from '../shared/database/orderRequest';
-
 @Injectable()
 export class LoginService {
 
@@ -44,12 +42,12 @@ export class LoginService {
             .catch(this.handleError);
     }
 
-    createNewUser(userDetails: UserDetails): Observable<UserDetails[]> {
+    createNewUser(userDetails: UserDetails): Promise<UserDetails> {
         const url = `${this.url}/createUser`;
         this.router.navigate(['/login']);
         return this.http
-            .post(url, userDetails, this.options)
-            .map((res: Response) => res.text())
+            .post(url, userDetails, this.options).toPromise()
+            .then(response => response.json() as UserDetails)
             .catch(this.handleError);
     }
 

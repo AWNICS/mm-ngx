@@ -118,4 +118,5 @@ form {
 
 textarea {
     resize: none;
+    border: none;
 }

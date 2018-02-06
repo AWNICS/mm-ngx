@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -17,9 +17,11 @@ import { Message } from '../shared/database/message';
   selector: 'mm-chat',
   templateUrl: 'chat.component.html',
   styleUrls: ['chat.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit {
 
+  @ViewChild('messageBox') messageBox: ElementRef;
   private userId: number; // to initialize the user logged in
   private selectedUser: UserDetails;
   private selectedGroup: Group;
@@ -28,7 +30,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   private message: FormGroup;
   private oldGroupId = 1;
   private offset = 0;
-  private autoScroll = true;
+  private groupSelected = false;
 
   constructor(
     private fb: FormBuilder,
@@ -36,6 +38,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private location: Location,
     private socketService: SocketService,
     private chatService: ChatService,
+    private ref: ChangeDetectorRef
   ) {
   }
 
@@ -49,12 +52,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.getGroups();
     this.createForm();
     this.receiveMessageFromSocket();
-  }
-
-  ngAfterViewChecked() {
-    if(this.autoScroll) {
-      this.scrollToBottom();
-    }
   }
 
   createForm() {
@@ -85,27 +82,45 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.setGroup(group);
     this.selectedGroup = group;
     const size = 20;
-    if (this.oldGroupId === group.id) {
+    if (this.oldGroupId === group.id && !this.groupSelected) {
+      // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
-        .then((msg) => {
+        .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
+            this.ref.detectChanges();
+            this.scrollToBottom();
           });
-        })
-        .catch(error => console.log('error: ', error));
-    } else {
+        });
+    } else if (this.oldGroupId !== group.id && !this.groupSelected) {
+      // else if user selects different group, clear the messages from array and load new messages
       this.messages = [];
-      this.autoScroll = true;
       this.offset = 0;
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
-        .then((msg) => {
+        .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
+            this.ref.detectChanges();
+            this.scrollToBottom();
           });
-        })
-        .catch(error => console.log('error: ', error));
+        });
+    } else {
+      // return 0 if user selects same group more than once
+      return;
     }
+    this.groupSelected = true;
+  }
+
+  getMoreMessages(group: Group) {
+    const size = 20;
+    this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
+      .subscribe((msg) => {
+        msg.map((message: any) => {
+          this.messages.unshift(message);
+          this.ref.detectChanges();
+        });
+      });
   }
 
   sendMessage({ value, valid }: { value: Message, valid: boolean }): void {
@@ -113,14 +128,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.receiverType = 'group';
-    console.log('value: ', JSON.stringify(value));
     if (value.text === '') {
       return;
     } else {
       this.socketService.sendMessage(value);
     }
     this.message.reset();
-    this.autoScroll = true;
   }
 
   receiveMessageFromSocket() {
@@ -128,9 +141,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
+          this.ref.detectChanges();
+          this.scrollToBottom();
         }
       });
-      this.autoScroll = true;
   }
 
   getGroups() {
@@ -138,22 +152,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       .then((groups) => {
         groups.map((group: any) => {
           this.groups.push(group);
+          this.ref.detectChanges();
         });
       })
       .catch(error => console.log('error: ', error));
   }
 
   scrollToBottom() {
-    const height = document.getElementById('messageBox');
-      height.scrollTop = height.scrollHeight;
+    const scrollPane: any = this.messageBox.nativeElement;
+    scrollPane.scrollTop = scrollPane.scrollHeight;
   }
 
   onScroll() {
-    this.autoScroll = false;
-    const height = document.getElementById('messageBox');
-    if(height.scrollTop === 0 ) {
-      this.offset = this.offset +20;
-      this.getMessage(this.selectedGroup);
+    const scrollPane: any = this.messageBox.nativeElement;
+    if (scrollPane.scrollTop === 0) {
+      this.offset = this.offset + 20;
+      this.getMoreMessages(this.selectedGroup);
     }
   }
 }
