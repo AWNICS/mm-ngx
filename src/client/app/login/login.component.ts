@@ -13,8 +13,8 @@ import { UserDetails } from '../shared/database/user-details';
 })
 export class LoginComponent {
 
-  private user: UserDetails;
-  private error: string;
+  user: UserDetails;
+  error: string;
 
   constructor(
       private loginService: LoginService,

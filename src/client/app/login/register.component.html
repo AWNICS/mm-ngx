@@ -5,17 +5,17 @@
             <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" style="width: 100%;" class="form-control" formControlName="name" [(ngModel)]="name" placeholder="Name" autocomplete>
+                        <input type="text" style="width: 100%;" class="form-control" formControlName="name" placeholder="Name" autocomplete>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="email" style="width: 100%;" class="form-control" formControlName="email" [(ngModel)]="email" placeholder="Email" autocomplete>
+                        <input type="email" style="width: 100%;" class="form-control" formControlName="email" placeholder="Email" autocomplete>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" style="width: 100%;" class="form-control" formControlName="phoneNo" [(ngModel)]="phoneNo" placeholder="Phone number" autocomplete>
+                        <input type="text" style="width: 100%;" class="form-control" formControlName="phoneNo" placeholder="Phone number" autocomplete>
                     </div>
                 </div>
                 <button i18n type="submit" class="btn btn-primary" [disabled]="registerDetails.invalid">Register</button>
