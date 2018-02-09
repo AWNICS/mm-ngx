@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
 import { LiveChatService } from '../../doctor-live/live-chat.service';
+import { SocketService } from '../../chat/socket.service';
+import { ChatService } from '../../chat/chat.service';
 
 /**
  * RadioMessageComponent to display the radio message
@@ -25,13 +27,15 @@ import { LiveChatService } from '../../doctor-live/live-chat.service';
 
 export class RadioMessageComponent implements OnInit {
     @Input() message: Message;
-    header:string;
-    items:string[] = [''];
+    header: string;
+    items: string[] = [''];
     model = { options: '' };
-    @Input() public responseData:string;
+    @Input() public textMessage: string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
-    constructor(private liveChatService:LiveChatService) {
+    constructor(
+        private socketService: SocketService,
+        private chatService: ChatService) {
     }
 
     ngOnInit() {
@@ -40,20 +44,15 @@ export class RadioMessageComponent implements OnInit {
     }
 
     addNewEntry(): void {
-        this.responseData = this.model.options;
+        this.textMessage = this.model.options;
         this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.responseData
+            value: 'You chose: ' + this.textMessage
         });
     }
 
     submit() {
         this.message.contentType = 'text';
         this.message.text = this.header + this.message.contentData.data;
-        if(this.message.type === 'in') {
-            this.message.type = 'in';
-        } else {
-            this.message.type = 'out';
-        }
         this.message.responseData.data = [this.model.options];
         this.edit(this.message);
         this.addNewEntry();
@@ -64,9 +63,6 @@ export class RadioMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.liveChatService.update(this.message)
-            .then(() => {
-                return null;
-            });
+        this.socketService.updateMessage(message);
     }
 }

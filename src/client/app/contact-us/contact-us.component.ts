@@ -20,19 +20,19 @@ export class ContactUsComponent implements OnInit {
     message: FormGroup;
     messages: ContactUs[];
 
-    constructor( private fb: FormBuilder, private contactUsService: ContactUsService){
+    constructor(private fb: FormBuilder, private contactUsService: ContactUsService) {
         this.getMessages();
     }
 
-     ngOnInit() {
+    ngOnInit() {
         this.message = this.fb.group({
             fullName: [''],
             emailId: [''],
             message: ['']
         });
-     }
+    }
 
-     onSubmit({ value, valid }: { value: ContactUs, valid: boolean }) {
+    onSubmit({ value, valid }: { value: ContactUs, valid: boolean }) {
         this.contactUsService.submitMessage();
         this.add({ value, valid });
     }
@@ -43,10 +43,10 @@ export class ContactUsComponent implements OnInit {
             return;
         }
         this.contactUsService.create(value)
-        .then(message => {
-            this.messages.push(message);
-            console.log(JSON.stringify(value));
-    });
+            .then(message => {
+                this.messages.push(message);
+                console.log(JSON.stringify(value));
+            });
     }
 
     /**
