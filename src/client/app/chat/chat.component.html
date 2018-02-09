@@ -41,9 +41,6 @@
                 <div class="col col-10">
                     <div class="row">{{selectedGroup.name}}</div>
                     <div class="row">Created by: {{selectedGroup.createdBy}}</div>
-                    <div class="row" *ngIf="typing">
-                        {{typingMessage}}
-                    </div>
                 </div>
             </div>
             <ng-template #loadThis>
@@ -54,26 +51,40 @@
                 <div class="container" *ngFor="let message of messages">
                     <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
                         <div class="row text-box-right">
-                            <div class="row text-message">
-                                <div class="col col-2">
-                                    {{message.createdBy}}
-                                    <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                            <div [ngSwitch]="message.contentType">
+                                <div *ngSwitchCase="'text'">
+                                    <div class="row text-message">
+                                        <div class="col col-2">
+                                            {{message.createdBy}}
+                                            <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                                        </div>
+                                        <div class="col">
+                                            {{message.text}}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    {{message.text}}
+                                <div *ngSwitchCase="'radio'">
+                                    <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <ng-template #alignLeft>
                         <div class="row text-box-left">
-                            <div class="row text-message">
-                                <div class="col col-2">
-                                    {{message.createdBy}}
-                                    <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                            <div [ngSwitch]="message.contentType">
+                                <div *ngSwitchCase="'text'">
+                                    <div class="row text-message">
+                                        <div class="col col-2">
+                                            {{message.createdBy}}
+                                            <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                                        </div>
+                                        <div class="col">
+                                            {{message.text}}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    {{message.text}}
+                                <div *ngSwitchCase="'radio'">
+                                    <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                 </div>
                             </div>
                         </div>
@@ -147,9 +158,11 @@
                                     </table>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" [disabled]="message.invalid">
+                            <div class="input-group-btn dropup">
+                                <button type="submit" class="btn btn-primary" [disabled]="message.invalid">
                                 <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                             </button>
+                            </div>
                         </div>
                     </div>
                 </form>

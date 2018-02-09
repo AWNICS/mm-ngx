@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -22,15 +22,60 @@ import { Message } from '../shared/database/message';
 export class ChatComponent implements OnInit {
 
   @ViewChild('messageBox') messageBox: ElementRef;
-  private userId: number; // to initialize the user logged in
-  private selectedUser: UserDetails;
-  private selectedGroup: Group;
-  private groups: Group[] = [];
-  private messages: Message[] = [];
-  private message: FormGroup;
-  private oldGroupId = 1;
-  private offset = 0;
-  private groupSelected = false;
+  @ViewChild('ChatComponent') chatComponent: ChatComponent;
+  userId: number; // to initialize the user logged in
+  selectedUser: UserDetails;
+  selectedGroup: Group;
+  groups: Group[] = [];
+  messages: Message[] = [];
+  message: FormGroup;
+  oldGroupId = 1;
+  offset = 0;
+  groupSelected = false;
+
+  radioMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly choose an option: ',
+    picUrl: '',
+    type: 'radio',
+    status: 'delivered',
+    contentType: 'radio',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  newMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: '',
+    picUrl: '',
+    type: 'text',
+    status: '',
+    contentType: 'text',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +97,7 @@ export class ChatComponent implements OnInit {
     this.getGroups();
     this.createForm();
     this.receiveMessageFromSocket();
+    this.receiveUpdatedMessageFromSocket();
   }
 
   createForm() {
@@ -62,8 +108,8 @@ export class ChatComponent implements OnInit {
       senderId: [''],
       picUrl: [''], // image of the sender or receiver
       text: [''], // message data
-      type: ['text'], // type of the message(checkbox, radio, image, video, etc)
-      status: ['delivered'], // delivered, read, not-delivered
+      type: [''], // type of the message(checkbox, radio, image, video, etc)
+      status: [''], // delivered, read, not-delivered
       contentType: [''], // for radio, checkbox and slider
       contentData: {
         data: [''] // for radio, checkbox and slider
@@ -73,9 +119,60 @@ export class ChatComponent implements OnInit {
       },
       createdBy: [''],
       updatedBy: [''],
-      createdTime: Date.now(),
-      updatedTime: Date.now()
+      createdTime: null,
+      updatedTime: null
     });
+  }
+
+  createRadio() {
+    this.radioMessage.receiverId = this.chatService.getGroup().id;
+    this.radioMessage.senderId = this.selectedUser.id;
+    this.radioMessage.receiverType = 'group';
+    this.radioMessage.contentType = 'radio';
+    this.radioMessage.type = 'radio';
+    this.radioMessage.contentData.data = ['Yes'];
+    this.radioMessage.status = 'delivered';
+    this.radioMessage.text = 'Kindly choose an option: ';
+    this.socketService.sendMessage(this.radioMessage);
+  }
+
+  createSlider() {
+    console.log('slider');
+  }
+
+  createCheckbox() {
+    console.log('checkbox');
+  }
+
+  createAppear() {
+    console.log('appear');
+  }
+
+  createImage() {
+    console.log('image');
+  }
+
+  createVideo() {
+    console.log('video');
+  }
+
+  addNewEntry(event: any) {
+    //console.log(event); //for debugging purposes only
+    if (!event.value) { return; }
+    this.newMessage.text = event.value;
+    this.newMessage.receiverId = this.chatService.getGroup().id;
+    this.newMessage.senderId = this.selectedUser.id;
+    this.newMessage.receiverType = 'group';
+    this.newMessage.contentType = 'text';
+    this.newMessage.type = 'text';
+    this.newMessage.createdTime = Date.now();
+    this.newMessage.updatedTime = Date.now();
+    this.newMessage.status = 'delivered';
+    if (this.newMessage.text === '') {
+      return;
+    } else {
+      this.socketService.sendMessage(this.newMessage);
+    }
   }
 
   getMessage(group: Group) {
@@ -92,7 +189,7 @@ export class ChatComponent implements OnInit {
             this.scrollToBottom();
           });
         });
-    } else if (this.oldGroupId !== group.id && !this.groupSelected) {
+    } else if (this.oldGroupId !== group.id) {
       // else if user selects different group, clear the messages from array and load new messages
       this.messages = [];
       this.offset = 0;
@@ -123,11 +220,16 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  sendMessage({ value, valid }: { value: Message, valid: boolean }): void {
+  sendMessage({ value }: { value: Message }): void {
     const result = JSON.stringify(value);
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.receiverType = 'group';
+    value.contentType = 'text';
+    value.type = 'text';
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    value.status = 'delivered';
     if (value.text === '') {
       return;
     } else {
@@ -143,6 +245,15 @@ export class ChatComponent implements OnInit {
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
+        }
+      });
+  }
+
+  receiveUpdatedMessageFromSocket() {
+    this.socketService.receiveUpdatedMessage()
+      .subscribe((msg: any) => {
+        if (msg.receiverId === this.selectedGroup.id) {
+          this.ref.detectChanges();
         }
       });
   }

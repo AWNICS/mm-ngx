@@ -59,7 +59,7 @@ export class ProjectConfig extends SeedConfig {
 
     this.addPackageBundles({
       name: 'lodash',
-      path: 'node_modules/lodash/lodash'
+      path: 'node_modules/lodash/lodash.js'
     });
 
     this.addPackageBundles({

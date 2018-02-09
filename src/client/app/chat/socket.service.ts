@@ -35,4 +35,20 @@ export class SocketService {
         });
         return observable;
     }
+
+    updateMessage(message: Message): void {
+        this.socket.emit('update-message', message);
+    }
+
+    receiveUpdatedMessage(): Observable<any>  {
+        const observable = new Observable(observer => {
+            this.socket.on('updated-message', (message: Message) => {
+                observer.next(message);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
 }

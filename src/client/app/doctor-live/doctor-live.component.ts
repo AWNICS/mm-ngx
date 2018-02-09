@@ -59,7 +59,7 @@ export class DoctorLiveComponent implements OnInit, AfterViewChecked {
         status: 'sending',
         contentType: 'radio',
         contentData: {
-          data: ['Yes','No','Not sure']
+          data: ['Yes']
         },
         responseData: {
           data: ['']

@@ -19,7 +19,7 @@ export class ContactUsService {
   constructor(private http: Http, private router: Router) { }
 
   /**
-   * fetches the contactUs details 
+   * fetches the contactUs details
    * @returns {Promise<ContactUs[]>}
    * @memberOf ContactUsService
    */
@@ -32,17 +32,17 @@ export class ContactUsService {
 
   submitMessage() {
     console.log('message sent..');
-}
+  }
 
   /**
    * get queries list from the api
    */
   create(contactUs: ContactUs): Promise<ContactUs> {
     return this.http
-    .post(this.url, JSON.stringify({contactUs: ContactUs}), { headers: this.headers})
-    .toPromise()
-    .then(res => res.json().data as ContactUs)
-    .catch(this.handleError);
+      .post(this.url, JSON.stringify({ contactUs: ContactUs }), { headers: this.headers })
+      .toPromise()
+      .then(res => res.json().data as ContactUs)
+      .catch(this.handleError);
   }
 
   /**
