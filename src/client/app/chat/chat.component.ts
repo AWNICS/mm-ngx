@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, Chan
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -21,6 +22,7 @@ import { Message } from '../shared/database/message';
 })
 export class ChatComponent implements OnInit {
 
+  @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
   userId: number; // to initialize the user logged in
@@ -32,28 +34,6 @@ export class ChatComponent implements OnInit {
   oldGroupId = 1;
   offset = 0;
   groupSelected = false;
-
-  radioMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Kindly choose an option: ',
-    picUrl: '',
-    type: 'radio',
-    status: 'delivered',
-    contentType: 'radio',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
 
   newMessage: Message = {
     _id: null,
@@ -77,13 +57,146 @@ export class ChatComponent implements OnInit {
     updatedTime: Date.now()
   };
 
+  radioMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly choose an option: ',
+    picUrl: '',
+    type: 'radio',
+    status: 'delivered',
+    contentType: 'radio',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  sliderMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly choose a number from 0 to 10: ',
+    picUrl: '',
+    type: 'slider',
+    status: 'delivered',
+    contentType: 'slider',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+};
+
+checkboxMessage: Message = {
+  _id: null,
+  receiverId: null,
+  receiverType: null,
+  senderId: null,
+  text: 'Kindly check the relevent boxes: ',
+  picUrl: '',
+  type: 'checkbox',
+  status: 'delivered',
+  contentType: 'checkbox',
+  contentData: {
+    data: ['']
+  },
+  responseData: {
+    data: ['']
+  },
+  createdBy: '',
+  updatedBy: '',
+  createdTime: Date.now(),
+  updatedTime: Date.now()
+};
+
+imageMessage: Message = {
+  _id: null,
+  receiverId: null,
+  receiverType: null,
+  senderId: null,
+  text: 'Image Component',
+  picUrl: '',
+  type: 'image',
+  status: 'delivered',
+  contentType: 'image',
+  contentData: {
+    data: ['http://photo.sf.co.ua/g/501/1.jpg']
+  },
+  responseData: {
+    data: ['']
+  },
+  createdBy: '',
+  updatedBy: '',
+  createdTime: Date.now(),
+  updatedTime: Date.now()
+};
+
+videoMessage: Message = {
+  _id: null,
+  receiverId: null,
+  receiverType: null,
+  senderId: null,
+  text: 'Video Component',
+  picUrl: '',
+  type: 'video',
+  status: 'delivered',
+  contentType: 'video',
+  contentData: {
+    data: ['assets/videos/movie.mp4']
+  },
+  responseData: {
+    data: ['']
+  },
+  createdBy: '',
+  updatedBy: '',
+  createdTime: Date.now(),
+  updatedTime: Date.now()
+};
+
+appearMessage: Message = {
+  _id: null,
+  receiverId: null,
+  receiverType: null,
+  senderId: null,
+  text: 'Appear Component',
+  picUrl: '',
+  type: 'appear',
+  status: 'delivered',
+  contentType: 'appear',
+  contentData: {
+    data: ['']
+  },
+  responseData: {
+    data: ['']
+  },
+  createdBy: '',
+  updatedBy: '',
+  createdTime: Date.now(),
+  updatedTime: Date.now()
+};
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private location: Location,
     private socketService: SocketService,
     private chatService: ChatService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private domSanitizer: DomSanitizer
   ) {
   }
 
@@ -98,6 +211,7 @@ export class ChatComponent implements OnInit {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
+    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
 
   createForm() {
@@ -137,27 +251,62 @@ export class ChatComponent implements OnInit {
   }
 
   createSlider() {
-    console.log('slider');
+    this.sliderMessage.receiverId = this.chatService.getGroup().id;
+    this.sliderMessage.senderId = this.selectedUser.id;
+    this.sliderMessage.receiverType = 'group';
+    this.sliderMessage.contentType = 'slider';
+    this.sliderMessage.type = 'slider';
+    this.sliderMessage.status = 'delivered';
+    this.sliderMessage.text = 'Kindly choose a number from 0 to 10: ';
+    this.socketService.sendMessage(this.sliderMessage);
   }
 
   createCheckbox() {
-    console.log('checkbox');
+    this.checkboxMessage.receiverId = this.chatService.getGroup().id;
+    this.checkboxMessage.senderId = this.selectedUser.id;
+    this.checkboxMessage.receiverType = 'group';
+    this.checkboxMessage.contentType = 'checkbox';
+    this.checkboxMessage.type = 'checkbox';
+    //this.checkboxMessage.contentData.data = ['Yes'];
+    this.checkboxMessage.status = 'delivered';
+    this.checkboxMessage.text = 'Kindly check the relevent boxes: ';
+    this.socketService.sendMessage(this.checkboxMessage);
   }
 
   createAppear() {
-    console.log('appear');
+    this.appearMessage.receiverId = this.chatService.getGroup().id;
+    this.appearMessage.senderId = this.selectedUser.id;
+    this.appearMessage.receiverType = 'group';
+    this.appearMessage.contentType = 'appear';
+    this.appearMessage.type = 'appear';
+    this.appearMessage.status = 'delivered';
+    this.appearMessage.text = 'Appear Component';
+    this.socketService.sendMessage(this.appearMessage);
   }
 
   createImage() {
-    console.log('image');
+    this.imageMessage.receiverId = this.chatService.getGroup().id;
+    this.imageMessage.senderId = this.selectedUser.id;
+    this.imageMessage.receiverType = 'group';
+    this.imageMessage.contentType = 'image';
+    this.imageMessage.type = 'image';
+    this.imageMessage.status = 'delivered';
+    this.imageMessage.text = 'Image Component';
+    this.socketService.sendMessage(this.imageMessage);
   }
 
   createVideo() {
-    console.log('video');
+    this.videoMessage.receiverId = this.chatService.getGroup().id;
+    this.videoMessage.senderId = this.selectedUser.id;
+    this.videoMessage.receiverType = 'group';
+    this.videoMessage.contentType = 'video';
+    this.videoMessage.type = 'video';
+    this.videoMessage.status = 'delivered';
+    this.videoMessage.text = 'Video Component';
+    this.socketService.sendMessage(this.videoMessage);
   }
 
   addNewEntry(event: any) {
-    //console.log(event); //for debugging purposes only
     if (!event.value) { return; }
     this.newMessage.text = event.value;
     this.newMessage.receiverId = this.chatService.getGroup().id;

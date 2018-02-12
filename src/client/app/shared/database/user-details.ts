@@ -9,7 +9,7 @@ export class UserDetails {
   status: string;
   waitingTime: number; // in seconds
   rating: number;
-  //appearUrl: string;
+  appearUrl: string;
   token: string; // token generated to activate the user
   actviate: number; // either 0 or 1(default is 0)
   privilege: string; // user or admin privilege
