@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctor-live/live-chat.service';
+import { SocketService } from '../../chat/socket.service';
 
 /**
  * Slider component in live chat
@@ -29,13 +29,15 @@ export class SliderMessageComponent implements OnInit {
     points:any;
     @Input() message: Message;
     header:string;
+    items: string[] = [''];
     @Input() public responseData:string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
-    constructor(private liveChatService:LiveChatService) {
+    constructor( private socketService: SocketService ) {
     }
 
     ngOnInit() {
+        this.items = this.message.contentData.data;
         this.header = this.message.text;
     }
 
@@ -45,16 +47,10 @@ export class SliderMessageComponent implements OnInit {
      */
     submit() {
         this.message.contentType = 'text';
-        this.message.text = this.header;
-        if(this.message.type === 'in') {
-            this.message.type = 'in';
-        } else {
-            this.message.type = 'out';
-        }
-        //this.message.type = 'in';
+        this.message.text = this.header + this.message.contentData.data;
         this.message.responseData.data = this.points;
-        this.edit(this.message);
         this.responseData = this.points;
+        this.edit(this.message);
         this.addNewEntry();
     }
 
@@ -69,9 +65,6 @@ export class SliderMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.liveChatService.update(this.message)
-            .then(() => {
-                return null;
-            });
-        }
+        this.socketService.updateMessage(message);
+    }
 }

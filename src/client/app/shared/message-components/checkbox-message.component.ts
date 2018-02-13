@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctor-live/live-chat.service';
+import { SocketService } from '../../chat/socket.service';
 
 /**
  * CheckBoxMessageComponent to display check box options
@@ -33,6 +33,7 @@ import { LiveChatService } from '../../doctor-live/live-chat.service';
 export class CheckBoxMessageComponent implements OnInit {
 
     header: string = '';
+    items: String[] = [''];
     @Input() message: Message;
     options = [{ option: 'Option 1' }, { option: 'Option 2' }, { option: 'Option 3' }, { option: 'Option 4' }];
     myForm: FormGroup;
@@ -41,10 +42,12 @@ export class CheckBoxMessageComponent implements OnInit {
     @Input() public responseData: string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
-    constructor(private liveChatService: LiveChatService, private fb: FormBuilder) {
+    constructor( private fb: FormBuilder,
+                private socketService: SocketService) {
     }
 
     ngOnInit() {
+        this.items = this.message.contentData.data;
         this.header = this.message.text;
         this.myForm = this.fb.group({
             options: this.fb.array([])
@@ -70,12 +73,7 @@ export class CheckBoxMessageComponent implements OnInit {
     onSubmit(options: any) {
         this.selectedOptions = options.options;
         this.message.contentType = 'text';
-        this.message.text = this.header;
-        if(this.message.type === 'in') {
-            this.message.type = 'in';
-        } else {
-            this.message.type = 'out';
-        }
+        this.message.text = this.header + this.message.contentData.data;
         this.message.responseData.data = this.selectedOptions;
         this.edit(this.message);
         this.responseData = this.selectedOptions;
@@ -93,9 +91,6 @@ export class CheckBoxMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.liveChatService.update(this.message)
-            .then(() => {
-                return null;
-            });
+        this.socketService.updateMessage(message);
     }
 }
