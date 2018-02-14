@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DoctorsListService } from './doctors-list.service';
-import { DoctorDetails } from '../shared/database/doctorDetails';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 /**
  * Component for video modal window

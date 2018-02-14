@@ -1,24 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 
-import { Specialities } from './speciality';
+import { Observable } from 'rxjs/Observable';
+
+import { Specialities } from '../database/speciality';
+
+const httpOptions = {
+    headers: new Headers({ 'Content-Type': 'application/json' })
+  };
 
 @Injectable()
 export class SpecialityService {
 
-    private specialityUrl = 'api/specialities';
+    private specialityUrl = 'http://localhost:3000/specialities/controllers/readAllSpecialities';
 
-    constructor(private _http:Http) {}
+    constructor(private http: Http) {}
 
     getSpecialities(): Promise<Specialities[]> {
-        return this._http.get(this.specialityUrl)
-        .toPromise()
-        .then(response => response.json().data as Specialities[])
-        .catch(this.handleError);
-    }
+        return this.http.get(this.specialityUrl)
+          .toPromise()
+          .then(response => response.json() as Specialities[])
+          .catch(this.handleError);
+      }
 
     private handleError(error: Response) {
         console.error(error);
-        return Promise.reject(error.json().error || 'Server error');
+        return Promise.reject(error.json() || 'Server error');
     }
 }

@@ -14,8 +14,8 @@
                     <div class="col col-lg-3">
                         <div class="form-group">
                             <select class="form-control" required id="selectSpeciality" [(ngModel)]="current" name="speciality">
-                                <option *ngFor="let speciality of specialities" [value]="speciality.speciality">
-                                    {{speciality.speciality}}
+                                <option *ngFor="let speciality of specialities" [value]="speciality.name">
+                                    {{speciality.name}}
                                 </option>
                             </select>
                         </div>
