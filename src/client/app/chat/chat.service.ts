@@ -80,8 +80,8 @@ export class ChatService {
     /**
      * create new group using bot or doctor
      */
-    createNewGroup(newGroup: Group, receiverId: number): Observable<Group> {
-        const url = `${this.groupUrl}createNewGroup/${receiverId}`;
+    createGroupAuto(newGroup: Group, receiverId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupAuto/${receiverId}`;
         return this.http
             .post(url, newGroup, this.options)
             .map(response => response.json())
@@ -91,8 +91,8 @@ export class ChatService {
     /**
      * create new group manually using bot or doctor
      */
-    createNewGroupManually(newGroup: Group, receiverId: number, doctorId: number): Observable<Group> {
-        const url = `${this.groupUrl}createNewGroupManually/${receiverId}/${doctorId}`;
+    createGroupManual(newGroup: Group, receiverId: number, doctorId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupManual/${receiverId}/${doctorId}`;
         return this.http
             .post(url, newGroup, this.options)
             .map(response => response.json())
