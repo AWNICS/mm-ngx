@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
+import { Component, AfterViewChecked, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -9,6 +9,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -20,10 +21,11 @@ import { Message } from '../shared/database/message';
   styleUrls: ['chat.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
+  @ViewChild('dropdown') dropdown: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -34,6 +36,21 @@ export class ChatComponent implements OnInit {
   oldGroupId = 1;
   offset = 0;
   groupSelected = false;
+  doctors: DoctorDetails[] = [];
+  doctorList = true; //for listing down the doctors in modal window
+
+  newGroup: Group ={
+    id: null,
+    name: '',
+    url: '',
+    userId: null,
+    description: '',
+    picture: '',
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
   newMessage: Message = {
     _id: null,
@@ -203,7 +220,9 @@ appearMessage: Message = {
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.chatService.getUserById(this.userId)
-      .then(user => this.selectedUser = user)
+      .then(user => {
+        this.selectedUser = user;
+      })
       .catch(error => console.log('error: ', error));
     this.chatService.setUser(this.selectedUser);
     this.socketService.connection(this.userId);
@@ -212,6 +231,16 @@ appearMessage: Message = {
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    //document.querySelector(".dropdown").style.display = "none";
+  }
+
+  ngAfterViewChecked() {
+    setTimeout(() => {
+      let dropdown = this.dropdown.nativeElement;
+      if(this.selectedUser.privilege !== 'user') {
+        dropdown.style.display = 'block';
+      }
+    }, 100);
   }
 
   createForm() {
@@ -304,6 +333,36 @@ appearMessage: Message = {
     this.videoMessage.status = 'delivered';
     this.videoMessage.text = 'Video Component';
     this.socketService.sendMessage(this.videoMessage);
+  }
+
+  createGroupAuto() {
+    this.newGroup.name = 'Consultation room';
+    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+    this.newGroup.userId = this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.createdBy = this.selectedUser.name;
+    this.newGroup.updatedBy = this.selectedUser.name;
+    this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
+    .subscribe((group) => {
+      this.groups.push(group);
+      this.ref.detectChanges();
+    });
+  }
+
+  createGroupManual(doctor: DoctorDetails) {
+    this.newGroup.name = 'Consultation room manually';
+    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+    this.newGroup.userId = this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.createdBy = this.selectedUser.name;
+    this.newGroup.updatedBy = this.selectedUser.name;
+    this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
+    .subscribe((group) => {
+      this.groups.push(group);
+      this.ref.detectChanges();
+    });
   }
 
   addNewEntry(event: any) {
@@ -410,6 +469,7 @@ appearMessage: Message = {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .then((groups) => {
+        //debugger;
         groups.map((group: any) => {
           this.groups.push(group);
           this.ref.detectChanges();
@@ -429,5 +489,19 @@ appearMessage: Message = {
       this.offset = this.offset + 20;
       this.getMoreMessages(this.selectedGroup);
     }
+  }
+
+  //getDoctors
+  getDoctors() {
+    if(this.doctorList) {
+      this.chatService.getDoctors(this.userId)
+      .subscribe((doctors) => {
+        doctors.map((doctor: any) => {
+          this.doctors.push(doctor);
+          this.ref.detectChanges();
+        });
+      });
+    }
+    this.doctorList = false;
   }
 }

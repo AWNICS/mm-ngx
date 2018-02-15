@@ -1,14 +1,58 @@
 <div class="container">
     <div class="row selected-user" *ngIf="selectedUser;">
-        <div class="col col-10">
+        <div class="col col-8">
             {{selectedUser.name}}
             <img class="img-lg" [src]="selectedUser.picUrl" alt="Display picture" />
+        </div>
+        <div class="col col-2">
+            <div class="dropdown">
+                <div id="dropdown" #dropdown>
+                    <button class="btn btn-secondary dropdown-toggle" style="margin-top:10px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Create group
+                            </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
+                        <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col col-2">
             <a class="logout-button" routerLink="/login">Logout</a>
         </div>
     </div>
 </div>
+
+<!-- Doctor List Modal -->
+<div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
+                    <div class="col col-3 doctor">
+                        <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
+                    </div>
+                    <div class="col col-3 doctor">
+                        <span>{{doctor.name}}</span>
+                    </div>
+                    <div class="col col-3 doctor">
+                        <span>{{doctor.speciality}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col col-3 list">

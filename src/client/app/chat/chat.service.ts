@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 @Injectable()
 export class ChatService {
@@ -21,6 +22,7 @@ export class ChatService {
     private group: Group;
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
+    private doctorUrl = 'http://localhost:3000/doctor/controllers/';
 
     constructor(private router: Router, private http: Http) {
     }
@@ -71,6 +73,39 @@ export class ChatService {
     getMessages(userId: number, groupId: number, offset: number, size: number): Observable<Message[]> {
         const uri = `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`;
         return this.http.get(uri)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * create new group using bot or doctor
+     */
+    createGroupAuto(newGroup: Group, receiverId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupAuto/${receiverId}`;
+        return this.http
+            .post(url, newGroup, this.options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * create new group manually using bot or doctor
+     */
+    createGroupManual(newGroup: Group, receiverId: number, doctorId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupManual/${receiverId}/${doctorId}`;
+        return this.http
+            .post(url, newGroup, this.options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * get doctors
+     */
+    getDoctors(receiverId: number): Observable<DoctorDetails[]> {
+        const url = `${this.doctorUrl}getDoctors`;
+        return this.http
+            .get(url, this.options)
             .map(res => res.json())
             .catch(this.handleError);
     }
