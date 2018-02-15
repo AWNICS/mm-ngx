@@ -335,7 +335,7 @@ appearMessage: Message = {
     this.socketService.sendMessage(this.videoMessage);
   }
 
-  createGroup() {
+  createGroupAuto() {
     this.newGroup.name = 'Consultation room';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
@@ -343,14 +343,14 @@ appearMessage: Message = {
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
-    this.chatService.createNewGroup(this.newGroup, this.selectedGroup.id)
+    this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
     .subscribe((group) => {
       this.groups.push(group);
       this.ref.detectChanges();
     });
   }
 
-  createGroupManually(doctor: DoctorDetails) {
+  createGroupManual(doctor: DoctorDetails) {
     this.newGroup.name = 'Consultation room manually';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
@@ -358,7 +358,7 @@ appearMessage: Message = {
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
-    this.chatService.createNewGroupManually(this.newGroup, this.selectedGroup.id, doctor.id)
+    this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
     .subscribe((group) => {
       this.groups.push(group);
       this.ref.detectChanges();
