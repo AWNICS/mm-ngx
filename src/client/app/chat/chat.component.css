@@ -120,3 +120,11 @@ textarea {
     resize: none;
     border: none;
 }
+
+.doctor :hover {
+    cursor: pointer;
+}
+
+#dropdown {
+    display: none;
+}
