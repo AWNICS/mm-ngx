@@ -18,11 +18,12 @@ export class ChatService {
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000/user/controllers';
     private userUrl = 'http://localhost:3000/user/controllers';
-    private user: UserDetails;
-    private group: Group;
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
     private doctorUrl = 'http://localhost:3000/doctor/controllers/';
+    private fileUrl = 'http://localhost:3000/file/controllers/image';
+    private user: UserDetails;
+    private group: Group;
 
     constructor(private router: Router, private http: Http) {
     }
@@ -109,6 +110,15 @@ export class ChatService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    upload(files: FileList): Observable<any> {
+        const uri = `${this.fileUrl}/up`;
+        let formData = new FormData();
+        Array.from(files).forEach(f => {
+          formData.append('file', f);
+        });
+        return this.http.post(uri, formData);
+      }
 
     private handleError(error: any): Promise<UserDetails> {
         console.error('An error occurred', error);
