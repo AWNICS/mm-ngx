@@ -11,7 +11,7 @@
                               Create group
                             </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" (click)="createGroup();">Auto</button>
+                        <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
                         <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManually(doctor)">
+                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
                     <div class="col col-3 doctor">
                         <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
                     </div>
