@@ -38,6 +38,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
+  progress: number;
 
   newGroup: Group ={
     id: null,
@@ -231,7 +232,6 @@ appearMessage: Message = {
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
-    //document.querySelector(".dropdown").style.display = "none";
   }
 
   ngAfterViewChecked() {
@@ -313,15 +313,19 @@ appearMessage: Message = {
     this.socketService.sendMessage(this.appearMessage);
   }
 
-  createImage() {
-    this.imageMessage.receiverId = this.chatService.getGroup().id;
+  createImage(files: FileList) {
+    this.chatService.upload(files)
+    .subscribe(event => {
+      console.log('Event ', event);
+  });
+    /*this.imageMessage.receiverId = this.chatService.getGroup().id;
     this.imageMessage.senderId = this.selectedUser.id;
     this.imageMessage.receiverType = 'group';
     this.imageMessage.contentType = 'image';
     this.imageMessage.type = 'image';
     this.imageMessage.status = 'delivered';
     this.imageMessage.text = 'Image Component';
-    this.socketService.sendMessage(this.imageMessage);
+    this.socketService.sendMessage(this.imageMessage);*/
   }
 
   createVideo() {

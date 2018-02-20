@@ -207,9 +207,12 @@
                                                 </button>
                                                 </td>
                                                 <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
+                                                    <form>
+                                                        <input type="file" (change)="createImage($event.target.files)" multiple /> {{progress}}%
+                                                    </form>
+                                                    <!--button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
                                                         <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                                    </button>
+                                                    </button-->
                                                 </td>
                                                 <td>
                                                     <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
