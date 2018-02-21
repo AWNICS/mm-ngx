@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col col-2">
-            <a class="logout-button" routerLink="/login">Logout</a>
+            <a class="logout-button" routerLink="/login" (click)="logout()">Logout</a>
         </div>
     </div>
 </div>
@@ -208,7 +208,7 @@
                                                 </td>
                                                 <td>
                                                     <form>
-                                                        <input type="file" (change)="createImage($event.target.files)" multiple /> {{progress}}%
+                                                        <input type="file" (change)="createImage($event.target.files)" multiple />
                                                     </form>
                                                     <!--button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
                                                         <i class="fa fa-picture-o" aria-hidden="true"></i>

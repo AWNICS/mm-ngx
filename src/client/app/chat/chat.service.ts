@@ -117,7 +117,16 @@ export class ChatService {
         Array.from(files).forEach(f => {
           formData.append('file', f);
         });
-        return this.http.post(uri, formData);
+        return this.http.post(uri, formData)
+        .map(res => res)
+        .catch(this.handleError);
+      }
+
+      download(fileName: string): Observable<any> {
+        const uri = `${this.fileUrl}/down/${fileName}`;
+        return this.http.get(uri, this.options)
+        .map(res => res)
+        .catch(this.handleError);
       }
 
     private handleError(error: any): Promise<UserDetails> {
