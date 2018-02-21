@@ -313,11 +313,11 @@ appearMessage: Message = {
     this.socketService.sendMessage(this.appearMessage);
   }
 
-  createImage(files: FileList) {
-    this.chatService.upload(files)
+  createImage(images: FileList) {
+    this.chatService.upload(images)
     .subscribe(event => {
       console.log('Event ', event);
-  });
+    });
     /*this.imageMessage.receiverId = this.chatService.getGroup().id;
     this.imageMessage.senderId = this.selectedUser.id;
     this.imageMessage.receiverType = 'group';
@@ -328,15 +328,26 @@ appearMessage: Message = {
     this.socketService.sendMessage(this.imageMessage);*/
   }
 
-  createVideo() {
-    this.videoMessage.receiverId = this.chatService.getGroup().id;
+  createVideo(videos: FileList) {
+    this.chatService.upload(videos)
+    .subscribe(event => {
+      console.log('Event ', event);
+    });
+    /*this.videoMessage.receiverId = this.chatService.getGroup().id;
     this.videoMessage.senderId = this.selectedUser.id;
     this.videoMessage.receiverType = 'group';
     this.videoMessage.contentType = 'video';
     this.videoMessage.type = 'video';
     this.videoMessage.status = 'delivered';
     this.videoMessage.text = 'Video Component';
-    this.socketService.sendMessage(this.videoMessage);
+    this.socketService.sendMessage(this.videoMessage);*/
+  }
+
+  createFile(files: FileList) {
+    this.chatService.upload(files)
+    .subscribe(event => {
+      console.log('Event ', event);
+    });
   }
 
   createGroupAuto() {
