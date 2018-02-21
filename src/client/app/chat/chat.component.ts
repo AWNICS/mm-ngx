@@ -22,6 +22,7 @@ import { Message } from '../shared/database/message';
 })
 export class ChatComponent implements OnInit {
 
+ apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
@@ -178,7 +179,7 @@ appearMessage: Message = {
   status: 'delivered',
   contentType: 'appear',
   contentData: {
-    data: ['']
+    data: ['https://appear.in/arun-gadag']
   },
   responseData: {
     data: ['']
@@ -186,7 +187,7 @@ appearMessage: Message = {
   createdBy: '',
   updatedBy: '',
   createdTime: Date.now(),
-  updatedTime: Date.now()
+  updatedTime: Date.now(),
 };
 
   constructor(
