@@ -120,3 +120,24 @@ textarea {
     resize: none;
     border: none;
 }
+
+.doctor :hover {
+    cursor: pointer;
+}
+
+#dropdown {
+    display: none;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 18%;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}

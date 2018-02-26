@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 @Injectable()
 export class ChatService {
@@ -17,10 +18,12 @@ export class ChatService {
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000/user/controllers';
     private userUrl = 'http://localhost:3000/user/controllers';
-    private user: UserDetails;
-    private group: Group;
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
+    private doctorUrl = 'http://localhost:3000/doctor/controllers/';
+    private fileUrl = 'http://localhost:3000/file/controllers/image';
+    private user: UserDetails;
+    private group: Group;
 
     constructor(private router: Router, private http: Http) {
     }
@@ -74,6 +77,48 @@ export class ChatService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    /**
+     * create new group using bot or doctor
+     */
+    createGroupAuto(newGroup: Group, receiverId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupAuto/${receiverId}`;
+        return this.http
+            .post(url, newGroup, this.options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * create new group manually using bot or doctor
+     */
+    createGroupManual(newGroup: Group, receiverId: number, doctorId: number): Observable<Group> {
+        const url = `${this.groupUrl}createGroupManual/${receiverId}/${doctorId}`;
+        return this.http
+            .post(url, newGroup, this.options)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * get doctors
+     */
+    getDoctors(receiverId: number): Observable<DoctorDetails[]> {
+        const url = `${this.doctorUrl}getDoctors`;
+        return this.http
+            .get(url, this.options)
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    upload(files: FileList): Observable<any> {
+        const uri = `${this.fileUrl}/up`;
+        let formData = new FormData();
+        Array.from(files).forEach(f => {
+          formData.append('file', f);
+        });
+        return this.http.post(uri, formData);
+      }
 
     private handleError(error: any): Promise<UserDetails> {
         console.error('An error occurred', error);
