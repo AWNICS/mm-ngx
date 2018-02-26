@@ -207,18 +207,17 @@
                                                 </button>
                                                 </td>
                                                 <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-picture-o" aria-hidden="true">
-                                                            <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" multiple />
-                                                        </i>
-                                                    </div>
+                                                    <form>
+                                                        <input type="file" (change)="createImage($event.target.files)" multiple /> {{progress}}%
+                                                    </form>
+                                                    <!--button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
+                                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                                    </button-->
                                                 </td>
                                                 <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true">
-                                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" multiple /> 
-                                                        </i>
-                                                    </div>
+                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
+                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -228,11 +227,9 @@
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-o" aria-hidden="true">
-                                                            <input type="file" accept="application/pdf, application/vnd.ms-excel" (change)="createFile($event.target.files)" multiple /> 
-                                                        </i>
-                                                    </div>
+                                                    <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Upload document">
+                                                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                                                    </button>
                                                 </td>
                                                 <td>
                                                     <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="External link">
