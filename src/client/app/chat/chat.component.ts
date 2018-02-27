@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   doctorList = true; //for listing down the doctors in modal window
   progress: number;
 
-  newGroup: Group ={
+  newGroup: Group = {
     id: null,
     name: '',
     url: '',
@@ -118,95 +118,95 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     updatedBy: '',
     createdTime: Date.now(),
     updatedTime: Date.now()
-};
+  };
 
-checkboxMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Kindly check the relevent boxes: ',
-  picUrl: '',
-  type: 'checkbox',
-  status: 'delivered',
-  contentType: 'checkbox',
-  contentData: {
-    data: ['']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  checkboxMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly check the relevent boxes: ',
+    picUrl: '',
+    type: 'checkbox',
+    status: 'delivered',
+    contentType: 'checkbox',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-imageMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Image Component',
-  picUrl: '',
-  type: 'image',
-  status: 'delivered',
-  contentType: 'image',
-  contentData: {
-    data: ['http://photo.sf.co.ua/g/501/1.jpg']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  imageMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Image Component',
+    picUrl: '',
+    type: 'image',
+    status: 'delivered',
+    contentType: 'image',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-videoMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Video Component',
-  picUrl: '',
-  type: 'video',
-  status: 'delivered',
-  contentType: 'video',
-  contentData: {
-    data: ['assets/videos/movie.mp4']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  videoMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Video Component',
+    picUrl: '',
+    type: 'video',
+    status: 'delivered',
+    contentType: 'video',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-appearMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Appear Component',
-  picUrl: '',
-  type: 'appear',
-  status: 'delivered',
-  contentType: 'appear',
-  contentData: {
-    data: ['https://appear.in/arun-gadag']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now(),
-};
+  appearMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Appear Component',
+    picUrl: '',
+    type: 'appear',
+    status: 'delivered',
+    contentType: 'appear',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -232,13 +232,13 @@ appearMessage: Message = {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
 
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
-      if(this.selectedUser.privilege !== 'user') {
+      if (this.selectedUser.privilege !== 'user') {
         dropdown.style.display = 'block';
       }
     }, 100);
@@ -312,62 +312,75 @@ appearMessage: Message = {
     this.appearMessage.status = 'delivered';
     this.appearMessage.text = 'Appear Component';
     this.socketService.sendMessage(this.appearMessage);
+    this.safeUrl = 'https://appear.in/arun-gadag';
   }
 
   createImage(files: FileList) {
-    this.chatService.upload(files)
-    .subscribe(event => {
-      console.log('Event ', event);
-  });
-    /*this.imageMessage.receiverId = this.chatService.getGroup().id;
-    this.imageMessage.senderId = this.selectedUser.id;
-    this.imageMessage.receiverType = 'group';
-    this.imageMessage.contentType = 'image';
-    this.imageMessage.type = 'image';
-    this.imageMessage.status = 'delivered';
-    this.imageMessage.text = 'Image Component';
-    this.socketService.sendMessage(this.imageMessage);*/
+    this.chatService.uploadImage(files)
+      .subscribe(res => {
+        console.log('response is ', res);
+        this.imageMessage.contentData.data = res._body;
+        this.imageMessage.receiverId = this.chatService.getGroup().id;
+        this.imageMessage.senderId = this.selectedUser.id;
+        this.imageMessage.receiverType = 'group';
+        this.imageMessage.contentType = 'image';
+        this.imageMessage.type = 'image';
+        this.imageMessage.status = 'delivered';
+        this.imageMessage.text = 'Image Component';
+        this.socketService.sendMessage(this.imageMessage);
+      });
   }
 
-  createVideo() {
-    this.videoMessage.receiverId = this.chatService.getGroup().id;
-    this.videoMessage.senderId = this.selectedUser.id;
-    this.videoMessage.receiverType = 'group';
-    this.videoMessage.contentType = 'video';
-    this.videoMessage.type = 'video';
-    this.videoMessage.status = 'delivered';
-    this.videoMessage.text = 'Video Component';
-    this.socketService.sendMessage(this.videoMessage);
+  createVideo(videos: FileList) {
+    this.chatService.uploadVideo(videos)
+      .subscribe(res => {
+        this.videoMessage.contentData.data = res._body;
+        this.videoMessage.receiverId = this.chatService.getGroup().id;
+        this.videoMessage.senderId = this.selectedUser.id;
+        this.videoMessage.receiverType = 'group';
+        this.videoMessage.contentType = 'video';
+        this.videoMessage.type = 'video';
+        this.videoMessage.status = 'delivered';
+        this.videoMessage.text = 'Video Component';
+        this.socketService.sendMessage(this.videoMessage);
+      });
+  }
+
+  createFile(files: FileList) {
+    this.chatService.uploadDoc(files)
+      .subscribe(res => {
+        console.log('Response ', res);
+      });
   }
 
   createGroupAuto() {
     this.newGroup.name = 'Consultation room';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
-    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
-    .subscribe((group) => {
-      this.groups.push(group);
-      this.ref.detectChanges();
-    });
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
   }
 
   createGroupManual(doctor: DoctorDetails) {
     this.newGroup.name = 'Consultation room manually';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
-    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
-    .subscribe((group) => {
-      this.groups.push(group);
-      this.ref.detectChanges();
-    });
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
   }
 
   addNewEntry(event: any) {
@@ -498,15 +511,24 @@ appearMessage: Message = {
 
   //getDoctors
   getDoctors() {
-    if(this.doctorList) {
+    if (this.doctorList) {
       this.chatService.getDoctors(this.userId)
-      .subscribe((doctors) => {
-        doctors.map((doctor: any) => {
-          this.doctors.push(doctor);
-          this.ref.detectChanges();
+        .subscribe((doctors) => {
+          doctors.map((doctor: any) => {
+            this.doctors.push(doctor);
+            this.ref.detectChanges();
+          });
         });
-      });
     }
     this.doctorList = false;
+  }
+
+  /**
+   * method to logout and end socket session
+   * 
+   * @memberof ChatComponent
+   */
+  logout() {
+    this.socketService.logout(this.selectedUser.id);
   }
 }
