@@ -23,6 +23,7 @@ import { DoctorDetails } from '../shared/database/doctor-details';
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
 
+ apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
