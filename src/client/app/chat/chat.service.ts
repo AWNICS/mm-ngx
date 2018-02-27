@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions } from '@angular/http';
+import { Headers, Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class ChatService {
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
     private doctorUrl = 'http://localhost:3000/doctor/controllers/';
-    private fileUrl = 'http://localhost:3000/file/controllers/image';
+    private fileUrl = 'http://localhost:3000/file/controllers';
     private user: UserDetails;
     private group: Group;
 
@@ -111,23 +111,80 @@ export class ChatService {
             .catch(this.handleError);
     }
 
-    upload(files: FileList): Observable<any> {
-        const uri = `${this.fileUrl}/up`;
+    uploadImage(images: FileList): Observable<any> {
+        const uri = `${this.fileUrl}/image/up`;
         let formData = new FormData();
-        Array.from(files).forEach(f => {
-          formData.append('file', f);
+        Array.from(images).forEach(f => {
+            formData.append('file', f);
         });
         return this.http.post(uri, formData)
-        .map(res => res)
-        .catch(this.handleError);
-      }
+            .map((res: Response) => res)
+            .catch(this.handleError);
+    }
 
-      download(fileName: string): Observable<any> {
-        const uri = `${this.fileUrl}/down/${fileName}`;
-        return this.http.get(uri, this.options)
-        .map(res => res)
-        .catch(this.handleError);
-      }
+    downloadImage(image: string): Observable<any> {
+        const uri = `${this.fileUrl}/image/down/${image}`;
+        return this.http.get(uri, {
+            responseType: ResponseContentType.Blob
+        })
+            .map((res: Response) => {
+                const blob = new Blob([res.blob()], { type: 'image/jpeg' });
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                return reader;
+            })
+            .catch(this.handleError);
+    }
+
+    uploadVideo(videos: FileList): Observable<any> {
+        const uri = `${this.fileUrl}/video/up`;
+        let formData = new FormData();
+        Array.from(videos).forEach(f => {
+            formData.append('file', f);
+        });
+        return this.http.post(uri, formData)
+            .map((res: Response) => res)
+            .catch(this.handleError);
+    }
+
+    downloadVideo(video: string): Observable<any> {
+        const uri = `${this.fileUrl}/video/down/${video}`;
+        return this.http.get(uri, {
+            responseType: ResponseContentType.Blob
+        })
+            .map((res: Response) => {
+                const blob = new Blob([res.blob()], { type: 'video/*' });
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                return reader;
+            })
+            .catch(this.handleError);
+    }
+
+    uploadDoc(docs: FileList): Observable<any> {
+        const uri = `${this.fileUrl}/doc/up`;
+        let formData = new FormData();
+        Array.from(docs).forEach(f => {
+            formData.append('file', f);
+        });
+        return this.http.post(uri, formData)
+            .map((res: Response) => res)
+            .catch(this.handleError);
+    }
+
+    downloadDoc(doc: string): Observable<any> {
+        const uri = `${this.fileUrl}/doc/down/${doc}`;
+        return this.http.get(uri, {
+            responseType: ResponseContentType.Blob
+        })
+            .map((res: Response) => {
+                const blob = new Blob([res.blob()], { type: '*/*' });
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                return reader;
+            })
+            .catch(this.handleError);
+    }
 
     private handleError(error: any): Promise<UserDetails> {
         console.error('An error occurred', error);

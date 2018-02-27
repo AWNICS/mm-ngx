@@ -174,7 +174,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'video',
     contentData: {
-      data: ['assets/videos/movie.mp4']
+      data: ['']
     },
     responseData: {
       data: ['']
@@ -231,7 +231,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
 
   ngAfterViewChecked() {
@@ -311,11 +311,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.appearMessage.status = 'delivered';
     this.appearMessage.text = 'Appear Component';
     this.socketService.sendMessage(this.appearMessage);
+    this.safeUrl = 'https://appear.in/arun-gadag';
   }
 
   createImage(files: FileList) {
-    this.chatService.upload(files)
+    this.chatService.uploadImage(files)
       .subscribe(res => {
+        console.log('response is ', res);
         this.imageMessage.contentData.data = res._body;
         this.imageMessage.receiverId = this.chatService.getGroup().id;
         this.imageMessage.senderId = this.selectedUser.id;
@@ -328,15 +330,26 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       });
   }
 
-  createVideo() {
-    this.videoMessage.receiverId = this.chatService.getGroup().id;
-    this.videoMessage.senderId = this.selectedUser.id;
-    this.videoMessage.receiverType = 'group';
-    this.videoMessage.contentType = 'video';
-    this.videoMessage.type = 'video';
-    this.videoMessage.status = 'delivered';
-    this.videoMessage.text = 'Video Component';
-    this.socketService.sendMessage(this.videoMessage);
+  createVideo(videos: FileList) {
+    this.chatService.uploadVideo(videos)
+      .subscribe(res => {
+        this.videoMessage.contentData.data = res._body;
+        this.videoMessage.receiverId = this.chatService.getGroup().id;
+        this.videoMessage.senderId = this.selectedUser.id;
+        this.videoMessage.receiverType = 'group';
+        this.videoMessage.contentType = 'video';
+        this.videoMessage.type = 'video';
+        this.videoMessage.status = 'delivered';
+        this.videoMessage.text = 'Video Component';
+        this.socketService.sendMessage(this.videoMessage);
+      });
+  }
+
+  createFile(files: FileList) {
+    this.chatService.uploadDoc(files)
+      .subscribe(res => {
+        console.log('Response ', res);
+      });
   }
 
   createGroupAuto() {

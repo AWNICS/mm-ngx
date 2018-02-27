@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 /**
  * ImageMessageComponent to display image
@@ -10,7 +11,6 @@ import { ChatService } from '../../chat/chat.service';
 @Component({
     selector: 'mm-image-message',
     template: `
-            <!--h1>{{header}}</h1-->
             <div *ngIf="url; else loading">
                 <img [src]="url" alt="Image" class="rounded img-fluid">
             </div>
@@ -22,18 +22,22 @@ import { ChatService } from '../../chat/chat.service';
 
 export class ImageMessageComponent implements OnInit {
     @Input() message: Message;
-    url: any;
+    url: SafeResourceUrl;
 
-    constructor(private chatService: ChatService) { }
+    constructor(private chatService: ChatService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
-        this.downloadImage(this.message.contentData.data[0]);
+        setTimeout(() => {
+            this.downloadImage(this.message.contentData.data[0]);
+        }, 5000);
     }
 
     downloadImage(fileName: string) {
-        this.chatService.download(fileName)
-            .subscribe(res => {
-                this.url = res._body;
+        this.chatService.downloadImage(fileName)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                }
             });
     }
 }
