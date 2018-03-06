@@ -18,6 +18,11 @@
                         <input type="text" style="width: 100%;" class="form-control" formControlName="phoneNo" placeholder="Phone number" autocomplete>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="password" style="width: 100%;" class="form-control" formControlName="password" placeholder="Enter password" autocomplete>
+                    </div>
+                </div>
                 <button i18n type="submit" class="btn btn-primary" [disabled]="registerDetails.invalid">Register</button>
                 <a routerLink='/login' routerLinkActive='active'>
                     Already a member? Sign in

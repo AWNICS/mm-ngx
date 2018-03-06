@@ -33,9 +33,10 @@ export class RegisterComponent implements OnInit {
             socketId: null,
             name: [''],
             email: [''],
+            password: [''],
             phoneNo: [''],
             picUrl: null,
-            privilege: null,
+            role: null,
             createdTime: '',
             createdBy: null,
             updatedTime: '',
@@ -46,7 +47,7 @@ export class RegisterComponent implements OnInit {
     register({ value, valid }: {value: UserDetails, valid: boolean }) {
         value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
         value.createdBy = value.name;
-        value.privilege = 'user';
+        value.role = 'patient';
         value.updatedBy = value.name;
         this.loginService.createNewUser(value)
         .then(response => response)
