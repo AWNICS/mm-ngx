@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctor-live/live-chat.service';
+import { SocketService } from '../../chat/socket.service';
 
 /**
  * appear component to load the appear call in an iframe
@@ -33,7 +33,7 @@ export class AppearMessageComponent implements OnInit {
     title:string;
     @Input() message: Message;
 
-    constructor(private liveChatService: LiveChatService) {}
+    constructor(private socketService: SocketService) {}
 
     ngOnInit() {
         this.title = this.message.text;
@@ -42,11 +42,6 @@ export class AppearMessageComponent implements OnInit {
     submit() {
         this.message.contentType = 'text';
         this.message.text = 'Kindly leave your valuable feedback!';
-        if(this.message.type === 'in') {
-            this.message.type = 'in';
-        } else {
-            this.message.type = 'out';
-        }
         this.edit(this.message);
     }
 
@@ -55,10 +50,7 @@ export class AppearMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.liveChatService.update(this.message)
-            .then(() => {
-                return null;
-            });
+        this.socketService.updateMessage(message);
     }
 }
 

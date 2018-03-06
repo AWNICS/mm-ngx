@@ -1,14 +1,58 @@
 <div class="container">
     <div class="row selected-user" *ngIf="selectedUser;">
-        <div class="col col-10">
+        <div class="col col-8">
             {{selectedUser.name}}
             <img class="img-lg" [src]="selectedUser.picUrl" alt="Display picture" />
         </div>
         <div class="col col-2">
-            <a class="logout-button" routerLink="/login">Logout</a>
+            <div class="dropdown">
+                <div id="dropdown" #dropdown>
+                    <button class="btn btn-secondary dropdown-toggle" style="margin-top:10px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Create group
+                            </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
+                        <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-2">
+            <a class="logout-button" routerLink="/login" (click)="logout()">Logout</a>
         </div>
     </div>
 </div>
+
+<!-- Doctor List Modal -->
+<div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
+                    <div class="col col-3 doctor">
+                        <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
+                    </div>
+                    <div class="col col-3 doctor">
+                        <span>{{doctor.name}}</span>
+                    </div>
+                    <div class="col col-3 doctor">
+                        <span>{{doctor.speciality}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col col-3 list">
@@ -66,6 +110,24 @@
                                 <div *ngSwitchCase="'radio'">
                                     <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
                                 </div>
+                                <div *ngSwitchCase="'slider'">
+                                    <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                </div>
+                                <div *ngSwitchCase="'checkbox'">
+                                    <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                </div>
+                                <div *ngSwitchCase="'video'">
+                                    <mm-video-message [message]="message"></mm-video-message>
+                                </div>
+                                <div *ngSwitchCase="'appear'">
+                                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                </div>
+                                <div *ngSwitchCase="'image'">
+                                    <mm-image-message [message]="message"></mm-image-message>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <mm-text-message [message]="message"></mm-text-message>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,6 +147,24 @@
                                 </div>
                                 <div *ngSwitchCase="'radio'">
                                     <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                </div>
+                                <div *ngSwitchCase="'slider'">
+                                    <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                </div>
+                                <div *ngSwitchCase="'checkbox'">
+                                    <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                </div>
+                                <div *ngSwitchCase="'video'">
+                                    <mm-video-message [message]="message"></mm-video-message>
+                                </div>
+                                <div *ngSwitchCase="'appear'">
+                                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                </div>
+                                <div *ngSwitchCase="'image'">
+                                    <mm-image-message [message]="message"></mm-image-message>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <mm-text-message [message]="message"></mm-text-message>
                                 </div>
                             </div>
                         </div>
@@ -127,14 +207,18 @@
                                                 </button>
                                                 </td>
                                                 <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
-                                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                                    </button>
+                                                    <div class="btn btn-primary btn-file">
+                                                        <i class="fa fa-picture-o" aria-hidden="true">
+                                                            <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
+                                                        </i>
+                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                                    </button>
+                                                    <div class="btn btn-primary btn-file">
+                                                        <i class="fa fa-file-video-o" aria-hidden="true">
+                                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" /> 
+                                                        </i>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -144,9 +228,11 @@
                                                     </button>
                                                 </td>
                                                 <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Upload document">
-                                                        <i class="fa fa-file-o" aria-hidden="true"></i>
-                                                    </button>
+                                                    <div class="btn btn-primary btn-file">
+                                                        <i class="fa fa-file-o" aria-hidden="true">
+                                                            <input type="file" accept="application/pdf, application/vnd.ms-excel" (change)="createFile($event.target.files)" /> 
+                                                        </i>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="External link">

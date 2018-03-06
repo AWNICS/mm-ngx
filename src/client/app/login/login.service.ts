@@ -27,8 +27,15 @@ export class LoginService {
         this.router.navigate(['/']);
     }
 
-    getUserByName(username: string): Promise<UserDetails> {
-        const uri = `${this.url}/findUserByName/${username}`;
+    login(email: string, password: string): Observable<any> {
+        const uri = `http://localhost:3000/auth/login`;
+        return this.http.post(uri,{email:email, password: password})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+
+    getUserByEmail(email: string): Promise<UserDetails> {
+        const uri = `${this.url}/findUserByEmail/${email}`;
         return this.http
             .get(uri).toPromise()
             .then(response => response.json() as UserDetails)

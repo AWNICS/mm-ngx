@@ -1,13 +1,15 @@
-import { Component, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
+import { Component, AfterViewChecked, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
+import { DoctorDetails } from '../shared/database/doctor-details';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -19,9 +21,12 @@ import { Message } from '../shared/database/message';
   styleUrls: ['chat.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
 
+ apperUrl='https://appear.in/arun-gadag';
+  @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
+  @ViewChild('dropdown') dropdown: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -32,23 +37,17 @@ export class ChatComponent implements OnInit {
   oldGroupId = 1;
   offset = 0;
   groupSelected = false;
+  doctors: DoctorDetails[] = [];
+  doctorList = true; //for listing down the doctors in modal window
+  progress: number;
 
-  radioMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Kindly choose an option: ',
-    picUrl: '',
-    type: 'radio',
-    status: 'delivered',
-    contentType: 'radio',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
+  newGroup: Group = {
+    id: null,
+    name: '',
+    url: '',
+    userId: null,
+    description: '',
+    picture: '',
     createdBy: '',
     updatedBy: '',
     createdTime: Date.now(),
@@ -77,20 +76,155 @@ export class ChatComponent implements OnInit {
     updatedTime: Date.now()
   };
 
+  radioMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly choose an option: ',
+    picUrl: '',
+    type: 'radio',
+    status: 'delivered',
+    contentType: 'radio',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  sliderMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly choose a number from 0 to 10: ',
+    picUrl: '',
+    type: 'slider',
+    status: 'delivered',
+    contentType: 'slider',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  checkboxMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly check the relevent boxes: ',
+    picUrl: '',
+    type: 'checkbox',
+    status: 'delivered',
+    contentType: 'checkbox',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  imageMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Image Component',
+    picUrl: '',
+    type: 'image',
+    status: 'delivered',
+    contentType: 'image',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  videoMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Video Component',
+    picUrl: '',
+    type: 'video',
+    status: 'delivered',
+    contentType: 'video',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
+  appearMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Appear Component',
+    picUrl: '',
+    type: 'appear',
+    status: 'delivered',
+    contentType: 'appear',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private location: Location,
     private socketService: SocketService,
     private chatService: ChatService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private domSanitizer: DomSanitizer
   ) {
   }
 
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.chatService.getUserById(this.userId)
-      .then(user => this.selectedUser = user)
+      .then(user => {
+        this.selectedUser = user;
+      })
       .catch(error => console.log('error: ', error));
     this.chatService.setUser(this.selectedUser);
     this.socketService.connection(this.userId);
@@ -98,6 +232,16 @@ export class ChatComponent implements OnInit {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
+    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+  }
+
+  ngAfterViewChecked() {
+    setTimeout(() => {
+      let dropdown = this.dropdown.nativeElement;
+      if (this.selectedUser.role !== 'patient') {
+        dropdown.style.display = 'block';
+      }
+    }, 100);
   }
 
   createForm() {
@@ -137,27 +281,109 @@ export class ChatComponent implements OnInit {
   }
 
   createSlider() {
-    console.log('slider');
+    this.sliderMessage.receiverId = this.chatService.getGroup().id;
+    this.sliderMessage.senderId = this.selectedUser.id;
+    this.sliderMessage.receiverType = 'group';
+    this.sliderMessage.contentType = 'slider';
+    this.sliderMessage.type = 'slider';
+    this.sliderMessage.status = 'delivered';
+    this.sliderMessage.text = 'Kindly choose a number from 0 to 10: ';
+    this.socketService.sendMessage(this.sliderMessage);
   }
 
   createCheckbox() {
-    console.log('checkbox');
+    this.checkboxMessage.receiverId = this.chatService.getGroup().id;
+    this.checkboxMessage.senderId = this.selectedUser.id;
+    this.checkboxMessage.receiverType = 'group';
+    this.checkboxMessage.contentType = 'checkbox';
+    this.checkboxMessage.type = 'checkbox';
+    //this.checkboxMessage.contentData.data = ['Yes'];
+    this.checkboxMessage.status = 'delivered';
+    this.checkboxMessage.text = 'Kindly check the relevent boxes: ';
+    this.socketService.sendMessage(this.checkboxMessage);
   }
 
   createAppear() {
-    console.log('appear');
+    this.appearMessage.receiverId = this.chatService.getGroup().id;
+    this.appearMessage.senderId = this.selectedUser.id;
+    this.appearMessage.receiverType = 'group';
+    this.appearMessage.contentType = 'appear';
+    this.appearMessage.type = 'appear';
+    this.appearMessage.status = 'delivered';
+    this.appearMessage.text = 'Appear Component';
+    this.socketService.sendMessage(this.appearMessage);
+    this.safeUrl = 'https://appear.in/arun-gadag';
   }
 
-  createImage() {
-    console.log('image');
+  createImage(files: FileList) {
+    this.chatService.uploadImage(files)
+      .subscribe(res => {
+        console.log('response is ', res);
+        this.imageMessage.contentData.data = res._body;
+        this.imageMessage.receiverId = this.chatService.getGroup().id;
+        this.imageMessage.senderId = this.selectedUser.id;
+        this.imageMessage.receiverType = 'group';
+        this.imageMessage.contentType = 'image';
+        this.imageMessage.type = 'image';
+        this.imageMessage.status = 'delivered';
+        this.imageMessage.text = 'Image Component';
+        this.socketService.sendMessage(this.imageMessage);
+      });
   }
 
-  createVideo() {
-    console.log('video');
+  createVideo(videos: FileList) {
+    this.chatService.uploadVideo(videos)
+      .subscribe(res => {
+        this.videoMessage.contentData.data = res._body;
+        this.videoMessage.receiverId = this.chatService.getGroup().id;
+        this.videoMessage.senderId = this.selectedUser.id;
+        this.videoMessage.receiverType = 'group';
+        this.videoMessage.contentType = 'video';
+        this.videoMessage.type = 'video';
+        this.videoMessage.status = 'delivered';
+        this.videoMessage.text = 'Video Component';
+        this.socketService.sendMessage(this.videoMessage);
+      });
+  }
+
+  createFile(files: FileList) {
+    this.chatService.uploadDoc(files)
+      .subscribe(res => {
+        console.log('Response ', res);
+      });
+  }
+
+  createGroupAuto() {
+    this.newGroup.name = 'Consultation room';
+    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+    this.newGroup.userId = this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
+    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.createdBy = this.selectedUser.name;
+    this.newGroup.updatedBy = this.selectedUser.name;
+    this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
+  }
+
+  createGroupManual(doctor: DoctorDetails) {
+    this.newGroup.name = 'Consultation room manually';
+    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+    this.newGroup.userId = this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
+    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.createdBy = this.selectedUser.name;
+    this.newGroup.updatedBy = this.selectedUser.name;
+    this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
   }
 
   addNewEntry(event: any) {
-    //console.log(event); //for debugging purposes only
     if (!event.value) { return; }
     this.newMessage.text = event.value;
     this.newMessage.receiverId = this.chatService.getGroup().id;
@@ -261,6 +487,7 @@ export class ChatComponent implements OnInit {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .then((groups) => {
+        //debugger;
         groups.map((group: any) => {
           this.groups.push(group);
           this.ref.detectChanges();
@@ -280,5 +507,28 @@ export class ChatComponent implements OnInit {
       this.offset = this.offset + 20;
       this.getMoreMessages(this.selectedGroup);
     }
+  }
+
+  //getDoctors
+  getDoctors() {
+    if (this.doctorList) {
+      this.chatService.getDoctors(this.userId)
+        .subscribe((doctors) => {
+          doctors.map((doctor: any) => {
+            this.doctors.push(doctor);
+            this.ref.detectChanges();
+          });
+        });
+    }
+    this.doctorList = false;
+  }
+
+  /**
+   * method to logout and end socket session
+   * 
+   * @memberof ChatComponent
+   */
+  logout() {
+    this.socketService.logout(this.selectedUser.id);
   }
 }

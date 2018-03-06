@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
-import { LiveChatService } from '../../doctor-live/live-chat.service';
 import { SocketService } from '../../chat/socket.service';
-import { ChatService } from '../../chat/chat.service';
 
 /**
  * RadioMessageComponent to display the radio message
@@ -33,9 +31,7 @@ export class RadioMessageComponent implements OnInit {
     @Input() public textMessage: string;
     @Output() public onNewEntryAdded = new EventEmitter();
 
-    constructor(
-        private socketService: SocketService,
-        private chatService: ChatService) {
+    constructor( private socketService: SocketService ) {
     }
 
     ngOnInit() {

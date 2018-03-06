@@ -21,14 +21,12 @@ export class LoginComponent {
       private router: Router
   ) { }
 
-  login(username: string) {
-    this.loginService.getUserByName(username)
-    .then(user => {
-      this.user = user;
-        this.router.navigate([`/chat/${user.id}`]);
-    }).catch(e => {
-      this.error = 'User not found';
-      return;
+  login(email: string, password: string) {
+    this.loginService.login(email, password)
+    .subscribe(res => {
+      console.log('res ', res);
+      if(!res) { this.error = 'Email ID or password incorrect';}
+      this.router.navigate([`/chat/${res.user.id}`]);
     });
   }
  }
