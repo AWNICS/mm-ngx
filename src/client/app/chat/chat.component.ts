@@ -238,7 +238,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
-      if (this.selectedUser.privilege !== 'user') {
+      if (this.selectedUser.role !== 'patient') {
         dropdown.style.display = 'block';
       }
     }, 100);

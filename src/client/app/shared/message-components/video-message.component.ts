@@ -11,7 +11,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 @Component({
     selector: 'mm-video-message',
     template: `
-        <video controls>
+        <video controls *ngIf="url">
             <source [src]="url" type="video/mp4">
             <source [src]="url" type="video/webm">
             Your browser does not support HTML5 video.
