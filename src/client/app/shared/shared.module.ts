@@ -14,6 +14,7 @@ import { VideoMessageComponent } from './message-components/video-message.compon
 import { TextMessageComponent } from './message-components/text-message.component';
 import { AppearMessageComponent } from './message-components/appear-message.component';
 import { AlertMessageComponent } from './message-components/alert-message.component';
+import { SecurityService } from './services/security.service';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -30,7 +31,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [ SpecialityService ]
+      providers: [ SpecialityService, SecurityService ]
     };
   }
 }
