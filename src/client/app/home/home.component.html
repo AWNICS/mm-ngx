@@ -8,7 +8,9 @@
     <div class="container-fluid">
         <div class="jumbotron">
             <h1 style="color: #FFFFFF;"><b>{{pageTitle}}</b></h1>
-            <p i18n="Brief introduction | Tagline for the product">Order Meds, at your ease<br> You focus on healing, we do the running! <a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a></p>
+            <p i18n="Brief introduction | Tagline for the product">You focus on healing, we do the running!
+                <!--a href="https://www.mesomeds.com" target="_blank"> Mesomeds</a-->
+            </p>
             <form #f="ngForm">
                 <div class="row justify-content-center">
                     <div class="col col-lg-3">
@@ -30,8 +32,8 @@
                     <div class="alert alert-danger" role="alert" *ngIf="f.invalid && f.touched"><small>Select a field and enter a valid mobile number</small></div>
                 </div>
                 <div class="row justify-content-center">
-                    <button i18n class="btn btn-secondary" type="submit" id="btnHomePlaceOrder" (click)="open(f.value)"> Place Order </button>
                     <mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>
+                    <!--button i18n class="btn btn-secondary" type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button-->
                     <button i18n class="btn btn-secondary" type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
                 </div>
             </form>

@@ -18,7 +18,8 @@ import { DoctorLiveModule } from './doctor-live/doctor-live.module';
 import { UserLiveModule } from './user-live/user-live.module';
 import { LoginModule } from './login/login.module';
 import { ChatModule } from './chat/chat.module';
-
+import {ChatModalModule} from './chatmodal/chatmodal.module';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -40,7 +41,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     DoctorLiveModule,
     UserLiveModule,
     LoginModule,
-    ChatModule
+    ChatModule,
+    ChatModalModule,
+    NgbModule.forRoot()
     ],
   declarations: [AppComponent],
   providers: [{

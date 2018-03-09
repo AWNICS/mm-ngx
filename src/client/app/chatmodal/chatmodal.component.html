@@ -1,0 +1,71 @@
+<!--div class="modal fade" id="doctorModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal">
+                        <div class="col-md-2">
+                            <div [ngSwitch]="doctor.status">
+                                <div *ngSwitchCase="'online'">
+                                    <div class="led-box led-green"></div>
+                                </div>
+                                <div *ngSwitchCase="'offline'">
+                                    <div class="led-box led-red"></div>
+                                </div>
+                                <div *ngSwitchCase="'busy'">
+                                    <div class="led-box led-blue"></div>
+                                </div>
+                                <div *ngSwitchCase="'away'">
+                                    <div class="led-box led-yellow"></div>
+                                </div>
+                                <div *ngSwitchDefault>
+                                    <div class="led-box led-red"></div>
+                                </div>
+                            </div>
+                            <img class="rounded-circle" src="{{doctor.picUrl}}" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" />
+                        </div>
+                        <div class="col-md-1 ml-auto"></div>
+                        <div class="col-md-4 ml-auto">
+                            <h3 class="card-title">{{doctor.name}}</h3>
+                            <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}. <br/> {{doctor.description}}
+                            </p>
+                            <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                        </div>
+                        <div class="col-md-1 ml-auto"></div>
+                        <div class="col-md-4 ml-auto align-self-end">
+                            <button type="button" class="btn btn-primary">Consult now</button>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseEx" aria-expanded="false" aria-controls="collapseExample" style="float:right;margin-left:0px; ">
+                                        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="collapse" id="collapseEx">
+                                <div class="card card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal();">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div-->
+<div class="modal-header">
+    <h4 class="modal-title">Modal title</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p>One fine body&hellip;</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Close</button>
+</div>

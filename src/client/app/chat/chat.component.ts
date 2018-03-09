@@ -10,7 +10,10 @@ import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
-
+import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
+import { ChatModalComponent } from '../chatmodal/chatmodal.component';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ViewContainerRef, ComponentFactoryResolver, ComponentRef, ComponentFactory, OnDestroy } from '@angular/core';
 /**
  * This class represents the lazy loaded ChatComponent.
  */
@@ -21,13 +24,18 @@ import { DoctorDetails } from '../shared/database/doctor-details';
   styleUrls: ['chat.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked{
 
- apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
-  @ViewChild('ChatComponent') chatComponent: ChatComponent;
+  // @ViewChild('chatComponent') chatComponent: ChatComponent;
+  @ViewChild(ChatModalComponent)
+  chatModal: ChatModalComponent;
+  // componentRef_: any;
+  //@ViewChild('template', { read: ViewContainerRef }) container: ViewContainerRef;
+
+
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
   selectedGroup: Group;
@@ -40,8 +48,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
   progress: number;
+  closeResult: string
 
-  newGroup: Group ={
+  newGroup: Group = {
     id: null,
     name: '',
     url: '',
@@ -118,95 +127,95 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     updatedBy: '',
     createdTime: Date.now(),
     updatedTime: Date.now()
-};
+  };
 
-checkboxMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Kindly check the relevent boxes: ',
-  picUrl: '',
-  type: 'checkbox',
-  status: 'delivered',
-  contentType: 'checkbox',
-  contentData: {
-    data: ['']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  checkboxMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Kindly check the relevent boxes: ',
+    picUrl: '',
+    type: 'checkbox',
+    status: 'delivered',
+    contentType: 'checkbox',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-imageMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Image Component',
-  picUrl: '',
-  type: 'image',
-  status: 'delivered',
-  contentType: 'image',
-  contentData: {
-    data: ['http://photo.sf.co.ua/g/501/1.jpg']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  imageMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Image Component',
+    picUrl: '',
+    type: 'image',
+    status: 'delivered',
+    contentType: 'image',
+    contentData: {
+      data: ['http://photo.sf.co.ua/g/501/1.jpg']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-videoMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Video Component',
-  picUrl: '',
-  type: 'video',
-  status: 'delivered',
-  contentType: 'video',
-  contentData: {
-    data: ['assets/videos/movie.mp4']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now()
-};
+  videoMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Video Component',
+    picUrl: '',
+    type: 'video',
+    status: 'delivered',
+    contentType: 'video',
+    contentData: {
+      data: ['assets/videos/movie.mp4']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
-appearMessage: Message = {
-  _id: null,
-  receiverId: null,
-  receiverType: null,
-  senderId: null,
-  text: 'Appear Component',
-  picUrl: '',
-  type: 'appear',
-  status: 'delivered',
-  contentType: 'appear',
-  contentData: {
-    data: ['https://appear.in/arun-gadag']
-  },
-  responseData: {
-    data: ['']
-  },
-  createdBy: '',
-  updatedBy: '',
-  createdTime: Date.now(),
-  updatedTime: Date.now(),
-};
+  appearMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Appear Component',
+    picUrl: '',
+    type: 'appear',
+    status: 'delivered',
+    contentType: 'appear',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -215,7 +224,9 @@ appearMessage: Message = {
     private socketService: SocketService,
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private modalService: NgbModal,
+    private componentResolver: ComponentFactoryResolver
   ) {
   }
 
@@ -233,12 +244,44 @@ appearMessage: Message = {
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+
+
+  }
+  /*visibleComponent(name:string){  
+    this.container.clear();  
+      const componentFactory = this.componentResolver.resolveComponentFactory(ChatModalComponent);  
+      this.componentRef_ = this.container.createComponent(componentFactory); 
+     // this.componentRef_.instance.message = 'This is First Component';  
+    this.chatmodal.open(name);
+  }  */
+
+ /* ngOnDestroy() {
+    //this.componentRef_.destroy();  
+  }*/
+
+  open(doctorModal:any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, {size: 'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return  `with: ${reason}`;
+    }
   }
 
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
-      if(this.selectedUser.privilege !== 'user') {
+      if (this.selectedUser.privilege !== 'user') {
         dropdown.style.display = 'block';
       }
     }, 100);
@@ -316,9 +359,9 @@ appearMessage: Message = {
 
   createImage(images: FileList) {
     this.chatService.upload(images)
-    .subscribe(event => {
-      console.log('Event ', event);
-    });
+      .subscribe(event => {
+        console.log('Event ', event);
+      });
     /*this.imageMessage.receiverId = this.chatService.getGroup().id;
     this.imageMessage.senderId = this.selectedUser.id;
     this.imageMessage.receiverType = 'group';
@@ -331,9 +374,9 @@ appearMessage: Message = {
 
   createVideo(videos: FileList) {
     this.chatService.upload(videos)
-    .subscribe(event => {
-      console.log('Event ', event);
-    });
+      .subscribe(event => {
+        console.log('Event ', event);
+      });
     /*this.videoMessage.receiverId = this.chatService.getGroup().id;
     this.videoMessage.senderId = this.selectedUser.id;
     this.videoMessage.receiverType = 'group';
@@ -346,39 +389,39 @@ appearMessage: Message = {
 
   createFile(files: FileList) {
     this.chatService.upload(files)
-    .subscribe(event => {
-      console.log('Event ', event);
-    });
+      .subscribe(event => {
+        console.log('Event ', event);
+      });
   }
 
   createGroupAuto() {
     this.newGroup.name = 'Consultation room';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
-    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
-    .subscribe((group) => {
-      this.groups.push(group);
-      this.ref.detectChanges();
-    });
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
   }
 
   createGroupManual(doctor: DoctorDetails) {
     this.newGroup.name = 'Consultation room manually';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
-    this.newGroup.url = this.newGroup.name +'/' + this.selectedUser.id;
+    this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
     this.newGroup.createdBy = this.selectedUser.name;
     this.newGroup.updatedBy = this.selectedUser.name;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
-    .subscribe((group) => {
-      this.groups.push(group);
-      this.ref.detectChanges();
-    });
+      .subscribe((group) => {
+        this.groups.push(group);
+        this.ref.detectChanges();
+      });
   }
 
   addNewEntry(event: any) {
@@ -509,14 +552,14 @@ appearMessage: Message = {
 
   //getDoctors
   getDoctors() {
-    if(this.doctorList) {
+    if (this.doctorList) {
       this.chatService.getDoctors(this.userId)
-      .subscribe((doctors) => {
-        doctors.map((doctor: any) => {
-          this.doctors.push(doctor);
-          this.ref.detectChanges();
+        .subscribe((doctors) => {
+          doctors.map((doctor: any) => {
+            this.doctors.push(doctor);
+            this.ref.detectChanges();
+          });
         });
-      });
     }
     this.doctorList = false;
   }

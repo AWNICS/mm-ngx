@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    let number = this.document.body.scrollTop;
+    let number = window.scrollY;
     // console.log(number);
     // console.log(document.body.offsetHeight);
     if (number > 800) {

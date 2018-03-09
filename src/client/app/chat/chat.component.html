@@ -12,7 +12,8 @@
                             </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
-                        <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                        <button class="dropdown-item" (click)="open(doctorModal);">Manual</button>
+                        <!--button class="dropdown-item" (click)="visibleComponent(template);">Manual</button-->
                     </div>
                 </div>
             </div>
@@ -22,37 +23,73 @@
         </div>
     </div>
 </div>
+<!--modal window-->
 
-<!-- Doctor List Modal -->
-<div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
-                    <div class="col col-3 doctor">
-                        <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
+<ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid">
+            <div class="row" *ngFor="let doctor of doctors">
+                <div class="col-md-1">
+                    <div [ngSwitch]="doctor.status">
+                        <div *ngSwitchCase="'online'" class="switch">
+                            <div class="led-box led-green"></div>
+                        </div>
+                        <div *ngSwitchCase="'offline'">
+                            <div class="led-box led-red"></div>
+                        </div>
+                        <div *ngSwitchCase="'busy'">
+                            <div class="led-box led-blue"></div>
+                        </div>
+                        <div *ngSwitchCase="'away'">
+                            <div class="led-box led-yellow"></div>
+                        </div>
+                        <div *ngSwitchDefault>
+                            <div class="led-box led-red"></div>
+                        </div>
                     </div>
-                    <div class="col col-3 doctor">
-                        <span>{{doctor.name}}</span>
-                    </div>
-                    <div class="col col-3 doctor">
-                        <span>{{doctor.speciality}}</span>
+
+                    <img class="rounded-circle" src="{{doctor.picUrl}}" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                </div>
+                <div class="col-md-1 ml-auto"></div>
+                <div class="col-md-4 ml-auto">
+                    <h3 class="card-title">{{doctor.name}}</h3>
+                    <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}. <br/> {{doctor.description}}
+                    </p>
+                    <!--ngb-rating [(rate)]="doctor.rating"></ngb-rating-->
+                    <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                </div>
+                <div class="col-md-1 ml-auto"></div>
+                <div class="col-md-4 ml-auto align-self-end">
+
+                    <button type="button" class="btn btn-primary">Consult now</button>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                        </button>
+
+                    <div class="collapse" id="{{doctor.id}}">
+                        <div class="card card-body">
+                            {{doctor.name}}
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
         </div>
-    </div>
-</div>
+    </div><br><br>
 
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancle</button>
+    </div>
+
+
+</ng-template>
+
+<!--pre>{{closeResult}}</pre-->
+<!--mm-chat-modal></mm-chat-modal-->
 <div class="container">
     <div class="row">
         <div class="col col-3 list">
@@ -207,18 +244,14 @@
                                                 </button>
                                                 </td>
                                                 <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-picture-o" aria-hidden="true">
-                                                            <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" multiple />
-                                                        </i>
-                                                    </div>
+                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createImage();" data-toggle="tooltip" data-placement="bottom" title="Upload image">
+                                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                                    </button>
                                                 </td>
                                                 <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true">
-                                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" multiple /> 
-                                                        </i>
-                                                    </div>
+                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createVideo();" data-toggle="tooltip" data-placement="bottom" title="Upload video">
+                                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -256,3 +289,4 @@
         </div>
     </div>
 </div>
+<!--mm-doctors-list></mm-doctors-list-->
