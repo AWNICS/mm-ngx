@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -24,7 +24,7 @@ export class ImageMessageComponent implements OnInit {
     @Input() message: Message;
     url: SafeResourceUrl;
 
-    constructor(private chatService: ChatService, private sanitizer: DomSanitizer) { }
+    constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
 
     ngOnInit() {
         setTimeout(() => {
@@ -39,5 +39,6 @@ export class ImageMessageComponent implements OnInit {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
                 }
             });
+            this.ref.detectChanges();
     }
 }

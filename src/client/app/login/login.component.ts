@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
+import { SecurityService } from '../shared/services/security.service';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -18,7 +19,8 @@ export class LoginComponent {
 
   constructor(
       private loginService: LoginService,
-      private router: Router
+      private router: Router,
+      private securityService: SecurityService
   ) { }
 
   login(email: string, password: string) {
@@ -26,6 +28,7 @@ export class LoginComponent {
     .subscribe(res => {
       console.log('res ', res);
       if(!res) { this.error = 'Email ID or password incorrect';}
+      this.securityService.setToken(res.token);
       this.router.navigate([`/chat/${res.user.id}`]);
     });
   }
