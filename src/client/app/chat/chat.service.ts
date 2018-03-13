@@ -11,6 +11,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
 import { DoctorDetails } from '../shared/database/doctor-details';
+import { SecurityService } from '../shared/services/security.service';
 
 @Injectable()
 export class ChatService {
@@ -21,16 +22,18 @@ export class ChatService {
     private groupUrl = 'http://localhost:3000/group/controllers/';
     private messageUrl = 'http://localhost:3000/message/controllers/';
     private doctorUrl = 'http://localhost:3000/doctor/controllers/';
-    private fileUrl = 'http://localhost:3000/file/controllers';
+    private fileUrl = 'http://localhost:3000/file';
     private user: UserDetails;
     private group: Group;
 
-    constructor(private router: Router, private http: Http) {
+    constructor(private router: Router, private http: Http, private securityService: SecurityService) {
+        console.log('token is: ', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
     }
 
     /** GET users from the server */
     getUsers(): Promise<UserDetails[]> {
-        return this.http.get(this.userUrl)
+        return this.http.get(this.userUrl, this.options)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
@@ -40,7 +43,8 @@ export class ChatService {
      * GET userById from the server
      */
     getUserById(id: number): Promise<UserDetails> {
-        return this.http.get(`${this.userUrl}/getUserById/${id}`)
+        const uri = `${this.userUrl}/getUserById/${id}`;
+        return this.http.get(uri, this.options)
             .toPromise()
             .then(res => res.json() as UserDetails)
             .catch(this.handleError);
@@ -48,7 +52,8 @@ export class ChatService {
 
     /** GET groups from the server */
     getGroups(userId: number): Promise<Group[]> {
-        return this.http.get(`${this.groupUrl}getGroups/user/${userId}/groups`)
+        const uri = `${this.groupUrl}getGroups/user/${userId}/groups`;
+        return this.http.get(uri, this.options)
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
@@ -73,7 +78,7 @@ export class ChatService {
     /** GET messages from the server */
     getMessages(userId: number, groupId: number, offset: number, size: number): Observable<Message[]> {
         const uri = `${this.messageUrl}getLimitedMessages/user/${userId}/groups/${groupId}/messages?offset=${offset}&size=${size}`;
-        return this.http.get(uri)
+        return this.http.get(uri, this.options)
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -112,20 +117,24 @@ export class ChatService {
     }
 
     uploadImage(images: FileList): Observable<any> {
-        const uri = `${this.fileUrl}/image/up`;
+        const headers = new Headers({
+            'Authorization': this.securityService.getToken().Authorization
+        });
+        const uri = `${this.fileUrl}/image`;
         let formData = new FormData();
         Array.from(images).forEach(f => {
             formData.append('file', f);
         });
-        return this.http.post(uri, formData)
+        return this.http.post(uri, formData, {headers: headers})
             .map((res: Response) => res)
             .catch(this.handleError);
     }
 
     downloadImage(image: string): Observable<any> {
-        const uri = `${this.fileUrl}/image/down/${image}`;
+        const uri = `${this.fileUrl}/image/${image}`;
         return this.http.get(uri, {
-            responseType: ResponseContentType.Blob
+            responseType: ResponseContentType.Blob,
+            headers: this.headers
         })
             .map((res: Response) => {
                 const blob = new Blob([res.blob()], { type: 'image/jpeg' });
@@ -137,20 +146,24 @@ export class ChatService {
     }
 
     uploadVideo(videos: FileList): Observable<any> {
-        const uri = `${this.fileUrl}/video/up`;
+        const headers = new Headers({
+            'Authorization': this.securityService.getToken().Authorization
+        });
+        const uri = `${this.fileUrl}/video`;
         let formData = new FormData();
         Array.from(videos).forEach(f => {
             formData.append('file', f);
         });
-        return this.http.post(uri, formData)
+        return this.http.post(uri, formData, {headers: headers})
             .map((res: Response) => res)
             .catch(this.handleError);
     }
 
     downloadVideo(video: string): Observable<any> {
-        const uri = `${this.fileUrl}/video/down/${video}`;
+        const uri = `${this.fileUrl}/video/${video}`;
         return this.http.get(uri, {
-            responseType: ResponseContentType.Blob
+            responseType: ResponseContentType.Blob,
+            headers: this.headers
         })
             .map((res: Response) => {
                 const blob = new Blob([res.blob()], { type: 'video/*' });
@@ -162,20 +175,24 @@ export class ChatService {
     }
 
     uploadDoc(docs: FileList): Observable<any> {
-        const uri = `${this.fileUrl}/doc/up`;
+        const headers = new Headers({
+            'Authorization': this.securityService.getToken().Authorization
+        });
+        const uri = `${this.fileUrl}/doc`;
         let formData = new FormData();
         Array.from(docs).forEach(f => {
             formData.append('file', f);
         });
-        return this.http.post(uri, formData)
+        return this.http.post(uri, formData, {headers: headers})
             .map((res: Response) => res)
             .catch(this.handleError);
     }
 
     downloadDoc(doc: string): Observable<any> {
-        const uri = `${this.fileUrl}/doc/down/${doc}`;
+        const uri = `${this.fileUrl}/doc/${doc}`;
         return this.http.get(uri, {
-            responseType: ResponseContentType.Blob
+            responseType: ResponseContentType.Blob,
+            headers: this.headers
         })
             .map((res: Response) => {
                 const blob = new Blob([res.blob()], { type: '*/*' });
