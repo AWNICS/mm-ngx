@@ -1,0 +1,21 @@
+form {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+}
+
+input {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+label {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+}
