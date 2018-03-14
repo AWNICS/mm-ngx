@@ -21,7 +21,7 @@ export class DoctorRegisterComponent implements OnInit {
         private fb: FormBuilder,
         private loginService: LoginService,
         private chatService: ChatService
-    ) { 
+    ) {
         this.generateNumber();
     }
 

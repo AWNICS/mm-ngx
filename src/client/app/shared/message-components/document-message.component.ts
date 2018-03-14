@@ -17,8 +17,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     <ng-template #loading>
         Loading...
     </ng-template>
-    `,
-    styles: [``]
+    `
 })
 
 export class DocumentMessageComponent implements OnInit {
@@ -41,7 +40,7 @@ export class DocumentMessageComponent implements OnInit {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                }
+                };
             });
     }
 }
