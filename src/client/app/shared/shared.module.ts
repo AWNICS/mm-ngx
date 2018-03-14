@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { DocumentMessageComponent } from './message-components/document-message.component';
 import { FooterComponent } from './footer/footer.component';
 import { SpecialityService } from './speciality/speciality.service';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -21,11 +22,34 @@ import { SecurityService } from './services/security.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  declarations: [FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent],
-  exports: [FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent,
-    CommonModule, FormsModule, RouterModule]
+  declarations: [
+    DocumentMessageComponent,
+    FooterComponent,
+    NavbarComponent,
+    RadioMessageComponent,
+    SliderMessageComponent,
+    CheckBoxMessageComponent,
+    ImageMessageComponent,
+    VideoMessageComponent,
+    TextMessageComponent,
+    AppearMessageComponent,
+    AlertMessageComponent],
+  exports: [
+    DocumentMessageComponent,
+    FooterComponent,
+    NavbarComponent,
+    RadioMessageComponent,
+    SliderMessageComponent,
+    CheckBoxMessageComponent,
+    ImageMessageComponent,
+    VideoMessageComponent,
+    TextMessageComponent,
+    AppearMessageComponent,
+    AlertMessageComponent,
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {

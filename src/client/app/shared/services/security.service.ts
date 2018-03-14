@@ -5,9 +5,6 @@ export class SecurityService {
 
     private jwt: string;
 
-    constructor() {
-    }
-
     setToken(token: string) {
         this.jwt = token;
     }

@@ -11,12 +11,15 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 @Component({
     selector: 'mm-video-message',
     template: `
-        <video controls *ngIf="url">
+        <video controls *ngIf="url else loading">
             <source [src]="url" type="video/mp4">
             <source [src]="url" type="video/webm">
             Your browser does not support HTML5 video.
             {{url}}
         </video>
+        <ng-template #loading>
+                Loading...
+        </ng-template>
     `,
     styles: [`
         video {
@@ -40,11 +43,11 @@ export class VideoMessageComponent implements OnInit {
     }
 
     downloadVideo(fileName: string) {
-        this.chatService.downloadVideo(fileName)
+        this.chatService.downloadFile(fileName)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
-                }
+                };
             });
     }
 }
