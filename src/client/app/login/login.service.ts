@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserDetails } from '../shared/database/user-details';
+import { DoctorDetails } from '../shared/database/doctor-details';
 import { Observable } from 'rxjs/Rx';
 
 // Import RxJs required methods
@@ -15,6 +16,7 @@ export class LoginService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000/user/controllers';  // URL to access server
+    private doctorUrl = 'http://localhost:3000/doctor/controllers';
 
     constructor(private router: Router, private http: Http) {
     }
@@ -55,6 +57,15 @@ export class LoginService {
         return this.http
             .post(url, userDetails, this.options).toPromise()
             .then(response => response.json() as UserDetails)
+            .catch(this.handleError);
+    }
+
+    createNewDoctor(doctorDetails: DoctorDetails): Promise<DoctorDetails> {
+        const url = `${this.doctorUrl}/createDoctor`;
+        this.router.navigate(['/login']);
+        return this.http
+            .post(url, doctorDetails, this.options).toPromise()
+            .then(response => response.json() as DoctorDetails)
             .catch(this.handleError);
     }
 
