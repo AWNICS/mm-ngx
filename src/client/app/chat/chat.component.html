@@ -34,7 +34,7 @@
     <div class="modal-body">
         <div class="container-fluid">
             <div class="row" *ngFor="let doctor of doctors">
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div [ngSwitch]="doctor.status">
                         <div *ngSwitchCase="'online'" class="switch">
                             <div class="led-box led-green"></div>
@@ -57,29 +57,48 @@
                 </div>
                 <div class="col-md-1 ml-auto"></div>
                 <div class="col-md-4 ml-auto">
-                    <h3 class="card-title">{{doctor.name}}</h3>
-                    <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}. <br/> {{doctor.description}}
-                    </p>
-                    <!--ngb-rating [(rate)]="doctor.rating"></ngb-rating-->
-                    <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                    <div class="row">
+                        <h3 class="card-title">{{doctor.name}}</h3>
+                    </div>
+                    <div class="row">
+                        <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}. <br/> {{doctor.description}}
+                        </p>
+                    </div>
+                    <div class="row">
+                        <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                    </div>
                 </div>
                 <div class="col-md-1 ml-auto"></div>
-                <div class="col-md-4 ml-auto align-self-end">
+                <div class="col-md-2 ml-auto ">
 
-                    <button type="button" class="btn btn-primary">Consult now</button>
+                    <button type="button" class="btn btn-primary " (click)="createGroupManual(doctor)">Consult now</button>
+                </div>
+                <div class="col-md-2 ml-auto ">
                     <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
                                 <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                         </button>
+                </div>
 
-                    <div class="collapse" id="{{doctor.id}}">
-                        <div class="card card-body">
-                            {{doctor.name}}
-                        </div>
+                <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
+                    <div class="card card-body col">
+                        <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
                     </div>
                 </div>
+
+                <ng-template #videoModal let-c="close" let-d="dismiss">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <embed width="480" height="400" [attr.src]="url">
+                    </div>
+                </ng-template>
+
             </div>
         </div>
-    </div><br><br>
+    </div>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancle</button>
@@ -289,4 +308,3 @@
         </div>
     </div>
 </div>
-<!--mm-doctors-list></mm-doctors-list-->

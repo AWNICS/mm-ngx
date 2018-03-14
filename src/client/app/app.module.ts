@@ -4,6 +4,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +19,6 @@ import { DoctorLiveModule } from './doctor-live/doctor-live.module';
 import { UserLiveModule } from './user-live/user-live.module';
 import { LoginModule } from './login/login.module';
 import { ChatModule } from './chat/chat.module';
-import {ChatModalModule} from './chatmodal/chatmodal.module';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 //ng2-smart-tables
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -42,7 +42,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     UserLiveModule,
     LoginModule,
     ChatModule,
-    ChatModalModule,
     NgbModule.forRoot()
     ],
   declarations: [AppComponent],

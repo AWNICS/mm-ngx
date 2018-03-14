@@ -8,11 +8,11 @@ import { ChatService } from './chat.service';
 import { SharedModule } from '../shared/shared.module';
 import { SocketService } from './socket.service';
 import { DoctorsListModule } from '../doctors-list/doctors-list.module';
-import { ChatModalModule } from '../chatmodal/chatmodal.module';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @NgModule({
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule,
-    ChatRoutingModule, DoctorsListModule, ChatModalModule],
+    ChatRoutingModule, DoctorsListModule],
   declarations: [ChatComponent],
   exports: [ChatComponent],
   providers: [ChatService, SocketService]

@@ -206,3 +206,15 @@ textarea {
 #butt {
     display: inline-block;
 }
+
+.modal-header {
+    display: block!important;
+}
+
+.modal-title {
+    float: left;
+}
+
+.modal-header .close {
+    float: right;
+}

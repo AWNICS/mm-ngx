@@ -11,9 +11,8 @@ import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
-import { ChatModalComponent } from '../chatmodal/chatmodal.component';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { ViewContainerRef, ComponentFactoryResolver, ComponentRef, ComponentFactory, OnDestroy } from '@angular/core';
+
 /**
  * This class represents the lazy loaded ChatComponent.
  */
@@ -29,11 +28,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
-  // @ViewChild('chatComponent') chatComponent: ChatComponent;
-  @ViewChild(ChatModalComponent)
-  chatModal: ChatModalComponent;
-  // componentRef_: any;
-  //@ViewChild('template', { read: ViewContainerRef }) container: ViewContainerRef;
 
 
   userId: number; // to initialize the user logged in
@@ -49,6 +43,8 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   doctorList = true; //for listing down the doctors in modal window
   progress: number;
   closeResult: string
+  videoUrl="https://www.youtube.com/v/tgbNymZ7vqY";
+  url:any;
 
   newGroup: Group = {
     id: null,
@@ -225,8 +221,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
     private domSanitizer: DomSanitizer,
-    private modalService: NgbModal,
-    private componentResolver: ComponentFactoryResolver
+    private modalService: NgbModal
   ) {
   }
 
@@ -243,25 +238,14 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
-
-
+    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
   }
-  /*visibleComponent(name:string){  
-    this.container.clear();  
-      const componentFactory = this.componentResolver.resolveComponentFactory(ChatModalComponent);  
-      this.componentRef_ = this.container.createComponent(componentFactory); 
-     // this.componentRef_.instance.message = 'This is First Component';  
-    this.chatmodal.open(name);
-  }  */
-
- /* ngOnDestroy() {
-    //this.componentRef_.destroy();  
-  }*/
-
+  
   open(doctorModal:any) {
     this.getDoctors();
     this.modalService.open(doctorModal, {size: 'lg'}).result.then((result) => {
+      this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -410,6 +394,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
 
   createGroupManual(doctor: DoctorDetails) {
+    console.log('create group called');
     this.newGroup.name = 'Consultation room manually';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
@@ -553,6 +538,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   //getDoctors
   getDoctors() {
     if (this.doctorList) {
+     // this.safeUrl=this.domSanitizer.bypassSecurityTrustResourceUrl(this.doctor.videoUrl);
       this.chatService.getDoctors(this.userId)
         .subscribe((doctors) => {
           doctors.map((doctor: any) => {
@@ -563,4 +549,15 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     }
     this.doctorList = false;
   }
+
+  //open Video Modal
+video(videoModal:any){
+  this.modalService.open(videoModal).result.then((result) => {
+    this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
 }
+}
+
