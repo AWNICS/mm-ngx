@@ -1,4 +1,4 @@
-<mm-navbar></mm-navbar><br>
+<mm-navbar style="margin-bottom:70px;"></mm-navbar>
 <div class="container">
     <div class="row">
         <div class="col col-6">
@@ -22,6 +22,10 @@
                             <input type="tel" class="form-control" id="phoneNo" formControlName="phoneNo" placeholder="98xxxxxxxx">
                         </div>
                         <div class="form-group">
+                            <label for="description">Password</label>
+                            <input type="password" style="width: 100%;" class="form-control" formControlName="password" placeholder="Enter password" autocomplete>
+                        </div>
+                        <div class="form-group">
                             <label for="speciality">Speciality</label>
                             <input type="text" class="form-control" id="speciality" formControlName="speciality" placeholder="Speciality">
                         </div>
@@ -34,10 +38,6 @@
                         <div class="form-group">
                             <label for="description">Bio</label>
                             <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="description">Password</label>
-                            <input type="password" style="width: 100%;" class="form-control" formControlName="password" placeholder="Enter password" autocomplete>
                         </div>
                         <label class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" formControlName="termsAccepted" required>
@@ -52,4 +52,4 @@
         </div>
     </div>
 </div>
-<mm-footer></mm-footer>
+<mm-footer style="margin-top:70px;"></mm-footer>

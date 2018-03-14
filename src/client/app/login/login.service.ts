@@ -4,6 +4,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserDetails } from '../shared/database/user-details';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { Observable } from 'rxjs/Rx';
+import { SecurityService } from '../shared/services/security.service';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/toPromise';
@@ -15,53 +16,49 @@ export class LoginService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000/user/controllers';  // URL to access server
-    private doctorUrl = 'http://localhost:3000/doctor/controllers';
+    private url = 'http://localhost:3000';  // URL to access server
 
-    constructor(private router: Router, private http: Http) {
-    }
-
-    loggedIn() {
-        this.router.navigate(['/logged']);
-    }
-
-    loggedOut() {
-        this.router.navigate(['/']);
+    constructor(private router: Router, private http: Http, private securityService: SecurityService) {
     }
 
     login(email: string, password: string): Observable<any> {
-        const uri = `http://localhost:3000/auth/login`;
-        return this.http.post(uri,{email:email, password: password})
+        const uri = `${this.url}/login`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        return this.http.post(uri,{email:email, password: password}, this.options)
         .map(res => res.json())
         .catch(this.handleError);
     }
 
     getUserByEmail(email: string): Promise<UserDetails> {
-        const uri = `${this.url}/findUserByEmail/${email}`;
+        const uri = `${this.url}/users/${email}`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
         return this.http
-            .get(uri).toPromise()
+            .get(uri, this.options).toPromise()
             .then(response => response.json() as UserDetails)
             .catch(this.handleError);
     }
 
     getUsers(): Promise<UserDetails[]> {
+        const uri = `${this.url}/users`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
         return this.http
-            .get(this.url).toPromise()
+            .get(uri, this.options).toPromise()
             .then(response => response.json().data)
             .catch(this.handleError);
     }
 
     createNewUser(userDetails: UserDetails): Promise<UserDetails> {
-        const url = `${this.url}/createUser`;
+        const uri = `${this.url}/users`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
         this.router.navigate(['/login']);
         return this.http
-            .post(url, userDetails, this.options).toPromise()
+            .post(uri, userDetails, this.options).toPromise()
             .then(response => response.json() as UserDetails)
             .catch(this.handleError);
     }
 
     createNewDoctor(doctorDetails: DoctorDetails): Promise<DoctorDetails> {
-        const url = `${this.doctorUrl}/createDoctor`;
+        const url = `${this.url}/createDoctor`;
         this.router.navigate(['/login']);
         return this.http
             .post(url, doctorDetails, this.options).toPromise()
@@ -70,17 +67,19 @@ export class LoginService {
     }
 
     update(userDetails: UserDetails): Promise<UserDetails> {
-        const url = `${this.url}/putUser`;
+        const uri = `${this.url}/users`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
         return this.http
-            .put(url, JSON.stringify(userDetails), { headers: this.headers })
+            .put(uri, JSON.stringify(userDetails), { headers: this.headers })
             .toPromise()
             .then(() => userDetails)
             .catch(this.handleError);
     }
 
     delete(userDetails: UserDetails): Promise<void> {
-        const url = `${this.url}/deleteUser/${userDetails.id}`;
-        return this.http.delete(url, { headers: this.headers })
+        const uri = `${this.url}/users/${userDetails.id}`;
+        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        return this.http.delete(uri, { headers: this.headers })
             .toPromise()
             .then(() => null)
             .catch(this.handleError);

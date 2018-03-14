@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -18,7 +19,7 @@ import { DoctorDetails } from '../shared/database/doctor-details';
   moduleId: module.id,
   selector: 'mm-chat',
   templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.css'],
+  styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
@@ -26,6 +27,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
  apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
+  @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
   userId: number; // to initialize the user logged in
@@ -39,7 +41,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
-  progress: number;
 
   newGroup: Group = {
     id: null,
@@ -186,6 +187,28 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     updatedTime: Date.now()
   };
 
+  docMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Doc Component',
+    picUrl: '',
+    type: 'doc',
+    status: 'delivered',
+    contentType: 'doc',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
   appearMessage: Message = {
     _id: null,
     receiverId: null,
@@ -316,7 +339,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createImage(files: FileList) {
-    this.chatService.uploadImage(files)
+    this.chatService.uploadFile(files)
       .subscribe(res => {
         console.log('response is ', res);
         this.imageMessage.contentData.data = res._body;
@@ -332,7 +355,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createVideo(videos: FileList) {
-    this.chatService.uploadVideo(videos)
+    this.chatService.uploadFile(videos)
       .subscribe(res => {
         this.videoMessage.contentData.data = res._body;
         this.videoMessage.receiverId = this.chatService.getGroup().id;
@@ -347,8 +370,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createFile(files: FileList) {
-    this.chatService.uploadDoc(files)
+    this.chatService.uploadFile(files)
       .subscribe(res => {
+        this.docMessage.contentData.data = res._body;
+        this.docMessage.receiverId = this.chatService.getGroup().id;
+        this.docMessage.senderId = this.selectedUser.id;
+        this.docMessage.receiverType = 'group';
+        this.docMessage.contentType = 'doc';
+        this.docMessage.type = 'doc';
+        this.docMessage.status = 'delivered';
+        this.docMessage.text = 'Doc Component';
+        this.socketService.sendMessage(this.docMessage);
         console.log('Response ', res);
       });
   }
@@ -410,6 +442,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
+            message.createdTime = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -423,6 +456,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
+            message.createdTime = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -440,6 +474,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
       .subscribe((msg) => {
         msg.map((message: any) => {
+          message.createdTime = moment(message.createdTime).format('LT');
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -468,6 +503,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
+          msg.createdTime = moment(msg.createdTime).format('LT');
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
@@ -530,5 +566,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
    */
   logout() {
     this.socketService.logout(this.selectedUser.id);
+  }
+
+  open() {
+    this.mySidebar.nativeElement.style.display = "block";
+  }
+
+  close() {
+    this.mySidebar.nativeElement.style.display = "none";
   }
 }

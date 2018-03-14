@@ -17,7 +17,13 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
             <ng-template #loading>
                 Loading...
             </ng-template>
-    `
+    `,
+    styles: [`
+    img {
+        max-width: 70%    !important;
+        height: auto   !important;
+    }
+    `]
 })
 
 export class ImageMessageComponent implements OnInit {
@@ -33,7 +39,7 @@ export class ImageMessageComponent implements OnInit {
     }
 
     downloadImage(fileName: string) {
-        this.chatService.downloadImage(fileName)
+        this.chatService.downloadFile(fileName)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);

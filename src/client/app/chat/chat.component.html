@@ -1,258 +1,207 @@
+<mm-navbar style="margin-bottom:70px;"></mm-navbar>
 <div class="container">
-    <div class="row selected-user" *ngIf="selectedUser;">
-        <div class="col col-8">
-            {{selectedUser.name}}
-            <img class="img-lg" [src]="selectedUser.picUrl" alt="Display picture" />
+    <div style="height:inherit;" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar" #mySidebar>
+        <button class="w3-bar-item w3-button w3-large w3-hide-large" (click)="close()">Close &times;</button>
+        <div class="search">
+            <input type="text" placeholder="Search" />
+            <i class="fa fa-search"></i>
         </div>
-        <div class="col col-2">
-            <div class="dropdown">
-                <div id="dropdown" #dropdown>
-                    <button class="btn btn-secondary dropdown-toggle" style="margin-top:10px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Create group
+        <div class="w3-bar-item w3-button" *ngFor="let group of groups">
+            <div class="people-list" id="people-list">
+                <div class="list">
+                    <div class="clearfix" (click)="getMessage(group)">
+                        <img [src]="group.picture" alt="avatar" />
+                        <div class="about">
+                            <div class="name">{{group.name}}</div>
+                            <div class="status">
+                                <i class="fa fa-circle online"></i> online
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-main" style="margin-left:237px;">
+        <div class="w3-teal">
+            <button class="w3-button w3-teal w3-xlarge w3-hide-large" (click)="open()">&#9776;</button>
+        </div>
+
+        <div class="w3-container">
+            <div class="chat">
+                <div class="chat-header clearfix" *ngIf="selectedGroup else loadThis">
+                    <img [src]="selectedGroup.picture" alt="avatar" />
+                    <div class="chat-about">
+                        <div class="chat-with">Chat with {{selectedGroup.name}}</div>
+                        <div class="chat-num-messages">{{selectedGroup.description}}</div>
+                    </div>
+                    <div class="dropdown top-dropdown" style="float: right;" #dropdown>
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Create group
                             </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
-                        <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
+                            <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-2">
-            <a class="logout-button" routerLink="/login" (click)="logout()">Logout</a>
-        </div>
-    </div>
-</div>
-
-<!-- Doctor List Modal -->
-<div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-                <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
-                    <div class="col col-3 doctor">
-                        <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
-                    </div>
-                    <div class="col col-3 doctor">
-                        <span>{{doctor.name}}</span>
-                    </div>
-                    <div class="col col-3 doctor">
-                        <span>{{doctor.speciality}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col col-3 list">
-            <div class="row">
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="search" aria-describedby="search" placeholder="Search">
-                    </div>
-                </form>
-            </div>
-            <div class="row groupSelect" *ngFor="let group of groups" (click)="getMessage(group)">
-                <div class="col col-3">
-                    <img class="img-sm" src="{{group.picture}}" alt="Display picture" />
-                </div>
-                <div class="col" style="margin:10px;">
-                    <div class="row name">
-                        <span>{{group.name}}</span>
-                    </div>
-                    <div class="row status">
-                        {{group.description}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-9 chatBox">
-            <div class="row title" *ngIf="selectedGroup else loadThis">
-                <div class="col col-2">
-                    <img class="img-lg" src="{{selectedGroup.picture}}" alt="Display picture" />
-                </div>
-                <div class="col col-10">
-                    <div class="row">{{selectedGroup.name}}</div>
-                    <div class="row">Created by: {{selectedGroup.createdBy}}</div>
-                </div>
-            </div>
-            <ng-template #loadThis>
-                <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                <span class="sr-only">Loading...</span>
-            </ng-template>
-            <div class="row messageBox" id="messageBox" #messageBox (scroll)="onScroll()">
-                <div class="container" *ngFor="let message of messages">
-                    <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
-                        <div class="row text-box-right">
-                            <div [ngSwitch]="message.contentType">
-                                <div *ngSwitchCase="'text'">
-                                    <div class="row text-message">
-                                        <div class="col col-2">
-                                            {{message.createdBy}}
-                                            <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                    <button style="float: right;" class="btn btn-light btn-sm" type="button" routerLink="/login" (click)="logout();">
+                        Logout
+                    </button>
+                    <!-- Doctor List Modal -->
+                    <div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
+                                        <div class="col col-3 doctor">
+                                            <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
                                         </div>
-                                        <div class="col">
-                                            {{message.text}}
+                                        <div class="col col-3 doctor">
+                                            <span>{{doctor.name}}</span>
+                                        </div>
+                                        <div class="col col-3 doctor">
+                                            <span>{{doctor.speciality}}</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngSwitchCase="'radio'">
-                                    <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
-                                </div>
-                                <div *ngSwitchCase="'slider'">
-                                    <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
-                                </div>
-                                <div *ngSwitchCase="'checkbox'">
-                                    <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
-                                </div>
-                                <div *ngSwitchCase="'video'">
-                                    <mm-video-message [message]="message"></mm-video-message>
-                                </div>
-                                <div *ngSwitchCase="'appear'">
-                                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                                </div>
-                                <div *ngSwitchCase="'image'">
-                                    <mm-image-message [message]="message"></mm-image-message>
-                                </div>
-                                <div *ngSwitchDefault>
-                                    <mm-text-message [message]="message"></mm-text-message>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <ng-template #alignLeft>
-                        <div class="row text-box-left">
-                            <div [ngSwitch]="message.contentType">
-                                <div *ngSwitchCase="'text'">
-                                    <div class="row text-message">
-                                        <div class="col col-2">
-                                            {{message.createdBy}}
-                                            <img class="img-sm" src="{{message.picUrl}}" alt="Display picture" />
+                    <!-- end Doctor List Modal -->
+                </div>
+                <ng-template #loadThis>
+                    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
+                </ng-template>
+                <!-- end chat-header -->
+
+                <div class="chat-history" #messageBox (scroll)="onScroll()">
+                    <div *ngFor="let message of messages">
+                        <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
+                            <div class="clearfix">
+                                <div class="message-data align-right">
+                                    <span class="message-data-time">{{message.createdTime}}</span> &nbsp; &nbsp;
+                                    <span class="message-data-name">{{message.createdBy}}</span> <i class="fa fa-circle me"></i>
+                                </div>
+                                <div class="message other-message float-right">
+                                    <div [ngSwitch]="message.contentType">
+                                        <div *ngSwitchCase="'text'">
+                                            <mm-text-message [message]="message"></mm-text-message>
                                         </div>
-                                        <div class="col">
-                                            {{message.text}}
+                                        <div *ngSwitchCase="'radio'">
+                                            <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        </div>
+                                        <div *ngSwitchCase="'slider'">
+                                            <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        </div>
+                                        <div *ngSwitchCase="'checkbox'">
+                                            <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        </div>
+                                        <div *ngSwitchCase="'video'">
+                                            <mm-video-message [message]="message"></mm-video-message>
+                                        </div>
+                                        <div *ngSwitchCase="'doc'">
+                                            <mm-document-message [message]="message"></mm-document-message>
+                                        </div>
+                                        <div *ngSwitchCase="'appear'">
+                                            <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                        </div>
+                                        <div *ngSwitchCase="'image'">
+                                            <mm-image-message [message]="message"></mm-image-message>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <mm-text-message [message]="message"></mm-text-message>
                                         </div>
                                     </div>
                                 </div>
-                                <div *ngSwitchCase="'radio'">
-                                    <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
-                                </div>
-                                <div *ngSwitchCase="'slider'">
-                                    <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
-                                </div>
-                                <div *ngSwitchCase="'checkbox'">
-                                    <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
-                                </div>
-                                <div *ngSwitchCase="'video'">
-                                    <mm-video-message [message]="message"></mm-video-message>
-                                </div>
-                                <div *ngSwitchCase="'appear'">
-                                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                                </div>
-                                <div *ngSwitchCase="'image'">
-                                    <mm-image-message [message]="message"></mm-image-message>
-                                </div>
-                                <div *ngSwitchDefault>
-                                    <mm-text-message [message]="message"></mm-text-message>
-                                </div>
                             </div>
                         </div>
-                    </ng-template>
-                </div>
-            </div>
-            <div class="row">
-                <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <textarea class="form-control" formControlName="text" rows="3" cols="2" placeholder="Type your message..."></textarea>
-                            <div class="input-group-btn dropup">
-                                <button style="border:none; border-radius:0px;" type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <table class="table table-responsive">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createRadio();" data-toggle="tooltip" data-placement="bottom" title="Radio">
-                                                    <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createSlider();" data-toggle="tooltip" data-placement="bottom" title="Slider">
-                                                    <i class="fa fa-sliders" aria-hidden="true"></i>
-                                                </button>
-                                                </td>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createCheckbox();" data-toggle="tooltip" data-placement="bottom" title="Checkbox">
-                                                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" (click)="createAppear();" data-toggle="tooltip" data-placement="bottom" title="Start video call">
-                                                <i class="fa fa-video-camera" aria-hidden="true"></i>    
-                                                </button>
-                                                </td>
-                                                <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-picture-o" aria-hidden="true">
-                                                            <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
-                                                        </i>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-video-o" aria-hidden="true">
-                                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" /> 
-                                                        </i>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Camera">
-                                                        <i class="fa fa-camera" aria-hidden="true"></i>    
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <div class="btn btn-primary btn-file">
-                                                        <i class="fa fa-file-o" aria-hidden="true">
-                                                            <input type="file" accept="application/pdf, application/vnd.ms-excel" (change)="createFile($event.target.files)" /> 
-                                                        </i>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <button id="attachmentButton" type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="External link">
-                                                        <i class="fa fa-external-link" aria-hidden="true"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+
+                        <ng-template #alignLeft>
+                            <div class="message-data">
+                                <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.createdBy}}</span>
+                                <span class="message-data-time">{{message.createdTime}}</span>
+                            </div>
+                            <div class="message my-message">
+                                <div [ngSwitch]="message.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="input-group-btn dropup">
-                                <button type="submit" class="btn btn-primary" [disabled]="message.invalid">
-                                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                            </button>
-                            </div>
-                        </div>
+                        </ng-template>
                     </div>
-                </form>
+
+                </div>
+                <!-- end chat-history -->
+
+                <div class="chat-message clearfix">
+                    <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
+                        <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
+                        <i class="fa fa-paperclip dropup" data-toggle="dropdown"></i>
+                        <div class="dropdown-menu dropdown-menu-left">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Create radio"></i>
+                                <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider();" title="Create slider"></i>
+                                <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Create checkbox"></i>
+                                <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear();" title="Start appear call"></i>
+                                <div class="file-upload" title="Upload image">
+                                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="file-upload" title="Upload video">
+                                    <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" />
+                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                </div>
+                                <div class="file-upload" title="Upload file">
+                                    <input type="file" accept="application/pdf, .doc, .docx, text/plain " (change)="createFile($event.target.files)" />
+                                    <i class="fa fa-file-o" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" [disabled]="message.invalid">Send</button>
+                    </form>
+                </div>
+                <!-- end chat-message -->
+
             </div>
+            <!-- end chat -->
         </div>
     </div>
 </div>
+<mm-footer style="margin-top:70px;"></mm-footer>
