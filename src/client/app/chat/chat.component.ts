@@ -18,7 +18,7 @@ import { DoctorDetails } from '../shared/database/doctor-details';
   moduleId: module.id,
   selector: 'mm-chat',
   templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.css'],
+  styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
@@ -26,7 +26,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
  apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
-  @ViewChild('dropdown') dropdown: ElementRef;
+  @ViewChild('mySidebar') mySidebar: ElementRef;
+  // @ViewChild('dropdown') dropdown: ElementRef;
   @ViewChild('ChatComponent') chatComponent: ChatComponent;
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -186,6 +187,28 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     updatedTime: Date.now()
   };
 
+  docMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Doc Component',
+    picUrl: '',
+    type: 'doc',
+    status: 'delivered',
+    contentType: 'doc',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
   appearMessage: Message = {
     _id: null,
     receiverId: null,
@@ -236,12 +259,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
-    setTimeout(() => {
+    /*setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
       if (this.selectedUser.role !== 'patient') {
         dropdown.style.display = 'block';
       }
-    }, 1000);
+    }, 1000);*/
   }
 
   createForm() {
@@ -316,7 +339,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createImage(files: FileList) {
-    this.chatService.uploadImage(files)
+    this.chatService.uploadFile(files)
       .subscribe(res => {
         console.log('response is ', res);
         this.imageMessage.contentData.data = res._body;
@@ -332,7 +355,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createVideo(videos: FileList) {
-    this.chatService.uploadVideo(videos)
+    this.chatService.uploadFile(videos)
       .subscribe(res => {
         this.videoMessage.contentData.data = res._body;
         this.videoMessage.receiverId = this.chatService.getGroup().id;
@@ -347,8 +370,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createFile(files: FileList) {
-    this.chatService.uploadDoc(files)
+    this.chatService.uploadFile(files)
       .subscribe(res => {
+        this.docMessage.contentData.data = res._body;
+        this.docMessage.receiverId = this.chatService.getGroup().id;
+        this.docMessage.senderId = this.selectedUser.id;
+        this.docMessage.receiverType = 'group';
+        this.docMessage.contentType = 'doc';
+        this.docMessage.type = 'doc';
+        this.docMessage.status = 'delivered';
+        this.docMessage.text = 'Doc Component';
+        this.socketService.sendMessage(this.docMessage);
         console.log('Response ', res);
       });
   }
@@ -530,5 +562,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
    */
   logout() {
     this.socketService.logout(this.selectedUser.id);
+  }
+
+  open() {
+    this.mySidebar.nativeElement.style.display = "block";
+  }
+
+  close() {
+    this.mySidebar.nativeElement.style.display = "none";
   }
 }

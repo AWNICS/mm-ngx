@@ -1,130 +1,274 @@
-.list {
-    background-color: #444753;
-    overflow: auto;
-    display: block;
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.selected-user {
-    background-color: #F2F5F8;
-    border: none;
-    border-bottom: 2px solid #FFF;
+body {
+    background: #C5DDEB;
+    font: 14px/20px "Lato", Arial, sans-serif;
+    padding: 40px 0;
+    color: white;
 }
 
-a:link,
-a:visited {
-    text-decoration: none;
-    color: #000;
+.container {
+    margin: 0 auto;
+    border-radius: 5px;
 }
 
-.logout-button {
-    display: block;
-    background-color: rgb(182, 183, 187);
-    border: none;
-    margin: 15px 5px 5px 5px;
-    padding: 5px;
-    text-align: center;
-    border-radius: 4px;
-}
-
-.logout-button:hover {
-    background-color: #6A6C75;
-}
-
-.chatBox {
-    background-color: #F2F5F8;
-}
-
-.messageBox {
-    display: flex;
-    flex-flow: column nowrap;
-    background-color: #FFF;
-    width: 100%;
-    height: 400px;
-    margin: 5px;
-    overflow-x: hidden;
-    overflow-y: visible;
-}
-
-form {
-    margin: 12px;
-    width: 100%;
-}
-
-.img-sm {
-    height: 35px;
-    width: 35px;
-    margin: 10px;
-    border: 1px solid #000;
-    padding: 2px;
-    border-radius: 100%;
-}
-
-.img-lg {
-    height: 50px;
-    width: 50px;
-    margin: 10px;
-    border: 1px solid #000;
-    padding: 2px;
-    border-radius: 100%;
-}
-
-.name {
-    font-size: 16px;
-    color: #FFF;
-}
-
-.status {
-    font-size: 13px;
-    color: #6A6C75;
-}
-
-.title {
-    border-bottom: 2px solid #FFF;
-}
-
-.groupSelect :hover {
-    cursor: pointer;
-}
-
-.text-box-left {
-    background-color: #86bb71;
-    color: #FFFFFF;
-    margin: 0px 10px 10px 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    width: auto;
-    max-width: 70%;
-    text-align: left;
-    display: block;
+.people-list {
+    width: 260px;
     float: left;
+}
+
+.search {
+    padding: 20px;
+}
+
+.search input {
+    border-radius: 3px;
+    border: none;
+    padding: 14px;
+    color: white;
+    background: #6A6C75;
+    width: 90%;
     font-size: 14px;
 }
 
-.text-box-right {
-    background-color: #94c2ed;
-    color: #FFFFFF;
-    margin: 0px 5px 10px 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    width: inherit;
-    max-width: 70%;
-    text-align: left;
-    display: block;
+.search .fa-search {
+    position: relative;
+    left: -25px;
+    color: white;
+}
+
+.people-list img {
+    float: left;
+    height: 60px;
+    width: 60px;
+}
+
+.people-list .about {
+    float: left;
+    margin-top: 8px;
+    color: white;
+}
+
+.people-list .about {
+    padding-left: 8px;
+}
+
+.people-list .status {
+    color: #92959E;
+}
+
+.chat {
+    width: 100%;
+    float: left;
+    background: #F2F5F8;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #434651;
+}
+
+.chat .chat-header {
+    padding: 20px;
+    border-bottom: 2px solid white;
+}
+
+.chat .chat-header img {
+    float: left;
+    height: 60px;
+    width: 60px;
+}
+
+.chat .chat-header .chat-about {
+    float: left;
+    padding-left: 10px;
+    margin-top: 6px;
+}
+
+.chat .chat-header .chat-with {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.chat .chat-header .chat-num-messages {
+    color: #92959E;
+}
+
+.chat .chat-header .fa-star {
     float: right;
-    font-size: 14px;
+    color: #D8DADF;
+    font-size: 20px;
+    margin-top: 12px;
 }
 
-textarea {
-    resize: none;
+.chat .chat-history {
+    padding: 30px 30px 20px;
+    border-bottom: 2px solid white;
+    overflow-y: scroll;
+    height: 400px;
+}
+
+.chat .chat-history .message-data {
+    margin-bottom: 10px;
+}
+
+.chat .chat-history .message-data-time {
+    color: #a8aab1;
+    padding-left: 6px;
+}
+
+.chat .chat-history .message {
+    color: white;
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 7px;
+    margin-bottom: 30px;
+    width: 70%;
+    position: relative;
+}
+
+.chat .chat-history .message:after {
+    bottom: 100%;
+    left: 7%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-bottom-color: #86BB71;
+    border-width: 10px;
+    margin-left: -10px;
+}
+
+.chat .chat-history .my-message {
+    background: #86BB71;
+}
+
+.chat .chat-history .other-message {
+    background: #94C2ED;
+}
+
+.chat .chat-history .other-message:after {
+    border-bottom-color: #94C2ED;
+    left: 93%;
+}
+
+.chat .chat-message {
+    padding: 30px;
+}
+
+.chat .chat-message textarea {
+    width: 100%;
     border: none;
+    padding: 10px 20px;
+    font: 14px/22px "Lato", Arial, sans-serif;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    resize: none;
 }
 
-.doctor :hover {
+.chat .chat-message .fa-file-o,
+.chat .chat-message .fa-file-image-o,
+.chat .chat-message .fa-paperclip {
+    font-size: 16px;
+    color: gray;
     cursor: pointer;
 }
 
-#dropdown {
-    display: none;
+.chat .chat-message button {
+    float: right;
+    color: #94C2ED;
+    font-size: 16px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: #F2F5F8;
+}
+
+.chat .chat-message button:hover {
+    color: #75b1e8;
+}
+
+.online,
+.offline,
+.me {
+    margin-right: 3px;
+    font-size: 10px;
+}
+
+.online {
+    color: #86BB71;
+}
+
+.offline {
+    color: #E38968;
+}
+
+.me {
+    color: #94C2ED;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.float-right {
+    float: right;
+}
+
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.fa-dot-circle-o,
+.fa-sliders,
+.fa-check-square-o,
+.fa-video-camera,
+.fa-picture-o,
+.fa-file-video-o,
+.fa-camera,
+.fa-file-o,
+.fa-external-link {
+    font-size: 16px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.file-upload {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    overflow: hidden;
+    transition: all 1s;
+}
+
+.file-upload input[type='file'] {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
 }

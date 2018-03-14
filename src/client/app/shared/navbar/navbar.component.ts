@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { ChatService } from '../../chat/chat.service';
+import { UserDetails } from '../database/user-details';
 @Component({
     moduleId: module.id,
     selector: 'mm-navbar',
@@ -7,10 +8,11 @@ import { Component } from '@angular/core';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent {
-    home: string = 'Home';
-    admin: string = 'Admin';
-    user: string = 'User';
-    doctor:string = 'Doctor';
-    login: string = 'Login';
+export class NavbarComponent implements OnInit {
+    user: UserDetails;
+
+    constructor(private chatService: ChatService) { }
+
+    ngOnInit() {
+    }
 }
