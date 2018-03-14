@@ -1,6 +1,6 @@
 <mm-navbar style="margin-bottom:70px;"></mm-navbar>
 <div class="container">
-    <div class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar" #mySidebar>
+    <div style="height:inherit;" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar" #mySidebar>
         <button class="w3-bar-item w3-button w3-large w3-hide-large" (click)="close()">Close &times;</button>
         <div class="search">
             <input type="text" placeholder="Search" />
@@ -23,7 +23,7 @@
         </div>
     </div>
 
-    <div class="w3-main" style="margin-left:237px">
+    <div class="w3-main" style="margin-left:237px;">
         <div class="w3-teal">
             <button class="w3-button w3-teal w3-xlarge w3-hide-large" (click)="open()">&#9776;</button>
         </div>
@@ -34,19 +34,20 @@
                     <img [src]="selectedGroup.picture" alt="avatar" />
                     <div class="chat-about">
                         <div class="chat-with">Chat with {{selectedGroup.name}}</div>
-                        <div class="chat-num-messages">already 1 902 messages</div>
+                        <div class="chat-num-messages">{{selectedGroup.description}}</div>
                     </div>
-                    <div class="dropdown" style="float: right;">
-                        <div id="dropdown" #dropdown>
-                            <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="dropdown top-dropdown" style="float: right;" #dropdown>
+                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Create group
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
-                                <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
-                            </div>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
+                            <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
                         </div>
                     </div>
+                    <button style="float: right;" class="btn btn-light btn-sm" type="button" routerLink="/login" (click)="logout();">
+                        Logout
+                    </button>
                     <!-- Doctor List Modal -->
                     <div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -171,31 +172,25 @@
                 <div class="chat-message clearfix">
                     <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
                         <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
-                        <i class="fa fa-paperclip dropup" aria-hidden="true" data-toggle="dropdown"></i>
+                        <i class="fa fa-paperclip dropup" data-toggle="dropdown"></i>
                         <div class="dropdown-menu dropdown-menu-left">
-                            <div class="btn-group btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Create radio"></i>
                                 <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider();" title="Create slider"></i>
                                 <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Create checkbox"></i>
-                            </div>
-                            <div class="btn-group btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
                                 <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear();" title="Start appear call"></i>
-                                <div class="file-upload">
+                                <div class="file-upload" title="Upload image">
                                     <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
-                                    <i class="fa fa-picture-o" aria-hidden="true" title="Upload image"></i>
+                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
                                 </div>
-                                <div class="file-upload">
+                                <div class="file-upload" title="Upload video">
                                     <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" />
-                                    <i class="fa fa-file-video-o" aria-hidden="true" title="Upload video"></i>
+                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
                                 </div>
-                            </div>
-                            <div class="btn-group btn-group-vertical btn-group-sm" role="group" aria-label="Basic example">
-                                <i class="fa fa-camera" aria-hidden="true" title="Open camera"></i>
-                                <div class="file-upload">
+                                <div class="file-upload" title="Upload file">
                                     <input type="file" accept="application/pdf, .doc, .docx, text/plain " (change)="createFile($event.target.files)" />
-                                    <i class="fa fa-file-o" aria-hidden="true" title="Upload file"></i>
+                                    <i class="fa fa-file-o" aria-hidden="true"></i>
                                 </div>
-                                <i class="fa fa-external-link" aria-hidden="true" title="External link"></i>
                             </div>
                         </div>
 
@@ -209,3 +204,4 @@
         </div>
     </div>
 </div>
+<mm-footer style="margin-top:70px;"></mm-footer>

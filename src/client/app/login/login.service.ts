@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserDetails } from '../shared/database/user-details';
+import { DoctorDetails } from '../shared/database/doctor-details';
 import { Observable } from 'rxjs/Rx';
 import { SecurityService } from '../shared/services/security.service';
 
@@ -53,6 +54,15 @@ export class LoginService {
         return this.http
             .post(uri, userDetails, this.options).toPromise()
             .then(response => response.json() as UserDetails)
+            .catch(this.handleError);
+    }
+
+    createNewDoctor(doctorDetails: DoctorDetails): Promise<DoctorDetails> {
+        const url = `${this.url}/createDoctor`;
+        this.router.navigate(['/login']);
+        return this.http
+            .post(url, doctorDetails, this.options).toPromise()
+            .then(response => response.json() as DoctorDetails)
             .catch(this.handleError);
     }
 

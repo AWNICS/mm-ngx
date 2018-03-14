@@ -109,7 +109,7 @@ body {
     padding: 30px 30px 20px;
     border-bottom: 2px solid white;
     overflow-y: scroll;
-    height: 400px;
+    height: 575px;
 }
 
 .chat .chat-history .message-data {
@@ -242,10 +242,9 @@ body {
 .fa-video-camera,
 .fa-picture-o,
 .fa-file-video-o,
-.fa-camera,
-.fa-file-o,
-.fa-external-link {
+.fa-file-o {
     font-size: 16px;
+    color: gray;
     margin: 5px;
     padding: 5px;
     cursor: pointer;
@@ -271,4 +270,17 @@ body {
     left: 0;
     opacity: 0;
     cursor: pointer;
+}
+
+.dropdown-menu {
+    min-width: 130px;
+    width: auto !important;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    box-shadow: 2px 4px 10px grey;
+}
+
+.dropdown {
+    display: none;
 }
