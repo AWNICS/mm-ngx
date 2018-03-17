@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     moduleId: module.id,
@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent {
-    home: string = 'Home';
-    admin: string = 'Admin';
-    user: string = 'User';
-    doctor:string = 'Doctor';
-    login: string = 'Login';
+export class NavbarComponent{
 }

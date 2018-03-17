@@ -2,6 +2,7 @@ export class DoctorDetails {
   id: number;
   socketId: string;
   name: string;
+  password: string;
   picUrl: string;
   regNo: string;
   speciality: string;
@@ -16,10 +17,10 @@ export class DoctorDetails {
   appearUrl: string;
   token: string;
   activate: number; // either 0 or 1(default is 0)
-  privilege: string;
+  role: string;
+  termsAccepted:boolean;
   createdAt: any;
   createdBy: string;
   updatedAt: any;
   updatedBy: string;
-  termsAccepted:boolean;
 }

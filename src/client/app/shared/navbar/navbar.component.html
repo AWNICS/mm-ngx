@@ -1,26 +1,17 @@
-<nav class="navbar navbar-toggleable-md fixed-top navbar-light bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="navbar navbar-expand-lg fixed-top navbar-light">
     <a class="navbar-brand" routerLink='/' routerLinkActive='active'>Mesomeds</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" routerLink='/' routerLinkActive='active'>{{home}} <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/admin' routerLinkActive='active'>{{admin}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/doctorLive' routerLinkActive='active'>{{doctor}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/userLive' routerLinkActive='active'>{{user}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/login' routerLinkActive='active'>{{login}}</a>
-            </li>
         </ul>
+        <div class="my-2 my-lg-0">
+            <div class="mr-sm-2">
+                <a class="nav-link" routerLink='/login' routerLinkActive='active'>Login</a>
+                <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active'>For doctors</a>
+            </div>
+        </div>
     </div>
 </nav>

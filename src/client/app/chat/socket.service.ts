@@ -40,7 +40,7 @@ export class SocketService {
         this.socket.emit('update-message', message);
     }
 
-    receiveUpdatedMessage(): Observable<any>  {
+    receiveUpdatedMessage(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('updated-message', (message: Message) => {
                 observer.next(message);
@@ -50,5 +50,9 @@ export class SocketService {
             };
         });
         return observable;
+    }
+
+    logout(userId: number): void {
+        this.socket.emit('user-logout', userId);
     }
 }

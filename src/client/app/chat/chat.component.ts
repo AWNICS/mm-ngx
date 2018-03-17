@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -20,13 +21,14 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   moduleId: module.id,
   selector: 'mm-chat',
   templateUrl: 'chat.component.html',
-  styleUrls: ['chat.component.css'],
+  styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ChatComponent implements OnInit, AfterViewChecked{
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
+  @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
 
 
@@ -191,6 +193,28 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     updatedTime: Date.now()
   };
 
+  docMessage: Message = {
+    _id: null,
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    text: 'Doc Component',
+    picUrl: '',
+    type: 'doc',
+    status: 'delivered',
+    contentType: 'doc',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
   appearMessage: Message = {
     _id: null,
     receiverId: null,
@@ -242,7 +266,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
   }
   
-  open(doctorModal:any) {
+  openDoctor(doctorModal:any) {
     this.getDoctors();
     this.modalService.open(doctorModal, {size: 'lg'}).result.then((result) => {
       this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
@@ -265,10 +289,10 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
-      if (this.selectedUser.privilege !== 'user') {
+      if (this.selectedUser.role !== 'user') {
         dropdown.style.display = 'block';
       }
-    }, 100);
+    }, 1000);
   }
 
   createForm() {
@@ -341,10 +365,19 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.socketService.sendMessage(this.appearMessage);
   }
 
-  createImage(images: FileList) {
-    this.chatService.upload(images)
-      .subscribe(event => {
-        console.log('Event ', event);
+  createImage(files: FileList) {
+    this.chatService.uploadFile(files)
+      .subscribe(res => {
+        console.log('response is ', res);
+        this.imageMessage.contentData.data = res._body;
+        this.imageMessage.receiverId = this.chatService.getGroup().id;
+        this.imageMessage.senderId = this.selectedUser.id;
+        this.imageMessage.receiverType = 'group';
+        this.imageMessage.contentType = 'image';
+        this.imageMessage.type = 'image';
+        this.imageMessage.status = 'delivered';
+        this.imageMessage.text = 'Image Component';
+        this.socketService.sendMessage(this.imageMessage);
       });
     /*this.imageMessage.receiverId = this.chatService.getGroup().id;
     this.imageMessage.senderId = this.selectedUser.id;
@@ -357,9 +390,17 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
 
   createVideo(videos: FileList) {
-    this.chatService.upload(videos)
-      .subscribe(event => {
-        console.log('Event ', event);
+    this.chatService.uploadFile(videos)
+      .subscribe(res => {
+        this.videoMessage.contentData.data = res._body;
+        this.videoMessage.receiverId = this.chatService.getGroup().id;
+        this.videoMessage.senderId = this.selectedUser.id;
+        this.videoMessage.receiverType = 'group';
+        this.videoMessage.contentType = 'video';
+        this.videoMessage.type = 'video';
+        this.videoMessage.status = 'delivered';
+        this.videoMessage.text = 'Video Component';
+        this.socketService.sendMessage(this.videoMessage);
       });
     /*this.videoMessage.receiverId = this.chatService.getGroup().id;
     this.videoMessage.senderId = this.selectedUser.id;
@@ -372,9 +413,18 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
 
   createFile(files: FileList) {
-    this.chatService.upload(files)
-      .subscribe(event => {
-        console.log('Event ', event);
+    this.chatService.uploadFile(files)
+      .subscribe(res => {
+        this.docMessage.contentData.data = res._body;
+        this.docMessage.receiverId = this.chatService.getGroup().id;
+        this.docMessage.senderId = this.selectedUser.id;
+        this.docMessage.receiverType = 'group';
+        this.docMessage.contentType = 'doc';
+        this.docMessage.type = 'doc';
+        this.docMessage.status = 'delivered';
+        this.docMessage.text = 'Doc Component';
+        this.socketService.sendMessage(this.docMessage);
+        console.log('Response ', res);
       });
   }
 
@@ -436,6 +486,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
+            message.createdTime = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -449,6 +500,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
+            message.createdTime = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -466,6 +518,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
       .subscribe((msg) => {
         msg.map((message: any) => {
+          message.createdTime = moment(message.createdTime).format('LT');
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -494,6 +547,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
+          msg.createdTime = moment(msg.createdTime).format('LT');
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
@@ -513,7 +567,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   getGroups() {
     this.chatService.getGroups(this.userId)
       .then((groups) => {
-        //debugger;
         groups.map((group: any) => {
           this.groups.push(group);
           this.ref.detectChanges();
@@ -546,18 +599,35 @@ export class ChatComponent implements OnInit, AfterViewChecked{
             this.ref.detectChanges();
           });
         });
+       
     }
     this.doctorList = false;
   }
-
-  //open Video Modal
-video(videoModal:any){
+   //open Video Modal
+  video(videoModal:any){
   this.modalService.open(videoModal).result.then((result) => {
-    this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+   // this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
     this.closeResult = `Closed with: ${result}`;
   }, (reason) => {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
   });
-}
+  }
+
+  /**
+   * method to logout and end socket session
+   * 
+   * @memberof ChatComponent
+   */
+  logout() {
+    this.socketService.logout(this.selectedUser.id);
+  }
+
+  open() {
+    this.mySidebar.nativeElement.style.display = "block";
+  }
+
+  close() {
+    this.mySidebar.nativeElement.style.display = "none";
+  }
 }
 
