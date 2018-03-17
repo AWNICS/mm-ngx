@@ -45,8 +45,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   doctorList = true; //for listing down the doctors in modal window
   progress: number;
   closeResult: string
-  videoUrl="https://www.youtube.com/v/tgbNymZ7vqY";
-  url:any;
 
   newGroup: Group = {
     id: null,
@@ -262,14 +260,13 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
-    this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
+    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
   
+  //Doctor modal window open methhode
   openDoctor(doctorModal:any) {
     this.getDoctors();
     this.modalService.open(doctorModal, {size: 'lg'}).result.then((result) => {
-      this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -606,7 +603,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
    //open Video Modal
   video(videoModal:any){
   this.modalService.open(videoModal).result.then((result) => {
-   // this.url=this.domSanitizer.bypassSecurityTrustResourceUrl(this.videoUrl);
     this.closeResult = `Closed with: ${result}`;
   }, (reason) => {
     this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
