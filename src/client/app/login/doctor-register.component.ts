@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { LoginService } from './login.service';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { ChatService } from '../chat/chat.service';
@@ -13,16 +14,18 @@ import { ChatService } from '../chat/chat.service';
     styleUrls: ['doctor-register.component.css'],
 })
 export class DoctorRegisterComponent implements OnInit {
+    
+    @ViewChild('msg') msg : ElementRef;
     registerDoctorDetails: FormGroup;
     doctorDetails: DoctorDetails;
+    message = '';
     number: Array<number> = [];
 
     constructor(
         private fb: FormBuilder,
         private loginService: LoginService,
         private chatService: ChatService
-    ) { 
-        this.generateNumber();
+    ) {
     }
 
     /**
@@ -33,16 +36,16 @@ export class DoctorRegisterComponent implements OnInit {
         this.registerDoctorDetails = this.fb.group({
             id: null,
             socketId: null,
-            name: [''],
-            email: [''],
-            password: [''],
-            phoneNo: [''],
+            name: ['', Validators.required],
+            email: ['', Validators.required],
+            password: ['', Validators.required],
+            phoneNo: ['', Validators.required],
             picUrl: null,
             role: null,
-            regNo: null,
-            speciality: null,
-            experience: null,
-            description: null,
+            regNo: ['', Validators.required],
+            speciality: ['', Validators.required],
+            experience: ['', Validators.required],
+            description: ['', Validators.required],
             status: null,
             waitingTime: null,
             rating: null,
@@ -50,12 +53,13 @@ export class DoctorRegisterComponent implements OnInit {
             appearUrl: null,
             token: null,
             activate: null,
-            termsAccepted: null,
+            termsAccepted: ['', Validators.required],
             createdTime: '',
             createdBy: null,
             updatedTime: '',
             updatedBy: null,
         });
+        this.generateNumber();
     }
 
     generateNumber() {
@@ -69,8 +73,20 @@ export class DoctorRegisterComponent implements OnInit {
         value.createdBy = value.name;
         value.updatedBy = value.name;
         value.role = 'doctor';
-        this.loginService.createNewDoctor(value)
-        .then(response => response)
-        .catch(error => error);
+        if (valid === true) {
+            this.loginService.createNewDoctor(value)
+            .then((res) => {
+                this.message = 'Registration successful!';
+                this.registerDoctorDetails.reset();
+                setTimeout(() => {
+                    this.msg.nativeElement.style.display = 'none';
+                  }, 5000);
+            });
+          } else {
+            this.message = 'Registration unsuccessful. Please try again later!';
+            setTimeout(() => {
+                this.msg.nativeElement.style.display = 'none';
+            }, 10000);
+          }
     }
 }

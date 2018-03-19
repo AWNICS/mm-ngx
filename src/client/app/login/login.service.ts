@@ -58,8 +58,7 @@ export class LoginService {
     }
 
     createNewDoctor(doctorDetails: DoctorDetails): Promise<DoctorDetails> {
-        const url = `${this.url}/createDoctor`;
-        this.router.navigate(['/login']);
+        const url = `${this.url}/doctors`;
         return this.http
             .post(url, doctorDetails, this.options).toPromise()
             .then(response => response.json() as DoctorDetails)

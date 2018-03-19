@@ -1,4 +1,13 @@
-import { Component, AfterViewChecked, OnInit, ElementRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, Output } from '@angular/core';
+import {
+  Component,
+  AfterViewChecked,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Output
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -576,20 +585,20 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
 
   /**
-   * method to logout and end socket session
-   * 
-   * @memberof ChatComponent
+   *method to logout and end socket session
+   *
+   *@memberof ChatComponent
    */
   logout() {
     this.socketService.logout(this.selectedUser.id);
   }
 
   open() {
-    this.mySidebar.nativeElement.style.display = "block";
+    this.mySidebar.nativeElement.style.display = 'block';
   }
 
   close() {
-    this.mySidebar.nativeElement.style.display = "none";
+    this.mySidebar.nativeElement.style.display = 'none';
   }
 }
 

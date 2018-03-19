@@ -22,11 +22,34 @@ import { SecurityService } from './services/security.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
-  declarations: [DocumentMessageComponent, FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent],
-  exports: [DocumentMessageComponent, FooterComponent, NavbarComponent, RadioMessageComponent, SliderMessageComponent, CheckBoxMessageComponent,
-  ImageMessageComponent, VideoMessageComponent, TextMessageComponent, AppearMessageComponent, AlertMessageComponent,
-    CommonModule, FormsModule, RouterModule]
+  declarations: [
+    DocumentMessageComponent,
+    FooterComponent,
+    NavbarComponent,
+    RadioMessageComponent,
+    SliderMessageComponent,
+    CheckBoxMessageComponent,
+    ImageMessageComponent,
+    VideoMessageComponent,
+    TextMessageComponent,
+    AppearMessageComponent,
+    AlertMessageComponent],
+  exports: [
+    DocumentMessageComponent,
+    FooterComponent,
+    NavbarComponent,
+    RadioMessageComponent,
+    SliderMessageComponent,
+    CheckBoxMessageComponent,
+    ImageMessageComponent,
+    VideoMessageComponent,
+    TextMessageComponent,
+    AppearMessageComponent,
+    AlertMessageComponent,
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ]
 })
 export class SharedModule {
   static forRoot(): ModuleWithProviders {
