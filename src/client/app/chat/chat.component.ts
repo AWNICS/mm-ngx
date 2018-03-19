@@ -12,7 +12,7 @@ import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -43,8 +43,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
-  progress: number;
-  closeResult: string
 
   newGroup: Group = {
     id: null,
@@ -266,27 +264,15 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   //Doctor modal window open methhode
   openDoctor(doctorModal:any) {
     this.getDoctors();
-    this.modalService.open(doctorModal, {size: 'lg'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(doctorModal, {size: 'lg'});
   }
   
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
+
 
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
-      if (this.selectedUser.role !== 'user') {
+      if (this.selectedUser.role !== 'patient') {
         dropdown.style.display = 'block';
       }
     }, 1000);
@@ -376,38 +362,22 @@ export class ChatComponent implements OnInit, AfterViewChecked{
         this.imageMessage.text = 'Image Component';
         this.socketService.sendMessage(this.imageMessage);
       });
-    /*this.imageMessage.receiverId = this.chatService.getGroup().id;
-    this.imageMessage.senderId = this.selectedUser.id;
-    this.imageMessage.receiverType = 'group';
-    this.imageMessage.contentType = 'image';
-    this.imageMessage.type = 'image';
-    this.imageMessage.status = 'delivered';
-    this.imageMessage.text = 'Image Component';
-    this.socketService.sendMessage(this.imageMessage);*/
   }
 
   createVideo(videos: FileList) {
     this.chatService.uploadFile(videos)
-      .subscribe(res => {
-        this.videoMessage.contentData.data = res._body;
-        this.videoMessage.receiverId = this.chatService.getGroup().id;
-        this.videoMessage.senderId = this.selectedUser.id;
-        this.videoMessage.receiverType = 'group';
-        this.videoMessage.contentType = 'video';
-        this.videoMessage.type = 'video';
-        this.videoMessage.status = 'delivered';
-        this.videoMessage.text = 'Video Component';
-        this.socketService.sendMessage(this.videoMessage);
-      });
-    /*this.videoMessage.receiverId = this.chatService.getGroup().id;
+    .subscribe(res => {
+    this.videoMessage.contentData.data = res._body;
+    this.videoMessage.receiverId = this.chatService.getGroup().id;
     this.videoMessage.senderId = this.selectedUser.id;
     this.videoMessage.receiverType = 'group';
     this.videoMessage.contentType = 'video';
     this.videoMessage.type = 'video';
     this.videoMessage.status = 'delivered';
     this.videoMessage.text = 'Video Component';
-    this.socketService.sendMessage(this.videoMessage);*/
-  }
+    this.socketService.sendMessage(this.videoMessage);
+    });
+    }
 
   createFile(files: FileList) {
     this.chatService.uploadFile(files)
@@ -602,11 +572,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
    //open Video Modal
   video(videoModal:any){
-  this.modalService.open(videoModal).result.then((result) => {
-    this.closeResult = `Closed with: ${result}`;
-  }, (reason) => {
-    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-  });
+  this.modalService.open(videoModal);
   }
 
   /**
