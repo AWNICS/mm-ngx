@@ -7,6 +7,9 @@ import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
+import { ChatService } from '../chat/chat.service';
+import { UserDetails } from '../shared/database/user-details';
+import { ActivatedRoute, Router } from '@angular/router';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
   mobileNumber: number;
   specialities: Specialities[];
   navIsFixed: boolean = false;
+  user: UserDetails;
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
@@ -32,15 +36,18 @@ export class HomeComponent implements OnInit {
 
   current: string = 'Select'; //first string to load in the select field
 
-  constructor( @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
-    private specialityService: SpecialityService) { //constructor for LocationService
+  constructor(@Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
+    private specialityService: SpecialityService,
+    private chatService: ChatService,
+    private router: Router
+  ) { //constructor for LocationService
   }
 
   //function to validate the phone number entered and open the OrderWindow else show an alert
   open(value: any) {
     let result: boolean = isNaN(value.mobileNumber);
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
-  || value.speciality === null || value.speciality === 'Select') {
+      || value.speciality === null || value.speciality === 'Select') {
       return;
     } else {
       this.modalHtml.open();
@@ -50,12 +57,24 @@ export class HomeComponent implements OnInit {
   openConsultant(value: any) {
     let result: boolean = isNaN(value.mobileNumber);
     let speciality: string = value.speciality;
+    let mobileNumber: number = value.mobileNumber;
+    this.user = this.chatService.getUser();
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       || speciality === null || speciality === 'Select') {
       return;
     } else {
-      this.modalHtml1.open('lg');
+      if (this.user) {
+        if (this.user.phoneNo === mobileNumber) {
+          this.router.navigate([`/chat/${this.user.id}`]);
+        }
+        else {
+          console.log('update your phone no');
+        }
+      } else {
+        this.router.navigate([`/login`]);
+      }
     }
+
   }
 
   //initializes the select field options from LocationService
@@ -65,7 +84,7 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    let number = this.document.body.scrollTop;
+    let number = window.scrollY;
     // console.log(number);
     // console.log(document.body.offsetHeight);
     if (number > 800) {
@@ -84,6 +103,6 @@ export class HomeComponent implements OnInit {
 
   getSpecialities() {
     this.specialityService.getSpecialities()
-      .then( specialities => this.specialities = specialities);
+      .then(specialities => this.specialities = specialities);
   }
 }

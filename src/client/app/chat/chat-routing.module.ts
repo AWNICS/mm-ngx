@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ChatComponent } from './chat.component';
+import { RatingModule } from 'ngx-rating';
 
 @NgModule({
   imports: [
@@ -8,6 +9,6 @@ import { ChatComponent } from './chat.component';
       { path: 'chat/:userId', component: ChatComponent}
     ])
   ],
-  exports: [RouterModule]
+  exports: [RouterModule,RatingModule]
 })
 export class ChatRoutingModule { }
