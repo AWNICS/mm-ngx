@@ -5,6 +5,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { Observable } from 'rxjs/Rx';
 import { SecurityService } from '../shared/services/security.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/toPromise';
@@ -17,8 +18,11 @@ export class LoginService {
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000';  // URL to access server
+    private loginStatus = false;
 
-    constructor(private router: Router, private http: Http, private securityService: SecurityService) {
+    constructor(private router: Router, private http: Http, 
+                private securityService: SecurityService,
+                private cookieService: CookieService) {
     }
 
     login(email: string, password: string): Observable<any> {
@@ -27,6 +31,18 @@ export class LoginService {
         return this.http.post(uri,{email:email, password: password}, this.options)
         .map(res => res.json())
         .catch(this.handleError);
+    }
+
+    setLoginStatus(status: boolean) {
+        this.loginStatus = status;
+    }
+    
+    getLoginStatus(){
+        return this.loginStatus;
+    }
+
+    getCookie(){
+        return this.cookieService.get('userDetails');
     }
 
     getUserByEmail(email: string): Promise<UserDetails> {
