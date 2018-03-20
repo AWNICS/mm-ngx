@@ -568,15 +568,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.doctorList = false;
   }
 
-  /**
-   *method to logout and end socket session
-   *
-   *@memberof ChatComponent
-   */
-  logout() {
-    this.socketService.logout(this.selectedUser.id);
-  }
-
   open() {
     this.mySidebar.nativeElement.style.display = 'block';
   }
