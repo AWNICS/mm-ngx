@@ -567,7 +567,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   //getDoctors
   getDoctors() {
     if (this.doctorList) {
-     // this.safeUrl=this.domSanitizer.bypassSecurityTrustResourceUrl(this.doctor.videoUrl);
       this.chatService.getDoctors(this.userId)
         .subscribe((doctors) => {
           doctors.map((doctor: any) => {
