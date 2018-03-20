@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { Headers, Http, Response, RequestOptions,ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -19,6 +19,7 @@ export class ChatService {
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000';
     private doctorUrl = 'http://localhost:3000/doctor/controllers/';
+    private fileUrl = 'http://localhost:3000/file/controllers/image';
     private user: UserDetails;
     private group: Group;
 
@@ -59,6 +60,7 @@ export class ChatService {
 
     setUser(user: any) {
         this.user = user;
+        
     }
 
     getUser() {
@@ -111,9 +113,8 @@ export class ChatService {
      */
     getDoctors(receiverId: number): Observable<DoctorDetails[]> {
         const url = `${this.doctorUrl}getDoctors`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
         return this.http
-            .get(url, this.options)
+            .get(url)
             .map(res => res.json())
             .catch(this.handleError);
     }
