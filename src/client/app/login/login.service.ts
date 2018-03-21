@@ -27,7 +27,7 @@ export class LoginService {
 
     login(email: string, password: string): Observable<any> {
         const uri = `${this.url}/login`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         return this.http.post(uri,{email:email, password: password}, this.options)
         .map(res => res.json())
         .catch(this.handleError);
@@ -47,7 +47,7 @@ export class LoginService {
 
     getUserByEmail(email: string): Promise<UserDetails> {
         const uri = `${this.url}/users/${email}`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         return this.http
             .get(uri, this.options).toPromise()
             .then(response => response.json() as UserDetails)
@@ -56,7 +56,7 @@ export class LoginService {
 
     getUsers(): Promise<UserDetails[]> {
         const uri = `${this.url}/users`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         return this.http
             .get(uri, this.options).toPromise()
             .then(response => response.json().data)
@@ -65,7 +65,7 @@ export class LoginService {
 
     createNewUser(userDetails: UserDetails): Promise<UserDetails> {
         const uri = `${this.url}/users`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         this.router.navigate(['/login']);
         return this.http
             .post(uri, userDetails, this.options).toPromise()
@@ -83,9 +83,9 @@ export class LoginService {
 
     update(userDetails: UserDetails): Promise<UserDetails> {
         const uri = `${this.url}/users`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         return this.http
-            .put(uri, JSON.stringify(userDetails), { headers: this.headers })
+            .put(uri, JSON.stringify(userDetails), this.options)
             .toPromise()
             .then(() => userDetails)
             .catch(this.handleError);
@@ -93,8 +93,8 @@ export class LoginService {
 
     delete(userDetails: UserDetails): Promise<void> {
         const uri = `${this.url}/users/${userDetails.id}`;
-        this.headers.append('Authorization', this.securityService.getToken().Authorization);
-        return this.http.delete(uri, { headers: this.headers })
+        this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
+        return this.http.delete(uri, this.options)
             .toPromise()
             .then(() => null)
             .catch(this.handleError);
