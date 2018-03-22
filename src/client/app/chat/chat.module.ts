@@ -8,10 +8,11 @@ import { ChatComponent } from './chat.component';
 import { ChatService } from './chat.service';
 import { SharedModule } from '../shared/shared.module';
 import { SocketService } from './socket.service';
+import { FilterPipe } from './filter.pipe';
 
 @NgModule({
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule],
-  declarations: [ChatComponent],
+  declarations: [ChatComponent,FilterPipe],
   exports: [ChatComponent],
   providers: [ChatService, SocketService, CookieService ]
 })
