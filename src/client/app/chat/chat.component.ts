@@ -20,6 +20,8 @@ import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -31,14 +33,14 @@ import { DoctorDetails } from '../shared/database/doctor-details';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked{
 
- apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
-  @ViewChild('ChatComponent') chatComponent: ChatComponent;
+
+
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
   selectedGroup: Group;
@@ -163,7 +165,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'image',
     contentData: {
-      data: ['']
+      data: ['http://photo.sf.co.ua/g/501/1.jpg']
     },
     responseData: {
       data: ['']
@@ -185,7 +187,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'video',
     contentData: {
-      data: ['']
+      data: ['assets/videos/movie.mp4']
     },
     responseData: {
       data: ['']
@@ -247,7 +249,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private socketService: SocketService,
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private modalService: NgbModal
   ) {
   }
 
@@ -264,8 +267,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
+  
+  //Doctor modal window open methhode
+  openDoctor(doctorModal:any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, {size: 'lg'});
+  }
+  
+
 
   ngAfterViewChecked() {
     setTimeout(() => {
@@ -344,7 +355,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.appearMessage.status = 'delivered';
     this.appearMessage.text = 'Appear Component';
     this.socketService.sendMessage(this.appearMessage);
-    this.safeUrl = 'https://appear.in/arun-gadag';
   }
 
   createImage(files: FileList) {
@@ -365,18 +375,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   createVideo(videos: FileList) {
     this.chatService.uploadFile(videos)
-      .subscribe(res => {
-        this.videoMessage.contentData.data = res._body;
-        this.videoMessage.receiverId = this.chatService.getGroup().id;
-        this.videoMessage.senderId = this.selectedUser.id;
-        this.videoMessage.receiverType = 'group';
-        this.videoMessage.contentType = 'video';
-        this.videoMessage.type = 'video';
-        this.videoMessage.status = 'delivered';
-        this.videoMessage.text = 'Video Component';
-        this.socketService.sendMessage(this.videoMessage);
-      });
-  }
+    .subscribe(res => {
+    this.videoMessage.contentData.data = res._body;
+    this.videoMessage.receiverId = this.chatService.getGroup().id;
+    this.videoMessage.senderId = this.selectedUser.id;
+    this.videoMessage.receiverType = 'group';
+    this.videoMessage.contentType = 'video';
+    this.videoMessage.type = 'video';
+    this.videoMessage.status = 'delivered';
+    this.videoMessage.text = 'Video Component';
+    this.socketService.sendMessage(this.videoMessage);
+    });
+    }
 
   createFile(files: FileList) {
     this.chatService.uploadFile(files)
@@ -410,6 +420,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createGroupManual(doctor: DoctorDetails) {
+    console.log('create group called');
     this.newGroup.name = 'Consultation room manually';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
@@ -532,7 +543,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .then((groups) => {
-        //debugger;
         groups.map((group: any) => {
           this.groups.push(group);
           this.ref.detectChanges();
@@ -564,8 +574,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             this.ref.detectChanges();
           });
         });
+       
     }
     this.doctorList = false;
+  }
+   //open Video Modal
+  video(videoModal:any){
+  this.modalService.open(videoModal);
   }
 
   open() {
@@ -576,3 +591,4 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.mySidebar.nativeElement.style.display = 'none';
   }
 }
+
