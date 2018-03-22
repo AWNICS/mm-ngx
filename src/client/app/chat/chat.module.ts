@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
@@ -14,6 +15,6 @@ import { DoctorsListModule } from '../doctors-list/doctors-list.module';
     ChatRoutingModule, DoctorsListModule],
   declarations: [ChatComponent],
   exports: [ChatComponent],
-  providers: [ChatService, SocketService]
+  providers: [ChatService, SocketService, CookieService ]
 })
 export class ChatModule { }

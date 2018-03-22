@@ -583,15 +583,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   this.modalService.open(videoModal);
   }
 
-  /**
-   *method to logout and end socket session
-   *
-   *@memberof ChatComponent
-   */
-  logout() {
-    this.socketService.logout(this.selectedUser.id);
-  }
-
   open() {
     this.mySidebar.nativeElement.style.display = 'block';
   }

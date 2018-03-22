@@ -45,9 +45,6 @@
                             <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual</button>
                         </div>
                     </div>
-                    <button style="float: right;" class="btn btn-light btn-sm" type="button" routerLink="/login" (click)="logout();">
-                        Logout
-                    </button>
                     <!-- Doctor List Modal -->
                     <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
                         <div class="modal-header">
