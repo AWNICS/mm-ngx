@@ -3,10 +3,10 @@
     <div style="height:inherit;" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar" #mySidebar>
         <button class="w3-bar-item w3-button w3-large w3-hide-large" (click)="close()">Close &times;</button>
         <div class="search">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" [(ngModel)]="searchText" />
             <i class="fa fa-search"></i>
         </div>
-        <div class="w3-bar-item w3-button" *ngFor="let group of groups">
+        <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText">
             <div class="people-list" id="people-list">
                 <div class="list">
                     <div class="clearfix" (click)="getMessage(group)">
@@ -106,7 +106,6 @@
                                         </div>
                                     </div>
 
-
                                     <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
                                         <div class="card card-body col-lg-4 align-self-center" id="videoImage">
                                             <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
@@ -122,24 +121,17 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-
                                                     <embed width="480" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
                                                 </div>
-
                                             </div>
                                         </div>
                                     </ng-template>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancle</button>
                         </div>
-
-
                     </ng-template>
                     <!-- end Doctor List Modal -->
                 </div>
@@ -154,7 +146,7 @@
                         <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
                             <div class="clearfix">
                                 <div class="message-data align-right">
-                                    <span class="message-data-time">{{message.createdTime}}</span> &nbsp; &nbsp;
+                                    <span class="message-data-time">{{time}}</span> &nbsp; &nbsp;
                                     <span class="message-data-name">{{message.createdBy}}</span> <i class="fa fa-circle me"></i>
                                 </div>
                                 <div class="message other-message float-right">
@@ -194,7 +186,7 @@
                         <ng-template #alignLeft>
                             <div class="message-data">
                                 <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.createdBy}}</span>
-                                <span class="message-data-time">{{message.createdTime}}</span>
+                                <span class="message-data-time">{{time}}</span>
                             </div>
                             <div class="message my-message">
                                 <div [ngSwitch]="message.contentType">
@@ -229,7 +221,6 @@
                             </div>
                         </ng-template>
                     </div>
-
                 </div>
                 <!-- end chat-history -->
 
@@ -262,7 +253,6 @@
                     </form>
                 </div>
                 <!-- end chat-message -->
-
             </div>
             <!-- end chat -->
         </div>

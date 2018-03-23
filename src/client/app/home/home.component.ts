@@ -1,5 +1,6 @@
 import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
@@ -9,7 +10,7 @@ import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
-import { ActivatedRoute, Router } from '@angular/router';
+
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -85,8 +86,6 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     let number = window.scrollY;
-    // console.log(number);
-    // console.log(document.body.offsetHeight);
     if (number > 800) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
@@ -95,11 +94,6 @@ export class HomeComponent implements OnInit {
       document.getElementById('myBtn').style.display = 'none';
     }
   }
-
-  /*topFunction() {
-    this.document.body.scrollTop = 0;
-    this.document.documentElement.scrollTop = 0;
-  }*/
 
   getSpecialities() {
     this.specialityService.getSpecialities()

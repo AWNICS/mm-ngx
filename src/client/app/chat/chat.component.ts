@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
@@ -20,8 +21,6 @@ import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
-import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -33,13 +32,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewChecked{
+export class ChatComponent implements OnInit, AfterViewChecked {
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
-
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -52,6 +50,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
+  time: any;
 
   newGroup: Group = {
     id: null,
@@ -99,7 +98,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     status: 'delivered',
     contentType: 'radio',
     contentData: {
-      data: ['']
+      data: ['option1', 'option2', 'option3']
     },
     responseData: {
       data: ['']
@@ -143,7 +142,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     status: 'delivered',
     contentType: 'checkbox',
     contentData: {
-      data: ['']
+      data: ['option1', 'option2', 'option3']
     },
     responseData: {
       data: ['']
@@ -269,14 +268,12 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
   }
-  
-  //Doctor modal window open methhode
-  openDoctor(doctorModal:any) {
-    this.getDoctors();
-    this.modalService.open(doctorModal, {size: 'lg'});
-  }
-  
 
+  //Doctor modal window open methhode
+  openDoctor(doctorModal: any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, { size: 'lg' });
+  }
 
   ngAfterViewChecked() {
     setTimeout(() => {
@@ -317,9 +314,9 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.radioMessage.receiverType = 'group';
     this.radioMessage.contentType = 'radio';
     this.radioMessage.type = 'radio';
-    this.radioMessage.contentData.data = ['Yes'];
+    this.radioMessage.contentData.data = ['Yes', 'No', 'May be'];
     this.radioMessage.status = 'delivered';
-    this.radioMessage.text = 'Kindly choose an option: ';
+    this.radioMessage.text = 'Would you like to visit the doctor in person? ';
     this.socketService.sendMessage(this.radioMessage);
   }
 
@@ -340,9 +337,9 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.checkboxMessage.receiverType = 'group';
     this.checkboxMessage.contentType = 'checkbox';
     this.checkboxMessage.type = 'checkbox';
-    //this.checkboxMessage.contentData.data = ['Yes'];
+    this.checkboxMessage.contentData.data = ['Headache', 'Giddiness', 'Feverish'];
     this.checkboxMessage.status = 'delivered';
-    this.checkboxMessage.text = 'Kindly check the relevent boxes: ';
+    this.checkboxMessage.text = 'Kindly select your observed symptoms: ';
     this.socketService.sendMessage(this.checkboxMessage);
   }
 
@@ -360,7 +357,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   createImage(files: FileList) {
     this.chatService.uploadFile(files)
       .subscribe(res => {
-        console.log('response is ', res);
         this.imageMessage.contentData.data = res._body;
         this.imageMessage.receiverId = this.chatService.getGroup().id;
         this.imageMessage.senderId = this.selectedUser.id;
@@ -375,18 +371,18 @@ export class ChatComponent implements OnInit, AfterViewChecked{
 
   createVideo(videos: FileList) {
     this.chatService.uploadFile(videos)
-    .subscribe(res => {
-    this.videoMessage.contentData.data = res._body;
-    this.videoMessage.receiverId = this.chatService.getGroup().id;
-    this.videoMessage.senderId = this.selectedUser.id;
-    this.videoMessage.receiverType = 'group';
-    this.videoMessage.contentType = 'video';
-    this.videoMessage.type = 'video';
-    this.videoMessage.status = 'delivered';
-    this.videoMessage.text = 'Video Component';
-    this.socketService.sendMessage(this.videoMessage);
-    });
-    }
+      .subscribe(res => {
+        this.videoMessage.contentData.data = res._body;
+        this.videoMessage.receiverId = this.chatService.getGroup().id;
+        this.videoMessage.senderId = this.selectedUser.id;
+        this.videoMessage.receiverType = 'group';
+        this.videoMessage.contentType = 'video';
+        this.videoMessage.type = 'video';
+        this.videoMessage.status = 'delivered';
+        this.videoMessage.text = 'Video Component';
+        this.socketService.sendMessage(this.videoMessage);
+      });
+  }
 
   createFile(files: FileList) {
     this.chatService.uploadFile(files)
@@ -400,7 +396,6 @@ export class ChatComponent implements OnInit, AfterViewChecked{
         this.docMessage.status = 'delivered';
         this.docMessage.text = 'Doc Component';
         this.socketService.sendMessage(this.docMessage);
-        console.log('Response ', res);
       });
   }
 
@@ -420,8 +415,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
   }
 
   createGroupManual(doctor: DoctorDetails) {
-    console.log('create group called');
-    this.newGroup.name = 'Consultation room manually';
+    this.newGroup.name = 'Consultation room';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
@@ -462,7 +456,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            message.createdTime = moment(message.createdTime).format('LT');
+            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -476,7 +470,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            message.createdTime = moment(message.createdTime).format('LT');
+            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -494,7 +488,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
       .subscribe((msg) => {
         msg.map((message: any) => {
-          message.createdTime = moment(message.createdTime).format('LT');
+          this.time = moment(message.createdTime).format('LT');
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -511,7 +505,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
     value.status = 'delivered';
-    if (value.text === '') {
+    if (value.text.match(/^\s*$/g) || value.text === "" || value.text === null) {
       return;
     } else {
       this.socketService.sendMessage(value);
@@ -523,7 +517,7 @@ export class ChatComponent implements OnInit, AfterViewChecked{
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
-          msg.createdTime = moment(msg.createdTime).format('LT');
+          this.time = moment(msg.createdTime).format('LT');
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
@@ -574,13 +568,14 @@ export class ChatComponent implements OnInit, AfterViewChecked{
             this.ref.detectChanges();
           });
         });
-       
+
     }
     this.doctorList = false;
   }
-   //open Video Modal
-  video(videoModal:any){
-  this.modalService.open(videoModal);
+
+  // open Video Modal
+  video(videoModal: any) {
+    this.modalService.open(videoModal);
   }
 
   open() {
