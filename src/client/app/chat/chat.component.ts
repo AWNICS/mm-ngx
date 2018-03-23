@@ -50,6 +50,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
+  time:any;
 
   newGroup: Group = {
     id: null,
@@ -97,7 +98,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'radio',
     contentData: {
-      data: ['']
+      data: ['option1', 'option2', 'option3']
     },
     responseData: {
       data: ['']
@@ -141,7 +142,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'checkbox',
     contentData: {
-      data: ['']
+      data: ['option1', 'option2', 'option3']
     },
     responseData: {
       data: ['']
@@ -306,9 +307,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.radioMessage.receiverType = 'group';
     this.radioMessage.contentType = 'radio';
     this.radioMessage.type = 'radio';
-    this.radioMessage.contentData.data = ['Yes'];
+    this.radioMessage.contentData.data = ['Yes', 'No', 'May be'];
     this.radioMessage.status = 'delivered';
-    this.radioMessage.text = 'Kindly choose an option: ';
+    this.radioMessage.text = 'Would you like to visit the doctor in person? ';
     this.socketService.sendMessage(this.radioMessage);
   }
 
@@ -329,9 +330,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.checkboxMessage.receiverType = 'group';
     this.checkboxMessage.contentType = 'checkbox';
     this.checkboxMessage.type = 'checkbox';
-    //this.checkboxMessage.contentData.data = ['Yes'];
+    this.checkboxMessage.contentData.data = ['Headache', 'Giddiness', 'Feverish'];
     this.checkboxMessage.status = 'delivered';
-    this.checkboxMessage.text = 'Kindly check the relevent boxes: ';
+    this.checkboxMessage.text = 'Kindly select your observed symptoms: ';
     this.socketService.sendMessage(this.checkboxMessage);
   }
 
@@ -451,7 +452,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            message.createdTime = moment(message.createdTime).format('LT');
+            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -465,7 +466,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            message.createdTime = moment(message.createdTime).format('LT');
+            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -483,7 +484,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
       .subscribe((msg) => {
         msg.map((message: any) => {
-          message.createdTime = moment(message.createdTime).format('LT');
+          this.time = moment(message.createdTime).format('LT');
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -500,7 +501,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
     value.status = 'delivered';
-    if (value.text === '') {
+    if (value.text.match(/^\s*$/g) || value.text === "" || value.text === null) {
       return;
     } else {
       this.socketService.sendMessage(value);
@@ -512,7 +513,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
-          msg.createdTime = moment(msg.createdTime).format('LT');
+          this.time = moment(msg.createdTime).format('LT');
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
@@ -566,15 +567,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         });
     }
     this.doctorList = false;
-  }
-
-  /**
-   *method to logout and end socket session
-   *
-   *@memberof ChatComponent
-   */
-  logout() {
-    this.socketService.logout(this.selectedUser.id);
   }
 
   open() {

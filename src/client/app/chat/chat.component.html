@@ -3,10 +3,10 @@
     <div style="height:inherit;" class="w3-sidebar w3-bar-block w3-collapse w3-card w3-animate-left" style="width:250px;" id="mySidebar" #mySidebar>
         <button class="w3-bar-item w3-button w3-large w3-hide-large" (click)="close()">Close &times;</button>
         <div class="search">
-            <input type="text" placeholder="Search" />
+            <input type="text" placeholder="Search" [(ngModel)]="searchText" />
             <i class="fa fa-search"></i>
         </div>
-        <div class="w3-bar-item w3-button" *ngFor="let group of groups">
+        <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText">
             <div class="people-list" id="people-list">
                 <div class="list">
                     <div class="clearfix" (click)="getMessage(group)">
@@ -45,9 +45,6 @@
                             <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
                         </div>
                     </div>
-                    <button style="float: right;" class="btn btn-light btn-sm" type="button" routerLink="/login" (click)="logout();">
-                        Logout
-                    </button>
                     <!-- Doctor List Modal -->
                     <div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -90,7 +87,7 @@
                         <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
                             <div class="clearfix">
                                 <div class="message-data align-right">
-                                    <span class="message-data-time">{{message.createdTime}}</span> &nbsp; &nbsp;
+                                    <span class="message-data-time">{{time}}</span> &nbsp; &nbsp;
                                     <span class="message-data-name">{{message.createdBy}}</span> <i class="fa fa-circle me"></i>
                                 </div>
                                 <div class="message other-message float-right">
@@ -130,7 +127,7 @@
                         <ng-template #alignLeft>
                             <div class="message-data">
                                 <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.createdBy}}</span>
-                                <span class="message-data-time">{{message.createdTime}}</span>
+                                <span class="message-data-time">{{time}}</span>
                             </div>
                             <div class="message my-message">
                                 <div [ngSwitch]="message.contentType">
