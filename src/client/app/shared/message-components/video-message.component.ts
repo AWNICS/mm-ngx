@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Message } from '../database/message';
+import { ChatService } from '../../chat/chat.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 /**
  * Create a video message
@@ -7,13 +9,17 @@ import { Message } from '../database/message';
  * @class VideoMessageComponent
  */
 @Component({
-    selector:'mm-video-message',
-    template:`
-        <!--h1>{{title}}</h1-->
-        <video controls>
+    selector: 'mm-video-message',
+    template: `
+        <video controls *ngIf="url else loading">
             <source [src]="url" type="video/mp4">
+            <source [src]="url" type="video/webm">
             Your browser does not support HTML5 video.
+            {{url}}
         </video>
+        <ng-template #loading>
+                Loading...
+        </ng-template>
     `,
     styles: [`
         video {
@@ -26,9 +32,22 @@ import { Message } from '../database/message';
 export class VideoMessageComponent implements OnInit {
 
     @Input() message: Message;
-    url:string;
+    url: SafeResourceUrl;
+
+    constructor(private chatService: ChatService, private sanitizer: DomSanitizer) { }
 
     ngOnInit() {
-        this.url = this.message.contentData.data[0];
+        setTimeout(() => {
+            this.downloadVideo(this.message.contentData.data[0]);
+        }, 5000);
+    }
+
+    downloadVideo(fileName: string) {
+        this.chatService.downloadFile(fileName)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                };
+            });
     }
 }

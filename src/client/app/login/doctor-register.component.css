@@ -1,0 +1,67 @@
+div {
+    background-color: transparent;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 150%;
+    line-height: 1.5;
+    font-family: "Work Sans", Arial, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    line-height: 90px;
+    color: #00AAFF;
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    line-height: 30px;
+    font-family: "Work Sans", Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    color: #00AAFF;
+}
+
+form {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+}
+
+a {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    color: #00AAFF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(0, 17, 255);
+}
+
+input {
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.send {
+    background-color: #00AAFF;
+    color: #ffffff;
+    border: none;
+    font-family: "Work Sans", Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.send:valid {
+    cursor: pointer;
+    box-shadow: 0px 1px 8px black;
+}

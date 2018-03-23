@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
+import { SecurityService } from '../shared/services/security.service';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -18,17 +20,20 @@ export class LoginComponent {
 
   constructor(
       private loginService: LoginService,
-      private router: Router
+      private router: Router,
+      private securityService: SecurityService,
+      private cookieService: CookieService
   ) { }
 
-  login(username: string) {
-    this.loginService.getUserByName(username)
-    .then(user => {
-      this.user = user;
-        this.router.navigate([`/chat/${user.id}`]);
-    }).catch(e => {
-      this.error = 'User not found';
-      return;
+  login(email: string, password: string) {
+    this.loginService.login(email, password)
+    .subscribe(res => {
+      this.loginService.setLoginStatus(true);
+      this.cookieService.put('userDetails', JSON.stringify(res.user));
+      console.log('res ', res);
+      if(!res) { this.error = 'Email ID or password incorrect';}
+      this.securityService.setToken(res.token);
+      this.router.navigate([`/chat/${res.user.id}`]);
     });
   }
  }
