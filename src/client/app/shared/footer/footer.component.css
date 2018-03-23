@@ -20,12 +20,13 @@ a:visited {
     font-size: 14px;
     font-weight: 400;
     border-bottom: 1px dashed;
-    color: #D9CDAE;
+    color: #CFD0D0;
     margin-bottom:1rem;
 }
 
 a:hover {
-    color: #0D47A1;
+    color: #fff;
+    text-decoration:none;
 }
 .col-sm-12{
     padding-left: 40px;
@@ -35,8 +36,8 @@ a:hover {
     float: left;
    /* margin-left: 25px;*/
     margin-bottom: 15px;
-    color: #2196F3;
-    background-color: #F5F5F5;
+    color: #fff;
+    background-color: #333C44;
     text-decoration: none;
 }
 
