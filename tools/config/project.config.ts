@@ -86,6 +86,11 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/moment/moment.js'
     });
 
+    this.addPackageBundles({
+      name: 'ngx-cookie',
+      path: 'node_modules/ngx-cookie/bundles/ngx-cookie.umd.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
