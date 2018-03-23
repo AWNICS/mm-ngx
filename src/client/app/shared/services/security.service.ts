@@ -15,7 +15,7 @@ export class SecurityService {
     }
 
     getToken() {
-        return {'Authorization': `Bearer ${this.jwt}`};
+        return {'Authorization': `${this.jwt}`, 'Key' : `Bearer`};
     }
 
     setLoginStatus(status: boolean) {

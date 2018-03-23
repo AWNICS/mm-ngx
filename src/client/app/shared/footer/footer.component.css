@@ -1,26 +1,39 @@
 footer {
-    background-color: #F5F5F5;
+    background-color: #333C44;
     color: #9E9E9E;
     height: 25%;
     width: 100%;
     padding: 30px 0px 30px 0px;
     text-align: center;
 }
+#logo{
+    font-family: sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color:#fff;
+    font-size: 1.225rem;
+}
 
 a:link,
 a:visited {
-    text-decoration: none;
-    margin: 20px;
-    color: #9E9E9E;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    border-bottom: 1px dashed;
+    color: #D9CDAE;
+    margin-bottom:1rem;
 }
 
 a:hover {
     color: #0D47A1;
 }
+.col-sm-12{
+    padding-left: 40px;
+}
 
 #lang {
     float: left;
-    margin-left: 25px;
+   /* margin-left: 25px;*/
     margin-bottom: 15px;
     color: #2196F3;
     background-color: #F5F5F5;

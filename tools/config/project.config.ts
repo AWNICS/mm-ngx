@@ -78,6 +78,10 @@ export class ProjectConfig extends SeedConfig {
     });
 
     this.addPackageBundles({
+      name: '@ng-bootstrap/ng-bootstrap',
+      path: 'node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js'
+    });
+    this.addPackageBundles({
       name: 'moment',
       path: 'node_modules/moment/moment.js'
     });
