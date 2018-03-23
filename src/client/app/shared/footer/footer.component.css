@@ -12,6 +12,13 @@ footer {
     font-weight: 400;
     color:#fff;
     font-size: 1.225rem;
+    margin-left:60px;
+}
+.footerStyle{
+    margin-left: 2rem;
+    margin-top: 2rem; 
+    margin-bottom: 2rem;  
+   
 }
 
 a:link,
@@ -32,28 +39,16 @@ a:hover {
     padding-left: 40px;
 }
 
-#lang {
-    float: left;
-   /* margin-left: 25px;*/
-    margin-bottom: 15px;
-    color: #fff;
-    background-color: #333C44;
-    text-decoration: none;
-}
-
 #lang:hover {
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
-
-.fa-facebook-official:hover {
-    color: #0D47A1;
+#lang{
+    background-color: #333C44;
+    color: #CFD0D0;
+    font-family: sans-serif;
+     font-size: 14px;
+     font-weight: 400;
 }
 
-.fa-twitter-square:hover {
-    color: #03A9F4;
-}
-
-.fa-github-square:hover {
-    color: #212121;
-}
