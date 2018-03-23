@@ -12,6 +12,13 @@ footer {
     font-weight: 400;
     color:#fff;
     font-size: 1.225rem;
+    margin-left:60px;
+}
+.footerStyle{
+    margin-left: 2rem;
+    margin-top: 2rem; 
+    margin-bottom: 2rem;  
+   
 }
 
 a:link,
@@ -20,39 +27,28 @@ a:visited {
     font-size: 14px;
     font-weight: 400;
     border-bottom: 1px dashed;
-    color: #D9CDAE;
+    color: #CFD0D0;
     margin-bottom:1rem;
 }
 
 a:hover {
-    color: #0D47A1;
+    color: #fff;
+    text-decoration:none;
 }
 .col-sm-12{
     padding-left: 40px;
 }
 
-#lang {
-    float: left;
-   /* margin-left: 25px;*/
-    margin-bottom: 15px;
-    color: #2196F3;
-    background-color: #F5F5F5;
-    text-decoration: none;
-}
-
 #lang:hover {
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
-
-.fa-facebook-official:hover {
-    color: #0D47A1;
+#lang{
+    background-color: #333C44;
+    color: #CFD0D0;
+    font-family: sans-serif;
+     font-size: 14px;
+     font-weight: 400;
 }
 
-.fa-twitter-square:hover {
-    color: #03A9F4;
-}
-
-.fa-github-square:hover {
-    color: #212121;
-}
