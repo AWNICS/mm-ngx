@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './chat.component';
@@ -16,6 +15,6 @@ import { FilterPipe } from './filter.pipe';
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule, RatingModule, DoctorsListModule],
   declarations: [ChatComponent,FilterPipe],
   exports: [ChatComponent],
-  providers: [ChatService, SocketService, CookieService ]
+  providers: [ChatService, SocketService ]
 })
 export class ChatModule { }

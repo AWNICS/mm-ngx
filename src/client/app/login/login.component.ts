@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -21,15 +20,14 @@ export class LoginComponent {
   constructor(
       private loginService: LoginService,
       private router: Router,
-      private securityService: SecurityService,
-      private cookieService: CookieService
+      private securityService: SecurityService
   ) { }
 
   login(email: string, password: string) {
     this.loginService.login(email, password)
     .subscribe(res => {
-      this.loginService.setLoginStatus(true);
-      this.cookieService.put('userDetails', JSON.stringify(res.user));
+      this.securityService.setLoginStatus(true);
+      this.securityService.setCookie(res.user);
       console.log('res ', res);
       if(!res) { this.error = 'Email ID or password incorrect';}
       this.securityService.setToken(res.token);

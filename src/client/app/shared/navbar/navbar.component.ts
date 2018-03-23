@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService } from 'ngx-cookie';
 
 import { SocketService } from '../../chat/socket.service';
-import { LoginService } from '../../login/login.service';
+import { SecurityService } from '../services/security.service';
 
 @Component({
     moduleId: module.id,
@@ -16,20 +16,31 @@ export class NavbarComponent {
     cookie: any;
 
     constructor(private socketService: SocketService,
-        private loginService: LoginService,
+        private securityService: SecurityService,
         private cookieService: CookieService) {
-}
+    }
 
     ngOnInit(): void {
-        this.cookie = this.loginService.getCookie();
+        this.cookie = this.securityService.getCookie();
         if(this.cookie) {
             this.loggedIn = true;
         }
     }
 
     logout() {
-        this.loginService.setLoginStatus(false);
+        this.securityService.setLoginStatus(false);
+        console.log('cookie details before: ' + JSON.stringify(this.cookie));
         this.socketService.logout(JSON.parse(this.cookie).id);
-        this.cookieService.remove('userDetails');
+        this.cookieService.remove('userDetails', { domain: 'localhost' });
+        console.log('cookie details after: ' + JSON.stringify(this.cookie));
     }
+
+    navbarColor(number: number) {
+        if(number > 800) {
+            document.getElementById('navbar').style.backgroundColor = '#534FFE';
+        } else {
+            document.getElementById('navbar').style.backgroundColor = '#4696e5';
+        }
+    }
+
 }

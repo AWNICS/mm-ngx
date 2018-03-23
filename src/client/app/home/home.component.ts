@@ -8,9 +8,9 @@ import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
-
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
   mobileNumber: number;
   specialities: Specialities[];
   navIsFixed: boolean = false;
+  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   user: UserDetails;
 
   @ViewChild(OrderWindowComponent)
@@ -77,7 +78,6 @@ export class HomeComponent implements OnInit {
     }
 
   }
-
   //initializes the select field options from LocationService
   ngOnInit(): void {
     this.getSpecialities();
@@ -89,9 +89,11 @@ export class HomeComponent implements OnInit {
     if (number > 800) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
+      this.navbarComponent.navbarColor(number);
     } else if (this.navIsFixed && number < 1000) {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';
+      this.navbarComponent.navbarColor(number);
     }
   }
 
