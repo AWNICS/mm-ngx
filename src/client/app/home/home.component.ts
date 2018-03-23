@@ -1,4 +1,4 @@
-import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject } from '@angular/core';
+import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject, ElementRef, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -7,6 +7,7 @@ import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   mobileNumber: number;
   specialities: Specialities[];
   navIsFixed: boolean = false;
+  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
@@ -57,7 +59,6 @@ export class HomeComponent implements OnInit {
       this.modalHtml1.open('lg');
     }
   }
-
   //initializes the select field options from LocationService
   ngOnInit(): void {
     this.getSpecialities();
@@ -65,22 +66,17 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    let number = this.document.body.scrollTop;
-    // console.log(number);
-    // console.log(document.body.offsetHeight);
+    let number = window.scrollY;
     if (number > 800) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
+      this.navbarComponent.navbarColor(number);
     } else if (this.navIsFixed && number < 1000) {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';
+      this.navbarComponent.navbarColor(number);
     }
   }
-
-  /*topFunction() {
-    this.document.body.scrollTop = 0;
-    this.document.documentElement.scrollTop = 0;
-  }*/
 
   getSpecialities() {
     this.specialityService.getSpecialities()
