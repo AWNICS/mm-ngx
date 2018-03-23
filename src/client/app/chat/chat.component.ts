@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
@@ -33,12 +34,11 @@ import { DoctorDetails } from '../shared/database/doctor-details';
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
 
- apperUrl='https://appear.in/arun-gadag';
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
-  @ViewChild('ChatComponent') chatComponent: ChatComponent;
+
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
   selectedGroup: Group;
@@ -50,7 +50,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
-  time:any;
+  time: any;
 
   newGroup: Group = {
     id: null,
@@ -164,7 +164,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'image',
     contentData: {
-      data: ['']
+      data: ['http://photo.sf.co.ua/g/501/1.jpg']
     },
     responseData: {
       data: ['']
@@ -186,7 +186,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     status: 'delivered',
     contentType: 'video',
     contentData: {
-      data: ['']
+      data: ['assets/videos/movie.mp4']
     },
     responseData: {
       data: ['']
@@ -248,7 +248,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private socketService: SocketService,
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private modalService: NgbModal
   ) {
   }
 
@@ -265,7 +266,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.createForm();
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
-    //this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+  }
+
+  //Doctor modal window open methhode
+  openDoctor(doctorModal: any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, { size: 'lg' });
   }
 
   ngAfterViewChecked() {
@@ -345,13 +352,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.appearMessage.status = 'delivered';
     this.appearMessage.text = 'Appear Component';
     this.socketService.sendMessage(this.appearMessage);
-    this.safeUrl = 'https://appear.in/arun-gadag';
   }
 
   createImage(files: FileList) {
     this.chatService.uploadFile(files)
       .subscribe(res => {
-        console.log('response is ', res);
         this.imageMessage.contentData.data = res._body;
         this.imageMessage.receiverId = this.chatService.getGroup().id;
         this.imageMessage.senderId = this.selectedUser.id;
@@ -391,7 +396,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.docMessage.status = 'delivered';
         this.docMessage.text = 'Doc Component';
         this.socketService.sendMessage(this.docMessage);
-        console.log('Response ', res);
       });
   }
 
@@ -411,7 +415,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   createGroupManual(doctor: DoctorDetails) {
-    this.newGroup.name = 'Consultation room manually';
+    this.newGroup.name = 'Consultation room';
     this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
@@ -533,7 +537,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .then((groups) => {
-        //debugger;
         groups.map((group: any) => {
           this.groups.push(group);
           this.ref.detectChanges();
@@ -565,8 +568,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             this.ref.detectChanges();
           });
         });
+
     }
     this.doctorList = false;
+  }
+
+  // open Video Modal
+  video(videoModal: any) {
+    this.modalService.open(videoModal);
   }
 
   open() {
@@ -577,3 +586,4 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.mySidebar.nativeElement.style.display = 'none';
   }
 }
+

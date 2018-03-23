@@ -42,38 +42,97 @@
                             </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <button class="dropdown-item" (click)="createGroupAuto();">Auto</button>
-                            <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="getDoctors();">Manual</button>
+                            <button class="dropdown-item" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual</button>
                         </div>
                     </div>
                     <!-- Doctor List Modal -->
-                    <div class="modal fade" id="doctorModal" tabindex="-1" role="dialog" aria-labelledby="doctorModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="doctorModalLabel">List of Doctors</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row" *ngFor="let doctor of doctors" data-dismiss="modal" (click)="createGroupManual(doctor)">
-                                        <div class="col col-3 doctor">
-                                            <img class="img-sm" src="{{doctor.picUrl}}" alt="Display picture" />
+                    <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                           <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row no-gutters" *ngFor="let doctor of doctors">
+                                <div class="col-lg-1 col-md-2 col-sm-2">
+                                    <div [ngSwitch]="doctor.status">
+                                        <div *ngSwitchCase="'online'" class="switch">
+                                            <div class="led-box led-green"></div>
                                         </div>
-                                        <div class="col col-3 doctor">
-                                            <span>{{doctor.name}}</span>
+                                        <div *ngSwitchCase="'offline'">
+                                            <div class="led-box led-red"></div>
                                         </div>
-                                        <div class="col col-3 doctor">
-                                            <span>{{doctor.speciality}}</span>
+                                        <div *ngSwitchCase="'busy'">
+                                            <div class="led-box led-blue"></div>
+                                        </div>
+                                        <div *ngSwitchCase="'away'">
+                                            <div class="led-box led-yellow"></div>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <div class="led-box led-red"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <div class="col-lg-2 col-md-3 col-sm-4 no-gutters">
+                                    <img class="rounded-circle" src="{{doctor.picUrl}}" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                </div>
+                                <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
+
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            <h3 class="card-title">{{doctor.name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            {{doctor.description}}
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-lg-8 col-md-7 no-gutters align-self-start">
+                                            <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 no-gutters align-self-end">
+                                            <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult now</button>
+                                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
+                                             <i class="fa fa-angle-double-down" aria-hidden="true"></i>
+                                             </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
+                                        <div class="card card-body col-lg-4 align-self-center" id="videoImage">
+                                            <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
+                                        </div>
+                                    </div>
+
+                                    <ng-template #videoModal let-c="close" let-d="dismiss">
+                                        <div class="container-fluid">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                            <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <embed width="480" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancle</button>
+                        </div>
+                    </ng-template>
                     <!-- end Doctor List Modal -->
                 </div>
                 <ng-template #loadThis>
@@ -162,7 +221,6 @@
                             </div>
                         </ng-template>
                     </div>
-
                 </div>
                 <!-- end chat-history -->
 
@@ -195,7 +253,6 @@
                     </form>
                 </div>
                 <!-- end chat-message -->
-
             </div>
             <!-- end chat -->
         </div>

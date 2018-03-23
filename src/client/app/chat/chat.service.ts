@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { Headers, Http, Response, RequestOptions,ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -58,6 +58,7 @@ export class ChatService {
 
     setUser(user: any) {
         this.user = user;
+        
     }
 
     getUser() {
@@ -112,7 +113,7 @@ export class ChatService {
         const url = `${this.url}/doctors`;
         this.headers.append('Authorization', `${this.securityService.getToken().Key} ${this.securityService.getToken().Authorization}`);
         return this.http
-            .get(url, this.options)
+            .get(url)
             .map(res => res.json())
             .catch(this.handleError);
     }
