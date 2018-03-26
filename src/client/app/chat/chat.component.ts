@@ -51,6 +51,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
   time: any;
+  searchText: string;
 
   newGroup: Group = {
     id: null,
@@ -505,7 +506,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
     value.status = 'delivered';
-    if (value.text.match(/^\s*$/g) || value.text === "" || value.text === null) {
+    if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
     } else {
       this.socketService.sendMessage(value);

@@ -18,8 +18,11 @@ export class LoginService {
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://35.226.156.161:3000';  // URL to access server
 
-    constructor(private router: Router, private http: Http, 
-                private securityService: SecurityService) {
+    constructor(
+        private router: Router,
+        private http: Http,
+        private securityService: SecurityService
+    ) {
     }
 
     login(email: string, password: string): Observable<any> {
