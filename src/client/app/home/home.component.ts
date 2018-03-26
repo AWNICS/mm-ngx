@@ -11,6 +11,7 @@ import { Specialities } from '../shared/database/speciality';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
+import { SecurityService } from '../shared/services/security.service';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
     private specialityService: SpecialityService,
     private chatService: ChatService,
-    private router: Router
+    private router: Router,
+    private securityService: SecurityService
   ) { //constructor for LocationService
   }
 
@@ -60,7 +62,7 @@ export class HomeComponent implements OnInit {
     let result: boolean = isNaN(value.mobileNumber);
     let speciality: string = value.speciality;
     let mobileNumber: number = value.mobileNumber;
-    this.user = this.chatService.getUser();
+    this.user = JSON.parse(this.securityService.getUser());
     if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       || speciality === null || speciality === 'Select') {
       return;
