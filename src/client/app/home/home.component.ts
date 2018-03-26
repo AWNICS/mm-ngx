@@ -70,8 +70,7 @@ export class HomeComponent implements OnInit {
       if (this.user) {
         if (this.user.phoneNo === mobileNumber) {
           this.router.navigate([`/chat/${this.user.id}`]);
-        }
-        else {
+        } else {
           console.log('update your phone no');
         }
       } else {

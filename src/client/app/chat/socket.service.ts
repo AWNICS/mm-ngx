@@ -19,7 +19,7 @@ export class SocketService {
      */
     connection(userId: number) {
         const token = this.securityService.getToken();
-        this.socket = io(`${this.baseUrl}`, { 
+        this.socket = io(`${this.baseUrl}`, {
             query: {token: token},
             secure: true
         });

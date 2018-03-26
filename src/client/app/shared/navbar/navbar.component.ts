@@ -11,7 +11,7 @@ import { SecurityService } from '../services/security.service';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
     loggedIn: boolean = false;
     user: any;
     picUrl: string;

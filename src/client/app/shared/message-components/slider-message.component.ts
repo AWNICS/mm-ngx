@@ -13,7 +13,7 @@ import { SocketService } from '../../chat/socket.service';
     template: `
         <p>{{header}}</p>
         <div class="range-slider">
-            <input type="range" class="range-slider__range" min="0" max="10" value="5" 
+            <input type="range" class="range-slider__range" min="0" max="10" value="5"
                 (change)="getRangeValue();"
                 #slider>
                 <span class="range-slider__value">{{selectedValue}}</span>
@@ -25,7 +25,7 @@ import { SocketService } from '../../chat/socket.service';
         -webkit-box-sizing: border-box;
                 box-sizing: border-box;
       }
-      
+
       body {
         font-family: sans-serif;
         padding: 20px 20px;
@@ -35,15 +35,15 @@ import { SocketService } from '../../chat/socket.service';
           padding: 20px;
         }
       }
-      
+
       .range-slider {
         margin: 20px 0 20px 0%;
       }
-      
+
       .range-slider {
         width: 100%;
       }
-      
+
       .range-slider__range {
         -webkit-appearance: none;
         width: calc(100% - (73px));
@@ -87,7 +87,7 @@ import { SocketService } from '../../chat/socket.service';
       .range-slider__range:active::-moz-range-thumb {
         background: #1abc9c;
       }
-      
+
       .range-slider__value {
         display: inline-block;
         position: relative;
@@ -111,17 +111,16 @@ import { SocketService } from '../../chat/socket.service';
         border-bottom: 7px solid transparent;
         content: '';
       }
-      
+
       ::-moz-range-track {
         background: #d7dcdf;
         border: 0;
       }
-      
+
       input::-moz-focus-inner,
       input::-moz-focus-outer {
         border: 0;
       }
-      
     `]
 })
 

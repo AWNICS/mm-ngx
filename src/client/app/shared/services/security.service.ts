@@ -5,9 +5,9 @@ import { UserDetails } from '../database/user-details';
 @Injectable()
 export class SecurityService {
 
+    key = 'Bearer';
     private jwt: string;
     private loginStatus = false;
-    key = 'Bearer';
 
     constructor(private cookieService: CookieService) {
     }
@@ -15,8 +15,8 @@ export class SecurityService {
     setLoginStatus(status: boolean) {
         this.loginStatus = status;
     }
-    
-    getLoginStatus(){
+
+    getLoginStatus() {
         return this.loginStatus;
     }
 
@@ -32,7 +32,7 @@ export class SecurityService {
         this.cookieService.put('userDetails', JSON.stringify(user), { domain: 'localhost' });
     }
 
-    getUser(){
+    getUser() {
         return this.cookieService.get('userDetails');
     }
 
