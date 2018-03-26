@@ -1,0 +1,59 @@
+<mm-navbar style="margin-bottom:80px;"></mm-navbar>
+<div class="container" style="margin-bottom:70px;">
+    <h1>
+        Doctor Registration Form
+    </h1>
+    <small style="color:#EEFF00;">All fields are mandatory</small>
+    <p #msg>{{message.innerHTML}}</p>
+    <div class="row">
+        <div class="col col-6">
+            <form novalidate [formGroup]="registerDoctorDetails" (ngSubmit)="register(registerDoctorDetails)">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 col-xs-12 col-md-6">
+                        <div class="form-group">
+                            <label for="name">Full name</label>
+                            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="regNo">MCI Reg No.</label>
+                            <input type="text" class="form-control" id="regNo" formControlName="regNo" placeholder="MCI Reg No.">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneNo">Phone No.</label>
+                            <input type="tel" class="form-control" id="phoneNo" formControlName="phoneNo" placeholder="98xxxxxxxx">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Password</label>
+                            <input type="password" style="width: 100%;" class="form-control" formControlName="password" placeholder="Enter password" autocomplete>
+                        </div>
+                        <div class="form-group">
+                            <label for="speciality">Speciality</label>
+                            <input type="text" class="form-control" id="speciality" formControlName="speciality" placeholder="Speciality">
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">Experience</label>
+                            <select class="form-control" id="experience" formControlName="experience" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                <option *ngFor="let i of number">{{i}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Bio</label>
+                            <textarea class="form-control" id="description" formControlName="description" rows="3"></textarea>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="termsAccepted" formControlName="termsAccepted" required>
+                            <label class="custom-control-label" for="termsAccepted">I agree to the <a href="#">Terms and Conditions</a></label>
+                        </div>
+                        <br/>
+                        <button i18n type="submit" class="btn btn-primary" [disabled]="registerDoctorDetails.invalid">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<mm-footer></mm-footer>

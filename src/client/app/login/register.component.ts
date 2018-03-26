@@ -31,11 +31,14 @@ export class RegisterComponent implements OnInit {
         this.registerDetails = this.fb.group({
             id: null,
             socketId: null,
-            name: [''],
-            email: [''],
-            phoneNo: [''],
-            picUrl: null,
-            privilege: null,
+            name: '',
+            email: '',
+            password: '',
+            phoneNo: '',
+            picUrl: '',
+            status: '',
+            appearUrl: null,
+            role: null,
             createdTime: '',
             createdBy: null,
             updatedTime: '',
@@ -43,13 +46,16 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    register({ value, valid }: {value: UserDetails, valid: boolean }) {
+    register({ value, valid }: { value: UserDetails, valid: boolean }) {
+        const split = value.name.split(' ');
         value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
         value.createdBy = value.name;
-        value.privilege = 'user';
+        value.status = 'offline';
+        value.appearUrl = `https://appear.in/mm-${split}`;
+        value.role = 'patient';
         value.updatedBy = value.name;
         this.loginService.createNewUser(value)
-        .then(response => response)
-        .catch(error => error);
+            .then(response => response)
+            .catch(error => error);
     }
 }

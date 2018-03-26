@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
+
+import { SocketService } from '../../chat/socket.service';
+import { SecurityService } from '../services/security.service';
 
 @Component({
     moduleId: module.id,
@@ -8,9 +12,35 @@ import { Component } from '@angular/core';
 })
 
 export class NavbarComponent {
-    home: string = 'Home';
-    admin: string = 'Admin';
-    user: string = 'User';
-    doctor:string = 'Doctor';
-    login: string = 'Login';
+    loggedIn: boolean = false;
+    user: any;
+    picUrl: string;
+
+    constructor(private socketService: SocketService,
+        private securityService: SecurityService,
+        private cookieService: CookieService) {
+    }
+
+    ngOnInit(): void {
+        this.user = this.securityService.getUser();
+        if(this.user) {
+            this.loggedIn = true;
+            this.picUrl = JSON.parse(this.user).picUrl;
+        }
+    }
+
+    logout() {
+        this.securityService.setLoginStatus(false);
+        this.socketService.logout(JSON.parse(this.user).id);
+        this.cookieService.remove('userDetails', { domain: 'localhost' });
+    }
+
+    navbarColor(number: number) {
+        if(number > 800) {
+            document.getElementById('navbar').style.backgroundColor = '#534FFE';
+        } else {
+            document.getElementById('navbar').style.backgroundColor = '#4696e5';
+        }
+    }
+
 }

@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Message } from '../shared/database/message';
 import * as io from 'socket.io-client';
+
+import { Message } from '../shared/database/message';
+import { SecurityService } from '../shared/services/security.service';
 
 @Injectable()
 export class SocketService {
     private socket: any;
-    private baseUrl = 'http://localhost:3000';
+    private baseUrl = 'http://35.226.156.161:3000';
+
+    constructor(private securityService: SecurityService) {}
 
     /**
      * connection
      */
     connection(userId: number) {
-        this.socket = io(`${this.baseUrl}`, { query: `userId=${userId}` });
+        const token = this.securityService.getToken();
+        this.socket = io(`${this.baseUrl}`, { 
+            query: {token: token},
+            secure: true
+        });
         this.socket.on('connect', () => {
             this.socket.emit('user-connected', userId);
         });
@@ -40,7 +48,7 @@ export class SocketService {
         this.socket.emit('update-message', message);
     }
 
-    receiveUpdatedMessage(): Observable<any>  {
+    receiveUpdatedMessage(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('updated-message', (message: Message) => {
                 observer.next(message);
@@ -50,5 +58,9 @@ export class SocketService {
             };
         });
         return observable;
+    }
+
+    logout(userId: number): void {
+        this.socket.emit('user-logout', userId);
     }
 }

@@ -1,18 +1,26 @@
 export class DoctorDetails {
   id: number;
+  socketId: string;
   name: string;
+  password: string;
   picUrl: string;
-  briefDescription: {
-      speciality: string;
-      experience: number;
-      description: string;
-  };
+  regNo: string;
+  speciality: string;
+  experience: number;
+  description: string;
+  email: string;
+  phoneNo: string;
   status: string;
   waitingTime: number; // in seconds
   rating: number;
   videoUrl: string;
   appearUrl: string;
-  collapseId: string;
-  thumbnailUrl: string;
-  lastUpdateTime: any;
+  token: string;
+  activate: number; // either 0 or 1(default is 0)
+  role: string;
+  termsAccepted:boolean;
+  createdAt: any;
+  createdBy: string;
+  updatedAt: any;
+  updatedBy: string;
 }

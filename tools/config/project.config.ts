@@ -77,6 +77,20 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/socket.io-client/dist/socket.io.slim.js'
     });
 
+    this.addPackageBundles({
+      name: '@ng-bootstrap/ng-bootstrap',
+      path: 'node_modules/@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js'
+    });
+    this.addPackageBundles({
+      name: 'moment',
+      path: 'node_modules/moment/moment.js'
+    });
+
+    this.addPackageBundles({
+      name: 'ngx-cookie',
+      path: 'node_modules/ngx-cookie/bundles/ngx-cookie.umd.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
