@@ -6,36 +6,40 @@ footer {
     padding: 30px 0px 30px 0px;
     text-align: center;
 }
-#logo{
+
+#logo {
     font-family: sans-serif;
     font-size: 20px;
     font-weight: 400;
-    color:#fff;
+    color: #fff;
     font-size: 1.225rem;
-    margin-left:60px;
 }
-.footerStyle{
+
+.footerStyle {
     margin-left: 2rem;
-    margin-top: 2rem; 
-    margin-bottom: 2rem;  
-   
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 a:link,
 a:visited {
     font-family: sans-serif;
-    font-size: 14px;
     font-weight: 400;
-    border-bottom: 1px dashed;
+    font-size: .9rem;
+    line-height: 1.7;
     color: #CFD0D0;
-    margin-bottom:1rem;
+    border-bottom: 1px dotted #CFD0D0;
+    transition: 0.7s;
+    text-decoration: none;
+    margin: 5px;
+    text-rendering: optimizeLegibility;
 }
 
 a:hover {
     color: #fff;
-    text-decoration:none;
 }
-.col-sm-12{
+
+.col-sm-12 {
     padding-left: 40px;
 }
 
@@ -44,11 +48,17 @@ a:hover {
     text-decoration: none;
     cursor: pointer;
 }
-#lang{
+
+#lang {
+    margin: 5px;
     background-color: #333C44;
     color: #CFD0D0;
     font-family: sans-serif;
-     font-size: 14px;
-     font-weight: 400;
+    font-size: 14px;
+    font-weight: 400;
 }
 
+.align-self-center {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
+}

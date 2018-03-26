@@ -13,7 +13,7 @@ import { SecurityService } from '../services/security.service';
 
 export class NavbarComponent {
     loggedIn: boolean = false;
-    cookie: any;
+    user: any;
     picUrl: string;
 
     constructor(private socketService: SocketService,
@@ -22,16 +22,16 @@ export class NavbarComponent {
     }
 
     ngOnInit(): void {
-        this.cookie = this.securityService.getCookie();
-        if(this.cookie) {
+        this.user = this.securityService.getUser();
+        if(this.user) {
             this.loggedIn = true;
-            this.picUrl = JSON.parse(this.cookie).picUrl;
+            this.picUrl = JSON.parse(this.user).picUrl;
         }
     }
 
     logout() {
         this.securityService.setLoginStatus(false);
-        this.socketService.logout(JSON.parse(this.cookie).id);
+        this.socketService.logout(JSON.parse(this.user).id);
         this.cookieService.remove('userDetails', { domain: 'localhost' });
     }
 
