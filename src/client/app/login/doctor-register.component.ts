@@ -14,7 +14,7 @@ import { ChatService } from '../chat/chat.service';
     styleUrls: ['doctor-register.component.css'],
 })
 export class DoctorRegisterComponent implements OnInit {
-    
+
     @ViewChild('msg') msg : ElementRef;
     registerDoctorDetails: FormGroup;
     doctorDetails: DoctorDetails;

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
-import { DomSanitizer ,SafeResourceUrl} from '@angular/platform-browser';
+import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
 
 /**
  * ImageMessageComponent to display image

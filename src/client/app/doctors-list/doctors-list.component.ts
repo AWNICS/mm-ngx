@@ -18,7 +18,6 @@ import { VideoModalComponent } from './video-modal.component';
 })
 export class DoctorsListComponent implements OnInit {
 
-    
     @ViewChild('doctorsList')
     doctorsList: DoctorsListComponent;
     @ViewChild(VideoModalComponent)
