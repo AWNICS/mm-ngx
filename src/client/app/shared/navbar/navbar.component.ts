@@ -14,6 +14,7 @@ import { SecurityService } from '../services/security.service';
 export class NavbarComponent {
     loggedIn: boolean = false;
     cookie: any;
+    picUrl: string;
 
     constructor(private socketService: SocketService,
         private securityService: SecurityService,
@@ -24,15 +25,14 @@ export class NavbarComponent {
         this.cookie = this.securityService.getCookie();
         if(this.cookie) {
             this.loggedIn = true;
+            this.picUrl = JSON.parse(this.cookie).picUrl;
         }
     }
 
     logout() {
         this.securityService.setLoginStatus(false);
-        console.log('cookie details before: ' + JSON.stringify(this.cookie));
         this.socketService.logout(JSON.parse(this.cookie).id);
         this.cookieService.remove('userDetails', { domain: 'localhost' });
-        console.log('cookie details after: ' + JSON.stringify(this.cookie));
     }
 
     navbarColor(number: number) {

@@ -69,7 +69,9 @@ export class DoctorRegisterComponent implements OnInit {
     }
 
     register({ value, valid }: {value: DoctorDetails, valid: boolean }) {
+        const split = value.name.split(' ');
         value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+        value.appearUrl = `https://appear.in/mm-${split}`;
         value.createdBy = value.name;
         value.updatedBy = value.name;
         value.role = 'doctor';
