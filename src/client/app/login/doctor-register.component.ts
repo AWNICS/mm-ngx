@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { LoginService } from './login.service';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { ChatService } from '../chat/chat.service';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -20,6 +21,7 @@ export class DoctorRegisterComponent implements OnInit {
     doctorDetails: DoctorDetails;
     message = '';
     number: Array<number> = [];
+    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
     constructor(
         private fb: FormBuilder,
@@ -60,6 +62,7 @@ export class DoctorRegisterComponent implements OnInit {
             updatedBy: null,
         });
         this.generateNumber();
+        this.navbarComponent.navbarColor(0, '#534FFE');
     }
 
     generateNumber() {
