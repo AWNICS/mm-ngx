@@ -62,6 +62,7 @@ li {
     justify-content: center;
     align-items: center;
     height: 50px;
+    background-color: #F5F5F5;
 }
 
 .hero__sub__down {
@@ -76,6 +77,87 @@ li {
     color: #6C63FF;
 }
 
-#scrollToNext {
+
+/* get started now section */
+
+.cta {
+    background: linear-gradient(to right, #6C63FF, #4641FF);
+    color: #fff;
+    padding: 48pt 0;
+    text-align: center;
+}
+
+.cta--reverse {
+    background: linear-gradient(to left, #6C63FF, #4641FF);
+}
+
+.cta--plain {
+    background: #6C63FF;
+}
+
+.cta--secondary {
+    background: #4641FF;
+}
+
+.cta__title {
+    color: inherit;
+}
+
+.cta__sub {
+    opacity: 0.85;
+    max-width: 58ch;
+    margin: 16pt auto 24pt auto;
+}
+
+.cta__sub--center {
+    text-align: center;
+}
+
+
+/* download button */
+
+button,
+.button {
+    display: inline-block;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #05BD8D;
+    color: #05BD8D;
+    font-weight: 400;
     transition: 0.7s;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+    outline: 0;
+}
+
+@media (min-width: 992px) {
+    button:hover,
+    .button:hover {
+        border-color: #05BD8D;
+        color: #05BD8D;
+    }
+}
+
+.hero__button {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+@media (min-width: 992px) {
+    .hero__button:hover {
+        color: #e3e3e3;
+        border-color: #e3e3e3;
+    }
 }

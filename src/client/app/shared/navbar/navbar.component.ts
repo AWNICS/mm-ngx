@@ -35,11 +35,11 @@ export class NavbarComponent implements OnInit {
         this.cookieService.remove('userDetails', { domain: 'localhost' });
     }
 
-    navbarColor(number: number) {
+    navbarColor(number: number, color: string) {
         if(number > 800) {
-            document.getElementById('navbar').style.backgroundColor = '#534FFE';
+            document.getElementById('navbar').style.backgroundColor = color;
         } else {
-            document.getElementById('navbar').style.backgroundColor = '#4696e5';
+            document.getElementById('navbar').style.backgroundColor = color;
         }
     }
 
