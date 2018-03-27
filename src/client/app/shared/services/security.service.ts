@@ -1,36 +1,38 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
+import { UserDetails } from '../database/user-details';
 
 @Injectable()
 export class SecurityService {
 
+    key = 'Bearer';
     private jwt: string;
     private loginStatus = false;
 
     constructor(private cookieService: CookieService) {
     }
 
-    setToken(token: string) {
-        this.jwt = token;
-    }
-
-    getToken() {
-        return {'Authorization': `${this.jwt}`, 'Key' : `Bearer`};
-    }
-
     setLoginStatus(status: boolean) {
         this.loginStatus = status;
     }
-    
-    getLoginStatus(){
+
+    getLoginStatus() {
         return this.loginStatus;
     }
 
-    setCookie(cookie: string) {
-        this.cookieService.put('userDetails', JSON.stringify(cookie), { domain: 'localhost' });
+    setToken(token: string) {
+        this.cookieService.put('token', token, { domain: 'localhost'});
     }
 
-    getCookie(){
+    getToken() {
+        return this.cookieService.get('token');
+    }
+
+    setUser(user: UserDetails) {
+        this.cookieService.put('userDetails', JSON.stringify(user), { domain: 'localhost' });
+    }
+
+    getUser() {
         return this.cookieService.get('userDetails');
     }
 

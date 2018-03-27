@@ -13,7 +13,7 @@
                     <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
                     <div class="dropdown" *ngIf="loggedIn">
                         <a class="inset" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="http://rs775.pbsrc.com/albums/yy35/PhoenyxStar/link-1.jpg~c200">
+                            <img [src]="picUrl">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="#">Profile</a>

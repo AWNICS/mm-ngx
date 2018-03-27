@@ -30,10 +30,9 @@ export class HomeComponent implements OnInit {
   mobileNumber: number;
   specialities: Specialities[];
   navIsFixed: boolean = false;
-  user: UserDetails;
+  user: any;
   locations = LOCATIONS;
   current: string = 'Bengaluru';
-  cookie: any = null;
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
@@ -66,19 +65,18 @@ export class HomeComponent implements OnInit {
     //let speciality: string = value.speciality;
     //let mobileNumber: number = value.mobileNumber;
     //this.user = this.chatService.getUser();
-    this.cookie = this.securityService.getCookie();
+    this.user = this.securityService.getUser();
     /*if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       || speciality === null || speciality === 'Select') {
       return;
     } else {*/
-      if ((this.cookie)) {
-        this.router.navigate([`/chat/${JSON.parse(this.cookie).id}`]);
+      if ((this.user)) {
+        this.router.navigate([`/chat/${JSON.parse(this.user).id}`]);
       } else {
         this.router.navigate([`/login`]);
       }
     //}
   }
-
   //initializes the select field options from LocationService
   ngOnInit(): void {
     //this.getSpecialities();

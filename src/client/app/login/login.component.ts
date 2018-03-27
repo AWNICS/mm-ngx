@@ -34,12 +34,14 @@ export class LoginComponent implements OnInit {
   login(email: string, password: string) {
     this.loginService.login(email, password)
     .subscribe(res => {
+      if(!res) { this.error = 'Email ID or password incorrect';
+    } else {
+      console.log('id is: ', res);
       this.securityService.setLoginStatus(true);
-      this.securityService.setCookie(res.user);
-      console.log('res ', res);
-      if(!res) { this.error = 'Email ID or password incorrect';}
+      this.securityService.setUser(res.user);
       this.securityService.setToken(res.token);
       this.router.navigate([`/chat/${res.user.id}`]);
+    }
     });
   }
  }

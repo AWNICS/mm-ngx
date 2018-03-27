@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
   time: any;
+  searchText: string;
 
   newGroup: Group = {
     id: null,
@@ -258,11 +259,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.chatService.getUserById(this.userId)
-      .then(user => {
+      .subscribe(user => {
         this.selectedUser = user;
-      })
-      .catch(error => console.log('error: ', error));
-    this.chatService.setUser(this.selectedUser);
+      });
     this.socketService.connection(this.userId);
     this.getGroups();
     this.createForm();
@@ -272,19 +271,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.navbarComponent.navbarColor(0, '#534FFE');
   }
 
-  //Doctor modal window open methhode
-  openDoctor(doctorModal: any) {
-    this.getDoctors();
-    this.modalService.open(doctorModal, { size: 'lg' });
-  }
-
   ngAfterViewChecked() {
     setTimeout(() => {
       let dropdown = this.dropdown.nativeElement;
       if (this.selectedUser.role !== 'patient') {
         dropdown.style.display = 'block';
+      } else {
+        dropdown.style.display = 'none';
       }
     }, 1000);
+  }
+
+  //Doctor modal window open methhode
+  openDoctor(doctorModal: any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, { size: 'lg' });
   }
 
   createForm() {
@@ -508,7 +509,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
     value.status = 'delivered';
-    if (value.text.match(/^\s*$/g) || value.text === "" || value.text === null) {
+    if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
     } else {
       this.socketService.sendMessage(value);
@@ -539,13 +540,12 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   getGroups() {
     this.chatService.getGroups(this.userId)
-      .then((groups) => {
-        groups.map((group: any) => {
+      .subscribe((groups) => {
+        groups.map((group: Group) => {
           this.groups.push(group);
           this.ref.detectChanges();
         });
-      })
-      .catch(error => console.log('error: ', error));
+      });
   }
 
   scrollToBottom() {

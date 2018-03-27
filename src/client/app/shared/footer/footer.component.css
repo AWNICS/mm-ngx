@@ -6,53 +6,59 @@ footer {
     padding: 30px 0px 30px 0px;
     text-align: center;
 }
-#logo{
+
+#logo {
     font-family: sans-serif;
     font-size: 20px;
     font-weight: 400;
-    color:#fff;
+    color: #fff;
     font-size: 1.225rem;
+}
+
+.footerStyle {
+    margin-left: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 a:link,
 a:visited {
     font-family: sans-serif;
-    font-size: 14px;
     font-weight: 400;
-    border-bottom: 1px dashed;
-    color: #D9CDAE;
-    margin-bottom:1rem;
+    font-size: .9rem;
+    line-height: 1.7;
+    color: #CFD0D0;
+    border-bottom: 1px dotted #CFD0D0;
+    transition: 0.7s;
+    text-decoration: none;
+    margin: 5px;
+    text-rendering: optimizeLegibility;
 }
 
 a:hover {
-    color: #0D47A1;
+    color: #fff;
 }
-.col-sm-12{
+
+.col-sm-12 {
     padding-left: 40px;
 }
 
-#lang {
-    float: left;
-   /* margin-left: 25px;*/
-    margin-bottom: 15px;
-    color: #2196F3;
-    background-color: #F5F5F5;
-    text-decoration: none;
-}
-
 #lang:hover {
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
 }
 
-.fa-facebook-official:hover {
-    color: #0D47A1;
+#lang {
+    margin: 5px;
+    background-color: #333C44;
+    color: #CFD0D0;
+    font-family: sans-serif;
+    font-size: 14px;
+    font-weight: 400;
 }
 
-.fa-twitter-square:hover {
-    color: #03A9F4;
-}
-
-.fa-github-square:hover {
-    color: #212121;
+.align-self-center {
+    margin-left: 0px !important;
+    padding-left: 0px !important;
 }
