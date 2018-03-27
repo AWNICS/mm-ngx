@@ -8,4 +8,13 @@ import { Component } from '@angular/core';
   templateUrl: 'contents.component.html',
   styleUrls: ['contents.component.css'],
 })
-export class ContentsComponent { }
+export class ContentsComponent {
+
+  scrollDownHidden(height: number) {
+     if( height >= 100){
+      document.getElementById('scrollToNext').style.display = 'none';
+    } else {
+      document.getElementById('scrollToNext').style.display = 'block';
+    }
+  }
+}

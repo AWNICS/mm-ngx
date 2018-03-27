@@ -3,29 +3,29 @@
 }
 
 header {
-    background-color: #4696e5;
     color: #d0e4f8;
     padding: 4.5em 0 2.5em 0;
     text-align: center;
-    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background: linear-gradient(to left, rgba(71, 66, 255, 0.95), rgba(101, 66, 255, 0.95)), url("./assets/jpg/evie_default_bg.jpeg");
     background-position: top left, center center;
-    background-attachment: fixed, fixed;
-    background-size: auto, cover;
-    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 92vh;
     min-height: 35em;
 }
 
 .jumbotron {
-   background-color: #4696e5;
+    background-color: transparent;
     color: #d0e4f8;
     padding: 4.5em 0 2.5em 0;
     text-align: center;
     font-weight: 900;
     justify-content: center;
-    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-image: url("./assets/png/overlay.png");
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
+    opacity: 10;
 }
 
 #btnHomePlaceOrder {
@@ -40,7 +40,8 @@ header {
     border-radius: 6px;
 }
 
-#myBtn2 {
+
+/*#myBtn2 {
     background-color: #4696e5;
     color: #d0e4f8;
     margin-left: 30px;
@@ -51,6 +52,67 @@ header {
     background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
     border: 1.5px solid #42A5F5;
     border-radius: 6px;
+}*/
+
+button,
+.button {
+    display: inline-block;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #6C63FF;
+    color: #6C63FF;
+    font-weight: 400;
+    transition: 0.7s;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+    outline: none;
+}
+
+@media (min-width: 992px) {
+    button:hover,
+    .button:hover {
+        border-color: #463aff;
+        color: #463aff;
+    }
+}
+
+.button__accent {
+    background-color: #06d19c;
+    border-color: #06d19c;
+    color: #fff;
+    margin-right: 2%;
+}
+
+@media (min-width: 992px) {
+    .button__accent:hover {
+        background-color: #05bd8d;
+        border-color: #05bd8d;
+        color: #fff;
+    }
+}
+
+.hero__button {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+@media (min-width: 992px) {
+    .hero__button:hover {
+        color: #e3e3e3;
+        border-color: #e3e3e3;
+    }
 }
 
 #btnHomePlaceOrder:hover {
@@ -61,9 +123,10 @@ header {
     box-shadow: 0px 0px 0px #FFFFFF;
 }
 
-#myBtn2:hover {
+
+/*#myBtn2:hover {
     box-shadow: 0px 4px 10px #FFFFFF;
-}
+}*/
 
 
 /*
@@ -130,7 +193,7 @@ select:focus {
     z-index: 99;
     border: none;
     outline: none;
-    background-color: #42A5F5;
+    background-color: #534FFE;
     color: #FFFFFF;
     cursor: pointer;
     padding: 10px;
@@ -154,4 +217,8 @@ a:active {
 
 a:hover {
     color: #FFFFFF;
+}
+
+.col-xs-5 {
+    max-width: 60%;
 }

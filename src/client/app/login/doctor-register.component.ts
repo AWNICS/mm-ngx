@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { LoginService } from './login.service';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { ChatService } from '../chat/chat.service';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -14,12 +15,13 @@ import { ChatService } from '../chat/chat.service';
     styleUrls: ['doctor-register.component.css'],
 })
 export class DoctorRegisterComponent implements OnInit {
-    
+
     @ViewChild('msg') msg : ElementRef;
     registerDoctorDetails: FormGroup;
     doctorDetails: DoctorDetails;
     message = '';
     number: Array<number> = [];
+    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
     constructor(
         private fb: FormBuilder,
@@ -60,6 +62,7 @@ export class DoctorRegisterComponent implements OnInit {
             updatedBy: null,
         });
         this.generateNumber();
+        this.navbarComponent.navbarColor(0, '#534FFE');
     }
 
     generateNumber() {
@@ -69,7 +72,9 @@ export class DoctorRegisterComponent implements OnInit {
     }
 
     register({ value, valid }: {value: DoctorDetails, valid: boolean }) {
+        const split = value.name.split(' ');
         value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
+        value.appearUrl = `https://appear.in/mm-${split}`;
         value.createdBy = value.name;
         value.updatedBy = value.name;
         value.role = 'doctor';
