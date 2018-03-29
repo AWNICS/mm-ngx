@@ -14,7 +14,7 @@ import { ImageMessageComponent } from './message-components/image-message.compon
 import { VideoMessageComponent } from './message-components/video-message.component';
 import { TextMessageComponent } from './message-components/text-message.component';
 import { AppearMessageComponent } from './message-components/appear-message.component';
-import { AlertMessageComponent } from './message-components/alert-message.component';
+//import { AlertMessageComponent } from './message-components/alert-message.component';
 import { SecurityService } from './services/security.service';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -33,7 +33,8 @@ import { SecurityService } from './services/security.service';
     VideoMessageComponent,
     TextMessageComponent,
     AppearMessageComponent,
-    AlertMessageComponent],
+    //AlertMessageComponent
+  ],
   exports: [
     DocumentMessageComponent,
     FooterComponent,
@@ -45,7 +46,7 @@ import { SecurityService } from './services/security.service';
     VideoMessageComponent,
     TextMessageComponent,
     AppearMessageComponent,
-    AlertMessageComponent,
+    //AlertMessageComponent,
     CommonModule,
     FormsModule,
     RouterModule

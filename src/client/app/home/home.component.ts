@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import { OrderWindowComponent } from '../order-window/order-window.component';
-import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
@@ -12,7 +11,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
 import { LOCATIONS } from '../shared/database/mock-location';
-import { ContentsComponent } from '../contents/contents.component';
+import { ContentsComponent } from './contents.component';
 import { SecurityService } from '../shared/services/security.service';
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -38,8 +37,6 @@ export class HomeComponent implements OnInit {
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
   @ViewChild(OrderWindowComponent)
   modalHtml: OrderWindowComponent;
-  @ViewChild(DoctorsListComponent)
-  modalHtml1: DoctorsListComponent;
 
   constructor(@Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
     private specialityService: SpecialityService,
