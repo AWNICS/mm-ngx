@@ -3,10 +3,11 @@
 }
 
 nav {
-    background-color: #4696e5;
+    background-color: transparent;
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
+    transition: 0.7s;
 }
 
 a,
@@ -16,7 +17,24 @@ a:active {
     color: #fff;
 }
 
-.navbar-brand:hover {
+#logo {
+    font-size: 1.325rem;
+    transition: 0;
+    color: #fff;
+    text-decoration: none;
+}
+
+#logo:hover {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.navbar-light .navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+#icon-bar {
     color: #fff;
 }
 
@@ -40,7 +58,7 @@ a:active {
 
 .dropdown-menu {
     margin-left: -100px;
-    background-color: #2E86C1;
+    background-color: #6960FF;
 }
 
 .dropdown-item {

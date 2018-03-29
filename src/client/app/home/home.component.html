@@ -1,5 +1,5 @@
 <mm-navbar></mm-navbar>
-<a pageScroll [pageScrollDuration]="500" href="#myHeader">
+<a href="#myHeader" pageScroll [pageScrollDuration]="800">
     <button id="myBtn" title="Go to top">
         <i class="fa fa-angle-up" aria-hidden="true"></i>
     </button>
@@ -12,32 +12,40 @@
             </p>
             <form #f="ngForm">
                 <div class="row justify-content-center">
-                    <div class="col col-lg-3">
-                        <div class="form-group">
-                            <select class="form-control" required id="selectSpeciality" [(ngModel)]="current" name="speciality">
-                                <option *ngFor="let speciality of specialities" [value]="speciality.name">
-                                    {{speciality.name}}
+                    <div class="col-lg-2 col-md-4 col-sm-5 col-xs-5">
+                        <div class="form-group select">
+                            <!--<select class="form-control" required id="selectSpeciality" [(ngModel)]="current" name="speciality">
+                                        <option *ngFor="let speciality of specialities" [value]="speciality.name">
+                                            {{speciality.name}}
+                                        </option>
+                                    </select>-->
+                            <select id="location" class="form-control location" required [(ngModel)]="current" name="location">
+                                <option *ngFor="let location of locations" [value]="location.name">
+                                    {{location.name}}
                                 </option>
                             </select>
                         </div>
                     </div>
-                    <div class="col col-lg-3">
+                    <!--<div class="col col-lg-3" style="display: none;">
                         <div class="form-group">
                             <input type="tel" class="form-control" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10">
                         </div>
-                    </div>
+                    </div>-->
                 </div>
-                <div class="row justify-content-center">
+                <!--<div class="row justify-content-center">
                     <div class="alert alert-danger" role="alert" *ngIf="f.invalid && f.touched"><small>Select a field and enter a valid mobile number</small></div>
-                </div>
+                </div>-->
                 <div class="row justify-content-center">
-                    <mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>
-                    <button i18n class="btn btn-secondary" type="submit" id="myBtn2" (click)="openConsultant(f.value)"> Consult Now </button>
+                    <!--<mm-order-window [result]="mobileNumber" [speciality]="current"></mm-order-window>-->
+                    <button i18n class="button button__accent" type="submit" (click)="openConsultant(f.value)"> Consult Now </button>
+                    <a href="#contents" pageScroll [pageScrollDuration]="500" id="learnMore">
+                        <button i18n class="button hero__button">Learn more</button>
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 </header>
-<mm-contents></mm-contents>
+<mm-contents id="contents"></mm-contents>
 <mm-footer></mm-footer>
 <mm-doctors-list></mm-doctors-list>

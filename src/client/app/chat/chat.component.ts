@@ -21,6 +21,7 @@ import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -38,6 +39,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('dropdown') dropdown: ElementRef;
+  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -266,6 +268,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
+    this.navbarComponent.navbarColor(0, '#6960FF');
   }
 
   ngAfterViewChecked() {
