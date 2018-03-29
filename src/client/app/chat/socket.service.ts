@@ -18,8 +18,8 @@ export class SocketService {
      * connection
      */
     connection(userId: number) {
-        const token = this.securityService.getToken().Authorization;
-        this.socket = io(`${this.baseUrl}`, { 
+        const token = this.securityService.getToken();
+        this.socket = io(`${this.baseUrl}`, {
             query: {token: token},
             secure: true
         });

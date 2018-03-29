@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
 import { Group } from '../shared/database/group';
 import { ChatService } from '../chat/chat.service';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -16,6 +18,7 @@ import { ChatService } from '../chat/chat.service';
 export class RegisterComponent implements OnInit {
     registerDetails: FormGroup;
     userDetails: UserDetails;
+    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
     constructor(
         private fb: FormBuilder,
@@ -44,6 +47,7 @@ export class RegisterComponent implements OnInit {
             updatedTime: '',
             updatedBy: null
         });
+        this.navbarComponent.navbarColor(0, '#534FFE');
     }
 
     register({ value, valid }: { value: UserDetails, valid: boolean }) {

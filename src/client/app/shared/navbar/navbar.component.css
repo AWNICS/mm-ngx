@@ -3,24 +3,78 @@
 }
 
 nav {
-    background-color: #4696e5;
-    color: #d0e4f8;
-    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
+    background-color: transparent;
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
+    transition: 0.7s;
 }
 
 a,
 a:link,
 a:visited,
 a:active {
-    float: right;
-    margin: 5px;
-    color: #d0e4f8;
-    text-decoration: none;
+    color: #fff;
 }
 
-a:hover {
-    color: #000000;
+.navbar-brand:hover {
+    color: #fff;
+}
+
+
+/* for profile image on navbar */
+
+.inset {
+    width: 45px;
+    height: 42px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.inset img {
+    border-radius: inherit;
+    width: inherit;
+    height: inherit;
+    display: block;
+    position: relative;
+}
+
+.dropdown-menu {
+    margin-left: -100px;
+    background-color: #2E86C1;
+}
+
+.dropdown-item {
+    color: #d0e4f8;
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: transparent;
+}
+
+.navbar__menu .nav-link {
+    margin-left: 4pt;
+    backface-visibility: hidden;
+    display: inline-block;
+}
+
+.navbar__menu .nav-link {
+    opacity: 0.75;
+}
+
+.navbar__menu .nav-link:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+.navbar__menu .nav-link:after {
+    display: block;
+    content: '';
+    border-bottom: solid 1px #fff;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+}
+
+.navbar__menu .nav-link:hover:after {
+    transform: scaleX(1);
 }

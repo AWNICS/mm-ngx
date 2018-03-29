@@ -282,7 +282,7 @@ body {
 }
 
 .dropdown {
-    display: none;
+    display: block;
 }
 
 .btn-file {
