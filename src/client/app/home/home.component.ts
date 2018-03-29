@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
     if (number > 500) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
-      this.navbarComponent.navbarColor(number, '#534FFE');
+      this.navbarComponent.navbarColor(number, '#6960FF');
     } else if (this.navIsFixed && number < 1000) {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';

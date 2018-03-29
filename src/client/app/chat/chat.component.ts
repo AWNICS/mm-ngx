@@ -268,7 +268,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.receiveMessageFromSocket();
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
-    this.navbarComponent.navbarColor(0, '#534FFE');
+    this.navbarComponent.navbarColor(0, '#6960FF');
   }
 
   ngAfterViewChecked() {
