@@ -62,7 +62,7 @@ export class DoctorRegisterComponent implements OnInit {
             updatedBy: null,
         });
         this.generateNumber();
-        this.navbarComponent.navbarColor(0, '#534FFE');
+        this.navbarComponent.navbarColor(0, '#6960FF');
     }
 
     generateNumber() {

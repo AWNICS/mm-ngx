@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.navbarComponent.navbarColor(0, '#534FFE');
+    this.navbarComponent.navbarColor(0, '#6960FF');
   }
 
   login(email: string, password: string) {

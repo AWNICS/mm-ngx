@@ -40,20 +40,6 @@ header {
     border-radius: 6px;
 }
 
-
-/*#myBtn2 {
-    background-color: #4696e5;
-    color: #d0e4f8;
-    margin-left: 30px;
-    padding: 5px 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    background-image: url("./assets/png/overlay.png"), url("./assets/svg/pattern-size1.svg");
-    border: 1.5px solid #42A5F5;
-    border-radius: 6px;
-}*/
-
 button,
 .button {
     display: inline-block;
@@ -193,7 +179,7 @@ select:focus {
     z-index: 99;
     border: none;
     outline: none;
-    background-color: #534FFE;
+    background-color: #6960FF;
     color: #FFFFFF;
     cursor: pointer;
     padding: 10px;
@@ -219,6 +205,63 @@ a:hover {
     color: #FFFFFF;
 }
 
-.col-xs-5 {
-    max-width: 60%;
+.select::before {
+    position: absolute;
+    font-size: 2em;
+    top: calc(15% - 0.5em);
+}
+
+.location {
+    background: transparent;
+    outline: none;
+    margin-left: 15%;
+    color: #fff;
+}
+
+.location option {
+    color: #fff;
+    background-color: #05BD8D;
+    border-radius: 25px;
+}
+
+.col-lg-2 .location {
+    width: 75%;
+}
+
+.col-md-4 .location {
+    max-width: 75%;
+}
+
+.col-sm-5 .location {
+    max-width: 75%;
+}
+
+.col-xs-5 .location {
+    max-width: 75%;
+}
+
+.col-lg-2 .phone {
+    width: 75%;
+}
+
+.col-md-4 .phone {
+    max-width: 75%;
+}
+
+.col-sm-5 .phone {
+    max-width: 75%;
+}
+
+.col-xs-5 .phone {
+    max-width: 75%;
+}
+
+#phone {
+    border-radius: 20px;
+}
+
+.rule {
+    width: 85%;
+    height: 5px;
+    color: #fff;
 }
