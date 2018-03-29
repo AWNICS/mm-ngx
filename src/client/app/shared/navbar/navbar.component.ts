@@ -33,6 +33,7 @@ export class NavbarComponent implements OnInit {
         this.securityService.setLoginStatus(false);
         this.socketService.logout(JSON.parse(this.user).id);
         this.cookieService.remove('userDetails', { domain: 'localhost' });
+        this.cookieService.remove('token', { domain: 'localhost' });
     }
 
     navbarColor(number: number) {

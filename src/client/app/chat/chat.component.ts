@@ -273,8 +273,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       let dropdown = this.dropdown.nativeElement;
       if (this.selectedUser.role !== 'patient') {
         dropdown.style.display = 'block';
-      } else {
-        dropdown.style.display = 'none';
       }
     }, 1000);
   }
