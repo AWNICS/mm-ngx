@@ -7,12 +7,11 @@ import { ChatComponent } from './chat.component';
 import { ChatService } from './chat.service';
 import { SharedModule } from '../shared/shared.module';
 import { SocketService } from './socket.service';
-import { DoctorsListModule } from '../doctors-list/doctors-list.module';
 import { RatingModule } from 'ngx-rating';
 import { FilterPipe } from './filter.pipe';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule, RatingModule, DoctorsListModule],
+  imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule, RatingModule ],
   declarations: [ChatComponent,FilterPipe],
   exports: [ChatComponent],
   providers: [ChatService, SocketService ]
