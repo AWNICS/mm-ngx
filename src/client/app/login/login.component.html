@@ -10,9 +10,9 @@
                 <p class="info">Fill in your email and password to proceed</p>
                 <form>
                     <label>Email</label>
-                    <input type="email" placeholder="you@gmail.com">
+                    <input type="email" placeholder="you@gmail.com" #email>
                     <label>Password</label>
-                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password>
                     <button i18n type="submit" class="button button__accent" (click)="login(email.value,password.value); email.value=''; password.value='';">Log in</button>
                     <p class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign up</a></p>
                 </form>
