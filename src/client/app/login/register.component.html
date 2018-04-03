@@ -12,13 +12,13 @@
                 </p>
                 <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
                     <label>Name</label>
-                    <input type="name" placeholder="name" autocomplete>
+                    <input type="name" placeholder="name" formControlName="name" autocomplete>
                     <label>Email</label>
-                    <input type="email" placeholder="you@gmail.com" autocomplete>
+                    <input type="email" placeholder="you@gmail.com" formControlName="email" autocomplete>
                     <label>Phone No</label>
-                    <input type="text" placeholder="phone no" autocomplete>
+                    <input type="text" placeholder="phone no" formControlName="phoneNo" autocomplete>
                     <label>Password</label>
-                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <button i18n type="submit" class="button button__accent" [disabled]="registerDetails.invalid">Register</button>
                     <p class="sign-in">Already a member?&nbsp;&nbsp;<a routerLink='/login' routerLinkActive='active'>Sign in</a></p>
                 </form>
