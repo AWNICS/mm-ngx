@@ -3,7 +3,6 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-import { OrderWindowComponent } from '../order-window/order-window.component';
 import { OrderRequest } from '../shared/database/order-request';
 import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
@@ -35,8 +34,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
-  @ViewChild(OrderWindowComponent)
-  modalHtml: OrderWindowComponent;
+  //@ViewChild(OrderWindowComponent) modalHtml: OrderWindowComponent;
 
   constructor(@Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
     private specialityService: SpecialityService,
@@ -53,7 +51,7 @@ export class HomeComponent implements OnInit {
       || value.speciality === null || value.speciality === 'Select') {
       return;
     } else {
-      this.modalHtml.open();
+      //this.modalHtml.open();
     }
   }
 

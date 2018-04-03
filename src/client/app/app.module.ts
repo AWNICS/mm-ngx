@@ -8,9 +8,7 @@ import { CookieModule } from 'ngx-cookie';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AdminModule } from './admin/admin.module';
 import { HomeModule } from './home/home.module';
-import { OrderWindowModule } from './order-window/order-window.module';
 import { TermsModule } from './terms/terms.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
@@ -25,9 +23,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     HttpModule,
     AppRoutingModule,
     FormsModule,
-    AdminModule,
     HomeModule,
-    OrderWindowModule,
     ReactiveFormsModule,
     TermsModule,
     SharedModule.forRoot(),

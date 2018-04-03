@@ -1,34 +1,29 @@
 <mm-navbar></mm-navbar>
-<div class="container">
-    <div class="row">
-        <div class="col col-6">
-            <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" style="width: 100%;" class="form-control" formControlName="name" placeholder="Name" autocomplete>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="email" style="width: 100%;" class="form-control" formControlName="email" placeholder="Email" autocomplete>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" style="width: 100%;" class="form-control" formControlName="phoneNo" placeholder="Phone number" autocomplete>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="password" style="width: 100%;" class="form-control" formControlName="password" placeholder="Enter password" autocomplete>
-                    </div>
-                </div>
-                <button i18n type="submit" class="btn btn-primary" [disabled]="registerDetails.invalid">Register</button>
-                <a routerLink='/login' routerLinkActive='active'>
-                    Already a member? Sign in
-                </a>
-            </form>
+<div class="auth">
+    <div class="container">
+        <div class="auth__inner">
+            <div class="auth__media">
+                <img src="assets/svg/undraw_selfie.svg">
+            </div>
+            <div class="auth__auth"><br><br>
+                <h1 class="auth__title">Register your details with us</h1>
+                <p class="info">
+                    <small>All fields are mandatory</small>
+                </p>
+                <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
+                    <label>Name</label>
+                    <input type="name" placeholder="name" autocomplete>
+                    <label>Email</label>
+                    <input type="email" placeholder="you@gmail.com" autocomplete>
+                    <label>Phone No</label>
+                    <input type="text" placeholder="phone no" autocomplete>
+                    <label>Password</label>
+                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <button i18n type="submit" class="button button__accent" [disabled]="registerDetails.invalid">Register</button>
+                    <p class="sign-in">Already a member?&nbsp;&nbsp;<a routerLink='/login' routerLinkActive='active'>Sign in</a></p>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</div><br><br>
 <mm-footer></mm-footer>
