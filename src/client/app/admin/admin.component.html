@@ -1,8 +1,0 @@
-<mm-navbar></mm-navbar>
-<div class="container">
-    <h1>{{title}}</h1>
-    <input #search class="search" type="text" placeholder="Search..." (keydown.enter)="onSearch(search.value)"><br/><br/>
-    <ng2-smart-table [settings]="settings" [source]="source" (create)="onCreate($event)" (delete)="onDelete($event)" (edit)="onSave($event)"></ng2-smart-table>
-    <mm-create-modal></mm-create-modal>
-    <mm-edit-modal></mm-edit-modal>
-</div>
