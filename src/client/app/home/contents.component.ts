@@ -11,7 +11,7 @@ import { Component } from '@angular/core';
 export class ContentsComponent {
 
   scrollDownHidden(height: number) {
-     if( height >= 100){
+     if(height >= 100) {
       document.getElementById('scrollToNext').style.display = 'none';
     } else {
       document.getElementById('scrollToNext').style.display = 'block';

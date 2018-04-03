@@ -83,18 +83,18 @@ export class HomeComponent implements OnInit {
     if (number > 500) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
-      this.navbarComponent.navbarColor(number, '#6960FF');
     } else if (this.navIsFixed && number < 1000) {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';
-      this.navbarComponent.navbarColor(number, 'transparent');
     }
 
-    //for moving to next section
+    //for moving to next section and to show navbar
     if(number > 100) {
       this.contentsComponent.scrollDownHidden(number);
+      this.navbarComponent.navbarColor(number, '#6960FF');
     } else {
       this.contentsComponent.scrollDownHidden(number);
+      this.navbarComponent.navbarColor(number, 'transparent');
     }
   }
 
