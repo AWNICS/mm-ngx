@@ -1,12 +1,3 @@
-img {
-    border-style: none;
-}
-
-img,
-svg {
-    max-width: 100%;
-}
-
 #myIndex {
     font-family: "Lato", sans-serif;
     font-size: 15px;
@@ -81,13 +72,12 @@ li {
 }
 
 .hero__sub__down {
-    width: 1rem;
-    height: 1rem;
-    transition: 0.7s;
     cursor: pointer;
+    color: #666;
+    font-size: 23px;
 }
 
-.hero__sub__down:hover {
+.hero__sub__down :hover {
     color: #6C63FF;
 }
 
@@ -275,6 +265,8 @@ li {
     text-align: center;
     height: auto;
     margin-bottom: 0px;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
 .cta--reverse {

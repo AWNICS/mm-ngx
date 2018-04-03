@@ -57,6 +57,8 @@ button,
     transition: 0.7s;
     text-align: center;
     text-decoration: none;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
 button:hover,
@@ -209,6 +211,8 @@ a:hover {
     position: absolute;
     font-size: 2em;
     top: calc(15% - 0.5em);
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
 .location {

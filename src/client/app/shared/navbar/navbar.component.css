@@ -19,9 +19,10 @@ a:active {
 
 #logo {
     font-size: 1.325rem;
-    transition: 0;
+    transition: 0.7s;
     color: #fff;
     text-decoration: none;
+    font-family: Lato, sans-serif;
 }
 
 #logo:hover {
@@ -73,9 +74,8 @@ a:active {
     margin-left: 4pt;
     backface-visibility: hidden;
     display: inline-block;
-}
-
-.navbar__menu .nav-link {
+    font-family: Lato, sans-serif;
+    font-size: 15px;
     opacity: 0.75;
 }
 
