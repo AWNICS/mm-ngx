@@ -18,7 +18,7 @@ export class SocketService {
      * connection
      */
     connection(userId: number) {
-        const token = this.securityService.getToken();
+        const token = this.securityService.getCookie('token');
         this.socket = io(`${this.baseUrl}`, {
             query: {token: token},
             secure: true

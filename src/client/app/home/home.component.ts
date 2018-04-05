@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
     //let speciality: string = value.speciality;
     //let mobileNumber: number = value.mobileNumber;
     //this.user = this.chatService.getUser();
-    this.user = this.securityService.getUser();
+    this.user = this.securityService.getCookie('userDetails');
     /*if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       || speciality === null || speciality === 'Select') {
       return;

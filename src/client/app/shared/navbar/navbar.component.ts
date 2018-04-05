@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
+import { UserDetails } from '../database/user-details';
 
 @Component({
     moduleId: module.id,
@@ -17,14 +17,13 @@ export class NavbarComponent implements OnInit {
     picUrl: string;
 
     constructor(private socketService: SocketService,
-        private securityService: SecurityService,
-        private cookieService: CookieService) {
+        private securityService: SecurityService) {
     }
 
     ngOnInit(): void {
-        this.user = this.securityService.getUser();
+        this.user = this.securityService.getCookie('userDetails');
         if(this.user) {
-            this.loggedIn = true;
+            this.loggedIn = this.securityService.getLoginStatus();
             this.picUrl = JSON.parse(this.user).picUrl;
         }
     }
@@ -32,8 +31,8 @@ export class NavbarComponent implements OnInit {
     logout() {
         this.securityService.setLoginStatus(false);
         this.socketService.logout(JSON.parse(this.user).id);
-        this.cookieService.remove('userDetails', { domain: 'localhost' });
-        this.cookieService.remove('token', { domain: 'localhost' });
+        this.securityService.deleteCookie('userDetails');
+        this.securityService.deleteCookie('token');
     }
 
     navbarColor(number: number, color: string) {

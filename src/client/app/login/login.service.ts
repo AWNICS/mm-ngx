@@ -34,7 +34,7 @@ export class LoginService {
 
     createNewUser(userDetails: UserDetails): Promise<UserDetails> {
         const uri = `${this.url}/users`;
-        this.headers.append('Authorization', `${this.securityService.key} ${this.securityService.getToken()}`);
+        this.headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
             .post(uri, userDetails, this.options).toPromise()
             .then(response => {

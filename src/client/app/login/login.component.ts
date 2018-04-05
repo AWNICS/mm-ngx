@@ -38,10 +38,10 @@ export class LoginComponent implements OnInit {
     } else {
       console.log('id is: ', res);
       this.securityService.setLoginStatus(true);
-      this.securityService.setUser(res.user);
-      this.securityService.setToken(res.token);
+      this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
+      this.securityService.setCookie('token', res.token, 1);
       this.router.navigate([`/chat/${res.user.id}`]);
     }
     });
   }
- }
+}
