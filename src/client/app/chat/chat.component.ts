@@ -11,8 +11,8 @@ import {
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
@@ -54,6 +54,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   doctorList = true; //for listing down the doctors in modal window
   time: any;
   searchText: string;
+  online = false;
+  altPicUrl: SafeResourceUrl;
+  picUrl: SafeResourceUrl;
 
   newGroup: Group = {
     id: null,
@@ -261,6 +264,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getUserById(this.userId)
       .subscribe(user => {
         this.selectedUser = user;
+        if (user.status === 'online') {
+          this.online = true;
+          this.ref.detectChanges();
+        } else {
+          this.online = false;
+          this.ref.detectChanges();
+        }
       });
     this.socketService.connection(this.userId);
     this.getGroups();
@@ -278,6 +288,26 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         dropdown.style.display = 'block';
       }
     }, 1000);
+  }
+
+  downloadPic(fileName: string) {
+    this.chatService.downloadFile(fileName)
+      .subscribe((res) => {
+        res.onloadend = () => {
+          this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+          this.ref.detectChanges();
+        };
+      });
+  }
+
+  downloadAltPic(fileName: string) {
+    this.chatService.downloadFile(fileName)
+      .subscribe((res) => {
+        res.onloadend = () => {
+          this.altPicUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+          this.ref.detectChanges();
+        };
+      });
   }
 
   //Doctor modal window open methhode
@@ -407,8 +437,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
-    this.newGroup.createdBy = this.selectedUser.name;
-    this.newGroup.updatedBy = this.selectedUser.name;
+    this.newGroup.createdBy = this.selectedUser.firstname + this.selectedUser.lastname;
+    this.newGroup.updatedBy = this.selectedUser.firstname + this.selectedUser.lastname;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
       .subscribe((group) => {
         this.groups.push(group);
@@ -422,8 +452,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
-    this.newGroup.createdBy = this.selectedUser.name;
-    this.newGroup.updatedBy = this.selectedUser.name;
+    this.newGroup.createdBy = this.selectedUser.firstname + this.selectedUser.lastname;
+    this.newGroup.updatedBy = this.selectedUser.firstname + this.selectedUser.lastname;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
       .subscribe((group) => {
         this.groups.push(group);
@@ -539,8 +569,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .subscribe((groups) => {
+        this.selectedGroup = groups[0];
+        this.getMessage(this.selectedGroup);
         groups.map((group: Group) => {
           this.groups.push(group);
+          if(group.picture) {
+            this.downloadPic(group.picture);
+          } else {
+            this.downloadAltPic('group.png');
+          }
           this.ref.detectChanges();
         });
       });

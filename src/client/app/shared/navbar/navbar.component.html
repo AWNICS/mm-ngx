@@ -9,14 +9,19 @@
             </ul>
             <div class="my-2 my-lg-0">
                 <div class="mr-sm-2 row navbar__menu">
-                    <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active' *ngIf="!loggedIn">For doctors</a>
+                    <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active' *ngIf="!loggedIn">For Doctors</a>
                     <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
                     <div class="dropdown" *ngIf="loggedIn">
                         <a class="inset" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img [src]="picUrl">
+                            <div *ngIf="picUrl else altPic">
+                                <img [src]="picUrl">
+                            </div>
+                            <ng-template #altPic>
+                                <img [src]="altPicUrl">
+                            </ng-template>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" routerLink="/">Profile</a>
                             <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
                         </div>
                     </div>

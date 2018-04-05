@@ -10,12 +10,20 @@
             <div class="people-list" id="people-list">
                 <div class="list">
                     <div class="clearfix" (click)="getMessage(group)">
-                        <img [src]="group.picture" alt="avatar" />
+                        <div *ngIf="group.picture else alternateGroup">
+                            <img [src]="picUrl" alt="avatar" />
+                        </div>
+                        <ng-template #alternateGroup>
+                            <img [src]="altPicUrl" alt="avatar" />
+                        </ng-template>
                         <div class="about">
                             <div class="name">{{group.name}}</div>
-                            <div class="status">
+                            <div class="status" *ngIf="online else offline">
                                 <i class="fa fa-circle online"></i> online
                             </div>
+                            <ng-template class="status" #offline>
+                                <i class="fa fa-circle offline"></i> offline
+                            </ng-template>
                         </div>
                     </div>
                 </div>
@@ -30,8 +38,13 @@
 
         <div class="w3-container">
             <div class="chat">
-                <div class="chat-header clearfix" *ngIf="selectedGroup else loadThis">
-                    <img [src]="selectedGroup.picture" alt="avatar" />
+                <div class="chat-header clearfix" *ngIf="selectedGroup">
+                    <div *ngIf="selectedGroup.picture else alternateSelectedGroup">
+                        <img [src]="picUrl" alt="avatar" />
+                    </div>
+                    <ng-template #alternateSelectedGroup>
+                        <img [src]="altPicUrl" alt="avatar" />
+                    </ng-template>
                     <div class="chat-about">
                         <div class="chat-with">Chat with {{selectedGroup.name}}</div>
                         <div class="chat-num-messages">{{selectedGroup.description}}</div>
@@ -73,9 +86,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-3 col-sm-4 no-gutters">
-                                    <img class="rounded-circle" src="{{doctor.picUrl}}" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                <div class="col-lg-2 col-md-3 col-sm-4 no-gutters" *ngIf="doctor.picUrl else alternateDoc">
+                                    <img class="rounded-circle" [src]="doctor.picUrl" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
                                 </div>
+                                <ng-template #alternateDoc>
+                                    <img class="rounded-circle" [src]="altPicUrl" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                </ng-template>
                                 <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
 
                                     <div class="row">
@@ -135,10 +151,6 @@
                     </ng-template>
                     <!-- end Doctor List Modal -->
                 </div>
-                <ng-template #loadThis>
-                    <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-                    <span class="sr-only">Loading...</span>
-                </ng-template>
                 <!-- end chat-header -->
 
                 <div class="chat-history" #messageBox (scroll)="onScroll()">

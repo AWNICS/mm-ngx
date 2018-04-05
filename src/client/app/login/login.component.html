@@ -1,4 +1,4 @@
-<mm-navbar></mm-navbar><br><br>
+<mm-navbar></mm-navbar><br/>
 <div class="auth">
     <div class="container">
         <div class="auth__inner">
@@ -10,11 +10,14 @@
                 <p class="info">Fill in your email and password to proceed</p>
                 <form>
                     <label>Email</label>
-                    <input type="email" placeholder="you@gmail.com" #email>
+                    <input type="email" placeholder="you@example.com" #email>
                     <label>Password</label>
                     <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password>
                     <button i18n type="submit" class="button button__accent" (click)="login(email.value,password.value); email.value=''; password.value='';">Log in</button>
-                    <p class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign up</a></p>
+                    <a class="sign-up" routerLink='/' routerLinkActive='active'>
+                        <span>Forgot your password?</span>
+                    </a>
+                    <span class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign up!</a></span>
                 </form>
             </div>
         </div>

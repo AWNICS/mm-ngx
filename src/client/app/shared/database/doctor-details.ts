@@ -1,7 +1,8 @@
 export class DoctorDetails {
   id: number;
   socketId: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   password: string;
   picUrl: string;
   regNo: string;

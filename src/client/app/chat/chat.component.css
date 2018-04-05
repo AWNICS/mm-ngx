@@ -47,6 +47,9 @@ body {
     float: left;
     height: 60px;
     width: 60px;
+    border: none;
+    border-radius: 50%;
+    transition: 0.5s;
 }
 
 .people-list .about {
@@ -81,6 +84,9 @@ body {
     float: left;
     height: 60px;
     width: 60px;
+    border: none;
+    border-radius: 50%;
+    transition: 0.5s;
 }
 
 .chat .chat-header .chat-about {
