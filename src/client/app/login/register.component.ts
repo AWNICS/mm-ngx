@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -18,6 +18,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 export class RegisterComponent implements OnInit {
     registerDetails: FormGroup;
     userDetails: UserDetails;
+    error = '';
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
     constructor(
@@ -34,11 +35,12 @@ export class RegisterComponent implements OnInit {
         this.registerDetails = this.fb.group({
             id: null,
             socketId: null,
-            firstname: '',
-            lastname: '',
-            email: '',
-            password: '',
-            phoneNo: '',
+            firstname: ['', Validators.required],
+            lastname: ['', Validators.required],
+            email: ['', Validators.required],
+            password: ['', Validators.required],
+            confirmPassword:['', Validators.required],
+            phoneNo: ['', Validators.required],
             picUrl: '',
             status: '',
             appearUrl: null,
@@ -62,5 +64,14 @@ export class RegisterComponent implements OnInit {
         this.loginService.createNewUser(value)
             .then(response => response)
             .catch(error => error);
+    }
+
+    validatePassword({ value, valid }: { value: any, valid: boolean }) {
+        if(value.password === value.confirmPassword) {
+            this.error = '';
+            return;
+        } else {
+            this.error = 'Passwords do not match';
+        }
     }
 }

@@ -508,10 +508,10 @@ a {
 }
 
 .w3-sidebar {
-    height: 866px;
-    width: 200px;
+    height: 82% !important;
+    width: 237px !important;
     background-color: #444753;
-    position: absolute!important;
+    position: absolute !important;
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;

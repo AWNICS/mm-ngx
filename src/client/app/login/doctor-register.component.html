@@ -10,7 +10,9 @@
                 <p class="info">
                     <small>All fields are mandatory</small>
                 </p>
-                <p #msg>{{message.innerHTML}}</p>
+                <p class="error" #msg>
+                    <small>{{message}}</small>
+                </p>
                 <form novalidate [formGroup]="registerDoctorDetails" (ngSubmit)="register(registerDoctorDetails)">
                     <div class="row">
                         <div class="col">
@@ -24,12 +26,14 @@
                     </div>
                     <label>MCI Reg No.</label>
                     <input type="text" formControlName="regNo" placeholder="MCI Reg No.">
-                    <label>Email address</label>
+                    <label>Email</label>
                     <input type="email" formControlName="email" placeholder="you@example.com">
                     <label>Phone No.</label>
                     <input type="tel" id="phoneNo" formControlName="phoneNo" placeholder="98xxxxxxxx">
                     <label>Password</label>
                     <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <label>Confirm Password</label>
+                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorDetails);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <div class="row">
                         <div class="col">
                             <label>Speciality</label>
@@ -42,8 +46,8 @@
                             </select>
                         </div>
                     </div>
-                    <label>Bio</label>
-                    <textarea formControlName="description" rows="3" placeholder="" id="textarea"></textarea><br><br>
+                    <!--label>Bio</label>
+                    <textarea formControlName="description" rows="3" placeholder="" id="textarea"></textarea><br><br-->
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="termsAccepted" formControlName="termsAccepted" required>
                         <label class="custom-control-label" for="termsAccepted" style="margin-left: -12px;">I agree to the <a href="#">Terms and Conditions</a></label>

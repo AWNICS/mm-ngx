@@ -10,6 +10,9 @@
                 <p class="info">
                     <small>All fields are mandatory</small>
                 </p>
+                <p class="error">
+                    <small>{{error}}</small>
+                </p>
                 <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
                     <div class="row">
                         <div class="col">
@@ -23,10 +26,12 @@
                     </div>
                     <label>Email</label>
                     <input type="email" placeholder="you@example.com" formControlName="email" autocomplete>
-                    <label>Phone No</label>
+                    <label>Phone No.</label>
                     <input type="text" placeholder="98xxxxxxxx" formControlName="phoneNo" autocomplete>
                     <label>Password</label>
                     <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <label>Confirm Password</label>
+                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDetails);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <button i18n type="submit" class="button button__accent" [disabled]="registerDetails.invalid">Register</button>
                     <p class="sign-in">Already a member?&nbsp;&nbsp;<a routerLink='/login' routerLinkActive='active'>Sign in</a></p>
                 </form>
