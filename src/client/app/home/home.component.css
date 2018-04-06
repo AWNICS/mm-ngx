@@ -103,19 +103,6 @@ button:focus,
     }
 }
 
-#btnHomePlaceOrder:hover {
-    box-shadow: 0px 4px 10px #FFFFFF;
-}
-
-#btnHomePlaceOrder:disabled {
-    box-shadow: 0px 0px 0px #FFFFFF;
-}
-
-
-/*#myBtn2:hover {
-    box-shadow: 0px 4px 10px #FFFFFF;
-}*/
-
 
 /*
 .alert {
@@ -218,7 +205,6 @@ a:hover {
 .location {
     background: transparent;
     outline: none;
-    margin-left: 15%;
     color: #fff;
 }
 
@@ -226,22 +212,24 @@ a:hover {
     color: #fff;
     background-color: #463aff;
     border-radius: 25px;
+    width: inherit;
 }
 
-.col-lg-2 .location {
-    width: 75%;
+.col-lg-2 {
+    width: inherit;
+    margin-right: 15%;
 }
 
-.col-md-4 .location {
-    max-width: 75%;
+.col-md-3 {
+    margin-left: 14%;
 }
 
-.col-sm-5 .location {
-    max-width: 75%;
+.col-sm-4 {
+    margin-left: 14%;
 }
 
-.col-xs-5 .location {
-    max-width: 75%;
+.col-xs-8 {
+    max-width: 90%;
 }
 
 .col-lg-2 .phone {
