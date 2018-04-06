@@ -4,7 +4,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CookieModule } from 'ngx-cookie';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +27,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     TermsModule,
     SharedModule.forRoot(),
     Ng2SmartTableModule,
-    CookieModule.forRoot(),
     LoginModule,
     ChatModule,
     NgbModule.forRoot()

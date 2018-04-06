@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { ChatService } from '../../chat/chat.service';
+import { UserDetails } from '../database/user-details';
 
 @Component({
     moduleId: module.id,
@@ -22,15 +22,15 @@ export class NavbarComponent implements OnInit {
         private ref: ChangeDetectorRef,
         private socketService: SocketService,
         private securityService: SecurityService,
-        private cookieService: CookieService,
         private domSanitizer: DomSanitizer,
         private chatService: ChatService) {
     }
 
     ngOnInit(): void {
-        this.user = this.securityService.getUser();
-        if (this.user) {
-            this.loggedIn = true;
+        this.user = this.securityService.getCookie('userDetails');
+        if(this.user) {
+            this.loggedIn = this.securityService.getLoginStatus();
+            this.ref.detectChanges();
             if (JSON.parse(this.user).picUrl) {
                 this.downloadPic(JSON.parse(this.user).picUrl);
             } else {
@@ -41,7 +41,7 @@ export class NavbarComponent implements OnInit {
 
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
-            .subscribe((res) => {
+            .subscribe((res:any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
                     this.ref.detectChanges();
@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
-            .subscribe((res) => {
+            .subscribe((res:any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
                     this.ref.detectChanges();
@@ -70,8 +70,8 @@ export class NavbarComponent implements OnInit {
     logout() {
         this.securityService.setLoginStatus(false);
         this.socketService.logout(JSON.parse(this.user).id);
-        this.cookieService.remove('userDetails', { domain: 'localhost', expires: 'Thu, 01 Jan 1970 00:00:00 UTC' });
-        this.cookieService.remove('token', { domain: 'localhost', expires: 'Thu, 01 Jan 1970 00:00:00 UTC' });
+        this.securityService.deleteCookie('userDetails');
+        this.securityService.deleteCookie('token');
     }
 
     navbarColor(number: number, color: string) {

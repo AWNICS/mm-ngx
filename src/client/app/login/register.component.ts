@@ -54,7 +54,6 @@ export class RegisterComponent implements OnInit {
     register({ value, valid }: { value: UserDetails, valid: boolean }) {
         const name = value.firstname + value.lastname;
         const split = name.split(' ');
-        value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
         value.createdBy = name;
         value.status = 'offline';
         value.appearUrl = `https://appear.in/mm-${split}`;

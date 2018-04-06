@@ -13,12 +13,7 @@
                     <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
                     <div class="dropdown" *ngIf="loggedIn">
                         <a class="inset" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div *ngIf="picUrl else altPic">
-                                <img [src]="picUrl">
-                            </div>
-                            <ng-template #altPic>
-                                <img [src]="altPicUrl">
-                            </ng-template>
+                            <img [src]="picUrl">
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" routerLink="/">Profile</a>
