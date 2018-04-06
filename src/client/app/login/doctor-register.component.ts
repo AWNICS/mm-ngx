@@ -38,7 +38,8 @@ export class DoctorRegisterComponent implements OnInit {
         this.registerDoctorDetails = this.fb.group({
             id: null,
             socketId: null,
-            name: ['', Validators.required],
+            firstname: ['', Validators.required],
+            lastname: ['', Validators.required],
             email: ['', Validators.required],
             password: ['', Validators.required],
             phoneNo: ['', Validators.required],
@@ -72,11 +73,12 @@ export class DoctorRegisterComponent implements OnInit {
     }
 
     register({ value, valid }: {value: DoctorDetails, valid: boolean }) {
-        const split = value.name.split(' ');
+        const name = value.firstname + value.lastname;
+        const split = name.split(' ');
         value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
         value.appearUrl = `https://appear.in/mm-${split}`;
-        value.createdBy = value.name;
-        value.updatedBy = value.name;
+        value.createdBy = name;
+        value.updatedBy = name;
         value.role = 'doctor';
         if (valid === true) {
             this.loginService.createNewDoctor(value)

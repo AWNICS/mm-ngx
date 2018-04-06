@@ -202,14 +202,21 @@ textarea {
     text-align: left;
     font-family: Lato, sans-serif;
     font-size: 0.8em;
+    line-height: 1.4;
+    margin: .25em 0;
+    font-weight: 400;
     color: #666;
+    text-rendering: optimizeLegibility;
+    display: block;
+    -webkit-margin-before: 2.33em;
+    -webkit-margin-after: 2.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-font-smoothing: antialiased;
 }
 
-.sign-up a {
+a {
     color: #05C593;
-}
-
-.sign-up a:hover {
-    cursor: pointer;
     text-decoration: none;
+    cursor: pointer;
 }

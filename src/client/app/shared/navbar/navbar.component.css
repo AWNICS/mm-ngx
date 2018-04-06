@@ -51,14 +51,16 @@ a:active {
 
 .inset img {
     border-radius: inherit;
-    width: inherit;
-    height: inherit;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
     display: block;
     position: relative;
+    transition: 0.5s;
 }
 
 .dropdown-menu {
-    margin-left: -100px;
     background-color: #6960FF;
 }
 

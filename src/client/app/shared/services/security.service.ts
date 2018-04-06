@@ -8,9 +8,6 @@ export class SecurityService {
     private jwt: string;
     private loginStatus = false;
 
-    constructor() {
-    }
-
     setLoginStatus(status: boolean) {
         this.loginStatus = status;
     }
@@ -20,25 +17,25 @@ export class SecurityService {
     }
 
     setCookie(cname: string, cvalue: string, exdays: number) {
-        var date = new Date();
+        let date = new Date();
         date.setTime(date.getTime() + (exdays*24*60*60*1000));
-        var expires = `expires=${date.toUTCString()}`;
+        let expires = `expires=${date.toUTCString()}`;
         document.cookie = `${cname}=${cvalue};${expires};path=/`;
     }
 
     getCookie(cname: string) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
+        let name = cname + '=';
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
                 c = c.substring(1);
             }
-            if (c.indexOf(name) == 0) {
+            if (c.indexOf(name) === 0) {
                 return c.substring(name.length, c.length);
             }
         }
-        return "";
+        return '';
     }
 
     deleteCookie(cname: string) {

@@ -61,6 +61,6 @@ export class SocketService {
     }
 
     logout(userId: number): void {
-        this.socket.emit('user-logout', userId);
+        this.socket.emit('user-disconnect', userId);
     }
 }

@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
     .subscribe(res => {
       if(!res) { this.error = 'Email ID or password incorrect';
     } else {
-      console.log('id is: ', res);
       this.securityService.setLoginStatus(true);
       this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
       this.securityService.setCookie('token', res.token, 1);
