@@ -7,7 +7,8 @@
             </div>
             <div class="auth__auth">
                 <h1 class="auth__title">Access your account</h1>
-                <p class="info">Fill in your email and password to proceed</p>
+                <p class="info">Enter your registered email address and password to proceed</p>
+                <p class="error">{{error}}</p>
                 <form>
                     <label>Email</label>
                     <input type="email" placeholder="you@example.com" #email>
@@ -15,7 +16,7 @@
                     <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password>
                     <button i18n type="submit" class="button button__accent" (click)="login(email.value,password.value); email.value=''; password.value='';">Log in</button>
                     <a class="sign-up" routerLink='/' routerLinkActive='active'>
-                        <span>Forgot your password?</span>
+                        <span>Forgot Password?</span>
                     </a>
                     <span class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign up!</a></span>
                 </form>

@@ -27,6 +27,13 @@ p {
     margin-left: 14px;
 }
 
+.error {
+    color: rgb(255, 96, 96);
+    font-size: 0.8em;
+    text-align: left;
+    margin-left: 14px;
+}
+
 label {
     margin-bottom: 2pt;
     display: block;

@@ -17,15 +17,15 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 export class LoginComponent implements OnInit {
 
   user: UserDetails;
-  error: string;
+  error = '';
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   constructor(
-      private loginService: LoginService,
-      private router: Router,
-      private securityService: SecurityService
+    private loginService: LoginService,
+    private router: Router,
+    private securityService: SecurityService
   ) {
-   }
+  }
 
   ngOnInit(): void {
     this.navbarComponent.navbarColor(0, '#6960FF');
@@ -33,14 +33,15 @@ export class LoginComponent implements OnInit {
 
   login(email: string, password: string) {
     this.loginService.login(email, password)
-    .subscribe(res => {
-      if(!res) { this.error = 'Email ID or password incorrect';
-    } else {
-      this.securityService.setLoginStatus(true);
-      this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
-      this.securityService.setCookie('token', res.token, 1);
-      this.router.navigate([`/chat/${res.user.id}`]);
-    }
-    });
+      .subscribe(res => {
+        if (!res) {
+          this.error = 'Email ID or password incorrect';
+        } else {
+          this.securityService.setLoginStatus(true);
+          this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
+          this.securityService.setCookie('token', res.token, 1);
+          this.router.navigate([`/chat/${res.user.id}`]);
+        }
+      });
   }
 }
