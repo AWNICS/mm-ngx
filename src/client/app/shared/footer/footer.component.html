@@ -16,6 +16,8 @@
                     <div class="footer__row">
                         <a href="#" class="footer__link">MIT license</a>
                     </div>
+                    <a id="lang" (click)="selectLanguage('es')" *ngIf="lang !== 'es'"><img src="assets/gif/es-1936.gif" style="height: 15px; width: 20px;" alt="Español" /> Spanish(ES)</a>
+                    <a id="lang" (click)="selectLanguage('en-US')" *ngIf="lang !== 'en-US'"><img src="assets/jpg/india.jpg" style="height: 15px; width: 20px;" alt="India" /> English(IN)</a>
                 </div>
             </div>
         </div>

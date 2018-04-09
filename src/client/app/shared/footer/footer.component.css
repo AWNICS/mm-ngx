@@ -113,3 +113,15 @@ a:hover {
         border-color: #fff;
     }
 }
+
+#lang {
+    float: left;
+    color: #d9d9d9;
+    background-color: transparent;
+    text-decoration: none;
+}
+
+#lang:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
