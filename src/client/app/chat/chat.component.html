@@ -92,8 +92,7 @@
                                 <ng-template #alternateDoc>
                                     <img class="rounded-circle" [src]="altPicUrl" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
                                 </ng-template>
-                                <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
-
+                                <div class="col-lg-9 col-md-7 col-sm-12 no-gutters ml-auto">
                                     <div class="row">
                                         <div class="col-lg-12 align-self-start">
                                             <h3 class="card-title">{{doctor.name}}</h3>
@@ -122,31 +121,23 @@
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
+                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}">
                                         <div class="card card-body col-lg-4 align-self-center" id="videoImage">
-                                            <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
+                                            <button class="dropdown-item" data-toggle="modal" data-backdrop="true" data-target="#videoModal" (click)="video(videoModal)">Manual</button>
                                         </div>
                                     </div>
 
-                                    <ng-template #videoModal let-c="close" let-d="dismiss">
-                                        <div class="container-fluid">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                                            <span aria-hidden="true">&times;</span>
-                                              </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <embed width="480" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <ng-template #videoModal let-c="close" let-d="dismiss" style="border:none;">
+                                        <button type="button" class="close" style="float: right;" aria-label="Close" (click)="d('Cross click')">
+                                           <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <embed width="498" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
                                     </ng-template>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancle</button>
+                            <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
                         </div>
                     </ng-template>
                     <!-- end Doctor List Modal -->
@@ -239,29 +230,35 @@
                 <div class="chat-message clearfix">
                     <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
                         <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
-                        <i class="fa fa-paperclip dropup" data-toggle="dropdown"></i>
-                        <div class="dropdown-menu dropdown-menu-left">
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Create radio"></i>
-                                <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider();" title="Create slider"></i>
-                                <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Create checkbox"></i>
-                                <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear();" title="Start appear call"></i>
-                                <div class="file-upload" title="Upload image">
-                                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
-                                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                                </div>
-                                <div class="file-upload" title="Upload video">
-                                    <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" />
-                                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                                </div>
-                                <div class="file-upload" title="Upload file">
-                                    <input type="file" accept="application/pdf, .doc, .docx, text/plain " (change)="createFile($event.target.files)" />
-                                    <i class="fa fa-file-o" aria-hidden="true"></i>
+                        <div class="row">
+                            <div class="col col-2 dropup">
+                                <i class="fa fa-paperclip" data-toggle="dropdown"></i>
+                                <div class="dropdown-menu">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Create radio"></i>
+                                        <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider();" title="Create slider"></i>
+                                        <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Create checkbox"></i>
+                                        <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear();" title="Start appear call"></i>
+                                        <div class="file-upload" title="Upload image">
+                                            <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />
+                                            <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="file-upload" title="Upload video">
+                                            <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files)" />
+                                            <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                        </div>
+                                        <div class="file-upload" title="Upload file">
+                                            <input type="file" accept="application/pdf, .doc, .docx, text/plain " (change)="createFile($event.target.files)" />
+                                            <i class="fa fa-file-o" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col col-8"></div>
+                            <div class="col col-2">
+                                <button type="submit" [disabled]="message.invalid">Send</button>
+                            </div>
                         </div>
-
-                        <button type="submit" [disabled]="message.invalid">Send</button>
                     </form>
                 </div>
                 <!-- end chat-message -->

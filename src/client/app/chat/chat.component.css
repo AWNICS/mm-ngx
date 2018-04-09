@@ -249,7 +249,7 @@ body {
 .fa-picture-o,
 .fa-file-video-o,
 .fa-file-o {
-    font-size: 16px;
+    font-size: 25px;
     color: gray;
     margin: 5px;
     padding: 5px;
@@ -332,7 +332,6 @@ body {
 /*available state*/
 
 .led-green {
-    margin: 0 auto;
     width: 15px;
     height: 15px;
     background-color: #ABFF00;
