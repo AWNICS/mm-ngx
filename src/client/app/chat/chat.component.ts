@@ -442,7 +442,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   createGroupAuto() {
     this.newGroup.name = 'Consultation room';
-    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
@@ -457,7 +456,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   createGroupManual(doctor: DoctorDetails) {
     this.newGroup.name = 'Consultation room';
-    this.newGroup.picture = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';

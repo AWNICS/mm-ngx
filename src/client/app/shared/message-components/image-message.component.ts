@@ -20,7 +20,7 @@ import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
     `,
     styles: [`
     img {
-        max-width: 70%    !important;
+        max-width: 50%    !important;
         height: auto   !important;
     }
     `]
