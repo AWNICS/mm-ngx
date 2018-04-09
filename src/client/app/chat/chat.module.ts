@@ -9,11 +9,12 @@ import { SharedModule } from '../shared/shared.module';
 import { SocketService } from './socket.service';
 import { RatingModule } from 'ngx-rating';
 import { FilterPipe } from './filter.pipe';
+import { DatePipe } from './date.pipe';
 
 @NgModule({
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule, RatingModule ],
-  declarations: [ChatComponent,FilterPipe],
+  declarations: [ChatComponent,FilterPipe, DatePipe],
   exports: [ChatComponent],
-  providers: [ChatService, SocketService ]
+  providers: [ChatService, SocketService]
 })
 export class ChatModule { }

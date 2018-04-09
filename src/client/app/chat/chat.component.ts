@@ -9,11 +9,10 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import * as moment from 'moment';
 
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
@@ -22,6 +21,7 @@ import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
 import { DoctorDetails } from '../shared/database/doctor-details';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SecurityService } from '../shared/services/security.service';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -52,7 +52,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
-  time: any;
   searchText: string;
   online = false;
   altPicUrl: SafeResourceUrl;
@@ -255,16 +254,23 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
     private domSanitizer: DomSanitizer,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private securityService: SecurityService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
-    this.chatService.getUserById(this.userId)
+    const cookie = this.securityService.getCookie('userDetails');
+    if(cookie === '' || this.userId !== JSON.parse(cookie).id) {
+      this.router.navigate([`/login`]);
+    } else if(this.userId === JSON.parse(cookie).id) {
+      this.chatService.getUserById(this.userId)
       .subscribe(user => {
         this.selectedUser = user;
         if (user.status === 'online') {
+          this.securityService.setLoginStatus(true);
           this.online = true;
           this.ref.detectChanges();
         } else {
@@ -279,6 +285,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.receiveUpdatedMessageFromSocket();
     this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
     this.navbarComponent.navbarColor(0, '#6960FF');
+    } else {
+      this.router.navigate([`/`]);
+    }
   }
 
   ngAfterViewChecked() {
@@ -488,7 +497,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -502,7 +510,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            this.time = moment(message.createdTime).format('LT');
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -520,7 +527,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
       .subscribe((msg) => {
         msg.map((message: any) => {
-          this.time = moment(message.createdTime).format('LT');
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -549,7 +555,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
-          this.time = moment(msg.createdTime).format('LT');
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();

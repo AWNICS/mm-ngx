@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { SocketService } from '../../chat/socket.service';
@@ -13,7 +13,7 @@ import { UserDetails } from '../database/user-details';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewChecked {
     loggedIn: boolean = false;
     user: any;
     picUrl: SafeResourceUrl;
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
         private chatService: ChatService) {
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
         this.user = this.securityService.getCookie('userDetails');
         if(this.user) {
             this.loggedIn = this.securityService.getLoginStatus();
@@ -37,6 +37,10 @@ export class NavbarComponent implements OnInit {
                 this.downloadAltPic(JSON.parse(this.user).role);
             }
         }
+    }
+
+    ngAfterViewChecked() {
+        this.loggedIn = this.securityService.getLoginStatus();
     }
 
     downloadPic(filename: string) {

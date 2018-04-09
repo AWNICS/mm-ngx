@@ -26,7 +26,7 @@ export class DoctorRegisterComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private loginService: LoginService,
-        private chatService: ChatService
+        private chatService: ChatService,
     ) {
     }
 
@@ -42,13 +42,14 @@ export class DoctorRegisterComponent implements OnInit {
             lastname: ['', Validators.required],
             email: ['', Validators.required],
             password: ['', Validators.required],
+            confirmPassword:['', Validators.required],
             phoneNo: ['', Validators.required],
             picUrl: null,
             role: null,
             regNo: ['', Validators.required],
             speciality: ['', Validators.required],
             experience: ['', Validators.required],
-            description: ['', Validators.required],
+            description: [''],
             status: null,
             waitingTime: null,
             rating: null,
@@ -73,9 +74,8 @@ export class DoctorRegisterComponent implements OnInit {
     }
 
     register({ value, valid }: {value: DoctorDetails, valid: boolean }) {
-        const name = value.firstname + value.lastname;
+        const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
-        value.picUrl = 'https://d30y9cdsu7xlg0.cloudfront.net/png/363633-200.png';
         value.appearUrl = `https://appear.in/mm-${split}`;
         value.createdBy = name;
         value.updatedBy = name;
@@ -84,6 +84,7 @@ export class DoctorRegisterComponent implements OnInit {
             this.loginService.createNewDoctor(value)
             .then((res) => {
                 this.message = 'Registration successful!';
+                this.msg.nativeElement.innerText = 'Registration success';
                 this.registerDoctorDetails.reset();
                 setTimeout(() => {
                     this.msg.nativeElement.style.display = 'none';
@@ -95,5 +96,14 @@ export class DoctorRegisterComponent implements OnInit {
                 this.msg.nativeElement.style.display = 'none';
             }, 10000);
           }
+    }
+
+    validatePassword({ value, valid }: {value: any, valid: boolean }) {
+        if(value.password === value.confirmPassword) {
+            this.message = '';
+            return;
+        } else {
+            this.message = 'Passwords do not match';
+        }
     }
 }
