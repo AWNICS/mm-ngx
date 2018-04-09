@@ -121,17 +121,18 @@
                                         </div>
                                     </div>
 
-                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}">
+                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
                                         <div class="card card-body col-lg-4 align-self-center" id="videoImage">
-                                            <button class="dropdown-item" data-toggle="modal" data-backdrop="true" data-target="#videoModal" (click)="video(videoModal)">Manual</button>
+                                            <button class="dropdown-item" data-toggle="modal" data-target="#videoModal" (click)="video(videoModal)">Manual</button>
+                                            <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
                                         </div>
                                     </div>
 
-                                    <ng-template #videoModal let-c="close" let-d="dismiss" style="border:none;">
+                                    <ng-template #videoModal let-c="close" let-d="dismiss">
                                         <button type="button" class="close" style="float: right;" aria-label="Close" (click)="d('Cross click')">
                                            <span aria-hidden="true">&times;</span>
                                         </button>
-                                        <embed width="498" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
+                                        <embed width="500" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
                                     </ng-template>
                                 </div>
                             </div>
@@ -267,4 +268,10 @@
         </div>
     </div>
 </div>
-<mm-footer style="margin-top:70px;"></mm-footer>
+<footer>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <span>Awnics Technologies Pvt. Ltd.</span>
+        </div>
+    </div>
+</footer>

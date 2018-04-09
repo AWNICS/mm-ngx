@@ -36,6 +36,13 @@ label {
     margin-left: 14px;
 }
 
+.error {
+    color: rgb(255, 96, 96);
+    font-size: 1em;
+    text-align: left;
+    margin-left: 14px;
+}
+
 .auth {
     padding-top: 102.66667px;
 }

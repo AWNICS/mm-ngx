@@ -18,6 +18,11 @@ body {
     border-radius: 5px;
 }
 
+#sidebar {
+    color: #F2F5F8 !important;
+    float: right !important;
+}
+
 .people-list {
     width: 260px;
     float: left;
@@ -73,17 +78,87 @@ body {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     color: #434651;
+    height: 82%;
+}
+
+
+/*laptop or desktop devices*/
+
+@media screen and (min-width: 993px) {
+    .chat {
+        height: 82vh !important;
+    }
+}
+
+
+/*laptop or desktop devices*/
+
+@media screen and (min-width: 360px) and (max-width: 992px) {
+    .chat {
+        height: 77vh !important;
+    }
+    .chat .chat-history {
+        height: 48vh !important;
+    }
+}
+
+
+/* iPad pro (1024 x 1366)*/
+
+@media screen and (width: 1024px) {
+    .chat {
+        height: 82vh !important;
+    }
+    .chat .chat-history {
+        height: 67vh !important;
+    }
+}
+
+
+/*iPad (768 x 1024)*/
+
+@media screen and (width: 768px) {
+    .chat {
+        height: 82vh !important;
+    }
+    .chat .chat-history {
+        height: 62vh !important;
+    }
+}
+
+
+/*iPhone 6/7/8 plus (414 x 736)*/
+
+@media screen and (width: 414px) {
+    .chat {
+        height: 77vh !important;
+    }
+    .chat .chat-history {
+        height: 51vh !important;
+    }
+}
+
+
+/*iPhone 6/7/8 (375 x 667)*/
+
+@media screen and (width: 375px) {
+    .chat {
+        height: 76vh !important;
+    }
+    .chat .chat-history {
+        height: 47vh !important;
+    }
 }
 
 .chat .chat-header {
-    padding: 20px;
+    padding: 10px;
     border-bottom: 2px solid white;
 }
 
 .chat .chat-header img {
     float: left;
-    height: 60px;
-    width: 60px;
+    height: 50px;
+    width: 50px;
     border: none;
     border-radius: 50%;
     transition: 0.5s;
@@ -115,7 +190,21 @@ body {
     padding: 30px 30px 20px;
     border-bottom: 2px solid white;
     overflow-y: scroll;
-    height: 575px;
+    height: 350px;
+}
+
+.chat-history::-webkit-scrollbar {
+    width: 0.4em;
+}
+
+.chat-history::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }
 
 .chat .chat-history .message-data {
@@ -125,31 +214,34 @@ body {
 .chat .chat-history .message-data-time {
     color: #a8aab1;
     padding-left: 6px;
+    font-size: 0.7em;
+}
+
+.chat .chat-history .message-data-name {
+    font-size: 0.8em;
 }
 
 .chat .chat-history .message {
     color: white;
-    padding: 18px 20px;
+    padding: 8px 10px;
     line-height: 26px;
-    font-size: 16px;
+    font-size: 0.8em;
     border-radius: 7px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     width: 70%;
     position: relative;
 }
 
 .chat .chat-history .message:after {
-    bottom: 100%;
-    left: 7%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
     position: absolute;
-    pointer-events: none;
-    border-bottom-color: #86BB71;
-    border-width: 10px;
-    margin-left: -10px;
+    content: "";
+    top: -7px;
+    left: 2%;
+    border-style: solid;
+    border-width: 0px 12px 12px;
+    border-color: #86BB71 transparent;
+    display: block;
+    width: 0;
 }
 
 .chat .chat-history .my-message {
@@ -161,20 +253,28 @@ body {
 }
 
 .chat .chat-history .other-message:after {
-    border-bottom-color: #94C2ED;
-    left: 93%;
+    position: absolute;
+    content: "";
+    top: -7px;
+    left: 87%;
+    border-style: solid;
+    border-width: 0px 12px 12px;
+    border-color: #94C2ED transparent;
+    display: block;
+    width: 0;
 }
 
 .chat .chat-message {
-    padding: 30px;
+    padding: 15px;
 }
 
 .chat .chat-message textarea {
     width: 100%;
+    height: 60px;
     border: none;
-    padding: 10px 20px;
+    padding: 5px 10px;
     font: 14px/22px "Lato", Arial, sans-serif;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 5px;
     resize: none;
 }
@@ -377,4 +477,15 @@ body {
 
 #videoImage {
     border: none;
+}
+
+footer {
+    position: absolute;
+    background-color: #333C44;
+    color: #9E9E9E;
+    height: 5%;
+    width: 100%;
+    padding: 5px 0px 5px 0px;
+    margin: 0px;
+    bottom: 0;
 }

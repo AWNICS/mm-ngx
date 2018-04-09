@@ -357,7 +357,7 @@ a {
 .w3-button {
     border: none;
     display: inline-block;
-    padding: 8px 16px;
+    padding: 5px 10px;
     vertical-align: middle;
     overflow: hidden;
     text-decoration: none;
@@ -508,15 +508,33 @@ a {
 }
 
 .w3-sidebar {
-    height: 866px;
-    width: 200px;
+    height: 90% !important;
+    width: 237px !important;
     background-color: #444753;
-    position: absolute!important;
+    position: absolute !important;
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
+}
+
+@media screen and (min-width: 993px) {
+    .w3-sidebar {
+        height: 82% !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .w3-sidebar {
+        height: 84% !important;
+    }
+}
+
+@media screen and (width: 768px) {
+    .w3-sidebar {
+        height: 86% !important;
+    }
 }
 
 .w3-bar-block .w3-dropdown-hover,
@@ -533,7 +551,7 @@ a {
 .w3-bar-block .w3-dropdown-click .w3-button {
     width: 100%;
     text-align: left;
-    padding: 8px 16px;
+    padding: 5px 10px;
 }
 
 .w3-main,
