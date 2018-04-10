@@ -1,6 +1,5 @@
 import {
   Component,
-  AfterViewChecked,
   OnInit,
   ElementRef,
   ViewChild,
@@ -33,12 +32,11 @@ import { SecurityService } from '../shared/services/security.service';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit {
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
-  @ViewChild('dropdown') dropdown: ElementRef;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
@@ -288,15 +286,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     } else {
       this.router.navigate([`/`]);
     }
-  }
-
-  ngAfterViewChecked() {
-    setTimeout(() => {
-      let dropdown = this.dropdown.nativeElement;
-      if (this.selectedUser.role !== 'patient') {
-        dropdown.style.display = 'block';
-      }
-    }, 1000);
   }
 
   downloadPic(fileName: string) {

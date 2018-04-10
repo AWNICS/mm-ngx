@@ -47,7 +47,7 @@
                     <div class="chat-with">Chat with {{selectedGroup.name}}</div>
                     <div class="chat-num-messages">{{selectedGroup.description}}</div>
                 </div>
-                <div class="dropdown top-dropdown" style="float: right;" #dropdown>
+                <div class="dropdown top-dropdown" style="float: right;" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Create group
                             </button>
