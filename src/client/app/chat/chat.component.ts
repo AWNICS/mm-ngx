@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   message: FormGroup;
   oldGroupId = 1;
-  offset = 0;
+  page = 1;
   groupSelected = false;
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
@@ -481,7 +481,7 @@ export class ChatComponent implements OnInit {
     const size = 20;
     if (this.oldGroupId === group.id && !this.groupSelected) {
       // if the selected group is same, then append messages
-      this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
+      this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
@@ -492,9 +492,9 @@ export class ChatComponent implements OnInit {
     } else if (this.oldGroupId !== group.id) {
       // else if user selects different group, clear the messages from array and load new messages
       this.messages = [];
-      this.offset = 0;
+      this.page = 1;
       this.oldGroupId = group.id;
-      this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
+      this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
@@ -511,9 +511,9 @@ export class ChatComponent implements OnInit {
 
   getMoreMessages(group: Group) {
     const size = 20;
-    this.chatService.getMessages(this.selectedUser.id, group.id, this.offset, size)
-      .subscribe((msg) => {
-        msg.map((message: any) => {
+    this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+      .subscribe((msgs) => {
+        msgs.map((message: any) => {
           this.messages.unshift(message);
           this.ref.detectChanges();
         });
@@ -583,7 +583,7 @@ export class ChatComponent implements OnInit {
   onScroll() {
     const scrollPane: any = this.messageBox.nativeElement;
     if (scrollPane.scrollTop === 0) {
-      this.offset = this.offset + 20;
+      this.page = this.page + 1;
       this.getMoreMessages(this.selectedGroup);
     }
   }
