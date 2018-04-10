@@ -66,12 +66,14 @@ export class ChatService {
     }
 
     /** GET messages from the server */
-    getMessages(userId: number, groupId: number, offset: number, size: number): Observable<Message[]> {
-        const uri = `${this.url}/messages/users/${userId}/groups/${groupId}?offset=${offset}&size=${size}`;
+    getMessages(userId: number, groupId: number, page: number, size: number): Observable<Message[]> {
+        const uri = `${this.url}/messages/users/${userId}/groups/${groupId}?page=${page}&size=${size}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, {headers: headers})
-            .map(res => res.json())
+            .map(res => {
+                return res.json();
+            })
             .catch(this.handleError);
     }
 
