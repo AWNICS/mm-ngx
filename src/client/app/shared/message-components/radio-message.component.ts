@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
-import { ChatService } from '../../chat/chat.service';
 import { UserDetails } from '../database/user-details';
+import { SecurityService } from '../services/security.service';
 
 /**
  * RadioMessageComponent to display the radio message
@@ -33,20 +33,20 @@ export class RadioMessageComponent implements OnInit {
     header: string;
     options: string[];
     selectedUser: UserDetails;
-    enable: boolean = true;
+    enable = true;
 
-    constructor( private socketService: SocketService, private chatService: ChatService ) {
+    constructor( private socketService: SocketService, private securityService: SecurityService ) {
     }
 
     ngOnInit() {
         this.options = this.message.contentData.data;
         this.header = this.message.text;
-        /*this.selectedUser = this.chatService.getUser();
+        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if(this.selectedUser.id === this.message.senderId) {
             this.enable = false;
         } else {
             this.enable = true;
-        }*/
+        }
     }
 
     onSelectionChange(option:string) {
