@@ -82,7 +82,7 @@ export class DoctorRegisterComponent implements OnInit {
         value.role = 'doctor';
         if (valid === true) {
             this.loginService.createNewDoctor(value)
-            .then((res) => {
+            .subscribe((res) => {
                 this.message = 'Registration successful!';
                 this.msg.nativeElement.innerText = 'Registration success';
                 this.registerDoctorDetails.reset();

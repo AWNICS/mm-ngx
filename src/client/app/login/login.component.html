@@ -11,9 +11,9 @@
                 <p class="error">{{error}}</p>
                 <form>
                     <label>Email</label>
-                    <input type="email" placeholder="you@example.com" #email>
+                    <input type="email" placeholder="you@example.com" #email required>
                     <label>Password</label>
-                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password>
+                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password required>
                     <button i18n type="submit" class="button button__accent" (click)="login(email.value,password.value); email.value=''; password.value='';">Log in</button>
                     <a class="sign-up" routerLink='/' routerLinkActive='active'>
                         <span>Forgot Password?</span>

@@ -267,7 +267,9 @@ export class ChatComponent implements OnInit {
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
-          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`);
+          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+            `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
+          );
           if (user.status === 'online') {
             this.securityService.setLoginStatus(true);
             this.online = true;

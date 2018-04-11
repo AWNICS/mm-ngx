@@ -62,8 +62,7 @@ export class RegisterComponent implements OnInit {
         value.role = 'patient';
         value.updatedBy = name;
         this.loginService.createNewUser(value)
-            .then(response => response)
-            .catch(error => error);
+            .subscribe(response => response);
     }
 
     validatePassword({ value, valid }: { value: any, valid: boolean }) {

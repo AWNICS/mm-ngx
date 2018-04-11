@@ -16,7 +16,7 @@ export class LoginService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000';  // URL to access server
+    private url = 'http://http://35.226.156.161:3000';  // URL to access server
 
     constructor(
         private router: Router,
@@ -28,31 +28,30 @@ export class LoginService {
     login(email: string, password: string): Observable<any> {
         const uri = `${this.url}/login`;
         return this.http.post(uri,{email:email, password: password})
-        .map(res => res.json())
-        .catch(this.handleError);
+        .map(res => res.json());
     }
 
-    createNewUser(userDetails: UserDetails): Promise<UserDetails> {
+    createNewUser(userDetails: UserDetails): Observable<UserDetails> {
         const uri = `${this.url}/users`;
         this.headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
-            .post(uri, userDetails, this.options).toPromise()
-            .then(response => {
+            .post(uri, userDetails, this.options)
+            .map(response => {
                 this.router.navigate(['/login']);
                 return response.json() as UserDetails;
             })
             .catch(this.handleError);
     }
 
-    createNewDoctor(doctorDetails: DoctorDetails): Promise<DoctorDetails> {
+    createNewDoctor(doctorDetails: DoctorDetails): Observable<DoctorDetails> {
         const url = `${this.url}/doctors`;
         return this.http
-            .post(url, doctorDetails, this.options).toPromise()
-            .then(response => response.json() as DoctorDetails)
+            .post(url, doctorDetails, this.options)
+            .map(response => response.json() as DoctorDetails)
             .catch(this.handleError);
     }
 
-    private handleError(error: any): Promise<any> {
-        return Promise.reject(error.message || error);
+    private handleError(error: any): Observable<any> {
+        return Observable.throw(error.message || error);
     }
 }
