@@ -17,7 +17,7 @@ import { SecurityService } from '../shared/services/security.service';
 export class ChatService {
     private headers = new Headers();
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://http://35.226.156.161:3000';
+    private url = 'http://35.226.156.161:3000';
     private user: UserDetails;
     private group: Group;
 
