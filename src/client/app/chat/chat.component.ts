@@ -52,8 +52,8 @@ export class ChatComponent implements OnInit {
   doctorList = true; //for listing down the doctors in modal window
   searchText: string;
   online = false;
-  altPicUrl: SafeResourceUrl;
-  picUrl: SafeResourceUrl;
+  altGroupPic: string;
+  altDocPic: string;
 
   newGroup: Group = {
     id: null,
@@ -261,57 +261,31 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     const cookie = this.securityService.getCookie('userDetails');
-    if(cookie === '' || this.userId !== JSON.parse(cookie).id) {
+    if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
-    } else if(this.userId === JSON.parse(cookie).id) {
+    } else if (this.userId === JSON.parse(cookie).id) {
       this.chatService.getUserById(this.userId)
-      .subscribe(user => {
-        this.selectedUser = user;
-        if (user.status === 'online') {
-          this.securityService.setLoginStatus(true);
-          this.online = true;
-          this.ref.detectChanges();
-        } else {
-          this.online = false;
-          this.ref.detectChanges();
-        }
-      });
-    this.socketService.connection(this.userId);
-    this.getGroups();
-    this.createForm();
-    this.receiveMessageFromSocket();
-    this.receiveUpdatedMessageFromSocket();
-    this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl('this.selectedUser.appearUrl');
-    this.navbarComponent.navbarColor(0, '#6960FF');
+        .subscribe(user => {
+          this.selectedUser = user;
+          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`);
+          if (user.status === 'online') {
+            this.securityService.setLoginStatus(true);
+            this.online = true;
+            this.ref.detectChanges();
+          } else {
+            this.online = false;
+            this.ref.detectChanges();
+          }
+        });
+      this.socketService.connection(this.userId);
+      this.getGroups();
+      this.createForm();
+      this.receiveMessageFromSocket();
+      this.receiveUpdatedMessageFromSocket();
+      this.navbarComponent.navbarColor(0, '#6960FF');
     } else {
       this.router.navigate([`/`]);
     }
-  }
-
-  downloadPic(fileName: string) {
-    this.chatService.downloadFile(fileName)
-      .subscribe((res) => {
-        res.onloadend = () => {
-          this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
-          this.ref.detectChanges();
-        };
-      });
-  }
-
-  downloadAltPic(fileName: string) {
-    this.chatService.downloadFile(fileName)
-      .subscribe((res) => {
-        res.onloadend = () => {
-          this.altPicUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
-          this.ref.detectChanges();
-        };
-      });
-  }
-
-  //Doctor modal window open methhode
-  openDoctor(doctorModal: any) {
-    this.getDoctors();
-    this.modalService.open(doctorModal, { size: 'lg' });
   }
 
   createForm() {
@@ -475,6 +449,45 @@ export class ChatComponent implements OnInit {
     }
   }
 
+  // get all groups of the logged in user
+  getGroups() {
+    this.chatService.getGroups(this.userId)
+      .subscribe((groups) => {
+        this.selectedGroup = groups[0];
+        this.getMessage(this.selectedGroup);
+        groups.map((group: Group) => {
+          this.groups.push(group);
+          if (group.picture) {
+            this.chatService.downloadFile(group.picture)
+              .subscribe((res) => {
+                res.onloadend = () => {
+                  group.picture = res.result;
+                  this.ref.detectChanges();
+                };
+              });
+          } else {
+            this.downloadAltPic('group.png');
+          }
+          this.ref.detectChanges();
+        });
+      });
+  }
+
+  // download a default image for profile image
+  downloadAltPic(fileName: string) {
+    this.chatService.downloadFile(fileName)
+      .subscribe((res) => {
+        res.onloadend = () => {
+          if(fileName === 'group.png') {
+            this.altGroupPic = res.result;
+          } else {
+            this.altDocPic = res.result;
+          }
+          this.ref.detectChanges();
+        };
+      });
+  }
+
   getMessage(group: Group) {
     this.chatService.setGroup(group);
     this.selectedGroup = group;
@@ -554,32 +567,18 @@ export class ChatComponent implements OnInit {
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
           this.ref.detectChanges();
+          this.scrollToBottom();
         }
       });
   }
 
-  getGroups() {
-    this.chatService.getGroups(this.userId)
-      .subscribe((groups) => {
-        this.selectedGroup = groups[0];
-        this.getMessage(this.selectedGroup);
-        groups.map((group: Group) => {
-          this.groups.push(group);
-          if(group.picture) {
-            this.downloadPic(group.picture);
-          } else {
-            this.downloadAltPic('group.png');
-          }
-          this.ref.detectChanges();
-        });
-      });
-  }
-
+  // scroll to bottom after a new message or as a new group is selected
   scrollToBottom() {
     const scrollPane: any = this.messageBox.nativeElement;
     scrollPane.scrollTop = scrollPane.scrollHeight;
   }
 
+  // call get more messages to get next page of messages
   onScroll() {
     const scrollPane: any = this.messageBox.nativeElement;
     if (scrollPane.scrollTop === 0) {
@@ -595,10 +594,19 @@ export class ChatComponent implements OnInit {
         .subscribe((doctors) => {
           doctors.map((doctor: any) => {
             this.doctors.push(doctor);
-            this.ref.detectChanges();
+            if (doctor.picUrl) {
+              this.chatService.downloadFile(doctor.picUrl)
+                .subscribe((res) => {
+                  res.onloadend = () => {
+                    doctor.picUrl = res.result;
+                    this.ref.detectChanges();
+                  };
+                });
+            } else {
+              this.downloadAltPic('doc.png');
+            }
           });
         });
-
     }
     this.doctorList = false;
   }
@@ -608,10 +616,18 @@ export class ChatComponent implements OnInit {
     this.modalService.open(videoModal);
   }
 
+  //Doctor modal window open method
+  openDoctor(doctorModal: any) {
+    this.getDoctors();
+    this.modalService.open(doctorModal, { size: 'lg' });
+  }
+
+  // open the slider
   open() {
     this.mySidebar.nativeElement.style.display = 'block';
   }
 
+  // close the slider
   close() {
     this.mySidebar.nativeElement.style.display = 'none';
   }

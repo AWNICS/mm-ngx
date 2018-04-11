@@ -10,10 +10,11 @@ import { SocketService } from './socket.service';
 import { RatingModule } from 'ngx-rating';
 import { FilterPipe } from './filter.pipe';
 import { DatePipe } from './date.pipe';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   imports: [CommonModule, SharedModule, FormsModule, ReactiveFormsModule, ChatRoutingModule, RatingModule ],
-  declarations: [ChatComponent,FilterPipe, DatePipe],
+  declarations: [ChatComponent, FilterPipe, DatePipe, SafePipe],
   exports: [ChatComponent],
   providers: [ChatService, SocketService]
 })

@@ -11,10 +11,10 @@
                 <div class="list">
                     <div class="clearfix" (click)="getMessage(group)">
                         <div *ngIf="group.picture else alternateGroup">
-                            <img [src]="picUrl" alt="avatar" />
+                            <img [src]="group.picture | safe: 'url'" alt="avatar" />
                         </div>
                         <ng-template #alternateGroup>
-                            <img [src]="altPicUrl" alt="avatar" />
+                            <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
                         </ng-template>
                         <div class="about">
                             <div class="name">{{group.name}}</div>
@@ -38,13 +38,13 @@
         <div class="chat">
             <div class="chat-header clearfix" *ngIf="selectedGroup">
                 <div *ngIf="selectedGroup.picture else alternateSelectedGroup">
-                    <img [src]="picUrl" alt="avatar" />
+                    <img [src]="selectedGroup.picture | safe: 'url'" alt="avatar" />
                 </div>
                 <ng-template #alternateSelectedGroup>
-                    <img [src]="altPicUrl" alt="avatar" />
+                    <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
                 </ng-template>
                 <div class="chat-about">
-                    <div class="chat-with">Chat with {{selectedGroup.name}}</div>
+                    <div class="chat-with">{{selectedGroup.name}}</div>
                     <div class="chat-num-messages">{{selectedGroup.description}}</div>
                 </div>
                 <div class="dropdown top-dropdown" style="float: right;" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}">
@@ -85,10 +85,10 @@
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-3 col-sm-4 no-gutters" *ngIf="doctor.picUrl else alternateDoc">
-                                <img class="rounded-circle" [src]="doctor.picUrl" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                <img class="rounded-circle" [src]="doctor.picUrl | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
                             </div>
                             <ng-template #alternateDoc>
-                                <img class="rounded-circle" [src]="altPicUrl" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                <img class="rounded-circle" [src]="altDocPic | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
                             </ng-template>
                             <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
 
