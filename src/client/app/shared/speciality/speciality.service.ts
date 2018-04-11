@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable()
 export class SpecialityService {
 
-    private specialityUrl = 'http://localhost:3000/specialities/controllers/readAllSpecialities';
+    private specialityUrl = 'http://http://35.226.156.161:3000/specialities/controllers/readAllSpecialities';
 
     constructor(private http: Http) {}
 

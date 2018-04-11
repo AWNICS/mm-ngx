@@ -102,6 +102,24 @@ body {
     }
 }
 
+@media screen and (width: 1920px) {
+    .chat {
+        height: 77vh !important;
+    }
+    .chat .chat-history {
+        height: 55vh !important;
+    }
+}
+
+@media screen and (width: 1600px) {
+    .chat {
+        height: 77vh !important;
+    }
+    .chat .chat-history {
+        height: 52vh !important;
+    }
+}
+
 
 /* iPad pro (1024 x 1366)*/
 
