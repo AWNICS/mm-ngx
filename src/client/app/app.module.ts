@@ -5,6 +5,9 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeModule } from './home/home.module';
@@ -12,9 +15,8 @@ import { TermsModule } from './terms/terms.module';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './login/login.module';
 import { ChatModule } from './chat/chat.module';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-//ng2-smart-tables
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ProfileModule } from './profile/profile.module';
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     Ng2SmartTableModule,
     LoginModule,
     ChatModule,
-    NgbModule.forRoot()
+    ProfileModule,
+    NgbModule.forRoot(),
+    PipesModule.forRoot()
     ],
   declarations: [AppComponent],
   providers: [{

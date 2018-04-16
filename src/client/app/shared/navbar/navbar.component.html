@@ -16,7 +16,7 @@
                             <img [src]="picUrl">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" routerLink="/">Profile</a>
+                            <a class="dropdown-item" [routerLink]="['/profile',user.id]">Profile</a>
                             <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
                         </div>
                     </div>
