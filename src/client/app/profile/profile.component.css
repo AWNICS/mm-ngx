@@ -1,0 +1,149 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background: #C5DDEB;
+    font: 14px/20px "Lato", Arial, sans-serif;
+    padding: 40px 0;
+    color: white;
+}
+
+.container {
+    padding-top: 102.66667px;
+}
+
+.display-image {
+    max-width: 150px;
+    max-height: 150px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 100%;
+    overflow: hidden;
+    transition: all 1s;
+    transition: .5s ease;
+}
+
+.display-image input[type='file'] {
+    height: 150px;
+    max-width: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+@media (max-width: 575.98px) {
+    .col-xs-12 {
+        -webkit-box-flex: 0;
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .display-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .profile-title {
+        text-align: center;
+        margin-left: 0 !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .profile-title {
+        width: 50%;
+        flex-shrink: 0;
+    }
+}
+
+.profile-title {
+    font-size: 1.6em;
+    margin-left: 10px;
+}
+
+input {
+    border: 1px solid #eee;
+    width: 100%;
+    transition: 0.7s;
+    color: #111;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    padding: 10pt 20pt;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin-bottom: 1.4em;
+    display: block;
+    font-size: 14px;
+}
+
+input:focus,
+select:focus {
+    border-color: rgba(108, 99, 255, 0.5);
+    outline: 0;
+    background-color: #ffffff;
+}
+
+select {
+    border: 1px solid #eee;
+    width: 100%;
+    transition: 0.7s;
+    color: #111;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    padding: 7pt 20pt;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin-bottom: 1.4em;
+    display: block;
+    font-size: 14px;
+}
+
+button,
+.button {
+    display: inline-block;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #6C63FF;
+    color: #6C63FF;
+    font-weight: 400;
+    transition: 0.7s;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+    outline: none;
+}
+
+.button-save {
+    background-color: #06d19c;
+    border-color: #06d19c;
+    color: #fff;
+}
+
+.button-save:hover {
+    background-color: #05bd8d;
+    border-color: #05bd8d;
+    color: #fff;
+}

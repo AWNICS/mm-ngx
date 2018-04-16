@@ -15,7 +15,7 @@ import { UserDetails } from '../database/user-details';
 
 export class NavbarComponent implements OnInit, AfterViewChecked {
     loggedIn: boolean = false;
-    user: any;
+    user: UserDetails;
     picUrl: SafeResourceUrl;
 
     constructor(
@@ -27,14 +27,16 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
-        this.user = this.securityService.getCookie('userDetails');
-        if(this.user) {
-            this.loggedIn = this.securityService.getLoginStatus();
-            this.ref.detectChanges();
-            if (JSON.parse(this.user).picUrl) {
-                this.downloadPic(JSON.parse(this.user).picUrl);
-            } else {
-                this.downloadAltPic(JSON.parse(this.user).role);
+        this.loggedIn = this.securityService.getLoginStatus();
+        if (this.loggedIn == true) {
+            this.user = JSON.parse(this.securityService.getCookie('userDetails'));
+            if (this.user) {
+                this.ref.detectChanges();
+                if (this.user.picUrl) {
+                    this.downloadPic(this.user.picUrl);
+                } else {
+                    this.downloadAltPic(this.user.role);
+                }
             }
         }
     }
@@ -45,7 +47,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
-            .subscribe((res:any) => {
+            .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
                     this.ref.detectChanges();
@@ -63,7 +65,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
-            .subscribe((res:any) => {
+            .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
                     this.ref.detectChanges();
@@ -73,7 +75,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
     logout() {
         this.securityService.setLoginStatus(false);
-        this.socketService.logout(JSON.parse(this.user).id);
+        this.socketService.logout(this.user.id);
         this.securityService.deleteCookie('userDetails');
         this.securityService.deleteCookie('token');
     }

@@ -8,12 +8,14 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { DoctorRegisterComponent } from './doctor-register.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
 import { LoginService } from './login.service';
+import { ResetPasswordComponent } from './reset-password.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule],
-  declarations: [LoginComponent, RegisterComponent, DoctorRegisterComponent],
-  exports: [LoginComponent, RegisterComponent, DoctorRegisterComponent],
+  declarations: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
+  exports: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
   providers: [LoginService]
 })
 export class LoginModule { }

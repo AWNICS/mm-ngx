@@ -84,7 +84,6 @@ export class DoctorRegisterComponent implements OnInit {
             this.loginService.createNewDoctor(value)
             .subscribe((res) => {
                 this.message = 'Registration successful!';
-                this.msg.nativeElement.innerText = 'Registration success';
                 this.registerDoctorDetails.reset();
                 setTimeout(() => {
                     this.msg.nativeElement.style.display = 'none';

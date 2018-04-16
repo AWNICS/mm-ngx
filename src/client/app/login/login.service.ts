@@ -16,7 +16,7 @@ export class LoginService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://35.226.156.161:3000';  // URL to access server
+    private url = 'http://localhost:3000';  // URL to access server
 
     constructor(
         private router: Router,
@@ -49,6 +49,22 @@ export class LoginService {
             .post(url, doctorDetails, this.options)
             .map(response => response.json() as DoctorDetails)
             .catch(this.handleError);
+    }
+
+    checkUser(email: string): Observable<any> {
+        const url = `${this.url}/resetPassword`;
+        return this.http
+        .post(url, {email: email}, this.options)
+        .map(response => response.json())
+        .catch(this.handleError);
+    }
+
+    resetPassword(password: string, token: string): Observable<any> {
+        const url = `${this.url}/resetPassword/${token}`;
+        return this.http
+        .put(url, {password: password})
+        .map(response => response.json())
+        .catch(this.handleError);
     }
 
     private handleError(error: any): Observable<any> {

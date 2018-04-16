@@ -14,8 +14,8 @@
                     <input type="email" placeholder="you@example.com" #email required>
                     <label>Password</label>
                     <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off" #password required>
-                    <button i18n type="submit" class="button button__accent" (click)="login(email.value,password.value); email.value=''; password.value='';">Log in</button>
-                    <a class="sign-up" routerLink='/' routerLinkActive='active'>
+                    <button type="submit" class="button button__accent" (click)="login(email.value,password.value);">Log in</button>
+                    <a class="sign-up" routerLink='/forgotPassword' routerLinkActive='active'>
                         <span>Forgot Password?</span>
                     </a>
                     <span class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign up!</a></span>
