@@ -175,3 +175,7 @@ textarea:focus {
     background-color: #fff;
     outline: 0;
 }
+
+.description {
+    margin: 20px 0px !important;
+}

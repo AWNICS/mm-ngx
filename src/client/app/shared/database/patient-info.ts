@@ -1,6 +1,6 @@
 /**
  * Interface for PatientInfo
- * 
+ *
  * @export
  * @class PatientInfo
  */

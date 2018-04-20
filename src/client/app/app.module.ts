@@ -17,6 +17,8 @@ import { LoginModule } from './login/login.module';
 import { ChatModule } from './chat/chat.module';
 import { ProfileModule } from './profile/profile.module';
 import { PipesModule } from './pipes/pipes.module';
+import { ConsultationModule } from './consultation/consultation.module';
+import { PaymentModule } from './payment/payment.module';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { PipesModule } from './pipes/pipes.module';
     Ng2SmartTableModule,
     LoginModule,
     ChatModule,
+    ConsultationModule,
+    PaymentModule,
     ProfileModule,
     NgbModule.forRoot(),
     PipesModule.forRoot()
