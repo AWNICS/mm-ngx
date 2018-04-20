@@ -6,6 +6,7 @@ export class UserDetails {
   email: string;
   password:string;
   phoneNo: number;
+  aadhaarNo: number;
   picUrl: string;
   description: string;
   status: string;
