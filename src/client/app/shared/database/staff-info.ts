@@ -1,6 +1,6 @@
 /**
  * Interface for StaffInfo
- * 
+ *
  * @export
  * @class StaffInfo
  */

@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
                 .subscribe(res => {
                     console.log(res);
                 });
-            })
+            });
     }
 
     downloadProfileImage(fileName: string) {

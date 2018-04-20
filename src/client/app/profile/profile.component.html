@@ -7,7 +7,7 @@
                 <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="saveImage($event.target.files)" />
                 <img class="rounded-circle img-fluid img-thumbnail" [src]="url | safe: 'url'">
             </div>
-            <div class="row">
+            <div class="row description">
                 {{user.description}}
             </div>
         </div>

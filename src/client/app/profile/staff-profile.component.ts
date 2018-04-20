@@ -44,7 +44,7 @@ export class StaffProfileComponent implements OnInit {
                     staffId: this.staffInfo.staffId,
                     department: this.staffInfo.department
                 });
-            })
+            });
     }
 
     update({ value, valid }: { value: any, valid: boolean }) {
