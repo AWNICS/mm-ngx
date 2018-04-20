@@ -1,0 +1,104 @@
+<div *ngIf="userDetails">
+    <div class="alert-message">{{message}}</div>
+    <form novalidate [formGroup]="userDetails" (ngSubmit)="update(userDetails);">
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="First Name" formControlName="firstname" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Last Name" formControlName="lastname" autocomplete>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="you@example.com" formControlName="email" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" formControlName="password" autocomplete="off">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Phone No.</label>
+                    <input type="text" placeholder="98xxxxxxxx" formControlName="phoneNo" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Sex</label>
+                    <select formControlName="sex">
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Cannot disclose</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>
+                        Height<small>(In inches)</small>
+                    </label>
+                    <input type="text" placeholder="5.8" formControlName="height" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>
+                        Weight<small>(In kgs)</small>
+                    </label>
+                    <input type="text" placeholder="65" formControlName="weight" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Blood Group</label>
+                    <input type="text" placeholder="A +ve" formControlName="bloodGroup" autocomplete>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" placeholder="Bangalore" formControlName="location" autocomplete>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Allergies</label>
+                    <input type="text" placeholder="Dust allergy" formControlName="allergies" autocomplete>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea formControlName="address" rows="3" placeholder="Address"></textarea>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>About</label>
+                    <textarea formControlName="description" rows="3" placeholder="Tell us about yourself"></textarea>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="button button-save" [disabled]="userDetails.invalid">Save</button>
+    </form>
+</div>

@@ -6,6 +6,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { Group } from '../shared/database/group';
 import { ChatService } from '../chat/chat.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { Router } from '@angular/router';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -24,7 +25,8 @@ export class RegisterComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private loginService: LoginService,
-        private chatService: ChatService
+        private chatService: ChatService,
+        private router: Router
     ) { }
 
     /**
@@ -41,9 +43,9 @@ export class RegisterComponent implements OnInit {
             password: ['', Validators.required],
             confirmPassword:['', Validators.required],
             phoneNo: ['', Validators.required],
+            aadhaarNo: null,
             picUrl: '',
             status: '',
-            appearUrl: null,
             role: null,
             createdTime: '',
             createdBy: null,
@@ -54,15 +56,16 @@ export class RegisterComponent implements OnInit {
     }
 
     register({ value, valid }: { value: UserDetails, valid: boolean }) {
-        const name = value.firstname + value.lastname;
+        const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
         value.createdBy = name;
         value.status = 'offline';
-        value.appearUrl = `https://appear.in/mm-${split}`;
         value.role = 'patient';
         value.updatedBy = name;
         this.loginService.createNewUser(value)
-            .subscribe(response => response);
+            .subscribe(res => {
+                this.router.navigate(['/login']);
+            });
     }
 
     validatePassword({ value, valid }: { value: any, valid: boolean }) {
