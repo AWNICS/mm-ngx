@@ -194,38 +194,40 @@
                     </div>
 
                     <ng-template #alignLeft>
-                        <div class="message-data">
-                            <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.createdBy}}</span>
-                            <span class="message-data-time">{{message.createdTime | date}}</span>
-                        </div>
-                        <div class="message my-message">
-                            <div [ngSwitch]="message.contentType">
-                                <div *ngSwitchCase="'text'">
-                                    <mm-text-message [message]="message"></mm-text-message>
-                                </div>
-                                <div *ngSwitchCase="'radio'">
-                                    <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
-                                </div>
-                                <div *ngSwitchCase="'slider'">
-                                    <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
-                                </div>
-                                <div *ngSwitchCase="'checkbox'">
-                                    <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
-                                </div>
-                                <div *ngSwitchCase="'video'">
-                                    <mm-video-message [message]="message"></mm-video-message>
-                                </div>
-                                <div *ngSwitchCase="'doc'">
-                                    <mm-document-message [message]="message"></mm-document-message>
-                                </div>
-                                <div *ngSwitchCase="'appear'">
-                                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                                </div>
-                                <div *ngSwitchCase="'image'">
-                                    <mm-image-message [message]="message"></mm-image-message>
-                                </div>
-                                <div *ngSwitchDefault>
-                                    <mm-text-message [message]="message"></mm-text-message>
+                        <div class="clearfix">
+                            <div class="message-data">
+                                <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.createdBy}}</span>
+                                <span class="message-data-time">{{message.createdTime | date}}</span>
+                            </div>
+                            <div class="message my-message">
+                                <div [ngSwitch]="message.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
                                 </div>
                             </div>
                         </div>
