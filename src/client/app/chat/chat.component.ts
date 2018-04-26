@@ -326,17 +326,17 @@ export class ChatComponent implements OnInit {
     this.socketService.sendMessage(this.radioMessage);
   }
 
-  createSlider() {
+  createSlider(value:string) {
     this.sliderMessage.receiverId = this.chatService.getGroup().id;
     this.sliderMessage.senderId = this.selectedUser.id;
     this.sliderMessage.receiverType = 'group';
     this.sliderMessage.contentType = 'slider';
-    this.sliderMessage.type = 'slider';
+    this.sliderMessage.type = value;
     this.sliderMessage.status = 'delivered';
-    this.sliderMessage.text = 'Kindly choose a number from 0 to 10: ';
+    this.sliderMessage.text = 'Rate our services by choosing a value from 0 to 10 where 0 is worst and 10 is best: ';
     this.socketService.sendMessage(this.sliderMessage);
   }
-
+  
   createCheckbox() {
     this.checkboxMessage.receiverId = this.chatService.getGroup().id;
     this.checkboxMessage.senderId = this.selectedUser.id;
