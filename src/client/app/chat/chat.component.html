@@ -244,9 +244,10 @@
                             <i class="fa fa-paperclip" data-toggle="dropdown"></i>
                             <div class="dropdown-menu">
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Create radio"></i>
-                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider();" title="Create slider"></i>
-                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Create checkbox"></i>
+                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio();" title="Radio question"></i>
+                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings');" title="Rate slider"></i>
+                                    <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter');" title="Pain meter"></i>
+                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox();" title="Checkbox question"></i>
                                     <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear();" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
                                         <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files)" />

@@ -153,6 +153,9 @@ export class SliderMessageComponent implements OnInit {
         } else {
             this.enable = true;
         }
+        if(this.message.type === 'ratings') {
+          this.slider.nativeElement.style.background = '#CCCCCC';
+        }
     }
 
     getRangeValue() {
