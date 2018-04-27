@@ -18,7 +18,6 @@ export class DoctorRegisterComponent implements OnInit {
 
     @ViewChild('msg') msg : ElementRef;
     registerDoctorDetails: FormGroup;
-    doctorDetails: DoctorDetails;
     message = '';
     number: Array<number> = [];
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -73,10 +72,10 @@ export class DoctorRegisterComponent implements OnInit {
         }
     }
 
-    register({ value, valid }: {value: DoctorDetails, valid: boolean }) {
+    register({ value, valid }: {value: any, valid: boolean }) {
         const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
-        value.appearUrl = `https://appear.in/mm-${split}`;
+        value.appearUrl = `https://appear.in/mm-${split[0]}-${split[1]}`;
         value.createdBy = name;
         value.updatedBy = name;
         value.role = 'doctor';
@@ -85,15 +84,9 @@ export class DoctorRegisterComponent implements OnInit {
             .subscribe((res) => {
                 this.message = 'Registration successful!';
                 this.registerDoctorDetails.reset();
-                setTimeout(() => {
-                    this.msg.nativeElement.style.display = 'none';
-                  }, 5000);
             });
           } else {
-            this.message = 'Registration unsuccessful. Please try again later!';
-            setTimeout(() => {
-                this.msg.nativeElement.style.display = 'none';
-            }, 10000);
+            this.message = 'Registration unsuccessful. Please try again!';
           }
     }
 

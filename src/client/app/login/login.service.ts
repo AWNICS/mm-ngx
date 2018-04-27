@@ -33,11 +33,9 @@ export class LoginService {
 
     createNewUser(userDetails: UserDetails): Observable<UserDetails> {
         const uri = `${this.url}/users`;
-        this.headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
             .post(uri, userDetails, this.options)
             .map(response => {
-                this.router.navigate(['/login']);
                 return response.json() as UserDetails;
             })
             .catch(this.handleError);

@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
     ngOnInit() {
         this.loggedIn = this.securityService.getLoginStatus();
-        if (this.loggedIn == true) {
+        if (this.loggedIn === true) {
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
             if (this.user) {
                 this.ref.detectChanges();

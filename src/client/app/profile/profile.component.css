@@ -147,3 +147,35 @@ button:focus,
     border-color: #05bd8d;
     color: #fff;
 }
+
+.alert-message {
+    color: rgb(107, 99, 255);
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+textarea {
+    border: 1px solid #eee;
+    width: 100%;
+    height: 100px;
+    color: #111;
+    transition: 0.7s;
+    background-color: #F7F7F7;
+    border-radius: 30px;
+    padding: 10pt 20pt;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    resize: none;
+}
+
+textarea:focus {
+    border-color: rgba(108, 99, 255, 0.5);
+    background-color: #fff;
+    outline: 0;
+}
+
+.description {
+    margin: 20px 0px !important;
+}

@@ -15,7 +15,7 @@ import { UserDetails } from '../database/user-details';
     template: `
         <p>{{header}}</p>
         <div class="range-slider">
-            <input type="range" class="range-slider__range" min="0" max="10" value="5"
+            <input type="range" class="range-slider__range" style="--min: 0; --max: 10; --val: 5;" min="0" max="10" value="5"
                 (change)="getRangeValue();"
                 #slider>
                 <span class="range-slider__value">{{selectedValue}}</span>
@@ -50,12 +50,17 @@ import { UserDetails } from '../database/user-details';
         -webkit-appearance: none;
         width: calc(100% - (73px));
         height: 10px;
+        border: none !important;
         border-radius: 5px;
-        background: #d7dcdf;
         outline: none;
         padding: 0;
         margin: 0;
+        --range: calc(var(--max) - var(--min));
+        --ratio: calc((var(--val) - var(--min))/var(--range));
+        --sx: calc(.5*1.5em + var(--ratio)*(100% - 1.5em));
+        background:linear-gradient(to right, yellow , red) 0/var(--sx) 100% no-repeat #ccc;
       }
+
       .range-slider__range::-webkit-slider-thumb {
         -webkit-appearance: none;
                 appearance: none;
@@ -115,7 +120,7 @@ import { UserDetails } from '../database/user-details';
       }
 
       ::-moz-range-track {
-        background: #d7dcdf;
+        background: linear-gradient(to right, yellow , red);
         border: 0;
       }
 
@@ -148,10 +153,14 @@ export class SliderMessageComponent implements OnInit {
         } else {
             this.enable = true;
         }
+        if(this.message.type === 'ratings') {
+          this.slider.nativeElement.style.background = '#CCCCCC';
+        }
     }
 
     getRangeValue() {
         this.selectedValue = this.slider.nativeElement.value;
+        this.slider.nativeElement.style.setProperty('--val', +this.selectedValue);
     }
 
     submit() {

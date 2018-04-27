@@ -5,6 +5,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from '../chat/chat.service';
+import { ProfileService } from './profile.service';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -18,16 +19,14 @@ import { ChatService } from '../chat/chat.service';
 export class ProfileComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    userDetails: FormGroup;
     user: UserDetails;
     url: string;
 
     constructor(
-        private fb: FormBuilder,
         private securityService: SecurityService,
         private chatService: ChatService,
+        private profileService: ProfileService,
         private ref: ChangeDetectorRef,
-        private route: ActivatedRoute,
         private router: Router
     ) { }
 
@@ -35,26 +34,6 @@ export class ProfileComponent implements OnInit {
         let cookie = this.securityService.getCookie('userDetails');
         this.user = JSON.parse(cookie);
         if (this.user || cookie !== '') {
-            this.userDetails = this.fb.group({
-                firstname: [this.user.firstname, Validators.required],
-                lastname: [this.user.lastname, Validators.required],
-                email: [{value: this.user.email, disabled: true}, Validators.required],
-                password: [{ value: this.user.password, disabled: true }],
-                phoneNo: [{value: this.user.phoneNo, disabled: true}, Validators.required],
-                picUrl: [this.user.picUrl],
-                sex: '',
-                height: null,
-                weight: null,
-                bloodGroup: '',
-                allergies: '',
-                location: '',
-                address: '',
-                staffId: '',
-                speciality: '',
-                regNo: '',
-                experience: '',
-                description: ''
-            });
             if (this.user.picUrl) {
                 this.downloadProfileImage(this.user.picUrl);
             } else {
@@ -66,16 +45,16 @@ export class ProfileComponent implements OnInit {
         this.navbarComponent.navbarColor(0, '#6960FF');
     }
 
-    update({ value, valid }: { value: UserDetails, valid: boolean }) {
-        console.log('value ', value);
-    }
-
     saveImage(files: FileList) {
         this.chatService.uploadFile(files)
             .subscribe(res => {
-                this.userDetails.value.picUrl = res._body;
+                this.user.picUrl = res._body;
                 this.downloadProfileImage(res._body);
-            })
+                this.profileService.updateUserDetails(this.user)
+                .subscribe(res => {
+                    console.log(res);
+                });
+            });
     }
 
     downloadProfileImage(fileName: string) {
