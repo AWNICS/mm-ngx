@@ -146,10 +146,27 @@ export class ChatService {
             .catch(this.handleError);
     }
 
+    /**
+     * for getting all the media files
+     */
+    allMediaFiles(): Observable<any[]> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/allMediaFiles`;
+        return this.http.get(uri, {headers: headers})
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    downloadData(id: any) {
+        let apiUrl = 'http://localhost:3000/downloadMediaFile/';            
+        return this.http.get(`${apiUrl}${id}`)         
+          .catch((error: Response) => Observable.throw(error.json()));
+    }
+
     private handleError(error: any): Promise<UserDetails> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);
     }
-
 }
 

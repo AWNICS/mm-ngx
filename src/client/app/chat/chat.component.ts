@@ -54,6 +54,30 @@ export class ChatComponent implements OnInit {
   online = false;
   altGroupPic: string;
   altDocPic: string;
+  alert: boolean = false;
+  alertMessage: string; //alert for deleted message
+  files: Message[] = [];
+  imageFile: string[] = []; //to store all the downloaded media files
+  form = {
+    receiverId: '',
+    receiverType: '', // group or individual
+    senderId: '',
+    picUrl: '', // image of the sender or receiver
+    text: '', // message data
+    type: '', // type of the message(checkbox, radio, image, video, etc)
+    status: '', // delivered, read, not-delivered
+    contentType: '', // for radio, checkbox and slider
+    contentData: {
+      data: [''] // for radio, checkbox and slider
+    },
+    responseData: {
+      data: [''] // for radio, checkbox and slider
+    },
+    createdBy: '',
+    updatedBy: '',
+    createdTime: Date,
+    updatedTime: Date
+  };
 
   newGroup: Group = {
     id: null,
@@ -62,182 +86,6 @@ export class ChatComponent implements OnInit {
     userId: null,
     description: '',
     picture: '',
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  newMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: '',
-    picUrl: '',
-    type: 'text',
-    status: '',
-    contentType: 'text',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  radioMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Kindly choose an option: ',
-    picUrl: '',
-    type: 'radio',
-    status: 'delivered',
-    contentType: 'radio',
-    contentData: {
-      data: ['option1', 'option2', 'option3']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  sliderMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Kindly choose a number from 0 to 10: ',
-    picUrl: '',
-    type: 'slider',
-    status: 'delivered',
-    contentType: 'slider',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  checkboxMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Kindly check the relevent boxes: ',
-    picUrl: '',
-    type: 'checkbox',
-    status: 'delivered',
-    contentType: 'checkbox',
-    contentData: {
-      data: ['option1', 'option2', 'option3']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  imageMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Image Component',
-    picUrl: '',
-    type: 'image',
-    status: 'delivered',
-    contentType: 'image',
-    contentData: {
-      data: ['http://photo.sf.co.ua/g/501/1.jpg']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  videoMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Video Component',
-    picUrl: '',
-    type: 'video',
-    status: 'delivered',
-    contentType: 'video',
-    contentData: {
-      data: ['assets/videos/movie.mp4']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  docMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Doc Component',
-    picUrl: '',
-    type: 'doc',
-    status: 'delivered',
-    contentType: 'doc',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
-    createdBy: '',
-    updatedBy: '',
-    createdTime: Date.now(),
-    updatedTime: Date.now()
-  };
-
-  appearMessage: Message = {
-    _id: null,
-    receiverId: null,
-    receiverType: null,
-    senderId: null,
-    text: 'Appear Component',
-    picUrl: '',
-    type: 'appear',
-    status: 'delivered',
-    contentType: 'appear',
-    contentData: {
-      data: ['']
-    },
-    responseData: {
-      data: ['']
-    },
     createdBy: '',
     updatedBy: '',
     createdTime: Date.now(),
@@ -283,7 +131,9 @@ export class ChatComponent implements OnInit {
       this.getGroups();
       this.createForm();
       this.receiveMessageFromSocket();
+      this.receiveNotification();
       this.receiveUpdatedMessageFromSocket();
+      this.receiveDeletedMessageFromSocket();
       this.navbarComponent.navbarColor(0, '#6960FF');
     } else {
       this.router.navigate([`/`]);
@@ -291,118 +141,119 @@ export class ChatComponent implements OnInit {
   }
 
   createForm() {
-    this.message = this.fb.group({
-      _id: null, // message id
-      receiverId: [''],
-      receiverType: [''], // group or individual
-      senderId: [''],
-      picUrl: [''], // image of the sender or receiver
-      text: [''], // message data
-      type: [''], // type of the message(checkbox, radio, image, video, etc)
-      status: [''], // delivered, read, not-delivered
-      contentType: [''], // for radio, checkbox and slider
-      contentData: {
-        data: [''] // for radio, checkbox and slider
-      },
-      responseData: {
-        data: [''] // for radio, checkbox and slider
-      },
-      createdBy: [''],
-      updatedBy: [''],
-      createdTime: null,
-      updatedTime: null
-    });
+    this.message = this.fb.group(this.form);
   }
 
-  createRadio() {
-    this.radioMessage.receiverId = this.chatService.getGroup().id;
-    this.radioMessage.senderId = this.selectedUser.id;
-    this.radioMessage.receiverType = 'group';
-    this.radioMessage.contentType = 'radio';
-    this.radioMessage.type = 'radio';
-    this.radioMessage.contentData.data = ['Yes', 'No', 'May be'];
-    this.radioMessage.status = 'delivered';
-    this.radioMessage.text = 'Would you like to visit the doctor in person? ';
-    this.socketService.sendMessage(this.radioMessage);
+  createRadio({ value, valid }: { value: Message, valid: boolean }) {
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.receiverType = 'group';
+    value.contentType = 'radio';
+    value.type = 'radio';
+    value.contentData.data = ['Yes', 'No', 'May be'];
+    value.status = 'delivered';
+    value.text = 'Would you like to visit the doctor in person? ';
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    this.socketService.sendMessage(value);
+    this.message.reset(this.form);
   }
 
-  createSlider() {
-    this.sliderMessage.receiverId = this.chatService.getGroup().id;
-    this.sliderMessage.senderId = this.selectedUser.id;
-    this.sliderMessage.receiverType = 'group';
-    this.sliderMessage.contentType = 'slider';
-    this.sliderMessage.type = 'slider';
-    this.sliderMessage.status = 'delivered';
-    this.sliderMessage.text = 'Kindly choose a number from 0 to 10: ';
-    this.socketService.sendMessage(this.sliderMessage);
+  createSlider({ value, valid }: { value: Message, valid: boolean }) {
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.receiverType = 'group';
+    value.contentType = 'slider';
+    value.type = 'slider';
+    value.status = 'delivered';
+    value.text = 'Kindly choose a number from 0 to 10: ';
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    this.socketService.sendMessage(value);
+    this.message.reset(this.form);
   }
 
-  createCheckbox() {
-    this.checkboxMessage.receiverId = this.chatService.getGroup().id;
-    this.checkboxMessage.senderId = this.selectedUser.id;
-    this.checkboxMessage.receiverType = 'group';
-    this.checkboxMessage.contentType = 'checkbox';
-    this.checkboxMessage.type = 'checkbox';
-    this.checkboxMessage.contentData.data = ['Headache', 'Giddiness', 'Feverish'];
-    this.checkboxMessage.status = 'delivered';
-    this.checkboxMessage.text = 'Kindly select your observed symptoms: ';
-    this.socketService.sendMessage(this.checkboxMessage);
+  createCheckbox({ value, valid }: { value: Message, valid: boolean }) {
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.receiverType = 'group';
+    value.contentType = 'checkbox';
+    value.type = 'checkbox';
+    value.contentData.data = ['Headache', 'Giddiness', 'Feverish'];
+    value.status = 'delivered';
+    value.text = 'Kindly select your observed symptoms: ';
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    this.socketService.sendMessage(value);
+    this.message.reset(this.form);
   }
 
-  createAppear() {
-    this.appearMessage.receiverId = this.chatService.getGroup().id;
-    this.appearMessage.senderId = this.selectedUser.id;
-    this.appearMessage.receiverType = 'group';
-    this.appearMessage.contentType = 'appear';
-    this.appearMessage.type = 'appear';
-    this.appearMessage.status = 'delivered';
-    this.appearMessage.text = 'Appear Component';
-    this.socketService.sendMessage(this.appearMessage);
+  createAppear({ value, valid }: { value: Message, valid: boolean }) {
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.receiverType = 'group';
+    value.contentType = 'appear';
+    value.type = 'appear';
+    value.status = 'delivered';
+    value.text = 'Appear Component';
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    this.socketService.sendMessage(value);
+    this.message.reset(this.form);
   }
 
-  createImage(files: FileList) {
+  createImage(files: FileList, { value }: { value: Message }) {
     this.chatService.uploadFile(files)
       .subscribe(res => {
-        this.imageMessage.contentData.data = res._body;
-        this.imageMessage.receiverId = this.chatService.getGroup().id;
-        this.imageMessage.senderId = this.selectedUser.id;
-        this.imageMessage.receiverType = 'group';
-        this.imageMessage.contentType = 'image';
-        this.imageMessage.type = 'image';
-        this.imageMessage.status = 'delivered';
-        this.imageMessage.text = 'Image Component';
-        this.socketService.sendMessage(this.imageMessage);
+        value.contentData.data = res._body;
+        value.receiverId = this.chatService.getGroup().id;
+        value.senderId = this.selectedUser.id;
+        value.receiverType = 'group';
+        value.contentType = 'image';
+        value.type = 'image';
+        value.status = 'delivered';
+        value.text = 'Image Component';
+        value.createdTime = Date.now();
+        value.updatedTime = Date.now();
+        this.socketService.sendMessage(value);
       });
+    this.message.reset(this.form);
   }
 
-  createVideo(videos: FileList) {
+  createVideo(videos: FileList, { value, valid }: { value: Message, valid: boolean }) {
     this.chatService.uploadFile(videos)
       .subscribe(res => {
-        this.videoMessage.contentData.data = res._body;
-        this.videoMessage.receiverId = this.chatService.getGroup().id;
-        this.videoMessage.senderId = this.selectedUser.id;
-        this.videoMessage.receiverType = 'group';
-        this.videoMessage.contentType = 'video';
-        this.videoMessage.type = 'video';
-        this.videoMessage.status = 'delivered';
-        this.videoMessage.text = 'Video Component';
-        this.socketService.sendMessage(this.videoMessage);
+        value.contentData.data = res._body;
+        value.receiverId = this.chatService.getGroup().id;
+        value.senderId = this.selectedUser.id;
+        value.receiverType = 'group';
+        value.contentType = 'video';
+        value.type = 'video';
+        value.status = 'delivered';
+        value.text = 'Video Component';
+        value.createdTime = Date.now();
+        value.updatedTime = Date.now();
+        this.socketService.sendMessage(value);
       });
+    this.message.reset(this.form);
   }
 
-  createFile(files: FileList) {
+  createFile(files: FileList, { value, valid }: { value: Message, valid: boolean }) {
     this.chatService.uploadFile(files)
       .subscribe(res => {
-        this.docMessage.contentData.data = res._body;
-        this.docMessage.receiverId = this.chatService.getGroup().id;
-        this.docMessage.senderId = this.selectedUser.id;
-        this.docMessage.receiverType = 'group';
-        this.docMessage.contentType = 'doc';
-        this.docMessage.type = 'doc';
-        this.docMessage.status = 'delivered';
-        this.docMessage.text = 'Doc Component';
-        this.socketService.sendMessage(this.docMessage);
+        value.contentData.data = res._body;
+        value.receiverId = this.chatService.getGroup().id;
+        value.senderId = this.selectedUser.id;
+        value.receiverType = 'group';
+        value.contentType = 'doc';
+        value.type = 'doc';
+        value.status = 'delivered';
+        value.text = 'Doc Component';
+        value.createdTime = Date.now();
+        value.updatedTime = Date.now();
+        this.socketService.sendMessage(value);
       });
+    this.message.reset(this.form);
   }
 
   createGroupAuto() {
@@ -431,24 +282,6 @@ export class ChatComponent implements OnInit {
         this.groups.push(group);
         this.ref.detectChanges();
       });
-  }
-
-  addNewEntry(event: any) {
-    if (!event.value) { return; }
-    this.newMessage.text = event.value;
-    this.newMessage.receiverId = this.chatService.getGroup().id;
-    this.newMessage.senderId = this.selectedUser.id;
-    this.newMessage.receiverType = 'group';
-    this.newMessage.contentType = 'text';
-    this.newMessage.type = 'text';
-    this.newMessage.createdTime = Date.now();
-    this.newMessage.updatedTime = Date.now();
-    this.newMessage.status = 'delivered';
-    if (this.newMessage.text === '') {
-      return;
-    } else {
-      this.socketService.sendMessage(this.newMessage);
-    }
   }
 
   // get all groups of the logged in user
@@ -536,7 +369,6 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage({ value }: { value: Message }): void {
-    const result = JSON.stringify(value);
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.receiverType = 'group';
@@ -633,5 +465,99 @@ export class ChatComponent implements OnInit {
   close() {
     this.mySidebar.nativeElement.style.display = 'none';
   }
+
+  /**
+   * delete group_message_map
+   */
+  delete(message: Message, index: number, ) {
+    this.socketService.delete(message, index);
+  }
+
+  receiveDeletedMessageFromSocket() {
+    this.socketService.receiveDeletedMessage()
+    .subscribe(object => {
+      if (object.result.n) {
+        this.messages.splice(object.index, 1);
+        this.ref.detectChanges();
+        this.alert = true;
+        this.socketService.notifyUsers(object.data);
+      } else {
+        this.alert = false;
+      }
+    });
+  }
+
+  receiveNotification() {
+    this.socketService.receiveNotifiedUsers()
+      .subscribe((notify: any) => {
+      this.alertMessage = notify.message;
+    });
+  }
+
+  /**
+   * for getting all the media files
+   */
+  mediaFiles() {
+    this.files = [];
+    this.chatService.allMediaFiles()
+      .subscribe(result => {
+        result.map((file: any) => {
+          this.files.push(file);
+        });
+      });
+  }
+
+  /**
+   * downloading th files from the list of media files
+   */
+  download(file: Message) {
+    this.imageFile = [];
+    this.chatService.downloadFile('1524465555675data-scientist.jpeg')
+      .subscribe((res) => {
+        res.onloadend = () => {
+          console.log('data: ' + res.result);
+          this.imageFile.push(res.result);
+
+          let byteCharacters = res.result;
+          let byteNumbers = new Array(byteCharacters.length);
+          for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+          }
+          var byteArray = new Uint8Array(byteNumbers);
+          let blob = new Blob([byteArray], { "type": "image/jpeg" });
+          if (navigator.msSaveBlob) {
+            let filename = 'data-scientist';
+            navigator.msSaveBlob(blob, filename);
+          } else {
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute('visibility', 'hidden');
+            link.download = 'data-scientist';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }
+        };
+
+      });
+  }
+
+  /*downloadFile(data: Response) {
+    console.log('response: ' + data);
+    var blob = new Blob([data], { type: 'image/jpeg' });
+    var url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
+
+  downloadData(file: Message) {        
+    this.chatService.downloadData(JSON.stringify(file.contentData.data))
+      .subscribe((result) => {
+        console.log('result after download: ' + result);
+        this.downloadFile(result);          
+      }, error => {
+        console.log(error);         
+      });
+  }*/
+
 }
 
