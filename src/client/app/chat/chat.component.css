@@ -415,10 +415,6 @@ body {
     box-shadow: 2px 4px 10px grey;
 }
 
-.dropdown {
-    display: none;
-}
-
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -508,6 +504,67 @@ body {
     border: none;
 }
 
+
+/* delete icon for each message*/
+
+.delete:hover {
+    cursor: pointer;
+}
+
+.muted {
+    font-size: 12px;
+    font: #9C9C9C;
+}
+
+.dropdown-menu {
+    background-color: #FFF;
+}
+
+.dropdown-item {
+    padding: .25rem 1.5rem;
+    color: #111 !important;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+    background-color: #6960FF;
+    color: #FFF !important;
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+@media (max-width: 992px) {
+    .dropdown-menu-right {
+        left: 0 !important;
+        margin-left: 15px;
+    }
+}
+
+.media-header {
+    background: #F2F5F8;
+}
+
+.close:hover {
+    cursor: pointer;
+}
+
+#download:hover {
+    cursor: pointer;
+}
+
+#image {
+    width: 100%;
+    height: auto;
+}
+
+#video {
+    width: 100%;
+    height: auto;
+}
+
 footer {
     position: absolute;
     background-color: #333C44;
@@ -517,4 +574,8 @@ footer {
     padding: 5px 0px 5px 0px;
     margin: 0px;
     bottom: 0;
+}
+
+.files {
+    max-height: 352px;
 }
