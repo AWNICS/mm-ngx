@@ -149,19 +149,13 @@ export class ChatService {
     /**
      * for getting all the media files
      */
-    allMediaFiles(): Observable<any[]> {
+    media(groupId: number): Observable<any[]> {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        const uri = `${this.url}/allMediaFiles`;
+        const uri = `${this.url}/messages/media/groups/${groupId}`;
         return this.http.get(uri, {headers: headers})
             .map(res => res.json())
             .catch(this.handleError);
-    }
-
-    downloadData(id: any) {
-        let apiUrl = 'http://localhost:3000/downloadMediaFile/';            
-        return this.http.get(`${apiUrl}${id}`)         
-          .catch((error: Response) => Observable.throw(error.json()));
     }
 
     private handleError(error: any): Promise<UserDetails> {

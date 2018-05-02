@@ -57,7 +57,7 @@ export class ChatComponent implements OnInit {
   alert: boolean = false;
   alertMessage: string; //alert for deleted message
   files: Message[] = [];
-  imageFile: string[] = []; //to store all the downloaded media files
+  fileUrl: SafeResourceUrl;
   form = {
     receiverId: '',
     receiverType: '', // group or individual
@@ -469,8 +469,10 @@ export class ChatComponent implements OnInit {
   /**
    * delete group_message_map
    */
-  delete(message: Message, index: number, ) {
-    this.socketService.delete(message, index);
+  delete(message: Message, index: number ) {
+    if(this.userId === message.senderId) {
+      this.socketService.delete(message, index);
+    }
   }
 
   receiveDeletedMessageFromSocket() {
@@ -495,69 +497,20 @@ export class ChatComponent implements OnInit {
   }
 
   /**
-   * for getting all the media files
+   * for getting all the media messages
    */
-  mediaFiles() {
+  media() {
     this.files = [];
-    this.chatService.allMediaFiles()
+    this.chatService.media(this.selectedGroup.id)
       .subscribe(result => {
-        result.map((file: any) => {
-          this.files.push(file);
+        result.map((message: any) => {
+          if(message){
+            this.files.push(message);
+          } else {
+            return;
+          }
         });
       });
   }
-
-  /**
-   * downloading th files from the list of media files
-   */
-  download(file: Message) {
-    this.imageFile = [];
-    this.chatService.downloadFile('1524465555675data-scientist.jpeg')
-      .subscribe((res) => {
-        res.onloadend = () => {
-          console.log('data: ' + res.result);
-          this.imageFile.push(res.result);
-
-          let byteCharacters = res.result;
-          let byteNumbers = new Array(byteCharacters.length);
-          for (var i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          var byteArray = new Uint8Array(byteNumbers);
-          let blob = new Blob([byteArray], { "type": "image/jpeg" });
-          if (navigator.msSaveBlob) {
-            let filename = 'data-scientist';
-            navigator.msSaveBlob(blob, filename);
-          } else {
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.setAttribute('visibility', 'hidden');
-            link.download = 'data-scientist';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }
-        };
-
-      });
-  }
-
-  /*downloadFile(data: Response) {
-    console.log('response: ' + data);
-    var blob = new Blob([data], { type: 'image/jpeg' });
-    var url = window.URL.createObjectURL(blob);
-    window.open(url);
-  }
-
-  downloadData(file: Message) {        
-    this.chatService.downloadData(JSON.stringify(file.contentData.data))
-      .subscribe((result) => {
-        console.log('result after download: ' + result);
-        this.downloadFile(result);          
-      }, error => {
-        console.log(error);         
-      });
-  }*/
-
 }
 

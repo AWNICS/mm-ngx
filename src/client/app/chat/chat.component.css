@@ -415,11 +415,6 @@ body {
     box-shadow: 2px 4px 10px grey;
 }
 
-
-/*.dropdown {
-    display: none;
-}*/
-
 .btn-file {
     position: relative;
     overflow: hidden;
@@ -560,6 +555,16 @@ body {
     cursor: pointer;
 }
 
+#image {
+    width: 100%;
+    height: auto;
+}
+
+#video {
+    width: 100%;
+    height: auto;
+}
+
 footer {
     position: absolute;
     background-color: #333C44;
@@ -569,4 +574,8 @@ footer {
     padding: 5px 0px 5px 0px;
     margin: 0px;
     bottom: 0;
+}
+
+.files {
+    max-height: 352px;
 }
