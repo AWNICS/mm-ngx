@@ -60,6 +60,38 @@ export class SocketService {
         return observable;
     }
 
+    delete(message: Message, index: number) {
+        this.socket.emit('delete-message', message, index);
+    }
+
+    receiveDeletedMessage(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('deleted-message', (object: any) => {
+                observer.next(object);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
+    notifyUsers(message : Message): void {
+       this.socket.emit('notify-users', message);
+    }
+
+    receiveNotifiedUsers(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-notification', (notify: any) => {
+                observer.next(notify);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
     logout(userId: number): void {
         this.socket.emit('user-disconnect', userId);
     }

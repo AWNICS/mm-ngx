@@ -146,10 +146,21 @@ export class ChatService {
             .catch(this.handleError);
     }
 
+    /**
+     * for getting all the media files
+     */
+    media(id: number, page: number, size: number): Observable<any[]> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/messages/media/groups/${id}?page=${page}&size=${size}`;
+        return this.http.get(uri, {headers: headers})
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<UserDetails> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);
     }
-
 }
 

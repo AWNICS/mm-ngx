@@ -41,9 +41,9 @@ export class ImageMessageComponent implements OnInit {
 
     openModal() {
         this.modal.nativeElement.style.display = 'block';
-    }
+      }
 
-    closeModal() {
+      closeModal() {
         this.modal.nativeElement.style.display = 'none';
     }
 }
