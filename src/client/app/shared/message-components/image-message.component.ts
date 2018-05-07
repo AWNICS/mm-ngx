@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
-import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /**
  * ImageMessageComponent to display image
@@ -36,14 +36,14 @@ export class ImageMessageComponent implements OnInit {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
                 };
             });
-            this.ref.detectChanges();
+        this.ref.detectChanges();
     }
 
     openModal() {
         this.modal.nativeElement.style.display = 'block';
-      }
-      
-      closeModal() {
+    }
+
+    closeModal() {
         this.modal.nativeElement.style.display = 'none';
-      }
+    }
 }

@@ -30,7 +30,6 @@ export class PatientProfileComponent implements OnInit {
             .subscribe((patientInfo) => {
                 this.patientInfo = patientInfo;
                 this.userDetails = this.fb.group({
-                    id: this.user.id,
                     userId: this.user.id,
                     firstname: [this.user.firstname, Validators.required],
                     lastname: [this.user.lastname, Validators.required],

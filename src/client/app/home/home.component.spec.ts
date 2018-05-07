@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+/*import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   async,
@@ -48,8 +48,8 @@ export function main() {
             expect(homeDOMEl.querySelectorAll('h1')[0].textContent).toEqual('Mesomeds Landing');
           });
       }));*/
-  });
-}
+  /*});
+}*/
 /*
 class MockSpecialityService {
   returnValue: string[];

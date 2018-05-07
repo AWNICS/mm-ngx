@@ -336,7 +336,7 @@ export class ChatComponent implements OnInit {
     this.sliderMessage.text = 'Rate our services by choosing a value from 0 to 10 where 0 is worst and 10 is best: ';
     this.socketService.sendMessage(this.sliderMessage);
   }
-  
+
   createCheckbox() {
     this.checkboxMessage.receiverId = this.chatService.getGroup().id;
     this.checkboxMessage.senderId = this.selectedUser.id;
