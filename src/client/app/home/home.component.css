@@ -202,58 +202,21 @@ a:hover {
     font-size: 15px;
 }
 
-.location {
+.select-box {
     background: transparent;
     outline: none;
     color: #fff;
 }
 
-.location option {
+.select-box option {
     color: #fff;
     background-color: #463aff;
     border-radius: 25px;
     width: inherit;
 }
 
-.col-lg-2 {
-    width: inherit;
-    margin-right: 15%;
-}
-
-.col-md-3 {
-    margin-left: 14%;
-}
-
-.col-sm-4 {
-    margin-left: 14%;
-}
-
-.col-xs-8 {
-    max-width: 90%;
-}
-
-.col-lg-2 .phone {
-    width: 75%;
-}
-
-.col-md-4 .phone {
-    max-width: 75%;
-}
-
-.col-sm-5 .phone {
-    max-width: 75%;
-}
-
-.col-xs-5 .phone {
-    max-width: 75%;
-}
-
-#phone {
-    border-radius: 20px;
-}
-
-.rule {
-    width: 85%;
-    height: 5px;
-    color: #fff;
+@media (max-width: 575.98px) {
+    .col-xs-4 {
+        width: 48.33333%;
+    }
 }

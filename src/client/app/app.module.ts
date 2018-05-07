@@ -19,6 +19,7 @@ import { ProfileModule } from './profile/profile.module';
 import { PipesModule } from './pipes/pipes.module';
 import { ConsultationModule } from './consultation/consultation.module';
 import { PaymentModule } from './payment/payment.module';
+import { DoctorsListModule } from './doctors-list/doctors-list.module';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { PaymentModule } from './payment/payment.module';
     ConsultationModule,
     PaymentModule,
     ProfileModule,
+    DoctorsListModule,
     NgbModule.forRoot(),
     PipesModule.forRoot()
     ],

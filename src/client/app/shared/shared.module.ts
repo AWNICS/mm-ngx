@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router';
 
 import { DocumentMessageComponent } from './message-components/document-message.component';
 import { FooterComponent } from './footer/footer.component';
-import { SpecialityService } from './speciality/speciality.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RadioMessageComponent } from './message-components/radio-message.component';
 import { SliderMessageComponent } from './message-components/slider-message.component';
@@ -16,6 +15,7 @@ import { TextMessageComponent } from './message-components/text-message.componen
 import { AppearMessageComponent } from './message-components/appear-message.component';
 //import { AlertMessageComponent } from './message-components/alert-message.component';
 import { SecurityService } from './services/security.service';
+import { SharedService } from './services/shared.service';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -56,7 +56,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [ SpecialityService, SecurityService ]
+      providers: [ SharedService, SecurityService ]
     };
   }
 }
