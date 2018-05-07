@@ -38,6 +38,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+  @ViewChild('mediaList') mediaList: ElementRef;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -56,8 +57,9 @@ export class ChatComponent implements OnInit {
   altDocPic: string;
   alert: boolean = false;
   alertMessage: string; //alert for deleted message
-  files: Message[] = [];
   fileUrl: SafeResourceUrl;
+  mediaMessages: Message[] = [];
+  mediaPage = 1;
   form = {
     receiverId: '',
     receiverType: '', // group or individual
@@ -135,6 +137,7 @@ export class ChatComponent implements OnInit {
       this.receiveUpdatedMessageFromSocket();
       this.receiveDeletedMessageFromSocket();
       this.navbarComponent.navbarColor(0, '#6960FF');
+      this.mediaList.nativeElement.style.display = 'none';
     } else {
       this.router.navigate([`/`]);
     }
@@ -496,21 +499,42 @@ export class ChatComponent implements OnInit {
     });
   }
 
+  hide() { 
+    this.mediaList.nativeElement.style.display = 'none';
+  }
+
   /**
    * for getting all the media messages
    */
   media() {
-    this.files = [];
-    this.chatService.media(this.selectedGroup.id)
+    const size = 5;
+    this.mediaMessages = [];
+    this.mediaList.nativeElement.style.display = 'block';
+    this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .subscribe(result => {
         result.map((message: any) => {
-          if(message){
-            this.files.push(message);
-          } else {
-            return;
-          }
+          this.mediaMessages.push(message);
         });
       });
+  }
+
+  getMoreMedia(group: Group) {
+    const size = 5;
+    this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+    .subscribe(result => {
+      result.map((message: any) => {
+        this.mediaMessages.push(message);
+      });
+    });
+  }
+
+  // call get more media messages to get next page of media messages
+  scroll() {
+    const scrollPane: any = this.mediaList.nativeElement;
+    if (scrollPane.scrollTop === 0) {
+      this.mediaPage = this.mediaPage + 1;
+      this.getMoreMedia(this.selectedGroup);
+    }
   }
 }
 

@@ -13,6 +13,10 @@ body {
     color: white;
 }
 
+a {
+    cursor: pointer;
+}
+
 .container {
     margin: 0 auto;
     border-radius: 5px;
@@ -407,10 +411,11 @@ body {
 }
 
 .dropdown-menu {
-    min-width: 130px;
+    min-width: 30px;
     width: auto !important;
+    background-color: #FFF;
     padding: 0px;
-    margin: 0px;
+    margin-right: 24px;
     border: none;
     box-shadow: 2px 4px 10px grey;
 }
@@ -507,8 +512,11 @@ body {
 
 /* delete icon for each message*/
 
-.delete:hover {
-    cursor: pointer;
+.delete-message {
+    visibility: hidden;
+    position: absolute;
+    top: 5px;
+    right: 4px;
 }
 
 .muted {
@@ -516,8 +524,9 @@ body {
     font: #9C9C9C;
 }
 
-.dropdown-menu {
-    background-color: #FFF;
+.message:hover .delete-message {
+    visibility: visible;
+    cursor: pointer;
 }
 
 .dropdown-item {
@@ -529,6 +538,7 @@ body {
     cursor: pointer;
     background-color: #6960FF;
     color: #FFF !important;
+    border-radius: 4px;
 }
 
 .dropdown-menu-right {
@@ -555,16 +565,6 @@ body {
     cursor: pointer;
 }
 
-#image {
-    width: 100%;
-    height: auto;
-}
-
-#video {
-    width: 100%;
-    height: auto;
-}
-
 footer {
     position: absolute;
     background-color: #333C44;
@@ -576,6 +576,22 @@ footer {
     bottom: 0;
 }
 
-.files {
-    max-height: 352px;
+.media-list {
+    background-color: #F2F5F8;
+    overflow: auto;
+    max-height: 540px;
+}
+
+.media-list::-webkit-scrollbar {
+    width: 0.4em;
+}
+
+.media-list::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.media-list::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }
