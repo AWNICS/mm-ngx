@@ -43,6 +43,7 @@ body {
 
 @media (max-width: 575.98px) {
     .col-xs-12 {
+        box-flex: 0;
         -webkit-box-flex: 0;
         max-width: 100%;
         flex: 0 0 100%;

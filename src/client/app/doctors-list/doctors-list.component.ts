@@ -74,16 +74,16 @@ export class DoctorsListComponent implements OnInit {
         this.ref.detectChanges();
     }
 
-    consultNow(doctorId:number){
+    consultNow(doctorId: number) {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
         console.log('userId is: ' + user.id + ' and docId is ' + doctorId);
-        this.sharedService.consultNow(doctorId,user.id)
-        .subscribe((res) => {
-            if(res) {
-                this.router.navigate([`/chat/${user.id}`]);
-            } else {
-                this.message = 'There was an error. Please re-login and try again.'
-            }
-        });
+        this.sharedService.consultNow(doctorId, user.id)
+            .subscribe((res) => {
+                if (res) {
+                    this.router.navigate([`/chat/${user.id}`]);
+                } else {
+                    this.message = 'There was an error. Please re-login and try again.';
+                }
+            });
     }
 }

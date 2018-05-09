@@ -7,5 +7,4 @@ export class Locations {
     lngMax: number;
     createdBy: string;
     updatedBy: string;
-  }
-  
+}
