@@ -38,7 +38,8 @@ export class ChatComponent implements OnInit {
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-  @ViewChild('mediaList') mediaList: ElementRef;
+  @ViewChild('chat') chat: ElementRef;
+  @ViewChild('rightSidebar') rightSidebar: ElementRef;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -52,6 +53,7 @@ export class ChatComponent implements OnInit {
   doctors: DoctorDetails[] = [];
   doctorList = true; //for listing down the doctors in modal window
   searchText: string;
+  searchFile: string;
   online = false;
   altGroupPic: string;
   altDocPic: string;
@@ -137,7 +139,6 @@ export class ChatComponent implements OnInit {
       this.receiveUpdatedMessageFromSocket();
       this.receiveDeletedMessageFromSocket();
       this.navbarComponent.navbarColor(0, '#6960FF');
-      this.mediaList.nativeElement.style.display = 'none';
     } else {
       this.router.navigate([`/`]);
     }
@@ -316,7 +317,7 @@ export class ChatComponent implements OnInit {
     this.chatService.downloadFile(fileName)
       .subscribe((res) => {
         res.onloadend = () => {
-          if(fileName === 'group.png') {
+          if (fileName === 'group.png') {
             this.altGroupPic = res.result;
           } else {
             this.altDocPic = res.result;
@@ -472,44 +473,48 @@ export class ChatComponent implements OnInit {
   /**
    * delete group_message_map
    */
-  delete(message: Message, index: number ) {
-    if(this.userId === message.senderId) {
+  delete(message: Message, index: number) {
+    if (this.userId === message.senderId) {
       this.socketService.delete(message, index);
     }
   }
 
   receiveDeletedMessageFromSocket() {
     this.socketService.receiveDeletedMessage()
-    .subscribe(object => {
-      if (object.result.n) {
-        this.messages.splice(object.index, 1);
-        this.ref.detectChanges();
-        this.alert = true;
-        this.socketService.notifyUsers(object.data);
-      } else {
-        this.alert = false;
-      }
-    });
+      .subscribe(object => {
+        if (object.result.n) {
+          this.messages.splice(object.index, 1);
+          this.ref.detectChanges();
+          this.alert = true;
+          this.socketService.notifyUsers(object.data);
+        } else {
+          this.alert = false;
+        }
+      });
   }
 
   receiveNotification() {
     this.socketService.receiveNotifiedUsers()
       .subscribe((notify: any) => {
-      this.alertMessage = notify.message;
-    });
-  }
-
-  hide() { 
-    this.mediaList.nativeElement.style.display = 'none';
+        this.alertMessage = notify.message;
+      });
   }
 
   /**
    * for getting all the media messages
    */
   media() {
+    let x = window.matchMedia('(min-width: 769px)');
+    if (x.matches) {
+      this.rightSidebar.nativeElement.style.display = 'block';
+      this.chat.nativeElement.style.width = '70%';
+    } else {
+      this.rightSidebar.nativeElement.style.display = 'block';
+      this.rightSidebar.nativeElement.style.width = '100%';
+      this.chat.nativeElement.style.width = '100%';
+    }
     const size = 5;
     this.mediaMessages = [];
-    this.mediaList.nativeElement.style.display = 'block';
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .subscribe(result => {
         result.map((message: any) => {
@@ -517,24 +522,35 @@ export class ChatComponent implements OnInit {
         });
       });
   }
+  /**
+   *
+   * Close the right sidebar on click of close button and resize the chat window to 100% width
+   * @memberof ChatComponent
+   */
+  w3_close() {
+    this.rightSidebar.nativeElement.style.display = 'none';
+    this.chat.nativeElement.style.width = '100%';
+  }
 
   getMoreMedia(group: Group) {
     const size = 5;
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
-    .subscribe(result => {
-      result.map((message: any) => {
-        this.mediaMessages.push(message);
+      .subscribe(result => {
+        result.map((message: any) => {
+          debugger;
+          this.mediaMessages.push(message);
+        });
       });
-    });
   }
 
   // call get more media messages to get next page of media messages
   scroll() {
-    const scrollPane: any = this.mediaList.nativeElement;
+    let scrollPane = this.rightSidebar.nativeElement;
     if (scrollPane.scrollTop === 0) {
       this.mediaPage = this.mediaPage + 1;
       this.getMoreMedia(this.selectedGroup);
     }
   }
+
 }
 
