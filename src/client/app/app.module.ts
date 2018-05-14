@@ -20,6 +20,7 @@ import { PipesModule } from './pipes/pipes.module';
 import { ConsultationModule } from './consultation/consultation.module';
 import { PaymentModule } from './payment/payment.module';
 import { DoctorsListModule } from './doctors-list/doctors-list.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { DoctorsListModule } from './doctors-list/doctors-list.module';
     ProfileModule,
     DoctorsListModule,
     NgbModule.forRoot(),
-    PipesModule.forRoot()
+    PipesModule.forRoot(),
+    DashboardModule
     ],
   declarations: [AppComponent],
   providers: [{
