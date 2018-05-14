@@ -87,6 +87,16 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/moment/moment.js'
     });
 
+    this.addPackageBundles({
+      name: 'moment',
+      path: 'node_modules/moment/moment.js'
+    });
+
+    this.addPackageBundles({
+      name: 'Chart',
+      path: 'node_modules/chart.js/dist/Chart.bundle.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
