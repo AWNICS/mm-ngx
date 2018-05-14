@@ -1,0 +1,106 @@
+<mm-navbar></mm-navbar>
+<div class="container">
+    <div class="row">
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col col-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="display-image">
+                                        <img class="rounded-circle img-fluid img-thumbnail" src="assets/jpg/docMale.jpg" alt="docPic">
+                                        <i class="fa fa-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="col col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                                    <h5 class="card-title">Dr. Rohit Singh</h5>
+                                    <p class="card-text" style="line-height: 1em;">45 years, Male</p>
+                                    <p class="card-text" style="line-height: 1em; margin-top: 0px;">Bangalore</p>
+                                    <p class="card-text" style="line-height: 1em;">MD, Dermatologist</p>
+                                    <button type="submit" class="button button__accent">Change Status</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12">
+                    <div class="card shadow" style="height: 290px; width:99%;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Consultation History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
+                                        <input type="radio">Today
+                                    </label>
+                                    <label class="btn btn-secondary active">
+                                        <input type="radio">Week
+                                    </label>
+                                    <label class="btn btn-secondary">
+                                        <input type="radio">Month
+                                    </label>
+                                </div>
+                            </div><br>
+                            <div class="row justify-content-around">
+                                <div class="col col-5 offset-1">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>10</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; line-height: 1em;">Number of Patients</p>
+                                </div>
+                                <div class="col col-5">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>10</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center;">Earning</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow" style="height: 587px;">
+                <div class="card-header">
+                    <h5 class="offset-1">Appointments for Today</h5>
+                </div>
+                <div class="card-body">
+                    <canvas #barChart width="500" height="760"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow" style="height: 250px;">
+                <div class="card-header">
+                    <h5 class="offset-1">Follow Ups</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <button type="button" style="border: none; color:#666; margin-bottom: 0px;">
+                            <a>Open Consultation</a><span class="badge">9</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button type="button" style="border: none; color:#666; margin-bottom: 0px;">
+                            <a>Reports</a><span class="badge">9</span>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <button type="button" style="border: none; color:#666; margin-bottom: 0px;">
+                            <a>Chats</a><span class="badge">9</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
