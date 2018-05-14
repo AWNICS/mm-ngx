@@ -14,6 +14,7 @@ html {
 /* Extract from normalize.css by Nicolas Gallagher and Jonathan Neal git.io/normalize */
 
 html {
+    text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%
 }
@@ -60,6 +61,7 @@ template {
 
 a {
     background-color: transparent;
+    text-decoration-skip: objects;
     -webkit-text-decoration-skip: objects
 }
 
@@ -155,7 +157,8 @@ button,
 html [type=button],
 [type=reset],
 [type=submit] {
-    -webkit-appearance: button
+    appearance: button;
+    -webkit-appearance: button;
 }
 
 button::-moz-focus-inner,
@@ -170,13 +173,13 @@ button:-moz-focusring,
 [type=button]:-moz-focusring,
 [type=reset]:-moz-focusring,
 [type=submit]:-moz-focusring {
-    outline: 1px dotted ButtonText
+    outline: 1px dotted ButtonText;
 }
 
 fieldset {
     border: 1px solid #c0c0c0;
     margin: 0 2px;
-    padding: .35em .625em .75em
+    padding: .35em .625em .75em;
 }
 
 legend {
@@ -184,30 +187,32 @@ legend {
     display: table;
     max-width: 100%;
     padding: 0;
-    white-space: normal
+    white-space: normal;
 }
 
 textarea {
-    overflow: auto
+    overflow: auto;
 }
 
 [type=checkbox],
 [type=radio] {
-    padding: 0
+    padding: 0;
 }
 
 [type=number]::-webkit-inner-spin-button,
 [type=number]::-webkit-outer-spin-button {
-    height: auto
+    height: auto;
 }
 
 [type=search] {
+    appearance: textfield;
     -webkit-appearance: textfield;
     outline-offset: -2px
 }
 
 [type=search]::-webkit-search-cancel-button,
 [type=search]::-webkit-search-decoration {
+    appearance: none;
     -webkit-appearance: none
 }
 
@@ -217,6 +222,7 @@ textarea {
 }
 
 ::-webkit-file-upload-button {
+    appearance: button;
     -webkit-appearance: button;
     font: inherit
 }
@@ -508,33 +514,15 @@ a {
 }
 
 .w3-sidebar {
-    height: 90% !important;
+    height: 87% !important;
     width: 237px !important;
-    background-color: #444753;
+    background-color: #F7F7F7;
     position: absolute !important;
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom-left-radius: 5px;
-    border-top-left-radius: 5px;
-}
-
-@media screen and (min-width: 993px) {
-    .w3-sidebar {
-        height: 82% !important;
-    }
-}
-
-@media screen and (max-width: 992px) {
-    .w3-sidebar {
-        height: 84% !important;
-    }
-}
-
-@media screen and (width: 768px) {
-    .w3-sidebar {
-        height: 86% !important;
-    }
+    border: none;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .w3-bar-block .w3-dropdown-hover,

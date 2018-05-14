@@ -21,7 +21,8 @@ body {
     max-width: 100px;
     max-height: 100px;
     display: flex;
-    border: none;
+    border: 1px solid rgba(102, 102, 102, 0.5);
+    padding: 3px;
     border-radius: 100%;
 }
 
@@ -48,10 +49,23 @@ body {
 }
 
 .btn-primary {
-    border: none;
     background-color: #6960FF;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #6C63FF;
+    color: #FFFFFF;
+    font-weight: 400;
+    white-space: nowrap;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
 .btn-primary:hover {
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #463AFF;
 }
