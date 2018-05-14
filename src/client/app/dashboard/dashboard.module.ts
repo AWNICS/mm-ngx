@@ -6,11 +6,8 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DoctorDashboardComponent } from './doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
 
-// smooth scroll module
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
-
 @NgModule({
-  imports: [CommonModule, Ng2PageScrollModule.forRoot(), SharedModule, DashboardRoutingModule],
+  imports: [CommonModule, SharedModule, DashboardRoutingModule],
   declarations: [DoctorDashboardComponent, PatientDashboardComponent],
   exports: [DoctorDashboardComponent, PatientDashboardComponent]
 })
