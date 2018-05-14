@@ -10,11 +10,12 @@ body {
     background: #C5DDEB;
     font: 14px/20px "Lato", Arial, sans-serif;
     padding: 40px 0;
-    color: white;
+    color: #666;
 }
 
 .container {
     padding-top: 102.66667px;
+    color: #666;
 }
 
 .display-image {
@@ -24,23 +25,6 @@ body {
     border: 1px solid rgba(102, 102, 102, 0.5);
     padding: 3px;
     border-radius: 100%;
-}
-
-@media (max-width: 575.98px) {
-    .col-xs-8 {
-        padding-left: 30px;
-    }
-    .col-xs-2 {
-        padding-right: 20px;
-    }
-    .display-image {
-        max-width: 60px;
-        max-height: 60px;
-    }
-    .col-xs-7,
-    .col-xs-3 {
-        margin-left: 70px;
-    }
 }
 
 .shadow {
@@ -68,4 +52,59 @@ body {
 .btn-primary:hover {
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
     background-color: #463AFF;
+}
+
+.small-font {
+    font-size: 14px;
+    line-height: normal;
+    word-wrap: break-word;
+    word-break: normal;
+}
+
+p {
+    margin: 0px;
+}
+
+.status-text {
+    margin-left: 8%;
+    margin-top: -15px;
+}
+
+.status {
+    position: relative;
+    top: -30px;
+    left: 79px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #3AD29F;
+}
+
+@media (max-width: 765px) {
+    .status {
+        top: -20px;
+        left: 48px;
+        width: 12px;
+        height: 12px;
+    }
+    .status-text {
+        margin-top: -15px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .col-xs-8 {
+        padding-left: 30px;
+    }
+    .col-xs-2 {
+        padding-right: 20px;
+    }
+    .display-image {
+        max-width: 60px;
+        max-height: 60px;
+    }
+    .text-muted {
+        margin-bottom: 20px;
+    }
 }

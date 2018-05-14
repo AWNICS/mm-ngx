@@ -86,4 +86,8 @@ export class DoctorsListComponent implements OnInit {
                 }
             });
     }
+
+    openDoctorProfile(doctor: any) {
+        this.router.navigate([`/profiles/doctors/${doctor.userId}`]);
+    }
 }
