@@ -1,0 +1,219 @@
+<mm-navbar></mm-navbar>
+<div class="container">
+    <div class="row doctor-details">
+        <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12 no-gutters">
+            <img class="profile-image" src="https://i2.wp.com/rcmbrain.com/wp-content/uploads/2017/11/doctor.png?w=1080&ssl=1" alt="avatar" />
+            <div class="status" title="Online"></div>
+            <div class="row small-font status-text">
+                <i>Available now</i>
+            </div>
+        </div>
+        <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
+            <div class="row">
+                <h5>
+                    Dr. Bhaskar Bhattacharya
+                </h5>
+            </div>
+            <div class="row">
+                MBBS, MD - Pediatrics, 32 years of practice
+            </div>
+            <div class="row small-font">Speaks: Hindi, English, Kannada</div>
+            <div class="row small-font">Consults via: Chat, Phone, Video</div>
+            <div class="row small-font">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;Indira Nagar, Bangalore
+            </div>
+            <div class="row">
+                <div class="col col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12 no-gutters">
+                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                </div>
+                <div class="col col-12 col-xl-3 col-lg-3 col-md-12 col-sm-12 no-gutters">
+                    <button class="btn-primary">Consult now</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-xl-4 col-lg-4 col-md-6 no-gutters">
+                    <img src="assets/png/hospital.png" class="hover-shadow" (click)="openModal();">
+                </div>
+                <div class="modal" #modal>
+                    <span class="close" (click)="closeModal();">&times;</span>
+                    <div class="modal-content">
+                        <img src="assets/png/hospital.png" style="width:100%">
+                    </div>
+                </div>
+                <div class="col col-12 col-xl-4 col-lg-4 col-md-6 no-gutters">
+                    <iframe width="560" height="315" class="hover-shadow" src="https://www.youtube.com/embed/aqz-KE-bpKQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="padding-top: 30px;">
+        <div class="row">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-actvities-tab" data-toggle="pill" href="#pills-actvities" role="tab" aria-controls="pills-actvities" aria-selected="true">Activities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="true">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-actvities" role="tabpanel" aria-labelledby="pills-actvities-tab">
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Free health check-up
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
+                                <p class="card-text">
+                                    There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Free health check-up
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
+                                <p class="card-text">
+                                    There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Free health check-up
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
+                                <p class="card-text">
+                                    There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Free health check-up
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
+                                <p class="card-text">
+                                    There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Review by Jignesh
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
+                                <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                                <p class="card-text">
+                                    He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                    Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </a>
+                                <a href="#" class="btn btn-primary">
+                                    Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Review by Jignesh
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
+                                <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                                <p class="card-text">
+                                    He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                        Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                    </a>
+                                <a href="#" class="btn btn-primary">
+                                        Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Review by Jignesh
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
+                                <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                                <p class="card-text">
+                                    He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                            Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                        </a>
+                                <a href="#" class="btn btn-primary">
+                                            Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                        </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                Review by Jignesh
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
+                                <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                                <p class="card-text">
+                                    He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
+                                </p>
+                                <a href="#" class="btn btn-primary">
+                                                Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                            </a>
+                                <a href="#" class="btn btn-primary">
+                                                Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    <div class="row">
+                        Profile
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

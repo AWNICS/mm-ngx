@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   location: string;
   locations: Locations[];
   currentLocation: string = 'Bangalore';
-  currentSpeciality: string = 'GP';
+  currentSpeciality: string = 'Physician';
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;

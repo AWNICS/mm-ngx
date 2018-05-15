@@ -198,6 +198,7 @@ input:focus {
 }
 
 select {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
