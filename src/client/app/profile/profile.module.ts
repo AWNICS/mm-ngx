@@ -17,24 +17,24 @@ import { DoctorViewProfileComponent } from './doctor-view-profile.component';
 @NgModule({
   imports: [
     CommonModule,
-    SharedModule, 
-    PipesModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
+    SharedModule,
+    PipesModule,
+    FormsModule,
+    ReactiveFormsModule,
     ProfileRoutingModule,
     RatingModule
   ],
   declarations: [
-    ProfileComponent, 
-    DoctorProfileComponent, 
-    PatientProfileComponent, 
+    ProfileComponent,
+    DoctorProfileComponent,
+    PatientProfileComponent,
     StaffProfileComponent,
     DoctorViewProfileComponent
   ],
   exports: [
-    ProfileComponent, 
-    DoctorProfileComponent, 
-    PatientProfileComponent, 
+    ProfileComponent,
+    DoctorProfileComponent,
+    PatientProfileComponent,
     StaffProfileComponent,
     DoctorViewProfileComponent
   ],

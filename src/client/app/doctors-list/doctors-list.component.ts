@@ -16,7 +16,6 @@ export class DoctorsListComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     doctors: any = [];
-    url: string;
     message: string;
 
     constructor(
@@ -45,33 +44,25 @@ export class DoctorsListComponent implements OnInit {
                 if (this.doctors.length >= 1) {
                     this.doctors.map((doctor: any) => {
                         if (doctor.picUrl) {
-                            this.downloadProfileImage(doctor.picUrl);
+                            this.chatService.downloadFile(doctor.picUrl)
+                                .subscribe((res) => {
+                                    res.onloadend = () => {
+                                        doctor.picUrl = res.result;
+                                    };
+                                });
+                            this.ref.detectChanges();
                         } else {
-                            this.downloadAltPic('doc.png');
+                            this.chatService.downloadFile('doc.png')
+                                .subscribe((res: any) => {
+                                    res.onloadend = () => {
+                                        doctor.picUrl = res.result;
+                                    };
+                                });
+                            this.ref.detectChanges();
                         }
                     });
                 }
             });
-    }
-
-    downloadProfileImage(fileName: string) {
-        this.chatService.downloadFile(fileName)
-            .subscribe((res) => {
-                res.onloadend = () => {
-                    this.url = res.result;
-                };
-            });
-        this.ref.detectChanges();
-    }
-
-    downloadAltPic(fileName: string) {
-        this.chatService.downloadFile(fileName)
-            .subscribe((res: any) => {
-                res.onloadend = () => {
-                    this.url = res.result;
-                };
-            });
-        this.ref.detectChanges();
     }
 
     consultNow(doctorId: number) {
