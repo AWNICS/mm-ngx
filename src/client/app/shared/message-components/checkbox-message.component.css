@@ -1,0 +1,72 @@
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+}
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
+}
+
+[type="checkbox"]+label {
+    position: relative;
+    padding-left: 2em;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    font-size: 0.9em;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -ms-user-select: none;
+}
+
+[type="checkbox"]+label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 3px;
+    width: 15px;
+    height: 15px;
+    z-index: 0;
+    border: 1px solid #666;
+    border-radius: 1px;
+    margin-top: 4px;
+    transition: .2s;
+}
+
+[type="checkbox"]:not(:checked):disabled+label:before {
+    border: none;
+    background-color: #eee;
+}
+
+[type="checkbox"]:checked+label:before {
+    top: -2px;
+    left: -2px;
+    width: 10px;
+    height: 18px;
+    border-top: 2px solid transparent;
+    border-left: 2px solid transparent;
+    border-right: 2px solid #06d19c;
+    border-bottom: 2px solid #06d19c;
+    transform: rotate(40deg);
+    backface-visibility: hidden;
+    transform-origin: 100% 100%;
+}
+
+[type="checkbox"]:checked:disabled+label:before {
+    border-right: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+}

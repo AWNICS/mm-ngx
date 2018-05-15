@@ -163,12 +163,12 @@ export class ChatComponent implements OnInit {
     this.message.reset(this.form);
   }
 
-  createSlider({ value, valid }: { value: Message, valid: boolean }) {
+  createSlider(type: string, { value, valid }: { value: Message, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.receiverType = 'group';
     value.contentType = 'slider';
-    value.type = 'slider';
+    value.type = type;
     value.status = 'delivered';
     value.text = 'Kindly choose a number from 0 to 10: ';
     value.createdTime = Date.now();
@@ -312,21 +312,6 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  // download a default image for profile image
-  downloadAltPic(fileName: string) {
-    this.chatService.downloadFile(fileName)
-      .subscribe((res) => {
-        res.onloadend = () => {
-          if (fileName === 'group.png') {
-            this.altGroupPic = res.result;
-          } else {
-            this.altDocPic = res.result;
-          }
-          this.ref.detectChanges();
-        };
-      });
-  }
-
   getMessage(group: Group) {
     this.chatService.setGroup(group);
     this.selectedGroup = group;
@@ -423,6 +408,21 @@ export class ChatComponent implements OnInit {
       this.page = this.page + 1;
       this.getMoreMessages(this.selectedGroup);
     }
+  }
+
+  // download a default image for profile image
+  downloadAltPic(fileName: string) {
+    this.chatService.downloadFile(fileName)
+      .subscribe((res) => {
+        res.onloadend = () => {
+          if (fileName === 'group.png') {
+            this.altGroupPic = res.result;
+          } else {
+            this.altDocPic = res.result;
+          }
+          this.ref.detectChanges();
+        };
+      });
   }
 
   //getDoctors

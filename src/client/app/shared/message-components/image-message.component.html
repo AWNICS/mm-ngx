@@ -1,5 +1,5 @@
 <div *ngIf="url; else loading">
-    <img [src]="url" alt="Image" class="rounded img-fluid hover-shadow" (click)="openModal();">
+    <img [src]="url" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
 </div>
 <div class="modal" #modal>
     <span class="close" (click)="closeModal();">&times;</span>

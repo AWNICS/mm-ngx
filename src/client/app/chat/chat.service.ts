@@ -71,9 +71,7 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, {headers: headers})
-            .map(res => {
-                return res.json();
-            })
+            .map(res => res.json())
             .catch(this.handleError);
     }
 
