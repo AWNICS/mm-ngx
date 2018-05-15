@@ -4,6 +4,11 @@ img {
     height: auto;
 }
 
+.block {
+    display: block;
+    margin-left: auto;
+}
+
 
 /* The Modal (background) */
 

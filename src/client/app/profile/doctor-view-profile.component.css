@@ -174,10 +174,6 @@ a {
     color: #6960FF;
 }
 
-.tab-content>.active {
-    margin-top: 60px;
-}
-
 .card {
     border: none;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
@@ -213,13 +209,6 @@ a {
         left: 58%;
         width: 15px;
         height: 15px;
-    }
-    .tab-content>.active {
-        margin-top: 0px !important;
-        margin-left: 20px !important;
-    }
-    .card {
-        margin-right: 20px;
     }
     .status-text {
         margin-left: 37%;

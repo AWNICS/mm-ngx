@@ -155,6 +155,8 @@ export class SliderMessageComponent implements OnInit {
         }
         if(this.message.type === 'ratings') {
           this.slider.nativeElement.style.background = '#CCCCCC';
+        } else {
+          return;
         }
     }
 
