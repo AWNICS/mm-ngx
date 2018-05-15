@@ -19,7 +19,7 @@ export class DoctorViewProfileComponent implements OnInit {
     @Input() user: UserDetails;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('modal') modal: ElementRef;
-    
+
     rating = 4;
 
     constructor(
@@ -32,9 +32,9 @@ export class DoctorViewProfileComponent implements OnInit {
 
     openModal() {
         this.modal.nativeElement.style.display = 'block';
-      }
+    }
 
-      closeModal() {
+    closeModal() {
         this.modal.nativeElement.style.display = 'none';
     }
 }
