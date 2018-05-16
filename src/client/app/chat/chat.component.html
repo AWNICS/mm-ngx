@@ -265,7 +265,7 @@
                     <div class="row justify-content-between chat-footer">
                         <div class="col col-2 dropup">
                             <i class="fa fa-paperclip" data-toggle="dropdown"></i>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" #dropDown>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                     <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
                                     <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
@@ -273,15 +273,15 @@
                                     <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
                                     <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
-                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event.target.files, message)" />
+                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
                                         <i class="fa fa-picture-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="file-upload" title="Upload video">
-                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event.target.files, message)" />
+                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
                                         <i class="fa fa-file-video-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="file-upload" title="Upload file">
-                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain " (change)="createFile($event.target.files, message)" />
+                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
                                         <i class="fa fa-file-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
