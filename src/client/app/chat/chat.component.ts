@@ -40,6 +40,7 @@ export class ChatComponent implements OnInit {
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('rightSidebar') rightSidebar: ElementRef;
+  @ViewChild('dropDown') dropDown: ElementRef;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -206,8 +207,11 @@ export class ChatComponent implements OnInit {
     this.message.reset(this.form);
   }
 
-  createImage(files: FileList, { value }: { value: Message }) {
-    this.chatService.uploadFile(files)
+  createImage(event: any, { value }: { value: Message }) {
+    let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
+    el.click(); // to hide the dropup menu
+    let images: FileList = event.target.files;
+    this.chatService.uploadFile(images)
       .subscribe(res => {
         value.contentData.data = res._body;
         value.receiverId = this.chatService.getGroup().id;
@@ -222,9 +226,13 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
+    event.target.value= '';
   }
 
-  createVideo(videos: FileList, { value, valid }: { value: Message, valid: boolean }) {
+  createVideo(event: any, { value, valid }: { value: Message, valid: boolean }) {
+    let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
+    el.click(); // to hide the dropup menu
+    let videos: FileList = event.target.files;
     this.chatService.uploadFile(videos)
       .subscribe(res => {
         value.contentData.data = res._body;
@@ -240,9 +248,13 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
+    event.target.value= '';
   }
 
-  createFile(files: FileList, { value, valid }: { value: Message, valid: boolean }) {
+  createFile(event:any, { value, valid }: { value: Message, valid: boolean }) {
+    let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
+    el.click(); // to hide the dropup menu
+    let files: FileList = event.target.files;
     this.chatService.uploadFile(files)
       .subscribe(res => {
         value.contentData.data = res._body;
@@ -258,6 +270,7 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
+    event.target.value= '';
   }
 
   createGroupAuto() {
@@ -551,6 +564,5 @@ export class ChatComponent implements OnInit {
       this.getMoreMedia(this.selectedGroup);
     }
   }
-
 }
 
