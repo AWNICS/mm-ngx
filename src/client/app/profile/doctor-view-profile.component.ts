@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 
 /**
  * This class represents the lazy loaded RegisterComponent.

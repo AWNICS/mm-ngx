@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 
 @Injectable()
@@ -104,7 +104,7 @@ export class ChatService {
     /**
      * get doctors
      */
-    getDoctors(receiverId: number): Observable<DoctorDetails[]> {
+    getDoctors(receiverId: number): Observable<DoctorProfiles[]> {
         const url = `${this.url}/doctors`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);

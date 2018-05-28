@@ -58,10 +58,8 @@ export class RegisterComponent implements OnInit {
     register({ value, valid }: { value: UserDetails, valid: boolean }) {
         const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
-        value.createdBy = name;
         value.status = 'offline';
         value.role = 'patient';
-        value.updatedBy = name;
         this.loginService.createNewUser(value)
             .subscribe(res => {
                 this.router.navigate(['/login']);

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { LoginService } from './login.service';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
@@ -17,7 +17,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 export class DoctorRegisterComponent implements OnInit {
 
     @ViewChild('msg') msg : ElementRef;
-    registerDoctorDetails: FormGroup;
+    registerDoctorProfiles: FormGroup;
     message = '';
     number: Array<number> = [];
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -34,8 +34,9 @@ export class DoctorRegisterComponent implements OnInit {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
-        this.registerDoctorDetails = this.fb.group({
+        this.registerDoctorProfiles = this.fb.group({
             id: null,
+            userId: null,
             socketId: null,
             firstname: ['', Validators.required],
             lastname: ['', Validators.required],
@@ -51,16 +52,18 @@ export class DoctorRegisterComponent implements OnInit {
             description: [''],
             status: null,
             waitingTime: null,
-            rating: null,
+            ratingValue: null,
+            ratingCount: null,
             videoUrl: null,
             appearUrl: null,
             token: null,
+            type: null,
             activate: null,
             termsAccepted: ['', Validators.required],
             createdTime: '',
             createdBy: null,
             updatedTime: '',
-            updatedBy: null,
+            updatedBy: null
         });
         this.generateNumber();
         this.navbarComponent.navbarColor(0, '#6960FF');
@@ -76,14 +79,14 @@ export class DoctorRegisterComponent implements OnInit {
         const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
         value.appearUrl = `https://appear.in/mm-${split[0]}-${split[1]}`;
-        value.createdBy = name;
-        value.updatedBy = name;
+        value.createdBy = value.id;
+        value.updatedBy = value.id;
         value.role = 'doctor';
         if (valid === true) {
             this.loginService.createNewDoctor(value)
             .subscribe((res) => {
                 this.message = 'Registration successful!';
-                this.registerDoctorDetails.reset();
+                this.registerDoctorProfiles.reset();
             });
           } else {
             this.message = 'Registration unsuccessful. Please try again!';

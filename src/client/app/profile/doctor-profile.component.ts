@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 
@@ -15,7 +15,7 @@ import { ProfileService } from './profile.service';
 })
 export class DoctorProfileComponent implements OnInit {
 
-    doctorDetails: DoctorDetails;
+    doctorProfiles: DoctorProfiles;
     userDetails: FormGroup;
     @Input() user: UserDetails;
     message: string;
@@ -26,9 +26,9 @@ export class DoctorProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.profileService.getDoctorDetailsById(this.user.id)
-            .subscribe(doctorDetails => {
-                this.doctorDetails = doctorDetails;
+        this.profileService.getDoctorProfilesById(this.user.id)
+            .subscribe(doctorProfiles => {
+                this.doctorProfiles = doctorProfiles;
                 this.userDetails = this.fb.group({
                     userId: this.user.id,
                     firstname: [this.user.firstname, Validators.required],
@@ -37,21 +37,25 @@ export class DoctorProfileComponent implements OnInit {
                     password: [{ value: this.user.password, disabled: true }],
                     phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
                     aadhaarNo: this.user.aadhaarNo,
-                    speciality: this.doctorDetails.speciality,
-                    regNo: this.doctorDetails.regNo,
-                    sex: this.doctorDetails.sex,
-                    location: this.doctorDetails.location,
-                    address: this.doctorDetails.address,
-                    experience: this.doctorDetails.experience,
-                    description: this.doctorDetails.description
+                    speciality: this.doctorProfiles.speciality,
+                    regNo: this.doctorProfiles.regNo,
+                    sex: this.doctorProfiles.sex,
+                    shortBio: this.doctorProfiles.shortBio,
+                    longBio: this.doctorProfiles.longBio,
+                    address: this.doctorProfiles.address,
+                    experience: this.doctorProfiles.experience,
+                    description: this.doctorProfiles.description,
+                    location: this.doctorProfiles.location,
+                    qualification: this.doctorProfiles.qualification,
+                    consultationMode: this.doctorProfiles.consultationMode,
+                    language: this.doctorProfiles.language
                 });
             });
     }
 
     update({ value, valid }: { value: any, valid: boolean }) {
-        this.profileService.updateDoctorDetails(value)
+        this.profileService.updateDoctorProfiles(value)
             .subscribe(res => {
-                console.log('res ', res);
                 this.profileService.updateUserDetails(value)
                     .subscribe(res => {
                         this.message = 'Profile is updated';

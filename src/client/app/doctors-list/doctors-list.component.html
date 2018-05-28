@@ -13,11 +13,11 @@
                 </div>
                 <div class="col col-10 col-xl-10 col-lg-10 col-md-10 col-sm-7 col-xs-8">
                     <h5 class="card-title">Dr. {{doctor.firstName}} {{doctor.lastName}}</h5>
-                    <p class="card-text">MBBS, MD - {{doctor.speciality}}, {{doctor.experience}} years of practice</p>
-                    <p class="card-text small-font">Speaks: Hindi, English, Kannada</p>
-                    <p class="card-text small-font">Consults via: Chat, Phone, Video</p>
-                    <p class="card-text small-font">{{doctor.description}}</p>
-                    <p class="card-text small-font"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{doctor.location}}</p>
+                    <p>{{qualifications}} -{{doctor.speciality}}, {{doctor.experience}} years of practice</p>
+                    <p class="card-text small-font">Speaks: {{languages}}</p>
+                    <p class="card-text small-font">Consults via: {{consultationModes}}</p>
+                    <p class="card-text small-font">{{doctor.longBio}}</p>
+                    <p class="card-text small-font"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}</p>
                     <small>
                         <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
                     </small>

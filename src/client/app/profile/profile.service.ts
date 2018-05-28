@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { StaffInfo } from '../shared/database/staff-info';
 import { PatientInfo } from '../shared/database/patient-info';
@@ -24,7 +24,7 @@ export class ProfileService {
     private group: Group;
     private StaffInfo: StaffInfo;
     private patientInfo: PatientInfo;
-    private doctorDetails: DoctorDetails;
+    private doctorProfiles: DoctorProfiles;
 
     constructor(private router: Router, private http: Http, private securityService: SecurityService) {
     }
@@ -53,7 +53,7 @@ export class ProfileService {
     /**
      * get doctors
      */
-    getDoctorDetailsById(id: number): Observable<DoctorDetails> {
+    getDoctorProfilesById(id: number): Observable<DoctorProfiles> {
         const url = `${this.url}/doctors/${id}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
@@ -63,11 +63,11 @@ export class ProfileService {
             .catch(this.handleError);
     }
 
-    updateDoctorDetails(doctorDetails: DoctorDetails): Observable<any> {
+    updateDoctorProfiles(doctorProfiles: DoctorProfiles): Observable<any> {
         const uri = `${this.url}/doctors`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.put(uri, doctorDetails, {headers: headers})
+        return this.http.put(uri, doctorProfiles, {headers: headers})
         .map(res => res.json())
         .catch(this.handleError);
     }

@@ -17,6 +17,10 @@ export class DoctorsListComponent implements OnInit {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     doctors: any = [];
     message: string;
+    qualifications: string = '';
+    languages: string = '';
+    consultationModes: string = '';
+    locations: string = '';
 
     constructor(
         private sharedService: SharedService,
@@ -35,7 +39,7 @@ export class DoctorsListComponent implements OnInit {
         let location = this.sharedService.getLocation();
         let speciality = this.sharedService.getSpeciality();
         let gps = 39834758;
-        let currentTime = '2018-04-29 00:00:00';
+        let currentTime = '2018-05-22 00:00:00';
         let page = 1;
         let size = 5;
         this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
@@ -43,6 +47,14 @@ export class DoctorsListComponent implements OnInit {
                 this.doctors = res;
                 if (this.doctors.length >= 1) {
                     this.doctors.map((doctor: any) => {
+                        console.log('doctor: ' + JSON.stringify(doctor));
+                        this.sharedService.getDoctorMedias(doctor.userId)
+                            .subscribe(medias => {
+                            });
+                        this.sharedService.getDoctorStore(doctor.userId)
+                            .subscribe(stores => {
+                                this.getStores(stores);
+                            });
                         if (doctor.picUrl) {
                             this.chatService.downloadFile(doctor.picUrl)
                                 .subscribe((res) => {
@@ -63,6 +75,27 @@ export class DoctorsListComponent implements OnInit {
                     });
                 }
             });
+    }
+
+    getStores(store: any) {
+        for(let i=0; i<store.length; i++) {
+            if(store[i].type == 'Qualification') {
+                this.qualifications = this.qualifications + ` ${store[i].value}` + ',';
+            }
+            if(store[i].type == 'Language') {
+                this.languages = this.languages + ` ${store[i].value}` + ',';
+            }
+            if(store[i].type == 'Consultation mode') {
+                this.consultationModes = this.consultationModes + ` ${store[i].value}` + ',';
+            }
+            if(store[i].type == 'Location') {
+                this.locations = this.locations + ` ${store[i].value}` + ',';
+            }
+        }
+        this.qualifications = this.qualifications.slice(0, this.qualifications.length-1);
+        this.languages = this.languages.slice(0, this.languages.length-1);
+        this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length-1);
+        this.locations = this.locations.slice(0, this.locations.length-1);
     }
 
     consultNow(doctorId: number) {

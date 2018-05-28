@@ -71,6 +71,24 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    //get all the doctor media information
+    getDoctorMedias(userId: number) { 
+        const uri = `${this.url}/doctors/${userId}/bio`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get all the doctor store information
+    getDoctorStore(userId: number) {
+        const uri = `${this.url}/doctors/${userId}/bio/extra` 
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }

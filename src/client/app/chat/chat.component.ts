@@ -18,7 +18,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from './chat.service';
 import { Group } from '../shared/database/group';
 import { Message } from '../shared/database/message';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 
@@ -51,7 +51,7 @@ export class ChatComponent implements OnInit {
   oldGroupId = 1;
   page = 1;
   groupSelected = false;
-  doctors: DoctorDetails[] = [];
+  doctors: DoctorProfiles[] = [];
   doctorList = true; //for listing down the doctors in modal window
   searchText: string;
   searchFile: string;
@@ -91,8 +91,8 @@ export class ChatComponent implements OnInit {
     userId: null,
     description: '',
     picture: '',
-    createdBy: '',
-    updatedBy: '',
+    createdBy: null,
+    updatedBy: null,
     createdTime: Date.now(),
     updatedTime: Date.now()
   };
@@ -278,8 +278,8 @@ export class ChatComponent implements OnInit {
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
-    this.newGroup.createdBy = this.selectedUser.firstname + this.selectedUser.lastname;
-    this.newGroup.updatedBy = this.selectedUser.firstname + this.selectedUser.lastname;
+    this.newGroup.createdBy = this.selectedUser.id;
+    this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
       .subscribe((group) => {
         this.groups.push(group);
@@ -287,13 +287,13 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  createGroupManual(doctor: DoctorDetails) {
+  createGroupManual(doctor: DoctorProfiles) {
     this.newGroup.name = 'Consultation room';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
     this.newGroup.description = 'Chat room for consultation';
-    this.newGroup.createdBy = this.selectedUser.firstname + this.selectedUser.lastname;
-    this.newGroup.updatedBy = this.selectedUser.firstname + this.selectedUser.lastname;
+    this.newGroup.createdBy = this.selectedUser.id;
+    this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
       .subscribe((group) => {
         this.groups.push(group);
