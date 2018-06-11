@@ -19,6 +19,7 @@ export class DoctorProfileComponent implements OnInit {
     userDetails: FormGroup;
     @Input() user: UserDetails;
     message: string;
+    number: Array<number> = [];
 
     constructor(
         private fb: FormBuilder,
@@ -40,6 +41,7 @@ export class DoctorProfileComponent implements OnInit {
                     speciality: this.doctorProfiles.speciality,
                     regNo: this.doctorProfiles.regNo,
                     sex: this.doctorProfiles.sex,
+                    age: this.doctorProfiles.age,
                     shortBio: this.doctorProfiles.shortBio,
                     longBio: this.doctorProfiles.longBio,
                     address: this.doctorProfiles.address,
@@ -51,6 +53,7 @@ export class DoctorProfileComponent implements OnInit {
                     language: this.doctorProfiles.language
                 });
             });
+        this.generateNumber();
     }
 
     update({ value, valid }: { value: any, valid: boolean }) {
@@ -61,5 +64,11 @@ export class DoctorProfileComponent implements OnInit {
                         this.message = 'Profile is updated';
                     });
             });
+    }
+
+    generateNumber() {
+        for (var i = 1; i <= 50; i++ ) {
+            this.number.push(i);
+        }
     }
 }

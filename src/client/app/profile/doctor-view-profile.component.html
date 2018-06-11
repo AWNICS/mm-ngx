@@ -2,32 +2,44 @@
 <div class="container">
     <div class="row doctor-profiles">
         <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12 no-gutters">
-            <img class="profile-image" src="https://i2.wp.com/rcmbrain.com/wp-content/uploads/2017/11/doctor.png?w=1080&ssl=1" alt="avatar" />
-            <div class="status" title="Online"></div>
-            <div class="row small-font status-text">
+            <img [src]="doctor?.picUrl | safe: 'url'" class="profile-image" alt="avatar">
+            <div class="status-online" title="Online" *ngIf="doctor?.status === 'online';"></div>
+            <div class="row small-font status-text" *ngIf="doctor?.status === 'online';">
                 <i>Available now</i>
+            </div>
+            <div class="status-offline" title="Offline" *ngIf="doctor?.status === 'offline';"></div>
+            <div class="row small-font status-text" *ngIf="doctor?.status === 'offline';">
+                <i>Not Available</i>
+            </div>
+            <div class="status-away" title="Away" *ngIf="doctor?.status === 'away';"></div>
+            <div class="row small-font status-text" *ngIf="doctor?.status === 'away';">
+                <i>Away</i>
+            </div>
+            <div class="status-invisible" title="Invisible" *ngIf="doctor?.status === 'invisible';"></div>
+            <div class="row small-font status-text" *ngIf="doctor?.status === 'invisible';">
+                <i>Invisible</i>
             </div>
         </div>
         <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
             <div class="row">
                 <h5>
-                    Dr. Bhaskar Bhattacharya
+                    Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}
                 </h5>
             </div>
             <div class="row">
-                MBBS, MD - Pediatrics, 32 years of practice
+                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.age}} years of practice
             </div>
-            <div class="row small-font">Speaks: Hindi, English, Kannada</div>
-            <div class="row small-font">Consults via: Chat, Phone, Video</div>
+            <div class="row small-font">Speaks: {{languages}}</div>
+            <div class="row small-font">Consults via: {{consultationModes}}</div>
             <div class="row small-font">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;Indira Nagar, Bangalore
+                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}
             </div>
             <div class="row">
                 <div class="col col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12 no-gutters">
-                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                    <rating *ngIf="doctor" [(ngModel)]="doctor.ratingValue" [readonly]="true"> </rating>
                 </div>
                 <div class="col col-12 col-xl-3 col-lg-3 col-md-12 col-sm-12 no-gutters">
-                    <button class="btn-primary">Consult now</button>
+                    <button class="btn-primary" (click)="consultNow(doctor.userId);">Consult now</button>
                 </div>
             </div>
             <div class="row">
@@ -63,62 +75,14 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-actvities" role="tabpanel" aria-labelledby="pills-actvities-tab">
                         <div class="row">
-                            <div class="card">
+                            <div class="card" *ngFor="let doctorActivity of doctorActivities" style="width: 100%;">
                                 <div class="card-header">
-                                    Free health check-up
+                                    {{doctorActivity.title}}
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
+                                    <h5 class="card-title">{{doctorActivity.title}}</h5>
                                     <p class="card-text">
-                                        There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Free health check-up
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
-                                    <p class="card-text">
-                                        There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Free health check-up
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
-                                    <p class="card-text">
-                                        There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                    Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Free health check-up
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Free health check-up camp for children from age 2 - 10 years</h5>
-                                    <p class="card-text">
-                                        There will be a free health check-up camp that will be set for this weekend at CMH, Indira Nagar, Bangalore. The event is hosted by CMH along with Ulisu Makkala foundation on 25th May 2018.
+                                        {{doctorActivity.comment}}
                                     </p>
                                     <a href="#" class="btn btn-primary">
                                     Interested <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
@@ -129,15 +93,15 @@
                     </div>
                     <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
                         <div class="row">
-                            <div class="card">
+                            <div class="card" *ngFor="let doctorReview of doctorReviews" style="width:100%;">
                                 <div class="card-header">
-                                    Review by Jignesh
+                                    Review by {{doctorReview.name}}
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
-                                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
+                                    <h5 class="card-title">{{doctorReview.title}}</h5>
+                                    <rating *ngIf="doctor" [(ngModel)]="doctorReview.ratingValue" [readonly]="true"></rating>
                                     <p class="card-text">
-                                        He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
+                                        {{doctorReview.comment}}
                                     </p>
                                     <a href="#" class="btn btn-primary">
                                     Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
@@ -148,112 +112,53 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Review by Jignesh
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
-                                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
-                                    <p class="card-text">
-                                        He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                        Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-primary">
-                                        Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Review by Jignesh
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
-                                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
-                                    <p class="card-text">
-                                        He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                            Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                        </a>
-                                    <a href="#" class="btn btn-primary">
-                                            Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                        </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="card">
-                                <div class="card-header">
-                                    Review by Jignesh
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">Dr. Bhaskar knows how to take care of kids</h5>
-                                    <rating [(ngModel)]="rating" [readonly]="true"> </rating>
-                                    <p class="card-text">
-                                        He is one of the best pediatricians that I have visited till date. He takes care of the children so very well and he doesn't prescribe unnecessary medicines.
-                                    </p>
-                                    <a href="#" class="btn btn-primary">
-                                                Helpful <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                                            </a>
-                                    <a href="#" class="btn btn-primary">
-                                                Not Helpful <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                                            </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                         <div class="row">
-                            <div class="card">
+                            <div class="card" style="width: 100%;">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="card-title">
-                                            EDUCATION AND TRAINING
-                                        </div>
-                                        <p class="card-text">
-                                            Karnataka Institute of Medical Sciences, Bangalore
-                                        </p>
-                                        <p class="card-text">
-                                            June 1986
-                                        </p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="card-title">
-                                            CERTIFICATIONS AND LICENSURE
-                                        </div>
-                                        <p class="card-text">
-                                            MCI No.: 2345DJK33
-                                        </p>
-                                        <p class="card-text">
-                                            Validity: 2023
-                                        </p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="card-title">
-                                            WORK HISTORY
-                                        </div>
-                                        <p class="card-text">
-                                            Manipal Hospital, Whitefield, Bangalore
-                                        </p>
-                                        <p class="card-text">
-                                            Visiting doctor: 5 PM - 7 PM
-                                        </p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="card-title">
-                                            PROFESSIONAL SOCIETIES
-                                        </div>
-                                        <p class="card-text">
-                                            Bangalore medical group
-                                        </p>
-                                    </div>
+                                    <h5>
+                                        EDUCATION AND TRAINING:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{doctor?.education}}, ({{doctor?.educationYear}})
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        CERTIFICATIONS AND LICENSURE:
+                                    </h5>
+                                    <p class="card-text">
+                                        MCI No.: {{doctor?.regNo}}
+                                    </p>
+                                    <p class="card-text">
+                                        Validity: {{doctor?.validity}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        WORK HISTORY:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{doctor?.workHistory}}
+                                    </p>
+                                    <p class="card-text">
+                                        Visiting doctor timing: {{slots}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        PROFESSIONAL SOCIETIES:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{professionalSociety}}
+                                    </p>
                                 </div>
                             </div>
                         </div>

@@ -72,7 +72,7 @@ export class SharedService {
     }
 
     //get all the doctor media information
-    getDoctorMedias(userId: number) { 
+    getDoctorMedias(userId: number) {
         const uri = `${this.url}/doctors/${userId}/bio`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
@@ -82,7 +82,54 @@ export class SharedService {
 
     //get all the doctor store information
     getDoctorStore(userId: number) {
-        const uri = `${this.url}/doctors/${userId}/bio/extra` 
+        const uri = `${this.url}/doctors/${userId}/bio/extra`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get the doctor_schedule by using doctorId
+    getDoctorScheduleByDoctorId(doctorId: number) {
+        const uri = `${this.url}/doctors/${doctorId}/schedules`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    updateStatus(status: string, doctorId: number): Observable<any> {
+        const uri = `${this.url}/doctors/${doctorId}/schedules/status`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http
+            .put(uri, { status: status }, { headers: headers })
+            .map(response => {
+                response.json();
+            })
+            .catch(this.handleError);
+    }
+
+    getDoctorById(doctorId: number) {
+        const uri = `${this.url}/doctors/${doctorId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get all activities for a doctor
+    getActivities(doctorId: number) {
+        const uri = `${this.url}/doctors/${doctorId}/activities`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get all reviews for a doctor
+    getReviews(doctorId: number) {
+        const uri = `${this.url}/doctors/${doctorId}/reviews`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

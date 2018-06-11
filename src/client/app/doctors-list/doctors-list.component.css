@@ -70,7 +70,7 @@ p {
     margin-top: -15px;
 }
 
-.status {
+.status-online {
     position: relative;
     top: -30px;
     left: 79px;
@@ -81,8 +81,41 @@ p {
     background-color: #3AD29F;
 }
 
+.status-offline {
+    position: relative;
+    top: -30px;
+    left: 79px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FF5252;
+}
+
+.status-away {
+    position: relative;
+    top: -30px;
+    left: 79px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FFFF00;
+}
+
+.status-invisible {
+    position: relative;
+    top: -30px;
+    left: 79px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #E2E0FF;
+}
+
 @media (max-width: 765px) {
-    .status {
+    .status-online {
         top: -20px;
         left: 48px;
         width: 12px;
@@ -90,6 +123,24 @@ p {
     }
     .status-text {
         margin-top: -15px;
+    }
+    .status-offline {
+        top: -20px;
+        left: 48px;
+        width: 12px;
+        height: 12px;
+    }
+    .status-away {
+        top: -20px;
+        left: 48px;
+        width: 12px;
+        height: 12px;
+    }
+    .status-invisible {
+        top: -20px;
+        left: 48px;
+        width: 12px;
+        height: 12px;
     }
 }
 

@@ -6,24 +6,27 @@
             <div class="row">
                 <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-3 col-xs-2">
                     <img [src]="doctor.picUrl | safe: 'url'" class="display-image" alt="avatar">
-                    <div class="status" title="Online"></div>
+                    <div class="status-online" title="Online" *ngIf="doctor.status === 'online';"></div>
+                    <div class="status-offline" title="Offline" *ngIf="doctor.status === 'offline';"></div>
+                    <div class="status-away" title="Away" *ngIf="doctor.status === 'away';"></div>
+                    <div class="status-invisible" title="Invisible" *ngIf="doctor.status === 'invisible';"></div>
                     <div class="row small-font status-text">
                         <i>Available now</i>
                     </div>
                 </div>
                 <div class="col col-10 col-xl-10 col-lg-10 col-md-10 col-sm-7 col-xs-8">
                     <h5 class="card-title">Dr. {{doctor.firstName}} {{doctor.lastName}}</h5>
-                    <p>{{qualifications}} -{{doctor.speciality}}, {{doctor.experience}} years of practice</p>
-                    <p class="card-text small-font">Speaks: {{languages}}</p>
-                    <p class="card-text small-font">Consults via: {{consultationModes}}</p>
+                    <p>{{doctor.qualificationStr}} -{{doctor.speciality}}, {{doctor.experience}} years of practice</p>
+                    <p class="card-text small-font">Speaks: {{doctor.languageStr}}</p>
+                    <p class="card-text small-font">Consults via: {{doctor.consultationModeStr}}</p>
                     <p class="card-text small-font">{{doctor.longBio}}</p>
-                    <p class="card-text small-font"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}</p>
+                    <p class="card-text small-font"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{doctor.locationStr}}</p>
                     <small>
-                        <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                        <rating [(ngModel)]="doctor.ratingValue" [readonly]="true"> </rating>
                     </small>
                     <div class="row">
                         <div class="col col-12 col-xl-7 col-lg-7 col-md-7 col-sm-12">
-                            <p class="card-text text-muted"><small>Last updated 3 mins ago</small></p>
+                            <p class="card-text text-muted"><small>Last updated {{doctor.lastupdated}} ago</small></p>
                         </div>
                         <div class="col col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
                             <button class="btn btn-primary" (click)="openDoctorProfile(doctor);">View profile</button>
