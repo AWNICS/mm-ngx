@@ -36,7 +36,7 @@ export class DoctorsListComponent implements OnInit {
         let location = this.sharedService.getLocation();
         let speciality = this.sharedService.getSpeciality();
         let gps = 39834758;
-        let currentTime = '2018-05-21 14:07:00'; 
+        let currentTime = '2018-05-21 14:07:00';
         let page = 1;
         let size = 5;
         this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
@@ -46,10 +46,9 @@ export class DoctorsListComponent implements OnInit {
                     this.doctors.map((doctor: any) => {
                         let updatedAt = new Date(doctor.updatedAt);
                         let currentTime = new Date();
-                        let ms = moment(currentTime, "DD/MM/YYYY HH:mm:ss").diff(moment(updatedAt, "DD/MM/YYYY HH:mm:ss"));
+                        let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
                         let date = moment.duration(ms);
                         doctor.lastupdated = this.getLastUpdated(date);
-                        
                         //doctor media in case if it required
                         /*this.sharedService.getDoctorMedias(doctor.userId)
                             .subscribe(medias => {
@@ -81,8 +80,8 @@ export class DoctorsListComponent implements OnInit {
     }
     /**
      * doctor stores for all the listed doctors
-     * @param stores 
-     * @param doctorId 
+     * @param stores
+     * @param doctorId
      */
     getStores(stores: any, doctorId: number) {
         let qualifications = '';

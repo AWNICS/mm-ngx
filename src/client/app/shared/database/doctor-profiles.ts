@@ -18,7 +18,7 @@ export class DoctorProfiles {
   shortBio: string;
   longBio: string;
   qualification: string[];
-  qualificationStr: string; 
+  qualificationStr: string;
   language: string[];
   languageStr: string;
   consultationMode: string[];

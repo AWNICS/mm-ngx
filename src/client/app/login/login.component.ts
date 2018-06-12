@@ -50,7 +50,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate([`/chat/${res.user.id}`]);
         } else if(res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
-            .subscribe(res => { });
+            .subscribe(res => {
+              console.log();
+             });
           this.router.navigate([`/dashboards/doctors/${res.user.id}`]);
         } else {
           this.router.navigate([`/`]);

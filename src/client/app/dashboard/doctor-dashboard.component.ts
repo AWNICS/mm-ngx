@@ -21,7 +21,7 @@ export class DoctorDashboardComponent implements OnInit {
     userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
-    status: Array<Object> = ["online", "offline", "away", "invisible"];
+    status: Array<Object> = ['online', 'offline', 'away', 'invisible'];
     selectedStatus: string;
     selectedUser: UserDetails;
     doctor: DoctorProfiles;
@@ -60,7 +60,7 @@ export class DoctorDashboardComponent implements OnInit {
             this.getDoctorStore(this.doctorId);
         }
         this.socketService.connection(this.userId);
-        this.doctorSchedule = { "status": "online" };
+        this.doctorSchedule = { 'status': 'online' };
     }
 
     chart() {

@@ -163,7 +163,7 @@ export class DoctorViewProfileComponent implements OnInit {
             });
     }
 
-    getStatus(doctor: any) { 
+    getStatus(doctor: any) {
         this.sharedService.getDoctorScheduleByDoctorId(this.doctorId)
             .subscribe(res => {
                 this.doctorSchedule = res;
@@ -176,13 +176,13 @@ export class DoctorViewProfileComponent implements OnInit {
         this.slots = '';
         for(let i = 0; i < doctorSchedules.length; i++) {
             let startTime = new Date(doctorSchedules[i].startTime).getUTCHours();
-            var ampm = startTime >= 12 ? 'pm' : 'am';
+            let ampm = startTime >= 12 ? 'pm' : 'am';
             startTime = startTime % 12;
             startTime = startTime ? startTime : 12;// the hour '0' should be '12'
             let initial = startTime + ampm;
 
             let endTime = new Date(doctorSchedules[i].endTime).getUTCHours();
-            var ampm = endTime >= 12 ? 'pm' : 'am';
+            ampm = endTime >= 12 ? 'pm' : 'am';
             endTime = endTime % 12;
             endTime = endTime ? endTime : 12;// the hour '0' should be '12'
             let end = endTime + ampm;
