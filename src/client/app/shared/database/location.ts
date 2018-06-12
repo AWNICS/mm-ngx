@@ -5,6 +5,6 @@ export class Locations {
     lngMin: number;
     latMax: number;
     lngMax: number;
-    createdBy: string;
-    updatedBy: string;
+    createdBy: number;
+    updatedBy: number;
 }

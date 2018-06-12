@@ -11,7 +11,7 @@
                 <p class="error" #msg>
                     <small>{{message}}</small>
                 </p>
-                <form novalidate [formGroup]="registerDoctorDetails" (ngSubmit)="register(registerDoctorDetails)">
+                <form novalidate [formGroup]="registerDoctorProfiles" (ngSubmit)="register(registerDoctorProfiles)">
                     <div class="row">
                         <div class="col">
                             <label>First Name</label>
@@ -31,7 +31,7 @@
                     <label>Password</label>
                     <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <label>Confirm Password</label>
-                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorDetails);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorProfiles);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <div class="row">
                         <div class="col">
                             <label>Speciality</label>
@@ -50,7 +50,7 @@
                         <input type="checkbox" class="custom-control-input" id="termsAccepted" formControlName="termsAccepted" required>
                         <label class="custom-control-label" for="termsAccepted" style="margin-left: -12px;">I agree to the <a href="#">Terms and Conditions</a></label>
                     </div><br>
-                    <button i18n type="submit" class="button button__accent" [disabled]="registerDoctorDetails.invalid">Register</button>
+                    <button i18n type="submit" class="button button__accent" [disabled]="registerDoctorProfiles.invalid">Register</button>
                 </form>
             </div>
         </div>

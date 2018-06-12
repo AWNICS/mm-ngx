@@ -24,7 +24,7 @@ body {
     border-radius: 100%;
 }
 
-.status {
+.status-online {
     position: relative;
     top: -40px;
     left: 120px;
@@ -35,7 +35,40 @@ body {
     background-color: #3AD29F;
 }
 
-.doctor-details {
+.status-offline {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FF5252;
+}
+
+.status-away {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FFFF00;
+}
+
+.status-invisible {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #E2E0FF;
+}
+
+.doctor-profiles {
     background-color: #F7F7F7;
     color: #666;
     padding: 2rem;
@@ -204,7 +237,25 @@ a {
         margin-left: auto;
         margin-right: auto;
     }
-    .status {
+    .status-online {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-offline {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-away {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-invisible {
         top: -25px;
         left: 58%;
         width: 15px;

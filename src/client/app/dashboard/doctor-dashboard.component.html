@@ -4,21 +4,37 @@
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col col-12">
-                    <div class="card shadow" style="height: 250px;">
+                    <div class="card shadow">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                    <div class="display-image">
-                                        <img class="rounded-circle img-fluid img-thumbnail" src="assets/jpg/docMale.jpg" alt="docPic">
-                                        <i class="fa fa-circle"></i>
+                                <div class="col col-12 col-xl-4 col-lg-12 col-md-4 col-sm-12">
+                                    <img class="profile-image" src="assets/jpg/docMale.jpg" alt="avatar" />
+                                    <div class="status-online" title="Online" *ngIf="doctorSchedule?.status === 'online';"></div>
+                                    <div class="row small-font status-text" *ngIf="doctorSchedule?.status === 'online';">
+                                        <i>Available now</i>
+                                    </div>
+                                    <div class="status-offline" title="Offline" *ngIf="doctorSchedule?.status === 'offline';"></div>
+                                    <div class="row small-font status-text" *ngIf="doctorSchedule?.status === 'offline';">
+                                        <i>Not Available</i>
+                                    </div>
+                                    <div class="status-away" title="Away" *ngIf="doctorSchedule?.status === 'away';"></div>
+                                    <div class="row small-font status-text" *ngIf="doctorSchedule.status === 'away';">
+                                        <i>Away</i>
+                                    </div>
+                                    <div class="status-invisible" title="Invisible" *ngIf="doctorSchedule?.status === 'invisible';"></div>
+                                    <div class="row small-font status-text" *ngIf="doctorSchedule?.status === 'invisible';">
+                                        <i>Invisible</i>
                                     </div>
                                 </div>
-                                <div class="col col-lg-8 col-md-8 col-sm-6 col-xs-12">
-                                    <h5 class="card-title">Dr. Rohit Singh</h5>
-                                    <p class="card-text" style="line-height: 1em;">45 years, Male</p>
-                                    <p class="card-text" style="line-height: 1em; margin-top: 0px;">Bangalore</p>
-                                    <p class="card-text" style="line-height: 1em;">MD, Dermatologist</p>
-                                    <button type="submit" class="button button__accent">Change Status</button>
+                                <div class="col col-12 col-xl-8 col-lg-12 col-md-8 col-sm-12">
+                                    <h5 class="card-title">Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
+                                    <p class="card-text" style="line-height: 1em;">{{doctor?.age}} years, {{doctor?.sex}}</p>
+                                    <p class="card-text" style="line-height: 1em; margin-top: 0px;">{{qualifications}}</p>
+                                    <p class="card-text" style="line-height: 1em;">{{locations}}</p>
+                                    <select [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
+                                        <option [ngValue]="undefined" selected disabled>Change Status</option>
+                                        <option *ngFor="let option of status" [ngValue]="option"> {{option}} </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +90,7 @@
                     <h5 class="offset-1">Appointments for Today</h5>
                 </div>
                 <div class="card-body">
-                    <canvas #barChart width="500" height="760"></canvas>
+                    <canvas #barChart width="500" height="587"></canvas>
                 </div>
             </div>
         </div>
