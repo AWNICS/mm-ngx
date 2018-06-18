@@ -6,7 +6,7 @@ import { DoctorViewProfileComponent } from './doctor-view-profile.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'profile/:id', component: ProfileComponent },
+      { path: 'profiles/:id', component: ProfileComponent },
       { path: 'profiles/doctors/:id', component: DoctorViewProfileComponent }
     ])
   ],

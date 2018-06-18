@@ -136,6 +136,60 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    //get visitor details
+    getVisitor(visitorId: number) {
+        const uri = `${this.url}/patients/${visitorId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get visitor store
+    getVisitorStore(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/store`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get visitor appointment
+    getVisitorAppointment(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/appointment`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get visitor report
+    getVisitorReport(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/reports`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get visitor health
+    getVisitorHealth(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/health`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    //get visitor prescription
+    getVisitorPrescription(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/prescriptions`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }
