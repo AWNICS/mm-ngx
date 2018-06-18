@@ -166,10 +166,14 @@ export class PatientDashboardComponent implements OnInit {
             });
     }
 
-    getVisitorPrescription(visitorId: number) { 
+    getVisitorPrescription(visitorId: number) {
         this.sharedService.getVisitorPrescription(visitorId)
             .subscribe(visitorPrescription => {
                 this.visitorPrescription = visitorPrescription;
             });
+    }
+
+    edit() {
+        this.router.navigate([`/profiles/${this.selectedUser.id}`]);
     }
 }

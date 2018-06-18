@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
         this.securityService.setCookie('token', res.token, 1);
         if(res.user.role === 'patient') {
-          this.router.navigate([`/chat/${res.user.id}`]);
+          this.router.navigate([`/doctors`]);
         } else if(res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
             .subscribe(res => {
