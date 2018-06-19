@@ -8,7 +8,7 @@ import { PatientDashboardComponent } from './patient-dashboard.component';
   imports: [
     RouterModule.forChild([
       { path: 'dashboards/doctors/:id', component: DoctorDashboardComponent },
-      { path: 'dashboards/patients', component: PatientDashboardComponent }
+      { path: 'dashboards/patients/:id', component: PatientDashboardComponent }
     ])
   ],
   exports: [RouterModule]
