@@ -42,7 +42,7 @@
                     <input type="number" placeholder="xxxxxxxxxxxxxxxx" formControlName="aadhaarNo">
                 </div>
             </div>
-        </div>
+        </div><br>
         <div class="row">
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
@@ -60,18 +60,34 @@
         <div class="row">
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Location</label>
-                    <input type="text" placeholder="Bangalore" formControlName="location" autocomplete>
-                </div>
-            </div>
-            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <div class="form-group">
                     <label>Sex</label>
                     <select formControlName="sex">
                         <option>Male</option>
                         <option>Female</option>
                         <option>Prefer not to disclose</option>
                     </select>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Age</label>
+                    <select formControlName="age">
+                        <option *ngFor="let i of number">{{i}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Short Bio</label>
+                    <textarea formControlName="shortBio" rows="3" placeholder="Tell us about yourself"></textarea>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Long Bio</label>
+                    <textarea formControlName="longBio" rows="3" placeholder="Tell us about yourself"></textarea>
                 </div>
             </div>
         </div>
@@ -82,10 +98,50 @@
                     <textarea formControlName="address" rows="3" placeholder="Address"></textarea>
                 </div>
             </div>
+        </div><br>
+        <div class="row">
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>About</label>
-                    <textarea formControlName="description" rows="3" placeholder="Tell us about yourself"></textarea>
+                    <label>Qualification</label>
+                    <select formControlName="qualification" size=1 multiple>
+                        <option>MBBS</option>
+                        <option>MD</option>
+                        <option>MS</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Languages</label>
+                    <select formControlName="language" size=1 multiple>
+                        <option>English</option>
+                        <option>Hindi</option>
+                        <option>Kannada</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Location/Zone</label>
+                    <select formControlName="location" size=1 multiple>
+                        <option>Bangalore</option>
+                        <option>Delhi</option>
+                        <option>Kolkata</option>
+                        <option>Mumbai</option>
+                        <option>Chennai</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label>Consultation Mode</label>
+                    <select formControlName="consultationMode" size=1 multiple>
+                        <option>Chat</option>
+                        <option>Audio</option>
+                        <option>Video</option>
+                    </select>
                 </div>
             </div>
         </div>

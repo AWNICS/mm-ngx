@@ -2,35 +2,34 @@
 <div class="container">
     <div class="row">
         <div class="col col-12 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 250px;">
+            <div class="card shadow">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col col-lg-2 col-md-4 col-sm-6 col-xs-12">
-                            <div class="display-image">
-                                <img class="rounded-circle img-fluid img-thumbnail" src="assets/jpg/female1.jpg" alt="docPic">
-                                <i class="fa fa-circle"></i>
+                        <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
+                            <img class="profile-image" src="assets/jpg/female1.jpg" alt="avatar" />
+                            <div class="status" title="Online"></div>
+                            <div class="row small-font status-text">
+                                <i>Available</i>
                             </div>
                         </div>
-                        <div class="col col-lg-10 col-md-8 col-sm-6 col-xs-12">
-                            <h5 class="card-title">Anurupa Sen</h5>
-                            <p class="card-text" style="line-height: 1em;">30 years, Female, AB+, Bengali</p>
-                            <p class="card-text" style="line-height: 1em;">Bangalore</p>
-                            <button type="submit" class="button button__accent">Edit</button>
+                        <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
+                            <h5 class="card-title">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
+                            <p class="card-text" style="line-height: 1em;">{{visitorDetail?.age}} years, {{visitorDetail?.sex}}, {{visitorDetail?.bloodGroup}}</p>
+                            <p class="card-text">Speaks: {{languages}}</p>
+                            <p class="card-text" style="line-height: 1em;">{{locations}}</p>
+                            <button type="submit" class="button button__accent" (click)="edit();">Edit</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 250px;">
+            <div class="card shadow" style="height: auto;">
                 <div class="card-header">
                     <h5 class="offset-1">Allergies</h5>
                 </div>
-                <div class="card-body offset-1">
-                    <p>Nuts</p>
-                    <p>Penicillin</p>
-                    <p>Shellfish</p>
-                    <p>Spores</p>
+                <div class="card-body offset-1" *ngFor="let allergy of visitorHealth?.allergies.allergy" style="padding-top: inherit; padding-bottom: 8px;">
+                    {{allergy}}
                 </div>
             </div>
         </div>
@@ -57,7 +56,7 @@
                         <div class="col col-5 offset-1">
                             <div id="circle">
                                 <div id="text">
-                                    <h4>110/70</h4>
+                                    <h4>{{visitorPrescription?.description.vitals["Blood pressure"]}}</h4>
                                 </div>
                             </div>
                             <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
@@ -65,7 +64,7 @@
                         <div class="col col-5">
                             <div id="circle">
                                 <div id="text">
-                                    <h4>60</h4>
+                                    <h4>{{visitorPrescription?.description.vitals["Heart rate"]}}</h4>
                                 </div>
                             </div>
                             <p style="text-align: center;">Heart Rate</p>
@@ -82,14 +81,13 @@
                     <h5 class="offset-1">Reports</h5>
                 </div>
                 <div class="card-body" style="margin-left: -10px;">
-                    <ul>
-                        <li>
-                            <a href='#'>X-RAY</a>
-                        </li>
-                        <li>
-                            <a href='#'>CT scan</a>
-                        </li>
-                    </ul>
+                    <div *ngFor="let report of visitorReport">
+                        <ul>
+                            <li>
+                                <a href='{{report.url}}'>{{report?.type}}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,8 +97,8 @@
                     <h5 class="offset-1">Height & Weight</h5>
                 </div>
                 <div class="card-body offset-1">
-                    <p>Height: 5'8</p>
-                    <p>Weight: 65</p>
+                    <p>Height: {{visitorDetail?.height}}</p>
+                    <p>Weight: {{visitorDetail?.weight}}</p>
                 </div>
                 <div class="text-muted" style="margin-left: 8%;">
                     <p class=""><small>Average height:5 & weight:60(Indian female)</small></p>

@@ -15,7 +15,7 @@ export class PatientInfo {
     location: string;
     address: string;
     createdTime: any;
-    createdBy: string;
+    createdBy: number;
     updatedTime: any;
-    updatedBy: string;
+    updatedBy: number;
 }

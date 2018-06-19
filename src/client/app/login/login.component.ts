@@ -5,6 +5,7 @@ import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private sharedService: SharedService
   ) {
   }
 
@@ -44,7 +46,17 @@ export class LoginComponent implements OnInit {
         this.securityService.setLoginStatus(true);
         this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
         this.securityService.setCookie('token', res.token, 1);
-        this.router.navigate([`/chat/${res.user.id}`]);
+        if(res.user.role === 'patient') {
+          this.router.navigate([`/doctors`]);
+        } else if(res.user.role === 'doctor') {
+          this.sharedService.updateStatus('online', res.user.id)
+            .subscribe(res => {
+              console.log();
+             });
+          this.router.navigate([`/dashboards/doctors/${res.user.id}`]);
+        } else {
+          this.router.navigate([`/`]);
+        }
       }, err => {
         this.error = (JSON.parse(err._body)).message;
         this.email.nativeElement.disabled = false;

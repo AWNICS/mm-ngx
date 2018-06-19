@@ -1,0 +1,35 @@
+export class DoctorProfiles {
+  id: number;
+  userId: number;
+  regNo: string;
+  validity: any;
+  sex: string;
+  picUrl: string;
+  age: number;
+  address: string;
+  speciality: string;
+  experience: number;
+  description: string;
+  videoUrl: string;
+  appearUrl: string;
+  waitingTime: number;
+  ratingValue: number;
+  ratingCount: number;
+  shortBio: string;
+  longBio: string;
+  qualification: string[];
+  qualificationStr: string;
+  language: string[];
+  languageStr: string;
+  consultationMode: string[];
+  consultationModeStr: string;
+  location: string[];
+  locationStr: string;
+  status: string;
+  createdAt: any;
+  createdBy: number;
+  updatedAt: any;
+  updatedBy: number;
+  lastupdated: string;
+  termsAccepted: boolean;
+}

@@ -1,5 +1,12 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
+import { SecurityService } from '../shared/services/security.service';
+import { SocketService } from '../chat/socket.service';
+import { UserDetails } from '../shared/database/user-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
+import { ChatService } from '../chat/chat.service';
 const Chart = require('chart.js/dist/Chart.bundle.js');
 
 @Component({
@@ -10,16 +17,50 @@ const Chart = require('chart.js/dist/Chart.bundle.js');
 })
 
 export class DoctorDashboardComponent implements OnInit {
+
+    userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
+    status: Array<Object> = ['online', 'offline', 'away', 'invisible'];
+    selectedStatus: string;
+    selectedUser: UserDetails;
+    doctor: DoctorProfiles;
+    doctorStore: any;
+    doctorSchedule: any;
+    qualifications: string = '';
+    languages: string = '';
+    consultationModes: string = '';
+    locations: string = '';
+    doctorId: number;
 
     constructor(
-        private ref: ChangeDetectorRef
+        private ref: ChangeDetectorRef,
+        private route: ActivatedRoute,
+        private sharedService: SharedService,
+        private securityService: SecurityService,
+        private socketService: SocketService,
+        private chatService: ChatService,
+        private router: Router
     ) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
         this.chart();
+        const cookie = this.securityService.getCookie('userDetails');
+        this.doctorId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
+        if (cookie === '') {
+            this.router.navigate([`/login`]);
+        } else if (JSON.parse(cookie).id) {
+            this.userId = JSON.parse(cookie).id;
+            this.chatService.getUserById(this.doctorId)
+                .subscribe(user => {
+                    this.selectedUser = user;
+                });
+            this.getDoctorById(this.doctorId);
+            this.getDoctorStore(this.doctorId);
+        }
+        this.socketService.connection(this.userId);
+        this.doctorSchedule = { 'status': 'online' };
     }
 
     chart() {
@@ -55,5 +96,50 @@ export class DoctorDashboardComponent implements OnInit {
                 }
             }
         });
+    }
+    getDoctorById(doctorId: number) {
+        this.sharedService.getDoctorById(doctorId)
+            .subscribe(doctor => {
+                this.doctor = doctor;
+            });
+    }
+    getDoctorStore(doctorId: number) {
+        this.sharedService.getDoctorStore(doctorId)
+            .subscribe(doctorStore => {
+                this.getStores(doctorStore, doctorId);
+            });
+    }
+
+    //update status in doctor schedule
+    updateStatus(status: string) {
+        this.sharedService.updateStatus(status, this.doctorId)
+            .subscribe(res => {
+                this.doctorSchedule.status = status;
+            });
+    }
+
+    getStores(stores: any, doctorId: number) {
+        this.qualifications = '';
+        this.languages = '';
+        this.consultationModes = '';
+        this.locations = '';
+        for (let i = 0; i < stores.length; i++) {
+            if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
+                this.qualifications = this.qualifications + ` ${stores[i].value}` + ',';
+            }
+            if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
+                this.languages = this.languages + ` ${stores[i].value}` + ',';
+            }
+            if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
+                this.consultationModes = this.consultationModes + ` ${stores[i].value}` + ',';
+            }
+            if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
+                this.locations = this.locations + ` ${stores[i].value}` + ',';
+            }
+        }
+        this.qualifications = this.qualifications.slice(0, this.qualifications.length - 1);
+        this.languages = this.languages.slice(0, this.languages.length - 1);
+        this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 1);
+        this.locations = this.locations.slice(0, this.locations.length - 1);
     }
 }

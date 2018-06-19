@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { UserDetails } from '../shared/database/user-details';
-import { DoctorDetails } from '../shared/database/doctor-details';
+import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { Observable } from 'rxjs/Rx';
 import { SecurityService } from '../shared/services/security.service';
 
@@ -16,7 +16,7 @@ export class LoginService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://35.226.156.161:3000';  // URL to access server
+    private url = 'http://localhost:3000';  // URL to access server
 
     constructor(
         private router: Router,
@@ -41,11 +41,11 @@ export class LoginService {
             .catch(this.handleError);
     }
 
-    createNewDoctor(doctorDetails: DoctorDetails): Observable<DoctorDetails> {
+    createNewDoctor(doctorProfiles: DoctorProfiles): Observable<DoctorProfiles> {
         const url = `${this.url}/doctors`;
         return this.http
-            .post(url, doctorDetails, this.options)
-            .map(response => response.json() as DoctorDetails)
+            .post(url, doctorProfiles, this.options)
+            .map(response => response.json() as DoctorProfiles)
             .catch(this.handleError);
     }
 
