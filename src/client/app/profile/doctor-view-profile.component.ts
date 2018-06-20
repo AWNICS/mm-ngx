@@ -1,15 +1,17 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DragScrollDirective  } from 'ngx-drag-scroll';
 import { UserDetails } from '../shared/database/user-details';
-import { ProfileService } from './profile.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
-var moment = require('moment');
 
+export interface Files {
+    type: string;
+    url: string;
+}
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -20,11 +22,22 @@ var moment = require('moment');
     styleUrls: ['doctor-view-profile.component.css']
 })
 export class DoctorViewProfileComponent implements OnInit {
-
-    @Input() user: UserDetails;
-    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    @ViewChild('modal') modal: ElementRef;
-
+    
+    item: Files = {url : 'src/client/assets/img/luke.png', type: 'image'};
+    imagelist: Files[] = [
+      {url : 'src/client/assets/img/luke.png', type: 'image'},
+      {url : 'src/client/assets/img/boba.png', type: 'image'},
+      {url : 'https://img.youtube.com/vi/2vjPBrBU-TM/0.jpg', type: 'video'},
+      {url : 'src/client/assets/img/c3po.png', type: 'image'},
+      {url : 'src/client/assets/img/obi.png', type: 'image'},
+      {url : 'https://img.youtube.com/vi/2Vv-BfVoq4g/0.jpg', type: 'video'},
+      {url : 'src/client/assets/img/r2d2.png', type: 'image'},
+      {url : 'src/client/assets/img/yolo.png', type: 'image'},
+      {url : 'https://img.youtube.com/vi/YykjpeuMNEk/0.jpg', type: 'video'}
+    ];
+    leftNavDisabled = false;
+    rightNavDisabled = false;
+    dragScroll: DragScrollDirective;
     userId: number;
     doctorId: number;
     selectedUser: UserDetails;
@@ -39,9 +52,12 @@ export class DoctorViewProfileComponent implements OnInit {
     doctorReviews: any;
     message: string;
     slots: string = '';
+    @ViewChild('nav', {read: DragScrollDirective}) ds: DragScrollDirective;
+    @Input() user: UserDetails;
+    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    @ViewChild('modal') modal: ElementRef;
 
     constructor(
-        private profileService: ProfileService,
         private securityService: SecurityService,
         private chatService: ChatService,
         private sharedService: SharedService,
@@ -190,4 +206,30 @@ export class DoctorViewProfileComponent implements OnInit {
         }
         this.slots = this.slots.slice(0, this.slots.length - 1);
     }
+
+    clickItem(item: any) {
+        if(item.type === 'video') {
+          let id = item.url.split('/');
+          this.item.type = 'video';
+          this.item.url = `https://www.youtube.com/embed/${id[4]}`;
+        } else {
+            this.item = item;
+        }
+      }
+    
+      moveLeft() {
+        this.ds.moveLeft();
+      }
+    
+      moveRight() {
+        this.ds.moveRight();
+      }
+    
+      leftBoundStat(reachesLeftBound: boolean) {
+        this.leftNavDisabled = reachesLeftBound;
+      }
+    
+      rightBoundStat(reachesRightBound: boolean) {
+        this.rightNavDisabled = reachesRightBound;
+      }
 }
