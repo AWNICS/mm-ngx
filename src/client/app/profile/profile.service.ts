@@ -19,7 +19,7 @@ import { PatientInfo } from '../shared/database/patient-info';
 export class ProfileService {
     private headers = new Headers();
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000';
+    private url = 'http://35.226.156.161:3000';
     private user: UserDetails;
     private group: Group;
     private StaffInfo: StaffInfo;

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { RatingModule } from 'ngx-rating';
+import { DragScrollModule } from 'ngx-drag-scroll';
 
 import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
@@ -22,7 +23,8 @@ import { DoctorViewProfileComponent } from './doctor-view-profile.component';
     FormsModule,
     ReactiveFormsModule,
     ProfileRoutingModule,
-    RatingModule
+    RatingModule,
+    DragScrollModule
   ],
   declarations: [
     ProfileComponent,

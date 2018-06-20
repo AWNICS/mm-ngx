@@ -97,6 +97,11 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/chart.js/dist/Chart.bundle.js'
     });
 
+    this.addPackageBundles({
+      name: 'ngx-drag-scroll',
+      path: 'node_modules/ngx-drag-scroll/index.js'
+    });
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
