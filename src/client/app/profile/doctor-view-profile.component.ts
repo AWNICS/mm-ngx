@@ -8,7 +8,6 @@ import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
-var moment = require('moment');
 
 /**
  * This class represents the lazy loaded RegisterComponent.
