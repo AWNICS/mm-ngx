@@ -14,7 +14,7 @@ export class SharedService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://localhost:3000';  // URL to access server
+    private url = 'http://35.226.156.161:3000';  // URL to access server
     private location: string;
     private speciality: string;
 
