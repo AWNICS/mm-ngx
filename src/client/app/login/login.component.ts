@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
             });
           this.router.navigate([`/dashboards/doctors/${res.user.id}`]);
         } else {
-          this.router.navigate([`/chat/${res.user.id}`]); 
+          this.router.navigate([`/chat/${res.user.id}`]);
         }
       }, err => {
         this.error = (JSON.parse(err._body)).message;

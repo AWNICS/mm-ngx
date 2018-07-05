@@ -190,6 +190,15 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    /* API related to visitorTimeline */
+    getTimeline(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/appointments/timeline`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }

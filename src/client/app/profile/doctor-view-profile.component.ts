@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DragScrollDirective  } from 'ngx-drag-scroll';
+import { DragScrollDirective } from 'ngx-drag-scroll';
 import { UserDetails } from '../shared/database/user-details';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
@@ -22,18 +22,18 @@ export interface Files {
     styleUrls: ['doctor-view-profile.component.css']
 })
 export class DoctorViewProfileComponent implements OnInit {
-    
-    item: Files = {url : 'src/client/assets/img/luke.png', type: 'image'};
+
+    item: Files = { url: './assets/img/luke.png', type: 'image' };
     imagelist: Files[] = [
-      {url : 'src/client/assets/img/luke.png', type: 'image'},
-      {url : 'src/client/assets/img/boba.png', type: 'image'},
-      {url : 'https://img.youtube.com/vi/2vjPBrBU-TM/0.jpg', type: 'video'},
-      {url : 'src/client/assets/img/c3po.png', type: 'image'},
-      {url : 'src/client/assets/img/obi.png', type: 'image'},
-      {url : 'https://img.youtube.com/vi/2Vv-BfVoq4g/0.jpg', type: 'video'},
-      {url : 'src/client/assets/img/r2d2.png', type: 'image'},
-      {url : 'src/client/assets/img/yolo.png', type: 'image'},
-      {url : 'https://img.youtube.com/vi/YykjpeuMNEk/0.jpg', type: 'video'}
+        { url: './assets/img/luke.png', type: 'image' },
+        { url: './assets/img/boba.png', type: 'image' },
+        { url: 'https://img.youtube.com/vi/2vjPBrBU-TM/0.jpg', type: 'video' },
+        { url: './assets/img/c3po.png', type: 'image' },
+        { url: './assets/img/obi.png', type: 'image' },
+        { url: 'https://img.youtube.com/vi/2Vv-BfVoq4g/0.jpg', type: 'video' },
+        { url: './assets/img/r2d2.png', type: 'image' },
+        { url: './assets/img/yolo.png', type: 'image' },
+        { url: 'https://img.youtube.com/vi/YykjpeuMNEk/0.jpg', type: 'video' }
     ];
     leftNavDisabled = false;
     rightNavDisabled = false;
@@ -52,7 +52,7 @@ export class DoctorViewProfileComponent implements OnInit {
     doctorReviews: any;
     message: string;
     slots: string = '';
-    @ViewChild('nav', {read: DragScrollDirective}) ds: DragScrollDirective;
+    @ViewChild('nav', { read: DragScrollDirective }) ds: DragScrollDirective;
     @Input() user: UserDetails;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('modal') modal: ElementRef;
@@ -81,7 +81,7 @@ export class DoctorViewProfileComponent implements OnInit {
                         this.doctor.validity = date.getUTCDay() + '-' + date.getUTCMonth() + '-' + date.getUTCFullYear();
                         this.getPicUrl(this.doctor, this.selectedUser);
                         this.getStatus(this.doctor);
-                });
+                    });
             });
         this.getDoctorStore(this.doctorId);
         this.getActivities(this.doctorId);
@@ -183,14 +183,14 @@ export class DoctorViewProfileComponent implements OnInit {
         this.sharedService.getDoctorScheduleByDoctorId(this.doctorId)
             .subscribe(res => {
                 this.doctorSchedule = res;
-                this.doctor.status = this.doctorSchedule[this.doctorSchedule.length-1].status;
+                this.doctor.status = this.doctorSchedule[this.doctorSchedule.length - 1].status;
                 this.getSlots(this.doctorSchedule);
             });
     }
 
     getSlots(doctorSchedules: any) {
         this.slots = '';
-        for(let i = 0; i < doctorSchedules.length; i++) {
+        for (let i = 0; i < doctorSchedules.length; i++) {
             let startTime = new Date(doctorSchedules[i].startTime).getUTCHours();
             let ampm = startTime >= 12 ? 'pm' : 'am';
             startTime = startTime % 12;
@@ -208,28 +208,28 @@ export class DoctorViewProfileComponent implements OnInit {
     }
 
     clickItem(item: any) {
-        if(item.type === 'video') {
-          let id = item.url.split('/');
-          this.item.type = 'video';
-          this.item.url = `https://www.youtube.com/embed/${id[4]}`;
+        if (item.type === 'video') {
+            let id = item.url.split('/');
+            this.item.type = 'video';
+            this.item.url = `https://www.youtube.com/embed/${id[4]}`;
         } else {
             this.item = item;
         }
-      }
-    
-      moveLeft() {
+    }
+
+    moveLeft() {
         this.ds.moveLeft();
-      }
-    
-      moveRight() {
+    }
+
+    moveRight() {
         this.ds.moveRight();
-      }
-    
-      leftBoundStat(reachesLeftBound: boolean) {
+    }
+
+    leftBoundStat(reachesLeftBound: boolean) {
         this.leftNavDisabled = reachesLeftBound;
-      }
-    
-      rightBoundStat(reachesRightBound: boolean) {
+    }
+
+    rightBoundStat(reachesRightBound: boolean) {
         this.rightNavDisabled = reachesRightBound;
-      }
+    }
 }

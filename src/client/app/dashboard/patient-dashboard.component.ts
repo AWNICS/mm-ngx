@@ -29,6 +29,7 @@ export class PatientDashboardComponent implements OnInit {
     visitorHealth: any;
     visitorPrescription: any;
     picUrl: SafeResourceUrl;
+    visitorTimeline: any;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -62,6 +63,7 @@ export class PatientDashboardComponent implements OnInit {
             this.getVisitorReport(this.visitorId);
             this.getVisitorHealth(this.visitorId);
             this.getVisitorPrescription(this.visitorId);
+            this.getTimeline(this.visitorId);
         }
     }
 
@@ -203,13 +205,22 @@ export class PatientDashboardComponent implements OnInit {
     /* for plotting the consultation history(consultations, reports and vitals) */
     getVisitorAppointmentHistory(visitorId: number) {
         this.sharedService.getVisitorAppointmentHistory(visitorId)
-            .subscribe(visitorHistory => {
-                let consultations = visitorHistory.consultations.monthly;
-                let reports = visitorHistory.reports.monthly;
-                let vitals = visitorHistory.vitals.monthly;
-                if(visitorHistory) {
+            .subscribe(visitorAppointmentHistory => {
+                let consultations = visitorAppointmentHistory.consultations.monthly;
+                let reports = visitorAppointmentHistory.reports.monthly;
+                let vitals = visitorAppointmentHistory.vitals.monthly;
+                if(visitorAppointmentHistory) {
                     this.chart(consultations, reports, vitals);
                 }
+            });
+    }
+
+    /* get timeline related info */
+    getTimeline(visitorId: number) {
+        this.sharedService.getTimeline(visitorId)
+            .subscribe(visitorTimeline => {
+                console.log('all: ' + JSON.stringify(visitorTimeline));
+                this.visitorTimeline = visitorTimeline;
             });
     }
 

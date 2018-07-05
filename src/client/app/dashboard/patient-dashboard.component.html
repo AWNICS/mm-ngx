@@ -106,4 +106,37 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col col-12 col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="offset-1">Timeline</h5>
+                </div>
+                <div class="card-body offset-1">
+                    <vertical-timeline style="width: 100%;">
+                        <vertical-timeline-card><br>
+                            <h3>Today</h3>
+                            <p>Consultations: 2</p>
+                            <p>Reminders: 2</p>
+                            <p>Prescriptions: 2</p>
+                            <p>Schedules: 2</p>
+                        </vertical-timeline-card>
+                        <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
+                        <!--vertical-timeline-card [dateValue]="tomorrow">
+                                            <h1>Tomorrow</h1>
+                                        </vertical-timeline-card-->
+
+                        <!--vertical-timeline-card [dateValue]="myDate" [timeString]="'15:18'"-->
+                        <vertical-timeline-card [timeString]="'15:18'">
+                            <h3>Tomorrow</h3>
+                            <p>Consultations: 3</p>
+                            <p>Reminders: 3</p>
+                            <p>Prescriptions: 3</p>
+                            <p>Schedules: 3</p>
+                        </vertical-timeline-card>
+                    </vertical-timeline>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

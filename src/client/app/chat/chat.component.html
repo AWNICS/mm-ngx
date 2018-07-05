@@ -160,11 +160,11 @@
 
             <div class="chat-history" #messageBox (scroll)="onScroll()">
                 <div *ngFor="let message of messages;let i = index;">
-                    <div *ngIf="message.senderId == selectedUser.id; else alignLeft">
+                    <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
                         <div class="clearfix">
                             <div class="message-data align-right">
                                 <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
-                                <span class="message-data-name">{{message.createdBy}}</span> <i class="fa fa-circle me"></i>
+                                <span class="message-data-name">{{message.senderName}}</span> <i class="fa fa-circle me"></i>
                             </div>
                             <div class="message other-message float-right">
                                 <div [ngSwitch]="message.contentType" style="margin-right: 7px;">
@@ -211,11 +211,11 @@
                     <ng-template #alignLeft>
                         <div class="clearfix">
                             <div class="message-data">
-                                <span class="message-data-name"><i class="fa fa-circle other"></i>{{message.createdBy}}</span>
-                                <span class="message-data-time">{{message.createdTime | date}}</span>
+                                <span class="message-data-name"><i class="fa fa-circle other"></i>{{message.senderName}}</span>
+                                <span class="message-data-time">{{message?.createdTime | date}}</span>
                             </div>
                             <div class="message my-message">
-                                <div [ngSwitch]="message.contentType">
+                                <div [ngSwitch]="message?.contentType">
                                     <div *ngSwitchCase="'text'">
                                         <mm-text-message [message]="message"></mm-text-message>
                                     </div>
@@ -240,9 +240,9 @@
                                     <div *ngSwitchCase="'image'">
                                         <mm-image-message [message]="message"></mm-image-message>
                                     </div>
-                                    <div *ngSwitchDefault>
+                                    <!--div *ngSwitchDefault>
                                         <mm-text-message [message]="message"></mm-text-message>
-                                    </div>
+                                    </div-->
                                 </div>
                             </div>
                         </div>
