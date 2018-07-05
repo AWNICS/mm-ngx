@@ -373,11 +373,15 @@ export class ChatComponent implements OnInit {
   sendMessage({ value }: { value: Message }): void {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'text';
     value.type = 'text';
+    value.picUrl = this.selectedUser.picUrl;
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
+    value.createdBy = this.selectedUser.id;
+    value.updatedBy = this.selectedUser.id;
     value.status = 'delivered';
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;

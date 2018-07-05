@@ -1,5 +1,7 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
@@ -23,14 +25,16 @@ export class PatientDashboardComponent implements OnInit {
     visitorDetail: any;
     languages: string = '';
     locations: string = '';
-    visitorAppointment: any;
     visitorReport: any;
     visitorHealth: any;
     visitorPrescription: any;
+    picUrl: SafeResourceUrl;
+    visitorTimeline: any;
 
     constructor(
         private ref: ChangeDetectorRef,
         private route: ActivatedRoute,
+        private domSanitizer: DomSanitizer,
         private securityService: SecurityService,
         private router: Router,
         private chatService: ChatService,
@@ -39,52 +43,84 @@ export class PatientDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
-        this.chart();
         this.visitorId = +this.route.snapshot.paramMap.get('id');// this will give the visitor id
         const cookie = this.securityService.getCookie('userDetails');
         if (cookie === '') {
             this.router.navigate([`/login`]);
-        } else if (this.visitorId === JSON.parse(cookie).id) {
+        } else {
             this.chatService.getUserById(this.visitorId)
                 .subscribe(user => {
                     this.selectedUser = user;
+                    if (this.selectedUser.picUrl) {
+                        this.downloadPic(this.selectedUser.picUrl);
+                    } else {
+                        this.downloadAltPic(this.selectedUser.role);
+                    }
                 });
             this.getVisitor(this.visitorId);
             this.getVisitorStore(this.visitorId);
-            this.getVisitorAppointment(this.visitorId);
-            this.visitorAppointment = {'status': 'online'};
+            this.getVisitorAppointmentHistory(this.visitorId);
             this.getVisitorReport(this.visitorId);
             this.getVisitorHealth(this.visitorId);
             this.getVisitorPrescription(this.visitorId);
+            this.getTimeline(this.visitorId);
         }
     }
 
-    chart() {
+    downloadPic(filename: string) {
+        this.chatService.downloadFile(filename)
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.detectChanges();
+                };
+            });
+    }
+
+    downloadAltPic(role: string) {
+        let fileName: string;
+        if (role === 'bot') {
+            fileName = 'bot.jpg';
+        } else if (role === 'doctor') {
+            fileName = 'doc.png';
+        } else {
+            fileName = 'user.png';
+        }
+        this.chatService.downloadFile(fileName)
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.detectChanges();
+                };
+            });
+    }
+
+    chart(consultations: any, reports: any, vitals: any) {
         var ctx = this.lineChart.nativeElement.getContext('2d');
         var barChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                    label: 'Consultation',
+                    label: 'Consultations',
                     backgroundColor: '#4B8AF4',
                     radius: 6,
                     fill: false,
-                    data: [1, 2, 1, 0, 0, 1, 0, 0, 2, 1, 0, 1],
+                    data: consultations,
                     showLine: false
                 }, {
                     label: 'Reports',
                     backgroundColor: '#D0CEFD',
                     radius: 5,
                     fill: false,
-                    data: [1, 0, 1, 0, 2, 1, 0, 1, 0, 0, 1, 2],
+                    data: reports,
                     showLine: false
                 }, {
                     label: 'Vitals',
                     backgroundColor: '#FDC2CC',
                     radius: 4,
                     fill: false,
-                    data: [0, 1, 2, 0, 2, 1, 0, 1, 0, 0, 1, 2],
+                    data: vitals,
                     showLine: false
                 }]
             },
@@ -145,13 +181,6 @@ export class PatientDashboardComponent implements OnInit {
         this.locations = this.locations.slice(0, this.locations.length - 1);
     }
 
-    getVisitorAppointment(visitorId: number) {
-        this.sharedService.getVisitorAppointment(visitorId)
-            .subscribe(visitorAppointment => {
-                this.visitorAppointment = visitorAppointment;
-            });
-    }
-
     getVisitorReport(visitorId: number) {
         this.sharedService.getVisitorReport(visitorId)
             .subscribe(visitorReport => {
@@ -170,6 +199,28 @@ export class PatientDashboardComponent implements OnInit {
         this.sharedService.getVisitorPrescription(visitorId)
             .subscribe(visitorPrescription => {
                 this.visitorPrescription = visitorPrescription;
+            });
+    }
+
+    /* for plotting the consultation history(consultations, reports and vitals) */
+    getVisitorAppointmentHistory(visitorId: number) {
+        this.sharedService.getVisitorAppointmentHistory(visitorId)
+            .subscribe(visitorAppointmentHistory => {
+                let consultations = visitorAppointmentHistory.consultations.monthly;
+                let reports = visitorAppointmentHistory.reports.monthly;
+                let vitals = visitorAppointmentHistory.vitals.monthly;
+                if(visitorAppointmentHistory) {
+                    this.chart(consultations, reports, vitals);
+                }
+            });
+    }
+
+    /* get timeline related info */
+    getTimeline(visitorId: number) {
+        this.sharedService.getTimeline(visitorId)
+            .subscribe(visitorTimeline => {
+                console.log('all: ' + JSON.stringify(visitorTimeline));
+                this.visitorTimeline = visitorTimeline;
             });
     }
 

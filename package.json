@@ -149,6 +149,7 @@
         "@ng-bootstrap/ng-bootstrap": "^1.0.2",
         "@types/socket.io-client": "^1.4.32",
         "angular-in-memory-web-api": "0.3.2",
+        "angular-vertical-timeline": "^0.5.1",
         "chart.js": "^2.7.2",
         "core-js": "^2.4.1",
         "intl": "^1.2.5",

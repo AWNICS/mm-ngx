@@ -68,6 +68,8 @@ export class HomeComponent implements OnInit {
         this.sharedService.setSpeciality(value.speciality);
         this.router.navigate([`/doctors`]);
       } else {
+        this.sharedService.setLocation(value.location);
+        this.sharedService.setSpeciality(value.speciality);
         this.router.navigate([`/login`]);
       }
     }

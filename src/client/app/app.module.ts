@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+// Import the timeline library
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,6 +35,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     TermsModule,
     SharedModule.forRoot(),
     Ng2SmartTableModule,
+    VerticalTimelineModule,
     LoginModule,
     ChatModule,
     ConsultationModule,

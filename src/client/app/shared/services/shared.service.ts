@@ -154,15 +154,6 @@ export class SharedService {
             .map(res => res.json());
     }
 
-    //get visitor appointment
-    getVisitorAppointment(visitorId: number) {
-        const uri = `${this.url}/visitors/${visitorId}/appointment`;
-        let headers = new Headers();
-        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.get(uri, { headers: headers })
-            .map(res => res.json());
-    }
-
     //get visitor report
     getVisitorReport(visitorId: number) {
         const uri = `${this.url}/visitors/${visitorId}/reports`;
@@ -184,6 +175,24 @@ export class SharedService {
     //get visitor prescription
     getVisitorPrescription(visitorId: number) {
         const uri = `${this.url}/visitors/${visitorId}/prescriptions`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    /* API related to chart */
+    getVisitorAppointmentHistory(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/appointments/history`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    /* API related to visitorTimeline */
+    getTimeline(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/appointments/timeline`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
-                            <img class="profile-image" src="assets/jpg/female1.jpg" alt="avatar" />
+                            <img class="profile-image" [src]="picUrl" alt="avatar" />
                             <div class="status" title="Online"></div>
                             <div class="row small-font status-text">
                                 <i>Available</i>
@@ -102,6 +102,39 @@
                 </div>
                 <div class="text-muted" style="margin-left: 8%;">
                     <p class=""><small>Average height:5 & weight:60(Indian female)</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-12 col-lg-10 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h5 class="offset-1">Timeline</h5>
+                </div>
+                <div class="card-body offset-1">
+                    <vertical-timeline style="width: 100%;">
+                        <vertical-timeline-card><br>
+                            <h3>Today</h3>
+                            <p>Consultations: 2</p>
+                            <p>Reminders: 2</p>
+                            <p>Prescriptions: 2</p>
+                            <p>Schedules: 2</p>
+                        </vertical-timeline-card>
+                        <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
+                        <!--vertical-timeline-card [dateValue]="tomorrow">
+                                            <h1>Tomorrow</h1>
+                                        </vertical-timeline-card-->
+
+                        <!--vertical-timeline-card [dateValue]="myDate" [timeString]="'15:18'"-->
+                        <vertical-timeline-card [timeString]="'15:18'">
+                            <h3>Tomorrow</h3>
+                            <p>Consultations: 3</p>
+                            <p>Reminders: 3</p>
+                            <p>Prescriptions: 3</p>
+                            <p>Schedules: 3</p>
+                        </vertical-timeline-card>
+                    </vertical-timeline>
                 </div>
             </div>
         </div>

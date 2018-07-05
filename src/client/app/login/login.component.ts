@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit {
         } else if(res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
             .subscribe(res => {
-              console.log();
-             });
+              return;
+            });
           this.router.navigate([`/dashboards/doctors/${res.user.id}`]);
         } else {
-          this.router.navigate([`/`]);
+          this.router.navigate([`/chat/${res.user.id}`]);
         }
       }, err => {
         this.error = (JSON.parse(err._body)).message;
