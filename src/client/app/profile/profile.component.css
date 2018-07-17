@@ -241,3 +241,34 @@ button.delete-media {
     text-decoration: none;
     cursor: pointer;
 }
+
+.file-upload {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    overflow: hidden;
+    transition: all 1s;
+    cursor: pointer;
+}
+
+.file-upload input[type='file'] {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.fa .fa-upload {
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    border-radius: 30%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
