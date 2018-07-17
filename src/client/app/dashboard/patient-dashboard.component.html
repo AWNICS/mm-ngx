@@ -6,11 +6,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
-                            <img class="profile-image" [src]="picUrl" alt="avatar" />
-                            <div class="status" title="Online"></div>
-                            <div class="row small-font status-text">
-                                <i>Available</i>
-                            </div>
+                            <img class="profile-image" [src]="picUrl | safe: 'url'" alt="avatar" />
+                            <div class="status-online" title="Online"></div>
                         </div>
                         <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
                             <h5 class="card-title">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>

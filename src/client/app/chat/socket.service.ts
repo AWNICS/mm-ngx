@@ -10,7 +10,7 @@ import { SecurityService } from '../shared/services/security.service';
 @Injectable()
 export class SocketService {
     private socket: any;
-    private baseUrl = 'http://35.226.156.161:3000';
+    private baseUrl = 'http://localhost:3000';
 
     constructor(private securityService: SecurityService) {}
 

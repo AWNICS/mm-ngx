@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
   Output
 } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -100,7 +100,6 @@ export class ChatComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private location: Location,
     private socketService: SocketService,
     private chatService: ChatService,
     private ref: ChangeDetectorRef,
@@ -152,6 +151,7 @@ export class ChatComponent implements OnInit {
   createRadio({ value, valid }: { value: Message, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'radio';
     value.type = 'radio';
@@ -167,6 +167,7 @@ export class ChatComponent implements OnInit {
   createSlider(type: string, { value, valid }: { value: Message, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'slider';
     value.type = type;
@@ -181,6 +182,7 @@ export class ChatComponent implements OnInit {
   createCheckbox({ value, valid }: { value: Message, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'checkbox';
     value.type = 'checkbox';
@@ -196,6 +198,7 @@ export class ChatComponent implements OnInit {
   createAppear({ value, valid }: { value: Message, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'appear';
     value.type = 'appear';
@@ -211,11 +214,12 @@ export class ChatComponent implements OnInit {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let images: FileList = event.target.files;
-    this.chatService.uploadFile(images)
+    this.chatService.uploadFile(images[0])
       .subscribe(res => {
         value.contentData.data = res._body;
         value.receiverId = this.chatService.getGroup().id;
         value.senderId = this.selectedUser.id;
+        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
         value.receiverType = 'group';
         value.contentType = 'image';
         value.type = 'image';
@@ -233,11 +237,12 @@ export class ChatComponent implements OnInit {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let videos: FileList = event.target.files;
-    this.chatService.uploadFile(videos)
+    this.chatService.uploadFile(videos[0])
       .subscribe(res => {
         value.contentData.data = res._body;
         value.receiverId = this.chatService.getGroup().id;
         value.senderId = this.selectedUser.id;
+        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
         value.receiverType = 'group';
         value.contentType = 'video';
         value.type = 'video';
@@ -255,11 +260,12 @@ export class ChatComponent implements OnInit {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let files: FileList = event.target.files;
-    this.chatService.uploadFile(files)
+    this.chatService.uploadFile(files[0])
       .subscribe(res => {
         value.contentData.data = res._body;
         value.receiverId = this.chatService.getGroup().id;
         value.senderId = this.selectedUser.id;
+        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
         value.receiverType = 'group';
         value.contentType = 'doc';
         value.type = 'doc';

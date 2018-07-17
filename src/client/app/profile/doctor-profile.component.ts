@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
@@ -56,7 +56,7 @@ export class DoctorProfileComponent implements OnInit {
         this.generateNumber();
     }
 
-    update({ value, valid }: { value: any, valid: boolean }) {
+    update({ value }: { value: any }) {
         this.profileService.updateDoctorProfiles(value)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
@@ -67,7 +67,7 @@ export class DoctorProfileComponent implements OnInit {
     }
 
     generateNumber() {
-        for (var i = 1; i <= 50; i++ ) {
+        for (var i = 1; i <= 50; i++) {
             this.number.push(i);
         }
     }
