@@ -143,7 +143,6 @@ export class ProfileComponent implements OnInit {
     }
 
     uploadMedia(files: FileList) {
-        console.log('before ', files);
         let self = this;
         let fileReader: FileReader = new FileReader();
         if (files[0].type.match('image')) {
@@ -210,7 +209,6 @@ export class ProfileComponent implements OnInit {
         canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
         let image = canvas.toDataURL();
         let success = image.length > 100;
-        debugger;
         if (success) {
             this.thumbImage = this.dataURLtoFile(image, 'thumbnail_' + file.name);
             this.chatService.uploadFile(this.thumbImage)
