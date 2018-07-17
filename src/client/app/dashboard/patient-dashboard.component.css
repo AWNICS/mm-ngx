@@ -112,26 +112,6 @@ button:focus,
     color: #fff;
 }
 
-.profile-image {
-    height: 95px;
-    width: 100px;
-    max-width: 160px;
-    padding: 3px;
-    border: 1px solid rgba(102, 102, 102, 0.1);
-    border-radius: 100%;
-}
-
-.status {
-    position: relative;
-    top: -26px;
-    left: 84px;
-    border: none;
-    border-radius: 100%;
-    width: 12px;
-    height: 12px;
-    background-color: #3AD29F;
-}
-
 .small-font {
     font-size: 14px;
     line-height: 1.5;
@@ -144,6 +124,58 @@ button:focus,
     margin-top: -15px;
 }
 
+.profile-image {
+    height: 150px;
+    width: 150px;
+    padding: 3px;
+    border: 1px solid rgba(102, 102, 102, 0.1);
+    border-radius: 100%;
+}
+
+.status-online {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #3AD29F;
+}
+
+.status-offline {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FF5252;
+}
+
+.status-away {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FFFF00;
+}
+
+.status-invisible {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #E2E0FF;
+}
+
 @media (max-width: 765px) {
     .profile-image {
         max-height: 90px;
@@ -152,11 +184,29 @@ button:focus,
         margin-left: auto;
         margin-right: auto;
     }
-    .status {
-        top: -22px;
-        left: 60%;
-        width: 10px;
-        height: 10px;
+    .status-online {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-offline {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-away {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
+    }
+    .status-invisible {
+        top: -25px;
+        left: 58%;
+        width: 15px;
+        height: 15px;
     }
     .status-text {
         margin-left: 37%;

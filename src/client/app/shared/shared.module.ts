@@ -16,12 +16,14 @@ import { AppearMessageComponent } from './message-components/appear-message.comp
 //import { AlertMessageComponent } from './message-components/alert-message.component';
 import { SecurityService } from './services/security.service';
 import { SharedService } from './services/shared.service';
+
+import { PipesModule } from '../pipes/pipes.module';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, PipesModule],
   declarations: [
     DocumentMessageComponent,
     FooterComponent,
