@@ -20,7 +20,7 @@
                         </ng-template>
                         <div class="about">
                             <div class="name">{{group.name}}</div>
-                            <div class="status" *ngIf="online else offline">
+                            <div class="status" *ngIf="group.status === 'online' else offline">
                                 <i class="fa fa-circle online"></i> online
                             </div>
                             <ng-template class="status" #offline>

@@ -1,5 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
@@ -7,12 +8,14 @@ import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SharedService } from '../shared/services/shared.service';
 const Chart = require('chart.js/dist/Chart.bundle.js');
+import { DatePipe } from '../pipes/date.pipe';
 
 @Component({
     moduleId: module.id,
     selector: 'mm-patient-dashboard',
     templateUrl: 'patient-dashboard.component.html',
-    styleUrls: ['patient-dashboard.component.css']
+    styleUrls: ['patient-dashboard.component.css'],
+    providers: [ DatePipe ]
 })
 
 export class PatientDashboardComponent implements OnInit {
@@ -27,8 +30,8 @@ export class PatientDashboardComponent implements OnInit {
     visitorReport: any;
     visitorHealth: any;
     visitorPrescription: any;
-    picUrl: string;
-    visitorTimeline: any;
+    picUrl: SafeResourceUrl;
+    visitorTimelines: any;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -36,7 +39,8 @@ export class PatientDashboardComponent implements OnInit {
         private securityService: SecurityService,
         private router: Router,
         private chatService: ChatService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private date: DatePipe
     ) { }
 
     ngOnInit() {
@@ -217,8 +221,7 @@ export class PatientDashboardComponent implements OnInit {
     getTimeline(visitorId: number) {
         this.sharedService.getTimeline(visitorId)
             .subscribe(visitorTimeline => {
-                console.log('all: ' + JSON.stringify(visitorTimeline));
-                this.visitorTimeline = visitorTimeline;
+                this.visitorTimelines = visitorTimeline;
             });
     }
 
