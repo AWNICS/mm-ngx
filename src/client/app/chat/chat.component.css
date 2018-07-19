@@ -49,7 +49,7 @@ a {
 
 .search .fa-search {
     position: relative;
-    left: 170px;
+    left: 80%;
     color: #666;
     top: -33px;
 }
@@ -441,15 +441,14 @@ textarea:focus {
     cursor: pointer;
 }
 
-.dropdown-menu {
+.dropdown-menu.show {
     min-width: 30px;
     width: auto !important;
-    background-color: #FFF;
+    background-color: transparent;
     padding: 0px;
-    margin-right: 24px;
+    margin-right: 100% !important;
     border: none;
     border-radius: 30px;
-    box-shadow: 2px 4px 10px grey;
 }
 
 .btn-file {
@@ -553,6 +552,10 @@ textarea:focus {
     cursor: pointer;
 }
 
+a.dropdown-item {
+    margin: 3px;
+}
+
 .dropdown-item {
     background-color: #6960FF;
     line-height: 1.5;
@@ -571,18 +574,6 @@ textarea:focus {
 .dropdown-item:hover {
     cursor: pointer;
     background-color: #463AFF;
-}
-
-.dropdown-menu-right {
-    right: 0;
-    left: auto;
-}
-
-@media (max-width: 992px) {
-    .dropdown-menu-right {
-        left: 0 !important;
-        margin-left: 15px;
-    }
 }
 
 .media-header {
