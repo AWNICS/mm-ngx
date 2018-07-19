@@ -30,6 +30,7 @@ export class ProjectConfig extends SeedConfig {
     this.APP_ASSETS = [
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
+      {src: `node_modules/angular-vertical-timeline/dist/vertical-timeline.css`, inject: true, vendor: false}
     ];
 
     this.ROLLUP_INCLUDE_DIR = [

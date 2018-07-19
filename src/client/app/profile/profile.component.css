@@ -18,8 +18,8 @@ body {
 }
 
 .display-image {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 120px;
+    max-height: 120px;
     position: relative;
     display: flex;
     justify-content: center;

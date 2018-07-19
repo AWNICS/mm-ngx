@@ -6,11 +6,12 @@ import * as io from 'socket.io-client';
 
 import { Message } from '../shared/database/message';
 import { SecurityService } from '../shared/services/security.service';
+import { Group } from '../shared/database/group';
 
 @Injectable()
 export class SocketService {
     private socket: any;
-    private baseUrl = 'http://35.226.156.161:3000';
+    private baseUrl = 'http://localhost:3000';
 
     constructor(private securityService: SecurityService) {}
 
@@ -26,6 +27,18 @@ export class SocketService {
         this.socket.on('connect', () => {
             this.socket.emit('user-connected', userId);
         });
+    }
+
+    receivedGroupStatus(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('received-group-status', (groupStatus: any) => {
+                observer.next(groupStatus);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
     }
 
     sendMessage(message: Message) {

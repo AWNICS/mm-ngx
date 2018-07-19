@@ -6,9 +6,10 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DoctorDashboardComponent } from './doctor-dashboard.component';
 import { PatientDashboardComponent } from './patient-dashboard.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, DashboardRoutingModule, VerticalTimelineModule],
+  imports: [CommonModule, SharedModule, DashboardRoutingModule, VerticalTimelineModule, PipesModule],
   declarations: [DoctorDashboardComponent, PatientDashboardComponent],
   exports: [DoctorDashboardComponent, PatientDashboardComponent]
 })

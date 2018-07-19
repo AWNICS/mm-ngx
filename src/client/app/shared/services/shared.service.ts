@@ -14,7 +14,7 @@ export class SharedService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers }); // Create a request option
-    private url = 'http://35.226.156.161:3000';  // URL to access server
+    private url = 'http://localhost:3000';  // URL to access server
     private location: string;
     private speciality: string;
 
@@ -192,7 +192,7 @@ export class SharedService {
 
     /* API related to visitorTimeline */
     getTimeline(visitorId: number) {
-        const uri = `${this.url}/visitors/${visitorId}/appointments/timeline`;
+        const uri = `${this.url}/visitors/${visitorId}/timeline`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

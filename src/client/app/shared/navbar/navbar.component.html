@@ -17,7 +17,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" [routerLink]="['/profiles',user.id]">Profile</a>
-                            <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient'">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor'">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/consultation',user.id]">Consultation & History</a>
                             <a class="dropdown-item" [routerLink]="['/payment',user.id]">Payment & Billing</a>
                             <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>

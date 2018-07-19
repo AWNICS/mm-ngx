@@ -17,8 +17,8 @@ body {
 }
 
 .profile-image {
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 120px;
+    max-width: 120px;
     padding: 3px;
     border: 1px solid rgba(102, 102, 102, 0.1);
     border-radius: 100%;
@@ -26,8 +26,8 @@ body {
 
 .status-online {
     position: relative;
-    top: -40px;
-    left: 120px;
+    top: -30px;
+    left: 93px;
     border: none;
     border-radius: 100%;
     width: 22px;
@@ -199,25 +199,25 @@ a {
     }
     .status-online {
         top: -25px;
-        left: 58%;
+        left: 56%;
         width: 15px;
         height: 15px;
     }
     .status-offline {
         top: -25px;
-        left: 58%;
+        left: 56%;
         width: 15px;
         height: 15px;
     }
     .status-away {
         top: -25px;
-        left: 58%;
+        left: 56%;
         width: 15px;
         height: 15px;
     }
     .status-invisible {
         top: -25px;
-        left: 58%;
+        left: 56%;
         width: 15px;
         height: 15px;
     }

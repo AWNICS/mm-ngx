@@ -7,8 +7,8 @@
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col col-12 col-xl-4 col-lg-12 col-md-4 col-sm-12">
-                                    <img class="profile-image" src="assets/jpg/docMale.jpg" alt="avatar" />
+                                <div class="col col-12 col-xl-5 col-lg-12 col-md-4 col-sm-12">
+                                    <img class="profile-image" [src]="picUrl" alt="avatar" />
                                     <div [ngSwitch]="doctorSchedule?.status">
                                         <div *ngSwitchCase="'online'">
                                             <div class="status-online" title="Online"></div>
@@ -36,7 +36,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col col-12 col-xl-8 col-lg-12 col-md-8 col-sm-12">
+                                <div class="col col-12 col-xl-7 col-lg-12 col-md-8 col-sm-12">
                                     <h5 class="card-title">Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
                                     <p class="card-text" style="line-height: 1em;">{{doctor?.age}} years, {{doctor?.sex}}</p>
                                     <p class="card-text" style="line-height: 1em; margin-top: 0px;">{{qualifications}}</p>
