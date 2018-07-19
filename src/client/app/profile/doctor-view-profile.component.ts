@@ -7,11 +7,9 @@ import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
+import { ProfileService } from './profile.service';
+import { DoctorMedia } from '../shared/database/doctor-media';
 
-export interface Files {
-    type: string;
-    url: string;
-}
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -23,18 +21,32 @@ export interface Files {
 })
 export class DoctorViewProfileComponent implements OnInit {
 
-    item: Files = { url: './assets/img/luke.png', type: 'image' };
-    imagelist: Files[] = [
-        { url: './assets/img/luke.png', type: 'image' },
-        { url: './assets/img/boba.png', type: 'image' },
-        { url: 'https://img.youtube.com/vi/2vjPBrBU-TM/0.jpg', type: 'video' },
-        { url: './assets/img/c3po.png', type: 'image' },
-        { url: './assets/img/obi.png', type: 'image' },
-        { url: 'https://img.youtube.com/vi/2Vv-BfVoq4g/0.jpg', type: 'video' },
-        { url: './assets/img/r2d2.png', type: 'image' },
-        { url: './assets/img/yolo.png', type: 'image' },
-        { url: 'https://img.youtube.com/vi/YykjpeuMNEk/0.jpg', type: 'video' }
-    ];
+    item: DoctorMedia = {
+        id: null,
+        title: null,
+        description: null,
+        url: null,
+        thumbUrl: null,
+        userId: null,
+        type: null,
+        createdBy: null,
+        updatedBy: null,
+        createdAt: null,
+        updatedAt: null
+    };
+    mediaFiles: DoctorMedia[] = [{
+        id: null,
+        title: null,
+        description: null,
+        url: null,
+        thumbUrl: null,
+        userId: null,
+        type: null,
+        createdBy: null,
+        updatedBy: null,
+        createdAt: null,
+        updatedAt: null
+    }];
     leftNavDisabled = false;
     rightNavDisabled = false;
     dragScroll: DragScrollDirective;
@@ -55,7 +67,7 @@ export class DoctorViewProfileComponent implements OnInit {
     @ViewChild('nav', { read: DragScrollDirective }) ds: DragScrollDirective;
     @Input() user: UserDetails;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    @ViewChild('modal') modal: ElementRef;
+    @ViewChild('videoPlayer') videoPlayer: ElementRef;
 
     constructor(
         private securityService: SecurityService,
@@ -63,7 +75,8 @@ export class DoctorViewProfileComponent implements OnInit {
         private sharedService: SharedService,
         private router: Router,
         private ref: ChangeDetectorRef,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private profileService: ProfileService
     ) { }
 
     ngOnInit() {
@@ -86,14 +99,44 @@ export class DoctorViewProfileComponent implements OnInit {
         this.getDoctorStore(this.doctorId);
         this.getActivities(this.doctorId);
         this.getReviews(this.doctorId);
+        this.getDoctorMedia();
     }
 
-    openModal() {
-        this.modal.nativeElement.style.display = 'block';
+    getDoctorMedia() {
+        this.profileService.getLimitedDoctorMedia(this.doctorId, 1, 5)
+            .subscribe(res => {
+                this.mediaFiles = res;
+                this.mediaFiles.map((mediaFile: DoctorMedia, i: number) => {
+                    this.chatService.downloadFile(mediaFile.thumbUrl)
+                        .subscribe(res => {
+                            res.onloadend = () => {
+                                this.mediaFiles[i].thumbUrl = res.result;
+                            };
+                        });
+                });
+            });
     }
 
-    closeModal() {
-        this.modal.nativeElement.style.display = 'none';
+    openModal(file: DoctorMedia) {
+        if (file.type === 'image' || file.type === 'video') {
+            this.chatService.downloadFile(file.url)
+                .subscribe(res => {
+                    res.onloadend = () => {
+                        this.item.type = file.type;
+                        this.item.url = res.result;
+                    };
+                });
+        } else {
+            return;
+        }
+    }
+
+    stopVideo(item: any) {
+        if (item.type === 'video') {
+            this.videoPlayer.nativeElement.pause();
+        } else {
+            return;
+        }
     }
 
     getDoctorStore(doctorId: number) {
@@ -205,16 +248,6 @@ export class DoctorViewProfileComponent implements OnInit {
             this.slots = this.slots + ' ' + initial + ' - ' + end + ',';
         }
         this.slots = this.slots.slice(0, this.slots.length - 1);
-    }
-
-    clickItem(item: any) {
-        if (item.type === 'video') {
-            let id = item.url.split('/');
-            this.item.type = 'video';
-            this.item.url = `https://www.youtube.com/embed/${id[4]}`;
-        } else {
-            this.item = item;
-        }
     }
 
     moveLeft() {

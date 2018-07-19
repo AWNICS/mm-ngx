@@ -180,3 +180,95 @@ textarea:focus {
 .description {
     margin: 20px 0px !important;
 }
+
+.gallery {
+    display: inline-block;
+    max-width: 80%;
+    max-height: 80%;
+    border: none;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.gallery img,
+.gallery video {
+    height: 150px;
+    width: 200px;
+}
+
+button.delete-media {
+    position: relative;
+    left: 90%;
+    font-weight: 500;
+    padding: 0px;
+    border: none;
+    border-radius: none;
+    margin-bottom: 0px;
+}
+
+.modal-content {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+.modal-header {
+    border: none !important;
+}
+
+.modal-footer {
+    border: none !important;
+}
+
+
+/* The Close Button */
+
+.close {
+    color: white;
+    position: absolute;
+    top: -10px;
+    left: 90%;
+    font-size: 3em;
+    font-weight: 400;
+    transition: 0.3s;
+    border: none;
+}
+
+.close:hover,
+.close:focus {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.file-upload {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    overflow: hidden;
+    transition: all 1s;
+    cursor: pointer;
+}
+
+.file-upload input[type='file'] {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.fa .fa-upload {
+    font-size: 25px;
+    padding: 5px;
+    border: none;
+    border-radius: 30%;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}

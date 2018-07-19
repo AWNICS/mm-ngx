@@ -10,9 +10,6 @@
                                 <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
                                     <img class="profile-image" [src]="picUrl" alt="avatar" />
                                     <div class="status" title="Online"></div>
-                                    <div class="row small-font status-text">
-                                        <i>Available</i>
-                                    </div>
                                 </div>
                                 <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
                                     <h5 class="card-title">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
@@ -40,41 +37,6 @@
                                     <p>Doctor name:{{visitorTimeline.consultations["Doctor name"]}}</p>
                                     <p>Speciality:{{visitorTimeline.consultations.speciality}}</p>
                                     <p>Appointment:{{visitorTimeline.consultations.appointment}}</p>
-
-                                    <!--div class="timeline-img" [style.background]="color">
-                                            <p *ngIf="!timeString || timeString === ''" [style.color]="textColor">{{dateValue | date: "HH:mm"}}</p>
-                                            <p *ngIf="timeString && timeString != ''" [style.color]="textColor">{{timeString}}</p>
-                                        </div>
-            
-                                        <div class="timeline-content" [ngClass]="{'disabled-element': disabled}">
-                                            <div class="date" [style.background]="color">
-                                                <p [style.color]="textColor">{{dateValue | date:"dd MMMM yyyy"}}</p>
-                                            </div>
-            
-                                            <div class="inner-content">
-                                                <ng-content></ng-content>
-                                            </div>
-                                        </div-->
-                                    <!--vertical-timeline-card><br>
-                                        <h3>Today</h3>
-                                        <p>Consultations: 2</p>
-                                        <p>Reminders: 2</p>
-                                        <p>Prescriptions: 2</p>
-                                        <p>Schedules: 2</p>
-                                    </vertical-timeline-card-->
-                                    <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
-                                    <!--vertical-timeline-card [dateValue]="tomorrow">
-                                                        <h1>Tomorrow</h1>
-                                                    </vertical-timeline-card-->
-
-                                    <!--vertical-timeline-card [dateValue]="myDate" [timeString]="'15:18'"-->
-                                    <!--vertical-timeline-card [timeString]="'15:18'">
-                                        <h3>Tomorrow</h3>
-                                        <p>Consultations: 3</p>
-                                        <p>Reminders: 3</p>
-                                        <p>Prescriptions: 3</p>
-                                        <p>Schedules: 3</p>
-                                    </vertical-timeline-card-->
                                 </vertical-timeline-card>
                                 <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
                                     <br>

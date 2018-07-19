@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions,ResponseContentType } from '@angular/http';
+import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { UserDetails } from '../shared/database/user-details';
-import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { StaffInfo } from '../shared/database/staff-info';
 import { PatientInfo } from '../shared/database/patient-info';
+import { DoctorMedia } from '../shared/database/doctor-media';
 
 @Injectable()
 export class ProfileService {
@@ -107,6 +105,42 @@ export class ProfileService {
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.put(uri, staffInfo, {headers: headers})
         .map(res => res.json())
+        .catch(this.handleError);
+    }
+
+    createDoctorMedia(doctorMedia: DoctorMedia): Observable<any> {
+        const uri = `${this.url}/doctors/bio`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, doctorMedia, {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+
+    getDoctorMedia(id:number): Observable<any> {
+        const uri = `${this.url}/doctors/${id}/bio`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+
+    getLimitedDoctorMedia(id:number, page:number, size:number): Observable<any> {
+        const uri = `${this.url}/doctors/${id}/bio?page=${page}&size=${size}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+
+    deleteDoctorMedia(id:number): Observable<any> {
+        const uri = `${this.url}/doctors/${id}/bio`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.delete(uri, {headers: headers})
+        .map(res => res)
         .catch(this.handleError);
     }
 

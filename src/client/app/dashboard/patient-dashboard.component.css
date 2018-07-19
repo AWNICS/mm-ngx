@@ -111,26 +111,6 @@ button:focus,
     color: #fff;
 }
 
-.profile-image {
-    max-width: 120px;
-    max-height: 120px;
-    display: flex;
-    border: 1px solid rgba(102, 102, 102, 0.5);
-    padding: 3px;
-    border-radius: 100%;
-}
-
-.status {
-    position: relative;
-    top: -30px;
-    left: 93px;
-    border: none;
-    border-radius: 100%;
-    width: 18px;
-    height: 18px;
-    background-color: #3AD29F;
-}
-
 .small-font {
     font-size: 14px;
     line-height: 1.5;
@@ -141,6 +121,59 @@ button:focus,
 .status-text {
     margin-left: 13%;
     margin-top: -15px;
+}
+
+.profile-image {
+    max-width: 120px;
+    max-height: 120px;
+    display: flex;
+    border: 1px solid rgba(102, 102, 102, 0.5);
+    padding: 3px;
+    border-radius: 100%;
+}
+
+.status-online {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #3AD29F;
+}
+
+.status-offline {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FF5252;
+}
+
+.status-away {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #FFFF00;
+}
+
+.status-invisible {
+    position: relative;
+    top: -40px;
+    left: 120px;
+    border: none;
+    border-radius: 100%;
+    width: 22px;
+    height: 22px;
+    background-color: #E2E0FF;
 }
 
 @media (max-width: 765px) {

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
@@ -36,7 +36,6 @@ export class PatientDashboardComponent implements OnInit {
     constructor(
         private ref: ChangeDetectorRef,
         private route: ActivatedRoute,
-        private domSanitizer: DomSanitizer,
         private securityService: SecurityService,
         private router: Router,
         private chatService: ChatService,
@@ -74,7 +73,7 @@ export class PatientDashboardComponent implements OnInit {
         this.chatService.downloadFile(filename)
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.picUrl = res.result;
                     this.ref.detectChanges();
                 };
             });
@@ -92,7 +91,7 @@ export class PatientDashboardComponent implements OnInit {
         this.chatService.downloadFile(fileName)
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.picUrl = res.result;
                     this.ref.detectChanges();
                 };
             });

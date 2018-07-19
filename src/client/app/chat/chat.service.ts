@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions,ResponseContentType } from '@angular/http';
+import { Headers, Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class ChatService {
         const uri = `${this.url}/users`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.get(uri, {headers: headers})
+        return this.http.get(uri, { headers: headers })
             .toPromise()
             .then(res => res.json())
             .catch(this.handleError);
@@ -42,7 +42,7 @@ export class ChatService {
         const uri = `${this.url}/users/${id}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.get(uri, {headers: headers})
+        return this.http.get(uri, { headers: headers })
             .map(res => res.json() as UserDetails)
             .catch(this.handleError);
     }
@@ -52,7 +52,7 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         const uri = `${this.url}/groups/users/${userId}`;
-        return this.http.get(uri, {headers: headers})
+        return this.http.get(uri, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -70,7 +70,7 @@ export class ChatService {
         const uri = `${this.url}/messages/users/${userId}/groups/${groupId}?page=${page}&size=${size}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.get(uri, {headers: headers})
+        return this.http.get(uri, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }
@@ -83,7 +83,7 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
-            .post(url, newGroup, {headers: headers})
+            .post(url, newGroup, { headers: headers })
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -96,7 +96,7 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
-            .post(url, newGroup, {headers: headers})
+            .post(url, newGroup, { headers: headers })
             .map(response => response.json())
             .catch(this.handleError);
     }
@@ -109,20 +109,29 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
-            .get(url, {headers: headers})
+            .get(url, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }
 
-    uploadFile(files: FileList): Observable<any> {
+    uploadFile(file: File): Observable<any> {
         const uri = `${this.url}/file`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         let formData = new FormData();
-        Array.from(files).forEach(f => {
-            formData.append('file', f);
-        });
-        return this.http.post(uri, formData, {headers: headers})
+        formData.append('file', file);
+        return this.http.post(uri, formData, { headers: headers })
+            .map((res: Response) => res)
+            .catch(this.handleError);
+    }
+
+    uploadThumbnail(file: File): Observable<any> {
+        const uri = `${this.url}/file/thumbnail`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        let formData = new FormData();
+        formData.append('file', file);
+        return this.http.post(uri, formData, { headers: headers })
             .map((res: Response) => res)
             .catch(this.handleError);
     }
@@ -151,7 +160,7 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         const uri = `${this.url}/messages/media/groups/${id}?page=${page}&size=${size}`;
-        return this.http.get(uri, {headers: headers})
+        return this.http.get(uri, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }

@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
@@ -16,13 +15,12 @@ import { UserDetails } from '../database/user-details';
 export class NavbarComponent implements OnInit, AfterViewChecked {
     loggedIn: boolean = false;
     user: UserDetails;
-    picUrl: SafeResourceUrl;
+    picUrl: string;
 
     constructor(
         private ref: ChangeDetectorRef,
         private socketService: SocketService,
         private securityService: SecurityService,
-        private domSanitizer: DomSanitizer,
         private chatService: ChatService) {
     }
 
@@ -49,7 +47,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         this.chatService.downloadFile(filename)
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.picUrl = res.result;
                     this.ref.detectChanges();
                 };
             });
@@ -67,7 +65,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         this.chatService.downloadFile(fileName)
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.picUrl = res.result;
                     this.ref.detectChanges();
                 };
             });
