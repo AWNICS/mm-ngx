@@ -5,6 +5,7 @@ export class Group {
     userId: number; // ids of the users present in the group
     description: string; // description of the group
     picture: string; // picture url
+    status: string;
     createdBy: number;
     updatedBy: number;
     createdTime: any;

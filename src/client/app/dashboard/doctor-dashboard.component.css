@@ -113,55 +113,55 @@ button:focus,
 }
 
 .profile-image {
-    max-height: 95px;
-    width: 100px;
-    max-width: 160px;
+    max-height: 120px;
+    max-width: 120px;
     padding: 3px;
+    display: flex;
     border: 1px solid rgba(102, 102, 102, 0.1);
     border-radius: 100%;
 }
 
 .status-online {
     position: relative;
-    top: -28px;
-    left: 85px;
+    top: -30px;
+    left: 93px;
     border: none;
     border-radius: 100%;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     background-color: #3AD29F;
 }
 
 .status-offline {
     position: relative;
-    top: -28px;
-    left: 85px;
+    top: -30px;
+    left: 79px;
     border: none;
     border-radius: 100%;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     background-color: #FF5252;
 }
 
 .status-away {
     position: relative;
-    top: -28px;
-    left: 85px;
+    top: -30px;
+    left: 79px;
     border: none;
     border-radius: 100%;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     background-color: #FFFF00;
 }
 
 .status-invisible {
     position: relative;
-    top: -28px;
-    left: 85px;
+    top: -30px;
+    left: 79px;
     border: none;
     border-radius: 100%;
-    width: 12px;
-    height: 12px;
+    width: 18px;
+    height: 18px;
     background-color: #E2E0FF;
 }
 
@@ -186,26 +186,26 @@ button:focus,
         margin-right: auto;
     }
     .status-online {
-        top: -27px;
-        left: 61%;
-        width: 10px;
-        height: 10px;
+        top: -24px;
+        left: 56%;
+        width: 12px;
+        height: 12px;
     }
     .status-offline {
-        top: -27px;
-        left: 61%;
+        top: -24px;
+        left: 56%;
         width: 10px;
         height: 10px;
     }
     .status-away {
-        top: -27px;
-        left: 61%;
+        top: -24px;
+        left: 56%;
         width: 10px;
         height: 10px;
     }
     .status-invisible {
-        top: -27px;
-        left: 61%;
+        top: -24px;
+        left: 56%;
         width: 10px;
         height: 10px;
     }

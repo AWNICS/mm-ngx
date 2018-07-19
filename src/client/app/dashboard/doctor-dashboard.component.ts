@@ -1,5 +1,6 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { SecurityService } from '../shared/services/security.service';
@@ -32,10 +33,12 @@ export class DoctorDashboardComponent implements OnInit {
     consultationModes: string = '';
     locations: string = '';
     doctorId: number;
+    picUrl: SafeResourceUrl;
 
     constructor(
         private ref: ChangeDetectorRef,
         private route: ActivatedRoute,
+        private domSanitizer: DomSanitizer,
         private sharedService: SharedService,
         private securityService: SecurityService,
         private socketService: SocketService,
@@ -55,12 +58,45 @@ export class DoctorDashboardComponent implements OnInit {
             this.chatService.getUserById(this.doctorId)
                 .subscribe(user => {
                     this.selectedUser = user;
+                    if (this.selectedUser.picUrl) {
+                        this.downloadPic(this.selectedUser.picUrl);
+                    } else {
+                        this.downloadAltPic(this.selectedUser.role);
+                    }
                 });
             this.getDoctorById(this.doctorId);
             this.getDoctorStore(this.doctorId);
         }
         this.socketService.connection(this.userId);
         this.doctorSchedule = { 'status': 'online' };
+    }
+
+    downloadPic(filename: string) {
+        this.chatService.downloadFile(filename)
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.detectChanges();
+                };
+            });
+    }
+
+    downloadAltPic(role: string) {
+        let fileName: string;
+        if (role === 'bot') {
+            fileName = 'bot.jpg';
+        } else if (role === 'doctor') {
+            fileName = 'doc.png';
+        } else {
+            fileName = 'user.png';
+        }
+        this.chatService.downloadFile(fileName)
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.detectChanges();
+                };
+            });
     }
 
     chart() {

@@ -19,8 +19,8 @@ body {
 }
 
 .display-image {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 120px;
+    max-height: 120px;
     display: flex;
     border: 1px solid rgba(102, 102, 102, 0.5);
     padding: 3px;
@@ -73,7 +73,7 @@ p {
 .status-online {
     position: relative;
     top: -30px;
-    left: 79px;
+    left: 93px;
     border: none;
     border-radius: 100%;
     width: 18px;
@@ -84,7 +84,7 @@ p {
 .status-offline {
     position: relative;
     top: -30px;
-    left: 79px;
+    left: 93px;
     border: none;
     border-radius: 100%;
     width: 18px;
@@ -95,7 +95,7 @@ p {
 .status-away {
     position: relative;
     top: -30px;
-    left: 79px;
+    left: 93px;
     border: none;
     border-radius: 100%;
     width: 18px;
@@ -106,7 +106,7 @@ p {
 .status-invisible {
     position: relative;
     top: -30px;
-    left: 79px;
+    left: 93px;
     border: none;
     border-radius: 100%;
     width: 18px;
@@ -116,31 +116,31 @@ p {
 
 @media (max-width: 765px) {
     .status-online {
-        top: -20px;
-        left: 48px;
-        width: 12px;
-        height: 12px;
+        top: -25px;
+        left: 94px;
+        width: 14px;
+        height: 14px;
     }
     .status-text {
         margin-top: -15px;
     }
     .status-offline {
-        top: -20px;
-        left: 48px;
-        width: 12px;
-        height: 12px;
+        top: -25px;
+        left: 94px;
+        width: 14px;
+        height: 14px;
     }
     .status-away {
-        top: -20px;
-        left: 48px;
-        width: 12px;
-        height: 12px;
+        top: -25px;
+        left: 94px;
+        width: 14px;
+        height: 14px;
     }
     .status-invisible {
-        top: -20px;
-        left: 48px;
-        width: 12px;
-        height: 12px;
+        top: -25px;
+        left: 94px;
+        width: 14px;
+        height: 14px;
     }
 }
 

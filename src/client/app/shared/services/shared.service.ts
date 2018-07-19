@@ -192,7 +192,7 @@ export class SharedService {
 
     /* API related to visitorTimeline */
     getTimeline(visitorId: number) {
-        const uri = `${this.url}/visitors/${visitorId}/appointments/timeline`;
+        const uri = `${this.url}/visitors/${visitorId}/timeline`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

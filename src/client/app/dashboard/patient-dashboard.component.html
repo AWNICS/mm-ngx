@@ -2,136 +2,146 @@
 <div class="container">
     <div class="row">
         <div class="col col-12 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
-                            <img class="profile-image" [src]="picUrl | safe: 'url'" alt="avatar" />
-                            <div class="status-online" title="Online"></div>
-                        </div>
-                        <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
-                            <h5 class="card-title">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
-                            <p class="card-text" style="line-height: 1em;">{{visitorDetail?.age}} years, {{visitorDetail?.sex}}, {{visitorDetail?.bloodGroup}}</p>
-                            <p class="card-text">Speaks: {{languages}}</p>
-                            <p class="card-text" style="line-height: 1em;">{{locations}}</p>
-                            <button type="submit" class="button button__accent" (click)="edit();">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: auto;">
-                <div class="card-header">
-                    <h5 class="offset-1">Allergies</h5>
-                </div>
-                <div class="card-body offset-1" *ngFor="let allergy of visitorHealth?.allergies.allergy" style="padding-top: inherit; padding-bottom: 8px;">
-                    {{allergy}}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col col-12 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 355px;">
-                <div class="card-header">
-                    <h5 class="offset-1">Consultation History</h5>
-                </div>
-                <div class="card-body offset-1">
-                    <canvas #lineChart width="500" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 290px; width:99%;">
-                <div class="card-header">
-                    <h5 class="offset-1">Vitals</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row justify-content-around">
-                        <div class="col col-5 offset-1">
-                            <div id="circle">
-                                <div id="text">
-                                    <h4>{{visitorPrescription?.description.vitals["Blood pressure"]}}</h4>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
+                                    <img class="profile-image" [src]="picUrl" alt="avatar" />
+                                    <div class="status" title="Online"></div>
+                                </div>
+                                <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
+                                    <h5 class="card-title">{{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
+                                    <p class="card-text" style="line-height: 1em;">{{visitorDetail?.age}} years, {{visitorDetail?.sex}}, {{visitorDetail?.bloodGroup}}</p>
+                                    <p class="card-text">Speaks: {{languages}}</p>
+                                    <p class="card-text" style="line-height: 1em;">{{locations}}</p>
+                                    <button type="submit" class="button button__accent" (click)="edit();">Edit</button>
                                 </div>
                             </div>
-                            <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
                         </div>
-                        <div class="col col-5">
-                            <div id="circle">
-                                <div id="text">
-                                    <h4>{{visitorPrescription?.description.vitals["Heart rate"]}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 355px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Timeline</h5>
+                        </div>
+                        <div class="card-body offset-1 timeline-scroll" style="overflow-y:scroll;">
+                            <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
+                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                    <br>
+                                    <h5>Consultation Details</h5>
+                                    <p>Doctor name:{{visitorTimeline.consultations["Doctor name"]}}</p>
+                                    <p>Speciality:{{visitorTimeline.consultations.speciality}}</p>
+                                    <p>Appointment:{{visitorTimeline.consultations.appointment}}</p>
+                                </vertical-timeline-card>
+                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                    <br>
+                                    <h5>Reminder Details</h5>
+                                    <p>Medicines:{{visitorTimeline.reminders.medicines}}</p>
+                                    <p>Message:{{visitorTimeline.reminders.message}}</p>
+                                    <p>Description:{{visitorTimeline.reminders.description}}</p>
+                                </vertical-timeline-card>
+                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                    <br>
+                                    <h5>Event Details</h5>
+                                    <p>Type:{{visitorTimeline.events.type}}</p>
+                                    <p>Message:{{visitorTimeline.events.message}}</p>
+                                </vertical-timeline-card>
+                            </vertical-timeline>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 355px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Consultation History</h5>
+                        </div>
+                        <div class="card-body offset-1">
+                            <canvas #lineChart width="500" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Reports</h5>
+                        </div>
+                        <div class="card-body" style="margin-left: -10px;">
+                            <div *ngFor="let report of visitorReport">
+                                <ul>
+                                    <li>
+                                        <a href='{{report.url}}'>{{report?.type}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Height & Weight</h5>
+                        </div>
+                        <div class="card-body offset-1">
+                            <p>Height: {{visitorDetail?.height}}</p>
+                            <p>Weight: {{visitorDetail?.weight}}</p>
+                        </div>
+                        <div class="text-muted" style="margin-left: 8%;">
+                            <p class=""><small>Average height:5 & weight:60(Indian female)</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 290px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Allergies</h5>
+                        </div>
+                        <div *ngFor="let allergy of visitorHealth?.allergies.allergy" style="margin-left:8%; margin-bottom: 2%;">
+                            {{allergy}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 290px; width:99%;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Vitals</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-around">
+                                <div class="col col-5 offset-1">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>{{visitorPrescription?.description.vitals["Blood pressure"]}}</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
+                                </div>
+                                <div class="col col-5">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>{{visitorPrescription?.description.vitals["Heart rate"]}}</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center;">Heart Rate</p>
                                 </div>
                             </div>
-                            <p style="text-align: center;">Heart Rate</p>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 250px;">
-                <div class="card-header">
-                    <h5 class="offset-1">Reports</h5>
-                </div>
-                <div class="card-body" style="margin-left: -10px;">
-                    <div *ngFor="let report of visitorReport">
-                        <ul>
-                            <li>
-                                <a href='{{report.url}}'>{{report?.type}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow" style="height: 250px;">
-                <div class="card-header">
-                    <h5 class="offset-1">Height & Weight</h5>
-                </div>
-                <div class="card-body offset-1">
-                    <p>Height: {{visitorDetail?.height}}</p>
-                    <p>Weight: {{visitorDetail?.weight}}</p>
-                </div>
-                <div class="text-muted" style="margin-left: 8%;">
-                    <p class=""><small>Average height:5 & weight:60(Indian female)</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col col-12 col-lg-10 col-md-12 col-sm-12 col-xs-12">
-            <div class="card shadow">
-                <div class="card-header">
-                    <h5 class="offset-1">Timeline</h5>
-                </div>
-                <div class="card-body offset-1">
-                    <vertical-timeline style="width: 100%;">
-                        <vertical-timeline-card><br>
-                            <h3>Today</h3>
-                            <p>Consultations: 2</p>
-                            <p>Reminders: 2</p>
-                            <p>Prescriptions: 2</p>
-                            <p>Schedules: 2</p>
-                        </vertical-timeline-card>
-                        <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
-                        <!--vertical-timeline-card [dateValue]="tomorrow">
-                                            <h1>Tomorrow</h1>
-                                        </vertical-timeline-card-->
-
-                        <!--vertical-timeline-card [dateValue]="myDate" [timeString]="'15:18'"-->
-                        <vertical-timeline-card [timeString]="'15:18'">
-                            <h3>Tomorrow</h3>
-                            <p>Consultations: 3</p>
-                            <p>Reminders: 3</p>
-                            <p>Prescriptions: 3</p>
-                            <p>Schedules: 3</p>
-                        </vertical-timeline-card>
-                    </vertical-timeline>
                 </div>
             </div>
         </div>

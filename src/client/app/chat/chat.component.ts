@@ -21,6 +21,7 @@ import { Message } from '../shared/database/message';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
+import { SharedService } from '../shared/services/shared.service';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -55,7 +56,6 @@ export class ChatComponent implements OnInit {
   doctorList = true; //for listing down the doctors in modal window
   searchText: string;
   searchFile: string;
-  online = false;
   altGroupPic: string;
   altDocPic: string;
   alert: boolean = false;
@@ -91,6 +91,7 @@ export class ChatComponent implements OnInit {
     userId: null,
     description: '',
     picture: '',
+    status: '',
     createdBy: null,
     updatedBy: null,
     createdTime: Date.now(),
@@ -106,7 +107,8 @@ export class ChatComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private modalService: NgbModal,
     private securityService: SecurityService,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
   }
 
@@ -122,14 +124,6 @@ export class ChatComponent implements OnInit {
           this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
           );
-          if (user.status === 'online') {
-            this.securityService.setLoginStatus(true);
-            this.online = true;
-            this.ref.detectChanges();
-          } else {
-            this.online = false;
-            this.ref.detectChanges();
-          }
         });
       this.socketService.connection(this.userId);
       this.getGroups();
@@ -315,6 +309,7 @@ export class ChatComponent implements OnInit {
         this.getMessage(this.selectedGroup);
         groups.map((group: Group) => {
           this.groups.push(group);
+          this.receivedGroupStatus(group);
           if (group.picture) {
             this.chatService.downloadFile(group.picture)
               .subscribe((res) => {
@@ -573,6 +568,17 @@ export class ChatComponent implements OnInit {
       this.mediaPage = this.mediaPage + 1;
       this.getMoreMedia(this.selectedGroup);
     }
+  }
+
+  receivedGroupStatus(group: any) {
+    this.socketService.receivedGroupStatus()
+      .subscribe((groups: any) => {
+          groups.map((updatedGroup: any) => {
+            if (updatedGroup[0] !== undefined  && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
+              group.status = updatedGroup[0].status;
+            }
+          });
+        });
   }
 }
 

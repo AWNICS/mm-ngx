@@ -44,11 +44,14 @@ export class DoctorsListComponent implements OnInit {
                 this.doctors = res;
                 if (this.doctors.length >= 1) {
                     this.doctors.map((doctor: any) => {
-                        let updatedAt = new Date(doctor.updatedAt);
-                        let currentTime = new Date();
-                        let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                        let date = moment.duration(ms);
-                        doctor.lastupdated = this.getLastUpdated(date);
+                        this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                            .subscribe(response => {
+                                let updatedAt = new Date(response[response.length-1].updatedAt);
+                                let currentTime = new Date();
+                                let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
+                                let date = moment.duration(ms);
+                                doctor.lastupdated = this.getLastUpdated(date);
+                            });
                         //doctor media in case if it required
                         /*this.sharedService.getDoctorMedias(doctor.userId)
                             .subscribe(medias => {
