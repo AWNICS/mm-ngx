@@ -150,8 +150,8 @@
                         </a>
                         <div class="dropdown-menu" style="margin-right: 90px;">
                             <a class="dropdown-item" (click)="media();"><i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
-                            <button class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</button>
-                            <button class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</button>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>
                         </div>
                     </div>
                 </div>
