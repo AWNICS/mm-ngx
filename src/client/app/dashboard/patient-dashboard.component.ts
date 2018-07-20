@@ -1,6 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SafeResourceUrl } from '@angular/platform-browser';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
@@ -30,7 +29,7 @@ export class PatientDashboardComponent implements OnInit {
     visitorReport: any;
     visitorHealth: any;
     visitorPrescription: any;
-    picUrl: SafeResourceUrl;
+    picUrl: string;
     visitorTimelines: any;
 
     constructor(
