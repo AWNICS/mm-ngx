@@ -59,7 +59,7 @@ function onlySpecFiles(path) {
     return patternMatched && /[\.|_]spec\.js$/.test(path);
 }
 
-// Normalize cha
+// Normalize paths to module names.
 function file2moduleName(filePath) {
     return filePath.replace(/\\/g, '/')
         .replace(/^\/base\//, '')
