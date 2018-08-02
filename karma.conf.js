@@ -46,6 +46,11 @@ module.exports = function(config) {
             // Angular itself
             { pattern: 'node_modules/@angular/**/*.js', included: false, watched: true },
             { pattern: 'node_modules/@angular/**/*.js.map', included: false, watched: false },
+            { pattern: 'node_modules/@ng-bootstrap/**/*', included: false, watched: false },
+            { pattern: 'node_modules/socket.io-client/**/*', included: false, watched: false },
+            { pattern: 'node_modules/mock-socket/**/*', included: false, watched: false },
+            { pattern: 'node_modules/moment/**/*', included: false, watched: false },
+            { pattern: 'node_modules/angular-in-memory-web-api/**/*', included: false, watched: false },
 
             { pattern: 'dist/dev/**/*.js', included: false, watched: true },
             { pattern: 'dist/dev/**/*.html', included: false, watched: true, served: true },
@@ -54,6 +59,15 @@ module.exports = function(config) {
 
             // suppress annoying 404 warnings for resources, images, etc.
             { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
+
+            'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css',
+            // 'https://code.jquery.com/jquery-3.3.1.slim.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js',
+            // 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css',
+            // 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js',
+            'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css',
+            'https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js',
 
             'test-config.js',
             'dist/dev/app/system-config.js',
