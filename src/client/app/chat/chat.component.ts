@@ -113,17 +113,6 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    window.addEventListener('resize',()=>{
-      if(window.innerWidth > 992){
-        console.log(this.mySidebar.nativeElement.style.height);
-        this.mySidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight)+('px');
-        this.rightSidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight)+('px');
-      }
-      else{
-        this.mySidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight + 44)+('px');
-        this.rightSidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight + 44)+('px');
-      }
-    });
     this.userId = +this.route.snapshot.paramMap.get('userId');
     const cookie = this.securityService.getCookie('userDetails');
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
@@ -148,25 +137,6 @@ export class ChatComponent implements OnInit {
       this.router.navigate([`/`]);
     }
   }
-  ngAfterViewInit(){    
-    // console.log((this.chat.nativeElement.offsetHeight));
-  if(window.innerWidth > 992){
-    // console.log((this.chat.nativeElement.offsetHeight));
-    
-    setTimeout(()=>{
-      this.mySidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight)+('px');  
-      this.rightSidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight)+('px'); 
-      // console.log(document.querySelector('.w3-sidebar').style.height) ;  
-    },500)
-  }
-  else{
-  setTimeout(()=>{
-    this.mySidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight + 44)+('px');
-    this.rightSidebar.nativeElement.style.height = (this.chat.nativeElement.offsetHeight + 44)+('px'); 
-     
-  },500)
-}
-}
 
   createForm() {
     this.message = this.fb.group(this.form);

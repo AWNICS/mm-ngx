@@ -123,7 +123,7 @@ a {
 }
 
 .w3-sidebar-right {
-    height: 87%;
+    height: 87% !important;
     width: 22%;
     right: 0;
     background-color: #F7F7F7;
