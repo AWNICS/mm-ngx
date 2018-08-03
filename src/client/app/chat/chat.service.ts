@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Headers, Http, Response, RequestOptions, ResponseContentType } from '@angular/http';
+import { Headers, Http, Response, ResponseContentType } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -15,13 +12,12 @@ import { SecurityService } from '../shared/services/security.service';
 
 @Injectable()
 export class ChatService {
-    private headers = new Headers();
-    private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000';
-    private user: UserDetails;
     private group: Group;
 
-    constructor(private router: Router, private http: Http, private securityService: SecurityService) {
+    constructor(
+        private http: Http,
+        private securityService: SecurityService) {
     }
 
     /** GET users from the server */

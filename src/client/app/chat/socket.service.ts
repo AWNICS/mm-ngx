@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError, map, tap } from 'rxjs/operators';
 import * as io from 'socket.io-client';
 
 import { Message } from '../shared/database/message';
 import { SecurityService } from '../shared/services/security.service';
-import { Group } from '../shared/database/group';
 
 @Injectable()
 export class SocketService {
     private socket: any;
     private baseUrl = 'http://localhost:3000';
 
-    constructor(private securityService: SecurityService) {}
+    constructor(
+        private securityService: SecurityService
+    ) {}
 
     /**
      * connection

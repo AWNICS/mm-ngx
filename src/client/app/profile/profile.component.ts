@@ -219,7 +219,7 @@ export class ProfileComponent implements OnInit {
             URL.revokeObjectURL(url);
         }
         return success;
-    };
+    }
 
     /**
      * converts base64 url string into image file
