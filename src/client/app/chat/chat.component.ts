@@ -371,8 +371,7 @@ export class ChatComponent implements OnInit {
       });
   }
 
-  sendMessage({ value }: { value: Message },event:Event): void {
-    event.preventDefault();
+  sendMessage({ value }: { value: Message }): void {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
