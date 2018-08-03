@@ -253,8 +253,8 @@
             <!-- end chat-history -->
 
             <div class="container">
-                <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message);" (ngSubmit)="sendMessage(message);">
-                    <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
+                <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
+                    <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
                     <div class="row justify-content-between chat-footer">
                         <div class="col col-2 dropup">
                             <i class="fa fa-paperclip" data-toggle="dropdown"></i>

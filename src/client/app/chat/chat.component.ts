@@ -38,10 +38,11 @@ export class ChatComponent implements OnInit {
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
-  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('rightSidebar') rightSidebar: ElementRef;
   @ViewChild('dropDown') dropDown: ElementRef;
+  @ViewChild('textArea') textArea: ElementRef;
+  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -224,7 +225,7 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
-    event.target.value= '';
+    event.target.value = '';
   }
 
   createVideo(event: any, { value, valid }: { value: Message, valid: boolean }) {
@@ -247,10 +248,10 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
-    event.target.value= '';
+    event.target.value = '';
   }
 
-  createFile(event:any, { value, valid }: { value: Message, valid: boolean }) {
+  createFile(event: any, { value, valid }: { value: Message, valid: boolean }) {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let files: FileList = event.target.files;
@@ -270,7 +271,7 @@ export class ChatComponent implements OnInit {
         this.socketService.sendMessage(value);
       });
     this.message.reset(this.form);
-    event.target.value= '';
+    event.target.value = '';
   }
 
   createGroupAuto() {
@@ -389,6 +390,12 @@ export class ChatComponent implements OnInit {
     } else {
       this.socketService.sendMessage(value);
     }
+    this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
+      let key = e.which || e.keyCode;
+      if (key === 13) { // 13 is enter
+        e.preventDefault();
+      }
+    });
     this.message.reset();
   }
 
@@ -573,12 +580,12 @@ export class ChatComponent implements OnInit {
   receivedGroupStatus(group: any) {
     this.socketService.receivedGroupStatus()
       .subscribe((groups: any) => {
-          groups.map((updatedGroup: any) => {
-            if (updatedGroup[0] !== undefined  && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
-              group.status = updatedGroup[0].status;
-            }
-          });
+        groups.map((updatedGroup: any) => {
+          if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
+            group.status = updatedGroup[0].status;
+          }
         });
+      });
   }
 }
 
