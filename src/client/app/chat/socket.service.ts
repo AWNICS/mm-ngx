@@ -7,6 +7,7 @@ import * as io from 'socket.io-client';
 import { Message } from '../shared/database/message';
 import { SecurityService } from '../shared/services/security.service';
 import { Group } from '../shared/database/group';
+import { UserDetails } from '../shared/database/user-details';
 
 @Injectable()
 export class SocketService {
@@ -41,8 +42,8 @@ export class SocketService {
         return observable;
     }
 
-    sendMessage(message: Message) {
-        this.socket.emit('send-message', message);
+    sendMessage(message: Message, group: Group) {
+        this.socket.emit('send-message', message, group);
     }
 
     receiveMessages(): Observable<any> {
@@ -97,6 +98,40 @@ export class SocketService {
         const observable = new Observable(observer => {
             this.socket.on('receive-notification', (notify: any) => {
                 observer.next(notify);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
+    //whenever a user or doctor added to the consutation group
+    userAdded(user: UserDetails, groupId: number) {
+        this.socket.emit('user-added', user, groupId); 
+    }
+
+    receiveUserAdded(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-user-added', (data: any) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
+    //whenever a user or doctor removed from the consutation group
+    userDeleted(user: UserDetails, group: Group) {
+        this.socket.emit('user-deleted', user, group); 
+    }
+
+    receiveUserDeleted(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-user-deleted', (data: any) => {
+                observer.next(data);
             });
             return () => {
                 this.socket.disconnect();
