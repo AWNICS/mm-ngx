@@ -34,6 +34,7 @@ export class DoctorDashboardComponent implements OnInit {
     locations: string = '';
     doctorId: number;
     picUrl: SafeResourceUrl;
+    consultationGroupId: number;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -69,6 +70,7 @@ export class DoctorDashboardComponent implements OnInit {
         }
         this.socketService.connection(this.userId);
         this.doctorSchedule = { 'status': 'online' };
+        this.consultationStatus();
     }
 
     downloadPic(filename: string) {
@@ -178,4 +180,17 @@ export class DoctorDashboardComponent implements OnInit {
         this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 1);
         this.locations = this.locations.slice(0, this.locations.length - 1);
     }
+
+    startConsultation() {
+        this.consultationGroupId = 22;
+        this.socketService.userAdded(this.selectedUser, this.consultationGroupId);
+    }
+
+    consultationStatus() {
+        this.socketService.receiveUserAdded()
+          .subscribe((response) =>{
+            
+            this.router.navigate([`/chat/${response.doctorId}`]);
+          });
+      }
 }

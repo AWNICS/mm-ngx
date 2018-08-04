@@ -149,6 +149,7 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <div class="dropdown-menu" style="margin-right: 90px;">
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" (click)="media();"><i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>

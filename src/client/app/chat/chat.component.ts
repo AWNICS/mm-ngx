@@ -60,7 +60,7 @@ export class ChatComponent implements OnInit {
   altGroupPic: string;
   altDocPic: string;
   alert: boolean = false;
-  alertMessage: string; //alert for deleted message
+  alertMessage: string; //alert for deleted message and doctor exit
   fileUrl: SafeResourceUrl;
   mediaMessages: Message[] = [];
   mediaPage = 1;
@@ -133,6 +133,7 @@ export class ChatComponent implements OnInit {
       this.receiveNotification();
       this.receiveUpdatedMessageFromSocket();
       this.receiveDeletedMessageFromSocket();
+      this.consultationStatus();
       this.navbarComponent.navbarColor(0, '#6960FF');
     } else {
       this.router.navigate([`/`]);
@@ -155,7 +156,7 @@ export class ChatComponent implements OnInit {
     value.text = 'Would you like to visit the doctor in person? ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
-    this.socketService.sendMessage(value);
+    this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
 
@@ -170,7 +171,7 @@ export class ChatComponent implements OnInit {
     value.text = 'Kindly choose a number from 0 to 10: ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
-    this.socketService.sendMessage(value);
+    this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
 
@@ -186,7 +187,7 @@ export class ChatComponent implements OnInit {
     value.text = 'Kindly select your observed symptoms: ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
-    this.socketService.sendMessage(value);
+    this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
 
@@ -201,7 +202,7 @@ export class ChatComponent implements OnInit {
     value.text = 'Appear Component';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
-    this.socketService.sendMessage(value);
+    this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
 
@@ -222,7 +223,7 @@ export class ChatComponent implements OnInit {
         value.text = 'Image Component';
         value.createdTime = Date.now();
         value.updatedTime = Date.now();
-        this.socketService.sendMessage(value);
+        this.socketService.sendMessage(value, this.selectedGroup);
       });
     this.message.reset(this.form);
     event.target.value = '';
@@ -245,7 +246,7 @@ export class ChatComponent implements OnInit {
         value.text = 'Video Component';
         value.createdTime = Date.now();
         value.updatedTime = Date.now();
-        this.socketService.sendMessage(value);
+        this.socketService.sendMessage(value, this.selectedGroup);
       });
     this.message.reset(this.form);
     event.target.value = '';
@@ -268,7 +269,7 @@ export class ChatComponent implements OnInit {
         value.text = 'Doc Component';
         value.createdTime = Date.now();
         value.updatedTime = Date.now();
-        this.socketService.sendMessage(value);
+        this.socketService.sendMessage(value, this.selectedGroup);
       });
     this.message.reset(this.form);
     event.target.value = '';
@@ -304,27 +305,29 @@ export class ChatComponent implements OnInit {
 
   // get all groups of the logged in user
   getGroups() {
-    this.chatService.getGroups(this.userId)
-      .subscribe((groups) => {
-        this.selectedGroup = groups[0];
-        this.getMessage(this.selectedGroup);
-        groups.map((group: Group) => {
-          this.groups.push(group);
-          this.receivedGroupStatus(group);
-          if (group.picture) {
-            this.chatService.downloadFile(group.picture)
-              .subscribe((res) => {
-                res.onloadend = () => {
-                  group.picture = res.result;
-                  this.ref.detectChanges();
-                };
-              });
-          } else {
-            this.downloadAltPic('group.png');
-          }
-          this.ref.detectChanges();
+    setTimeout(() => {
+      this.chatService.getGroups(this.userId)
+        .subscribe((groups) => {
+          this.selectedGroup = groups[0];
+          this.getMessage(this.selectedGroup);
+          groups.map((group: Group) => {
+            this.groups.push(group);
+            this.receivedGroupStatus(group);
+            if (group.picture) {
+              this.chatService.downloadFile(group.picture)
+                .subscribe((res) => {
+                  res.onloadend = () => {
+                    group.picture = res.result;
+                    this.ref.detectChanges();
+                  };
+                });
+            } else {
+              this.downloadAltPic('group.png');
+            }
+            this.ref.detectChanges();
+          });
         });
-      });
+    }, 2000);
   }
 
   getMessage(group: Group) {
@@ -388,7 +391,7 @@ export class ChatComponent implements OnInit {
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
     } else {
-      this.socketService.sendMessage(value);
+      this.socketService.sendMessage(value, this.selectedGroup);
     }
     this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
       let key = e.which || e.keyCode;
@@ -585,6 +588,26 @@ export class ChatComponent implements OnInit {
             group.status = updatedGroup[0].status;
           }
         });
+      });
+  }
+
+  endConsultation() {
+    this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
+    if (this.selectedUser.role === 'doctor') {
+      this.groups.splice(1, 1);
+      this.selectedGroup = this.groups[0];
+      this.getMessage(this.selectedGroup);
+      this.ref.detectChanges();
+    } else {
+      return;
+    }
+  }
+
+  consultationStatus() {
+    this.socketService.receiveUserDeleted()
+      .subscribe((response) => {
+        this.alert = true;
+        this.alertMessage = response.message;
       });
   }
 }
