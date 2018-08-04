@@ -38,10 +38,11 @@ export class ChatComponent implements OnInit {
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
-  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild('chat') chat: ElementRef;
   @ViewChild('rightSidebar') rightSidebar: ElementRef;
   @ViewChild('dropDown') dropDown: ElementRef;
+  @ViewChild('textArea') textArea: ElementRef;
+  @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -392,6 +393,12 @@ export class ChatComponent implements OnInit {
     } else {
       this.socketService.sendMessage(value, this.selectedGroup);
     }
+    this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
+      let key = e.which || e.keyCode;
+      if (key === 13) { // 13 is enter
+        e.preventDefault();
+      }
+    });
     this.message.reset();
   }
 

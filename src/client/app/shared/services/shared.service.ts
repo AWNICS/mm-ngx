@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 // Import RxJs required methods
@@ -12,14 +11,11 @@ import { SecurityService } from './security.service';
 @Injectable()
 export class SharedService {
 
-    private headers = new Headers({ 'Content-Type': 'application/json' });
-    private options = new RequestOptions({ headers: this.headers }); // Create a request option
     private url = 'http://localhost:3000';  // URL to access server
     private location: string;
     private speciality: string;
 
     constructor(
-        private router: Router,
         private http: Http,
         private securityService: SecurityService
     ) {
@@ -72,7 +68,7 @@ export class SharedService {
     }
 
     //get all the doctor media information
-    getDoctorMedias(userId: number) {
+    getDoctorMedia(userId: number) {
         const uri = `${this.url}/doctors/${userId}/bio`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
