@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/toPromise';
@@ -11,7 +11,7 @@ import { SecurityService } from './security.service';
 @Injectable()
 export class SharedService {
 
-    private url = 'http://localhost:3000';  // URL to access server
+    private url: string;  // URL to access server
     private location: string;
     private speciality: string;
 
@@ -19,6 +19,7 @@ export class SharedService {
         private http: Http,
         private securityService: SecurityService
     ) {
+        this.url = this.securityService.baseUrl;
     }
 
     setLocation(location: string) {
