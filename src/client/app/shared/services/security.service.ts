@@ -4,7 +4,8 @@ import { UserDetails } from '../database/user-details';
 @Injectable()
 export class SecurityService {
 
-    key = 'Bearer';
+    public key = 'Bearer';
+    public baseUrl = 'http://localhost:3000';
     private jwt: string;
     private loginStatus = false;
 

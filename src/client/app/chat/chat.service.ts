@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, ResponseContentType } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -12,12 +12,13 @@ import { SecurityService } from '../shared/services/security.service';
 
 @Injectable()
 export class ChatService {
-    private url = 'http://localhost:3000';
+    private url: string;
     private group: Group;
 
     constructor(
         private http: Http,
         private securityService: SecurityService) {
+            this.url = this.securityService.baseUrl;
     }
 
     /** GET users from the server */

@@ -10,11 +10,13 @@ import { UserDetails } from '../shared/database/user-details';
 @Injectable()
 export class SocketService {
     private socket: any;
-    private baseUrl = 'http://localhost:3000';
+    private baseUrl: string;
 
     constructor(
         private securityService: SecurityService
-    ) {}
+    ) {
+        this.baseUrl = this.securityService.baseUrl;
+    }
 
     /**
      * connection
@@ -22,7 +24,7 @@ export class SocketService {
     connection(userId: number) {
         const token = this.securityService.getCookie('token');
         this.socket = io(`${this.baseUrl}`, {
-            query: {token: token},
+            query: { token: token },
             secure: true
         });
         this.socket.on('connect', () => {
@@ -90,8 +92,8 @@ export class SocketService {
         return observable;
     }
 
-    notifyUsers(message : Message): void {
-       this.socket.emit('notify-users', message);
+    notifyUsers(message: Message): void {
+        this.socket.emit('notify-users', message);
     }
 
     receiveNotifiedUsers(): Observable<any> {
@@ -108,7 +110,7 @@ export class SocketService {
 
     //whenever a user or doctor added to the consutation group
     userAdded(user: UserDetails, groupId: number) {
-        this.socket.emit('user-added', user, groupId); 
+        this.socket.emit('user-added', user, groupId);
     }
 
     receiveUserAdded(): Observable<any> {
@@ -125,12 +127,24 @@ export class SocketService {
 
     //whenever a user or doctor removed from the consutation group
     userDeleted(user: UserDetails, group: Group) {
-        this.socket.emit('user-deleted', user, group); 
+        this.socket.emit('user-deleted', user, group);
     }
 
     receiveUserDeleted(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('receive-user-deleted', (data: any) => {
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
+    consultNotification(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('consult-notification', (data: any) => {
                 observer.next(data);
             });
             return () => {
