@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { SecurityService } from '../shared/services/security.service';
 
 // Import RxJs required methods

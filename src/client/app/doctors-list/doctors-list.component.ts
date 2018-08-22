@@ -36,7 +36,7 @@ export class DoctorsListComponent implements OnInit {
         let location = this.sharedService.getLocation();
         let speciality = this.sharedService.getSpeciality();
         let gps = 39834758;
-        let currentTime = '2018-05-21 14:07:00';
+        let currentTime = moment(Date.now()).format();
         let page = 1;
         let size = 5;
         this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)

@@ -6,6 +6,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
+import { SocketService } from '../chat/socket.service';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -27,7 +28,8 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private securityService: SecurityService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private socketService: SocketService
   ) {
   }
 
@@ -46,6 +48,7 @@ export class LoginComponent implements OnInit {
         this.securityService.setLoginStatus(true);
         this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
         this.securityService.setCookie('token', res.token, 1);
+        this.socketService.connection(res.user.id);
         if(res.user.role === 'patient') {
           this.router.navigate([`/doctors`]);
         } else if(res.user.role === 'doctor') {

@@ -80,13 +80,6 @@ a:active {
     left: auto;
 }
 
-@media (max-width: 992px) {
-    .dropdown-menu-right {
-        left: 0 !important;
-        margin-left: 15px;
-    }
-}
-
 .navbar__menu .nav-link {
     backface-visibility: hidden;
     display: inline-block;
@@ -134,8 +127,27 @@ a:active {
 }
 
 @media (max-width: 992px) {
-    .bubble:after {
+    .dropdown-menu-right {
         left: 0 !important;
-        margin-left: 13px;
+        margin-left: 15px;
     }
+
+    .notification > .dropdown-menu-right {
+        margin-left: 4.5rem;
+    }
+
+    .bubble:after {
+        left: 8%;
+    }
+
+    .notification-icon {
+        left: 5rem !important;
+    }
+}
+
+.notification-icon {
+    position: absolute;
+    left: -2rem;
+    font-size: 1.5rem;
+    color: #F7F7F7 !important;
 }
