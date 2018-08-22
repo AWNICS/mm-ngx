@@ -70,7 +70,6 @@ export class DoctorDashboardComponent implements OnInit {
             this.getDoctorById(this.doctorId);
             this.getDoctorStore(this.doctorId);
         }
-        this.socketService.connection(this.userId);
         this.doctorSchedule = { 'status': 'online' };
         this.getNotification();
         this.consultationStatus();
@@ -190,7 +189,7 @@ export class DoctorDashboardComponent implements OnInit {
         this.socketService.consultNotification()
             .subscribe((data) => {
                 if (data) {
-                    this.consultationGroupId = data.groupId;
+                    this.consultationGroupId = data.group.id;
                     this.notification = data.notification;
                     document.getElementById('alert').style.display = 'block';
                 }

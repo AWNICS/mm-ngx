@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { UserDetails } from '../database/user-details';
 
 @Injectable()
 export class SecurityService {
 
     public key = 'Bearer';
     public baseUrl = 'http://localhost:3000';
-    private jwt: string;
     private loginStatus = false;
 
     setLoginStatus(status: boolean) {

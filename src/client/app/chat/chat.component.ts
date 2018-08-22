@@ -126,7 +126,6 @@ export class ChatComponent implements OnInit {
             `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
           );
         });
-      this.socketService.connection(this.userId);
       this.getGroups();
       this.createForm();
       this.receiveMessageFromSocket();
