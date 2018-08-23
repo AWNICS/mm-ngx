@@ -27,10 +27,11 @@
                 </h5>
             </div>
             <div class="row">
-                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.age}} years of practice
+                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.experience}} years of practice
             </div>
             <div class="row small-font">Speaks: {{languages}}</div>
             <div class="row small-font">Consults via: {{consultationModes}}</div>
+            <div class="row small-font">{{doctor?.longBio}}</div>
             <div class="row small-font">
                 <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}
             </div>

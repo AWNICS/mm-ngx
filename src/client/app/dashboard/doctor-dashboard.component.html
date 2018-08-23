@@ -1,142 +1,142 @@
 <mm-navbar></mm-navbar>
 <div class="container">
-  <div class="row">
-    <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-      <div class="row">
-        <div class="col col-12">
-        <div class="snackbar shadow" id="alert">
-          <div class="row notification-header">
-            {{notification?.title}}
-          </div>
-          <div class="row notification-body">
-            {{notification?.content}}
-          </div>
+    <div class="row">
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
-                <a class="consult-button" (click)="startConsultation();">Start Consultation</a>
-                <a class="consult-button" (click)="closeAlert();">Dismiss</a>
-            </div>
-        </div>
-          <div class="card shadow">
-            <div class="card-body">
-              <div class="row">
-                <div class="col col-12 col-xl-5 col-lg-12 col-md-4 col-sm-12">
-                  <img class="profile-image" [src]="picUrl" alt="avatar" />
-                  <div [ngSwitch]="doctorSchedule?.status">
-                    <div *ngSwitchCase="'online'">
-                      <div class="status-online" title="Online"></div>
-                      <div class="row small-font status-text">
-                        <i>Available</i>
-                      </div>
+                <div class="col col-12">
+                    <div class="snackbar shadow" id="alert">
+                        <div class="row notification-header">
+                            {{notification?.title}}
+                        </div>
+                        <div class="row notification-body">
+                            {{notification?.content}}
+                        </div>
+                        <div class="row">
+                            <a class="consult-button" (click)="startConsultation();">Start Consultation</a>
+                            <a class="consult-button" (click)="closeAlert();">Dismiss</a>
+                        </div>
                     </div>
-                    <div *ngSwitchCase="'offline'">
-                      <div class="status-offline" title="Offline"></div>
-                      <div class="row small-font status-text">
-                        <i>Offline</i>
-                      </div>
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-12 col-xl-5 col-lg-12 col-md-4 col-sm-12">
+                                    <img class="profile-image" [src]="picUrl" alt="avatar" />
+                                    <div [ngSwitch]="doctorSchedule?.status">
+                                        <div *ngSwitchCase="'online'">
+                                            <div class="status-online" title="Online"></div>
+                                            <div class="row small-font status-text">
+                                                <i>Available</i>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'offline'">
+                                            <div class="status-offline" title="Offline"></div>
+                                            <div class="row small-font status-text">
+                                                <i>Offline</i>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'invisible'">
+                                            <div class="status-invisible" title="Invisible"></div>
+                                            <div class="row small-font status-text">
+                                                <i>Invisible</i>
+                                            </div>
+                                        </div>
+                                        <div *ngSwitchCase="'away'">
+                                            <div class="status-away" title="Away"></div>
+                                            <div class="row small-font status-text">
+                                                <i>Away</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col col-12 col-xl-7 col-lg-12 col-md-8 col-sm-12">
+                                    <h5 class="card-title">Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
+                                    <p class="card-text" style="line-height: 1em;">{{doctor?.age}} years, {{doctor?.sex}}</p>
+                                    <p class="card-text" style="line-height: 1em; margin-top: 0px;">{{qualifications}}, {{doctor?.experience}} years of practice</p>
+                                    <p class="card-text" style="line-height: 1em;">{{locations}}</p>
+                                    <select [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
+                                        <option [ngValue]="undefined" selected disabled>Change Status</option>
+                                        <option *ngFor="let option of status" [ngValue]="option"> {{option}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div *ngSwitchCase="'invisible'">
-                      <div class="status-invisible" title="Invisible"></div>
-                      <div class="row small-font status-text">
-                        <i>Invisible</i>
-                      </div>
-                    </div>
-                    <div *ngSwitchCase="'away'">
-                      <div class="status-away" title="Away"></div>
-                      <div class="row small-font status-text">
-                        <i>Away</i>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <div class="col col-12 col-xl-7 col-lg-12 col-md-8 col-sm-12">
-                  <h5 class="card-title">Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}</h5>
-                  <p class="card-text" style="line-height: 1em;">{{doctor?.age}} years, {{doctor?.sex}}</p>
-                  <p class="card-text" style="line-height: 1em; margin-top: 0px;">{{qualifications}}</p>
-                  <p class="card-text" style="line-height: 1em;">{{locations}}</p>
-                  <select [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
-                    <option [ngValue]="undefined" selected disabled>Change Status</option>
-                    <option *ngFor="let option of status" [ngValue]="option"> {{option}} </option>
-                  </select>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col col-12">
-          <div class="card shadow" style="height: 290px; width:99%;">
-            <div class="card-header">
-              <h5 class="offset-1">Consultation History</h5>
-            </div>
-            <div class="card-body">
-              <div class="row justify-content-center">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary">
+            <div class="row">
+                <div class="col col-12">
+                    <div class="card shadow" style="height: 290px; width:99%;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Consultation History</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row justify-content-center">
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary">
                     <input type="radio">Today
                   </label>
-                  <label class="btn btn-secondary active">
+                                    <label class="btn btn-secondary active">
                     <input type="radio">Week
                   </label>
-                  <label class="btn btn-secondary">
+                                    <label class="btn btn-secondary">
                     <input type="radio">Month
                   </label>
-                </div>
-              </div>
-              <br>
-              <div class="row justify-content-around">
-                <div class="col col-5 offset-1">
-                  <div id="circle">
-                    <div id="text">
-                      <h4>10</h4>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row justify-content-around">
+                                <div class="col col-5 offset-1">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>10</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center; line-height: 1em;">Number of Patients</p>
+                                </div>
+                                <div class="col col-5">
+                                    <div id="circle">
+                                        <div id="text">
+                                            <h4>10</h4>
+                                        </div>
+                                    </div>
+                                    <p style="text-align: center;">Earning</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <p style="text-align: center; line-height: 1em;">Number of Patients</p>
                 </div>
-                <div class="col col-5">
-                  <div id="circle">
-                    <div id="text">
-                      <h4>10</h4>
-                    </div>
-                  </div>
-                  <p style="text-align: center;">Earning</p>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow" style="height: 587px;">
+                <div class="card-header">
+                    <h5 class="offset-1">Appointments for Today</h5>
+                </div>
+                <div class="card-body">
+                    <canvas #barChart width="500" height="587"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow" style="height: 250px;">
+                <div class="card-header">
+                    <h5 class="offset-1">Follow Ups</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row follow-ups">
+                        <a>Open Consultation</a>
+                        <span class="badge">9</span>
+                    </div>
+                    <div class="row follow-ups">
+                        <a>Reports</a>
+                        <span class="badge">9</span>
+                    </div>
+                    <div class="row follow-ups">
+                        <a>Chats</a>
+                        <span class="badge">9</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-      <div class="card shadow" style="height: 587px;">
-        <div class="card-header">
-          <h5 class="offset-1">Appointments for Today</h5>
-        </div>
-        <div class="card-body">
-          <canvas #barChart width="500" height="587"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-      <div class="card shadow" style="height: 250px;">
-        <div class="card-header">
-          <h5 class="offset-1">Follow Ups</h5>
-        </div>
-        <div class="card-body">
-          <div class="row follow-ups">
-            <a>Open Consultation</a>
-            <span class="badge">9</span>
-          </div>
-          <div class="row follow-ups">
-            <a>Reports</a>
-            <span class="badge">9</span>
-          </div>
-          <div class="row follow-ups">
-            <a>Chats</a>
-            <span class="badge">9</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
