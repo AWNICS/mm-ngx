@@ -269,3 +269,9 @@ textarea:focus {
     background-color: #fff;
     outline: 0;
 }
+
+button.button__accent:disabled {
+    background-color: #DBD8FF;
+    border: none;
+    cursor: not-allowed;
+}

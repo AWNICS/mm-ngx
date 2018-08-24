@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SecurityService } from './security.service';
+import { Group } from '../database/group';
 
 @Injectable()
 export class SharedService {
@@ -14,6 +15,7 @@ export class SharedService {
     private url: string;  // URL to access server
     private location: string;
     private speciality: string;
+    private group: Group;
 
     constructor(
         private http: Http,
@@ -36,6 +38,14 @@ export class SharedService {
 
     getSpeciality() {
         return this.speciality;
+    }
+
+    setGroup(group: Group) {
+        this.group = group;
+    }
+
+    getGroup() {
+        return this.group;
     }
 
     getSpecialities(): Observable<any> {

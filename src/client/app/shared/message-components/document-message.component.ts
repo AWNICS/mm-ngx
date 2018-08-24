@@ -17,7 +17,12 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     <ng-template #loading>
         Loading...
     </ng-template>
-    `
+    `,
+    styles: [`
+    a {
+        color:#FFF;
+    }
+    `]
 })
 
 export class DocumentMessageComponent implements OnInit {

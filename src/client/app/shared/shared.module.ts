@@ -18,6 +18,7 @@ import { SecurityService } from './services/security.service';
 import { SharedService } from './services/shared.service';
 
 import { PipesModule } from '../pipes/pipes.module';
+import { NotificationComponent } from './notification/notification.component';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -35,6 +36,7 @@ import { PipesModule } from '../pipes/pipes.module';
     VideoMessageComponent,
     TextMessageComponent,
     AppearMessageComponent,
+    NotificationComponent
     //AlertMessageComponent
   ],
   exports: [
@@ -48,6 +50,7 @@ import { PipesModule } from '../pipes/pipes.module';
     VideoMessageComponent,
     TextMessageComponent,
     AppearMessageComponent,
+    NotificationComponent,
     //AlertMessageComponent,
     CommonModule,
     FormsModule,

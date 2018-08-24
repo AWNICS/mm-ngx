@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
-import { Group } from '../shared/database/group';
-import { ChatService } from '../chat/chat.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import { Router } from '@angular/router';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -24,9 +21,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private loginService: LoginService,
-        private chatService: ChatService,
-        private router: Router
+        private loginService: LoginService
     ) { }
 
     /**
@@ -56,13 +51,16 @@ export class RegisterComponent implements OnInit {
     }
 
     register({ value, valid }: { value: UserDetails, valid: boolean }) {
-        const name = value.firstname + ' ' + value.lastname;
-        const split = name.split(' ');
         value.status = 'offline';
         value.role = 'patient';
         this.loginService.createNewUser(value)
             .subscribe(res => {
-                this.router.navigate(['/login']);
+                if(res) {
+                    this.registerDetails.reset();
+                    this.error = `An email has been sent to your inbox.
+                    Please activate your account using the link to login.
+                    Kindly check spam folder if not found in your inbox.`;
+                }
             });
     }
 

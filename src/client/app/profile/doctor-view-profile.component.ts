@@ -215,6 +215,7 @@ export class DoctorViewProfileComponent implements OnInit {
         this.sharedService.consultNow(doctorId, user.id)
             .subscribe((res) => {
                 if (res) {
+                    this.sharedService.setGroup(res);
                     this.router.navigate([`/chat/${user.id}`]);
                 } else {
                     this.message = 'There was an error. Please re-login and try again.';

@@ -115,6 +115,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = +this.route.snapshot.paramMap.get('userId');
+    this.selectedGroup = this.sharedService.getGroup();
     const cookie = this.securityService.getCookie('userDetails');
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
@@ -307,7 +308,9 @@ export class ChatComponent implements OnInit {
     setTimeout(() => {
       this.chatService.getGroups(this.userId)
         .subscribe((groups) => {
-          this.selectedGroup = groups[0];
+          if(!this.selectedGroup) {
+            this.selectedGroup = groups[0];
+          }
           this.getMessage(this.selectedGroup);
           groups.map((group: Group) => {
             this.groups.push(group);
