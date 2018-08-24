@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { LoginService } from './login.service';
-import { DoctorProfiles } from '../shared/database/doctor-profiles';
-import { ChatService } from '../chat/chat.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -24,8 +22,7 @@ export class DoctorRegisterComponent implements OnInit {
 
     constructor(
         private fb: FormBuilder,
-        private loginService: LoginService,
-        private chatService: ChatService,
+        private loginService: LoginService
     ) {
     }
 
@@ -85,8 +82,14 @@ export class DoctorRegisterComponent implements OnInit {
         if (valid === true) {
             this.loginService.createNewDoctor(value)
             .subscribe((res) => {
-                this.message = 'Registration successful!';
-                this.registerDoctorProfiles.reset();
+                if(res) {
+                    this.message = `Thank you for registering with us!
+                    We will get in touch with you to complete registration process.
+                    Kindly check inbox/spam folder for more details.`;
+                    this.registerDoctorProfiles.reset();
+                } else {
+                    this.message = 'Registration unsuccessful. Please try again!';
+                }
             });
           } else {
             this.message = 'Registration unsuccessful. Please try again!';

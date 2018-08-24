@@ -8,7 +8,6 @@ import { SocketService } from '../chat/socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
-import { Notification } from '../shared/database/notification';
 const Chart = require('chart.js/dist/Chart.bundle.js');
 
 @Component({
@@ -35,8 +34,6 @@ export class DoctorDashboardComponent implements OnInit {
     locations: string = '';
     doctorId: number;
     picUrl: SafeResourceUrl;
-    consultationGroupId: number;
-    notification: Notification;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -71,7 +68,6 @@ export class DoctorDashboardComponent implements OnInit {
             this.getDoctorStore(this.doctorId);
         }
         this.doctorSchedule = { 'status': 'online' };
-        this.getNotification();
         this.consultationStatus();
     }
 
@@ -183,25 +179,6 @@ export class DoctorDashboardComponent implements OnInit {
         this.languages = this.languages.slice(0, this.languages.length - 1);
         this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 1);
         this.locations = this.locations.slice(0, this.locations.length - 1);
-    }
-
-    getNotification() {
-        this.socketService.consultNotification()
-            .subscribe((data) => {
-                if (data) {
-                    this.consultationGroupId = data.group.id;
-                    this.notification = data.notification;
-                    document.getElementById('alert').style.display = 'block';
-                }
-            });
-    }
-
-    closeAlert() {
-        document.getElementById('alert').style.display = 'none';
-    }
-
-    startConsultation() {
-        this.socketService.userAdded(this.selectedUser, this.consultationGroupId);
     }
 
     consultationStatus() {
