@@ -82,7 +82,12 @@ export class DoctorRegisterComponent implements OnInit {
         if (valid === true) {
             this.loginService.createNewDoctor(value)
             .subscribe((res) => {
-                if(res) {
+                window.scroll(0,0);
+               breakloop: if(res.error==="DUP_ENTRY"){
+                    this.message=res.message;
+                    break breakloop;                 
+                }
+                else if(res) {
                     this.message = `Thank you for registering with us!
                     We will get in touch with you to complete registration process.
                     Kindly check inbox/spam folder for more details.`;
@@ -92,6 +97,7 @@ export class DoctorRegisterComponent implements OnInit {
                 }
             });
           } else {
+            window.scroll(0,0);
             this.message = 'Registration unsuccessful. Please try again!';
           }
     }
@@ -101,6 +107,7 @@ export class DoctorRegisterComponent implements OnInit {
             this.message = '';
             return;
         } else {
+            window.scroll(0,0);
             this.message = 'Passwords do not match';
         }
     }

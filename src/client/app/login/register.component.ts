@@ -55,7 +55,14 @@ export class RegisterComponent implements OnInit {
         value.role = 'patient';
         this.loginService.createNewUser(value)
             .subscribe(res => {
-                if(res) {
+                window.scroll(0,0);
+            breakloop: if(res.error){      
+                    if(res.error==="DUP_ENTRY"){
+                        this.error=res.message;
+                        break breakloop;                 
+                    }
+                }
+                else {
                     this.registerDetails.reset();
                     this.error = `An email has been sent to your inbox.
                     Please activate your account using the link to login.
@@ -69,6 +76,7 @@ export class RegisterComponent implements OnInit {
             this.error = '';
             return;
         } else {
+            window.scroll(0,0);
             this.error = 'Passwords do not match';
         }
     }
