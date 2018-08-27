@@ -14,7 +14,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 })
 export class DoctorRegisterComponent implements OnInit {
 
-    @ViewChild('msg') msg : ElementRef;
+    @ViewChild('msg') msg: ElementRef;
     registerDoctorProfiles: FormGroup;
     message = '';
     number: Array<number> = [];
@@ -39,7 +39,7 @@ export class DoctorRegisterComponent implements OnInit {
             lastname: ['', Validators.required],
             email: ['', Validators.required],
             password: ['', Validators.required],
-            confirmPassword:['', Validators.required],
+            confirmPassword: ['', Validators.required],
             phoneNo: ['', Validators.required],
             picUrl: null,
             role: null,
@@ -67,12 +67,12 @@ export class DoctorRegisterComponent implements OnInit {
     }
 
     generateNumber() {
-        for (var i = 1; i <= 50; i++ ) {
+        for (var i = 1; i <= 50; i++) {
             this.number.push(i);
         }
     }
 
-    register({ value, valid }: {value: any, valid: boolean }) {
+    register({ value, valid }: { value: any, valid: boolean }) {
         const name = value.firstname + ' ' + value.lastname;
         const split = name.split(' ');
         value.appearUrl = `https://appear.in/mm-${split[0]}-${split[1]}`;
@@ -81,33 +81,32 @@ export class DoctorRegisterComponent implements OnInit {
         value.role = 'doctor';
         if (valid === true) {
             this.loginService.createNewDoctor(value)
-            .subscribe((res) => {
-                window.scroll(0,0);
-               breakloop: if(res.error==="DUP_ENTRY"){
-                    this.message=res.message;
-                    break breakloop;                 
-                }
-                else if(res) {
-                    this.message = `Thank you for registering with us!
+                .subscribe((res) => {
+                    window.scroll(0, 0);
+                    breakloop: if (res.error === 'DUP_ENTRY') {
+                        this.message = res.message;
+                        break breakloop;
+                    } else if (res) {
+                        this.message = `Thank you for registering with us!
                     We will get in touch with you to complete registration process.
                     Kindly check inbox/spam folder for more details.`;
-                    this.registerDoctorProfiles.reset();
-                } else {
-                    this.message = 'Registration unsuccessful. Please try again!';
-                }
-            });
-          } else {
-            window.scroll(0,0);
+                        this.registerDoctorProfiles.reset();
+                    } else {
+                        this.message = 'Registration unsuccessful. Please try again!';
+                    }
+                });
+        } else {
+            window.scroll(0, 0);
             this.message = 'Registration unsuccessful. Please try again!';
-          }
+        }
     }
 
-    validatePassword({ value, valid }: {value: any, valid: boolean }) {
-        if(value.password === value.confirmPassword) {
+    validatePassword({ value, valid }: { value: any, valid: boolean }) {
+        if (value.password === value.confirmPassword) {
             this.message = '';
             return;
         } else {
-            window.scroll(0,0);
+            window.scroll(0, 0);
             this.message = 'Passwords do not match';
         }
     }

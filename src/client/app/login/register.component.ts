@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
             lastname: ['', Validators.required],
             email: ['', Validators.required],
             password: ['', Validators.required],
-            confirmPassword:['', Validators.required],
+            confirmPassword: ['', Validators.required],
             phoneNo: ['', Validators.required],
             aadhaarNo: null,
             picUrl: '',
@@ -55,14 +55,13 @@ export class RegisterComponent implements OnInit {
         value.role = 'patient';
         this.loginService.createNewUser(value)
             .subscribe(res => {
-                window.scroll(0,0);
-            breakloop: if(res.error){      
-                    if(res.error==="DUP_ENTRY"){
-                        this.error=res.message;
-                        break breakloop;                 
+                window.scroll(0, 0);
+                breakloop: if (res.error) {
+                    if (res.error === 'DUP_ENTRY') {
+                        this.error = res.message;
+                        break breakloop;
                     }
-                }
-                else {
+                } else {
                     this.registerDetails.reset();
                     this.error = `An email has been sent to your inbox.
                     Please activate your account using the link to login.
@@ -72,11 +71,11 @@ export class RegisterComponent implements OnInit {
     }
 
     validatePassword({ value, valid }: { value: any, valid: boolean }) {
-        if(value.password === value.confirmPassword) {
+        if (value.password === value.confirmPassword) {
             this.error = '';
             return;
         } else {
-            window.scroll(0,0);
+            window.scroll(0, 0);
             this.error = 'Passwords do not match';
         }
     }
