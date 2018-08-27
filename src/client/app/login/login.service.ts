@@ -30,7 +30,7 @@ export class LoginService {
         .map(res => res.json());
     }
 
-    createNewUser(userDetails: UserDetails): Observable<UserDetails> {
+    createNewUser(userDetails: UserDetails): Observable<UserDetails | any> {
         const uri = `${this.url}/users`;
         return this.http
             .post(uri, userDetails, this.options)
@@ -40,7 +40,7 @@ export class LoginService {
             .catch(this.handleError);
     }
 
-    createNewDoctor(doctorProfiles: DoctorProfiles): Observable<DoctorProfiles> {
+    createNewDoctor(doctorProfiles: DoctorProfiles): Observable<DoctorProfiles | any> {
         const url = `${this.url}/doctors`;
         return this.http
             .post(url, doctorProfiles, this.options)
