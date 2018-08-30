@@ -107,22 +107,23 @@
       </div>
     </div>
     <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-      <div class="card shadow" style="height: 250px;">
+      <div class="card-overflow card shadow" style="height: 250px;">
         <div class="card-header">
-          <h5 class="offset-1">Follow Ups</h5>
+          <h5 class="offset-1">Day at a glance</h5>
         </div>
         <div class="card-body">
-          <div class="row follow-ups">
-            <a>Open Consultation</a>
-            <span class="badge">9</span>
-          </div>
-          <div class="row follow-ups">
-            <a>Reports</a>
-            <span class="badge">9</span>
-          </div>
-          <div class="row follow-ups">
-            <a>Chats</a>
-            <span class="badge">9</span>
+          <div *ngFor="let consultation of consultations" class="card">
+            <div class="card-body">
+              <div class="card-title" style="font-weight:bold; font-size:1rem; margin-bottom:0px;">
+                {{consultation?.type}}
+              </div>
+              <div class="card-text" style="font-weight:normal; font-size:0.75rem;">
+                {{consultation?.activity}}
+              </div>
+              <div class="card-text" style="font-weight:normal; font-size:0.75rem;">
+                You have an appointment at {{consultation?.startTime}}
+              </div>
+            </div>
           </div>
         </div>
       </div>

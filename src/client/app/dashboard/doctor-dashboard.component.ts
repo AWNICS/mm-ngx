@@ -34,6 +34,7 @@ export class DoctorDashboardComponent implements OnInit {
     locations: string = '';
     doctorId: number;
     picUrl: SafeResourceUrl;
+    consultations: any[];
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -51,6 +52,7 @@ export class DoctorDashboardComponent implements OnInit {
         this.chart();
         const cookie = this.securityService.getCookie('userDetails');
         this.doctorId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
+        this.getConsultations(this.doctorId);
         if (cookie === '') {
             this.router.navigate([`/login`]);
         } else if (JSON.parse(cookie).id) {
@@ -185,6 +187,15 @@ export class DoctorDashboardComponent implements OnInit {
         this.socketService.receiveUserAdded()
             .subscribe((response) => {
                 this.router.navigate([`/chat/${response.doctorId}`]);
+            });
+    }
+
+    getConsultations(doctorId: number) {
+        let page = 1;
+        let size = 3;
+        this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
+            .subscribe((res) => {
+                this.consultations = res;
             });
     }
 }

@@ -27,7 +27,7 @@ body {
 .status-online {
     position: relative;
     top: -30px;
-    left: 93px;
+    left: 6rem;
     border: none;
     border-radius: 100%;
     width: 22px;
@@ -38,7 +38,7 @@ body {
 .status-offline {
     position: relative;
     top: -40px;
-    left: 120px;
+    left: 6rem;
     border: none;
     border-radius: 100%;
     width: 22px;
@@ -49,7 +49,7 @@ body {
 .status-away {
     position: relative;
     top: -40px;
-    left: 120px;
+    left: 6rem;
     border: none;
     border-radius: 100%;
     width: 22px;
@@ -60,7 +60,7 @@ body {
 .status-invisible {
     position: relative;
     top: -40px;
-    left: 120px;
+    left: 6rem;
     border: none;
     border-radius: 100%;
     width: 22px;

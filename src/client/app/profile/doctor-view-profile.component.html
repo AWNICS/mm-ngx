@@ -3,25 +3,24 @@
     <div class="row doctor-profiles">
         <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12 no-gutters">
             <img [src]="doctor?.picUrl | safe: 'url'" class="profile-image" alt="avatar">
-            <div class="status-online" title="Online" *ngIf="doctor?.status === 'online';"></div>
-            <div class="row small-font status-text" *ngIf="doctor?.status === 'online';">
+            <div class="status-online" title="Online" *ngIf="selectedUser?.status === 'online';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'online';">
                 <i>Available now</i>
             </div>
-            <div class="status-offline" title="Offline" *ngIf="doctor?.status === 'offline';"></div>
-            <div class="row small-font status-text" *ngIf="doctor?.status === 'offline';">
+            <div class="status-offline" title="Offline" *ngIf="selectedUser?.status === 'offline';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'offline';">
                 <i>Not Available</i>
             </div>
-            <div class="status-away" title="Away" *ngIf="doctor?.status === 'away';"></div>
-            <div class="row small-font status-text" *ngIf="doctor?.status === 'away';">
+            <div class="status-away" title="Away" *ngIf="selectedUser?.status === 'away';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'away';">
                 <i>Away</i>
             </div>
-            <div class="status-invisible" title="Invisible" *ngIf="doctor?.status === 'invisible';"></div>
-            <div class="row small-font status-text" *ngIf="doctor?.status === 'invisible';">
+            <div class="status-invisible" title="Invisible" *ngIf="selectedUser?.status === 'invisible';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'invisible';">
                 <i>Invisible</i>
             </div>
         </div>
         <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
-            <mm-notification [selectedUser]="selectedUser"></mm-notification>
             <div class="row">
                 <h5>
                     Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}
