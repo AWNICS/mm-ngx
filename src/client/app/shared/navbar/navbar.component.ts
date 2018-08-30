@@ -4,6 +4,8 @@ import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
 import { ChatService } from '../../chat/chat.service';
 import { UserDetails } from '../database/user-details';
+import { SharedService } from '../services/shared.service';
+import { Notification } from '../database/notification';
 
 @Component({
     moduleId: module.id,
@@ -16,11 +18,14 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     loggedIn: boolean = false;
     user: UserDetails;
     picUrl: string;
+    notifications: Notification[];
+    notify = false;
 
     constructor(
         private ref: ChangeDetectorRef,
         private socketService: SocketService,
         private securityService: SecurityService,
+        private sharedService: SharedService,
         private chatService: ChatService) {
     }
 
@@ -29,6 +34,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         if (this.loggedIn === true) {
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
             if (this.user) {
+                this.getNotifications(this.user);
                 this.ref.detectChanges();
                 if (this.user.picUrl) {
                     this.downloadPic(this.user.picUrl);
@@ -84,6 +90,18 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         } else {
             document.getElementById('navbar').style.backgroundColor = color;
         }
+    }
+
+    getNotifications(user: UserDetails) {
+        let page = 1;
+        let size = 10;
+        this.sharedService.getNotificationsByUserId(user.id, page, size)
+            .subscribe((notifications) => {
+                if (notifications.length >= 1) {
+                    this.notify = true;
+                    this.notifications = notifications;
+                }
+            });
     }
 
 }

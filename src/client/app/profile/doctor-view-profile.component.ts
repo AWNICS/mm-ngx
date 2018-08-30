@@ -224,7 +224,7 @@ export class DoctorViewProfileComponent implements OnInit {
     }
 
     getStatus(doctor: any) {
-        this.sharedService.getDoctorScheduleByDoctorId(this.doctorId)
+        this.sharedService.getDoctorScheduleByDoctorId(doctor.id)
             .subscribe(res => {
                 this.doctorSchedule = res;
                 this.doctor.status = this.doctorSchedule[this.doctorSchedule.length - 1].status;
