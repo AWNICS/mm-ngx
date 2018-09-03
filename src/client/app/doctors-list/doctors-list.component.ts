@@ -130,7 +130,10 @@ export class DoctorsListComponent implements OnInit {
         this.sharedService.consultNow(doctorId, user.id)
             .subscribe((res) => {
                 if (res) {
+                    console.log('docotr'+doctorId);
+                    console.log('user'+user.id);
                     this.sharedService.setGroup(res);
+                    console.log(res);
                     this.router.navigate([`/chat/${user.id}`]);
                 } else {
                     this.message = 'There was an error. Please re-login and try again.';

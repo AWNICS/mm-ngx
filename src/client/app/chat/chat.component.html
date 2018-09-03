@@ -1,348 +1,344 @@
 <mm-navbar style="margin-bottom:70px;"></mm-navbar>
 <div class="container-fluid">
-  <div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" #mySidebar>
-    <button class="w3-bar-item w3-button w3-large w3-hide-large" id="close" (click)="close()">
+    <div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" #mySidebar>
+        <button class="w3-bar-item w3-button w3-large w3-hide-large" id="close" (click)="close()">
       <i class="fa fa-times-circle-o" aria-hidden="true"></i>
     </button>
-    <div class="search">
-      <input type="text" placeholder="Search" [(ngModel)]="searchText" />
-      <i class="fa fa-search"></i>
-    </div>
-    <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText">
-      <div class="people-list" id="people-list">
-        <div class="list">
-          <div class="clearfix" (click)="getMessage(group)">
-            <div *ngIf="group.picture else alternateGroup">
-              <img [src]="group.picture | safe: 'url'" alt="avatar" />
-            </div>
-            <ng-template #alternateGroup>
-              <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
-            </ng-template>
-            <div class="about">
-              <div class="name">{{group.name}}</div>
-              <div class="status" *ngIf="group.status === 'online' else offline">
-                <i class="fa fa-circle online"></i> online
-              </div>
-              <ng-template class="status" #offline>
-                <i class="fa fa-circle offline"></i> offline
-              </ng-template>
-            </div>
-          </div>
+        <div class="search">
+            <input type="text" placeholder="Search" [(ngModel)]="searchText" />
+            <i class="fa fa-search"></i>
         </div>
-      </div>
+        <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText">
+            <div class="people-list" id="people-list">
+                <div class="list">
+                    <div class="clearfix" (click)="getMessage(group)">
+                        <div *ngIf="group.picture else alternateGroup">
+                            <img [src]="group.picture | safe: 'url'" alt="avatar" />
+                        </div>
+                        <ng-template #alternateGroup>
+                            <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                        </ng-template>
+                        <div class="about">
+                            <div class="name">{{group.name}}</div>
+                            <div class="status" *ngIf="group.status === 'online' else offline">
+                                <i class="fa fa-circle online"></i> online
+                            </div>
+                            <ng-template class="status" #offline>
+                                <i class="fa fa-circle offline"></i> offline
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="w3-main" style="margin-left:267px;">
-    <div class="w3-teal">
-      <button class="w3-button w3-teal w3-xlarge w3-hide-large" (click)="open()">&#9776;</button>
-    </div>
-    <div class="chat" id="chat" #chat>
-      <div class="chat-header clearfix row" *ngIf="selectedGroup">
-        <div class="col col-11">
-          <div *ngIf="selectedGroup.picture else alternateSelectedGroup">
-            <img [src]="selectedGroup.picture | safe: 'url'" alt="avatar" />
-          </div>
-          <ng-template #alternateSelectedGroup>
-            <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
-          </ng-template>
-          <div class="chat-about">
-            <div class="chat-with">{{selectedGroup.name}}</div>
-            <div class="chat-num-messages">{{selectedGroup.description}}</div>
-          </div>
-          <!-- Doctor List Modal -->
-          <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
-            <div class="modal-header">
-              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+    <div class="w3-main" style="margin-left:267px;">
+        <div class="w3-teal">
+            <button class="w3-button w3-teal w3-xlarge w3-hide-large" (click)="open()">&#9776;</button>
+        </div>
+        <div class="chat" id="chat" #chat>
+            <div class="chat-header clearfix row" *ngIf="selectedGroup">
+                <div class="col col-11">
+                    <div *ngIf="selectedGroup.picture else alternateSelectedGroup">
+                        <img [src]="selectedGroup.picture | safe: 'url'" alt="avatar" />
+                    </div>
+                    <ng-template #alternateSelectedGroup>
+                        <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                    </ng-template>
+                    <div class="chat-about">
+                        <div class="chat-with">{{selectedGroup.name}}</div>
+                        <div class="chat-num-messages">{{selectedGroup.description}}</div>
+                    </div>
+                    <!-- Doctor List Modal -->
+                    <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
+                        <div class="modal-header">
+                            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
-            </div>
-            <div class="modal-body">
-              <div class="row no-gutters" *ngFor="let doctor of doctors">
-                <div class="col-lg-1 col-md-2 col-sm-2">
-                  <div [ngSwitch]="doctor.status">
-                    <div *ngSwitchCase="'online'" class="switch">
-                      <div class="led-box led-green"></div>
-                    </div>
-                    <div *ngSwitchCase="'offline'">
-                      <div class="led-box led-red"></div>
-                    </div>
-                    <div *ngSwitchCase="'busy'">
-                      <div class="led-box led-blue"></div>
-                    </div>
-                    <div *ngSwitchCase="'away'">
-                      <div class="led-box led-yellow"></div>
-                    </div>
-                    <div *ngSwitchDefault>
-                      <div class="led-box led-red"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-4 no-gutters" *ngIf="doctor.picUrl else alternateDoc">
-                  <img class="rounded-circle" [src]="doctor.picUrl | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;"
-                    alt="Not found" class="switch" />
-                </div>
-                <ng-template #alternateDoc>
-                  <img class="rounded-circle" [src]="altDocPic | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;"
-                    alt="Not found" class="switch" />
-                </ng-template>
-                <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
+                        </div>
+                        <div class="modal-body">
+                            <div class="row no-gutters" *ngFor="let doctor of doctors">
+                                <div class="col-lg-1 col-md-2 col-sm-2">
+                                    <div [ngSwitch]="doctor.status">
+                                        <div *ngSwitchCase="'online'" class="switch">
+                                            <div class="led-box led-green"></div>
+                                        </div>
+                                        <div *ngSwitchCase="'offline'">
+                                            <div class="led-box led-red"></div>
+                                        </div>
+                                        <div *ngSwitchCase="'busy'">
+                                            <div class="led-box led-blue"></div>
+                                        </div>
+                                        <div *ngSwitchCase="'away'">
+                                            <div class="led-box led-yellow"></div>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <div class="led-box led-red"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-4 no-gutters" *ngIf="doctor.picUrl else alternateDoc">
+                                    <img class="rounded-circle" [src]="doctor.picUrl | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                </div>
+                                <ng-template #alternateDoc>
+                                    <img class="rounded-circle" [src]="altDocPic | safe: 'url'" data-toggle="tooltip" title="{{doctor.status}}" style="height: 100px; width: 100px;" alt="Not found" class="switch" />
+                                </ng-template>
+                                <div class="col-lg-9 col-md-7  col-sm-12 no-gutters ml-auto">
 
-                  <div class="row">
-                    <div class="col-lg-12 align-self-start">
-                      <h3 class="card-title">{{doctor.name}}</h3>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 align-self-start">
-                      <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-12 align-self-start">
-                      {{doctor.description}}
-                    </div>
-                  </div>
-                  <div class="row no-gutters">
-                    <div class="col-lg-8 col-md-7 no-gutters align-self-start">
-                      <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
-                    </div>
-                    <div class="col-lg-4 col-md-12 no-gutters align-self-end">
-                      <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult now</button>
-                      <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false"
-                        aria-controls="collapseExample">
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            <h3 class="card-title">{{doctor.name}}</h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            <p class="card-text">Doctor is {{doctor.experience}} years experienced in {{doctor.speciality}}.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 align-self-start">
+                                            {{doctor.description}}
+                                        </div>
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="col-lg-8 col-md-7 no-gutters align-self-start">
+                                            <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
+                                        </div>
+                                        <div class="col-lg-4 col-md-12 no-gutters align-self-end">
+                                            <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult now</button>
+                                            <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                       </button>
-                    </div>
-                  </div>
+                                        </div>
+                                    </div>
 
-                  <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
-                    <div class="card card-body col-lg-4 align-self-center" id="videoImage">
-                      <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
-                    </div>
-                  </div>
+                                    <div class="row justify-content-md-center collapse" id="{{doctor.id}}" style="align-items: center;">
+                                        <div class="card card-body col-lg-4 align-self-center" id="videoImage">
+                                            <img src="https://img.youtube.com/vi/tgbNymZ7vqY/1.jpg" alt="image is not avaliable" (click)="video(videoModal)">
+                                        </div>
+                                    </div>
 
-                  <ng-template #videoModal let-c="close" let-d="dismiss">
-                    <div class="container-fluid">
-                      <div class="modal-header">
-                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                                    <ng-template #videoModal let-c="close" let-d="dismiss">
+                                        <div class="container-fluid">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                           <span aria-hidden="true">&times;</span>
                         </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="row">
-                          <embed width="480" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <embed width="480" height="400" src="https://www.youtube.com/v/tgbNymZ7vqY">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
                         </div>
-                      </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+                        </div>
+                    </ng-template>
+                    <!-- end Doctor List Modal -->
+                </div>
+                <div class="col col-1">
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                        <div class="dropdown-menu" style="margin-right: 90px;" *ngIf="selectedUser">
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
+                            <a class="dropdown-item" (click)="media();">
+                                <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>
+                        </div>
                     </div>
-                  </ng-template>
                 </div>
-              </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
-            </div>
-          </ng-template>
-          <!-- end Doctor List Modal -->
-        </div>
-        <div class="col col-1">
-          <div class="dropdown">
-            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-ellipsis-v"></i>
-            </a>
-            <div class="dropdown-menu" style="margin-right: 90px;">
-              <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
-              <a class="dropdown-item" (click)="media();">
-                <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
-              <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
-              <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal"
-                (click)="openDoctor(doctorModal);">Manual Create</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- end chat-header -->
+            <!-- end chat-header -->
 
-      <div class="chat-history" #messageBox (scroll)="onScroll()">
-        <div *ngFor="let message of messages;let i = index;">
-          <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
-            <div class="clearfix">
-              <div class="message-data align-right">
-                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
-                <span class="message-data-name">{{message.senderName}}</span>
-                <i class="fa fa-circle me"></i>
-              </div>
-              <div class="message other-message float-right">
-                <div [ngSwitch]="message.contentType" style="margin-right: 7px;">
-                  <div *ngSwitchCase="'text'">
-                    <mm-text-message [message]="message"></mm-text-message>
-                  </div>
-                  <div *ngSwitchCase="'radio'">
-                    <mm-radio-message [message]="message"></mm-radio-message>
-                  </div>
-                  <div *ngSwitchCase="'slider'">
-                    <mm-slider-message [message]="message"></mm-slider-message>
-                  </div>
-                  <div *ngSwitchCase="'checkbox'">
-                    <mm-checkbox-message [message]="message"></mm-checkbox-message>
-                  </div>
-                  <div *ngSwitchCase="'video'">
-                    <mm-video-message [message]="message"></mm-video-message>
-                  </div>
-                  <div *ngSwitchCase="'doc'">
-                    <mm-document-message [message]="message"></mm-document-message>
-                  </div>
-                  <div *ngSwitchCase="'appear'">
-                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                  </div>
-                  <div *ngSwitchCase="'image'">
-                    <mm-image-message [message]="message"></mm-image-message>
-                  </div>
-                  <div *ngSwitchDefault>
-                    <mm-text-message [message]="message"></mm-text-message>
-                  </div>
-                </div>
-                <div class="dropdown delete-message">
-                  <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <div class="chat-history" #messageBox (scroll)="onScroll()">
+                <div *ngFor="let message of messages;let i = index;">
+                    <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
+                        <div class="clearfix">
+                            <div class="message-data align-right">
+                                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
+                                <span class="message-data-name">{{message.senderName}}</span>
+                                <i class="fa fa-circle me"></i>
+                            </div>
+                            <div class="message other-message float-right">
+                                <div [ngSwitch]="message.contentType" style="margin-right: 7px;">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                </div>
+                                <div class="dropdown delete-message">
+                                    <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          <ng-template #alignLeft>
-            <div class="clearfix">
-              <div class="message-data">
-                <span class="message-data-name">
+                    <ng-template #alignLeft>
+                        <div class="clearfix">
+                            <div class="message-data">
+                                <span class="message-data-name">
                   <i class="fa fa-circle other"></i>{{message.senderName}}</span>
-                <span class="message-data-time">{{message?.createdTime | date}}</span>
-              </div>
-              <div class="message my-message">
-                <div [ngSwitch]="message?.contentType">
-                  <div *ngSwitchCase="'text'">
-                    <mm-text-message [message]="message"></mm-text-message>
-                  </div>
-                  <div *ngSwitchCase="'radio'">
-                    <mm-radio-message [message]="message"></mm-radio-message>
-                  </div>
-                  <div *ngSwitchCase="'slider'">
-                    <mm-slider-message [message]="message"></mm-slider-message>
-                  </div>
-                  <div *ngSwitchCase="'checkbox'">
-                    <mm-checkbox-message [message]="message"></mm-checkbox-message>
-                  </div>
-                  <div *ngSwitchCase="'video'">
-                    <mm-video-message [message]="message"></mm-video-message>
-                  </div>
-                  <div *ngSwitchCase="'doc'">
-                    <mm-document-message [message]="message"></mm-document-message>
-                  </div>
-                  <div *ngSwitchCase="'appear'">
-                    <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                  </div>
-                  <div *ngSwitchCase="'image'">
-                    <mm-image-message [message]="message"></mm-image-message>
-                  </div>
-                  <div *ngSwitchDefault>
-                    <mm-text-message [message]="message"></mm-text-message>
-                  </div>
+                                <span class="message-data-time">{{message?.createdTime | date}}</span>
+                            </div>
+                            <div class="message my-message">
+                                <div [ngSwitch]="message?.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
                 </div>
-              </div>
+                <div class="muted" *ngIf="alert">{{alertMessage}}</div>
             </div>
-          </ng-template>
-        </div>
-        <div class="muted" *ngIf="alert">{{alertMessage}}</div>
-      </div>
-      <!-- end chat-history -->
+            <!-- end chat-history -->
 
-      <div class="container">
-        <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
-          <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
-          <div class="row justify-content-between chat-footer">
-            <div class="col col-2 dropup">
-              <i class="fa fa-paperclip" data-toggle="dropdown"></i>
-              <div class="dropdown-menu" #dropDown>
-                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
-                  <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
-                  <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
-                  <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
-                  <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
-                  <div class="file-upload" title="Upload image">
-                    <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                  </div>
-                  <div class="file-upload" title="Upload video">
-                    <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
-                    <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                  </div>
-                  <div class="file-upload" title="Upload file">
-                    <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
-                    <i class="fa fa-file-o" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
+            <div class="container">
+                <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
+                    <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
+                    <div class="row justify-content-between chat-footer">
+                        <div class="col col-2 dropup">
+                            <i class="fa fa-paperclip" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu" #dropDown>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
+                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
+                                    <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
+                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
+                                    <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
+                                    <div class="file-upload" title="Upload image">
+                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload video">
+                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
+                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload file">
+                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
+                                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-2">
+                            <button type="submit" [disabled]="message.invalid">Send</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="col col-2">
-              <button type="submit" [disabled]="message.invalid">Send</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      <!-- end chat-message -->
-    </div>
-    <!-- end chat -->
-    <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
-      <button class="w3-bar-item w3-button w3-large" id="close" (click)="w3_close()">
+            <!-- end chat-message -->
+        </div>
+        <!-- end chat -->
+        <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
+            <button class="w3-bar-item w3-button w3-large" id="close" (click)="w3_close()">
         <i class="fa fa-times-circle-o" aria-hidden="true"></i>
       </button>
-      <div class="search-right">
-        <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
-        <div class="card media-list">
-          <div class="card-body">
-            <div [ngSwitch]="media.contentType">
-              <div *ngSwitchCase="'image'" id="image">
-                <div class="row">
-                  <div class="col col-4">
-                    <mm-image-message [message]="media"></mm-image-message>
-                  </div>
-                  <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
-                  </div>
-                </div>
-              </div>
-              <div *ngSwitchCase="'video'">
-                <div class="row">
-                  <div class="col col-4">
-                    <mm-video-message [message]="media"></mm-video-message>
-                  </div>
-                  <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
-                  </div>
-                </div>
-              </div>
-              <div *ngSwitchCase="'doc'">
-                <div class="row">
-                  <div class="col col-4">
-                    <mm-document-message [message]="media"></mm-document-message>
-                  </div>
-                  <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
-                  </div>
-                </div>
-              </div>
+            <div class="search-right">
+                <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
+                <i class="fa fa-search"></i>
             </div>
-          </div>
+            <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
+                <div class="card media-list">
+                    <div class="card-body">
+                        <div [ngSwitch]="media.contentType">
+                            <div *ngSwitchCase="'image'" id="image">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-image-message [message]="media"></mm-image-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'video'">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-video-message [message]="media"></mm-video-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'doc'">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-document-message [message]="media"></mm-document-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
