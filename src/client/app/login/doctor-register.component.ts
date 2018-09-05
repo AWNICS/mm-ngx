@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { LoginService } from './login.service';
+import { SharedService } from '../shared/services/shared.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import {Specialities} from '../shared/database/speciality';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -18,11 +19,15 @@ export class DoctorRegisterComponent implements OnInit {
     registerDoctorProfiles: FormGroup;
     message = '';
     number: Array<number> = [];
+    specialityDropdownSettings:Object;
+    specialitiesDropdownList:Array<any>=[];
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+ 
 
     constructor(
         private fb: FormBuilder,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private sharedService: SharedService
     ) {
     }
 
@@ -31,6 +36,13 @@ export class DoctorRegisterComponent implements OnInit {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
+        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=>{
+            let specialitiesList:Array<any> = [];
+          specialities.map((speciality:Specialities)=>{
+              specialitiesList.push(speciality.name);
+          })
+          this.specialitiesDropdownList = specialitiesList;
+        });
         this.registerDoctorProfiles = this.fb.group({
             id: null,
             userId: null,
@@ -64,6 +76,12 @@ export class DoctorRegisterComponent implements OnInit {
         });
         this.generateNumber();
         this.navbarComponent.navbarColor(0, '#6960FF');
+        this.specialityDropdownSettings = {
+            singleSelection: false,
+            enableCheckAll:false,
+            itemsShowLimit: 3,
+            allowSearchFilter: true
+          };
     }
 
     generateNumber() {

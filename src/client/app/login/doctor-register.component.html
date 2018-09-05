@@ -33,9 +33,8 @@
                     <label>Confirm Password</label>
                     <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorProfiles);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <div class="row">
-                        <div class="col">
-                            <label>Speciality</label>
-                            <input type="text" formControlName="speciality" placeholder="Dermatologist">
+                        <div class="col"> <label>Speciality</label>
+                            <ng-multiselect-dropdown [placeholder]="'Select Specialities'" [data]="specialitiesDropdownList" formControlName="speciality" [settings]="specialityDropdownSettings" #specialitiesBlock></ng-multiselect-dropdown>
                         </div>
                         <div class="col">
                             <label>Experience</label>

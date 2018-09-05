@@ -46,8 +46,10 @@ export class DoctorsListComponent implements OnInit {
                     this.message = 'There are no doctors available currently. Try again later!';
                 } else {
                     this.doctors = res;
+                    this.doctors.length === 1 ? this.doctors.speciality = res.speciality.speciality : null;
                     if (this.doctors.length >= 1) {
                         this.doctors.map((doctor: any) => {
+                            doctor.speciality = doctor.speciality.speciality;
                             this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
                                 .subscribe(response => {
                                     let updatedAt = new Date(response[response.length-1].updatedAt);
@@ -97,22 +99,30 @@ export class DoctorsListComponent implements OnInit {
         let locations = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                qualifications = qualifications + ` ${stores[i].value}` + ',';
+                stores[i].value.qualification.map((qualification:string)=>{
+                    qualifications += qualification +', ';
+                })
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                languages = languages + ` ${stores[i].value}` + ',';
+                stores[i].value.language.map((language:string)=>{
+                    languages += language +', ';
+                })
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                consultationModes = consultationModes + ` ${stores[i].value}` + ',';
+                stores[i].value.consultationMode.map((consultationMode:string)=>{
+                    consultationModes += consultationMode +', ';
+                })
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                locations = locations + ` ${stores[i].value}` + ',';
+                stores[i].value.location.map((location:string)=>{
+                    locations += location +', ';
+                })
             }
         }
-        qualifications = qualifications.slice(0, qualifications.length - 1);
-        languages = languages.slice(0, languages.length - 1);
-        consultationModes = consultationModes.slice(0, consultationModes.length - 1);
-        locations = locations.slice(0, locations.length - 1);
+        qualifications = qualifications.slice(0, qualifications.length - 2);
+        languages = languages.slice(0, languages.length - 2);
+        consultationModes = consultationModes.slice(0, consultationModes.length - 2);
+        locations = locations.slice(0, locations.length - 2);
 
         //iterate the doctors[] array and assign the required variable and use it inside the html
         for (let i = 0; i < this.doctors.length; i++) {
