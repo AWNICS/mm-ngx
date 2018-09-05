@@ -67,7 +67,7 @@ export class DoctorProfileComponent implements OnInit {
     }
 
     generateNumber() {
-        for (var i = 1; i <= 50; i++) {
+        for (var i = 1; i <= 100; i++) {
             this.number.push(i);
         }
     }

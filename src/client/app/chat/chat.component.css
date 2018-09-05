@@ -323,8 +323,6 @@ textarea:focus {
     outline: 0;
 }
 
-.chat .fa-file-o,
-.chat .fa-file-image-o,
 .chat .fa-paperclip {
     font-size: 16px;
     color: gray;
@@ -410,8 +408,9 @@ textarea:focus {
 .fa-video-camera,
 .fa-picture-o,
 .fa-file-video-o,
+.fa-file-image-o,
 .fa-file-o {
-    font-size: 25px;
+    font-size: 1.5rem;
     color: gray;
     margin: 5px;
     padding: 5px;
@@ -428,7 +427,6 @@ textarea:focus {
     border: none;
     overflow: hidden;
     transition: all 1s;
-    cursor: pointer;
 }
 
 .file-upload input[type='file'] {
@@ -438,6 +436,9 @@ textarea:focus {
     top: 0;
     left: 0;
     opacity: 0;
+}
+
+.file-upload input[type='file']:hover {
     cursor: pointer;
 }
 
@@ -446,9 +447,21 @@ textarea:focus {
     width: auto !important;
     background-color: transparent;
     padding: 0px;
-    margin-right: 100% !important;
     border: none;
     border-radius: 30px;
+}
+
+.dropdown-menu.show.options-menu {
+    left: -110px !important;
+    top: 20px !important;
+    transform: translate3d(0px,0px,0px) !important;
+}
+
+@media (max-width: 575.98px) {
+    .dropdown-menu.show.options-menu {
+        left: -120px !important;
+        transform: translate3d(0px,0px,0px) !important;
+    }
 }
 
 .btn-file {
@@ -552,8 +565,15 @@ textarea:focus {
     cursor: pointer;
 }
 
-a.dropdown-item {
-    margin: 3px;
+.dropdown-menu.options-dropdowm.show {
+    top: 0.5rem !important;
+    left: -1rem !important;
+}
+
+.options-dropdowm > .dropdown-item {
+    background-color: #FF5638;
+    border: 1px solid #FF5638;
+    font-size: 10px;
 }
 
 .dropdown-item {
@@ -569,6 +589,7 @@ a.dropdown-item {
     text-decoration: none;
     font-family: Lato, sans-serif;
     font-size: 15px;
+    margin: 0.25rem;
 }
 
 .dropdown-item:hover {

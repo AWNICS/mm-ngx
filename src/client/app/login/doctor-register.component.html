@@ -27,11 +27,12 @@
                     <label>Email</label>
                     <input type="email" formControlName="email" placeholder="you@example.com">
                     <label>Mobile No.</label>
-                    <input type="tel" id="phoneNo" formControlName="phoneNo" placeholder="xxxxxxxxxx">
+                    <input type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo" placeholder="xxxxxxxxxx" #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);">
+                    <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton data-toggle="modal" data-target="#confirmModal">Send OTP</button>
                     <label>Password</label>
                     <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <label>Confirm Password</label>
-                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorProfiles);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <input type="password" formControlName="confirmPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
                     <div class="row">
                         <div class="col">
                             <label>Speciality</label>
@@ -39,9 +40,7 @@
                         </div>
                         <div class="col">
                             <label>Experience</label>
-                            <select class="experience" id="experience" formControlName="experience" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
-                                <option *ngFor="let i of number">{{i}}</option>
-                            </select>
+                            <input type="number" formControlName="experience" placeholder="Experience">
                         </div>
                     </div>
                     <!--label>Bio</label>
@@ -52,6 +51,48 @@
                     </div><br>
                     <button i18n type="submit" class="button button__accent" [disabled]="registerDoctorProfiles.invalid">Register</button>
                 </form>
+                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <div class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </div>
+                              <br/>
+                              <div class="container">
+                                <div *ngIf="otpFlag; else verified">
+                                  <div class="row justify-content-center">
+                                    <div class="content-head">{{otpMessage}}</div>
+                                  </div>
+                                  <div class="row justify-content-center">
+                                    <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp" aria-describedby="otp" placeholder="Enter OTP">
+                                  </div>
+                                  <div class="row justify-content-center">
+                                    <div class="col">
+                                        <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend OTP</button>
+                                    </div>
+                                    <div class="col">
+                                        <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy OTP</button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <ng-template #verified>
+                                  <div class="content">
+                                    <div class="row justify-content-center">
+                                      <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                      <div class="content-head">
+                                        Phone number verified!
+                                      </div>
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
             </div>
         </div>
     </div>

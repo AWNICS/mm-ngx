@@ -20,7 +20,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     `,
     styles: [`
     a {
-        color:#FFF;
+        color:lightgray;
     }
     `]
 })
