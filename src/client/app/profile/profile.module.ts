@@ -14,6 +14,7 @@ import { PatientProfileComponent } from './patient-profile.component';
 import { StaffProfileComponent } from './staff-profile.component';
 import { ProfileService } from './profile.service';
 import { DoctorViewProfileComponent } from './doctor-view-profile.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { DoctorViewProfileComponent } from './doctor-view-profile.component';
     ReactiveFormsModule,
     ProfileRoutingModule,
     RatingModule,
-    DragScrollModule
+    DragScrollModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     ProfileComponent,

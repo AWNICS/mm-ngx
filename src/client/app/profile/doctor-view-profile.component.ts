@@ -90,6 +90,7 @@ export class DoctorViewProfileComponent implements OnInit {
                 this.sharedService.getDoctorById(this.doctorId)
                     .subscribe(doctor => {
                         this.doctor = doctor;
+                        this.doctor.speciality = doctor.speciality.speciality;
                         let date = new Date(this.doctor.validity);
                         this.doctor.validity = date.getUTCDay() + '-' + date.getUTCMonth() + '-' + date.getUTCFullYear();
                         this.getPicUrl(this.doctor, this.selectedUser);
@@ -188,26 +189,34 @@ export class DoctorViewProfileComponent implements OnInit {
         this.professionalSociety = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                this.qualifications = this.qualifications + ` ${stores[i].value}` + ',';
+                stores[i].value.qualification.map((qualification:string)=>{
+                    this.qualifications += qualification +', ';
+                })
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                this.languages = this.languages + ` ${stores[i].value}` + ',';
+                stores[i].value.language.map((language:string)=>{
+                    this.languages += language +', ';
+                })
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                this.consultationModes = this.consultationModes + ` ${stores[i].value}` + ',';
+                stores[i].value.consultationMode.map((consultationMode:string)=>{
+                    this.consultationModes += consultationMode +', ';
+                })
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                this.locations = this.locations + ` ${stores[i].value}` + ',';
+                stores[i].value.location.map((location:string)=>{
+                    this.locations += location +', ';
+                })
             }
             if (stores[i].type === 'Professional Society' && stores[i].userId === doctorId) {
                 this.professionalSociety = this.professionalSociety + ` ${stores[i].value}` + ',';
             }
         }
-        this.qualifications = this.qualifications.slice(0, this.qualifications.length - 1);
-        this.languages = this.languages.slice(0, this.languages.length - 1);
-        this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 1);
-        this.locations = this.locations.slice(0, this.locations.length - 1);
-        this.professionalSociety = this.professionalSociety.slice(0, this.professionalSociety.length - 1);
+        this.qualifications = this.qualifications.slice(0, this.qualifications.length - 2);
+        this.languages = this.languages.slice(0, this.languages.length - 2);
+        this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 2);
+        this.locations = this.locations.slice(0, this.locations.length - 2);
+        this.professionalSociety = this.professionalSociety.slice(0, this.professionalSociety.length - 2);
     }
 
     consultNow(doctorId: number) {

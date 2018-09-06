@@ -102,7 +102,11 @@ export class ProjectConfig extends SeedConfig {
       name: 'angular-vertical-timeline',
       path: 'node_modules/angular-vertical-timeline/dist/index.umd.js'
     });
-
+    
+    this.addPackageBundles({
+      name: 'ng-multiselect-dropdown',
+      path: 'node_modules/ng-multiselect-dropdown/bundles/ng-multiselect-dropdown.umd.js'
+    });
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
