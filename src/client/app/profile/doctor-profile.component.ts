@@ -62,10 +62,10 @@ export class DoctorProfileComponent implements OnInit {
                     address: this.doctorProfiles.address,
                     experience: this.doctorProfiles.experience,
                     description: this.doctorProfiles.description,
-                    location: [this.doctorProfiles.location.location],
-                    qualification: [this.doctorProfiles.qualification.qualification],
-                    consultationMode: [this.doctorProfiles.consultationMode.consultationMode],
-                    language: [this.doctorProfiles.language.language]
+                    location: [this.doctorProfiles.Location.location],
+                    qualification: [this.doctorProfiles.Qualification.qualification],
+                    consultationMode: [this.doctorProfiles.ConsultationMode.consultationMode],
+                    language: [this.doctorProfiles.Language.language]
                 });
             });
         this.generateNumber();
