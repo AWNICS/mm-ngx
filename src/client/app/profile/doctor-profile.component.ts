@@ -69,7 +69,7 @@ export class DoctorProfileComponent implements OnInit {
                 });
             });
         this.generateNumber();
-        this.locationDropdownList = ["Bengaluru","Delhi","Kolkata","Mumbai","Chennai"];
+        this.locationDropdownList = ["Bangalore","Delhi","Kolkata","Mumbai","Chennai"];
         this.consultationModeDropdownList=["Chat","Audio","Video"];
         this.languagesDropdownList=["English","Hindi","Kannada","Telugu","Malayalam","Tamil"];
         this.qualificationDropdownList=["MBBS","MS","MD"];

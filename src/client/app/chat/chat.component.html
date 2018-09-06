@@ -151,7 +151,7 @@
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
-                        <div class="dropdown-menu" style="margin-right: 90px;">
+                        <div class="dropdown-menu options-menu">
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" (click)="media();">
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
@@ -161,198 +161,182 @@
                     </div>
                 </div>
             </div>
-            </ng-template>
-            <!-- end Doctor List Modal -->
-        </div>
-        <div class="col col-1">
-            <div class="dropdown">
-                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-ellipsis-v"></i>
-                </a>
-                <div class="dropdown-menu options-menu">
-                    <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
-                    <a class="dropdown-item" (click)="media();">
-                        <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
-                    <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
-                    <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end chat-header -->
+            <!-- end chat-header -->
 
-    <div class="chat-history" #messageBox (scroll)="onScroll()">
-        <div *ngFor="let message of messages;let i = index;">
-            <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
-                <div class="clearfix">
-                    <div class="message-data align-right">
-                        <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
-                        <span class="message-data-name">{{message.senderName}}</span>
-                        <i class="fa fa-circle me"></i>
-                    </div>
-                    <div class="message other-message float-right">
-                        <div [ngSwitch]="message.contentType" style="margin-right: 7px;">
-                            <div *ngSwitchCase="'text'">
-                                <mm-text-message [message]="message"></mm-text-message>
+            <div class="chat-history" #messageBox (scroll)="onScroll()">
+                <div *ngFor="let message of messages;let i = index;">
+                    <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
+                        <div class="clearfix">
+                            <div class="message-data align-right">
+                                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
+                                <span class="message-data-name">{{message.senderName}}</span>
+                                <i class="fa fa-circle me"></i>
                             </div>
-                            <div *ngSwitchCase="'radio'">
-                                <mm-radio-message [message]="message"></mm-radio-message>
-                            </div>
-                            <div *ngSwitchCase="'slider'">
-                                <mm-slider-message [message]="message"></mm-slider-message>
-                            </div>
-                            <div *ngSwitchCase="'checkbox'">
-                                <mm-checkbox-message [message]="message"></mm-checkbox-message>
-                            </div>
-                            <div *ngSwitchCase="'video'">
-                                <mm-video-message [message]="message"></mm-video-message>
-                            </div>
-                            <div *ngSwitchCase="'doc'">
-                                <mm-document-message [message]="message"></mm-document-message>
-                            </div>
-                            <div *ngSwitchCase="'appear'">
-                                <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                            </div>
-                            <div *ngSwitchCase="'image'">
-                                <mm-image-message [message]="message"></mm-image-message>
-                            </div>
-                            <div *ngSwitchDefault>
-                                <mm-text-message [message]="message"></mm-text-message>
-                            </div>
-                        </div>
-                        <div class="dropdown delete-message">
-                            <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-angle-down"></i>
-                            </a>
-                            <div class="dropdown-menu options-dropdowm">
-                                <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
+                            <div class="message other-message float-right">
+                                <div [ngSwitch]="message.contentType" style="margin-right: 7px;">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                </div>
+                                <div class="dropdown delete-message">
+                                    <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-angle-down"></i>
+                                    </a>
+                                    <div class="dropdown-menu options-dropdowm">
+                                        <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <ng-template #alignLeft>
-                <div class="clearfix">
-                    <div class="message-data">
-                        <span class="message-data-name">
+                    <ng-template #alignLeft>
+                        <div class="clearfix">
+                            <div class="message-data">
+                                <span class="message-data-name">
                   <i class="fa fa-circle other"></i>{{message.senderName}}</span>
-                        <span class="message-data-time">{{message?.createdTime | date}}</span>
-                    </div>
-                    <div class="message my-message">
-                        <div [ngSwitch]="message?.contentType">
-                            <div *ngSwitchCase="'text'">
-                                <mm-text-message [message]="message"></mm-text-message>
+                                <span class="message-data-time">{{message?.createdTime | date}}</span>
                             </div>
-                            <div *ngSwitchCase="'radio'">
-                                <mm-radio-message [message]="message"></mm-radio-message>
-                            </div>
-                            <div *ngSwitchCase="'slider'">
-                                <mm-slider-message [message]="message"></mm-slider-message>
-                            </div>
-                            <div *ngSwitchCase="'checkbox'">
-                                <mm-checkbox-message [message]="message"></mm-checkbox-message>
-                            </div>
-                            <div *ngSwitchCase="'video'">
-                                <mm-video-message [message]="message"></mm-video-message>
-                            </div>
-                            <div *ngSwitchCase="'doc'">
-                                <mm-document-message [message]="message"></mm-document-message>
-                            </div>
-                            <div *ngSwitchCase="'appear'">
-                                <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
-                            </div>
-                            <div *ngSwitchCase="'image'">
-                                <mm-image-message [message]="message"></mm-image-message>
-                            </div>
-                            <div *ngSwitchDefault>
-                                <mm-text-message [message]="message"></mm-text-message>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </ng-template>
-        </div>
-        <div class="muted" *ngIf="alert">{{alertMessage}}</div>
-    </div>
-    <!-- end chat-history -->
-
-    <div class="container">
-        <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
-            <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
-            <div class="row justify-content-between chat-footer">
-                <div class="col col-2 dropup">
-                    <i class="fa fa-paperclip" data-toggle="dropdown"></i>
-                    <div class="dropdown-menu" #dropDown>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
-                            <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
-                            <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
-                            <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
-                            <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
-                            <div class="file-upload" title="Upload image">
-                                <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
-                                <i class="fa fa-picture-o" aria-hidden="true"></i>
-                            </div>
-                            <div class="file-upload" title="Upload video">
-                                <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
-                                <i class="fa fa-file-video-o" aria-hidden="true"></i>
-                            </div>
-                            <div class="file-upload" title="Upload file">
-                                <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
-                                <i class="fa fa-file-o" aria-hidden="true"></i>
+                            <div class="message my-message">
+                                <div [ngSwitch]="message?.contentType">
+                                    <div *ngSwitchCase="'text'">
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mm-radio-message [message]="message"></mm-radio-message>
+                                    </div>
+                                    <div *ngSwitchCase="'slider'">
+                                        <mm-slider-message [message]="message"></mm-slider-message>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'">
+                                        <mm-checkbox-message [message]="message"></mm-checkbox-message>
+                                    </div>
+                                    <div *ngSwitchCase="'video'">
+                                        <mm-video-message [message]="message"></mm-video-message>
+                                    </div>
+                                    <div *ngSwitchCase="'doc'">
+                                        <mm-document-message [message]="message"></mm-document-message>
+                                    </div>
+                                    <div *ngSwitchCase="'appear'">
+                                        <mm-appear-message [message]="message" [safeUrl]="safeUrl"></mm-appear-message>
+                                    </div>
+                                    <div *ngSwitchCase="'image'">
+                                        <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <mm-text-message [message]="message"></mm-text-message>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </ng-template>
                 </div>
-                <div class="col col-2">
-                    <button type="submit" [disabled]="message.invalid">Send</button>
-                </div>
+                <div class="muted" *ngIf="alert">{{alertMessage}}</div>
             </div>
-        </form>
-    </div>
-    <!-- end chat-message -->
-</div>
-<!-- end chat -->
-<div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
-    <button class="w3-bar-item w3-button w3-large" id="close" (click)="w3_close()">
+            <!-- end chat-history -->
+
+            <div class="container">
+                <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
+                    <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
+                    <div class="row justify-content-between chat-footer">
+                        <div class="col col-2 dropup">
+                            <i class="fa fa-paperclip" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu" #dropDown>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
+                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
+                                    <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
+                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
+                                    <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
+                                    <div class="file-upload" title="Upload image">
+                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload video">
+                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
+                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload file">
+                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
+                                        <i class="fa fa-file-o" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-2">
+                            <button type="submit" [disabled]="message.invalid">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end chat-message -->
+        </div>
+        <!-- end chat -->
+        <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
+            <button class="w3-bar-item w3-button w3-large" id="close" (click)="w3_close()">
         <i class="fa fa-times-circle-o" aria-hidden="true"></i>
       </button>
-    <div class="search-right">
-        <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
-        <i class="fa fa-search"></i>
-    </div>
-    <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
-        <div class="card media-list">
-            <div class="card-body">
-                <div [ngSwitch]="media.contentType">
-                    <div *ngSwitchCase="'image'" id="image">
-                        <div class="row">
-                            <div class="col col-4">
-                                <mm-image-message [message]="media"></mm-image-message>
+            <div class="search-right">
+                <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
+                <i class="fa fa-search"></i>
+            </div>
+            <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
+                <div class="card media-list">
+                    <div class="card-body">
+                        <div [ngSwitch]="media.contentType">
+                            <div *ngSwitchCase="'image'" id="image">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-image-message [message]="media"></mm-image-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col col-8">
-                                <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                            <div *ngSwitchCase="'video'">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-video-message [message]="media"></mm-video-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div *ngSwitchCase="'video'">
-                        <div class="row">
-                            <div class="col col-4">
-                                <mm-video-message [message]="media"></mm-video-message>
-                            </div>
-                            <div class="col col-8">
-                                <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngSwitchCase="'doc'">
-                        <div class="row">
-                            <div class="col col-4">
-                                <mm-document-message [message]="media"></mm-document-message>
-                            </div>
-                            <div class="col col-8">
-                                <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                            <div *ngSwitchCase="'doc'">
+                                <div class="row">
+                                    <div class="col col-4">
+                                        <mm-document-message [message]="media"></mm-document-message>
+                                    </div>
+                                    <div class="col col-8">
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -360,6 +344,4 @@
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
