@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import { SocketService } from '../../chat/socket.service';
 import { Notification } from '../database/notification';
 import { UserDetails } from '../database/user-details';
@@ -15,11 +15,14 @@ export class NotificationComponent implements OnInit {
     consultationGroupId: number;
     notification: Notification;
     @Input() selectedUser: UserDetails;
+    @ViewChild('alert') alert: ElementRef;
 
     constructor(private socketService: SocketService) {}
 
     ngOnInit() {
-        this.getNotification();
+        if(this.selectedUser) {
+            this.getNotification();
+        }
     }
 
     getNotification() {
@@ -28,13 +31,13 @@ export class NotificationComponent implements OnInit {
                 if (data) {
                     this.consultationGroupId = data.group.id;
                     this.notification = data.notification;
-                    document.getElementById('alert').style.display = 'block';
+                    this.alert.nativeElement.style.display = 'block';
                 }
             });
     }
 
     dismissNotification() {
-        document.getElementById('alert').style.display = 'none';
+        this.alert.nativeElement.style.display = 'none';
     }
 
     startConsultation() {
