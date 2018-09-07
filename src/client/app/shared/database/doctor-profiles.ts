@@ -7,7 +7,7 @@ export class DoctorProfiles {
   picUrl: string;
   age: number;
   address: string;
-  speciality: string;
+  speciality: any;
   experience: number;
   description: string;
   videoUrl: string;
@@ -17,13 +17,13 @@ export class DoctorProfiles {
   ratingCount: number;
   shortBio: string;
   longBio: string;
-  qualification: string[];
+  Qualification: any ;
   qualificationStr: string;
-  language: string[];
+  Language: any;
   languageStr: string;
-  consultationMode: string[];
-  consultationModeStr: string;
-  location: string[];
+  ConsultationMode: any;
+  consultationModeStr: Object;
+  Location: any;
   locationStr: string;
   status: string;
   createdAt: any;

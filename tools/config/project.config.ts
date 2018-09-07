@@ -107,7 +107,6 @@ export class ProjectConfig extends SeedConfig {
       name: 'ng-multiselect-dropdown',
       path: 'node_modules/ng-multiselect-dropdown/bundles/ng-multiselect-dropdown.umd.js'
     });
-
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',
