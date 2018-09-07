@@ -221,11 +221,29 @@ export class SharedService {
             .map(res => res.json());
     }
 
-    getConsultationsByDoctorId(doctorId: number, page: number, size:number) {
+    getConsultationsByDoctorId(doctorId: number, page: number, size: number) {
         const uri = `${this.url}/appointments/doctors/${doctorId}?page=${page}&size=${size}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    sendOtp(mobileNo: number) {
+        const uri = `${this.url}/send/otp/mobile/${mobileNo}`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+    resendOtp(mobileNo: number) {
+        const uri = `${this.url}/resend/otp/mobile/${mobileNo}`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+    verifyOtp(mobileNo: number, otp: number) {
+        const uri = `${this.url}/verify/mobile/${mobileNo}/otp/${otp}`;
+        return this.http.get(uri)
             .map(res => res.json());
     }
 
