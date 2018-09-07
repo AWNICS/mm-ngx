@@ -99,9 +99,8 @@ export class RegisterComponent implements OnInit {
     sendOtp(phoneNo: any) {
         if (phoneNo.length === 10) {
             this.loader = true;
-            this.sharedService.sendOtp(phoneNo)
+            this.sharedService.sendOtp(Number('91'+phoneNo))
                 .subscribe(res => {
-                    console.log('res ', res);
                     if (res.type === 'success') {
                         this.loader = false;
                         this.otpFlag = true;
@@ -114,9 +113,8 @@ export class RegisterComponent implements OnInit {
 
     resendOtp() {
         this.loader =true;
-        this.sharedService.resendOtp(this.phoneNo)
+        this.sharedService.resendOtp(Number('91'+this.phoneNo))
             .subscribe(res => {
-                console.log('res ', res);
                 if (res.type === 'success') {
                     this.loader = false;
                     this.otpFlag = true;
@@ -127,9 +125,8 @@ export class RegisterComponent implements OnInit {
 
     confirmOtp(otp: number) {
         this.loader = true;
-        this.sharedService.verifyOtp(this.phoneNo, otp)
+        this.sharedService.verifyOtp(Number('91'+this.phoneNo), otp)
             .subscribe(res => {
-                console.log('res ', res);
                 if (res.type === 'success') {
                     this.loader = false;
                     this.otpFlag = false;
