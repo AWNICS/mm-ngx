@@ -116,8 +116,8 @@ p {
 
 @media (max-width: 765px) {
     .status-online {
-        top: -25px;
-        left: 94px;
+        top: -1.5rem;
+        left: 3rem;
         width: 14px;
         height: 14px;
     }
@@ -125,20 +125,20 @@ p {
         margin-top: -15px;
     }
     .status-offline {
-        top: -25px;
-        left: 94px;
+        top: -1.5rem;
+        left: 3rem;
         width: 14px;
         height: 14px;
     }
     .status-away {
-        top: -25px;
-        left: 94px;
+        top: -1.5rem;
+        left: 3rem;
         width: 14px;
         height: 14px;
     }
     .status-invisible {
-        top: -25px;
-        left: 94px;
+        top: -1.5rem;
+        left: 3rem;
         width: 14px;
         height: 14px;
     }

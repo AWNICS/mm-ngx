@@ -217,6 +217,27 @@ export class SharedService {
         .map(res => res.json())
         .catch(this.handleError);
     }
+     /*
+     * returns notifications based on userId
+     * @param {number} userId
+     * @returns
+     * @memberof SharedService
+     */
+    getNotificationsByUserId(userId: number, page: number, size: number) {
+        const uri = `${this.url}/notifications/users/${userId}?page=${page}&size=${size}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    getConsultationsByDoctorId(doctorId: number, page: number, size:number) {
+        const uri = `${this.url}/appointments/doctors/${doctorId}?page=${page}&size=${size}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
 
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);

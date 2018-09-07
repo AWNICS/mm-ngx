@@ -1,17 +1,14 @@
-import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
-import { OrderRequest } from '../shared/database/order-request';
 import { Specialities } from '../shared/database/speciality';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import { ChatService } from '../chat/chat.service';
-import { UserDetails } from '../shared/database/user-details';
 import { ContentsComponent } from './contents.component';
 import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { Locations } from '../shared/database/location';
+import { UserDetails } from '../shared/database/user-details';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -33,6 +30,7 @@ export class HomeComponent implements OnInit {
   locations: Locations[];
   currentLocation: string = 'Bangalore';
   currentSpeciality: string = 'Physician';
+  selectedUser: UserDetails;
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
@@ -40,20 +38,21 @@ export class HomeComponent implements OnInit {
   constructor(
     @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
     private sharedService: SharedService,
-    private chatService: ChatService,
     private router: Router,
     private securityService: SecurityService
   ) {
   }
 
   ngOnInit(): void {
+    if(this.securityService.getCookie('userDetails')) {
+      this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+    }
     this.getSpecialities();
     this.getGeoLocation();
     this.getLocations();
   }
 
   showDoctorsList(value: any) {
-    let result: boolean = isNaN(value.mobileNumber);
     this.user = this.securityService.getCookie('userDetails');
     if (//result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       value.location === null ||
