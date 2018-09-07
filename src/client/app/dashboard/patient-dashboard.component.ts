@@ -169,18 +169,12 @@ export class PatientDashboardComponent implements OnInit {
         this.locations = '';
         for (let i = 0; i < visitorStores.length; i++) {
             if (visitorStores[i].type === 'Language' && visitorStores[i].visitorId === visitorId) {
-                visitorStores[i].value.language.map((language:string)=>{
-                    this.languages += language +', ';
-                });
+                    this.languages += visitorStores[i].value;
             }
             if (visitorStores[i].type === 'Location' && visitorStores[i].visitorId === visitorId) {
-                visitorStores[i].value.location.map((location:string)=>{
-                    this.locations += location +', ';
-                });
+                    this.locations += visitorStores[i].value;
             }
         }
-        this.languages = this.languages.slice(0, this.languages.length - 2);
-        this.locations = this.locations.slice(0, this.locations.length - 2);
     }
 
     getVisitorReport(visitorId: number) {
