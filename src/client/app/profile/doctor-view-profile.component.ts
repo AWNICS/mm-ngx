@@ -189,24 +189,24 @@ export class DoctorViewProfileComponent implements OnInit {
         this.professionalSociety = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                stores[i].value.qualification.map((qualification:string)=>{
+                stores[i].value.qualification.map((qualification:string)=> {
                     this.qualifications += qualification +', ';
-                })
+                });
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                stores[i].value.language.map((language:string)=>{
+                stores[i].value.language.map((language:string)=> {
                     this.languages += language +', ';
-                })
+                });
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                stores[i].value.consultationMode.map((consultationMode:string)=>{
+                stores[i].value.consultationMode.map((consultationMode:string)=> {
                     this.consultationModes += consultationMode +', ';
-                })
+                });
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                stores[i].value.location.map((location:string)=>{
+                stores[i].value.location.map((location:string)=> {
                     this.locations += location +', ';
-                })
+                });
             }
             if (stores[i].type === 'Professional Society' && stores[i].userId === doctorId) {
                 this.professionalSociety = this.professionalSociety + ` ${stores[i].value}` + ',';

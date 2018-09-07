@@ -14,7 +14,8 @@ import { ResetPasswordComponent } from './reset-password.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule, NgMultiSelectDropDownModule.forRoot()],
+  imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule,
+     NgMultiSelectDropDownModule.forRoot()],
   declarations: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
   exports: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
   providers: [LoginService]

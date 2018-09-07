@@ -46,7 +46,9 @@ export class DoctorsListComponent implements OnInit {
                     this.message = 'There are no doctors available currently. Try again later!';
                 } else {
                     this.doctors = res;
-                    this.doctors.length === 1 ? this.doctors.speciality = res.speciality.speciality : null;
+                    if(this.doctors.length === 1) {
+                        this.doctors.speciality = res.speciality.speciality;
+                    }
                     if (this.doctors.length >= 1) {
                         this.doctors.map((doctor: any) => {
                             doctor.speciality = doctor.speciality.speciality;
@@ -99,24 +101,24 @@ export class DoctorsListComponent implements OnInit {
         let locations = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                stores[i].value.qualification.map((qualification:string)=>{
+                stores[i].value.qualification.map((qualification:string)=> {
                     qualifications += qualification +', ';
-                })
+                });
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                stores[i].value.language.map((language:string)=>{
+                stores[i].value.language.map((language:string)=> {
                     languages += language +', ';
-                })
+                });
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                stores[i].value.consultationMode.map((consultationMode:string)=>{
+                stores[i].value.consultationMode.map((consultationMode:string)=> {
                     consultationModes += consultationMode +', ';
-                })
+                });
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                stores[i].value.location.map((location:string)=>{
+                stores[i].value.location.map((location:string)=> {
                     locations += location +', ';
-                })
+                });
             }
         }
         qualifications = qualifications.slice(0, qualifications.length - 2);

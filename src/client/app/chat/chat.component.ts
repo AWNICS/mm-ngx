@@ -412,34 +412,32 @@ export class ChatComponent implements OnInit {
           this.messages.push(msg);
           this.ref.detectChanges();
           this.scrollToBottom();
-        } else{
-          this.groups.map((group)=>{
-            if(group.id === msg.receiverId){
-              if(this.unreadMessages[group.id]){
+        } else {
+          this.groups.map((group)=> {
+            if(group.id === msg.receiverId) {
+              if(this.unreadMessages[group.id]) {
               this.unreadMessages[group.id]++;
-            }
-            else{
+            } else {
               this.unreadMessages[group.id]=1;
             }}
             let unReadObject:any= Object;
             let unreadObjectValues = unReadObject.values(this.unreadMessages);
             let sumOfUnread = unreadObjectValues.reduce((a:number,b:number)=>a+b,0);
             let favicon:any= document.querySelector('head link');
-            favicon.href="assets/favicon/favicon.png";
+            favicon.href='assets/favicon/favicon.png';
             document.querySelector('title').innerText= ` (${sumOfUnread})`+'Mesomeds';
             this.ref.detectChanges();
-          })
+          });
         }
       });
   }
-  
-  resetMessage(id:any){
+  resetMessage(id:any) {
     this.unreadMessages[id]=0;
     let unReadObject:any = Object;
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
-    if(!(unreadObjectValues.find((ojectValue:any)=>{return ojectValue!=0}))){
+    if(!(unreadObjectValues.find((ojectValue:any)=> {return ojectValue!==0;}))) {
       let faicon:any= document.querySelector('head link');
-      faicon.href="assets/favicon/favicon-DEV.ico";
+      faicon.href='assets/favicon/favicon-DEV.ico';
       document.querySelector('title').innerText='Mesomeds';
     }
   }

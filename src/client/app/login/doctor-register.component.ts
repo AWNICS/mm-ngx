@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
 import { SharedService } from '../shared/services/shared.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import {Specialities} from '../shared/database/speciality';
+import { Specialities } from '../shared/database/speciality';
 import { PasswordValidation } from './password.validator';
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -41,11 +41,11 @@ export class DoctorRegisterComponent implements OnInit {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
-        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=>{
+        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
             let specialitiesList:Array<any> = [];
-          specialities.map((speciality:Specialities)=>{
+          specialities.map((speciality:Specialities)=> {
               specialitiesList.push(speciality.name);
-          })
+          });
           this.specialitiesDropdownList = specialitiesList;
         });
         this.registerDoctorProfiles = this.fb.group({

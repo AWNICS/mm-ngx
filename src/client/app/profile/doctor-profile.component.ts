@@ -37,10 +37,10 @@ export class DoctorProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=>{
-            specialities.map((speciality:Specialities)=>{
+        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
+            specialities.map((speciality:Specialities)=> {
                 this.specialitiesDropdownList.push(speciality.name);
-            })
+            });
         });
         this.profileService.getDoctorProfilesById(this.user.id)
             .subscribe(doctorProfiles => {
@@ -69,10 +69,10 @@ export class DoctorProfileComponent implements OnInit {
                 });
             });
         this.generateNumber();
-        this.locationDropdownList = ["Bangalore","Delhi","Kolkata","Mumbai","Chennai"];
-        this.consultationModeDropdownList=["Chat","Audio","Video"];
-        this.languagesDropdownList=["English","Hindi","Kannada","Telugu","Malayalam","Tamil"];
-        this.qualificationDropdownList=["MBBS","MS","MD"];
+        this.locationDropdownList = ['Bangalore','Delhi','Kolkata','Mumbai','Chennai'];
+        this.consultationModeDropdownList=['Chat','Audio','Video'];
+        this.languagesDropdownList=['English','Hindi','Kannada','Telugu','Malayalam','Tamil'];
+        this.qualificationDropdownList=['MBBS','MS','MD'];
           this.dropdownSettings = {
             singleSelection: false,
             enableCheckAll:false,
@@ -91,7 +91,6 @@ export class DoctorProfileComponent implements OnInit {
             allowSearchFilter: true
           };
     }
-    
       update({ value }: { value: any }) {
         this.profileService.updateDoctorProfiles(value)
             .subscribe(res => {
