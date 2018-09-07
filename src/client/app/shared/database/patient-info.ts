@@ -7,10 +7,12 @@
 export class PatientInfo {
     id: number;
     userId: number;
+    age: number;
     sex: string;
     weight: number;
     height: number;
     bloodGroup: string;
+    language: string;
     allergies: string;
     location: string;
     address: string;

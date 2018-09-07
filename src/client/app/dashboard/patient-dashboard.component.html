@@ -25,11 +25,11 @@
             </div>
             <div class="row">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 355px;">
+                    <div class="card shadow" style="height: 650px;">
                         <div class="card-header">
                             <h5 class="offset-1">Timeline</h5>
                         </div>
-                        <div class="card-body offset-1 timeline-scroll" style="overflow-y:scroll;">
+                        <div class="card-body offset-1">
                             <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
                                 <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
                                     <br>
@@ -68,38 +68,6 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 250px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Reports</h5>
-                        </div>
-                        <div class="card-body" style="margin-left: -10px;">
-                            <div *ngFor="let report of visitorReport">
-                                <ul>
-                                    <li>
-                                        <a href='{{report.url}}'>{{report?.type}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-12 col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 250px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Height & Weight</h5>
-                        </div>
-                        <div class="card-body offset-1">
-                            <p>Height: {{visitorDetail?.height}}</p>
-                            <p>Weight: {{visitorDetail?.weight}}</p>
-                        </div>
-                        <div class="text-muted" style="margin-left: 8%;">
-                            <p class=""><small>Average height:5 & weight:60(Indian female)</small></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
@@ -109,7 +77,7 @@
                         <div class="card-header">
                             <h5 class="offset-1">Allergies</h5>
                         </div>
-                        <div *ngFor="let allergy of visitorHealth?.allergies.allergy" style="margin-left:8%; margin-bottom: 2%;">
+                        <div *ngFor="let allergy of visitorHealth?.allergies" style="margin-left:8%; margin-bottom: 2%;">
                             {{allergy}}
                         </div>
                     </div>
@@ -140,6 +108,40 @@
                                     <p style="text-align: center;">Heart Rate</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Reports</h5>
+                        </div>
+                        <div class="card-body" style="margin-left: -10px;">
+                            <div *ngFor="let report of visitorReport">
+                                <ul>
+                                    <li>
+                                        <a href='{{report.url}}'>{{report?.title}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Height & Weight</h5>
+                        </div>
+                        <div class="card-body offset-1">
+                            <p>Height: {{visitorDetail?.height}}<small>(ft.)</small></p>
+                            <p>Weight: {{visitorDetail?.weight}}<small>(kgs)</small></p>
+                        </div>
+                        <div class="text-muted" style="margin-left: 8%;">
+                            <p><small>Average height:5 & weight:60(Indian female)</small></p>
                         </div>
                     </div>
                 </div>

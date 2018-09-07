@@ -207,7 +207,17 @@ export class SharedService {
     }
 
     /**
-     *
+     * create visitor report
+     */
+    createVisitorReport(report: any): Observable<any> {
+        const uri = `${this.url}/visitors/reports`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, report, {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+     /*
      * returns notifications based on userId
      * @param {number} userId
      * @returns
