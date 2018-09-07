@@ -84,7 +84,9 @@ export class ProfileComponent implements OnInit {
             this.router.navigate([`/login`]);
         }
         this.navbarComponent.navbarColor(0, '#6960FF');
-        this.getDoctorMedia();
+        if (this.user.role === 'doctor') {
+            this.getDoctorMedia();
+        }
     }
 
     saveImage(files: FileList) {
