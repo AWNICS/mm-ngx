@@ -11,9 +11,11 @@ import { DoctorRegisterComponent } from './doctor-register.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { LoginService } from './login.service';
 import { ResetPasswordComponent } from './reset-password.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule],
+  imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule,
+     NgMultiSelectDropDownModule.forRoot()],
   declarations: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
   exports: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent, ResetPasswordComponent],
   providers: [LoginService]

@@ -41,7 +41,7 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Speciality</label>
-                    <input type="text" placeholder="Pediatrician" formControlName="speciality">
+                    <ng-multiselect-dropdown [placeholder]="'Select Specialities'" [data]="specialitiesDropdownList" formControlName="speciality" [settings]="specialityDropdownSettings" #specialitiesBlock></ng-multiselect-dropdown>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
@@ -56,18 +56,18 @@
                 <div class="form-group">
                     <label>Sex</label>
                     <select formControlName="sex">
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Prefer not to disclose</option>
-                    </select>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Prefer not to disclose</option>
+                        </select>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Age</label>
                     <select formControlName="age">
-                        <option *ngFor="let i of number">{{i}}</option>
-                    </select>
+                            <option *ngFor="let i of number">{{i}}</option>
+                        </select>
                 </div>
             </div>
         </div>
@@ -97,21 +97,15 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Qualification</label>
-                    <select formControlName="qualification" size=1 multiple>
-                        <option>MBBS</option>
-                        <option>MD</option>
-                        <option>MS</option>
-                    </select>
+                    <ng-multiselect-dropdown [placeholder]="'Select Qualifications'" [data]="qualificationDropdownList" formControlName="qualification" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Languages</label>
-                    <select formControlName="language" size=1 multiple>
-                        <option>English</option>
-                        <option>Hindi</option>
-                        <option>Kannada</option>
-                    </select>
+                    <ng-multiselect-dropdown [placeholder]="'Select Languages'" [data]="languagesDropdownList" formControlName="language" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
                 </div>
             </div>
         </div>
@@ -119,23 +113,15 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Location/Zone</label>
-                    <select formControlName="location" size=1 multiple>
-                        <option>Bangalore</option>
-                        <option>Delhi</option>
-                        <option>Kolkata</option>
-                        <option>Mumbai</option>
-                        <option>Chennai</option>
-                    </select>
+                    <ng-multiselect-dropdown [placeholder]="'Select Location'" [data]="locationDropdownList" formControlName="location" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Consultation Mode</label>
-                    <select formControlName="consultationMode" size=1 multiple>
-                        <option>Chat</option>
-                        <option>Audio</option>
-                        <option>Video</option>
-                    </select>
+                    <label>Mode</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select Modes'" [data]="consultationModeDropdownList" formControlName="consultationMode" [settings]="dropdownSettings">
+                    </ng-multiselect-dropdown>
                 </div>
             </div>
         </div>
