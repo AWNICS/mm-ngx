@@ -206,6 +206,18 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    /**
+     * create visitor report
+     */
+    createVisitorReport(report: any): Observable<any> {
+        const uri = `${this.url}/visitors/reports`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, report, {headers: headers})
+        .map(res => res.json())
+        .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }

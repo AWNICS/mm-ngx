@@ -153,7 +153,7 @@ export class PatientDashboardComponent implements OnInit {
     getVisitor(visitorId: number) {
         this.sharedService.getVisitor(visitorId)
             .subscribe(visitor => {
-                this.visitorDetail = visitor;
+                this.visitorDetail = visitor.patientInfo;
             });
     }
 
@@ -169,14 +169,18 @@ export class PatientDashboardComponent implements OnInit {
         this.locations = '';
         for (let i = 0; i < visitorStores.length; i++) {
             if (visitorStores[i].type === 'Language' && visitorStores[i].visitorId === visitorId) {
-                this.languages = this.languages + ` ${visitorStores[i].value}` + ',';
+                visitorStores[i].value.language.map((language:string)=>{
+                    this.languages += language +', ';
+                });
             }
             if (visitorStores[i].type === 'Location' && visitorStores[i].visitorId === visitorId) {
-                this.locations = this.locations + ` ${visitorStores[i].value}` + ',';
+                visitorStores[i].value.location.map((location:string)=>{
+                    this.locations += location +', ';
+                });
             }
         }
-        this.languages = this.languages.slice(0, this.languages.length - 1);
-        this.locations = this.locations.slice(0, this.locations.length - 1);
+        this.languages = this.languages.slice(0, this.languages.length - 2);
+        this.locations = this.locations.slice(0, this.locations.length - 2);
     }
 
     getVisitorReport(visitorId: number) {
