@@ -23,10 +23,10 @@ export class DoctorProfileComponent implements OnInit {
     message: string;
     number: Array<number> = [];
     specialitiesDropdownList:Array<any>=[];
-    languagesDropdownList:Array<any> = [];
-    qualificationDropdownList:Array<any> = [];
-    consultationModeDropdownList:Array<any> = [];
-    locationDropdownList:Array<any> = [];
+    languageList: string[] = [];
+    qualificationList: string[] = [];
+    consultationModeList: string[] = [];
+    locationList: string[] = [];
     dropdownSettings:Object;
     specialityDropdownSettings:Object;
 
@@ -37,6 +37,10 @@ export class DoctorProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.getLocations();
+        this.getLanguages();
+        this.getConsultationModes();
+        this.getQualifications();
         this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
             specialities.map((speciality:Specialities)=> {
                 this.specialitiesDropdownList.push(speciality.name);
@@ -69,19 +73,11 @@ export class DoctorProfileComponent implements OnInit {
                 });
             });
         this.generateNumber();
-        this.locationDropdownList = ['Bangalore','Delhi','Kolkata','Mumbai','Chennai'];
-        this.consultationModeDropdownList=['Chat','Audio','Video'];
-        this.languagesDropdownList=['English','Hindi','Kannada','Telugu','Malayalam','Tamil'];
-        this.qualificationDropdownList=['MBBS','MS','MD'];
           this.dropdownSettings = {
             singleSelection: false,
             enableCheckAll:false,
-            // idField: 'item_id',
-            // textField: 'item_text',
-            // selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3,
-            // allowSearchFilter: true
+            itemsShowLimit: 3
           };
           this.specialityDropdownSettings = {
             singleSelection: false,
@@ -91,7 +87,44 @@ export class DoctorProfileComponent implements OnInit {
             allowSearchFilter: true
           };
     }
-      update({ value }: { value: any }) {
+
+    getLocations() {
+        this.sharedService.getLocations()
+            .subscribe(locations => {
+                locations.map((location: any) => {
+                    this.locationList.push(location.name);
+                });
+            });
+    }
+
+    getLanguages() {
+        this.sharedService.getLanguages()
+            .subscribe(languages => {
+                languages.map((language: any) => {
+                    this.languageList.push(language.name);
+                });
+            });
+    }
+
+    getConsultationModes() {
+        this.sharedService.getConsultationModes()
+            .subscribe(consultationModes => {
+                consultationModes.map((consultationMode: any) => {
+                    this.consultationModeList.push(consultationMode.name);
+                });
+            });
+    }
+
+    getQualifications() {
+        this.sharedService.getQualifications()
+            .subscribe(qualifications => {
+                qualifications.map((qualification: any) => {
+                    this.qualificationList.push(qualification.name);
+                });
+            });
+    }
+
+    update({ value }: { value: any }) {
         this.profileService.updateDoctorProfiles(value)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
