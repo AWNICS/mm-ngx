@@ -21,11 +21,11 @@ export class PatientProfileComponent implements OnInit {
     patientInfo: PatientInfo;
     @Input() user: UserDetails;
     message: string;
-    allergyList = ["Dust", "Peanuts", "Butter", "Smoke"];
+    allergyList: string[] = [];
     dropdownSettings = {};
-    languageList = ["English", "Hindi", "Kannada", "Bengali", "Punjabi"];
-    locationList = ["Bangalore", "Delhi", "Mumbai", "Kolkata", "Chennai"];
-    visitorReport: any;
+    languageList: string[] = [];
+    locationList: string[] = [];
+    visitorReport: any = '';
 
     constructor(
         private fb: FormBuilder,
@@ -35,6 +35,9 @@ export class PatientProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.getAllergies();
+        this.getLanguages();
+        this.getLocations();
         this.dropdownSettings = {
             singleSelection: false,
             enableCheckAll: false,
@@ -50,7 +53,7 @@ export class PatientProfileComponent implements OnInit {
                 visitorStores.map((visitorStore: any) => {
                     if (visitorStore.type === 'Language') {
                         return language = visitorStore.value;
-                    } else if(visitorStore.type === 'Location'){
+                    } else if (visitorStore.type === 'Location') {
                         return selectedLocation = visitorStore.value;
                     } else {
                         return null;
@@ -77,9 +80,36 @@ export class PatientProfileComponent implements OnInit {
                     location: [selectedLocation],
                     address: null,
                     description: this.user.description,
-                    documentType:null,
+                    documentType: null,
                     documentTitle: null,
                     documentDescription: null
+                });
+            });
+    }
+
+    getAllergies() {
+        this.sharedService.getAllergies()
+            .subscribe(allergies => {
+                allergies.map((allergy: any) => {
+                    this.allergyList.push(allergy.name);
+                });
+            });
+    }
+
+    getLanguages() {
+        this.sharedService.getLanguages()
+            .subscribe(languages => {
+                languages.map((language: any) => {
+                    this.languageList.push(language.name);
+                });
+            });
+    }
+
+    getLocations() {
+        this.sharedService.getLocations()
+            .subscribe(locations => {
+                locations.map((location: any) => {
+                    this.locationList.push(location.name);
                 });
             });
     }
@@ -93,7 +123,7 @@ export class PatientProfileComponent implements OnInit {
             status: 'new',
             createdBy: this.user.id,
             updatedBy: this.user.id
-        }
+        };
         this.profileService.updatePatientInfo(value)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
@@ -102,9 +132,6 @@ export class PatientProfileComponent implements OnInit {
                     });
             });
     }
-
-    onItemSelect(item: any) { }
-    onSelectAll(items: any) { }
 
     uploadReport(files: FileList) {
         if (files[0].type.match('image')) {
@@ -126,6 +153,8 @@ export class PatientProfileComponent implements OnInit {
 
     createReport(type: string, file: File) {
         this.sharedService.createVisitorReport(this.visitorReport)
-            .subscribe(res => {});
+            .subscribe(res => {
+                return;
+            });
     }
 }
