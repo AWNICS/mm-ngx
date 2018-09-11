@@ -22,13 +22,13 @@ export class DoctorProfileComponent implements OnInit {
     @Input() user: UserDetails;
     message: string;
     number: Array<number> = [];
-    specialitiesDropdownList:Array<any>=[];
+    specialitiesDropdownList: Array<any> = [];
     languageList: string[] = [];
     qualificationList: string[] = [];
     consultationModeList: string[] = [];
     locationList: string[] = [];
-    dropdownSettings:Object;
-    specialityDropdownSettings:Object;
+    dropdownSettings: Object;
+    specialityDropdownSettings: Object;
 
     constructor(
         private fb: FormBuilder,
@@ -41,51 +41,68 @@ export class DoctorProfileComponent implements OnInit {
         this.getLanguages();
         this.getConsultationModes();
         this.getQualifications();
-        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
-            specialities.map((speciality:Specialities)=> {
+        this.sharedService.getSpecialities().subscribe((specialities: Specialities[]) => {
+            specialities.map((speciality: Specialities) => {
                 this.specialitiesDropdownList.push(speciality.name);
             });
-        });
-        this.profileService.getDoctorProfilesById(this.user.id)
-            .subscribe(doctorProfiles => {
-                this.doctorProfiles = doctorProfiles;
-                this.userDetails = this.fb.group({
-                    userId: this.user.id,
-                    firstname: [this.user.firstname, Validators.required],
-                    lastname: [this.user.lastname, Validators.required],
-                    email: [{ value: this.user.email, disabled: true }, Validators.required],
-                    password: [{ value: this.user.password, disabled: true }],
-                    phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
-                    aadhaarNo: this.user.aadhaarNo,
-                    speciality: [this.doctorProfiles.speciality.speciality],
-                    regNo: this.doctorProfiles.regNo,
-                    sex: this.doctorProfiles.sex,
-                    age: this.doctorProfiles.age,
-                    shortBio: this.doctorProfiles.shortBio,
-                    longBio: this.doctorProfiles.longBio,
-                    address: this.doctorProfiles.address,
-                    experience: this.doctorProfiles.experience,
-                    description: this.doctorProfiles.description,
-                    location: [this.doctorProfiles.Location.location],
-                    qualification: [this.doctorProfiles.Qualification.qualification],
-                    consultationMode: [this.doctorProfiles.ConsultationMode.consultationMode],
-                    language: [this.doctorProfiles.Language.language]
+            this.profileService.getDoctorProfilesById(this.user.id)
+                .subscribe(result => {
+                    this.doctorProfiles = result.doctorDetails;
+                    let doctorStores = result.doctorStores;
+                    let language: string[];
+                    let selectedLocation: string[];
+                    let consultationMode: string[];
+                    let qualification: string[];
+                    doctorStores.map((doctorStore: any) => {
+                        if (doctorStore.type === 'Language') {
+                            return language = doctorStore.value;
+                        } else if (doctorStore.type === 'Location') {
+                            return selectedLocation = doctorStore.value;
+                        } else if (doctorStore.type === 'Consultation mode') {
+                            return consultationMode = doctorStore.value;
+                        } else if (doctorStore.type === 'Qualification') {
+                            return qualification = doctorStore.value;
+                        } else {
+                            return null;
+                        }
+                    });
+                    this.userDetails = this.fb.group({
+                        userId: this.user.id,
+                        firstname: [this.user.firstname, Validators.required],
+                        lastname: [this.user.lastname, Validators.required],
+                        email: [{ value: this.user.email, disabled: true }, Validators.required],
+                        password: [{ value: this.user.password, disabled: true }],
+                        phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
+                        aadhaarNo: this.user.aadhaarNo,
+                        speciality: [this.doctorProfiles.speciality],
+                        regNo: this.doctorProfiles.regNo,
+                        sex: this.doctorProfiles.sex,
+                        age: this.doctorProfiles.age,
+                        shortBio: this.doctorProfiles.shortBio,
+                        longBio: this.doctorProfiles.longBio,
+                        address: this.doctorProfiles.address,
+                        experience: this.doctorProfiles.experience,
+                        description: this.doctorProfiles.description,
+                        location: [selectedLocation],
+                        qualification: [qualification],
+                        consultationMode: [consultationMode],
+                        language: [language]
+                    });
                 });
-            });
-        this.generateNumber();
-          this.dropdownSettings = {
-            singleSelection: false,
-            enableCheckAll:false,
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3
-          };
-          this.specialityDropdownSettings = {
-            singleSelection: false,
-            enableCheckAll:false,
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3,
-            allowSearchFilter: true
-          };
+            this.dropdownSettings = {
+                singleSelection: false,
+                enableCheckAll: false,
+                unSelectAllText: 'UnSelect All',
+                itemsShowLimit: 3
+            };
+            this.specialityDropdownSettings = {
+                singleSelection: false,
+                enableCheckAll: false,
+                unSelectAllText: 'UnSelect All',
+                itemsShowLimit: 3,
+                allowSearchFilter: true
+            };
+        });
     }
 
     getLocations() {
@@ -129,15 +146,9 @@ export class DoctorProfileComponent implements OnInit {
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
                     .subscribe(res => {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
                         this.message = 'Profile is updated';
                     });
             });
-    }
-
-    generateNumber() {
-        for (var i = 1; i <= 100; i++) {
-            this.number.push(i);
-        }
     }
 }

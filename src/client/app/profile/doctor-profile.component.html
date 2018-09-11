@@ -65,9 +65,7 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Age</label>
-                    <select formControlName="age">
-                            <option *ngFor="let i of number">{{i}}</option>
-                        </select>
+                    <input type="number" placeholder="Age" formControlName="age" autocomplete>
                 </div>
             </div>
         </div>

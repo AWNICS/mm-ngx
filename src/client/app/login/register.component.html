@@ -51,33 +51,36 @@
                 </div>
                 <br/>
                 <div class="container">
-                  <div *ngIf="otpFlag; else verified">
-                    <div class="row justify-content-center">
-                      <div class="content-head">{{otpMessage}}</div>
-                    </div>
-                    <div class="row justify-content-center">
-                      <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp" aria-describedby="otp" placeholder="Enter OTP">
-                    </div>
-                    <div class="row justify-content-center">
-                      <div class="col">
-                          <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend OTP</button>
-                      </div>
-                      <div class="col">
-                          <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy OTP</button>
-                      </div>
-                    </div>
-                  </div>
-                  <ng-template #verified>
-                    <div class="content">
-                      <div class="row justify-content-center">
-                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                      </div>
-                      <div class="row justify-content-center">
-                        <div class="content-head">
-                          Phone number verified!
+                  <div class="loader" *ngIf="loader else content"></div>
+                  <ng-template #content>
+                      <div *ngIf="otpFlag; else verified">
+                          <div class="row justify-content-center">
+                            <div class="content-head">{{otpMessage}}</div>
+                          </div>
+                          <div class="row justify-content-center">
+                            <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp" aria-describedby="otp" placeholder="Enter OTP">
+                          </div>
+                          <div class="row justify-content-center">
+                            <div class="col">
+                                <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend OTP</button>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy OTP</button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                        <ng-template #verified>
+                          <div class="content">
+                            <div class="row justify-content-center">
+                              <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="row justify-content-center">
+                              <div class="content-head">
+                                Phone number verified!
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
                   </ng-template>
                 </div>
               </div>

@@ -5,6 +5,7 @@ import { PasswordValidation } from './password.validator';
 import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -21,13 +22,15 @@ export class RegisterComponent implements OnInit {
     otpMessage = '';
     otpFlag: boolean;
     phoneNo: number;
+    loader: boolean;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
 
     constructor(
         private fb: FormBuilder,
-        private loginService: LoginService
+        private loginService: LoginService,
+        private sharedService: SharedService
     ) { }
 
     /**
@@ -64,7 +67,7 @@ export class RegisterComponent implements OnInit {
             value.role = 'patient';
             this.loginService.createNewUser(value)
                 .subscribe(res => {
-                    window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                    window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     breakloop: if (res.error) {
                         if (res.error === 'DUP_ENTRY') {
                             this.error = res.message;
@@ -79,7 +82,7 @@ export class RegisterComponent implements OnInit {
                 });
         } else {
             this.error = 'Verify your phone number before registering';
-            window.scroll({top: 0, left: 0, behavior: 'smooth'});
+            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
         }
     }
 
@@ -95,24 +98,42 @@ export class RegisterComponent implements OnInit {
 
     sendOtp(phoneNo: any) {
         if (phoneNo.length === 10) {
-            console.log('send otp and receive delivered status here ', phoneNo);
-            this.otpFlag = true;
-            this.phoneNo = phoneNo;
-            this.otpMessage = 'OTP sent successfully!';
+            this.loader = true;
+            this.sharedService.sendOtp(Number('91'+phoneNo))
+                .subscribe(res => {
+                    if (res.type === 'success') {
+                        this.loader = false;
+                        this.otpFlag = true;
+                        this.phoneNo = phoneNo;
+                        this.otpMessage = 'OTP sent successfully!';
+                    }
+                });
         }
     }
 
     resendOtp() {
-        console.log('send otp and receive delivered status here ', this.phoneNo);
-        this.otpFlag = true;
-        this.otpMessage = 'OTP re-sent successfully!';
+        this.loader =true;
+        this.sharedService.resendOtp(Number('91'+this.phoneNo))
+            .subscribe(res => {
+                if (res.type === 'success') {
+                    this.loader = false;
+                    this.otpFlag = true;
+                    this.otpMessage = 'OTP re-sent successfully!';
+                }
+            });
     }
 
     confirmOtp(otp: number) {
-        console.log('confirm otp here ', otp);
-        this.otpFlag = false;
-        this.otpButton.nativeElement.style.visibility = 'hidden';
-        this.otpButton.nativeElement.style.opacity = 0;
-        this.phoneNum.nativeElement.disabled = true;
+        this.loader = true;
+        this.sharedService.verifyOtp(Number('91'+this.phoneNo), otp)
+            .subscribe(res => {
+                if (res.type === 'success') {
+                    this.loader = false;
+                    this.otpFlag = false;
+                    this.otpButton.nativeElement.style.visibility = 'hidden';
+                    this.otpButton.nativeElement.style.opacity = 0;
+                    this.phoneNum.nativeElement.disabled = true;
+                }
+            });
     }
 }

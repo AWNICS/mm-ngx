@@ -151,7 +151,7 @@
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
-                        <div class="dropdown-menu options-menu">
+                        <div class="dropdown-menu dropdown-menu-right options-menu">
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" (click)="media();">
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
@@ -206,7 +206,7 @@
                                     <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-angle-down"></i>
                                     </a>
-                                    <div class="dropdown-menu options-dropdowm">
+                                    <div class="dropdown-menu dropdown-menu-right options-dropdowm">
                                         <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
                                     </div>
                                 </div>
@@ -267,10 +267,10 @@
                             <i class="fa fa-paperclip" data-toggle="dropdown"></i>
                             <div class="dropdown-menu" #dropDown>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
-                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
-                                    <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
-                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
+                                    <i class="fa fa-dot-circle-o" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
+                                    <i class="fa fa-sliders" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
+                                    <i class="fa fa-thermometer-three-quarters" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
+                                    <i class="fa fa-check-square-o" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
                                     <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
                                         <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
