@@ -60,6 +60,30 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    getAllergies(): Observable<any> {
+        const uri = `${this.url}/allergies`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+    getLanguages(): Observable<any> {
+        const uri = `${this.url}/languages`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+    getConsultationModes(): Observable<any> {
+        const uri = `${this.url}/consultationmodes`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+    getQualifications(): Observable<any> {
+        const uri = `${this.url}/qualifications`;
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
     getDoctors(location: string, speciality: string, gps: number, time: string, page: number, size: number): Observable<any> {
         const uri1 = `${this.url}/doctors/schedules?`;
         const uri2 = `location=${location}&speciality=${speciality}&gps=${gps}&current_time=${time}&page=${page}&size=${size}`;
@@ -217,6 +241,7 @@ export class SharedService {
         .map(res => res.json())
         .catch(this.handleError);
     }
+
      /*
      * returns notifications based on userId
      * @param {number} userId

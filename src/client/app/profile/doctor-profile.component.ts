@@ -23,10 +23,10 @@ export class DoctorProfileComponent implements OnInit {
     message: string;
     number: Array<number> = [];
     specialitiesDropdownList: Array<any> = [];
-    languagesDropdownList: Array<any> = [];
-    qualificationDropdownList: Array<any> = [];
-    consultationModeDropdownList: Array<any> = [];
-    locationDropdownList: Array<any> = [];
+    languageList: string[] = [];
+    qualificationList: string[] = [];
+    consultationModeList: string[] = [];
+    locationList: string[] = [];
     dropdownSettings: Object;
     specialityDropdownSettings: Object;
 
@@ -37,73 +37,108 @@ export class DoctorProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.sharedService.getSpecialities()
-            .subscribe((specialities: Specialities[]) => {
-                specialities.map((speciality: Specialities) => {
-                    this.specialitiesDropdownList.push(speciality.name);
+        this.getLocations();
+        this.getLanguages();
+        this.getConsultationModes();
+        this.getQualifications();
+        this.sharedService.getSpecialities().subscribe((specialities: Specialities[]) => {
+            specialities.map((speciality: Specialities) => {
+                this.specialitiesDropdownList.push(speciality.name);
+            });
+            this.profileService.getDoctorProfilesById(this.user.id)
+                .subscribe(result => {
+                    this.doctorProfiles = result.doctorDetails;
+                    let doctorStores = result.doctorStores;
+                    let language: string[];
+                    let selectedLocation: string[];
+                    let consultationMode: string[];
+                    let qualification: string[];
+                    doctorStores.map((doctorStore: any) => {
+                        if (doctorStore.type === 'Language') {
+                            return language = doctorStore.value;
+                        } else if (doctorStore.type === 'Location') {
+                            return selectedLocation = doctorStore.value;
+                        } else if (doctorStore.type === 'Consultation mode') {
+                            return consultationMode = doctorStore.value;
+                        } else if (doctorStore.type === 'Qualification') {
+                            return qualification = doctorStore.value;
+                        } else {
+                            return null;
+                        }
+                    });
+                    this.userDetails = this.fb.group({
+                        userId: this.user.id,
+                        firstname: [this.user.firstname, Validators.required],
+                        lastname: [this.user.lastname, Validators.required],
+                        email: [{ value: this.user.email, disabled: true }, Validators.required],
+                        password: [{ value: this.user.password, disabled: true }],
+                        phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
+                        aadhaarNo: this.user.aadhaarNo,
+                        speciality: [this.doctorProfiles.speciality],
+                        regNo: this.doctorProfiles.regNo,
+                        sex: this.doctorProfiles.sex,
+                        age: this.doctorProfiles.age,
+                        shortBio: this.doctorProfiles.shortBio,
+                        longBio: this.doctorProfiles.longBio,
+                        address: this.doctorProfiles.address,
+                        experience: this.doctorProfiles.experience,
+                        description: this.doctorProfiles.description,
+                        location: [selectedLocation],
+                        qualification: [qualification],
+                        consultationMode: [consultationMode],
+                        language: [language]
+                    });
+                });
+            this.dropdownSettings = {
+                singleSelection: false,
+                enableCheckAll: false,
+                unSelectAllText: 'UnSelect All',
+                itemsShowLimit: 3
+            };
+            this.specialityDropdownSettings = {
+                singleSelection: false,
+                enableCheckAll: false,
+                unSelectAllText: 'UnSelect All',
+                itemsShowLimit: 3,
+                allowSearchFilter: true
+            };
+        });
+    }
+
+    getLocations() {
+        this.sharedService.getLocations()
+            .subscribe(locations => {
+                locations.map((location: any) => {
+                    this.locationList.push(location.name);
                 });
             });
-        this.profileService.getDoctorProfilesById(this.user.id)
-            .subscribe(result => {
-                this.doctorProfiles = result.doctorDetails;
-                let doctorStores = result.doctorStores;
-                let language: string[];
-                let selectedLocation: string[];
-                let consultationMode: string[];
-                let qualification: string[];
-                doctorStores.map((doctorStore: any) => {
-                    if (doctorStore.type === 'Language') {
-                        return language = doctorStore.value;
-                    } else if (doctorStore.type === 'Location') {
-                        return selectedLocation = doctorStore.value;
-                    } else if (doctorStore.type === 'Consultation mode') {
-                        return consultationMode = doctorStore.value;
-                    } else if (doctorStore.type === 'Qualification') {
-                        return qualification = doctorStore.value;
-                    } else {
-                        return null;
-                    }
-                });
-                this.userDetails = this.fb.group({
-                    userId: this.user.id,
-                    firstname: [this.user.firstname, Validators.required],
-                    lastname: [this.user.lastname, Validators.required],
-                    email: [{ value: this.user.email, disabled: true }, Validators.required],
-                    password: [{ value: this.user.password, disabled: true }],
-                    phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
-                    aadhaarNo: this.user.aadhaarNo,
-                    speciality: [this.doctorProfiles.speciality],
-                    regNo: this.doctorProfiles.regNo,
-                    sex: this.doctorProfiles.sex,
-                    age: this.doctorProfiles.age,
-                    shortBio: this.doctorProfiles.shortBio,
-                    longBio: this.doctorProfiles.longBio,
-                    address: this.doctorProfiles.address,
-                    experience: this.doctorProfiles.experience,
-                    description: this.doctorProfiles.description,
-                    location: [selectedLocation],
-                    qualification: [qualification],
-                    consultationMode: [consultationMode],
-                    language: [language]
+    }
+
+    getLanguages() {
+        this.sharedService.getLanguages()
+            .subscribe(languages => {
+                languages.map((language: any) => {
+                    this.languageList.push(language.name);
                 });
             });
-        this.locationDropdownList = ['Bangalore', 'Delhi', 'Kolkata', 'Mumbai', 'Chennai'];
-        this.consultationModeDropdownList = ['Chat', 'Audio', 'Video'];
-        this.languagesDropdownList = ['English', 'Hindi', 'Kannada', 'Telugu', 'Malayalam', 'Tamil'];
-        this.qualificationDropdownList = ['MBBS', 'MS', 'MD'];
-        this.dropdownSettings = {
-            singleSelection: false,
-            enableCheckAll: false,
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 2
-        };
-        this.specialityDropdownSettings = {
-            singleSelection: false,
-            enableCheckAll: false,
-            unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3,
-            allowSearchFilter: true
-        };
+    }
+
+    getConsultationModes() {
+        this.sharedService.getConsultationModes()
+            .subscribe(consultationModes => {
+                consultationModes.map((consultationMode: any) => {
+                    this.consultationModeList.push(consultationMode.name);
+                });
+            });
+    }
+
+    getQualifications() {
+        this.sharedService.getQualifications()
+            .subscribe(qualifications => {
+                qualifications.map((qualification: any) => {
+                    this.qualificationList.push(qualification.name);
+                });
+            });
     }
 
     update({ value }: { value: any }) {

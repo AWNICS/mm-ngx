@@ -21,11 +21,11 @@ export class PatientProfileComponent implements OnInit {
     patientInfo: PatientInfo;
     @Input() user: UserDetails;
     message: string;
-    allergyList = ['Dust', 'Peanuts', 'Butter', 'Smoke'];
+    allergyList: string[] = [];
     dropdownSettings = {};
-    languageList = ['English', 'Hindi', 'Kannada', 'Bengali', 'Punjabi'];
-    locationList = ['Bangalore', 'Delhi', 'Mumbai', 'Kolkata', 'Chennai'];
-    visitorReport: any;
+    languageList: string[] = [];
+    locationList: string[] = [];
+    visitorReport: any = '';
 
     constructor(
         private fb: FormBuilder,
@@ -35,6 +35,9 @@ export class PatientProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.getAllergies();
+        this.getLanguages();
+        this.getLocations();
         this.dropdownSettings = {
             singleSelection: false,
             enableCheckAll: false,
@@ -99,6 +102,33 @@ export class PatientProfileComponent implements OnInit {
             });
     }
 
+    getAllergies() {
+        this.sharedService.getAllergies()
+            .subscribe(allergies => {
+                allergies.map((allergy: any) => {
+                    this.allergyList.push(allergy.name);
+                });
+            });
+    }
+
+    getLanguages() {
+        this.sharedService.getLanguages()
+            .subscribe(languages => {
+                languages.map((language: any) => {
+                    this.languageList.push(language.name);
+                });
+            });
+    }
+
+    getLocations() {
+        this.sharedService.getLocations()
+            .subscribe(locations => {
+                locations.map((location: any) => {
+                    this.locationList.push(location.name);
+                });
+            });
+    }
+
     update({ value, valid }: { value: any, valid: boolean }) {
         this.visitorReport = {
             visitorId: this.user.id,
@@ -140,6 +170,7 @@ export class PatientProfileComponent implements OnInit {
         this.sharedService.createVisitorReport(this.visitorReport)
             .subscribe(res => {
                 console.log('res ', res);
+                return;
             });
     }
 }
