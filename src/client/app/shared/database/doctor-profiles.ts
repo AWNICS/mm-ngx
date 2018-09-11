@@ -17,14 +17,10 @@ export class DoctorProfiles {
   ratingCount: number;
   shortBio: string;
   longBio: string;
-  Qualification: any ;
-  qualificationStr: string;
-  Language: any;
-  languageStr: string;
-  ConsultationMode: any;
-  consultationModeStr: Object;
-  Location: any;
-  locationStr: string;
+  qualification: any ;
+  language: any;
+  consultationMode: any;
+  location: any;
   status: string;
   createdAt: any;
   createdBy: number;

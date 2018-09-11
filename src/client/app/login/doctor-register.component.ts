@@ -22,6 +22,7 @@ export class DoctorRegisterComponent implements OnInit {
     otpMessage = '';
     otpFlag: boolean;
     phoneNo: number;
+    loader: boolean;
     number: Array<number> = [];
     specialityDropdownSettings:Object;
     specialitiesDropdownList:Array<any>=[];
@@ -85,7 +86,7 @@ export class DoctorRegisterComponent implements OnInit {
         this.specialityDropdownSettings = {
             singleSelection: false,
             enableCheckAll:false,
-            itemsShowLimit: 3,
+            itemsShowLimit: 2,
             allowSearchFilter: true
           };
     }
@@ -129,24 +130,42 @@ export class DoctorRegisterComponent implements OnInit {
 
     sendOtp(phoneNo: any) {
         if (phoneNo.length === 10) {
-            console.log('send otp and receive delivered status here ', phoneNo);
-            this.otpFlag = true;
-            this.phoneNo = phoneNo;
-            this.otpMessage = 'OTP sent successfully!';
+            this.loader = true;
+            this.sharedService.sendOtp(Number('91'+phoneNo))
+                .subscribe(res => {
+                    if (res.type === 'success') {
+                        this.loader = false;
+                        this.otpFlag = true;
+                        this.phoneNo = phoneNo;
+                        this.otpMessage = 'OTP sent successfully!';
+                    }
+                });
         }
     }
 
     resendOtp() {
-        console.log('send otp and receive delivered status here ', this.phoneNo);
-        this.otpFlag = true;
-        this.otpMessage = 'OTP re-sent successfully!';
+        this.loader =true;
+        this.sharedService.resendOtp(Number('91'+this.phoneNo))
+            .subscribe(res => {
+                if (res.type === 'success') {
+                    this.loader = false;
+                    this.otpFlag = true;
+                    this.otpMessage = 'OTP re-sent successfully!';
+                }
+            });
     }
 
     confirmOtp(otp: number) {
-        console.log('confirm otp here ', otp);
-        this.otpFlag = false;
-        this.otpButton.nativeElement.style.visibility = 'hidden';
-        this.otpButton.nativeElement.style.opacity = 0;
-        this.phoneNum.nativeElement.disabled = true;
+        this.loader = true;
+        this.sharedService.verifyOtp(Number('91'+this.phoneNo), otp)
+            .subscribe(res => {
+                if (res.type === 'success') {
+                    this.loader = false;
+                    this.otpFlag = false;
+                    this.otpButton.nativeElement.style.visibility = 'hidden';
+                    this.otpButton.nativeElement.style.opacity = 0;
+                    this.phoneNum.nativeElement.disabled = true;
+                }
+            });
     }
 }

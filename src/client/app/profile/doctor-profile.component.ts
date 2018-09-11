@@ -22,13 +22,13 @@ export class DoctorProfileComponent implements OnInit {
     @Input() user: UserDetails;
     message: string;
     number: Array<number> = [];
-    specialitiesDropdownList:Array<any>=[];
-    languagesDropdownList:Array<any> = [];
-    qualificationDropdownList:Array<any> = [];
-    consultationModeDropdownList:Array<any> = [];
-    locationDropdownList:Array<any> = [];
-    dropdownSettings:Object;
-    specialityDropdownSettings:Object;
+    specialitiesDropdownList: Array<any> = [];
+    languagesDropdownList: Array<any> = [];
+    qualificationDropdownList: Array<any> = [];
+    consultationModeDropdownList: Array<any> = [];
+    locationDropdownList: Array<any> = [];
+    dropdownSettings: Object;
+    specialityDropdownSettings: Object;
 
     constructor(
         private fb: FormBuilder,
@@ -37,14 +37,33 @@ export class DoctorProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
-            specialities.map((speciality:Specialities)=> {
-                this.specialitiesDropdownList.push(speciality.name);
+        this.sharedService.getSpecialities()
+            .subscribe((specialities: Specialities[]) => {
+                specialities.map((speciality: Specialities) => {
+                    this.specialitiesDropdownList.push(speciality.name);
+                });
             });
-        });
         this.profileService.getDoctorProfilesById(this.user.id)
-            .subscribe(doctorProfiles => {
-                this.doctorProfiles = doctorProfiles;
+            .subscribe(result => {
+                this.doctorProfiles = result.doctorDetails;
+                let doctorStores = result.doctorStores;
+                let language: string[];
+                let selectedLocation: string[];
+                let consultationMode: string[];
+                let qualification: string[];
+                doctorStores.map((doctorStore: any) => {
+                    if (doctorStore.type === 'Language') {
+                        return language = doctorStore.value;
+                    } else if (doctorStore.type === 'Location') {
+                        return selectedLocation = doctorStore.value;
+                    } else if (doctorStore.type === 'Consultation mode') {
+                        return consultationMode = doctorStore.value;
+                    } else if (doctorStore.type === 'Qualification') {
+                        return qualification = doctorStore.value;
+                    } else {
+                        return null;
+                    }
+                });
                 this.userDetails = this.fb.group({
                     userId: this.user.id,
                     firstname: [this.user.firstname, Validators.required],
@@ -53,7 +72,7 @@ export class DoctorProfileComponent implements OnInit {
                     password: [{ value: this.user.password, disabled: true }],
                     phoneNo: [{ value: this.user.phoneNo, disabled: true }, Validators.required],
                     aadhaarNo: this.user.aadhaarNo,
-                    speciality: [this.doctorProfiles.speciality.speciality],
+                    speciality: [this.doctorProfiles.speciality],
                     regNo: this.doctorProfiles.regNo,
                     sex: this.doctorProfiles.sex,
                     age: this.doctorProfiles.age,
@@ -62,49 +81,39 @@ export class DoctorProfileComponent implements OnInit {
                     address: this.doctorProfiles.address,
                     experience: this.doctorProfiles.experience,
                     description: this.doctorProfiles.description,
-                    location: [this.doctorProfiles.Location.location],
-                    qualification: [this.doctorProfiles.Qualification.qualification],
-                    consultationMode: [this.doctorProfiles.ConsultationMode.consultationMode],
-                    language: [this.doctorProfiles.Language.language]
+                    location: [selectedLocation],
+                    qualification: [qualification],
+                    consultationMode: [consultationMode],
+                    language: [language]
                 });
             });
-        this.generateNumber();
-        this.locationDropdownList = ['Bangalore','Delhi','Kolkata','Mumbai','Chennai'];
-        this.consultationModeDropdownList=['Chat','Audio','Video'];
-        this.languagesDropdownList=['English','Hindi','Kannada','Telugu','Malayalam','Tamil'];
-        this.qualificationDropdownList=['MBBS','MS','MD'];
-          this.dropdownSettings = {
+        this.locationDropdownList = ['Bangalore', 'Delhi', 'Kolkata', 'Mumbai', 'Chennai'];
+        this.consultationModeDropdownList = ['Chat', 'Audio', 'Video'];
+        this.languagesDropdownList = ['English', 'Hindi', 'Kannada', 'Telugu', 'Malayalam', 'Tamil'];
+        this.qualificationDropdownList = ['MBBS', 'MS', 'MD'];
+        this.dropdownSettings = {
             singleSelection: false,
-            enableCheckAll:false,
-            // idField: 'item_id',
-            // textField: 'item_text',
-            // selectAllText: 'Select All',
+            enableCheckAll: false,
             unSelectAllText: 'UnSelect All',
-            itemsShowLimit: 3,
-            // allowSearchFilter: true
-          };
-          this.specialityDropdownSettings = {
+            itemsShowLimit: 2
+        };
+        this.specialityDropdownSettings = {
             singleSelection: false,
-            enableCheckAll:false,
+            enableCheckAll: false,
             unSelectAllText: 'UnSelect All',
             itemsShowLimit: 3,
             allowSearchFilter: true
-          };
+        };
     }
-      update({ value }: { value: any }) {
+
+    update({ value }: { value: any }) {
         this.profileService.updateDoctorProfiles(value)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
                     .subscribe(res => {
-                        window.scrollTo(0,0);
+                        window.scrollTo(0, 0);
                         this.message = 'Profile is updated';
                     });
             });
-    }
-
-    generateNumber() {
-        for (var i = 1; i <= 100; i++) {
-            this.number.push(i);
-        }
     }
 }

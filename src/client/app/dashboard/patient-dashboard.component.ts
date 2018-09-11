@@ -187,14 +187,14 @@ export class PatientDashboardComponent implements OnInit {
     getVisitorHealth(visitorId: number) {
         this.sharedService.getVisitorHealth(visitorId)
             .subscribe(visitorHealth => {
-                this.visitorHealth = visitorHealth;
+                this.visitorHealth = visitorHealth[0];
             });
     }
 
     getVisitorPrescription(visitorId: number) {
         this.sharedService.getVisitorPrescription(visitorId)
             .subscribe(visitorPrescription => {
-                this.visitorPrescription = visitorPrescription;
+                this.visitorPrescription = visitorPrescription[0];
             });
     }
 

@@ -98,7 +98,7 @@ export class ChatComponent implements OnInit {
     createdTime: Date.now(),
     updatedTime: Date.now()
   };
-  unreadMessages:any={};
+  unreadMessages: any = {};
 
   constructor(
     private fb: FormBuilder,
@@ -309,7 +309,7 @@ export class ChatComponent implements OnInit {
     setTimeout(() => {
       this.chatService.getGroups(this.userId)
         .subscribe((groups) => {
-          if(!this.selectedGroup) {
+          if (!this.selectedGroup) {
             this.selectedGroup = groups[0];
           }
           this.getMessage(this.selectedGroup);
@@ -413,32 +413,34 @@ export class ChatComponent implements OnInit {
           this.ref.detectChanges();
           this.scrollToBottom();
         } else {
-          this.groups.map((group)=> {
-            if(group.id === msg.receiverId) {
-              if(this.unreadMessages[group.id]) {
-              this.unreadMessages[group.id]++;
-            } else {
-              this.unreadMessages[group.id]=1;
-            }}
-            let unReadObject:any= Object;
+          this.groups.map((group) => {
+            if (group.id === msg.receiverId) {
+              if (this.unreadMessages[group.id]) {
+                this.unreadMessages[group.id]++;
+              } else {
+                this.unreadMessages[group.id] = 1;
+              }
+            }
+            let unReadObject: any = Object;
             let unreadObjectValues = unReadObject.values(this.unreadMessages);
-            let sumOfUnread = unreadObjectValues.reduce((a:number,b:number)=>a+b,0);
-            let favicon:any= document.querySelector('head link');
-            favicon.href='assets/favicon/favicon.png';
-            document.querySelector('title').innerText= ` (${sumOfUnread})`+'Mesomeds';
+            let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
+            let favicon: any = document.querySelector('head link');
+            favicon.href = 'assets/favicon/favicon.png';
+            document.querySelector('title').innerText = ` (${sumOfUnread})` + 'Mesomeds';
             this.ref.detectChanges();
           });
         }
       });
   }
-  resetMessage(id:any) {
-    this.unreadMessages[id]=0;
-    let unReadObject:any = Object;
+
+  resetMessage(id: any) {
+    this.unreadMessages[id] = 0;
+    let unReadObject: any = Object;
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
-    if(!(unreadObjectValues.find((ojectValue:any)=> {return ojectValue!==0;}))) {
-      let faicon:any= document.querySelector('head link');
-      faicon.href='assets/favicon/favicon-DEV.ico';
-      document.querySelector('title').innerText='Mesomeds';
+    if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
+      let faicon: any = document.querySelector('head link');
+      faicon.href = 'assets/favicon/favicon-DEV.ico';
+      document.querySelector('title').innerText = 'Mesomeds';
     }
   }
 
@@ -589,7 +591,7 @@ export class ChatComponent implements OnInit {
     this.chat.nativeElement.style.width = '100%';
   }
 
-  getMoreMedia(group: Group) {
+  getMoreMedia() {
     const size = 5;
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .subscribe(result => {
@@ -605,7 +607,7 @@ export class ChatComponent implements OnInit {
     let scrollPane = this.rightSidebar.nativeElement;
     if (scrollPane.scrollTop === 0) {
       this.mediaPage = this.mediaPage + 1;
-      this.getMoreMedia(this.selectedGroup);
+      this.getMoreMedia();
     }
   }
 

@@ -95,14 +95,14 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Languages</label>
-                    <ng-multiselect-dropdown placeholder="English" [data]="languageList" formControlName="language" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                    <ng-multiselect-dropdown placeholder="English" [data]="languageList" formControlName="language" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Location</label>
-                    <ng-multiselect-dropdown placeholder="Bangalore" [data]="locationList" formControlName="location" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                    <ng-multiselect-dropdown placeholder="Bangalore" [data]="locationList" formControlName="location" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>
@@ -111,7 +111,7 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Allergies</label>
-                    <ng-multiselect-dropdown placeholder="Dust Allergy" [data]="allergyList" formControlName="allergies" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                    <ng-multiselect-dropdown placeholder="Dust Allergy" [data]="allergyList" formControlName="allergies" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>

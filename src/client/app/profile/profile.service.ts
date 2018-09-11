@@ -43,7 +43,7 @@ export class ProfileService {
     /**
      * get doctors
      */
-    getDoctorProfilesById(id: number): Observable<DoctorProfiles> {
+    getDoctorProfilesById(id: number): Observable<any> {
         const url = `${this.url}/doctors/${id}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);

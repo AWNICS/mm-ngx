@@ -21,10 +21,10 @@ export class PatientProfileComponent implements OnInit {
     patientInfo: PatientInfo;
     @Input() user: UserDetails;
     message: string;
-    allergyList = ["Dust", "Peanuts", "Butter", "Smoke"];
+    allergyList = ['Dust', 'Peanuts', 'Butter', 'Smoke'];
     dropdownSettings = {};
-    languageList = ["English", "Hindi", "Kannada", "Bengali", "Punjabi"];
-    locationList = ["Bangalore", "Delhi", "Mumbai", "Kolkata", "Chennai"];
+    languageList = ['English', 'Hindi', 'Kannada', 'Bengali', 'Punjabi'];
+    locationList = ['Bangalore', 'Delhi', 'Mumbai', 'Kolkata', 'Chennai'];
     visitorReport: any;
 
     constructor(
@@ -38,7 +38,7 @@ export class PatientProfileComponent implements OnInit {
         this.dropdownSettings = {
             singleSelection: false,
             enableCheckAll: false,
-            itemsShowLimit: 3,
+            itemsShowLimit: 2,
             allowSearchFilter: true
         };
 
@@ -47,15 +47,30 @@ export class PatientProfileComponent implements OnInit {
                 let language: any;
                 let selectedLocation: any;
                 let visitorStores = result.visitorStoreInfo;
+                let bloodPressure;
+                let heartRate;
+                let allergies;
                 visitorStores.map((visitorStore: any) => {
                     if (visitorStore.type === 'Language') {
                         return language = visitorStore.value;
-                    } else if(visitorStore.type === 'Location'){
+                    } else if (visitorStore.type === 'Location') {
                         return selectedLocation = visitorStore.value;
                     } else {
                         return null;
                     }
                 });
+                if (result.visitorPrescriptionInfo.length !== 0) {
+                    bloodPressure = result.visitorPrescriptionInfo[0].description.vitals['Blood pressure'];
+                    heartRate = result.visitorPrescriptionInfo[0].description.vitals['Heart rate'];
+                } else {
+                    bloodPressure = [];
+                    heartRate = [];
+                }
+                if (result.visitorHealthInfo.length !== 0) {
+                    allergies = result.visitorHealthInfo[0].allergies;
+                } else {
+                    allergies = [];
+                }
                 this.patientInfo = result.patientInfo;
                 this.userDetails = this.fb.group({
                     userId: this.user.id,
@@ -70,14 +85,14 @@ export class PatientProfileComponent implements OnInit {
                     height: this.patientInfo.height,
                     weight: this.patientInfo.weight,
                     bloodGroup: this.patientInfo.bloodGroup,
-                    bloodPressure: result.visitorPrescriptionInfo.description.vitals['Blood pressure'],
-                    heartRate: result.visitorPrescriptionInfo.description.vitals['Heart rate'],
+                    bloodPressure: bloodPressure,
+                    heartRate: heartRate,
                     language: [language],
-                    allergies: [result.visitorHealthInfo.allergies],
+                    allergies: [allergies],
                     location: [selectedLocation],
                     address: null,
                     description: this.user.description,
-                    documentType:null,
+                    documentType: null,
                     documentTitle: null,
                     documentDescription: null
                 });
@@ -93,7 +108,7 @@ export class PatientProfileComponent implements OnInit {
             status: 'new',
             createdBy: this.user.id,
             updatedBy: this.user.id
-        }
+        };
         this.profileService.updatePatientInfo(value)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
@@ -103,29 +118,28 @@ export class PatientProfileComponent implements OnInit {
             });
     }
 
-    onItemSelect(item: any) { }
-    onSelectAll(items: any) { }
-
     uploadReport(files: FileList) {
         if (files[0].type.match('image')) {
             this.chatService.uploadFile(files[0])
                 .subscribe(res => {
                     this.visitorReport.url = res._body; // setting url of report file
-                    this.createReport('image', files[0]);
+                    this.createReport();
                 });
         } else if (files[0].type.match('application')) {
             this.chatService.uploadFile(files[0])
                 .subscribe(res => {
                     this.visitorReport.url = res._body; // setting url of report file
-                    this.createReport('PDF/Doc', files[0]);
+                    this.createReport();
                 });
         } else {
-            console.log('File format not supported');
+            this.message = 'File format not supported';
         }
     }
 
-    createReport(type: string, file: File) {
+    createReport() {
         this.sharedService.createVisitorReport(this.visitorReport)
-            .subscribe(res => {});
+            .subscribe(res => {
+                console.log('res ', res);
+            });
     }
 }
