@@ -26,61 +26,75 @@
           </div>
           <label>Email</label>
           <input type="email" placeholder="you@example.com" formControlName="email" autocomplete>
-          <label>Mobile No.</label>
-          <input type="text" placeholder="xxxxxxxxxx" formControlName="phoneNo" #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);"
-            autocomplete style="margin-bottom:0px;">
-          <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton data-toggle="modal" data-target="#confirmModal">Send OTP</button>
+          <div class="row">
+            <div class="col-3 col-xl-2 col-lg-2 col-md-2 col-sm-3">
+              <label>Country</label>
+              <input type="number" value="91" disabled style="padding: 1.1rem;">
+            </div>
+            <div class="col-9 col-xl-10 col-lg-10 col-md-10 col-sm-9">
+              <label>Mobile No.</label>
+              <input type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo" placeholder="xxxxxxxxxx"
+                #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);">
+              <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton
+                data-toggle="modal" data-target="#confirmModal">Send OTP</button>
+            </div>
+          </div>
           <label>Password</label>
           <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             autocomplete="off">
           <label>Confirm Password</label>
           <input type="password" formControlName="confirmPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             autocomplete="off">
-            <div class="alert alert-danger" *ngIf="registerDetails.controls.confirmPassword.errors?.matchPassword">Password not match</div>
+          <div class="alert alert-danger" *ngIf="registerDetails.controls.confirmPassword.errors?.matchPassword">Password
+            not match</div>
           <button i18n type="submit" class="button button__accent" [disabled]="registerDetails.invalid">Register</button>
           <p class="sign-in">Already a member?&nbsp;&nbsp;
             <a routerLink='/login' routerLinkActive='active'>Sign in</a>
           </p>
         </form>
-        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
+          aria-labelledby="confirmModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
               <div class="modal-body">
                 <div class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </div>
-                <br/>
+                <br />
                 <div class="container">
                   <div class="loader" *ngIf="loader else content"></div>
                   <ng-template #content>
-                      <div *ngIf="otpFlag; else verified">
-                          <div class="row justify-content-center">
-                            <div class="content-head">{{otpMessage}}</div>
-                          </div>
-                          <div class="row justify-content-center">
-                            <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp" aria-describedby="otp" placeholder="Enter OTP">
-                          </div>
-                          <div class="row justify-content-center">
-                            <div class="col">
-                                <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend OTP</button>
-                            </div>
-                            <div class="col">
-                                <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy OTP</button>
-                            </div>
+                    <div *ngIf="otpFlag; else verified">
+                      <div class="row justify-content-center">
+                        <div class="content-head">{{otpMessage}}</div>
+                      </div>
+                      <div class="row justify-content-center">
+                        <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp"
+                          aria-describedby="otp" placeholder="Enter OTP">
+                      </div>
+                      <div class="row justify-content-center">
+                        <div class="col">
+                          <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend
+                            OTP</button>
+                        </div>
+                        <div class="col">
+                          <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy
+                            OTP</button>
+                        </div>
+                      </div>
+                    </div>
+                    <ng-template #verified>
+                      <div class="content">
+                        <div class="row justify-content-center">
+                          <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="row justify-content-center">
+                          <div class="content-head">
+                            Phone number verified!
                           </div>
                         </div>
-                        <ng-template #verified>
-                          <div class="content">
-                            <div class="row justify-content-center">
-                              <i class="fa fa-check-circle" aria-hidden="true"></i>
-                            </div>
-                            <div class="row justify-content-center">
-                              <div class="content-head">
-                                Phone number verified!
-                              </div>
-                            </div>
-                          </div>
-                        </ng-template>
+                      </div>
+                    </ng-template>
                   </ng-template>
                 </div>
               </div>

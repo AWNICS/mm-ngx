@@ -101,30 +101,18 @@ export class DoctorsListComponent implements OnInit {
         let locations = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                stores[i].value.qualification.map((qualification:string)=> {
-                    qualifications += qualification +', ';
-                });
+                    qualifications += stores[i].value;
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                stores[i].value.language.map((language:string)=> {
-                    languages += language +', ';
-                });
+                    languages += stores[i].value;
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                stores[i].value.consultationMode.map((consultationMode:string)=> {
-                    consultationModes += consultationMode +', ';
-                });
+                    consultationModes += stores[i].value;
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                stores[i].value.location.map((location:string)=> {
-                    locations += location +', ';
-                });
+                    locations += stores[i].value;
             }
         }
-        qualifications = qualifications.slice(0, qualifications.length - 2);
-        languages = languages.slice(0, languages.length - 2);
-        consultationModes = consultationModes.slice(0, consultationModes.length - 2);
-        locations = locations.slice(0, locations.length - 2);
 
         //iterate the doctors[] array and assign the required variable and use it inside the html
         for (let i = 0; i < this.doctors.length; i++) {

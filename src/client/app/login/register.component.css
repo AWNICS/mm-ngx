@@ -107,7 +107,7 @@ label {
 
 @media (max-width: 575.98px) {
   .button__primary {
-    left: 35% !important;
+    left: 30% !important;
   }
 }
 
@@ -173,7 +173,7 @@ button:focus,
   font-size: 0.8rem;
   position: relative;
   top: -33px;
-  left: 40%;
+  left: 39%;
   visibility: hidden;
   opacity: 0;
   animation: fadeIn 1s;
