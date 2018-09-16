@@ -212,9 +212,15 @@ a {
 
 /* Extra large devices (large desktops, 1200px and up) */
 
-@media (min-width: 1200px) {
+@media (max-width: 1199.98px) {
     .chat .chat-history {
         height: 53vh;
+    }
+}
+
+@media (min-width: 1500px) {
+    .chat .chat-history {
+        height: 66vh;
     }
 }
 

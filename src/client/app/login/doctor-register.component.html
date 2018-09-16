@@ -26,11 +26,19 @@
           <input type="text" formControlName="regNo" placeholder="MCI Reg No.">
           <label>Email</label>
           <input type="email" formControlName="email" placeholder="you@example.com">
-          <label>Mobile No.</label>
-          <input type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo" placeholder="xxxxxxxxxx"
-            #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);">
-          <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton
-            data-toggle="modal" data-target="#confirmModal">Send OTP</button>
+          <div class="row">
+            <div class="col-3 col-xl-2 col-lg-2 col-md-2 col-sm-3">
+              <label>Country</label>
+              <input type="number" value="91" disabled style="padding: 1.1rem;">
+            </div>
+            <div class="col-9 col-xl-10 col-lg-10 col-md-10 col-sm-9">
+              <label>Mobile No.</label>
+              <input type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo" placeholder="xxxxxxxxxx"
+                #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);">
+              <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton
+                data-toggle="modal" data-target="#confirmModal">Send OTP</button>
+            </div>
+          </div>
           <label>Password</label>
           <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             autocomplete="off">
@@ -39,8 +47,8 @@
             autocomplete="off">
           <div class="row">
             <div class="col"> <label>Speciality</label>
-              <ng-multiselect-dropdown [placeholder]="'Select Specialities'" [data]="specialitiesDropdownList"
-                formControlName="speciality" [settings]="specialityDropdownSettings" #specialitiesBlock></ng-multiselect-dropdown>
+              <ng-multiselect-dropdown [placeholder]="'Specialities'" [data]="specialitiesDropdownList" formControlName="speciality"
+                [settings]="specialityDropdownSettings" #specialitiesBlock></ng-multiselect-dropdown>
             </div>
             <div class="col">
               <label>Experience(in years)</label>

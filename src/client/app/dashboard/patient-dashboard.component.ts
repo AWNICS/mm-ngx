@@ -29,6 +29,7 @@ export class PatientDashboardComponent implements OnInit {
     visitorPrescription: any;
     picUrl: string;
     visitorTimelines: any;
+    hideVisitorReports = false;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -181,6 +182,9 @@ export class PatientDashboardComponent implements OnInit {
         this.sharedService.getVisitorReport(visitorId)
             .subscribe(visitorReport => {
                 this.visitorReport = visitorReport;
+                if(visitorReport.length === 0) {
+                    this.hideVisitorReports = true;
+                }
             });
     }
 
