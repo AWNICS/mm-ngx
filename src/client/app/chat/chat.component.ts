@@ -99,6 +99,7 @@ export class ChatComponent implements OnInit {
     updatedTime: Date.now()
   };
   unreadMessages: any = {};
+  typingEmit:Boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -136,9 +137,33 @@ export class ChatComponent implements OnInit {
       this.receiveDeletedMessageFromSocket();
       this.consultationStatus();
       this.navbarComponent.navbarColor(0, '#6960FF');
+      this.typingEventEmit();
+      this.typingEventListen();
     } else {
       this.router.navigate([`/`]);
     }
+  }
+  typingEventEmit() {
+    this.textArea.nativeElement.addEventListener('input',(event:any)=> {
+      if(this.typingEmit) {
+        this.typingEmit = false;
+        let fullName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
+        this.socketService.typingEmit(this.selectedGroup.id, this.selectedUser.socketId, fullName );
+      setTimeout(()=> {
+        this.typingEmit = true;
+      },8000);
+       }
+    });
+  }
+  typingEventListen() {
+    this.socketService.typingListen().subscribe((response)=> {
+      if(this.selectedGroup.id === response.groupId) {
+      this.alert = true;
+      this.alertMessage = response.userName+' is typing ...';
+      this.ref.markForCheck();
+      setTimeout(()=> {this.alertMessage=null;this.ref.markForCheck();},8000);
+    }
+    });
   }
 
   createForm() {
@@ -394,6 +419,8 @@ export class ChatComponent implements OnInit {
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
     } else {
+      //make typing emite true so that user can send the next message and emit event immediately
+      this.typingEmit = true;
       this.socketService.sendMessage(value, this.selectedGroup);
     }
     this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
@@ -410,6 +437,8 @@ export class ChatComponent implements OnInit {
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
+          //making the alert message null immediately after receiving message from socket
+          this.alertMessage=null;
           this.ref.detectChanges();
           this.scrollToBottom();
         } else {
