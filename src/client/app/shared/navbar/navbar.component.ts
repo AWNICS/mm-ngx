@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     picUrl: string;
     notifications: Notification[];
     notify = false;
+    @ViewChild('navbar') navbar: ElementRef;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -35,7 +36,6 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
             if (this.user) {
                 this.getNotifications(this.user);
-                this.ref.detectChanges();
                 if (this.user.picUrl) {
                     this.downloadPic(this.user.picUrl);
                 } else {
@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
-                    this.ref.detectChanges();
+                    this.ref.markForCheck();
                 };
             });
     }
@@ -72,7 +72,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
-                    this.ref.detectChanges();
+                    this.ref.markForCheck();
                 };
             });
     }
@@ -86,9 +86,9 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
     navbarColor(number: number, color: string) {
         if (number > 800) {
-            document.getElementById('navbar').style.backgroundColor = color;
+            this.navbar.nativeElement.style.backgroundColor = color;
         } else {
-            document.getElementById('navbar').style.backgroundColor = color;
+            this.navbar.nativeElement.style.backgroundColor = color;
         }
     }
 
@@ -100,6 +100,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
                 if (notifications.length >= 1) {
                     this.notify = true;
                     this.notifications = notifications;
+                    this.ref.detectChanges();
                 }
             });
     }

@@ -49,11 +49,10 @@ export class PatientProfileComponent implements OnInit {
             .subscribe((result: any) => {
                 let language: any;
                 let selectedLocation: any;
-                let visitorStores = result.visitorStoreInfo;
                 let bloodPressure;
                 let heartRate;
                 let allergies;
-                visitorStores.map((visitorStore: any) => {
+                result.visitorStoreInfo.map((visitorStore: any) => {
                     if (visitorStore.type === 'Language') {
                         return language = visitorStore.value;
                     } else if (visitorStore.type === 'Location') {

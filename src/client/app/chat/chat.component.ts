@@ -337,6 +337,10 @@ export class ChatComponent implements OnInit {
     this.chatService.setGroup(group);
     this.selectedGroup = group;
     const size = 20;
+    if(this.mySidebar.nativeElement.style.display === 'block') {
+      //hides the left sidebar in small screen devices as soon as user selects a group
+      this.mySidebar.nativeElement.style.display = 'none';
+    }
     if (this.oldGroupId === group.id && !this.groupSelected) {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
@@ -438,8 +442,8 @@ export class ChatComponent implements OnInit {
     let unReadObject: any = Object;
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
     if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
-      let faicon: any = document.querySelector('head link');
-      faicon.href = 'assets/favicon/favicon-DEV.ico';
+      let favicon: any = document.querySelector('head link');
+      favicon.href = 'assets/favicon/favicon-DEV.ico';
       document.querySelector('title').innerText = 'Mesomeds';
     }
   }
@@ -519,12 +523,12 @@ export class ChatComponent implements OnInit {
     this.modalService.open(doctorModal, { size: 'lg' });
   }
 
-  // open the slider
+  // open the left sidebar
   open() {
     this.mySidebar.nativeElement.style.display = 'block';
   }
 
-  // close the slider
+  // close the left sidebar
   close() {
     this.mySidebar.nativeElement.style.display = 'none';
   }
@@ -567,10 +571,12 @@ export class ChatComponent implements OnInit {
     if (x.matches) {
       this.rightSidebar.nativeElement.style.display = 'block';
       this.chat.nativeElement.style.width = '70%';
+      this.ref.detectChanges();
     } else {
       this.rightSidebar.nativeElement.style.display = 'block';
       this.rightSidebar.nativeElement.style.width = '100%';
       this.chat.nativeElement.style.width = '100%';
+      this.ref.detectChanges();
     }
     const size = 5;
     this.mediaMessages = [];
@@ -578,6 +584,7 @@ export class ChatComponent implements OnInit {
       .subscribe(result => {
         result.map((message: any) => {
           this.mediaMessages.push(message);
+          this.ref.detectChanges();
         });
       });
   }
