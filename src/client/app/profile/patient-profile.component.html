@@ -80,13 +80,17 @@
             </div>
             <div class="col col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Blood Pressure(in mmHg)</label>
+                    <label>
+                        Blood Pressure<small>(in mmHg)</small>
+                    </label>
                     <input type="text" placeholder="100" formControlName="bloodPressure" autocomplete>
                 </div>
             </div>
             <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Heart Rate(in bpm)</label>
+                    <label>
+                        Heart Rate<small>(in bpm)</small>
+                    </label>
                     <input type="text" placeholder="65" formControlName="heartRate" autocomplete>
                 </div>
             </div>
@@ -95,14 +99,14 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Languages</label>
-                    <ng-multiselect-dropdown placeholder="English" [data]="languageList" formControlName="language" [settings]="dropdownSettings">
+                    <ng-multiselect-dropdown placeholder="Languages" [data]="languageList" formControlName="language" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Location</label>
-                    <ng-multiselect-dropdown placeholder="Bangalore" [data]="locationList" formControlName="location" [settings]="dropdownSettings">
+                    <ng-multiselect-dropdown placeholder="Locations" [data]="locationList" formControlName="location" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>
@@ -111,7 +115,7 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Allergies</label>
-                    <ng-multiselect-dropdown placeholder="Dust Allergy" [data]="allergyList" formControlName="allergies" [settings]="dropdownSettings">
+                    <ng-multiselect-dropdown placeholder="Allergies" [data]="allergyList" formControlName="allergies" [settings]="dropdownSettings">
                     </ng-multiselect-dropdown>
                 </div>
             </div>

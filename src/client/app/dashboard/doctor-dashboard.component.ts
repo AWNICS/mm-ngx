@@ -36,6 +36,7 @@ export class DoctorDashboardComponent implements OnInit {
     picUrl: SafeResourceUrl;
     consultations: any[];
     patients: number;
+    hideConsultations = false;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -166,16 +167,16 @@ export class DoctorDashboardComponent implements OnInit {
         this.locations = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                    this.qualifications += stores[i].value;
+                this.qualifications += stores[i].value;
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                    this.languages += stores[i].value;
+                this.languages += stores[i].value;
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                    this.consultationModes += stores[i].value;
+                this.consultationModes += stores[i].value;
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                    this.locations += stores[i].value;
+                this.locations += stores[i].value;
             }
         }
     }
@@ -192,8 +193,12 @@ export class DoctorDashboardComponent implements OnInit {
         let size = 3;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .subscribe((res) => {
-                this.consultations = res.visitorAppointments;
-                this.chart(res.chartDetails);
+                if (res.length === 0) {
+                    this.hideConsultations = true;
+                } else {
+                    this.chart(res.chartDetails);
+                    this.consultations = res.visitorAppointments;
+                }
             });
     }
 

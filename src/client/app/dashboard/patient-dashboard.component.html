@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="visitorTimelines">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card shadow" style="height: 650px;">
                         <div class="card-header">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="visitorPrescriptions">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card shadow" style="height: 290px; width:99%;">
                         <div class="card-header">
@@ -112,7 +112,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="!hideVisitorReports">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card shadow" style="height: 250px;">
                         <div class="card-header">
@@ -130,7 +130,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="visitorDetail">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card shadow" style="height: 250px;">
                         <div class="card-header">
