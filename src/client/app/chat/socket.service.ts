@@ -157,4 +157,20 @@ export class SocketService {
     logout(userId: number): void {
         this.socket.emit('user-disconnect', userId);
     }
+
+    typingListen(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-typing', (groupId: any,userName:any) => {
+                observer.next({'groupId':groupId,'userName':userName});
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
+    typingEmit(groupId:any,socketId:any,userName:any) {
+        this.socket.emit('send-typing',groupId, socketId ,userName);
+    }
 }

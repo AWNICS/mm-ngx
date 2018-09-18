@@ -61,17 +61,14 @@ export class PatientProfileComponent implements OnInit {
                         return null;
                     }
                 });
-                if (result.visitorPrescriptionInfo.length !== 0) {
-                    bloodPressure = result.visitorPrescriptionInfo[0].description.vitals['Blood pressure'];
-                    heartRate = result.visitorPrescriptionInfo[0].description.vitals['Heart rate'];
-                } else {
-                    bloodPressure = [];
-                    heartRate = [];
-                }
                 if (result.visitorHealthInfo.length !== 0) {
                     allergies = result.visitorHealthInfo[0].allergies;
+                    bloodPressure = result.visitorHealthInfo[0].vitals.bloodPressure;
+                    heartRate = result.visitorHealthInfo[0].vitals.heartRate;
                 } else {
                     allergies = [];
+                    bloodPressure = [];
+                    heartRate = [];
                 }
                 this.patientInfo = result.patientInfo;
                 this.userDetails = this.fb.group({
