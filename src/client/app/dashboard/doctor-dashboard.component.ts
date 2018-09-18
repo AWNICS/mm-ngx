@@ -35,6 +35,7 @@ export class DoctorDashboardComponent implements OnInit {
     doctorId: number;
     picUrl: SafeResourceUrl;
     consultations: any[];
+    patients: number;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -49,7 +50,6 @@ export class DoctorDashboardComponent implements OnInit {
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
-        this.chart();
         const cookie = this.securityService.getCookie('userDetails');
         this.doctorId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
         this.getConsultations(this.doctorId);
@@ -70,6 +70,7 @@ export class DoctorDashboardComponent implements OnInit {
             this.getDoctorStore(this.doctorId);
         }
         this.doctorSchedule = { 'status': 'online' };
+        this.getConsutationDetails('today');
         this.consultationStatus();
     }
 
@@ -101,18 +102,18 @@ export class DoctorDashboardComponent implements OnInit {
             });
     }
 
-    chart() {
+    chart(chartDetails: any) {
         var ctx = this.barChart.nativeElement.getContext('2d');
         var horizontalBarChartData = {
-            labels: ['9am', '10am', '11am', '12am', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm', '9pm'],
+            labels: ['9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'],
             datasets: [{
                 label: 'Follow Ups',
                 backgroundColor: '#9690FD',
-                data: [3, 2, 4, 2, 0, 0, 1, 1, 0, 4, 1, 3, 2]
+                data: chartDetails.followUps
             }, {
                 label: 'New Patients',
                 backgroundColor: '#C4C1FF',
-                data: [2, 1, 3, 1, 0, 0, 2, 3, 0, 2, 3, 0, 1]
+                data: chartDetails.newConsultations
             }]
         };
         var barChart = new Chart(ctx, {
@@ -191,7 +192,24 @@ export class DoctorDashboardComponent implements OnInit {
         let size = 3;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .subscribe((res) => {
-                this.consultations = res;
+                this.consultations = res.visitorAppointments;
+                this.chart(res.chartDetails);
+            });
+    }
+
+    //for getting the consultation history
+    getConsutationDetails(str: string) {
+        this.sharedService.getConsutationDetails(this.doctorId)
+            .subscribe((res) => {
+                if(str === 'today') {
+                    this.patients = res.today;
+                } else if(str === 'week') {
+                    this.patients = res.week;
+                } else if(str === 'month') {
+                    this.patients = res.month;
+                } else {
+                    this.patients = 0;
+                }
             });
     }
 }
