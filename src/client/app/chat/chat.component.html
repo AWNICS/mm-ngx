@@ -272,7 +272,9 @@
             rows="3" #textArea></textarea>
           <div class="row justify-content-between chat-footer">
             <div class="col col-2 dropup">
-              <i class="fa fa-paperclip" data-toggle="dropdown"></i>
+              <a data-toggle="dropdown">
+                <i class="fa fa-paperclip"></i>
+              </a>
               <div class="dropdown-menu" #dropDown>
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                   <i class="fa fa-dot-circle-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}"

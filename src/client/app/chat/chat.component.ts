@@ -99,7 +99,7 @@ export class ChatComponent implements OnInit {
     updatedTime: Date.now()
   };
   unreadMessages: any = {};
-  typingEmit:Boolean = true;
+  typingEvent: Boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -116,6 +116,7 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
     const cookie = this.securityService.getCookie('userDetails');
@@ -136,33 +137,37 @@ export class ChatComponent implements OnInit {
       this.receiveUpdatedMessageFromSocket();
       this.receiveDeletedMessageFromSocket();
       this.consultationStatus();
-      this.navbarComponent.navbarColor(0, '#6960FF');
-      this.typingEventEmit();
-      this.typingEventListen();
+      this.typingEventEmitter();
+      this.typingEventListener();
     } else {
       this.router.navigate([`/`]);
     }
   }
-  typingEventEmit() {
-    this.textArea.nativeElement.addEventListener('input',(event:any)=> {
-      if(this.typingEmit) {
-        this.typingEmit = false;
-        let fullName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
-        this.socketService.typingEmit(this.selectedGroup.id, this.selectedUser.socketId, fullName );
-      setTimeout(()=> {
-        this.typingEmit = true;
-      },8000);
-       }
+
+  typingEventEmitter() {
+    this.textArea.nativeElement.addEventListener('input', (event: any) => {
+      if (this.typingEvent) {
+        this.typingEvent = false;
+        let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
+        setTimeout(() => {
+          this.typingEvent = true;
+        }, 8000);
+      }
     });
   }
-  typingEventListen() {
-    this.socketService.typingListen().subscribe((response)=> {
-      if(this.selectedGroup.id === response.groupId) {
-      this.alert = true;
-      this.alertMessage = response.userName+' is typing ...';
-      this.ref.markForCheck();
-      setTimeout(()=> {this.alertMessage=null;this.ref.markForCheck();},8000);
-    }
+
+  typingEventListener() {
+    this.socketService.typingListener().subscribe((response) => {
+      if (this.selectedGroup.id === response.groupId) {
+        this.alert = true;
+        this.alertMessage = response.userName + ' is typing ...';
+        this.ref.markForCheck();
+        setTimeout(() => {
+          this.alertMessage = null;
+          this.ref.markForCheck();
+        }, 8000);
+      }
     });
   }
 
@@ -362,7 +367,7 @@ export class ChatComponent implements OnInit {
     this.chatService.setGroup(group);
     this.selectedGroup = group;
     const size = 20;
-    if(this.mySidebar.nativeElement.style.display === 'block') {
+    if (this.mySidebar.nativeElement.style.display === 'block') {
       //hides the left sidebar in small screen devices as soon as user selects a group
       this.mySidebar.nativeElement.style.display = 'none';
     }
@@ -424,7 +429,7 @@ export class ChatComponent implements OnInit {
       return;
     } else {
       //make typing emite true so that user can send the next message and emit event immediately
-      this.typingEmit = true;
+      this.typingEvent = true;
       this.socketService.sendMessage(value, this.selectedGroup);
     }
     this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
@@ -442,7 +447,7 @@ export class ChatComponent implements OnInit {
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
-          this.alertMessage=null;
+          this.alertMessage = null;
           this.ref.detectChanges();
           this.scrollToBottom();
         } else {
@@ -652,6 +657,7 @@ export class ChatComponent implements OnInit {
       .subscribe((groups: any) => {
         groups.map((updatedGroup: any) => {
           if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
+            console.log('status ', updatedGroup[0].status);
             group.status = updatedGroup[0].status;
           }
         });

@@ -158,10 +158,10 @@ export class SocketService {
         this.socket.emit('user-disconnect', userId);
     }
 
-    typingListen(): Observable<any> {
+    typingListener(): Observable<any> {
         const observable = new Observable(observer => {
-            this.socket.on('receive-typing', (groupId: any,userName:any) => {
-                observer.next({'groupId':groupId,'userName':userName});
+            this.socket.on('receive-typing', (data:any) => {
+                observer.next(data);
             });
             return () => {
                 this.socket.disconnect();
@@ -170,7 +170,7 @@ export class SocketService {
         return observable;
     }
 
-    typingEmit(groupId:any,socketId:any,userName:any) {
-        this.socket.emit('send-typing',groupId, socketId ,userName);
+    typingEmitter(groupId: any, userName: any) {
+        this.socket.emit('send-typing', groupId, userName);
     }
 }
