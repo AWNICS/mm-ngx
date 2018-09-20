@@ -193,7 +193,7 @@ export class DoctorDashboardComponent implements OnInit {
         let size = 3;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .subscribe((res) => {
-                if (res.length === 0) {
+                if (res.visitorAppointments.length === 0) {
                     this.hideConsultations = true;
                 } else {
                     this.chart(res.chartDetails);

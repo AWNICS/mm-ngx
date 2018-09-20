@@ -34,7 +34,7 @@ export class ImageMessageComponent implements OnInit {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
-                    this.ref.detectChanges();
+                    this.ref.markForCheck();
                 };
             });
     }

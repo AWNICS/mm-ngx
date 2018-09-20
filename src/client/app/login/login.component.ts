@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild('email') email: ElementRef;
   @ViewChild('password') password: ElementRef;
+  @ViewChild('eye') eye: ElementRef;
 
   constructor(
     private loginService: LoginService,
@@ -49,9 +50,9 @@ export class LoginComponent implements OnInit {
         this.securityService.setCookie('userDetails', JSON.stringify(res.user), 1);
         this.securityService.setCookie('token', res.token, 1);
         this.socketService.connection(res.user.id);
-        if(res.user.role === 'patient') {
+        if (res.user.role === 'patient') {
           this.router.navigate([`/doctors`]);
-        } else if(res.user.role === 'doctor') {
+        } else if (res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
             .subscribe(res => {
               return;
@@ -65,5 +66,17 @@ export class LoginComponent implements OnInit {
         this.email.nativeElement.disabled = false;
         this.password.nativeElement.disabled = false;
       });
+  }
+
+  showPassword() {
+    if(this.password.nativeElement.type === 'password') {
+      this.password.nativeElement.type = 'text';
+      this.eye.nativeElement.classList.remove('fa-eye');
+      this.eye.nativeElement.classList.add('fa-eye-slash');
+    } else {
+      this.password.nativeElement.type = 'password';
+      this.eye.nativeElement.classList.remove('fa-eye-slash');
+      this.eye.nativeElement.classList.add('fa-eye');
+    }
   }
 }

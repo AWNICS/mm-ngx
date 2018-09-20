@@ -30,6 +30,7 @@ export class PatientDashboardComponent implements OnInit {
     picUrl: string;
     visitorTimelines: any;
     hideVisitorReports = false;
+    hideTimeline = false;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -219,7 +220,11 @@ export class PatientDashboardComponent implements OnInit {
     getTimeline(visitorId: number) {
         this.sharedService.getTimeline(visitorId)
             .subscribe(visitorTimeline => {
-                this.visitorTimelines = visitorTimeline;
+                if(visitorTimeline.length === 0) {
+                    this.hideTimeline = true;
+                } else {
+                    this.visitorTimelines = visitorTimeline;
+                }
             });
     }
 

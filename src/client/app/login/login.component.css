@@ -227,3 +227,15 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+
+.show-password {
+    position: relative;
+    top: -3.7rem;
+    left: 55%;
+    font-size: 1.2rem;
+    color: rgba(102, 102, 102, 0.5) !important;
+}
+
+.show-password:hover {
+    color: #333C44 !important;
+}
