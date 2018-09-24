@@ -6,9 +6,13 @@ import * as moment from 'moment';
 })
 
 export class DatePipe implements PipeTransform {
-    transform(date: any): any {
+    transform(date: any, type: string): any {
         if (!date) return;
-        let time = moment(date).format('LT');
-        return time;
+        switch(type) {
+            case 'sm': return moment(date).format('LT');
+            case 'md': return moment(date).format('ll');
+            case 'lg': return moment(date).format('lll');
+            default: throw new Error(`Invalid date type specified: ${type}`);
+        }
     }
 }

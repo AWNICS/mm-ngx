@@ -51,7 +51,7 @@
           </ng-template>
           <div class="chat-about">
             <div class="chat-with">{{selectedGroup.name}}</div>
-            <div class="chat-num-messages">{{selectedGroup.description}}</div>
+            <div class="chat-num-messages"><small>{{selectedGroup.description}}</small></div>
           </div>
           <!-- Doctor List Modal -->
           <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
@@ -175,7 +175,7 @@
           <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
             <div class="clearfix">
               <div class="message-data align-right">
-                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
+                <span class="message-data-time">{{message.createdTime | date: 'sm'}}</span> &nbsp; &nbsp;
                 <span class="message-data-name">{{message.senderName}}</span>
                 <i class="fa fa-circle me"></i>
               </div>
@@ -226,7 +226,7 @@
               <div class="message-data">
                 <span class="message-data-name">
                   <i class="fa fa-circle other"></i>{{message.senderName}}</span>
-                <span class="message-data-time">{{message?.createdTime | date}}</span>
+                <span class="message-data-time">{{message?.createdTime | date : 'sm'}}</span>
               </div>
               <div class="message my-message">
                 <div [ngSwitch]="message?.contentType">
@@ -328,7 +328,7 @@
                     <mm-image-message [message]="media"></mm-image-message>
                   </div>
                   <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                   </div>
                 </div>
               </div>
@@ -338,7 +338,7 @@
                     <mm-video-message [message]="media"></mm-video-message>
                   </div>
                   <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                   </div>
                 </div>
               </div>
@@ -348,7 +348,7 @@
                     <mm-document-message [message]="media"></mm-document-message>
                   </div>
                   <div class="col col-8">
-                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                    <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                   </div>
                 </div>
               </div>

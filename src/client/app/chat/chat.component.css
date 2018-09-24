@@ -467,6 +467,9 @@ textarea:focus {
         top: 20px !important;
         transform: translate3d(0px,0px,0px) !important;
     }
+    .chat > .chat-header > .col-11 {
+        max-width: 89.666667% !important;
+    }
 }
 
 .btn-file {
