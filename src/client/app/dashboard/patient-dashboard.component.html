@@ -33,7 +33,7 @@
             <div class="card-body offset-1">
               <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
                 <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp"
-                  [timeString]="visitorTimeline.timestamp | date">
+                  [timeString]="visitorTimeline.timestamp | date: 'md'">
                   <br>
                   <h5>Consultation Details</h5>
                   <p>Doctor name:{{visitorTimeline.consultations["Doctor name"]}}</p>
@@ -41,7 +41,7 @@
                   <p>Appointment:{{visitorTimeline.consultations.appointment}}</p>
                 </vertical-timeline-card>
                 <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp"
-                  [timeString]="visitorTimeline.timestamp | date">
+                  [timeString]="visitorTimeline.timestamp | date: 'md'">
                   <br>
                   <h5>Reminder Details</h5>
                   <p>Medicines:{{visitorTimeline.reminders.medicines}}</p>
@@ -49,7 +49,7 @@
                   <p>Description:{{visitorTimeline.reminders.description}}</p>
                 </vertical-timeline-card>
                 <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp"
-                  [timeString]="visitorTimeline.timestamp | date">
+                  [timeString]="visitorTimeline.timestamp | date: 'md'">
                   <br>
                   <h5>Event Details</h5>
                   <p>Type:{{visitorTimeline.events.type}}</p>

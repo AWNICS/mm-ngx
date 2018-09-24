@@ -264,6 +264,14 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    getConsultationsByVisitorId(visitorId: number, page: number, size: number) {
+        const uri = `${this.url}/visitors/${visitorId}/consultations?page=${page}&size=${size}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     sendOtp(mobileNo: number) {
         const uri = `${this.url}/send/otp/mobile/${mobileNo}`;
         return this.http.get(uri)
