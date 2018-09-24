@@ -5,6 +5,7 @@ import { RegisterComponent } from './register.component';
 import { DoctorRegisterComponent } from './doctor-register.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { ResetPasswordComponent } from './reset-password.component';
+import { ActivationComponent } from './activation.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { ResetPasswordComponent } from './reset-password.component';
       { path: 'register', component: RegisterComponent },
       { path: 'registerDoctor', component: DoctorRegisterComponent },
       { path: 'forgotPassword', component: ForgotPasswordComponent },
-      { path: 'resetPassword/:token', component: ResetPasswordComponent }
+      { path: 'resetPassword/:token', component: ResetPasswordComponent },
+      { path: 'activates/:token', component: ActivationComponent}
     ])
   ],
   exports: [RouterModule]
