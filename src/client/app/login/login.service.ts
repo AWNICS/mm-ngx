@@ -64,6 +64,14 @@ export class LoginService {
         .catch(this.handleError);
     }
 
+    activateUser(token: string): Observable<any> {
+        const url = `${this.url}/activates/${token}`;
+        return this.http
+        .put(url, {activate: 1})
+        .map(response => response.json())
+        .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }
