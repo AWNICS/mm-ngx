@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -20,7 +20,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     `,
     styles: [`
     a {
-        color:lightgray;
+        color:#000000;
     }
     `]
 })
@@ -31,7 +31,11 @@ export class DocumentMessageComponent implements OnInit {
     url: SafeResourceUrl;
     fileName: string;
 
-    constructor(private chatService: ChatService, private sanitizer: DomSanitizer) { }
+    constructor(
+        private chatService: ChatService,
+        private sanitizer: DomSanitizer,
+        private ref: ChangeDetectorRef
+        ) { }
 
     ngOnInit() {
         setTimeout(() => {
@@ -45,6 +49,7 @@ export class DocumentMessageComponent implements OnInit {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    this.ref.markForCheck();
                 };
             });
     }

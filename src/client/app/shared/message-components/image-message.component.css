@@ -1,6 +1,6 @@
 img {
-    max-width: 22vw;
     height: auto;
+    width: 22vw;
 }
 
 .block {
@@ -38,6 +38,13 @@ img {
     align-items: center;
 }
 
+.modal-content > img {
+    height: auto;
+    width: auto;
+    max-height: 80vh;
+    max-width: 80vw;
+}
+
 
 /* The Close Button */
 
@@ -45,7 +52,7 @@ img {
     color: white;
     position: relative;
     top: -35px;
-    right: 26%;
+    right: 10%;
     font-size: 35px;
     font-weight: bold;
     transition: 0.3s;

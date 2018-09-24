@@ -224,16 +224,22 @@ a {
     }
 }
 
-.chat-history::-webkit-scrollbar {
+.chat-history::-webkit-scrollbar,
+.w3-sidebar::-webkit-scrollbar,
+.w3-sidebar-right::-webkit-scrollbar {
     width: 0.4em;
 }
 
-.chat-history::-webkit-scrollbar-track {
+.chat-history::-webkit-scrollbar-track,
+.w3-sidebar::-webkit-scrollbar,
+.w3-sidebar-right::-webkit-scrollbar {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-.chat-history::-webkit-scrollbar-thumb {
+.chat-history::-webkit-scrollbar-thumb,
+.w3-sidebar::-webkit-scrollbar-thumb,
+.w3-sidebar-right::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
@@ -599,20 +605,6 @@ footer {
     background-color: #F2F5F8;
     overflow: auto;
     max-height: 100px;
-}
-
-.media-list::-webkit-scrollbar {
-    width: 0.4em;
-}
-
-.media-list::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
-
-.media-list::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
 }
 
 #unreadmessage {
