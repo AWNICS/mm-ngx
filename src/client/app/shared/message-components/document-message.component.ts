@@ -12,10 +12,10 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     selector: 'mm-document-message',
     template: `
     <div *ngIf="url; else loading">
-        <a [href]="url" download="{{fileName}}">Download {{fileName}}</a>
+        <a [href]="url" download="{{fileName}}">Download Prescription</a>
     </div>
     <ng-template #loading>
-        Loading...
+        Downloading PDF ...
     </ng-template>
     `,
     styles: [`
