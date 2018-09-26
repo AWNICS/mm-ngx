@@ -108,6 +108,17 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/ng-multiselect-dropdown/bundles/ng-multiselect-dropdown.umd.js'
     });
 
+    this.addPackageBundles({
+      name: 'jspdf',
+      path: 'node_modules/jspdf/dist/jspdf.min.js'
+    });
+
+    this.addPackageBundles({
+      name: 'jspdf-autotable',
+      path: 'node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js'
+    });
+
+
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
     //   name: 'ng2-translate',

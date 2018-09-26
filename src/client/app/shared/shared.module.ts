@@ -19,6 +19,7 @@ import { SharedService } from './services/shared.service';
 
 import { PipesModule } from '../pipes/pipes.module';
 import { NotificationComponent } from './notification/notification.component';
+import { ElectronicPrescriptionComponent } from './prescription/prescription.component';
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
  */
@@ -36,7 +37,8 @@ import { NotificationComponent } from './notification/notification.component';
     VideoMessageComponent,
     TextMessageComponent,
     AppearMessageComponent,
-    NotificationComponent
+    NotificationComponent,
+    ElectronicPrescriptionComponent
     //AlertMessageComponent
   ],
   exports: [
@@ -51,6 +53,7 @@ import { NotificationComponent } from './notification/notification.component';
     TextMessageComponent,
     AppearMessageComponent,
     NotificationComponent,
+    ElectronicPrescriptionComponent,
     //AlertMessageComponent,
     CommonModule,
     FormsModule,
