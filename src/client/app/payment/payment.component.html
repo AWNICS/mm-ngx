@@ -1,9 +1,17 @@
 <mm-navbar></mm-navbar>
 <div class="container">
-    <h1>
-        Welcome to payments & billings page
-    </h1>
-    <p>
-        Page under contruction...
-    </p>
+    <div class="row">
+        <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div *ngFor="let bill of bills;">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5>{{bill.description}}</h5>
+                        <p>Billed on: {{bill.date}}</p>
+                        <p>Consultation Charges: Rs{{bill.amount.consultationCharges}}/- Taxes: Rs{{bill.amount.taxes.cgst + bill.amount.taxes.sgst + bill.amount.taxes.igst}}/-</p>
+                        <small><a href="">Download Bill</a></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

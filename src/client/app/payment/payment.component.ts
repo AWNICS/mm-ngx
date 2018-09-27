@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SecurityService } from '../shared/services/security.service';
+import { ChatService } from '../chat/chat.service';
+import { SharedService } from '../shared/services/shared.service';
 
 @Component({
     moduleId: module.id,
@@ -11,8 +16,28 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 export class PaymentComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    visitorId: number;
+    bills: any[] = [];
+
+    constructor(private route: ActivatedRoute, private router: Router,
+        private securityService: SecurityService, private chatService: ChatService,
+        private sharedService: SharedService) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
+        this.visitorId = +this.route.snapshot.paramMap.get('id');// this will give the visitor id
+        const cookie = this.securityService.getCookie('userDetails');
+        if (cookie === '') {
+            this.router.navigate([`/login`]);
+        } else {
+            this.getBills();
+        }
+    }
+
+    getBills() {
+        this.sharedService.getBills(this.visitorId)
+            .subscribe((billings) => {
+                this.bills = billings;
+            });
     }
 }
