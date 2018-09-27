@@ -1,4 +1,9 @@
 <mm-navbar style="margin-bottom:70px;"></mm-navbar>
+<div class="error-message-body">
+    <div class="card errormessage" *ngFor="let error of errors;let i = index" (click)="errorRead(i,$event)">
+        <div class="card-body error-card" *ngIf="errors[i]"><i class="fa fa-times fa-lg errorclose" aria-hidden="true"></i> {{error}}</div>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" #mySidebar>
         <button class="w3-bar-item w3-button w3-large w3-hide-large" id="close" (click)="close()">
@@ -51,14 +56,14 @@
                     </ng-template>
                     <div class="chat-about">
                         <div class="chat-with">{{selectedGroup.name}}</div>
-                        <div class="chat-num-messages">{{selectedGroup.description}}</div>
+                        <div class="chat-num-messages"><small>{{selectedGroup.description}}</small></div>
                     </div>
                     <!-- Doctor List Modal -->
                     <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
                         <div class="modal-header">
                             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
+                <span aria-hidden="true">&times;</span>
+              </button>
                         </div>
                         <div class="modal-body">
                             <div class="row no-gutters" *ngFor="let doctor of doctors">
@@ -111,7 +116,7 @@
                                         </div>
                                         <div class="col-lg-4 col-md-12 no-gutters align-self-end">
                                             <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult
-                                                now</button>
+                        now</button>
                                             <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                       </button>
@@ -153,29 +158,12 @@
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right options-menu">
-                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" (click)="media();">
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>
-                            <a class="dropdown-item" *ngIf="selectedUser.role === 'doctor'" data-toggle="modal" data-target="#caseModal" (click)="caseNotes();">Case Notes</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col col-11">
-                    <div class="modal fade" id="caseModal" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Case Notes</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                                </div>
-                                <div class="modal-body">
-                                    <textarea placeholder="Enter case notes.."></textarea>
-                                </div>
-                            </div>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="togglePrescriptionComponent()">Generate Prescrition</a>
                         </div>
                     </div>
                 </div>
@@ -187,7 +175,7 @@
                     <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
                         <div class="clearfix">
                             <div class="message-data align-right">
-                                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
+                                <span class="message-data-time">{{message.createdTime | date: 'sm'}}</span> &nbsp; &nbsp;
                                 <span class="message-data-name">{{message.senderName}}</span>
                                 <i class="fa fa-circle me"></i>
                             </div>
@@ -238,7 +226,7 @@
                             <div class="message-data">
                                 <span class="message-data-name">
                   <i class="fa fa-circle other"></i>{{message.senderName}}</span>
-                                <span class="message-data-time">{{message?.createdTime | date}}</span>
+                                <span class="message-data-time">{{message?.createdTime | date : 'sm'}}</span>
                             </div>
                             <div class="message my-message">
                                 <div [ngSwitch]="message?.contentType">
@@ -275,6 +263,8 @@
                     </ng-template>
                 </div>
                 <div class="muted" *ngIf="alert">{{alertMessage}}</div>
+                <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
+                    [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
             </div>
             <!-- end chat-history -->
 
@@ -294,15 +284,15 @@
                                     <i class="fa fa-check-square-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
                                     <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
-                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
+                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" #imageUpload/>
                                         <i class="fa fa-picture-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="file-upload" title="Upload video">
-                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
+                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" #videoUpload/>
                                         <i class="fa fa-file-video-o" aria-hidden="true"></i>
                                     </div>
                                     <div class="file-upload" title="Upload file">
-                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
+                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" #fileUpload/>
                                         <i class="fa fa-file-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -335,7 +325,7 @@
                                         <mm-image-message [message]="media"></mm-image-message>
                                     </div>
                                     <div class="col col-8">
-                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                                     </div>
                                 </div>
                             </div>
@@ -345,7 +335,7 @@
                                         <mm-video-message [message]="media"></mm-video-message>
                                     </div>
                                     <div class="col col-8">
-                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                                     </div>
                                 </div>
                             </div>
@@ -355,7 +345,7 @@
                                         <mm-document-message [message]="media"></mm-document-message>
                                     </div>
                                     <div class="col col-8">
-                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
                                     </div>
                                 </div>
                             </div>
