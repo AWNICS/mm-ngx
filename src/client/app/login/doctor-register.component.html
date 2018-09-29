@@ -96,10 +96,27 @@
                         </div>
                       </div>
                     </div>
+<<<<<<< HEAD
                     <ng-template #verified>
                       <div class="content">
                         <div class="row justify-content-center">
                           <i class="fa fa-check-circle" aria-hidden="true"></i>
+=======
+                    <label>MCI Reg No.</label>
+                    <input type="text" formControlName="regNo" placeholder="MCI Reg No.">
+                    <label>Email</label>
+                    <input type="email" formControlName="email" placeholder="you@example.com">
+                    <label>Mobile No.</label>
+                    <input type="tel" id="phoneNo" formControlName="phoneNo" placeholder="xxxxxxxxxx">
+                    <label>Password</label>
+                    <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <label>Confirm Password</label>
+                    <input type="password" formControlName="confirmPassword" (blur)="validatePassword(registerDoctorProfiles);" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off">
+                    <label>Speciality</label>
+                    <input type="text" formControlName="speciality" placeholder="Dermatologist">
+                    <div class="row">
+                        <div class="col">
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                         </div>
                         <div class="row justify-content-center">
                           <div class="content-head">

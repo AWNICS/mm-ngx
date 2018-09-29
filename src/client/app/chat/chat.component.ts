@@ -129,6 +129,7 @@ export class ChatComponent implements OnInit {
     this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
+    console.log(this.selectedGroup);
     const cookie = this.securityService.getCookie('userDetails');
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
@@ -136,7 +137,11 @@ export class ChatComponent implements OnInit {
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
+<<<<<<< HEAD
           if(user.role==='doctor') {this.downloadDoctorSignature();this.getDoctorDetails();}
+=======
+          console.log(user.role);
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
           this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
           );
@@ -420,7 +425,12 @@ export class ChatComponent implements OnInit {
     setTimeout(() => {
       this.chatService.getGroups(this.userId)
         .subscribe((groups) => {
+<<<<<<< HEAD
           if (!this.selectedGroup) {
+=======
+          console.log(groups);
+          if(!this.selectedGroup) {
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
             this.selectedGroup = groups[0];
           }
           this.getMessage(this.selectedGroup);

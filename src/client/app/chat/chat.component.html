@@ -13,7 +13,11 @@
             <input type="text" placeholder="Search" [(ngModel)]="searchText" />
             <i class="fa fa-search"></i>
         </div>
+<<<<<<< HEAD
         <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText" (click)="resetMessage(group.id)">
+=======
+        <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText">
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
             <div class="people-list" id="people-list">
                 <div class="list">
                     <div class="clearfix" (click)="getMessage(group)">
@@ -24,10 +28,14 @@
                             <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
                         </ng-template>
                         <div class="about">
+<<<<<<< HEAD
                             <div class="row">
                                 <div class="name">{{group.name}}</div>
                                 <span id="unreadmessage" *ngIf="unreadMessages[group.id]!=0 && unreadMessages[group.id]">{{unreadMessages[group.id]}}</span>
                             </div>
+=======
+                            <div class="name">{{group.name}}</div>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                             <div class="status" *ngIf="group.status === 'online' else offline">
                                 <i class="fa fa-circle online"></i> online
                             </div>
@@ -56,7 +64,11 @@
                     </ng-template>
                     <div class="chat-about">
                         <div class="chat-with">{{selectedGroup.name}}</div>
+<<<<<<< HEAD
                         <div class="chat-num-messages"><small>{{selectedGroup.description}}</small></div>
+=======
+                        <div class="chat-num-messages">{{selectedGroup.description}}</div>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                     </div>
                     <!-- Doctor List Modal -->
                     <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
@@ -115,8 +127,12 @@
                                             <rating [(ngModel)]="doctor.rating" [readonly]="true"> </rating>
                                         </div>
                                         <div class="col-lg-4 col-md-12 no-gutters align-self-end">
+<<<<<<< HEAD
                                             <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult
                         now</button>
+=======
+                                            <button type="button" class="btn btn-primary btn-sm  " (click)="createGroupManual(doctor)">Consult now</button>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                             <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" [attr.data-target]="'#' + doctor.id" aria-expanded="false" aria-controls="collapseExample">
                         <i class="fa fa-angle-double-down" aria-hidden="true"></i>
                       </button>
@@ -157,13 +173,21 @@
                         <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-ellipsis-v"></i>
                         </a>
+<<<<<<< HEAD
                         <div class="dropdown-menu dropdown-menu-right options-menu">
+=======
+                        <div class="dropdown-menu" style="margin-right: 90px;" *ngIf="selectedUser">
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                             <a class="dropdown-item" (click)="media();">
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>
+<<<<<<< HEAD
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser.role !== 'patient' ? 'block' : 'none'}" (click)="togglePrescriptionComponent()">Generate Prescrition</a>
+=======
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                         </div>
                     </div>
                 </div>
@@ -175,7 +199,11 @@
                     <div *ngIf="message?.senderId == selectedUser.id; else alignLeft">
                         <div class="clearfix">
                             <div class="message-data align-right">
+<<<<<<< HEAD
                                 <span class="message-data-time">{{message.createdTime | date: 'sm'}}</span> &nbsp; &nbsp;
+=======
+                                <span class="message-data-time">{{message.createdTime | date}}</span> &nbsp; &nbsp;
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                 <span class="message-data-name">{{message.senderName}}</span>
                                 <i class="fa fa-circle me"></i>
                             </div>
@@ -213,7 +241,11 @@
                                     <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-angle-down"></i>
                                     </a>
+<<<<<<< HEAD
                                     <div class="dropdown-menu dropdown-menu-right options-dropdowm">
+=======
+                                    <div class="dropdown-menu">
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                         <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
                                     </div>
                                 </div>
@@ -226,7 +258,11 @@
                             <div class="message-data">
                                 <span class="message-data-name">
                   <i class="fa fa-circle other"></i>{{message.senderName}}</span>
+<<<<<<< HEAD
                                 <span class="message-data-time">{{message?.createdTime | date : 'sm'}}</span>
+=======
+                                <span class="message-data-time">{{message?.createdTime | date}}</span>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                             </div>
                             <div class="message my-message">
                                 <div [ngSwitch]="message?.contentType">
@@ -263,17 +299,24 @@
                     </ng-template>
                 </div>
                 <div class="muted" *ngIf="alert">{{alertMessage}}</div>
+<<<<<<< HEAD
                 <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
                     [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
             </div>
 
             <!-- end chat-history -->
 
+=======
+            </div>
+            <!-- end chat-history -->
+
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
             <div class="container">
                 <form novalidate [formGroup]="message" (keydown.enter)="sendMessage(message)" (ngSubmit)="sendMessage(message)">
                     <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" #textArea></textarea>
                     <div class="row justify-content-between chat-footer">
                         <div class="col col-2 dropup">
+<<<<<<< HEAD
                             <a data-toggle="dropdown">
                                 <i class="fa fa-paperclip"></i>
                             </a>
@@ -294,6 +337,26 @@
                                     </div>
                                     <div class="file-upload" title="Upload file">
                                         <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" #fileUpload/>
+=======
+                            <i class="fa fa-paperclip" data-toggle="dropdown"></i>
+                            <div class="dropdown-menu" #dropDown>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <i class="fa fa-dot-circle-o" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
+                                    <i class="fa fa-sliders" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
+                                    <i class="fa fa-thermometer-three-quarters" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
+                                    <i class="fa fa-check-square-o" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
+                                    <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
+                                    <div class="file-upload" title="Upload image">
+                                        <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" />
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload video">
+                                        <input type="file" accept="video/mp4,video/x-m4v,video/*" (change)="createVideo($event, message);" />
+                                        <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="file-upload" title="Upload file">
+                                        <input type="file" accept="application/pdf, .doc, .docx, text/plain" (change)="createFile($event, message);" />
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                         <i class="fa fa-file-o" aria-hidden="true"></i>
                                     </div>
                                 </div>
@@ -326,7 +389,11 @@
                                         <mm-image-message [message]="media"></mm-image-message>
                                     </div>
                                     <div class="col col-8">
+<<<<<<< HEAD
                                         <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+=======
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                     </div>
                                 </div>
                             </div>
@@ -336,7 +403,11 @@
                                         <mm-video-message [message]="media"></mm-video-message>
                                     </div>
                                     <div class="col col-8">
+<<<<<<< HEAD
                                         <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+=======
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                     </div>
                                 </div>
                             </div>
@@ -346,7 +417,11 @@
                                         <mm-document-message [message]="media"></mm-document-message>
                                     </div>
                                     <div class="col col-8">
+<<<<<<< HEAD
                                         <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+=======
+                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'short'}}</small>
+>>>>>>> 7cf98e537bf59ca74e19ee52acfd58382e618622
                                     </div>
                                 </div>
                             </div>
