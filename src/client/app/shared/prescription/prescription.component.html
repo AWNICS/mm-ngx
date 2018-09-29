@@ -1,0 +1,77 @@
+<div class="container" style="width:auto;height:auto" #container>
+    <div id="close-icon">
+        <i class="fa fa-times fa-lg close" aria-hidden="true" (click)="close()"></i>
+    </div>
+    <form class="form-horizantal" novalidate [formGroup]="prescriptionForm" (ngSubmit)="generatePres(prescriptionForm)">
+        <div class="from-group">
+            <label>Issue</label>
+            <textarea formControlName="issue" rows=1 class="form-control" [ngClass]="{ 'is-invalid': submitted && prescriptionForm.controls.issue.errors }" required></textarea>
+        </div>
+        <div *ngIf="submitted && prescriptionForm.controls.issue.errors" style="color:red;text-align: center;font-size: 14px;">Issue field is mandatory</div>
+
+        <div class="from-group">
+            <label for="diagnosis">Symptoms</label>
+            <textarea formControlName="symptoms" placeholder="enter here" rows=3 class="form-control" id="diagnosis"></textarea>
+        </div>
+        <div class="from-group">
+            <label>Medication</label>
+            <table class="table-bordered" style="position: relative;">
+                <thead>
+                    <tr>
+                        <th>Medicine Name</th>
+                        <th>Morning</th>
+                        <th>Afternoon</th>
+                        <th>Evening</th>
+                        <th>BeforeFood</th>
+                        <th>AfterFood</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container formArrayName="medication" *ngFor="let item of medicineNumber;let i = index" #ngcontainer>
+                        <tr [formGroupName]="i">
+                            <td><input type="text" class="input-table" formControlName="name" style="border: 0px"></td>
+                            <td><input type="checkbox" formControlName="time0"></td>
+                            <td><input type="checkbox" formControlName="time1"></td>
+                            <td><input type="checkbox" formControlName="time2"></td>
+                            <td><input type="checkbox" formControlName="time3" [(ngModel)]="medicineNumber[i].checkbox1" (change)="unCheck(i,1)"></td>
+                            <td><input type="checkbox" formControlName="time4" [(ngModel)]="medicineNumber[i].checkbox2" (change)="unCheck(i,2)"></td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <div class="container">
+                <i class="fa fa-plus-circle fa-lg" aria-hidden="true" (click)="medicineNumberInc()"></i>
+                <i class="fa fa-minus-circle fa-lg" aria-hidden="true" (click)="numberDec('medicine')"></i>
+
+            </div>
+        </div>
+        <div class="from-group">
+            <label>Diagonistic Tests</label>
+            <table class="table-bordered" style="position: relative;">
+                <thead>
+                    <tr>
+                        <th>Test Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container formArrayName="tests" *ngFor="let item of testNumber;let i = index">
+                        <tr [formGroupName]="i">
+                            <td><input type="text" class="input-table" formControlName="name" style="border: 0px"></td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+            <div class="container">
+                <i class="fa fa-plus-circle fa-lg" aria-hidden="true" (click)="testsNumberInc()"></i>
+                <i class="fa fa-minus-circle fa-lg" aria-hidden="true" (click)="numberDec('tests')"></i>
+            </div>
+        </div>
+        <div class="from-group">
+            <label>Special Instructions</label>
+            <textarea formControlName="specialInstructions" placeholder="enter here" rows=2 class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit">Generate Prescription</button>
+        </div>
+    </form>
+</div>

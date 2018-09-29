@@ -72,6 +72,26 @@ export class ChatService {
             .catch(this.handleError);
     }
 
+    getConsultationDetails(patientId: number, doctorId: number ): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/visitors/${patientId}/doctors/${doctorId}/appointments`;
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    generatePdf(data:any,doctorId:any): Observable<any> {
+        const url = `${this.url}/doctors/${doctorId}/files/pdf`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http
+            .post(url, data, { headers: headers })
+            .map(response => response.json())
+            .catch(this.handleError);
+
+    }
+
     /**
      * create new group using bot or doctor
      */
@@ -103,6 +123,16 @@ export class ChatService {
      */
     getDoctors(receiverId: number): Observable<DoctorProfiles[]> {
         const url = `${this.url}/doctors`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http
+            .get(url, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    getUsersByGroupId(groupId: number): Observable<any> {
+        const url = `${this.url}/groups/${groupId}/users`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
