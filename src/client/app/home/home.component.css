@@ -21,7 +21,6 @@ header {
     text-align: center;
     font-weight: 900;
     justify-content: center;
-    background-image: url("./assets/png/overlay.png");
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
