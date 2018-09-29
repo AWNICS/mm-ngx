@@ -632,7 +632,7 @@ footer {
     width: fit-content;
 }
 
-.errormessage {
+.error-message {
     border-radius: 15px;
     background: #9e9eb3e0;
     font-size: 15px;
@@ -650,7 +650,7 @@ footer {
     }
 }
 
-.errorclose {
+.error-close {
     position: absolute;
     top: 7%;
     right: 4%;

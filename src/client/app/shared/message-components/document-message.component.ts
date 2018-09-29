@@ -12,7 +12,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     selector: 'mm-document-message',
     template: `
     <div *ngIf="url; else loading">
-        <a [href]="url" download="{{fileName}}">Download Prescription</a>
+        <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a>
+        <a [href]="url" *ngIf="toggleFileName" download="{{fileName}}">Download Prescription</a>
     </div>
     <ng-template #loading>
         Downloading PDF ...
@@ -30,7 +31,7 @@ export class DocumentMessageComponent implements OnInit {
     @Input() message: Message;
     url: SafeResourceUrl;
     fileName: string;
-
+    toggleFileName:Boolean = false;
     constructor(
         private chatService: ChatService,
         private sanitizer: DomSanitizer,
@@ -45,6 +46,7 @@ export class DocumentMessageComponent implements OnInit {
     }
 
     downloadDoc(fileName: string) {
+        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)?this.toggleFileName = true:this.toggleFileName = false;
         this.chatService.downloadFile(fileName)
             .subscribe((res) => {
                 res.onloadend = () => {
