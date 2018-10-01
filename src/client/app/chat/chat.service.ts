@@ -81,8 +81,8 @@ export class ChatService {
             .catch(this.handleError);
     }
 
-    genPdf(data:any,doctorId:any): Observable<any> {
-        const url = `${this.url}/doctors/${doctorId}/genpdf`;
+    genPdf(data:any, doctorId: number, visitorId: number): Observable<any> {
+        const url = `${this.url}/doctors/${doctorId}/visitors/${visitorId}/genpdf`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http

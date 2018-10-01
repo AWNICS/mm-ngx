@@ -335,7 +335,7 @@ export class ChatComponent implements OnInit {
 
   createPrescription(data:any) {
     let value:any= {contentData:{data:''}};
-    this.chatService.genPdf({'data':data},this.selectedUser.id).subscribe((fileName)=> {
+    this.chatService.genPdf({'data':data}, this.selectedUser.id, this.patientDetails.id).subscribe((fileName)=> {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
