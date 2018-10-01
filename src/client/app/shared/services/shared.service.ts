@@ -301,7 +301,39 @@ export class SharedService {
         return this.http.get(uri, { headers: headers })
             .map(res => res.json());
     }
-
+    validateFileUpload(file:string,type:string) {
+        var response:any =  {'type':null,'message':null,'error':null};
+        if(type==='image') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(jpeg|png|jpg)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only jpeg and png are supported';
+                return response;
+            }
+        }
+        if(type==='video') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(mp4|avi)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only mp4 video format is supported';
+                return response;
+            }
+        }
+        if(type==='file') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(pdf)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only PDF files are supported';
+                return response;
+            }
+        }
+    }
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }

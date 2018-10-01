@@ -465,9 +465,9 @@ textarea:focus {
     .dropdown-menu.show.options-menu {
         left: -160px !important;
         top: 20px !important;
-        transform: translate3d(0px,0px,0px) !important;
+        transform: translate3d(0px, 0px, 0px) !important;
     }
-    .chat > .chat-header > .col-11 {
+    .chat>.chat-header>.col-11 {
         max-width: 89.666667% !important;
     }
 }
@@ -622,4 +622,54 @@ footer {
     line-height: 18px;
     margin-left: 4px;
     padding: 0 9px;
+}
+
+.error-message-body {
+    position: fixed;
+    top: 9.5%;
+    right: 1.5%;
+    z-index: 2;
+    width: fit-content;
+}
+
+.error-message {
+    border-radius: 15px;
+    background: #9e9eb3e0;
+    font-size: 15px;
+    animation: animateError 0.4s ease-in;
+    margin-top: 7px;
+    cursor: pointer;
+}
+
+@keyframes animateError {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.error-close {
+    position: absolute;
+    top: 7%;
+    right: 4%;
+}
+
+.chat-history {
+    position: relative;
+}
+
+.error-card {
+    padding: 15px 15px 6px;
+}
+
+mm-prescription {
+    height: auto;
+    width: 93%;
+    position: absolute;
+    background: #ecece9;
+    overflow-x: hidden;
+    border: 4px solid #e4dcdc;
+    border-radius: 11px;
 }
