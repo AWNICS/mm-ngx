@@ -23,6 +23,7 @@ import { ConsultationModule } from './consultation/consultation.module';
 import { PaymentModule } from './payment/payment.module';
 import { DoctorsListModule } from './doctors-list/doctors-list.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ContactModule } from './contact/contact.module';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     HomeModule,
     ReactiveFormsModule,
     TermsModule,
+    ContactModule,
     SharedModule.forRoot(),
     Ng2SmartTableModule,
     VerticalTimelineModule,

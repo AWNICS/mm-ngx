@@ -54,7 +54,8 @@ export class RegisterComponent implements OnInit {
             createdTime: '',
             createdBy: null,
             updatedTime: '',
-            updatedBy: null
+            updatedBy: null,
+            termsAccepted: ['', Validators.required]
         }, {
                 validator: PasswordValidation.matchPassword // your validation method
             });

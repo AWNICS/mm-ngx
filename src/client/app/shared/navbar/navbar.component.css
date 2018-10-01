@@ -17,17 +17,10 @@ a:active {
     color: #fff;
 }
 
-#logo {
-    font-size: 1.325rem;
-    transition: 0.7s;
-    color: #fff;
-    text-decoration: none;
-    font-family: Lato, sans-serif;
-}
-
-#logo:hover {
-    color: #fff !important;
-    text-decoration: none !important;
+#logo>img {
+    width: auto;
+    height: 7vh;
+    padding-top: .5rem;
 }
 
 .navbar-light .navbar-toggler {

@@ -16,7 +16,7 @@ import { SharedService } from '../services/shared.service';
 
 })
 
-export class ElectronicPrescriptionComponent implements OnInit {
+export class PrescriptionComponent implements OnInit {
     prescriptionForm:FormGroup;
     medicineNumber:any=[{'id':1,'checkbox1':false,'checkbox2':false}];
     testNumber:any=[1];
@@ -65,14 +65,14 @@ export class ElectronicPrescriptionComponent implements OnInit {
             this.consultationDetails = consulation;
         });
 
-        this.profileService.getPatientInfoById(this.patientDetails.id).subscribe((patientInfo)=> {
-            this.patientInfo = patientInfo;
+        this.profileService.getPatientInfoById(this.patientDetails.id).subscribe((patientInfo:any)=> {
+            this.patientInfo = patientInfo.patientInfo;
         });
 
     }
-    ngOnDestroy() {
-        console.log('destroyed');
-    }
+    // ngOnDestroy() {
+    //     console.log('destroyed');
+    // }
     unCheck(index:number,number:number) {
         if(number === 1) {
             if(this.medicineNumber[index].checkbox2===true) {
@@ -383,8 +383,8 @@ export class ElectronicPrescriptionComponent implements OnInit {
             doc.rect(0, 790, 595, 841, 'F');
             this.drawCanvas(this.mesomedslogoImage,90,90).then((res)=> {
             doc.addImage(res,'JPEG',10,10);
-            var op = doc.output();
-            this.generatedPdf.emit(op);
+            var pdfData = doc.output();
+            this.generatedPdf.emit({'data':pdfData,'userId':this.patientDetails.id});
             // this.prescriptionForm.reset();
             });
         });

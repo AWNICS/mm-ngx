@@ -1,7 +1,7 @@
 <mm-navbar style="margin-bottom:70px;"></mm-navbar>
 <div class="error-message-body">
-    <div class="card errormessage" *ngFor="let error of errors;let i = index" (click)="errorRead(i,$event)">
-        <div class="card-body error-card" *ngIf="errors[i]"><i class="fa fa-times fa-lg errorclose" aria-hidden="true"></i> {{error}}</div>
+    <div class="card error-message" *ngFor="let error of errors;let i = index" (click)="errorRead(i,$event)">
+        <div class="card-body error-card" *ngIf="errors[i]"><i class="fa fa-times fa-lg error-close" aria-hidden="true"></i> {{error}}</div>
     </div>
 </div>
 <div class="container-fluid">
@@ -266,6 +266,7 @@
                 <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
                     [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
             </div>
+
             <!-- end chat-history -->
 
             <div class="container">

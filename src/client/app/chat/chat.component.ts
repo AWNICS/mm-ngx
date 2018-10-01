@@ -44,6 +44,7 @@ export class ChatComponent implements OnInit {
   @ViewChild('imageUpload') imageUpload: ElementRef;
   @ViewChild('videoUpload') videoUpload: ElementRef;
   @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('prescriptionComponent') prescriptionComponent: any;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
@@ -159,6 +160,10 @@ export class ChatComponent implements OnInit {
   }
   togglePrescriptionComponent() {
     this.showPrescriptionComponent = !Boolean(this.showPrescriptionComponent);
+    this.ref.detectChanges();
+    if(this.showPrescriptionComponent) {
+    this.prescriptionComponent.container.nativeElement.scrollIntoView();
+    }
   }
   getDoctorDetails() {
     this.sharedService.getDoctorById(this.userId).subscribe((doctorDetails)=> {
@@ -335,7 +340,7 @@ export class ChatComponent implements OnInit {
 
   createPrescription(data:any) {
     let value:any= {contentData:{data:''}};
-    this.chatService.genPdf({'data':data}, this.selectedUser.id, this.patientDetails.id).subscribe((fileName)=> {
+    this.chatService.generatePdf(data,this.selectedUser.id).subscribe((fileName)=> {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
@@ -459,7 +464,6 @@ export class ChatComponent implements OnInit {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
-          console.log(msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
             this.ref.detectChanges();
@@ -474,7 +478,6 @@ export class ChatComponent implements OnInit {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
-            console.log(message);
             this.messages.push(message);
             this.ref.detectChanges();
             this.scrollToBottom();
@@ -745,7 +748,6 @@ export class ChatComponent implements OnInit {
       .subscribe((groups: any) => {
         groups.map((updatedGroup: any) => {
           if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
-            console.log('status ', updatedGroup[0].status);
             group.status = updatedGroup[0].status;
           }
         });
