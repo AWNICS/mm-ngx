@@ -30,6 +30,7 @@ export class ContactComponent implements OnInit {
             phoneNumber: null,
             message: null
         });
+        window.scrollTo(0,0);
     }
 
     @HostListener('window:scroll', [])
