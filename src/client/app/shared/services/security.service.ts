@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class SecurityService {
 
     public key = 'Bearer';
-    public baseUrl = 'http://localhost:3000';
+    public baseUrl = 'http://35.231.46.114:3000';
     private loginStatus = false;
 
     setLoginStatus(status: boolean) {

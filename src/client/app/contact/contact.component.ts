@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 
 @Component({
@@ -8,11 +8,15 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
     styleUrls: ['contact.component.css']
 })
 
-export class ContactComponent {
+export class ContactComponent implements OnInit {
 
     navIsFixed: boolean = false;
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+
+    ngOnInit() {
+        window.scrollTo(0,0);
+    }
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
@@ -31,6 +35,10 @@ export class ContactComponent {
         } else {
             this.navbarComponent.navbarColor(number, 'transparent');
         }
+    }
+
+    sendMail() {
+        console.log('Yet to write services');
     }
 
 }
