@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    window.scrollTo(0,0);
     if(this.securityService.getCookie('userDetails')) {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
     }

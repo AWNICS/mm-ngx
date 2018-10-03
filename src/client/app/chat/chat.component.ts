@@ -568,7 +568,7 @@ export class ChatComponent implements OnInit {
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
     if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
       let favicon: any = document.querySelector('head link');
-      favicon.href = 'assets/favicon/favicon-DEV.ico';
+      favicon.href = 'assets/favicon/favicon-DEV.png';
       document.querySelector('title').innerText = 'Mesomeds';
     }
   }
