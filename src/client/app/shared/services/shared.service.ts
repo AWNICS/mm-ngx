@@ -371,6 +371,18 @@ export class SharedService {
             .catch(this.handleError);
     }
 
+    /**
+     * sendMail to the admin and the visitor
+     */
+    sendMail(contactInfo: any) {
+        const uri = `${this.url}/contacts/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, contactInfo, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }
