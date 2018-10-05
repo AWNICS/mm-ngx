@@ -302,6 +302,22 @@ export class SharedService {
             .map(res => res.json());
     }
 
+
+    /**
+     *
+     * Call to the payment gateway
+     * @param {*} data
+     * @returns {*}
+     * @memberof SharedService
+     */
+    paymentGatewayCall(data: any): any {
+        const uri = `${this.url}/payments/requests`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, data, { headers: headers })
+            .map(res => res);
+    }
+
     /**
      * get all bills
      */

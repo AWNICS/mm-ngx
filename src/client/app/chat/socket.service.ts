@@ -170,7 +170,7 @@ export class SocketService {
         return observable;
     }
 
-    typingEmitter(groupId: any, userName: any) {
-        this.socket.emit('send-typing', groupId, userName);
+    typingEmitter(groupId: any, socketId:any, userName: any) {
+        this.socket.emit('send-typing', groupId, socketId, userName);
     }
 }
