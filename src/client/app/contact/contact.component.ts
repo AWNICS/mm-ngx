@@ -55,7 +55,9 @@ export class ContactComponent implements OnInit {
     sendMail({ value, valid }: { value: any, valid: boolean }) {
         this.sharedService.sendMail(value)
             .subscribe((res) => {
-                return;
+                if(res) {
+                    return;
+                }
             });
     }
 }

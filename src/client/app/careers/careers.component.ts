@@ -1,6 +1,7 @@
 import { Component, ViewChild, HostListener, OnInit, ElementRef } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
 import { FileValidator } from './file-input.validator';
 
 @Component({
@@ -20,7 +21,8 @@ export class CareersComponent implements OnInit {
     modalHeader: string;
 
     constructor(
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private sharedService:SharedService
     ) { }
 
     ngOnInit() {
@@ -62,7 +64,12 @@ export class CareersComponent implements OnInit {
     sendMail({ value, valid }: { value: any, valid: boolean }) {
         this.userDetails.reset();
         this.jobModal.nativeElement.click();
-        console.log('User details ', value);
+        this.sharedService.careerMail(value)
+            .subscribe((res) => {
+                if(res) {
+                    return;
+                }
+            });
     }
 
     /**

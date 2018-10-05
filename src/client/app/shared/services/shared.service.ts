@@ -383,6 +383,18 @@ export class SharedService {
             .catch(this.handleError);
     }
 
+    /**
+     * job application email
+     */
+    careerMail(userDetails: any) {
+        const uri = `${this.url}/careers/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, userDetails, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }
