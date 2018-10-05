@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-
 import { SocketService } from './socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from './chat.service';
@@ -21,6 +20,7 @@ import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
+import { ProfileService } from '../profile/profile.service';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -41,6 +41,10 @@ export class ChatComponent implements OnInit {
   @ViewChild('rightSidebar') rightSidebar: ElementRef;
   @ViewChild('dropDown') dropDown: ElementRef;
   @ViewChild('textArea') textArea: ElementRef;
+  @ViewChild('imageUpload') imageUpload: ElementRef;
+  @ViewChild('videoUpload') videoUpload: ElementRef;
+  @ViewChild('fileUpload') fileUpload: ElementRef;
+  @ViewChild('prescriptionComponent') prescriptionComponent: any;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   userId: number; // to initialize the user logged in
@@ -99,6 +103,12 @@ export class ChatComponent implements OnInit {
   };
   unreadMessages: any = {};
   typingEvent: Boolean = true;
+  errors:Array<any>=[];
+  patientDetails:any;
+  doctorDetails:any;
+  showPrescriptionComponent:Boolean = false;
+  digitalSignature:string;
+
 
   constructor(
     private fb: FormBuilder,
@@ -110,7 +120,8 @@ export class ChatComponent implements OnInit {
     private modalService: NgbModal,
     private securityService: SecurityService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private profileService:ProfileService
   ) {
   }
 
@@ -125,6 +136,7 @@ export class ChatComponent implements OnInit {
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
+          if(user.role==='doctor') {this.downloadDoctorSignature();this.getDoctorDetails();}
           this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
           );
@@ -141,6 +153,36 @@ export class ChatComponent implements OnInit {
     } else {
       this.router.navigate([`/`]);
     }
+  }
+
+  errorRead(index:number) {
+    this.errors.splice(index,1);
+  }
+  togglePrescriptionComponent() {
+    this.showPrescriptionComponent = !Boolean(this.showPrescriptionComponent);
+    this.ref.detectChanges();
+    if(this.showPrescriptionComponent) {
+    this.prescriptionComponent.container.nativeElement.scrollIntoView();
+    }
+  }
+  getDoctorDetails() {
+    this.sharedService.getDoctorById(this.userId).subscribe((doctorDetails)=> {
+      this.doctorDetails = doctorDetails;
+  });
+  }
+
+  downloadDoctorSignature() {
+    this.profileService.getDoctorMedia(this.selectedUser.id).subscribe((doctorMedia)=> {
+      doctorMedia.map((singleMedia:any)=> {
+          if(singleMedia.type==='signature') {
+              this.chatService.downloadFile(singleMedia.url).subscribe((res)=> {
+                  res.onloadend = () => {
+                  this.digitalSignature= res.result;
+                  };
+              });
+          }
+      });
+  });
   }
 
   typingEventEmitter() {
@@ -240,6 +282,8 @@ export class ChatComponent implements OnInit {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let images: FileList = event.target.files;
+    let result = this.sharedService.validateFileUpload(images[0].name,'image');
+    if(result.message) {
     this.chatService.uploadFile(images[0])
       .subscribe(res => {
         value.contentData.data = res._body;
@@ -257,12 +301,19 @@ export class ChatComponent implements OnInit {
       });
     this.message.reset(this.form);
     event.target.value = '';
+  } else {
+    let error='Upload Failed. Please try uploading jpg or png file again';
+    this.errors.push(error);
+    this.imageUpload.nativeElement.value = null;
+   }
   }
 
   createVideo(event: any, { value, valid }: { value: Message, valid: boolean }) {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let videos: FileList = event.target.files;
+    let result = this.sharedService.validateFileUpload(videos[0].name,'video');
+    if(result.message) {
     this.chatService.uploadFile(videos[0])
       .subscribe(res => {
         value.contentData.data = res._body;
@@ -280,12 +331,38 @@ export class ChatComponent implements OnInit {
       });
     this.message.reset(this.form);
     event.target.value = '';
+  } else {
+    let error='Upload Failed. Please try uploading mp4 or avi file again';
+    this.errors.push(error);
+    this.videoUpload.nativeElement.value = null;
   }
+}
+
+  createPrescription(data:any) {
+    let value:any= {contentData:{data:''}};
+    this.chatService.generatePdf(data,this.selectedUser.id).subscribe((fileName)=> {
+      value.contentData.data = fileName.fileName;
+      value.receiverId = this.chatService.getGroup().id;
+      value.senderId = this.selectedUser.id;
+      value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+      value.receiverType = 'group';
+      value.contentType = 'doc';
+      value.type = 'doc';
+      value.status = 'delivered';
+      value.text = 'Doc Component';
+      value.createdTime = Date.now();
+      value.updatedTime = Date.now();
+      this.showPrescriptionComponent = false;
+      this.socketService.sendMessage(value, this.selectedGroup);
+  });
+}
 
   createFile(event: any, { value, valid }: { value: Message, valid: boolean }) {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let files: FileList = event.target.files;
+    let result = this.sharedService.validateFileUpload(files[0].name,'file');
+    if(result.message) {
     this.chatService.uploadFile(files[0])
       .subscribe(res => {
         value.contentData.data = res._body;
@@ -303,6 +380,11 @@ export class ChatComponent implements OnInit {
       });
     this.message.reset(this.form);
     event.target.value = '';
+  } else {
+    let error='Upload Failed. Please try uploading pdf file again';
+    this.errors.push(error);
+    this.fileUpload.nativeElement.value = null;
+  }
   }
 
   createGroupAuto() {
@@ -364,6 +446,14 @@ export class ChatComponent implements OnInit {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
+    this.chatService.getUsersByGroupId(group.id).subscribe((users)=> {
+      this.patientDetails = null;
+      users.map((user:any)=> {
+        if(user.role==='patient') {
+          this.patientDetails = user;
+        }
+      });
+    });
     this.selectedGroup = group;
     const size = 20;
     if (this.mySidebar.nativeElement.style.display === 'block') {
@@ -471,6 +561,8 @@ export class ChatComponent implements OnInit {
   }
 
   resetMessage(id: any) {
+    //this below step is to hide prescrition component on group change or group icon click
+    this.showPrescriptionComponent = false;
     this.unreadMessages[id] = 0;
     let unReadObject: any = Object;
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
@@ -656,7 +748,6 @@ export class ChatComponent implements OnInit {
       .subscribe((groups: any) => {
         groups.map((updatedGroup: any) => {
           if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
-            console.log('status ', updatedGroup[0].status);
             group.status = updatedGroup[0].status;
           }
         });
@@ -681,6 +772,10 @@ export class ChatComponent implements OnInit {
         this.alert = true;
         this.alertMessage = response.message;
       });
+  }
+
+  caseNotes(value: string) {
+    console.log('value: ' + value);
   }
 }
 

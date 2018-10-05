@@ -302,12 +302,113 @@ export class SharedService {
             .map(res => res.json());
     }
 
+
+    /**
+     *
+     * Call to the payment gateway
+     * @param {*} data
+     * @returns {*}
+     * @memberof SharedService
+     */
     paymentGatewayCall(data: any): any {
         const uri = `${this.url}/payments/requests`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.post(uri, data, { headers: headers })
             .map(res => res);
+    }
+
+    /**
+     * get all bills
+     */
+    getBills(visitorId: number) {
+        const uri = `${this.url}/billing/visitors/${visitorId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    /**
+     * create audit for audio/video calls at the time of appear message component
+     */
+    createAudit(audit: any) {
+        const uri = `${this.url}/audit`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, audit, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    validateFileUpload(file:string,type:string) {
+        var response:any =  {'type':null,'message':null,'error':null};
+        if(type==='image') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(jpeg|png|jpg)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only jpeg and png are supported';
+                return response;
+            }
+        }
+        if(type==='video') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(mp4|avi)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only mp4 video format is supported';
+                return response;
+            }
+        }
+        if(type==='file') {
+            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(pdf)$/);
+            if(regexMatch) {
+                response.message = 'Success';
+                return response;
+            } else {
+                response.error = 'Failed only PDF files are supported';
+                return response;
+            }
+        }
+    }
+
+    /**
+     * create prescription info
+     */
+    createPrescription(prescription: any) {
+        const uri = `${this.url}/visitors/prescriptions`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, prescription, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * sendMail to the admin and the visitor
+     */
+    sendMail(contactInfo: any) {
+        const uri = `${this.url}/contacts/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, contactInfo, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * job application email
+     */
+    careerMail(userDetails: any) {
+        const uri = `${this.url}/careers/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, userDetails, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Observable<any> {

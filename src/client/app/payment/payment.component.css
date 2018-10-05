@@ -16,3 +16,11 @@ body {
 .container {
     padding-top: 102.66667px;
 }
+
+.card {
+    margin-bottom: 25px;
+}
+
+a:hover {
+    text-decoration: none;
+}
