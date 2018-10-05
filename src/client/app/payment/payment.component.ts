@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
 
 @Component({
     moduleId: module.id,
@@ -12,41 +12,29 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 export class PaymentComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    public payuform: any = {};
-    disablePaymentButton: boolean = true;
+    userDetails: any;
+    response:any;
 
-    constructor(private http: Http, private ref: ElementRef) { }
+    constructor(private service: SharedService) {}
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
+        this.userDetails = {
+            merchantId: '192155',
+            orderId: '1',
+            currency: 'INR',
+            amount: '1.00',
+            redirectUrl: 'http://127.0.0.1:3000/payments/responses',
+            cancelUrl: 'http://127.0.0.1:3000/payments/responses',
+            integrationType: 'iframe_normal',
+            language: 'en'
+        };
     }
 
-    confirmPayment() {
-        const paymentPayload = {
-            email: this.payuform.email,
-            firstname: this.payuform.firstname,
-            phone: this.payuform.phone,
-            productinfo: this.payuform.productinfo,
-            amount: this.payuform.amount,
-            txnid: '12345'
-        };
-        // let requestData: any = {};
-        return this.http.post('http://localhost:3000/payments/details', paymentPayload).subscribe(
-            (data: any) => {
-                let response = JSON.parse(data._body);
-                if (JSON.parse(data._body).success) {
-                    // appending data to the data object
-                    console.log('res ', response.data);
-                    this.payuform.txnid = response.data.txnid;
-                    this.payuform.surl = response.data.surl;
-                    this.payuform.furl = response.data.furl;
-                    this.payuform.key = response.data.key;
-                    this.payuform.hash = response.data.hash;
-                    this.payuform.service_provider = 'payu_paisa';
-                    this.disablePaymentButton = false;
-                }
-            }, error1 => {
-                console.log('err1 ', error1);
-            });
+    paymentGatewayCall() {
+        this.service.paymentGatewayCall(this.userDetails)
+        .subscribe((res:any) => {
+            this.response = res._body;
+        });
     }
 }

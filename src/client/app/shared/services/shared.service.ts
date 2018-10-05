@@ -237,17 +237,17 @@ export class SharedService {
         const uri = `${this.url}/visitors/reports`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.post(uri, report, {headers: headers})
-        .map(res => res.json())
-        .catch(this.handleError);
+        return this.http.post(uri, report, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
     }
 
-     /*
-     * returns notifications based on userId
-     * @param {number} userId
-     * @returns
-     * @memberof SharedService
-     */
+    /*
+    * returns notifications based on userId
+    * @param {number} userId
+    * @returns
+    * @memberof SharedService
+    */
     getNotificationsByUserId(userId: number, page: number, size: number) {
         const uri = `${this.url}/notifications/users/${userId}?page=${page}&size=${size}`;
         let headers = new Headers();
@@ -300,6 +300,14 @@ export class SharedService {
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })
             .map(res => res.json());
+    }
+
+    paymentGatewayCall(data: any): any {
+        const uri = `${this.url}/payments/requests`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, data, { headers: headers })
+            .map(res => res);
     }
 
     private handleError(error: any): Observable<any> {

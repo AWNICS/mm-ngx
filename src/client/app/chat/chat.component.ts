@@ -148,7 +148,7 @@ export class ChatComponent implements OnInit {
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
+        this.socketService.typingEmitter(this.selectedGroup.id, this.selectedUser.socketId, fullName);
         setTimeout(() => {
           this.typingEvent = true;
         }, 8000);
