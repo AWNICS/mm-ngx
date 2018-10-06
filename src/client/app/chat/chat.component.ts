@@ -201,7 +201,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
+        this.socketService.typingEmitter(this.selectedGroup.id, this.selectedUser.socketId, fullName);
         setTimeout(() => {
           this.typingEvent = true;
         }, 8000);
@@ -797,6 +797,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         this.alert = true;
         this.alertMessage = response.message;
       });
+  }
+
+  caseNotes(value: string) {
+    console.log('value: ' + value);
   }
 }
 

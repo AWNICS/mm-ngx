@@ -1,37 +1,44 @@
 <mm-navbar></mm-navbar>
 <a href="#myHeader" pageScroll [pageScrollDuration]="800">
-  <button id="myBtn" title="Go to top">
+    <button id="myBtn" title="Go to top">
     <i class="fa fa-angle-up" aria-hidden="true"></i>
   </button>
 </a>
 <header id="myHeader">
-  <div class="container">
-    <div class="jumbotron">
-      <h2 style="color:#FFFFFF;">Get in touch with us</h2>
-      <p style="font-family: Lato,sans-serif; font-size: 18px;">Have questions about our products, support services, or
-        anything else? Let us know and we’ll get back to you.</p>
-      <div class="row justify-content-center">
-        <a href="#contents" pageScroll [pageScrollDuration]="500" [pageScrollOffset]="110">
-          <button i18n class="button"><i class="fa fa-pencil" aria-hidden="true"></i> Write to us</button>
-        </a>
-      </div>
+    <div class="container">
+        <div class="jumbotron">
+            <h2 style="color:#FFFFFF;">Get in touch with us</h2>
+            <p style="font-family: Lato,sans-serif; font-size: 18px;">Have questions about our products, support services, or anything else? Let us know and we’ll get back to you.</p>
+            <div class="row justify-content-center">
+                <a href="#contents" pageScroll [pageScrollDuration]="500" [pageScrollOffset]="110">
+                    <button i18n class="button"><i class="fa fa-pencil" aria-hidden="true"></i> Write to us</button>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
-<div class="container" id="contents" style="margin-top:4em;">
-  <div class="row justify-content-center">
-    <form>
-      <input type="text" placeholder="Your name" #name required>
-      <input type="email" placeholder="Email address" #email required>
-      <input type="tel" placeholder="Phone number" #phoneNumber required>
-      <textarea placeholder="Type your message here" rows="7" id='textarea'></textarea>
-      <button type="submit" class="button button__primary" style="margin: 3% 0% 6% 28%;" (click)="sendMail();">Send
-        message</button>
-    </form>
-  </div>
+<div class="container" style="margin-top:4em;">
+    <div class="row justify-content-center">
+        <form [formGroup]="contactDetails" (ngSubmit)="sendMail(contactDetails);">
+            <div class="form-group">
+                <input type="text" formControlName="name" placeholder="name" required/>
+            </div>
+            <div class="form-group">
+                <input type="text" formControlName="email" placeholder="email" required/>
+            </div>
+            <div class="form-group">
+                <input type="tel" formControlName="phoneNumber" placeholder="Phone number" required/>
+            </div>
+            <div class="form-group">
+                <input type="tel" formControlName="message" placeholder="Type your message here" rows="7" id='textarea' required/>
+            </div>
+            <button type="submit" class="button button__primary" style="margin: 3% 0% 6% 28%;" class="button button-save" [disabled]="contactDetails.invalid">Send
+                message</button>
+        </form>
+    </div>
 </div>
 <div class="container-fluid" style="margin-top:4em; padding: 0px;">
-  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15549.081716184475!2d77.6541599!3d13.0184432!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x843831e6c996a2db!2sAwnics+Technologies+Pvt.+Ltd.!5e0!3m2!1sen!2sin!4v1538134376306"
-    width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15549.081716184475!2d77.6541599!3d13.0184432!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x843831e6c996a2db!2sAwnics+Technologies+Pvt.+Ltd.!5e0!3m2!1sen!2sin!4v1538134376306" width="100%" height="450"
+        frameborder="0" style="border:0" allowfullscreen></iframe>
 </div>
 <mm-footer></mm-footer>

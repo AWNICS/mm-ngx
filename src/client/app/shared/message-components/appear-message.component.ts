@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
+import { SharedService } from '../services/shared.service';
 
 /**
  * appear component to load the appear call in an iframe
@@ -33,7 +35,9 @@ export class AppearMessageComponent implements OnInit {
     title:string;
     @Input() message: Message;
 
-    constructor(private socketService: SocketService) {}
+    constructor(private socketService: SocketService,
+        private sharedService: SharedService
+        ) {}
 
     ngOnInit() {
         this.title = this.message.text;
@@ -43,6 +47,18 @@ export class AppearMessageComponent implements OnInit {
         this.message.contentType = 'text';
         this.message.text = 'Kindly leave your valuable feedback!';
         this.edit(this.message);
+        let audit = {
+            senderId: this.message.senderId,
+            receiverId: this.message.receiverId,
+            receiverType: 'group',
+            entityName: 'appear',
+            entityEvent: 'started',
+            createdBy: this.message.senderId,
+            updatedBy: this.message.senderId,
+            createdTime: Date.now(),
+            updatedTime: Date.now()
+        };
+        this.createAudit(audit);
     }
 
     edit(message: Message): void {
@@ -51,6 +67,13 @@ export class AppearMessageComponent implements OnInit {
             return;
         }
         this.socketService.updateMessage(message);
+    }
+
+    createAudit(audit: any) {
+        this.sharedService.createAudit(audit)
+            .subscribe((res) => {
+                return;
+            });
     }
 }
 

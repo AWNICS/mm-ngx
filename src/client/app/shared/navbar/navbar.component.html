@@ -47,7 +47,7 @@
               <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor'">Dashboard</a>
               <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot'">Dashboard</a>
               <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role !=='bot'">Consultation & History</a>
-              <a class="dropdown-item" [routerLink]="['/payment',user.id]" *ngIf="user.role !=='bot'">Payment & Billing</a>
+              <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role !=='bot'">Payment & Billing</a>
               <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
             </div>
           </div>
