@@ -109,7 +109,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   doctorDetails:any;
   showPrescriptionComponent:Boolean = false;
   digitalSignature:string;
-  displayMessageLoadingIcon:Boolean ;
+  displayMessageLoader:Boolean ;
 
 
   constructor(
@@ -132,7 +132,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
     const cookie = this.securityService.getCookie('userDetails');
-    this.displayMessageLoadingIcon = true;
+    this.displayMessageLoader = true;
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
@@ -464,10 +464,9 @@ export class ChatComponent implements OnInit, AfterViewInit  {
 
   getMessage(group: Group) {
     //display  loading animaton upon message call in the intitial chat window load
-    this.displayMessageLoadingIcon = true;
+    this.displayMessageLoader = true;
     this.chatService.setGroup(group);
     this.chatService.getUsersByGroupId(group.id).subscribe((users)=> {
-      this.displayMessageLoadingIcon = false;
       this.patientDetails = null;
       users.map((user:any)=> {
         if(user.role==='patient') {
@@ -487,9 +486,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else if (this.oldGroupId !== group.id) {
       // else if user selects different group, clear the messages from array and load new messages
@@ -500,9 +500,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else {
       // return 0 if user selects same group more than once

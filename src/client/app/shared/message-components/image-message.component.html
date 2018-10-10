@@ -1,5 +1,5 @@
 <div *ngIf="thumbImageUrl; else loading">
-    <img [src]="thumbImageUrl" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
+    <img [src]="thumbImageUrl | safe:'url'" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
 </div>
 
 <ng-template #loading>
@@ -21,7 +21,7 @@
     <ng-container *ngIf="fullImageUrl; else load">
         <span class="close" (click)="closeModal();">&times;</span>
         <div class="modal-content">
-            <img [src]="fullImageUrl">
+            <img [src]="fullImageUrl | safe:'url'">
         </div>
     </ng-container>
     <ng-template #load>

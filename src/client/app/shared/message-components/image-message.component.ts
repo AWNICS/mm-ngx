@@ -36,7 +36,7 @@ export class ImageMessageComponent implements OnInit {
         this.chatService.downloadFile(imageName)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.thumbImageUrl = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.thumbImageUrl = res.result;
                     this.ref.markForCheck();
                 };
             });
@@ -47,7 +47,7 @@ export class ImageMessageComponent implements OnInit {
         this.chatService.downloadFile(imageName)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.fullImageUrl = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.fullImageUrl = res.result;
                     this.ref.markForCheck();
                 };
             });

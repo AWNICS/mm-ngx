@@ -98,6 +98,9 @@ img {
     }
 }
 
+
+/* here the .lds classes refer to loader displaying while images are being downloaded */
+
 .lds-roller {
     display: inline-block;
     position: relative;
