@@ -58,6 +58,8 @@ export class DoctorDashboardComponent implements OnInit {
             this.router.navigate([`/login`]);
         } else if (JSON.parse(cookie).id) {
             this.userId = JSON.parse(cookie).id;
+            //set the socket connection otherwise socket will through a connection error if making an call tosocket service
+            this.socketService.connection(this.userId);
             this.chatService.getUserById(this.doctorId)
                 .subscribe(user => {
                     this.selectedUser = user;
