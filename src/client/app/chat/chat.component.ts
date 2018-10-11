@@ -136,6 +136,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
+    //set the socket connection otherwise socket will through a connection error if making an call tosocket service
+    this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
