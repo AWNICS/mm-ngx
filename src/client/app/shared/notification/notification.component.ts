@@ -21,7 +21,6 @@ export class NotificationComponent implements OnInit {
 
     ngOnInit() {
         if(this.selectedUser) {
-            console.log(this.selectedUser)
             this.getNotification();
         }
     }
