@@ -207,7 +207,7 @@ export class PrescriptionComponent implements OnInit {
         .subscribe(res => {
             return;
         });
-      var doc:any = new jsPDF('p', 'pt', 'a4');
+      var doc:any = new (jsPDF as any).jsPDF('p', 'pt', 'a4');
       const symptoms = symptomsPassed;
       const issue = issuePassed;
       let qualificationFound:Boolean = false;
