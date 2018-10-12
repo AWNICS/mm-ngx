@@ -1,4 +1,4 @@
-<mm-navbar style="margin-bottom:70px;"></mm-navbar>
+<mm-navbar style="margin-bottom:11vh;"></mm-navbar>
 <div class="error-message-body">
     <div class="card error-message" *ngFor="let error of errors;let i = index" (click)="errorRead(i,$event)">
         <div class="card-body error-card" *ngIf="errors[i]"><i class="fa fa-times fa-lg error-close" aria-hidden="true"></i> {{error}}</div>
@@ -171,6 +171,15 @@
             <!-- end chat-header -->
 
             <div class="chat-history" #messageBox (scroll)="onScroll()">
+                <div *ngIf="displayMessageLoader" style="text-align:center">
+                    <div class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <span>Loading...</span>
+                </div>
                 <div *ngFor="let message of messages;let i = index;">
                     <div *ngIf="message?.senderId == selectedUser?.id; else alignLeft">
                         <div class="clearfix">
@@ -262,7 +271,13 @@
                         </div>
                     </ng-template>
                 </div>
-                <div class="muted" *ngIf="alert">{{alertMessage}}</div>
+                <div class="muted" *ngIf="alert">{{alertMessage}}
+                    <div class="spinner">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
+                </div>
                 <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
                     [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
             </div>

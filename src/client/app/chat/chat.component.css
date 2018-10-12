@@ -113,13 +113,16 @@ a {
     color: #666;
 }
 
+
+/* height is not required for chat window as it dont have any parent element with fixed height and it's height is always aggregate of header,history and footer */
+
 .chat {
     width: 100%;
     float: left;
     background: #F7F7F7;
     border: none;
     color: #434651;
-    height: 100%;
+    /* height: 100%; */
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
@@ -672,4 +675,105 @@ mm-prescription {
     overflow-x: hidden;
     border: 4px solid #e4dcdc;
     border-radius: 11px;
+}
+
+.spinner {
+    width: 40px;
+    height: 13px;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    top: 4px;
+    border-radius: 26px
+}
+
+.spinner>div {
+    width: 6px;
+    height: 6px;
+    position: relative;
+    bottom: 3px;
+    background-color: #333;
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.muted>div {
+    display: inline-block
+}
+
+.spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0)
+    }
+    40% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bouncedelay {
+    0%,
+    80%,
+    100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
+    40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 33px;
+    height: 23px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    margin: 6px;
+    border: 2px solid #2039e4;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #2039e4 transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

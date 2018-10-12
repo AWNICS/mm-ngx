@@ -5,7 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Output
+  Output,
+  AfterViewInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +33,7 @@ import { ProfileService } from '../profile/profile.service';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit  {
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
@@ -126,11 +127,12 @@ export class ChatComponent implements OnInit {
   };
   unreadMessages: any = {};
   typingEvent: Boolean = true;
-  errors: Array<any> = [];
-  patientDetails: any;
-  doctorDetails: any;
-  showPrescriptionComponent: Boolean = false;
-  digitalSignature: string;
+  errors:Array<any>=[];
+  patientDetails:any;
+  doctorDetails:any;
+  showPrescriptionComponent:Boolean = false;
+  digitalSignature:string;
+  displayMessageLoader:Boolean ;
 
 
   constructor(
@@ -153,9 +155,12 @@ export class ChatComponent implements OnInit {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
     const cookie = this.securityService.getCookie('userDetails');
+    this.displayMessageLoader = true;
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
+    //set the socket connection otherwise socket will through a connection error if making an call tosocket service
+    this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
@@ -176,6 +181,14 @@ export class ChatComponent implements OnInit {
     } else {
       this.router.navigate([`/`]);
     }
+  }
+  ngAfterViewInit() {
+    //to set the chat-history height to 87% of window height minus chatwindow header and chatwindow footer
+  let  chatHistoryHeight = (window.innerHeight*87)/100-76-151;
+  if(window.innerWidth <= 992) {
+    chatHistoryHeight-=46;
+  }
+  this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
   }
 
   errorRead(index: number) {
@@ -227,10 +240,17 @@ export class ChatComponent implements OnInit {
     this.socketService.typingListener().subscribe((response) => {
       if (this.selectedGroup.id === response.groupId) {
         this.alert = true;
-        this.alertMessage = response.userName + ' is typing ...';
+        //this is  to apped the usernames who are typing at a time
+        if(this.alertMessage)   {
+          let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
+          this.alertMessage = addUserName;
+        } else {
+            this.alertMessage = response.userName + ' is typing ';
+          }
         this.ref.markForCheck();
         setTimeout(() => {
           this.alertMessage = null;
+          this.alert = false;
           this.ref.markForCheck();
         }, 8000);
       }
@@ -485,6 +505,8 @@ export class ChatComponent implements OnInit {
   }
 
   getMessage(group: Group) {
+    //display  loading animaton upon message call in the intitial chat window load
+    this.displayMessageLoader = true;
     this.chatService.setGroup(group);
     this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
       this.patientDetails = null;
@@ -507,9 +529,10 @@ export class ChatComponent implements OnInit {
           console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else if (this.oldGroupId !== group.id) {
       // else if user selects different group, clear the messages from array and load new messages
@@ -521,9 +544,10 @@ export class ChatComponent implements OnInit {
           console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else {
       // return 0 if user selects same group more than once
@@ -534,12 +558,15 @@ export class ChatComponent implements OnInit {
 
   getMoreMessages(group: Group) {
     const size = 20;
+    let height = this.messageBox.nativeElement.scrollHeight;
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
       .subscribe((msgs) => {
         msgs.map((message: any) => {
           this.messages.unshift(message);
-          this.ref.detectChanges();
         });
+        this.ref.detectChanges();
+        //this is to prevent the scroll reaching to top when messages are loaded, ideally it shouldbe in same place
+        this.messageBox.nativeElement.scrollTo(0,this.messageBox.nativeElement.scrollHeight-height);
       });
   }
 
@@ -579,6 +606,7 @@ export class ChatComponent implements OnInit {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
           this.alertMessage = null;
+          this.alert = false;
           this.ref.detectChanges();
           this.scrollToBottom();
         } else {
@@ -838,10 +866,6 @@ export class ChatComponent implements OnInit {
         this.alert = true;
         this.alertMessage = response.message;
       });
-  }
-
-  caseNotes(value: string) {
-    console.log('value: ' + value);
   }
 }
 

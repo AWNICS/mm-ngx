@@ -344,7 +344,7 @@ export class SharedService {
     validateFileUpload(file:string,type:string) {
         var response:any =  {'type':null,'message':null,'error':null};
         if(type==='image') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(jpeg|png|jpg)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(jpeg|png|jpg)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -354,7 +354,7 @@ export class SharedService {
             }
         }
         if(type==='video') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(mp4|avi)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(mp4|avi)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -364,7 +364,7 @@ export class SharedService {
             }
         }
         if(type==='file') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(pdf)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(pdf)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
