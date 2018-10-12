@@ -25,6 +25,7 @@ import { DoctorsListModule } from './doctors-list/doctors-list.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ContactModule } from './contact/contact.module';
 import { CareersModule } from './careers/careers.module';
+import { BillModule } from './bill/bill.module';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { CareersModule } from './careers/careers.module';
     TermsModule,
     ContactModule,
     CareersModule,
+    BillModule,
     SharedModule.forRoot(),
     Ng2SmartTableModule,
     VerticalTimelineModule,

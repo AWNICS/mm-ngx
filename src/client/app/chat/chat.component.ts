@@ -773,9 +773,5 @@ export class ChatComponent implements OnInit {
         this.alertMessage = response.message;
       });
   }
-
-  caseNotes(value: string) {
-    console.log('value: ' + value);
-  }
 }
 
