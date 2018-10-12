@@ -302,6 +302,22 @@ export class SharedService {
             .map(res => res.json());
     }
 
+
+    /**
+     *
+     * Call to the payment gateway
+     * @param {*} data
+     * @returns {*}
+     * @memberof SharedService
+     */
+    paymentGatewayCall(data: any): any {
+        const uri = `${this.url}/payments/requests`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, data, { headers: headers })
+            .map(res => res);
+    }
+
     /**
      * get all bills
      */
@@ -328,7 +344,7 @@ export class SharedService {
     validateFileUpload(file:string,type:string) {
         var response:any =  {'type':null,'message':null,'error':null};
         if(type==='image') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(jpeg|png|jpg)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(jpeg|png|jpg)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -338,7 +354,7 @@ export class SharedService {
             }
         }
         if(type==='video') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(mp4|avi)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(mp4|avi)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -348,7 +364,7 @@ export class SharedService {
             }
         }
         if(type==='file') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(pdf)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(pdf)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;

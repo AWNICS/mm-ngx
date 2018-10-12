@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
-import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
 
 @Component({
@@ -16,12 +15,18 @@ import { SharedService } from '../shared/services/shared.service';
 export class PaymentComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    userDetails: any;
+    response:any;
     visitorId: number;
     bills: any[] = [];
 
-    constructor(private route: ActivatedRoute, private router: Router,
-        private securityService: SecurityService, private chatService: ChatService,
-        private sharedService: SharedService) { }
+    constructor(
+        private service: SharedService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private securityService: SecurityService,
+        private sharedService: SharedService
+        ) {}
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
@@ -32,6 +37,23 @@ export class PaymentComponent implements OnInit {
         } else {
             this.getBills();
         }
+        this.userDetails = {
+            merchantId: '192155',
+            orderId: '1',
+            currency: 'INR',
+            amount: '1.00',
+            redirectUrl: 'http://127.0.0.1:3000/payments/responses',
+            cancelUrl: 'http://127.0.0.1:3000/payments/responses',
+            integrationType: 'iframe_normal',
+            language: 'en'
+        };
+    }
+
+    paymentGatewayCall() {
+        this.service.paymentGatewayCall(this.userDetails)
+        .subscribe((res:any) => {
+            this.response = res._body;
+        });
     }
 
     getBills() {
