@@ -4,7 +4,6 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { SecurityService } from '../shared/services/security.service';
-import { SocketService } from '../chat/socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
@@ -44,35 +43,31 @@ export class DoctorDashboardComponent implements OnInit {
         private domSanitizer: DomSanitizer,
         private sharedService: SharedService,
         private securityService: SecurityService,
-        private socketService: SocketService,
         private chatService: ChatService,
         private router: Router
     ) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
-        const cookie = this.securityService.getCookie('userDetails');
+        if (this.securityService.getCookie('userDetails')) {
+            this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+        }
         this.doctorId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
         this.getConsultations(this.doctorId);
-        if (cookie === '') {
+        if (!this.selectedUser) {
             this.router.navigate([`/login`]);
-        } else if (JSON.parse(cookie).id) {
-            this.userId = JSON.parse(cookie).id;
-            this.chatService.getUserById(this.doctorId)
-                .subscribe(user => {
-                    this.selectedUser = user;
-                    if (this.selectedUser.picUrl) {
-                        this.downloadPic(this.selectedUser.picUrl);
-                    } else {
-                        this.downloadAltPic(this.selectedUser.role);
-                    }
-                });
+        } else {
+            this.userId = this.selectedUser.id;
+            if (this.selectedUser.picUrl) {
+                this.downloadPic(this.selectedUser.picUrl);
+            } else {
+                this.downloadAltPic(this.selectedUser.role);
+            }
             this.getDoctorById(this.doctorId);
             this.getDoctorStore(this.doctorId);
         }
         this.doctorSchedule = { 'status': 'online' };
         this.getConsutationDetails('today');
-        this.consultationStatus();
     }
 
     downloadPic(filename: string) {
@@ -181,13 +176,6 @@ export class DoctorDashboardComponent implements OnInit {
         }
     }
 
-    consultationStatus() {
-        this.socketService.receiveUserAdded()
-            .subscribe((response) => {
-                this.router.navigate([`/chat/${response.doctorId}`]);
-            });
-    }
-
     getConsultations(doctorId: number) {
         let page = 1;
         let size = 3;
@@ -206,11 +194,11 @@ export class DoctorDashboardComponent implements OnInit {
     getConsutationDetails(str: string) {
         this.sharedService.getConsutationDetails(this.doctorId)
             .subscribe((res) => {
-                if(str === 'today') {
+                if (str === 'today') {
                     this.patients = res.today;
-                } else if(str === 'week') {
+                } else if (str === 'week') {
                     this.patients = res.week;
-                } else if(str === 'month') {
+                } else if (str === 'month') {
                     this.patients = res.month;
                 } else {
                     this.patients = 0;

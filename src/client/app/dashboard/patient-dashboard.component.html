@@ -32,21 +32,21 @@
                         </div>
                         <div class="card-body offset-1">
                             <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
-                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
                                     <br>
                                     <h5>Consultation Details</h5>
                                     <p>Doctor name:{{visitorTimeline.consultations["Doctor name"]}}</p>
                                     <p>Speciality:{{visitorTimeline.consultations.speciality}}</p>
                                     <p>Appointment:{{visitorTimeline.consultations.appointment}}</p>
                                 </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
                                     <br>
                                     <h5>Reminder Details</h5>
                                     <p>Medicines:{{visitorTimeline.reminders.medicines}}</p>
                                     <p>Message:{{visitorTimeline.reminders.message}}</p>
                                     <p>Description:{{visitorTimeline.reminders.description}}</p>
                                 </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date">
+                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
                                     <br>
                                     <h5>Event Details</h5>
                                     <p>Type:{{visitorTimeline.events.type}}</p>
@@ -95,13 +95,13 @@
                         <div class="card-header">
                             <h5 class="offset-1">Vitals</h5>
                         </div>
-                        <div *ngIf="visitorPrescription else showThis">
+                        <div *ngIf="visitorHealth?.vitals else showThis">
                             <div class="card-body">
                                 <div class="row justify-content-around">
                                     <div class="col col-5 offset-1">
                                         <div id="circle">
                                             <div id="text">
-                                                <h4>{{visitorPrescription?.description.vitals["Blood pressure"]}}</h4>
+                                                <h4>{{visitorHealth?.vitals.bloodPressure}}</h4>
                                             </div>
                                         </div>
                                         <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
@@ -109,7 +109,7 @@
                                     <div class="col col-5">
                                         <div id="circle">
                                             <div id="text">
-                                                <h4>{{visitorPrescription?.description.vitals["Heart rate"]}}</h4>
+                                                <h4>{{visitorHealth?.vitals.heartRate}}</h4>
                                             </div>
                                         </div>
                                         <p style="text-align: center;">Heart Rate</p>

@@ -39,52 +39,52 @@ export class DoctorsListComponent implements OnInit {
         let currentTime = moment(Date.now()).format();
         let page = 1;
         let size = 5;
-        if(location && speciality) {
+        if (location && speciality) {
             this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
-            .subscribe(res => {
-                if(res.length <=0) {
-                    this.message = 'There are no doctors available currently. Try again later!';
-                } else {
-                    this.doctors = res;
-                    if(this.doctors.length === 1) {
-                        this.doctors.speciality = res.speciality.speciality;
-                    }
-                    if (this.doctors.length >= 1) {
-                        this.doctors.map((doctor: any) => {
-                            doctor.speciality = doctor.speciality.speciality;
-                            this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
-                                .subscribe(response => {
-                                    let updatedAt = new Date(response[response.length-1].updatedAt);
-                                    let currentTime = new Date();
-                                    let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                                    let date = moment.duration(ms);
-                                    doctor.lastupdated = this.getLastUpdated(date);
-                                });
-                            this.sharedService.getDoctorStore(doctor.userId)
-                                .subscribe(stores => {
-                                    this.getStores(stores, doctor.userId);
-                                });
-                            if (doctor.picUrl) {
-                                this.chatService.downloadFile(doctor.picUrl)
-                                    .subscribe((res) => {
-                                        res.onloadend = () => {
-                                            doctor.picUrl = res.result;
-                                        };
+                .subscribe(res => {
+                    if (res.length <= 0) {
+                        this.message = 'There are no doctors available currently. Try again later!';
+                    } else {
+                        this.doctors = res;
+                        if (this.doctors.length === 1) {
+                            this.doctors.speciality = res.speciality.speciality;
+                        }
+                        if (this.doctors.length >= 1) {
+                            this.doctors.map((doctor: any) => {
+                                doctor.speciality = doctor.speciality.speciality;
+                                this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                                    .subscribe(response => {
+                                        let updatedAt = new Date(response[response.length - 1].updatedAt);
+                                        let currentTime = new Date();
+                                        let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
+                                        let date = moment.duration(ms);
+                                        doctor.lastupdated = this.getLastUpdated(date);
                                     });
-                                this.ref.detectChanges();
-                            } else {
-                                this.chatService.downloadFile('doc.png')
-                                    .subscribe((res: any) => {
-                                        res.onloadend = () => {
-                                            doctor.picUrl = res.result;
-                                        };
+                                this.sharedService.getDoctorStore(doctor.userId)
+                                    .subscribe(stores => {
+                                        this.getStores(stores, doctor.userId);
                                     });
-                                this.ref.detectChanges();
-                            }
-                        });
+                                if (doctor.picUrl) {
+                                    this.chatService.downloadFile(doctor.picUrl)
+                                        .subscribe((res) => {
+                                            res.onloadend = () => {
+                                                doctor.picUrl = res.result;
+                                            };
+                                        });
+                                    this.ref.detectChanges();
+                                } else {
+                                    this.chatService.downloadFile('doc.png')
+                                        .subscribe((res: any) => {
+                                            res.onloadend = () => {
+                                                doctor.picUrl = res.result;
+                                            };
+                                        });
+                                    this.ref.detectChanges();
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
         } else {
             this.router.navigate([`/`]);
         }
@@ -101,16 +101,16 @@ export class DoctorsListComponent implements OnInit {
         let locations = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                    qualifications += stores[i].value;
+                qualifications += stores[i].value;
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                    languages += stores[i].value;
+                languages += stores[i].value;
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                    consultationModes += stores[i].value;
+                consultationModes += stores[i].value;
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                    locations += stores[i].value;
+                locations += stores[i].value;
             }
         }
 
@@ -129,9 +129,12 @@ export class DoctorsListComponent implements OnInit {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
         this.sharedService.consultNow(doctorId, user.id)
             .subscribe((res) => {
+                console.log('doctors list component consult now ', res);
                 if (res) {
                     this.sharedService.setGroup(res);
-                    this.router.navigate([`/chat/${user.id}`]);
+                    setTimeout(() => {
+                        this.router.navigate([`/chat/${user.id}`]);
+                    }, 500);
                 } else {
                     this.message = 'There was an error. Please re-login and try again.';
                 }
