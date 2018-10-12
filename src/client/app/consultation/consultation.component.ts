@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
+import { ChatService } from '../chat/chat.service';
 
 @Component({
     moduleId: module.id,
@@ -17,17 +20,36 @@ export class ConsultationComponent implements OnInit {
     events: any = [];
     userId: number;
     message: string;
-    toggleText: string = 'More';
+    toggle = false;
+    fileName: string;
+    url: SafeResourceUrl;
+    toggleFileName:Boolean = false;
+    oldId:number;
+    newId:number;
 
     constructor(
         private route: ActivatedRoute,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private chatService: ChatService,
+        private sanitizer: DomSanitizer,
+        private ref: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
         this.userId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
         this.getConsultations(this.userId);
+    }
+
+    downloadDoc(fileName: string) {
+        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)?this.toggleFileName = true:this.toggleFileName = false;
+        this.chatService.downloadFile(fileName)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    this.ref.markForCheck();
+                };
+            });
     }
 
     getConsultations(visitorId: number) {
@@ -38,24 +60,22 @@ export class ConsultationComponent implements OnInit {
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
-                    res.map((timeline: any) => {
-                        if (timeline.consultations) {
-                            this.consultations.push(timeline);
-                        } else if (timeline.events) {
-                            this.events.push(timeline);
-                        } else {
-                            return;
-                        }
+                    res.map((consultation: any) => {
+                        this.consultations.push(consultation);
+                        this.downloadDoc(consultation.urlFileName);
+                        this.fileName = consultation.urlFileName;
                     });
                 }
             });
     }
 
-    changeIcon() {
-        if (this.toggleText === 'More') {
-            this.toggleText = 'Less';
+    changeIcon(id: number) {
+        if(this.toggle === false) {
+            this.toggle = true;
+            document.getElementById('toggle-'+id.toString()).innerHTML = 'Less';
         } else {
-            this.toggleText = 'More';
+            this.toggle = false;
+            document.getElementById('toggle-'+id.toString()).innerHTML = 'More';
         }
     }
 }

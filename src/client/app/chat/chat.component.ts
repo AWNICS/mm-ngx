@@ -801,9 +801,5 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         this.alertMessage = response.message;
       });
   }
-
-  caseNotes(value: string) {
-    console.log('value: ' + value);
-  }
 }
 
