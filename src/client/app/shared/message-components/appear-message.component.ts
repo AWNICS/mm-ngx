@@ -32,12 +32,13 @@ import { SharedService } from '../services/shared.service';
 
 export class AppearMessageComponent implements OnInit {
     @Input() safeUrl: string;
-    title:string;
     @Input() message: Message;
+    @Input() index: number;
+    title: string;
 
     constructor(private socketService: SocketService,
         private sharedService: SharedService
-        ) {}
+    ) { }
 
     ngOnInit() {
         this.title = this.message.text;
@@ -66,7 +67,7 @@ export class AppearMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.socketService.updateMessage(message);
+        this.socketService.updateMessage(message, this.index);
     }
 
     createAudit(audit: any) {

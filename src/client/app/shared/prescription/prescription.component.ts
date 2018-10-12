@@ -11,7 +11,7 @@ import { SharedService } from '../services/shared.service';
     moduleId: module.id,
     selector:'mm-prescription',
     templateUrl:'prescription.component.html',
-    styleUrls:['style.css'],
+    styleUrls:['prescription.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })

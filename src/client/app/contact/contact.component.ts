@@ -1,5 +1,5 @@
 import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
@@ -25,12 +25,12 @@ export class ContactComponent implements OnInit {
 
     ngOnInit() {
         this.contactDetails = this.fb.group({
-            name: null,
-            email: null,
-            phoneNumber: null,
-            message: null
+            name: [null, Validators.required],
+            email: [null, Validators.required],
+            phoneNumber: [null, Validators.required],
+            message: [null, Validators.required]
         });
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
     }
 
     @HostListener('window:scroll', [])
@@ -55,7 +55,7 @@ export class ContactComponent implements OnInit {
     sendMail({ value, valid }: { value: any, valid: boolean }) {
         this.sharedService.sendMail(value)
             .subscribe((res) => {
-                if(res) {
+                if (res) {
                     return;
                 }
             });
