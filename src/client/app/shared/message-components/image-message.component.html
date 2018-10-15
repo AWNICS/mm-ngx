@@ -2,11 +2,36 @@
     <img [src]="url" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
 </div>
 <div class="modal" #modal>
-    <span class="close" (click)="closeModal();">&times;</span>
-    <div class="modal-content">
-        <img [src]="url">
-    </div>
+    <ng-container *ngIf="url1; else load">
+        <span class="close" (click)="closeModal();">&times;</span>
+        <div class="modal-content">
+            <img [src]="url1">
+        </div>
+    </ng-container>
+    <ng-template #load>
+        <div class="lds-roller" style="top:38%;left:41%">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </ng-template>
 </div>
 <ng-template #loading>
     Loading...
 </ng-template>
+
+
+<div *ngIf="displayMessageLoadingIcon" style="text-align:center">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <span>Loading...</span>
+</div>

@@ -20,6 +20,8 @@ export class ImageMessageComponent implements OnInit {
     @Input() message: Message;
     @ViewChild('modal') modal: ElementRef;
     url: SafeResourceUrl;
+    url1: SafeResourceUrl;
+    fileName:string;
 
     constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
 
@@ -30,6 +32,7 @@ export class ImageMessageComponent implements OnInit {
     }
 
     downloadImage(fileName: string) {
+        this.fileName = fileName;
         this.chatService.downloadFile(fileName)
             .subscribe((res) => {
                 res.onloadend = () => {
@@ -39,7 +42,20 @@ export class ImageMessageComponent implements OnInit {
             });
     }
 
+    downloadFullImage(fileName: string) {
+        fileName = fileName.replace('-thumb','');
+        this.chatService.downloadFile(fileName)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.url1 = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.markForCheck();
+                };
+            });
+    }
+
     openModal() {
+        console.log(this.url1);
+        this.downloadFullImage(this.fileName);
         this.modal.nativeElement.style.display = 'block';
       }
 
