@@ -60,14 +60,14 @@ export class SocketService {
         return observable;
     }
 
-    updateMessage(message: Message): void {
-        this.socket.emit('update-message', message);
+    updateMessage(message: Message, index:number): void {
+        this.socket.emit('update-message', {message: message, index: index});
     }
 
     receiveUpdatedMessage(): Observable<any> {
         const observable = new Observable(observer => {
-            this.socket.on('updated-message', (message: Message) => {
-                observer.next(message);
+            this.socket.on('updated-message', (res:any) => {
+                observer.next(res);
             });
             return () => {
                 this.socket.disconnect();
@@ -170,7 +170,7 @@ export class SocketService {
         return observable;
     }
 
-    typingEmitter(groupId: any, userName: any) {
-        this.socket.emit('send-typing', groupId, userName);
+    typingEmitter(groupId: any, socketId:any, userName: any) {
+        this.socket.emit('send-typing', groupId, socketId, userName);
     }
 }

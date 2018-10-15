@@ -8,10 +8,10 @@ import { PaymentCancelComponent } from './payment-cancel.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'payment/:id', component: PaymentComponent },
-      { path: 'payment/success', component: PaymentSucsessComponent },
-      { path: 'payment/failure', component: PaymentFailureComponent },
-      { path: 'payment/cancel', component: PaymentCancelComponent }
+      { path: 'payments/:id', component: PaymentComponent, pathMatch: 'full' },
+      { path: 'payments/status/success', component: PaymentSucsessComponent, pathMatch: 'full' },
+      { path: 'payments/status/failure', component: PaymentFailureComponent, pathMatch: 'full' },
+      { path: 'payments/status/cancel', component: PaymentCancelComponent, pathMatch: 'full' }
     ])
   ],
   exports: [RouterModule]

@@ -237,17 +237,17 @@ export class SharedService {
         const uri = `${this.url}/visitors/reports`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.post(uri, report, {headers: headers})
-        .map(res => res.json())
-        .catch(this.handleError);
+        return this.http.post(uri, report, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
     }
 
-     /*
-     * returns notifications based on userId
-     * @param {number} userId
-     * @returns
-     * @memberof SharedService
-     */
+    /*
+    * returns notifications based on userId
+    * @param {number} userId
+    * @returns
+    * @memberof SharedService
+    */
     getNotificationsByUserId(userId: number, page: number, size: number) {
         const uri = `${this.url}/notifications/users/${userId}?page=${page}&size=${size}`;
         let headers = new Headers();
@@ -301,10 +301,50 @@ export class SharedService {
         return this.http.get(uri, { headers: headers })
             .map(res => res.json());
     }
+
+
+    /**
+     *
+     * Call to the payment gateway
+     * @param {*} data
+     * @returns {*}
+     * @memberof SharedService
+     */
+    paymentGatewayCall(data: any): any {
+        const uri = `${this.url}/payments/requests`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, data, { headers: headers })
+            .map(res => res);
+    }
+
+    /**
+     * get all bills
+     */
+    getBills(visitorId: number) {
+        const uri = `${this.url}/billing/visitors/${visitorId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    /**
+     * create audit for audio/video calls at the time of appear message component
+     */
+    createAudit(audit: any) {
+        const uri = `${this.url}/audit`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, audit, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     validateFileUpload(file:string,type:string) {
         var response:any =  {'type':null,'message':null,'error':null};
         if(type==='image') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(jpeg|png|jpg)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(jpeg|png|jpg)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -314,7 +354,7 @@ export class SharedService {
             }
         }
         if(type==='video') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(mp4|avi)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(mp4|avi)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -324,7 +364,7 @@ export class SharedService {
             }
         }
         if(type==='file') {
-            let regexMatch = file.match(/[a-z0-9A-Z_]+\.(pdf)$/);
+            let regexMatch = file.match(/[a-z0-9A-Z_]*\.(pdf)$/);
             if(regexMatch) {
                 response.message = 'Success';
                 return response;
@@ -334,6 +374,43 @@ export class SharedService {
             }
         }
     }
+
+    /**
+     * create prescription info
+     */
+    createPrescription(prescription: any) {
+        const uri = `${this.url}/visitors/prescriptions`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, prescription, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * sendMail to the admin and the visitor
+     */
+    sendMail(contactInfo: any) {
+        const uri = `${this.url}/contacts/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, contactInfo, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /**
+     * job application email
+     */
+    careerMail(userDetails: any) {
+        const uri = `${this.url}/careers/email`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.post(uri, userDetails, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }

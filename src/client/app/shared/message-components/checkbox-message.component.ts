@@ -30,6 +30,7 @@ import { SecurityService } from '../services/security.service';
 export class CheckBoxMessageComponent implements OnInit {
 
     @Input() message: Message;
+    @Input() index: number;
     @Input() public selectedOption: string[] = [];
     @Output() public onNewEntryAdded = new EventEmitter();
     header: string = '';
@@ -44,7 +45,7 @@ export class CheckBoxMessageComponent implements OnInit {
         this.options = this.message.contentData.data;
         this.header = this.message.text;
         this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
-        if(this.selectedUser.id === this.message.senderId) {
+        if (this.selectedUser.id === this.message.senderId) {
             this.enable = false;
         } else {
             this.enable = true;
@@ -69,13 +70,15 @@ export class CheckBoxMessageComponent implements OnInit {
         this.message.contentType = 'text';
         this.message.text = this.header + this.message.contentData.data;
         this.message.responseData.data = this.options;
+        this.message.createdBy = this.message.senderId;
+        this.message.updatedBy = this.message.senderId;
         this.edit(this.message);
         this.addNewEntry();
     }
 
     addNewEntry(): void {
         this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.selectedOption
+            value: 'Option chosen: ' + this.selectedOption
         });
     }
 
@@ -84,6 +87,6 @@ export class CheckBoxMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.socketService.updateMessage(message);
+        this.socketService.updateMessage(message, this.index);
     }
 }

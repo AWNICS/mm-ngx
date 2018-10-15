@@ -5,12 +5,13 @@ import 'jspdf-autotable';
 import { EventEmitter } from '@angular/core';
 import { ChatService } from '../../chat/chat.service';
 import { ProfileService } from '../../profile/profile.service';
+import { SharedService } from '../services/shared.service';
 
 @Component({
     moduleId: module.id,
     selector:'mm-prescription',
     templateUrl:'prescription.component.html',
-    styleUrls:['style.css'],
+    styleUrls:['prescription.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })
@@ -38,6 +39,7 @@ export class PrescriptionComponent implements OnInit {
         private fb: FormBuilder,
         private chatService:ChatService,
         private profileService:ProfileService,
+        private sharedService: SharedService
       ) {}
 
     ngOnInit(): void {
@@ -181,7 +183,31 @@ export class PrescriptionComponent implements OnInit {
     }
 
    generatePdf(issuePassed:any,symptomsPassed:any,medication:any,tests:any,specialInstructions:any,doctorName:any,doctorDetailsPassed:any) {
-      var doc:any = new jsPDF('p', 'pt', 'a4');
+    let medicineList: string[] = [];
+    let diagnosticList: string[] = [];
+    medication.map((med: any) => {
+        medicineList.push(med.title);
+    });
+    tests.map((test: any) => {
+        diagnosticList.push(test.testName);
+    });
+    let prescriptionInfo = {
+          visitorId: this.patientDetails.id,
+          doctorId: doctorDetailsPassed.doctorDetails.userId,
+          consultationId: this.consultationDetails.id,
+          description: issuePassed,
+          issue: issuePassed,
+          medication: medicineList,
+          diagnostic: diagnosticList,
+          instructions: specialInstructions,
+          createdBy: doctorDetailsPassed.doctorDetails.userId,
+          updatedBy: doctorDetailsPassed.doctorDetails.userId
+      };
+      this.sharedService.createPrescription(prescriptionInfo)
+        .subscribe(res => {
+            return;
+        });
+      var doc:any = new (jsPDF as any).jsPDF('p', 'pt', 'a4');
       const symptoms = symptomsPassed;
       const issue = issuePassed;
       let qualificationFound:Boolean = false;

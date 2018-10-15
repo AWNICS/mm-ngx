@@ -28,6 +28,7 @@ import { SecurityService } from '../services/security.service';
 export class RadioMessageComponent implements OnInit {
 
     @Input() message: Message;
+    @Input() index: number;
     @Input() public selectedOption: string;
     @Output() public onNewEntryAdded = new EventEmitter();
     header: string;
@@ -54,9 +55,8 @@ export class RadioMessageComponent implements OnInit {
     }
 
     addNewEntry(): void {
-        console.log('Selected option is: ', this.selectedOption);
         this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.selectedOption
+            value: 'Option chosen: ' + this.selectedOption
         });
     }
 
@@ -73,6 +73,6 @@ export class RadioMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.socketService.updateMessage(message);
+        this.socketService.updateMessage(message, this.index);
     }
 }

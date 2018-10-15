@@ -1,5 +1,8 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { SharedService } from '../shared/services/shared.service';
 
 @Component({
     moduleId: module.id,
@@ -8,11 +11,27 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
     styleUrls: ['contact.component.css']
 })
 
-export class ContactComponent {
+export class ContactComponent implements OnInit {
 
     navIsFixed: boolean = false;
+    contactDetails: FormGroup;
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+
+    constructor(
+        private fb: FormBuilder,
+        private sharedService: SharedService
+    ) { }
+
+    ngOnInit() {
+        this.contactDetails = this.fb.group({
+            name: [null, Validators.required],
+            email: [null, Validators.required],
+            phoneNumber: [null, Validators.required],
+            message: [null, Validators.required]
+        });
+        window.scrollTo(0, 0);
+    }
 
     @HostListener('window:scroll', [])
     onWindowScroll() {
@@ -33,4 +52,12 @@ export class ContactComponent {
         }
     }
 
+    sendMail({ value, valid }: { value: any, valid: boolean }) {
+        this.sharedService.sendMail(value)
+            .subscribe((res) => {
+                if (res) {
+                    return;
+                }
+            });
+    }
 }

@@ -2,64 +2,68 @@
 <html lang="en">
 
 <head>
-    <base href="<%= APP_BASE %>">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>
-        <%= APP_TITLE %>
-    </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" href="assets/favicon/favicon-<%= ENV_CONFIG.ENV %>.ico" type="image/x-icon">
+  <base href="<%= APP_BASE %>">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>
+    <%= APP_TITLE %>
+  </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="assets/favicon/favicon-<%= ENV_CONFIG.ENV %>.png" type="image/x-icon">
 
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- Bootstrap 4 begin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous" async>
-    </script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-    <!-- Bootstrap 4 end -->
+  <!-- Bootstrap 4 begin -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <!-- Bootstrap 4 end -->
 
 
-    <!-- inject:css -->
-    <!-- endinject -->
+  <!-- inject:css -->
+  <!-- endinject -->
 </head>
 
 <body>
 
-    <mm-app>
-        <div id="loader"></div>
-    </mm-app>
-    <script>
-        // Fixes undefined module function in SystemJS bundle
-        function module() {}
-    </script>
+  <mm-app>
+    <div id="loader"></div>
+  </mm-app>
+  <script>
+    // Fixes undefined module function in SystemJS bundle
+    function module() {}
 
-    <!-- shims:js -->
-    <!-- endinject -->
+  </script>
 
-    <% if (BUILD_TYPE === 'dev') { %>
-        <script src="<%= APP_BASE %>app/system-config.js"></script>
-        <% } %>
+  <!-- shims:js -->
+  <!-- endinject -->
 
-            <!-- libs:js -->
-            <!-- endinject -->
+  <% if (BUILD_TYPE === 'dev') { %>
+  <script src="<%= APP_BASE %>app/system-config.js"></script>
+  <% } %>
 
-            <!-- inject:js -->
-            <!-- endinject -->
+  <!-- libs:js -->
+  <!-- endinject -->
 
-            <% if (BUILD_TYPE === 'dev') { %>
-                <script>
-                    System.import('<%= BOOTSTRAP_MODULE %>')
-                        .catch(function(e) {
-                            console.error(e.stack || e,
-                                'Not expecting this error? Report it at https://github.com/mgechev/angular-seed/issues');
-                        });
-                </script>
-                <% } %>
+  <!-- inject:js -->
+  <!-- endinject -->
+
+  <% if (BUILD_TYPE === 'dev') { %>
+  <script>
+    System.import('<%= BOOTSTRAP_MODULE %>')
+      .catch(function (e) {
+        console.error(e.stack || e,
+          'Not expecting this error? Report it at https://github.com/mgechev/angular-seed/issues');
+      });
+
+  </script>
+  <% } %>
 </body>
 
 </html>

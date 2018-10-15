@@ -5,7 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Output
+  Output,
+  AfterViewInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +33,7 @@ import { ProfileService } from '../profile/profile.service';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit  {
 
   @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
@@ -88,6 +89,29 @@ export class ChatComponent implements OnInit {
     updatedTime: Date
   };
 
+  newMessage: any = {
+    receiverId: null,
+    receiverType: null,
+    senderId: null,
+    senderName: '',
+    text: '',
+    picUrl: '',
+    type: 'text',
+    status: '',
+    contentType: 'text',
+    contentData: {
+      data: ['']
+    },
+    responseData: {
+      data: ['']
+    },
+    createdBy: null,
+    updatedBy: null,
+    lastUpdateTime: Date.now(),
+    createdTime: Date.now(),
+    updatedTime: Date.now()
+  };
+
   newGroup: Group = {
     id: null,
     name: '',
@@ -108,6 +132,7 @@ export class ChatComponent implements OnInit {
   doctorDetails:any;
   showPrescriptionComponent:Boolean = false;
   digitalSignature:string;
+  displayMessageLoader:Boolean ;
 
 
   constructor(
@@ -121,7 +146,7 @@ export class ChatComponent implements OnInit {
     private securityService: SecurityService,
     private router: Router,
     private sharedService: SharedService,
-    private profileService:ProfileService
+    private profileService: ProfileService
   ) {
   }
 
@@ -130,13 +155,16 @@ export class ChatComponent implements OnInit {
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
     const cookie = this.securityService.getCookie('userDetails');
+    this.displayMessageLoader = true;
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
+    //set the socket connection otherwise socket will through a connection error if making an call tosocket service
+    this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
-          if(user.role==='doctor') {this.downloadDoctorSignature();this.getDoctorDetails();}
+          if (user.role === 'doctor') { this.downloadDoctorSignature(); this.getDoctorDetails(); }
           this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
             `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
           );
@@ -154,35 +182,45 @@ export class ChatComponent implements OnInit {
       this.router.navigate([`/`]);
     }
   }
-
-  errorRead(index:number) {
-    this.errors.splice(index,1);
+  ngAfterViewInit() {
+    //to set the chat-history height to 87% of window height minus chatwindow header and chatwindow footer
+  let  chatHistoryHeight = (window.innerHeight*87)/100-76-151;
+  if(window.innerWidth <= 992) {
+    chatHistoryHeight-=46;
   }
+  this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
+  }
+
+  errorRead(index: number) {
+    this.errors.splice(index, 1);
+  }
+
   togglePrescriptionComponent() {
     this.showPrescriptionComponent = !Boolean(this.showPrescriptionComponent);
     this.ref.detectChanges();
-    if(this.showPrescriptionComponent) {
-    this.prescriptionComponent.container.nativeElement.scrollIntoView();
+    if (this.showPrescriptionComponent) {
+      this.prescriptionComponent.container.nativeElement.scrollIntoView();
     }
   }
+
   getDoctorDetails() {
-    this.sharedService.getDoctorById(this.userId).subscribe((doctorDetails)=> {
+    this.sharedService.getDoctorById(this.userId).subscribe((doctorDetails) => {
       this.doctorDetails = doctorDetails;
-  });
+    });
   }
 
   downloadDoctorSignature() {
-    this.profileService.getDoctorMedia(this.selectedUser.id).subscribe((doctorMedia)=> {
-      doctorMedia.map((singleMedia:any)=> {
-          if(singleMedia.type==='signature') {
-              this.chatService.downloadFile(singleMedia.url).subscribe((res)=> {
-                  res.onloadend = () => {
-                  this.digitalSignature= res.result;
-                  };
-              });
-          }
+    this.profileService.getDoctorMedia(this.selectedUser.id).subscribe((doctorMedia) => {
+      doctorMedia.map((singleMedia: any) => {
+        if (singleMedia.type === 'signature') {
+          this.chatService.downloadFile(singleMedia.url).subscribe((res) => {
+            res.onloadend = () => {
+              this.digitalSignature = res.result;
+            };
+          });
+        }
       });
-  });
+    });
   }
 
   typingEventEmitter() {
@@ -190,7 +228,7 @@ export class ChatComponent implements OnInit {
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
+        this.socketService.typingEmitter(this.selectedGroup.id, this.selectedUser.socketId, fullName);
         setTimeout(() => {
           this.typingEvent = true;
         }, 8000);
@@ -202,10 +240,17 @@ export class ChatComponent implements OnInit {
     this.socketService.typingListener().subscribe((response) => {
       if (this.selectedGroup.id === response.groupId) {
         this.alert = true;
-        this.alertMessage = response.userName + ' is typing ...';
+        //this is  to apped the usernames who are typing at a time
+        if(this.alertMessage)   {
+          let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
+          this.alertMessage = addUserName;
+        } else {
+            this.alertMessage = response.userName + ' is typing ';
+          }
         this.ref.markForCheck();
         setTimeout(() => {
           this.alertMessage = null;
+          this.alert = false;
           this.ref.markForCheck();
         }, 8000);
       }
@@ -223,11 +268,13 @@ export class ChatComponent implements OnInit {
     value.receiverType = 'group';
     value.contentType = 'radio';
     value.type = 'radio';
-    value.contentData.data = ['Yes', 'No', 'May be'];
+    value.contentData = { data: ['Yes', 'No', 'May be'] };
     value.status = 'delivered';
     value.text = 'Would you like to visit the doctor in person? ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
@@ -243,6 +290,8 @@ export class ChatComponent implements OnInit {
     value.text = 'Kindly choose a number from 0 to 10: ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
@@ -254,11 +303,13 @@ export class ChatComponent implements OnInit {
     value.receiverType = 'group';
     value.contentType = 'checkbox';
     value.type = 'checkbox';
-    value.contentData.data = ['Headache', 'Giddiness', 'Feverish'];
+    value.contentData = { data: ['Headache', 'Giddiness', 'Feverish'] };
     value.status = 'delivered';
     value.text = 'Kindly select your observed symptoms: ';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
@@ -274,6 +325,8 @@ export class ChatComponent implements OnInit {
     value.text = 'Appear Component';
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
     this.message.reset(this.form);
   }
@@ -282,65 +335,69 @@ export class ChatComponent implements OnInit {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let images: FileList = event.target.files;
-    let result = this.sharedService.validateFileUpload(images[0].name,'image');
-    if(result.message) {
-    this.chatService.uploadFile(images[0])
-      .subscribe(res => {
-        value.contentData.data = res._body;
-        value.receiverId = this.chatService.getGroup().id;
-        value.senderId = this.selectedUser.id;
-        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        value.receiverType = 'group';
-        value.contentType = 'image';
-        value.type = 'image';
-        value.status = 'delivered';
-        value.text = 'Image Component';
-        value.createdTime = Date.now();
-        value.updatedTime = Date.now();
-        this.socketService.sendMessage(value, this.selectedGroup);
-      });
-    this.message.reset(this.form);
-    event.target.value = '';
-  } else {
-    let error='Upload Failed. Please try uploading jpg or png file again';
-    this.errors.push(error);
-    this.imageUpload.nativeElement.value = null;
-   }
+    let result = this.sharedService.validateFileUpload(images[0].name, 'image');
+    if (result.message) {
+      this.chatService.uploadFile(images[0])
+        .subscribe(res => {
+          value.contentData.data = res._body;
+          value.receiverId = this.chatService.getGroup().id;
+          value.senderId = this.selectedUser.id;
+          value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+          value.receiverType = 'group';
+          value.contentType = 'image';
+          value.type = 'image';
+          value.status = 'delivered';
+          value.text = 'Image Component';
+          value.updatedBy = this.selectedUser.id;
+          value.createdBy = this.selectedUser.id;
+          value.createdTime = Date.now();
+          value.updatedTime = Date.now();
+          this.socketService.sendMessage(value, this.selectedGroup);
+        });
+      this.message.reset(this.form);
+      event.target.value = '';
+    } else {
+      let error = 'Upload Failed. Please try uploading jpg or png file again';
+      this.errors.push(error);
+      this.imageUpload.nativeElement.value = null;
+    }
   }
 
   createVideo(event: any, { value, valid }: { value: Message, valid: boolean }) {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let videos: FileList = event.target.files;
-    let result = this.sharedService.validateFileUpload(videos[0].name,'video');
-    if(result.message) {
-    this.chatService.uploadFile(videos[0])
-      .subscribe(res => {
-        value.contentData.data = res._body;
-        value.receiverId = this.chatService.getGroup().id;
-        value.senderId = this.selectedUser.id;
-        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        value.receiverType = 'group';
-        value.contentType = 'video';
-        value.type = 'video';
-        value.status = 'delivered';
-        value.text = 'Video Component';
-        value.createdTime = Date.now();
-        value.updatedTime = Date.now();
-        this.socketService.sendMessage(value, this.selectedGroup);
-      });
-    this.message.reset(this.form);
-    event.target.value = '';
-  } else {
-    let error='Upload Failed. Please try uploading mp4 or avi file again';
-    this.errors.push(error);
-    this.videoUpload.nativeElement.value = null;
+    let result = this.sharedService.validateFileUpload(videos[0].name, 'video');
+    if (result.message) {
+      this.chatService.uploadFile(videos[0])
+        .subscribe(res => {
+          value.contentData.data = res._body;
+          value.receiverId = this.chatService.getGroup().id;
+          value.senderId = this.selectedUser.id;
+          value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+          value.receiverType = 'group';
+          value.contentType = 'video';
+          value.type = 'video';
+          value.status = 'delivered';
+          value.text = 'Video Component';
+          value.createdTime = Date.now();
+          value.updatedTime = Date.now();
+          value.updatedBy = this.selectedUser.id;
+          value.createdBy = this.selectedUser.id;
+          this.socketService.sendMessage(value, this.selectedGroup);
+        });
+      this.message.reset(this.form);
+      event.target.value = '';
+    } else {
+      let error = 'Upload Failed. Please try uploading mp4 or avi file again';
+      this.errors.push(error);
+      this.videoUpload.nativeElement.value = null;
+    }
   }
-}
 
-  createPrescription(data:any) {
-    let value:any= {contentData:{data:''}};
-    this.chatService.generatePdf(data,this.selectedUser.id).subscribe((fileName)=> {
+  createPrescription(data: any) {
+    let value: any = { contentData: { data: '' } };
+    this.chatService.generatePdf(data, this.selectedUser.id).subscribe((fileName) => {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
@@ -352,39 +409,43 @@ export class ChatComponent implements OnInit {
       value.text = 'Doc Component';
       value.createdTime = Date.now();
       value.updatedTime = Date.now();
+      value.updatedBy = this.selectedUser.id;
+      value.createdBy = this.selectedUser.id;
       this.showPrescriptionComponent = false;
       this.socketService.sendMessage(value, this.selectedGroup);
-  });
-}
+    });
+  }
 
   createFile(event: any, { value, valid }: { value: Message, valid: boolean }) {
     let el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     let files: FileList = event.target.files;
-    let result = this.sharedService.validateFileUpload(files[0].name,'file');
-    if(result.message) {
-    this.chatService.uploadFile(files[0])
-      .subscribe(res => {
-        value.contentData.data = res._body;
-        value.receiverId = this.chatService.getGroup().id;
-        value.senderId = this.selectedUser.id;
-        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        value.receiverType = 'group';
-        value.contentType = 'doc';
-        value.type = 'doc';
-        value.status = 'delivered';
-        value.text = 'Doc Component';
-        value.createdTime = Date.now();
-        value.updatedTime = Date.now();
-        this.socketService.sendMessage(value, this.selectedGroup);
-      });
-    this.message.reset(this.form);
-    event.target.value = '';
-  } else {
-    let error='Upload Failed. Please try uploading pdf file again';
-    this.errors.push(error);
-    this.fileUpload.nativeElement.value = null;
-  }
+    let result = this.sharedService.validateFileUpload(files[0].name, 'file');
+    if (result.message) {
+      this.chatService.uploadFile(files[0])
+        .subscribe(res => {
+          value.contentData.data = res._body;
+          value.receiverId = this.chatService.getGroup().id;
+          value.senderId = this.selectedUser.id;
+          value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+          value.receiverType = 'group';
+          value.contentType = 'doc';
+          value.type = 'doc';
+          value.status = 'delivered';
+          value.text = 'Doc Component';
+          value.createdTime = Date.now();
+          value.updatedTime = Date.now();
+          value.updatedBy = this.selectedUser.id;
+          value.createdBy = this.selectedUser.id;
+          this.socketService.sendMessage(value, this.selectedGroup);
+        });
+      this.message.reset(this.form);
+      event.target.value = '';
+    } else {
+      let error = 'Upload Failed. Please try uploading pdf file again';
+      this.errors.push(error);
+      this.fileUpload.nativeElement.value = null;
+    }
   }
 
   createGroupAuto() {
@@ -417,39 +478,40 @@ export class ChatComponent implements OnInit {
 
   // get all groups of the logged in user
   getGroups() {
-    setTimeout(() => {
-      this.chatService.getGroups(this.userId)
-        .subscribe((groups) => {
-          if (!this.selectedGroup) {
-            this.selectedGroup = groups[0];
+    this.chatService.getGroups(this.userId)
+      .subscribe((groups) => {
+        console.log('groups ', groups);
+        if (!this.selectedGroup) {
+          this.selectedGroup = groups[0];
+        }
+        this.getMessage(this.selectedGroup);
+        groups.map((group: Group) => {
+          this.groups.push(group);
+          this.receivedGroupStatus(group);
+          if (group.picture) {
+            this.chatService.downloadFile(group.picture)
+              .subscribe((res) => {
+                res.onloadend = () => {
+                  group.picture = res.result;
+                  this.ref.detectChanges();
+                };
+              });
+          } else {
+            this.downloadAltPic('group.png');
           }
-          this.getMessage(this.selectedGroup);
-          groups.map((group: Group) => {
-            this.groups.push(group);
-            this.receivedGroupStatus(group);
-            if (group.picture) {
-              this.chatService.downloadFile(group.picture)
-                .subscribe((res) => {
-                  res.onloadend = () => {
-                    group.picture = res.result;
-                    this.ref.detectChanges();
-                  };
-                });
-            } else {
-              this.downloadAltPic('group.png');
-            }
-            this.ref.detectChanges();
-          });
+          this.ref.detectChanges();
         });
-    }, 2000);
+      });
   }
 
   getMessage(group: Group) {
+    //display  loading animaton upon message call in the intitial chat window load
+    this.displayMessageLoader = true;
     this.chatService.setGroup(group);
-    this.chatService.getUsersByGroupId(group.id).subscribe((users)=> {
+    this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
       this.patientDetails = null;
-      users.map((user:any)=> {
-        if(user.role==='patient') {
+      users.map((user: any) => {
+        if (user.role === 'patient') {
           this.patientDetails = user;
         }
       });
@@ -464,11 +526,13 @@ export class ChatComponent implements OnInit {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
+          console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else if (this.oldGroupId !== group.id) {
       // else if user selects different group, clear the messages from array and load new messages
@@ -477,11 +541,13 @@ export class ChatComponent implements OnInit {
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
+          console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
-            this.ref.detectChanges();
-            this.scrollToBottom();
           });
+          this.displayMessageLoader = false;
+          this.ref.detectChanges();
+          this.scrollToBottom();
         });
     } else {
       // return 0 if user selects same group more than once
@@ -492,12 +558,15 @@ export class ChatComponent implements OnInit {
 
   getMoreMessages(group: Group) {
     const size = 20;
+    let height = this.messageBox.nativeElement.scrollHeight;
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
       .subscribe((msgs) => {
         msgs.map((message: any) => {
           this.messages.unshift(message);
-          this.ref.detectChanges();
         });
+        this.ref.detectChanges();
+        //this is to prevent the scroll reaching to top when messages are loaded, ideally it shouldbe in same place
+        this.messageBox.nativeElement.scrollTo(0,this.messageBox.nativeElement.scrollHeight-height);
       });
   }
 
@@ -537,6 +606,7 @@ export class ChatComponent implements OnInit {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
           this.alertMessage = null;
+          this.alert = false;
           this.ref.detectChanges();
           this.scrollToBottom();
         } else {
@@ -554,7 +624,7 @@ export class ChatComponent implements OnInit {
             let favicon: any = document.querySelector('head link');
             favicon.href = 'assets/favicon/favicon.png';
             document.querySelector('title').innerText = ` (${sumOfUnread})` + 'Mesomeds';
-            this.ref.detectChanges();
+            this.ref.markForCheck();
           });
         }
       });
@@ -568,19 +638,43 @@ export class ChatComponent implements OnInit {
     let unreadObjectValues = unReadObject.values(this.unreadMessages);
     if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
       let favicon: any = document.querySelector('head link');
-      favicon.href = 'assets/favicon/favicon-DEV.ico';
+      favicon.href = 'assets/favicon/favicon-DEV.png';
       document.querySelector('title').innerText = 'Mesomeds';
     }
   }
 
   receiveUpdatedMessageFromSocket() {
     this.socketService.receiveUpdatedMessage()
-      .subscribe((msg: any) => {
-        if (msg.receiverId === this.selectedGroup.id) {
+      .subscribe((res: any) => {
+        if (res.message.receiverId === this.selectedGroup.id) {
+          this.messages[res.index] = res.message; // updates the message in the messages array
           this.ref.detectChanges();
           this.scrollToBottom();
         }
       });
+  }
+
+  addNewEntry(event: any) {
+    if (!event.value) { return; }
+    this.newMessage.text = event.value;
+    this.newMessage.receiverId = this.chatService.getGroup().id;
+    this.newMessage.senderId = this.selectedUser.id;
+    this.newMessage.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+    this.newMessage.picUrl = this.selectedUser.picUrl;
+    this.newMessage.receiverType = 'group';
+    this.newMessage.contentType = 'text';
+    this.newMessage.type = 'text';
+    this.newMessage.createdBy = this.selectedUser.id;
+    this.newMessage.updatedBy = this.selectedUser.id;
+    this.newMessage.lastUpdateTime = Date.now(),
+      this.newMessage.createdTime = Date.now();
+    this.newMessage.updatedTime = Date.now();
+    this.newMessage.status = 'delivered';
+    if (this.newMessage.text === '') {
+      return;
+    } else {
+      this.socketService.sendMessage(this.newMessage, this.selectedGroup);
+    }
   }
 
   // scroll to bottom after a new message or as a new group is selected

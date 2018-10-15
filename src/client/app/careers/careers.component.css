@@ -6,7 +6,7 @@ header {
   color: #d0e4f8;
   padding: 4.5em 0 2.5em 0;
   text-align: center;
-  background: linear-gradient(to left, rgba(71, 66, 255, 0.8), rgba(101, 66, 255, 0.8)), url("./assets/svg/undraw_instant_support_elxh.svg");
+  background: linear-gradient(to left, rgba(71, 66, 255, 0.8), rgba(101, 66, 255, 0.8)), url("./assets/svg/undraw_business_deal_cpi9.svg");
   background-position: top left, center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -69,6 +69,19 @@ button,
   font-size: 15px;
 }
 
+button:disabled {
+    background-color: #DBD8FF;
+    color: #FFFFFF;
+    border: 1px solid #DBD8FF;
+}
+
+button:disabled:hover {
+    background-color: #DBD8FF;
+    color: #FFFFFF;
+    border: 1px solid #DBD8FF;
+    cursor: not-allowed;
+}
+
 button:hover,
 button:focus,
 .button:hover,
@@ -80,20 +93,6 @@ button:focus,
   background-color: #6C63FF;
   border-color: #6C63FF;
   color: #fff;
-  margin: 3% 0% 6% 65%;
-}
-
-button:disabled {
-  background-color: #DBD8FF;
-  color: #FFFFFF;
-  border: 1px solid #DBD8FF;
-}
-
-button:disabled:hover {
-  background-color: #DBD8FF;
-  color: #FFFFFF;
-  border: 1px solid #DBD8FF;
-  cursor: not-allowed;
 }
 
 @media (min-width: 992px) {
@@ -104,55 +103,41 @@ button:disabled:hover {
   }
 }
 
-/*Small devices (landscape phones, 576px and up)*/
-@media (max-width: 575.98px) {
-  input,
-  textarea {
-    width: 140% !important;
-  }
-  .left-margin {
-    margin-left: 10% !important;
-  }
-  .button__primary {
-    margin-left: 35% !important;
-  }
+form {
+    margin-left: 10%;
 }
 
-/*Small devices (landscape phones, 576px and up) iPhoneX and GalaxyS5*/
-@media (max-width: 375px) {
-  input,
-  textarea {
-    width: 120% !important;
-  }
-  .left-margin {
-    margin-left: 10% !important;
-  }
-  .button__primary {
-    margin-left: 25% !important;
-  }
+.card {
+  margin: 1rem;
 }
 
-/*Small devices (landscape phones, 576px and up) iPhone5/SE*/
-@media (max-width: 320px) {
-  input,
-  textarea {
-    width: 100% !important;
-  }
-  .left-margin {
-    margin-left: 10% !important;
-  }
-  .button__primary {
-    margin-left: 15% !important;
-  }
+.card:hover {
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-.left-margin {
-  margin-left: 27%;
+.card-header {
+  padding: 0.4rem 1rem;
+}
+
+.card-body {
+  padding: 0.4rem 1rem;
+}
+
+.card-text {
+  margin-bottom: 0.25rem;
+  margin-top: 0.25em;
+  font-size: 0.9rem;
+}
+
+a {
+  text-decoration: none;
+  color: #463AFF;
+  font-size: 0.8rem;
 }
 
 input {
   border: 1px solid #eee;
-  width: 200%;
+  width: 90%;
   transition: 0.7s;
   color: #111;
   font-family: "Lato", sans-serif;
@@ -173,7 +158,7 @@ input:focus {
 
 textarea {
   border: 1px solid #eee;
-  width: 200%;
+  width: 90%;
   color: #666;
   transition: 0.7s;
   background-color: #F7F7F7;
@@ -188,4 +173,25 @@ textarea:focus {
   border-color: rgba(108, 99, 255, 0.5);
   background-color: #fff;
   outline: 0;
+}
+
+li {
+    font-size: 0.9rem;
+}
+
+.custom-file-label {
+    top: 1rem;
+    border-radius: 2rem;
+    width: 90%;
+}
+
+.custom-file-label::after {
+    border-radius: 2rem;
+}
+
+.error {
+    font-size: 0.8rem;
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    color: red;
 }

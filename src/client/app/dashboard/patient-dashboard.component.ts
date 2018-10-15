@@ -26,7 +26,6 @@ export class PatientDashboardComponent implements OnInit {
     locations: string = '';
     visitorReport: any;
     visitorHealth: any;
-    visitorPrescription: any;
     picUrl: string;
     visitorTimelines: any;
     hideVisitorReports = false;
@@ -62,7 +61,6 @@ export class PatientDashboardComponent implements OnInit {
             this.getVisitorAppointmentHistory(this.visitorId);
             this.getVisitorReport(this.visitorId);
             this.getVisitorHealth(this.visitorId);
-            this.getVisitorPrescription(this.visitorId);
             this.getTimeline(this.visitorId);
         }
     }
@@ -193,13 +191,6 @@ export class PatientDashboardComponent implements OnInit {
         this.sharedService.getVisitorHealth(visitorId)
             .subscribe(visitorHealth => {
                 this.visitorHealth = visitorHealth[0];
-            });
-    }
-
-    getVisitorPrescription(visitorId: number) {
-        this.sharedService.getVisitorPrescription(visitorId)
-            .subscribe(visitorPrescription => {
-                this.visitorPrescription = visitorPrescription[0];
             });
     }
 

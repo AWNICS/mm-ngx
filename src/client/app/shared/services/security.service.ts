@@ -31,6 +31,8 @@ export class SecurityService {
                 c = c.substring(1);
             }
             if (c.indexOf(name) === 0) {
+                //if there is a valid cookie then set the loginstatus to true so that user's navbar wont changes as if he is loogedout
+                this.loginStatus = true;
                 return c.substring(name.length, c.length);
             }
         }

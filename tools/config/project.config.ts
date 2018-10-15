@@ -110,12 +110,18 @@ export class ProjectConfig extends SeedConfig {
 
     this.addPackageBundles({
       name: 'jspdf',
+      packageMeta: {
+        format: 'global'
+      },
       path: 'node_modules/jspdf/dist/jspdf.min.js'
     });
 
     this.addPackageBundles({
       name: 'jspdf-autotable',
-      path: 'node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js'
+      packageMeta: {
+        format: 'global'
+    },
+      path: 'node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js'
     });
 
 

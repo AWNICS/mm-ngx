@@ -19,43 +19,42 @@ export class ImageMessageComponent implements OnInit {
 
     @Input() message: Message;
     @ViewChild('modal') modal: ElementRef;
-    url: SafeResourceUrl;
-    url1: SafeResourceUrl;
-    fileName:string;
+    thumbImageUrl: SafeResourceUrl;
+    fullImageUrl: SafeResourceUrl;
+    imageName:string;
 
     constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
 
     ngOnInit() {
         setTimeout(() => {
-            this.downloadImage(this.message.contentData.data[0]);
+            this.downloadThumbImage(this.message.contentData.data[0]);
         }, 5000);
     }
 
-    downloadImage(fileName: string) {
-        this.fileName = fileName;
-        this.chatService.downloadFile(fileName)
+    downloadThumbImage(imageName: string) {
+        this.imageName = imageName;
+        this.chatService.downloadFile(imageName)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.thumbImageUrl = res.result;
                     this.ref.markForCheck();
                 };
             });
     }
 
-    downloadFullImage(fileName: string) {
-        fileName = fileName.replace('-thumb','');
-        this.chatService.downloadFile(fileName)
+    downloadFullImage(imageName: string) {
+        imageName = imageName.replace('-thumb','');
+        this.chatService.downloadFile(imageName)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.url1 = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.fullImageUrl = res.result;
                     this.ref.markForCheck();
                 };
             });
     }
 
     openModal() {
-        console.log(this.url1);
-        this.downloadFullImage(this.fileName);
+        this.downloadFullImage(this.imageName);
         this.modal.nativeElement.style.display = 'block';
       }
 

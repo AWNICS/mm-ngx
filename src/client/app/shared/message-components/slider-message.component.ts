@@ -11,8 +11,8 @@ import { UserDetails } from '../database/user-details';
  * @implements {OnDestroy}
  */
 @Component({
-    selector: 'mm-slider-message',
-    template: `
+  selector: 'mm-slider-message',
+  template: `
         <p>{{header}}</p>
         <div class="range-slider">
             <input type="range" class="range-slider__range" style="--min: 0; --max: 10; --val: 5;" min="0" max="10" value="5"
@@ -22,7 +22,7 @@ import { UserDetails } from '../database/user-details';
         </div>
         <button type="button" [disabled]="!enable" class="btn btn-secondary" (click)="submit();">Submit</button>
     `,
-    styles: [`
+  styles: [`
     *, *:before, *:after {
         -webkit-box-sizing: border-box;
                 box-sizing: border-box;
@@ -133,56 +133,57 @@ import { UserDetails } from '../database/user-details';
 
 export class SliderMessageComponent implements OnInit {
 
-    @Input() message: Message;
-    @Input() public selectedValue: string;
-    @Output() public onNewEntryAdded = new EventEmitter();
-    @ViewChild('slider') slider: ElementRef;
-    header: string;
-    selectedUser: UserDetails;
-    enable = true;
+  @Input() message: Message;
+  @Input() index: number;
+  @Input() public selectedValue: string;
+  @Output() public onNewEntryAdded = new EventEmitter();
+  @ViewChild('slider') slider: ElementRef;
+  header: string;
+  selectedUser: UserDetails;
+  enable = true;
 
-    constructor(private socketService: SocketService, private securityService: SecurityService) {
-    }
+  constructor(private socketService: SocketService, private securityService: SecurityService) {
+  }
 
-    ngOnInit() {
-        this.header = this.message.text;
-        this.selectedValue = '5';
-        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
-        if(this.selectedUser.id === this.message.senderId) {
-            this.enable = false;
-        } else {
-            this.enable = true;
-        }
-        if(this.message.type === 'ratings') {
-          this.slider.nativeElement.style.background = '#CCCCCC';
-        } else {
-          return;
-        }
+  ngOnInit() {
+    this.header = this.message.text;
+    this.selectedValue = '5';
+    this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+    if (this.selectedUser.id === this.message.senderId) {
+      this.enable = false;
+    } else {
+      this.enable = true;
     }
+    if (this.message.type === 'ratings') {
+      this.slider.nativeElement.style.background = '#CCCCCC';
+    } else {
+      return;
+    }
+  }
 
-    getRangeValue() {
-        this.selectedValue = this.slider.nativeElement.value;
-        this.slider.nativeElement.style.setProperty('--val', +this.selectedValue);
-    }
+  getRangeValue() {
+    this.selectedValue = this.slider.nativeElement.value;
+    this.slider.nativeElement.style.setProperty('--val', +this.selectedValue);
+  }
 
-    submit() {
-        this.message.contentType = 'text';
-        this.message.text = this.header + this.message.contentData.data;
-        this.edit(this.message);
-        this.addNewEntry();
-    }
+  submit() {
+    this.message.contentType = 'text';
+    this.message.text = this.header + this.message.contentData.data;
+    this.edit(this.message);
+    this.addNewEntry();
+  }
 
-    addNewEntry(): void {
-        this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.selectedValue
-        });
-    }
+  addNewEntry(): void {
+    this.onNewEntryAdded.emit({
+      value: 'Option chosen: ' + this.selectedValue
+    });
+  }
 
-    edit(message: Message): void {
-        let result = JSON.stringify(message);
-        if (!result) {
-            return;
-        }
-        this.socketService.updateMessage(message);
+  edit(message: Message): void {
+    let result = JSON.stringify(message);
+    if (!result) {
+      return;
     }
+    this.socketService.updateMessage(message, this.index);
+  }
 }
