@@ -458,6 +458,10 @@ textarea:focus {
     cursor: pointer;
 }
 
+.dropdown-menu {
+    min-width: 0rem !important;
+}
+
 .dropdown-menu.show {
     border: none;
     padding: 0px;

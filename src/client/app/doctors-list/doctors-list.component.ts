@@ -41,24 +41,35 @@ export class DoctorsListComponent implements OnInit {
         let size = 5;
         if (location && speciality) {
             this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
-                .subscribe(res => {
-                    if (res.length <= 0) {
-                        this.message = 'There are no doctors available currently. Try again later!';
-                    } else {
-                        this.doctors = res;
-                        if (this.doctors.length === 1) {
-                            this.doctors.speciality = res.speciality.speciality;
-                        }
-                        if (this.doctors.length >= 1) {
-                            this.doctors.map((doctor: any) => {
-                                doctor.speciality = doctor.speciality.speciality;
-                                this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
-                                    .subscribe(response => {
-                                        let updatedAt = new Date(response[response.length - 1].updatedAt);
-                                        let currentTime = new Date();
-                                        let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                                        let date = moment.duration(ms);
-                                        doctor.lastupdated = this.getLastUpdated(date);
+            .subscribe(res => {
+                if(res.length <=0) {
+                    this.message = 'There are no doctors available currently. Try again later!';
+                } else {
+                    this.doctors = res;
+                    if(this.doctors.length === 1) {
+                        this.doctors.speciality = res.speciality.speciality;
+                    }
+                    if (this.doctors.length >= 1) {
+                        this.doctors.map((doctor: any) => {
+                            doctor.speciality = JSON.parse(doctor.speciality);
+                            this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                                .subscribe(response => {
+                                    let updatedAt = new Date(response[response.length-1].updatedAt);
+                                    let currentTime = new Date();
+                                    let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
+                                    let date = moment.duration(ms);
+                                    doctor.lastupdated = this.getLastUpdated(date);
+                                });
+                            this.sharedService.getDoctorStore(doctor.userId)
+                                .subscribe(stores => {
+                                    this.getStores(stores, doctor.userId);
+                                });
+                            if (doctor.picUrl) {
+                                this.chatService.downloadFile(doctor.picUrl)
+                                    .subscribe((res) => {
+                                        res.onloadend = () => {
+                                            doctor.picUrl = res.result;
+                                        };
                                     });
                                 this.sharedService.getDoctorStore(doctor.userId)
                                     .subscribe(stores => {
@@ -81,7 +92,7 @@ export class DoctorsListComponent implements OnInit {
                                         });
                                     this.ref.detectChanges();
                                 }
-                            });
+                            }});
                         }
                     }
                 });
