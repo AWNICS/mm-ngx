@@ -178,6 +178,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.consultationStatus();
       this.typingEventEmitter();
       this.typingEventListener();
+      this.receivedGroupStatus();
     } else {
       this.router.navigate([`/`]);
     }
@@ -487,7 +488,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         this.getMessage(this.selectedGroup);
         groups.map((group: Group) => {
           this.groups.push(group);
-          this.receivedGroupStatus(group);
+          // this.receivedGroupStatus(group);
           if (group.picture) {
             this.chatService.downloadFile(group.picture)
               .subscribe((res) => {
@@ -837,15 +838,16 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     }
   }
 
-  receivedGroupStatus(group: any) {
+  receivedGroupStatus() {
     this.socketService.receivedGroupStatus()
-      .subscribe((groups: any) => {
-        groups.map((updatedGroup: any) => {
-          if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
-            group.status = updatedGroup[0].status;
+      .subscribe((groupUpdate => {
+        this.groups.map((group: any) => {
+          if(groupUpdate.groupId === group.id) {
+            group.status = groupUpdate.groupStatus;
           }
-        });
-      });
+          this.ref.markForCheck();
+         });
+        }));
   }
 
   endConsultation() {
