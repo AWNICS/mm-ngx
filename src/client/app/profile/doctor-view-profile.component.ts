@@ -90,7 +90,7 @@ export class DoctorViewProfileComponent implements OnInit {
                 this.sharedService.getDoctorById(this.doctorId)
                     .subscribe(doctor => {
                         this.doctor = doctor;
-                        this.doctor.speciality = doctor.speciality.speciality;
+                        this.doctor.speciality = doctor.doctorDetails.speciality;
                         let date = new Date(this.doctor.validity);
                         this.doctor.validity = date.getUTCDay() + '-' + date.getUTCMonth() + '-' + date.getUTCFullYear();
                         this.getPicUrl(this.doctor, this.selectedUser);
@@ -189,34 +189,21 @@ export class DoctorViewProfileComponent implements OnInit {
         this.professionalSociety = '';
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
-                stores[i].value.qualification.map((qualification:string)=> {
-                    this.qualifications += qualification +', ';
-                });
+                    this.qualifications += stores[i].value;
             }
             if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                stores[i].value.language.map((language:string)=> {
-                    this.languages += language +', ';
-                });
+                    this.languages += stores[i].value;
             }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
-                stores[i].value.consultationMode.map((consultationMode:string)=> {
-                    this.consultationModes += consultationMode +', ';
-                });
+                    this.consultationModes += stores[i].value;
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
-                stores[i].value.location.map((location:string)=> {
-                    this.locations += location +', ';
-                });
+                    this.locations += stores[i].value;
             }
             if (stores[i].type === 'Professional Society' && stores[i].userId === doctorId) {
-                this.professionalSociety = this.professionalSociety + ` ${stores[i].value}` + ',';
+                this.professionalSociety += stores[i].value;
             }
         }
-        this.qualifications = this.qualifications.slice(0, this.qualifications.length - 2);
-        this.languages = this.languages.slice(0, this.languages.length - 2);
-        this.consultationModes = this.consultationModes.slice(0, this.consultationModes.length - 2);
-        this.locations = this.locations.slice(0, this.locations.length - 2);
-        this.professionalSociety = this.professionalSociety.slice(0, this.professionalSociety.length - 2);
     }
 
     consultNow(doctorId: number) {
@@ -233,7 +220,7 @@ export class DoctorViewProfileComponent implements OnInit {
     }
 
     getStatus(doctor: any) {
-        this.sharedService.getDoctorScheduleByDoctorId(doctor.id)
+        this.sharedService.getDoctorScheduleByDoctorId(doctor.doctorDetails.userId)
             .subscribe(res => {
                 this.doctorSchedule = res;
                 this.doctor.status = this.doctorSchedule[this.doctorSchedule.length - 1].status;

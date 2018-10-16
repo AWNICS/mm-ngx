@@ -45,13 +45,14 @@ export class DoctorsListComponent implements OnInit {
                 if(res.length <=0) {
                     this.message = 'There are no doctors available currently. Try again later!';
                 } else {
+                    //console.log('doctors: ' + res[0].speciality);
                     this.doctors = res;
                     if(this.doctors.length === 1) {
                         this.doctors.speciality = res.speciality.speciality;
                     }
                     if (this.doctors.length >= 1) {
                         this.doctors.map((doctor: any) => {
-                            doctor.speciality = doctor.speciality.speciality;
+                            doctor.speciality = JSON.parse(doctor.speciality);
                             this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
                                 .subscribe(response => {
                                     let updatedAt = new Date(response[response.length-1].updatedAt);
