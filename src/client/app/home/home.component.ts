@@ -88,10 +88,10 @@ export class HomeComponent implements OnInit {
 
     //for moving to next section and to show navbar
     if (number > 100) {
-      this.contentsComponent.scrollDownHidden(number);
+      //this.contentsComponent.scrollDownHidden(number);
       this.navbarComponent.navbarColor(number, '#6960FF');
     } else {
-      this.contentsComponent.scrollDownHidden(number);
+      //this.contentsComponent.scrollDownHidden(number);
       this.navbarComponent.navbarColor(number, 'transparent');
     }
   }

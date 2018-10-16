@@ -80,6 +80,20 @@ button:focus,
   background-color: #6C63FF;
   border-color: #6C63FF;
   color: #fff;
+  margin: 3% 0% 6% 65%;
+}
+
+button:disabled {
+  background-color: #DBD8FF;
+  color: #FFFFFF;
+  border: 1px solid #DBD8FF;
+}
+
+button:disabled:hover {
+  background-color: #DBD8FF;
+  color: #FFFFFF;
+  border: 1px solid #DBD8FF;
+  cursor: not-allowed;
 }
 
 @media (min-width: 992px) {
@@ -91,15 +105,54 @@ button:focus,
 }
 
 /*Small devices (landscape phones, 576px and up)*/
-@media (max-width: 576px) {
-  form {
-    margin-left: 10%;
+@media (max-width: 575.98px) {
+  input,
+  textarea {
+    width: 140% !important;
   }
+  .left-margin {
+    margin-left: 10% !important;
+  }
+  .button__primary {
+    margin-left: 35% !important;
+  }
+}
+
+/*Small devices (landscape phones, 576px and up) iPhoneX and GalaxyS5*/
+@media (max-width: 375px) {
+  input,
+  textarea {
+    width: 120% !important;
+  }
+  .left-margin {
+    margin-left: 10% !important;
+  }
+  .button__primary {
+    margin-left: 25% !important;
+  }
+}
+
+/*Small devices (landscape phones, 576px and up) iPhone5/SE*/
+@media (max-width: 320px) {
+  input,
+  textarea {
+    width: 100% !important;
+  }
+  .left-margin {
+    margin-left: 10% !important;
+  }
+  .button__primary {
+    margin-left: 15% !important;
+  }
+}
+
+.left-margin {
+  margin-left: 27%;
 }
 
 input {
   border: 1px solid #eee;
-  width: 90%;
+  width: 200%;
   transition: 0.7s;
   color: #111;
   font-family: "Lato", sans-serif;
@@ -120,7 +173,7 @@ input:focus {
 
 textarea {
   border: 1px solid #eee;
-  width: 90%;
+  width: 200%;
   color: #666;
   transition: 0.7s;
   background-color: #F7F7F7;

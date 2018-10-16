@@ -112,7 +112,7 @@ export class ProjectConfig extends SeedConfig {
       name: 'jspdf',
       packageMeta: {
         format: 'global'
-    },
+      },
       path: 'node_modules/jspdf/dist/jspdf.min.js'
     });
 
