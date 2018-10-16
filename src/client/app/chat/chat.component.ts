@@ -164,10 +164,13 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
-          if (user.role === 'doctor') { this.downloadDoctorSignature(); this.getDoctorDetails(); }
-          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
-          );
+          if(user.role==='doctor') {
+            this.downloadDoctorSignature();
+            this.getDoctorDetails();
+            this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+              `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
+            );
+          }
         });
       this.getGroups();
       this.createForm();

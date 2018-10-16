@@ -27,17 +27,17 @@
                 </h5>
             </div>
             <div class="row">
-                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.experience}} years of practice
+                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.doctorDetails.experience}} years of practice
             </div>
             <div class="row small-font">Speaks: {{languages}}</div>
             <div class="row small-font">Consults via: {{consultationModes}}</div>
-            <div class="row small-font">{{doctor?.longBio}}</div>
+            <div class="row small-font">{{doctor?.doctorDetails.longBio}}</div>
             <div class="row small-font">
                 <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}
             </div>
             <div class="row">
                 <div class="col col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12 no-gutters">
-                    <rating *ngIf="doctor" [(ngModel)]="doctor.ratingValue" [readonly]="true"> </rating>
+                    <rating *ngIf="doctor" [(ngModel)]="doctor.doctorDetails.ratingValue" [readonly]="true"> </rating>
                 </div>
                 <div class="col col-12 col-xl-3 col-lg-3 col-md-12 col-sm-12 no-gutters">
                     <button class="btn-primary" (click)="consultNow(doctor.userId);">Consult now</button>
@@ -148,7 +148,7 @@
                                         EDUCATION AND TRAINING:
                                     </h5>
                                     <p class="card-text">
-                                        {{doctor?.education}}, ({{doctor?.educationYear}})
+                                        {{doctor?.doctorDetails.education}}, ({{doctor?.doctorDetails.educationYear}})
                                     </p>
                                 </div>
                             </div>
@@ -158,10 +158,10 @@
                                         CERTIFICATIONS AND LICENSURE:
                                     </h5>
                                     <p class="card-text">
-                                        MCI No.: {{doctor?.regNo}}
+                                        MCI No.: {{doctor?.doctorDetails.regNo}}
                                     </p>
                                     <p class="card-text">
-                                        Validity: {{doctor?.validity}}
+                                        Validity: {{doctor?.doctorDetails.validity}}
                                     </p>
                                 </div>
                             </div>
@@ -171,7 +171,7 @@
                                         WORK HISTORY:
                                     </h5>
                                     <p class="card-text">
-                                        {{doctor?.workHistory}}
+                                        {{doctor?.doctorDetails.workHistory}}
                                     </p>
                                     <p class="card-text">
                                         Visiting doctor timing: {{slots}}
