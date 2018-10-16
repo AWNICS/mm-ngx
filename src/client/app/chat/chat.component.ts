@@ -491,7 +491,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         this.getMessage(this.selectedGroup);
         groups.map((group: Group) => {
           this.groups.push(group);
-          // this.receivedGroupStatus(group);
           if (group.picture) {
             this.chatService.downloadFile(group.picture)
               .subscribe((res) => {
