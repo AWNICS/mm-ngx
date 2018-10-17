@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
@@ -18,7 +19,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     loggedIn: boolean = false;
     user: UserDetails;
     picUrl: string;
-    notifications: Notification[];
+    notifications: Notification[] = [];
     notify = false;
     @ViewChild('navbar') navbar: ElementRef;
 
@@ -27,7 +28,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
         private socketService: SocketService,
         private securityService: SecurityService,
         private sharedService: SharedService,
-        private chatService: ChatService) {
+        private chatService: ChatService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -36,6 +38,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
             if (this.user) {
                 this.getNotifications(this.user);
+                this.getLatestNotification();
+                this.consultationStatus();
                 if (this.user.picUrl) {
                     this.downloadPic(this.user.picUrl);
                 } else {
@@ -115,6 +119,26 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
                     this.notifications = notifications;
                     this.ref.detectChanges();
                 }
+            });
+    }
+
+    startConsultation(notification: Notification) {
+        this.socketService.userAdded(this.user,this.sharedService.getConsultationGroupId(), notification);
+    }
+
+    getLatestNotification() {
+        this.socketService.consultNotification()
+            .subscribe((data) => {
+                if (data) {
+                    this.notifications.push(data.notification);
+                }
+            });
+    }
+
+    consultationStatus() {
+        this.socketService.receiveUserAdded()
+            .subscribe((response) => {
+                this.router.navigate([`/chat/${response.doctorId}`]);
             });
     }
 

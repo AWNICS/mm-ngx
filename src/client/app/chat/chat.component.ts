@@ -487,7 +487,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .subscribe((groups) => {
-        console.log('groups ', groups);
         if (!this.selectedGroup) {
           this.selectedGroup = groups[0];
         }
@@ -532,7 +531,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
-          console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
           });
@@ -547,7 +545,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
-          console.log('messages ', msg);
           msg.reverse().map((message: any) => {
             this.messages.push(message);
           });

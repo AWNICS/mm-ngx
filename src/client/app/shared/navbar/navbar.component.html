@@ -25,6 +25,7 @@
                     <div class="card-body">
                       <h5 class="card-title">{{notification?.title}}</h5>
                       <p class="card-text">{{notification?.content}}</p>
+                      <a class="consult-button" [ngStyle]="{'display': notification?.status==='sent' ? 'block': 'none'}" (click)="startConsultation(notification);">Start Consultation</a>
                     </div>
                   </div>
                 </div>

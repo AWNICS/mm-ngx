@@ -6,6 +6,7 @@ import { Message } from '../shared/database/message';
 import { SecurityService } from '../shared/services/security.service';
 import { Group } from '../shared/database/group';
 import { UserDetails } from '../shared/database/user-details';
+import { Notification } from '../shared/database/notification';
 
 @Injectable()
 export class SocketService {
@@ -109,8 +110,8 @@ export class SocketService {
     }
 
     //whenever a user or doctor added to the consutation group
-    userAdded(user: UserDetails, groupId: number) {
-        this.socket.emit('user-added', user, groupId);
+    userAdded(user: UserDetails, groupId: number, noitification: Notification) {
+        this.socket.emit('user-added', user, groupId, noitification);
     }
 
     receiveUserAdded(): Observable<any> {
