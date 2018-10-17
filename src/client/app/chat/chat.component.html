@@ -298,7 +298,7 @@
                                     <i class="fa fa-sliders" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
                                     <i class="fa fa-thermometer-three-quarters" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
                                     <i class="fa fa-check-square-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
-                                    <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
+                                    <i class="fa fa-video-camera" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
                                         <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" #imageUpload/>
                                         <i class="fa fa-picture-o" aria-hidden="true"></i>

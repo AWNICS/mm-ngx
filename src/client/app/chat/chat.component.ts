@@ -160,14 +160,18 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
-    this.socketService.connection(this.userId);
+    //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
+    // this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
-          if (user.role === 'doctor') { this.downloadDoctorSignature(); this.getDoctorDetails(); }
-          this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-            `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
-          );
+          if(user.role==='doctor') {
+            this.downloadDoctorSignature();
+            this.getDoctorDetails();
+            this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
+              `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
+            );
+          }
         });
       this.getGroups();
       this.createForm();
@@ -178,6 +182,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.consultationStatus();
       this.typingEventEmitter();
       this.typingEventListener();
+      this.receivedGroupStatus();
     } else {
       this.router.navigate([`/`]);
     }
@@ -339,6 +344,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     if (result.message) {
       this.chatService.uploadFile(images[0])
         .subscribe(res => {
+          //mrch for check erro
           value.contentData.data = res._body;
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
@@ -412,6 +418,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       value.updatedBy = this.selectedUser.id;
       value.createdBy = this.selectedUser.id;
       this.showPrescriptionComponent = false;
+      this.ref.markForCheck();
       this.socketService.sendMessage(value, this.selectedGroup);
     });
   }
@@ -486,7 +493,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
         this.getMessage(this.selectedGroup);
         groups.map((group: Group) => {
           this.groups.push(group);
-          this.receivedGroupStatus(group);
           if (group.picture) {
             this.chatService.downloadFile(group.picture)
               .subscribe((res) => {
@@ -834,15 +840,16 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     }
   }
 
-  receivedGroupStatus(group: any) {
+  receivedGroupStatus() {
     this.socketService.receivedGroupStatus()
-      .subscribe((groups: any) => {
-        groups.map((updatedGroup: any) => {
-          if (updatedGroup[0] !== undefined && updatedGroup[0] !== '' && group.id === updatedGroup[0].id) {
-            group.status = updatedGroup[0].status;
+      .subscribe((groupUpdate => {
+        this.groups.map((group: any) => {
+          if(groupUpdate.groupId === group.id) {
+            group.status = groupUpdate.groupStatus;
           }
-        });
-      });
+          this.ref.markForCheck();
+         });
+        }));
   }
 
   endConsultation() {

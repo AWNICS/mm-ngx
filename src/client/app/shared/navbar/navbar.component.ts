@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SocketService } from '../../chat/socket.service';
@@ -15,7 +15,7 @@ import { Notification } from '../database/notification';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit, AfterViewChecked {
+export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked {
     loggedIn: boolean = false;
     user: UserDetails;
     picUrl: string;
@@ -49,8 +49,21 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         }
     }
 
+    ngAfterViewInit() {
+        this.checkWindowVisibility();
+    }
+
     ngAfterViewChecked() {
         this.loggedIn = this.securityService.getLoginStatus();
+    }
+
+    checkWindowVisibility() {
+        window.addEventListener('focus',()=> {
+            this.sharedService.setWindowVisibility(false);
+        });
+        window.addEventListener('blur',()=> {
+            this.sharedService.setWindowVisibility(true);
+        });
     }
 
     downloadPic(filename: string) {

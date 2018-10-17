@@ -35,8 +35,8 @@ export class SocketService {
 
     receivedGroupStatus(): Observable<any> {
         const observable = new Observable(observer => {
-            this.socket.on('received-group-status', (groupStatus: any) => {
-                observer.next(groupStatus);
+            this.socket.on('received-group-status', (groupUpdate:any) => {
+                observer.next(groupUpdate);
             });
             return () => {
                 this.socket.disconnect();
