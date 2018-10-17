@@ -16,6 +16,7 @@ export class SharedService {
     private location: string;
     private speciality: string;
     private group: Group;
+    private consultationGroupId: number;
 
     constructor(
         private http: Http,
@@ -46,6 +47,14 @@ export class SharedService {
 
     getGroup() {
         return this.group;
+    }
+
+    setConsultationGroupId(consultationGroupId:number) {
+        this.consultationGroupId = consultationGroupId;
+    }
+
+    getConsultationGroupId() {
+        return this.consultationGroupId;
     }
 
     getSpecialities(): Observable<any> {

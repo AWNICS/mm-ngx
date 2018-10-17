@@ -27,6 +27,7 @@ a {
 .people-list {
     width: 260px;
     float: left;
+    margin-left: -1rem;
 }
 
 .search {
@@ -86,6 +87,10 @@ a {
     float: right;
 }
 
+.selected-group {
+    background-color: #FFFFFF;
+}
+
 .people-list:hover {
     background-color: #EEE;
 }
@@ -111,6 +116,10 @@ a {
 .status,
 .name {
     color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; /*for creating ellipses if the name of group is greater than width of side panel*/
+    width: 10rem;
 }
 
 
@@ -406,6 +415,10 @@ textarea:focus {
 
 .float-right {
     float: right;
+}
+
+.clearfix {
+    padding: 0.5rem;
 }
 
 .clearfix:after {

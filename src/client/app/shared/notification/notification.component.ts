@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SocketService } from '../../chat/socket.service';
 import { Notification } from '../database/notification';
 import { UserDetails } from '../database/user-details';
+import { SharedService } from '../services/shared.service';
 
 @Component({
     moduleId: module.id,
@@ -18,12 +19,12 @@ export class NotificationComponent implements OnInit {
     @Input() selectedUser: UserDetails;
     @ViewChild('alert') alert: ElementRef;
 
-    constructor(private socketService: SocketService, private router: Router) {}
+    constructor(private socketService: SocketService, private router: Router, private sharedService: SharedService) {}
 
     ngOnInit() {
         if(this.selectedUser) {
-            console.log('selected user ', this.selectedUser);
             this.getNotification();
+            this.consultationStatus();
         }
     }
 
@@ -31,11 +32,10 @@ export class NotificationComponent implements OnInit {
         this.socketService.consultNotification()
             .subscribe((data) => {
                 if (data) {
-                    console.log('notification ', data);
                     this.consultationGroupId = data.group[0].id;
+                    this.sharedService.setConsultationGroupId(this.consultationGroupId);
                     this.notification = data.notification;
                     this.alert.nativeElement.style.display = 'block';
-                    this.consultationStatus();
                 }
             });
     }
@@ -44,14 +44,13 @@ export class NotificationComponent implements OnInit {
         this.alert.nativeElement.style.display = 'none';
     }
 
-    startConsultation() {
-        this.socketService.userAdded(this.selectedUser, this.consultationGroupId);
+    startConsultation(notification: Notification) {
+        this.socketService.userAdded(this.selectedUser, this.consultationGroupId, notification);
     }
 
     consultationStatus() {
         this.socketService.receiveUserAdded()
             .subscribe((response) => {
-                console.log('notification component consultation status ', response);
                 this.router.navigate([`/chat/${response.doctorId}`]);
             });
     }

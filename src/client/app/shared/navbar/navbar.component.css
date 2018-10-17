@@ -17,6 +17,24 @@ a:active {
     color: #fff;
 }
 
+a.consult-button {
+    background-color: #6C63FF;
+    border: none;
+    border-radius: 50px;
+    color: #F7F7F7;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    width: 8rem;
+    font-family: Lato, sans-serif;
+}
+
+a.consult-button:hover {
+    cursor: pointer;
+    color: #F7F7F7;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
+}
+
 #logo>img {
     width: auto;
     height: 7vh;
@@ -61,16 +79,6 @@ a:active {
 .dropdown-item {
     padding: .25rem 1.5rem;
     color: #111 !important;
-}
-
-.dropdown-item:hover {
-    background-color: #6960FF;
-    color: #FFF !important;
-}
-
-.card-body:hover {
-    background-color: #6960FF;
-    color: #FFF !important;
 }
 
 .dropdown-menu-right {
@@ -138,6 +146,7 @@ a:active {
     left: -2rem;
     font-size: 1.5rem;
     color: #F7F7F7 !important;
+    cursor: pointer;
 }
 
 .card-body {

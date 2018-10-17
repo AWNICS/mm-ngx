@@ -16,7 +16,7 @@
         <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText" (click)="resetMessage(group.id)">
             <div class="people-list" id="people-list">
                 <div class="list">
-                    <div class="clearfix" (click)="getMessage(group)">
+                    <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
                         <div *ngIf="group?.picture else alternateGroup">
                             <img [src]="group?.picture | safe: 'url'" alt="avatar" />
                         </div>
@@ -26,7 +26,7 @@
                         <div class="about">
                             <div class="row">
                                 <div class="name">{{group?.name}}</div>
-                                <span id="unreadmessage" *ngIf="unreadMessages[group.id]!=0 && unreadMessages[group.id]">{{unreadMessages[group.id]}}</span>
+                                <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
                             </div>
                             <div class="status" *ngIf="group?.status === 'online' else offline">
                                 <i class="fa fa-circle online"></i> online
