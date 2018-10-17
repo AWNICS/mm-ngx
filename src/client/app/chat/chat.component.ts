@@ -160,7 +160,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
-    this.socketService.connection(this.userId);
+    //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
+    // this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
@@ -343,6 +344,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     if (result.message) {
       this.chatService.uploadFile(images[0])
         .subscribe(res => {
+          //mrch for check erro
           value.contentData.data = res._body;
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
@@ -416,6 +418,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       value.updatedBy = this.selectedUser.id;
       value.createdBy = this.selectedUser.id;
       this.showPrescriptionComponent = false;
+      this.ref.markForCheck();
       this.socketService.sendMessage(value, this.selectedGroup);
     });
   }

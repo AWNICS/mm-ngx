@@ -218,12 +218,12 @@ export class PrescriptionComponent implements OnInit {
       let table0rows;
       if(doctorDetailsPassed.doctorStores) {
         doctorDetailsPassed.doctorStores.map((doctorStore:any)=> {
-            if(doctorStore.value.qualification) {
+            if(doctorStore.type === 'Qualification') {
                 qualificationFound = true;
                 table0rows = [
                     { 'value': doctorName },
-                    { 'value':  doctorStore.value.qualification},
-                    { 'value': doctorDetailsPassed.doctorDetails.speciality.speciality },
+                    { 'value':  doctorStore.value},
+                    { 'value': doctorDetailsPassed.doctorDetails.speciality },
                     { 'value': 'RegNo: '+doctorDetailsPassed.doctorDetails.regNo},
                 ];
             }
@@ -232,7 +232,7 @@ export class PrescriptionComponent implements OnInit {
       if(!qualificationFound) {
         table0rows = [
             { 'value': doctorName },
-            { 'value': doctorDetailsPassed.doctorDetails.speciality.speciality },
+            { 'value': doctorDetailsPassed.doctorDetails.speciality },
             { 'value': 'RegNo: '+doctorDetailsPassed.doctorDetails.regNo},
         ];
       }

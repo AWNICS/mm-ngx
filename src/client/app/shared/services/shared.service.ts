@@ -16,6 +16,8 @@ export class SharedService {
     private location: string;
     private speciality: string;
     private group: Group;
+    private windowNotInFocus:Boolean;
+    private windowNotVisible:Boolean;
 
     constructor(
         private http: Http,
@@ -386,6 +388,33 @@ export class SharedService {
             .map(res => res.json())
             .catch(this.handleError);
     }
+
+    setWindowVisibility(visibility:Boolean) {
+        this.windowNotVisible = visibility;
+    }
+
+    // crate web notification
+    createWebNotification(title:string,body:string) {
+    let document:any  = window.document;
+    if(document.hidden === true || document.msHidden === true || document.webkitHidden === true) {
+        this.windowNotInFocus = true;
+    } else {
+        this.windowNotInFocus = false;
+    }
+    if(this.windowNotInFocus || this.windowNotVisible) {
+        let webNotification = (window as any).Notification;
+        if (webNotification.permission !== 'denied') {
+            let notification = new webNotification(title, {
+                icon: 'assets/logo/web_notification_logo.png',
+                body: body,
+            });
+            // notification.onclick = ()=> { window.open(link); };
+            // notification.onshow = ()=> {console.log('showed');};
+            // notification.onclose = ()=> {console.log('closed');};
+            notification.onerror = ()=> {console.warn('Error in creating WebNotification');};
+          }
+    }
+}
 
     /**
      * sendMail to the admin and the visitor

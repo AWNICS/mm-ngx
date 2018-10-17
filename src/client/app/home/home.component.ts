@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, HostListener, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, Inject, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
@@ -18,7 +18,7 @@ import { UserDetails } from '../shared/database/user-details';
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements  OnInit, AfterViewInit {
 
   pageTitle: string = 'Mesomeds';
   speciality: string;
@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit {
     this.getSpecialities();
     this.getGeoLocation();
     this.getLocations();
+  }
+
+  ngAfterViewInit() {
+    this.notificationRequest();
   }
 
   showDoctorsList(value: any) {
@@ -108,6 +112,28 @@ export class HomeComponent implements OnInit {
       .subscribe(locations => {
         this.locations = locations;
       });
+  }
+
+  notificationRequest() {
+    let webNotification = (window as any).Notification;
+    if (!webNotification) {
+        console.warn('Desktop notifications not available in your browser. Try Chrome.');
+        return;
+      }
+    if(webNotification.permission !== 'granted') {
+    webNotification.requestPermission((response:any)=> {
+        if(response!=='denied') {
+          let notification = new webNotification('Web Notifications Enabled', {
+            icon: 'assets/logo/web_notification_logo.png',
+            body: 'Hello. You are subscribed to Web Notifications',
+          });
+
+          notification.onerror = ()=> {console.log('Error in creating WebNotification');};
+        } else {
+            console.warn('WebPush notications are Blocked. Try enabling them in browser\'s notification settings');
+        }
+    });
+    }
   }
 
   getGeoLocation() {
