@@ -630,6 +630,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             this.ref.markForCheck();
           });
         }
+        this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
       });
   }
 
