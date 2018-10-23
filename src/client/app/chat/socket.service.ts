@@ -23,6 +23,9 @@ export class SocketService {
      * connection
      */
     connection(userId: number) {
+        // if(this.socket) {
+            //do nothing
+        // } else {
         const token = this.securityService.getCookie('token');
         this.socket = io(`${this.baseUrl}`, {
             query: { token: token },
@@ -31,7 +34,7 @@ export class SocketService {
         this.socket.on('connect', () => {
             this.socket.emit('user-connected', userId);
         });
-    }
+}
 
     receivedGroupStatus(): Observable<any> {
         const observable = new Observable(observer => {
@@ -171,7 +174,7 @@ export class SocketService {
         return observable;
     }
 
-    typingEmitter(groupId: any, socketId:any, userName: any) {
-        this.socket.emit('send-typing', groupId, socketId, userName);
+    typingEmitter(groupId: any, userName: any) {
+        this.socket.emit('send-typing', groupId, userName);
     }
 }

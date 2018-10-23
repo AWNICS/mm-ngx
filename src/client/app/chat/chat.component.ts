@@ -161,7 +161,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     } else if (this.userId === JSON.parse(cookie).id) {
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
     //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
-    // this.socketService.connection(this.userId);
+      // this.socketService.connection(this.userId);
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
@@ -233,7 +233,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        this.socketService.typingEmitter(this.selectedGroup.id, this.selectedUser.socketId, fullName);
+        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
         setTimeout(() => {
           this.typingEvent = true;
         }, 8000);
@@ -510,8 +510,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   }
 
   getMessage(group: Group) {
-    //display  loading animaton upon message call in the intitial chat window load
-    this.displayMessageLoader = true;
     this.chatService.setGroup(group);
     this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
       this.patientDetails = null;
@@ -539,6 +537,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
           this.scrollToBottom();
         });
     } else if (this.oldGroupId !== group.id) {
+      //display  loading animaton upon message call in the intitial chat window load
+       this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
       this.messages = [];
       this.page = 1;
@@ -630,6 +630,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             this.ref.markForCheck();
           });
         }
+        this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
       });
   }
 
