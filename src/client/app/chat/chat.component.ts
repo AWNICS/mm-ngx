@@ -5,7 +5,6 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Output,
   AfterViewInit
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -35,7 +34,6 @@ import { ProfileService } from '../profile/profile.service';
 })
 export class ChatComponent implements OnInit, AfterViewInit  {
 
-  @Output() safeUrl: any;
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('chat') chat: ElementRef;
@@ -165,15 +163,12 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
+          this.getGroups();
           if(user.role==='doctor') {
             this.downloadDoctorSignature();
             this.getDoctorDetails();
-            this.safeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-              `https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`
-            );
           }
         });
-      this.getGroups();
       this.createForm();
       this.receiveMessageFromSocket();
       this.receiveNotification();
@@ -320,6 +315,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   }
 
   createAppear({ value, valid }: { value: Message, valid: boolean }) {
+    value.contentData = {data:[`https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`]};
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -345,7 +341,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.chatService.uploadFile(images[0])
         .subscribe(res => {
           //mrch for check erro
-          value.contentData.data = res._body;
+          value.contentData = {data: res._body};
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -377,7 +373,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     if (result.message) {
       this.chatService.uploadFile(videos[0])
         .subscribe(res => {
-          value.contentData.data = res._body;
+          value.contentData = {data:res._body};
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -431,7 +427,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     if (result.message) {
       this.chatService.uploadFile(files[0])
         .subscribe(res => {
-          value.contentData.data = res._body;
+          value.contentData = {data:res._body};
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -487,25 +483,31 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   getGroups() {
     this.chatService.getGroups(this.userId)
       .subscribe((groups) => {
-        if (!this.selectedGroup) {
-          this.selectedGroup = groups[0];
-        }
-        this.getMessage(this.selectedGroup);
-        groups.map((group: Group) => {
-          this.groups.push(group);
-          if (group.picture) {
-            this.chatService.downloadFile(group.picture)
-              .subscribe((res) => {
-                res.onloadend = () => {
-                  group.picture = res.result;
-                  this.ref.detectChanges();
-                };
-              });
+        if(groups) {
+          if (!this.selectedGroup) {
+            this.selectedGroup = groups[0];
+            this.getMessage(this.selectedGroup);
           } else {
-            this.downloadAltPic('group.png');
+            this.getMessage(this.selectedGroup);
           }
-          this.ref.detectChanges();
-        });
+          groups.map((group: Group) => {
+            this.groups.push(group);
+            if (group.picture) {
+              this.chatService.downloadFile(group.picture)
+                .subscribe((res) => {
+                  res.onloadend = () => {
+                    group.picture = res.result;
+                    this.ref.detectChanges();
+                  };
+                });
+            } else {
+              this.downloadAltPic('group.png');
+            }
+            this.ref.detectChanges();
+          });
+        } else {
+          return;
+        }
       });
   }
 
@@ -525,7 +527,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       //hides the left sidebar in small screen devices as soon as user selects a group
       this.mySidebar.nativeElement.style.display = 'none';
     }
-    if (this.oldGroupId === group.id && !this.groupSelected) {
+    if (this.oldGroupId === group.id && !this.groupSelected && this.selectedUser) {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {

@@ -123,7 +123,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     }
 
     startConsultation(notification: Notification) {
-        this.socketService.userAdded(this.user,this.sharedService.getConsultationGroupId(), notification);
+        this.socketService.userAdded(this.user, notification);
     }
 
     getLatestNotification() {

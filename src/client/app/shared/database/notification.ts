@@ -3,7 +3,10 @@ export class Notification {
     userId: number;
     type: string;
     title: string;
-    content: string;
+    content: {
+        speciality: string,
+        consultationId: number
+    };
     status: string;
     channel: string;
     priority: number;

@@ -14,7 +14,6 @@ import { SharedService } from '../services/shared.service';
 
 export class NotificationComponent implements OnInit {
 
-    consultationGroupId: number;
     notification: Notification;
     @Input() selectedUser: UserDetails;
     @ViewChild('alert') alert: ElementRef;
@@ -32,8 +31,6 @@ export class NotificationComponent implements OnInit {
         this.socketService.consultNotification()
             .subscribe((data) => {
                 if (data) {
-                    this.consultationGroupId = data.group[0].id;
-                    this.sharedService.setConsultationGroupId(this.consultationGroupId);
                     this.notification = data.notification;
                     this.alert.nativeElement.style.display = 'block';
                 }
@@ -45,7 +42,7 @@ export class NotificationComponent implements OnInit {
     }
 
     startConsultation(notification: Notification) {
-        this.socketService.userAdded(this.selectedUser, this.consultationGroupId, notification);
+        this.socketService.userAdded(this.selectedUser, notification);
     }
 
     consultationStatus() {
