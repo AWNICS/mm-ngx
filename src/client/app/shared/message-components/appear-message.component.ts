@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
 import { SharedService } from '../services/shared.service';
+import { UserDetails } from '../database/user-details';
+import { SecurityService } from '../services/security.service';
 
 /**
  * appear component to load the appear call in an iframe
@@ -14,8 +16,8 @@ import { SharedService } from '../services/shared.service';
     selector: 'mm-appear-message',
     template: `
         <h3>{{title}}</h3>
-        <a [href]="safeUrl" target="_blank">
-        <button type="button" class="btn btn-secondary" (click)="submit();">
+        <a [href]="safeUrl | safe: 'resourceUrl'" target="_blank">
+        <button type="button" class="btn btn-secondary" (click)="submit();" [disabled]="!enable">
             Start
         </button></a>
     `,
@@ -31,17 +33,27 @@ import { SharedService } from '../services/shared.service';
 })
 
 export class AppearMessageComponent implements OnInit {
-    @Input() safeUrl: string;
+    safeUrl: string;
     @Input() message: Message;
     @Input() index: number;
     title: string;
+    enable = false;
+    selectedUser: UserDetails;
 
     constructor(private socketService: SocketService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private securityService: SecurityService
     ) { }
 
     ngOnInit() {
         this.title = this.message.text;
+        this.safeUrl = this.message.contentData.data[0];
+        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+        if (this.selectedUser.id === this.message.senderId) {
+            this.enable = false;
+        } else {
+            this.enable = true;
+        }
     }
 
     submit() {

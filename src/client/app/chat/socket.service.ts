@@ -110,8 +110,8 @@ export class SocketService {
     }
 
     //whenever a user or doctor added to the consutation group
-    userAdded(user: UserDetails, groupId: number, noitification: Notification) {
-        this.socket.emit('user-added', user, groupId, noitification);
+    userAdded(user: UserDetails, noitification: Notification) {
+        this.socket.emit('user-added', user, noitification);
     }
 
     receiveUserAdded(): Observable<any> {
