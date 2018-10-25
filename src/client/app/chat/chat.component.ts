@@ -178,6 +178,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.typingEventEmitter();
       this.typingEventListener();
       this.receivedGroupStatus();
+      this.listenUserAdded();
+      this.listenUserDeleted();
     } else {
       this.router.navigate([`/`]);
     }
@@ -195,15 +197,15 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.errors.splice(index, 1);
   }
 
-  listenUserAdded(){
-    this.socketService.receiveUserAdded().subscribe((result)=>{
-      this.createMessageNotification(result.message);
-    })
+  listenUserAdded() {
+    this.socketService.receiveUserAdded().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
   }
-  listenUserDeleted(){
-    this.socketService.receiveUserDeleted().subscribe((result)=>{
-      this.createMessageNotification(result.message);
-    })
+  listenUserDeleted() {
+    this.socketService.receiveUserDeleted().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
   }
 
   togglePrescriptionComponent() {
@@ -465,8 +467,9 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   createMessageNotification(Message:string) {
     let value:any = {};
     value.receiverId = this.chatService.getGroup().id;
+    console.log(value.receiverId);
     value.senderId = this.selectedUser.id;
-    value.senderName = null;
+    value.senderName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
     value.receiverType = 'group';
     value.contentType = 'notification';
     value.type = 'notification';
@@ -477,6 +480,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     value.updatedBy = this.selectedUser.id;
     value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
+    console.log('sent');
     this.message.reset(this.form);
   }
 
@@ -661,9 +665,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             this.ref.markForCheck();
           });
         }
-        console.log('not craeted webnot')
-        if(msg.senderId !== this.selectedUser.id){
-          console.log('web not created');
+        if(msg.senderId !== this.selectedUser.id) {
         this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
         }
       });
@@ -891,10 +893,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   endConsultation() {
     this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
     if (this.selectedUser.role === 'doctor') {
-      this.groups.splice(1, 1);
-      this.selectedGroup = this.groups[0];
-      this.getMessage(this.selectedGroup);
-      this.ref.detectChanges();
+      // this.groups.splice(1, 1);
+      // this.selectedGroup = this.groups[0];
+      // this.getMessage(this.selectedGroup);
+      // this.ref.detectChanges();
     } else {
       return;
     }

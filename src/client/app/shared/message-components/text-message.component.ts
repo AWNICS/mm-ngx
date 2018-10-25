@@ -23,13 +23,15 @@ export class TextMessageComponent implements OnInit {
     link:string;
 
     ngOnInit() {
+        if(this.message.text) {
         let match = this.message.text.match(/https:\/\/\S+/) || this.message.text.match(/http:\/\/\S+/);
-        if(match){
+        if(match) {
             this.linkFound = true;
             this.link = match[0];
             this.textMessage = this.message.text.replace(match[0],'');
-        }else{
+        } else {
         this.textMessage = this.message.text;
     }
 }
+    }
 }
