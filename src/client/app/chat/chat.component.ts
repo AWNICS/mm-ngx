@@ -115,7 +115,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     name: '',
     url: '',
     userId: null,
-    description: '',
+    details: null,
     picture: '',
     status: '',
     createdBy: null,
@@ -204,7 +204,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   }
 
   getDoctorDetails() {
-    this.sharedService.getDoctorById(this.userId).subscribe((doctorDetails) => {
+    this.sharedService.getDoctorById(this.userId)
+    .subscribe((doctorDetails) => {
       this.doctorDetails = doctorDetails;
     });
   }
@@ -315,7 +316,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   }
 
   createAppear({ value, valid }: { value: Message, valid: boolean }) {
-    value.contentData = {data:[`https://appear.in/${this.selectedUser.firstname}-${this.selectedUser.lastname}`]};
+    value.contentData = {data: this.doctorDetails.appearUrl};
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -455,7 +456,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.newGroup.name = 'Consultation room';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
-    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.details.description = 'Chat room for consultation';
+    this.newGroup.details.speciality = this.sharedService.getSpeciality();
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
@@ -469,7 +471,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.newGroup.name = 'Consultation room';
     this.newGroup.userId = this.selectedUser.id;
     this.newGroup.url = this.newGroup.name + '/' + this.selectedUser.id;
-    this.newGroup.description = 'Chat room for consultation';
+    this.newGroup.details.description = 'Chat room for consultation';
+    this.newGroup.details.speciality = this.sharedService.getSpeciality();
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
