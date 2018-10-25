@@ -11,10 +11,10 @@
   </div>
 </div> -->
 <div class="alert" role="alert" #alert>
-  <h5 class="alert-heading">{{notification?.title}}</h5>
-  <p>{{notification?.content}}</p>
-  <div class="row justify-content-end">
-    <a class="consult-button" (click)="startConsultation(notification);">Start Consultation</a>
-    <a class="consult-button" (click)="dismissNotification();">Dismiss</a>
-  </div>
+    <h5 class="alert-heading">{{notification?.title}}</h5>
+    <p>Speciality choosen: {{notification?.content.speciality}}</p>
+    <div class="row justify-content-end">
+        <a class="consult-button" (click)="startConsultation(notification);">Start Consultation</a>
+        <a class="consult-button" (click)="dismissNotification();">Dismiss</a>
+    </div>
 </div>

@@ -47,7 +47,7 @@ export class DoctorsListComponent implements OnInit {
                 } else {
                     this.doctors = res;
                     if(this.doctors.length === 1) {
-                        this.doctors.speciality = res.speciality.speciality;
+                        this.doctors.speciality = res.speciality;
                     }
                     if (this.doctors.length >= 1) {
                         this.doctors.map((doctor: any) => {

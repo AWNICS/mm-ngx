@@ -1,59 +1,61 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light" #navbar>
-  <div class="container">
-    <a id="logo" routerLink='/' routerLinkActive='active'>
-      <img src="../../../assets/logo/logo_white_transp.png">
-    </a>
-    <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-      aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container">
+        <a id="logo" routerLink='/' routerLinkActive='active' *ngIf="user?.role !=='doctor'">
+            <img src="../../../assets/logo/logo_white_transp.png">
+        </a>
+        <a id="logo" [routerLink]="['/dashboards/doctors',user.id]" routerLinkActive='active' *ngIf="user?.role ==='doctor'">
+            <img src="../../../assets/logo/logo_white_transp.png">
+        </a>
+        <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <div class="fa fa-reorder" id="icon-bar"></div>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-      </ul>
-      <div class="my-2 my-lg-0">
-        <div class="mr-sm-2 row navbar__menu">
-          <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active' *ngIf="!loggedIn">For Doctors</a>
-          <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
-          <div class="dropdown notification" *ngIf="loggedIn">
-            <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-bell" aria-hidden="true"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
-              <div *ngIf="notify; else showThis">
-                <div *ngFor="let notification of notifications" class="dropdown-item">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title">{{notification?.title}}</h5>
-                      <p class="card-text">{{notification?.content}}</p>
-                      <a class="consult-button" [ngStyle]="{'display': notification?.status==='sent' ? 'block': 'none'}" (click)="startConsultation(notification);">Start Consultation</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <div class="my-2 my-lg-0">
+                <div class="mr-sm-2 row navbar__menu">
+                    <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active' *ngIf="!loggedIn">For Doctors</a>
+                    <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
+                    <div class="dropdown notification" *ngIf="loggedIn">
+                        <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell" aria-hidden="true"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
+                            <div *ngIf="notify; else showThis">
+                                <div *ngFor="let notification of notifications" class="dropdown-item">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{notification?.title}}</h5>
+                                            <p class="card-text">Speciality choosen: {{notification?.content?.speciality}}</p>
+                                            <a class="consult-button" *ngIf="notification?.status==='sent' || notification?.status==='created'" (click)="startConsultation(notification);">Start Consultation</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #showThis>
+                                <div class="dropdown-item">
+                                    <p>You do not have any notifications!</p>
+                                </div>
+                            </ng-template>
+                        </div>
                     </div>
-                  </div>
+                    <div class="dropdown" *ngIf="loggedIn">
+                        <a class="inset" href="#" role="button" id="profileSetting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img [src]="picUrl | safe: 'url'">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="profileSetting">
+                            <a class="dropdown-item" [routerLink]="['/chat',user.id]">Chat</a>
+                            <a class="dropdown-item" [routerLink]="['/profiles',user.id]">Profile</a>
+                            <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient'">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor'">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot'">Dashboard</a>
+                            <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role !=='bot'">Consultation & History</a>
+                            <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role !=='bot'">Payment & Billing</a>
+                            <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <ng-template #showThis>
-                <div class="dropdown-item">
-                  <p>You do not have any notifications!</p>
-                </div>
-              </ng-template>
             </div>
-          </div>
-          <div class="dropdown" *ngIf="loggedIn">
-            <a class="inset" href="#" role="button" id="profileSetting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img [src]="picUrl | safe: 'url'">
-            </a>
-            <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="profileSetting">
-              <a class="dropdown-item" [routerLink]="['/chat',user.id]">Chat</a>
-              <a class="dropdown-item" [routerLink]="['/profiles',user.id]">Profile</a>
-              <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient'">Dashboard</a>
-              <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor'">Dashboard</a>
-              <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot'">Dashboard</a>
-              <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role !=='bot'">Consultation & History</a>
-              <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role !=='bot'">Payment & Billing</a>
-              <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </nav>
