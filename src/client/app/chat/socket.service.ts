@@ -100,6 +100,24 @@ export class SocketService {
         this.socket.emit('notify-users', message);
     }
 
+    doctorStatusUpdate(doctorId:any , status:any) {
+        this.socket.emit('doctor-status', doctorId, status);
+    }
+
+    receiveDoctorStatus(): Observable<any>{
+        const observable = new Observable(observer => {
+            this.socket.on('doctor-status', (status: any) => {
+                observer.next(status);
+                console.log('doctor status '+status )
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+   
+    }
+
     receiveNotifiedUsers(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('receive-notification', (notify: any) => {
@@ -121,6 +139,7 @@ export class SocketService {
         const observable = new Observable(observer => {
             this.socket.on('receive-user-added', (data: any) => {
                 observer.next(data);
+                console.log('user added '+data)
             });
             return () => {
                 this.socket.disconnect();
@@ -138,6 +157,7 @@ export class SocketService {
         const observable = new Observable(observer => {
             this.socket.on('receive-user-deleted', (data: any) => {
                 observer.next(data);
+                console.log('user delted '+data)
             });
             return () => {
                 this.socket.disconnect();

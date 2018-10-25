@@ -181,6 +181,10 @@
                     <span>Loading...</span>
                 </div>
                 <div *ngFor="let message of messages;let i = index;">
+                    <div *ngIf="message?.contentType==='notification'">
+                        <mm-notification-message [message]="message"></mm-notification-message>
+                    </div>
+                    <ng-container *ngIf="message?.contentType!=='notification'">
                     <div *ngIf="message?.senderId == selectedUser?.id; else alignLeft">
                         <div class="clearfix">
                             <div class="message-data align-right">
@@ -188,7 +192,7 @@
                                 <span class="message-data-name">{{message?.senderName}}</span>
                                 <i class="fa fa-circle me"></i>
                             </div>
-                            <div class="message other-message float-right">
+                            <div class="message other-message float-right" >
                                 <div [ngSwitch]="message?.contentType" style="margin-right: 7px;">
                                     <div *ngSwitchCase="'text'">
                                         <mm-text-message [message]="message"></mm-text-message>
@@ -229,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-
+                </ng-container>
                     <ng-template #alignLeft>
                         <div class="clearfix">
                             <div class="message-data">
@@ -258,10 +262,14 @@
                                         <mm-document-message [message]="message"></mm-document-message>
                                     </div>
                                     <div *ngSwitchCase="'appear'">
-                                        <mm-appear-message [message]="message" [index]="i" [safeUrl]="safeUrl"></mm-appear-message>
+                                        <mm-appear-message [message]="message" [index]="i" [safeUrl]="safeUrl" [role]="selectedUser.role"></mm-appear-message>
                                     </div>
                                     <div *ngSwitchCase="'image'">
                                         <mm-image-message [message]="message"></mm-image-message>
+                                    </div>
+                                    
+                                    <div *ngSwitchCase="'notification'">
+                                        <mm-notification-message [message]="message"></mm-notification-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message"></mm-text-message>

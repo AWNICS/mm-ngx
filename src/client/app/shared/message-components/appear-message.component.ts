@@ -34,6 +34,7 @@ export class AppearMessageComponent implements OnInit {
     @Input() safeUrl: string;
     @Input() message: Message;
     @Input() index: number;
+    @Input() role:String;
     title: string;
 
     constructor(private socketService: SocketService,
@@ -45,9 +46,11 @@ export class AppearMessageComponent implements OnInit {
     }
 
     submit() {
+        if(this.role==='patient') {
         this.message.contentType = 'text';
         this.message.text = 'Kindly leave your valuable feedback!';
         this.edit(this.message);
+        }
         let audit = {
             senderId: this.message.senderId,
             receiverId: this.message.receiverId,

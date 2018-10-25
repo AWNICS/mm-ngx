@@ -200,6 +200,17 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.errors.splice(index, 1);
   }
 
+  listenUserAdded(){
+    this.socketService.receiveUserAdded().subscribe((result)=>{
+      this.createMessageNotification(result.message);
+    })
+  }
+  listenUserDeleted(){
+    this.socketService.receiveUserDeleted().subscribe((result)=>{
+      this.createMessageNotification(result.message);
+    })
+  }
+
   togglePrescriptionComponent() {
     this.showPrescriptionComponent = !Boolean(this.showPrescriptionComponent);
     this.ref.detectChanges();
@@ -319,7 +330,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.message.reset(this.form);
   }
 
-  createAppear({ value, valid }: { value: Message, valid: boolean }) {
+  createAppear({ value, valid }: { value: any, valid: boolean }) {
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -328,6 +339,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     value.type = 'appear';
     value.status = 'delivered';
     value.text = 'Appear Component';
+    value.safeUrl = this.safeUrl;
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
     value.updatedBy = this.selectedUser.id;
@@ -453,6 +465,24 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.errors.push(error);
       this.fileUpload.nativeElement.value = null;
     }
+  }
+
+  createMessageNotification(Message:string) {
+    let value:any = {};
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.senderName = null;
+    value.receiverType = 'group';
+    value.contentType = 'notification';
+    value.type = 'notification';
+    value.status = 'delivered';
+    value.text = Message;
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
+    this.socketService.sendMessage(value, this.selectedGroup);
+    this.message.reset(this.form);
   }
 
   createGroupAuto() {
@@ -605,6 +635,9 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   receiveMessageFromSocket() {
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
+        if(msg.type==='appear' && this.selectedUser.role==='patient') {
+          this.safeUrl = msg.safeUrl;
+        }
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
@@ -630,7 +663,11 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             this.ref.markForCheck();
           });
         }
+        console.log('not craeted webnot')
+        if(msg.senderId !== this.selectedUser.id){
+          console.log('web not created');
         this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
+        }
       });
   }
 
