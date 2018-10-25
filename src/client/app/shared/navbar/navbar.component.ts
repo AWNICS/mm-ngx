@@ -138,6 +138,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     consultationStatus() {
         this.socketService.receiveUserAdded()
             .subscribe((response) => {
+                this.getNotifications(this.user);
                 this.router.navigate([`/chat/${response.doctorId}`]);
             });
     }

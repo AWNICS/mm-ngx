@@ -28,6 +28,10 @@ export class DoctorsListComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        let user = JSON.parse(this.securityService.getCookie('userDetails'));
+        if(user && user.role === 'doctor') {
+              this.router.navigate([`/dashboards/doctors/${user.id}`]);
+          }
         this.navbarComponent.navbarColor(0, '#6960FF');
         this.getDoctors();
     }

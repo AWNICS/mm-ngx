@@ -47,6 +47,9 @@ export class HomeComponent implements  OnInit, AfterViewInit {
     window.scrollTo(0,0);
     if(this.securityService.getCookie('userDetails')) {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+      if(this.selectedUser.role === 'doctor') {
+        this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
+      }
     }
     this.getSpecialities();
     this.getGeoLocation();

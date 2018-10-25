@@ -187,7 +187,7 @@ export class DoctorDashboardComponent implements OnInit {
 
     getConsultations(doctorId: number) {
         let page = 1;
-        let size = 3;
+        let size = 20;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .subscribe((res) => {
                 if (res.visitorAppointments.length === 0) {

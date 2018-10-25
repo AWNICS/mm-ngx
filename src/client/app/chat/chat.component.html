@@ -28,12 +28,12 @@
                                 <div class="name">{{group?.name}}</div>
                                 <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
                             </div>
-                            <div class="status" *ngIf="group?.status === 'online' else offline">
-                                <i class="fa fa-circle online"></i> online
+                            <div class="row">
+                                <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
+                                <ng-template #speciality>
+                                    <small>Specialist in: {{group?.details?.speciality}}</small>
+                                </ng-template>
                             </div>
-                            <ng-template class="status" #offline>
-                                <i class="fa fa-circle offline"></i> offline
-                            </ng-template>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     </ng-template>
                     <div class="chat-about">
                         <div class="chat-with">{{selectedGroup?.name}}</div>
-                        <div class="chat-num-messages"><small>{{selectedGroup?.description}}</small></div>
+                        <div class="chat-num-messages"><small>{{selectedGroup?.details?.description}}</small></div>
                     </div>
                     <!-- Doctor List Modal -->
                     <ng-template #doctorModal let-c="close" let-d="dismiss" size="lg" class="modal-lg">
