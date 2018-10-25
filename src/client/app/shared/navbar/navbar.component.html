@@ -18,7 +18,7 @@
                     <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
                     <div class="dropdown notification" *ngIf="loggedIn">
                         <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            <i class="fa fa-bell" aria-hidden="true" #bell></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
                             <div *ngIf="notify; else showThis">

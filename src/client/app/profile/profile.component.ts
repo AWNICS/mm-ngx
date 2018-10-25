@@ -106,9 +106,10 @@ export class ProfileComponent implements OnInit {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = res.result;
+                    this.navbarComponent.picUrl = res.result;
+                    this.ref.detectChanges();
                 };
             });
-        this.ref.detectChanges();
     }
 
     downloadAltPic(role: string) {
