@@ -95,7 +95,7 @@ export class DoctorRegisterComponent implements OnInit {
         if (this.otpFlag === false) {
             const name = value.firstname + ' ' + value.lastname;
             const split = name.split(' ');
-            value.appearUrl = `https://appear.in/mm-${split[0]}-${split[1]}`;
+            value.appearUrl = `https://appear.in/${split[0]}-${split[1]}`;
             value.createdBy = value.id;
             value.updatedBy = value.id;
             value.role = 'doctor';
