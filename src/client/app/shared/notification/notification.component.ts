@@ -48,6 +48,7 @@ export class NotificationComponent implements OnInit {
     consultationStatus() {
         this.socketService.receiveUserAdded()
             .subscribe((response) => {
+                console.log('received user added in notification comp');
                 this.router.navigate([`/chat/${response.doctorId}`]);
             });
     }
