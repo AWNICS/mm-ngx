@@ -212,7 +212,9 @@ export class DoctorViewProfileComponent implements OnInit {
             .subscribe((res) => {
                 if (res) {
                     this.sharedService.setGroup(res);
-                    this.router.navigate([`/chat/${user.id}`]);
+                    setTimeout(() => {
+                        this.router.navigate([`/chat/${user.id}`]);
+                    }, 500);
                 } else {
                     this.message = 'There was an error. Please re-login and try again.';
                 }
