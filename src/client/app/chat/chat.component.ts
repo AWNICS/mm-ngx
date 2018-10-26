@@ -465,10 +465,9 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     }
   }
 
-  createMessageNotification(Message:string) {
+  createNotificationMessage(Message:string) {
     let value:any = {};
     value.receiverId = this.chatService.getGroup().id;
-    console.log(value.receiverId);
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
     value.receiverType = 'group';
@@ -481,7 +480,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     value.updatedBy = this.selectedUser.id;
     value.createdBy = this.selectedUser.id;
     this.socketService.sendMessage(value, this.selectedGroup);
-    console.log('sent');
     this.message.reset(this.form);
   }
 
@@ -892,7 +890,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
          });
         }));
   }
-
+//work under progress
   endConsultation() {
     this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
     if (this.selectedUser.role === 'doctor') {

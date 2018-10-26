@@ -181,6 +181,7 @@
                     <span>Loading...</span>
                 </div>
                 <div *ngFor="let message of messages;let i = index;">
+                    <!-- work under progress for mm-notification -->
                     <div *ngIf="message?.contentType==='notification'">
                         <mm-notification-message [message]="message"></mm-notification-message>
                     </div>
@@ -266,10 +267,6 @@
                                     </div>
                                     <div *ngSwitchCase="'image'">
                                         <mm-image-message [message]="message"></mm-image-message>
-                                    </div>
-                                    
-                                    <div *ngSwitchCase="'notification'">
-                                        <mm-notification-message [message]="message"></mm-notification-message>
                                     </div>
                                     <div *ngSwitchDefault>
                                         <mm-text-message [message]="message"></mm-text-message>

@@ -30,7 +30,8 @@ export class TextMessageComponent implements OnInit {
             this.link = match[0];
             this.textMessage = this.message.text.replace(match[0],'');
         } else {
-        this.textMessage = this.message.text;
+            this.linkFound = false;
+            this.textMessage = this.message.text;
     }
 }
     }

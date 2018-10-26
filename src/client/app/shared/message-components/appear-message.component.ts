@@ -36,7 +36,6 @@ export class AppearMessageComponent implements OnInit {
     safeUrl: string;
     @Input() message: Message;
     @Input() index: number;
-    @Input() role:String;
     title: string;
     enable = false;
     selectedUser: UserDetails;
@@ -58,7 +57,7 @@ export class AppearMessageComponent implements OnInit {
     }
 
     submit() {
-        if(this.role==='patient') {
+        if(this.selectedUser.role==='patient') {
         this.message.contentType = 'text';
         this.message.text = 'Doctor started video consultation.';
         this.edit(this.message);
