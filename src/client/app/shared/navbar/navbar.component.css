@@ -160,3 +160,149 @@ a.consult-button:hover {
 .card-text {
     font-size: 0.8rem;
 }
+
+/* animtating bell icon when a new notification is appended starts*/
+
+@-webkit-keyframes bell {
+    0% {
+      -webkit-transform: rotate(-15deg);
+      transform: rotate(-15deg);
+    }
+  
+    2% {
+      -webkit-transform: rotate(15deg);
+      transform: rotate(15deg);
+    }
+  
+    4% {
+      -webkit-transform: rotate(-18deg);
+      transform: rotate(-18deg);
+    }
+  
+    6% {
+      -webkit-transform: rotate(18deg);
+      transform: rotate(18deg);
+    }
+  
+    8% {
+      -webkit-transform: rotate(-22deg);
+      transform: rotate(-22deg);
+    }
+  
+    10% {
+      -webkit-transform: rotate(22deg);
+      transform: rotate(22deg);
+    }
+  
+    12% {
+      -webkit-transform: rotate(-18deg);
+      transform: rotate(-18deg);
+    }
+  
+    14% {
+      -webkit-transform: rotate(18deg);
+      transform: rotate(18deg);
+    }
+  
+    16% {
+      -webkit-transform: rotate(-12deg);
+      transform: rotate(-12deg);
+    }
+  
+    18% {
+      -webkit-transform: rotate(12deg);
+      transform: rotate(12deg);
+    }
+  
+    20% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  }
+  
+  @keyframes bell {
+    0% {
+      -webkit-transform: rotate(-15deg);
+      -ms-transform: rotate(-15deg);
+      transform: rotate(-15deg);
+    }
+  
+    2% {
+      -webkit-transform: rotate(15deg);
+      -ms-transform: rotate(15deg);
+      transform: rotate(15deg);
+    }
+  
+    4% {
+      -webkit-transform: rotate(-18deg);
+      -ms-transform: rotate(-18deg);
+      transform: rotate(-18deg);
+    }
+  
+    6% {
+      -webkit-transform: rotate(18deg);
+      -ms-transform: rotate(18deg);
+      transform: rotate(18deg);
+    }
+  
+    8% {
+      -webkit-transform: rotate(-22deg);
+      -ms-transform: rotate(-22deg);
+      transform: rotate(-22deg);
+    }
+  
+    10% {
+      -webkit-transform: rotate(22deg);
+      -ms-transform: rotate(22deg);
+      transform: rotate(22deg);
+    }
+  
+    12% {
+      -webkit-transform: rotate(-18deg);
+      -ms-transform: rotate(-18deg);
+      transform: rotate(-18deg);
+    }
+  
+    14% {
+      -webkit-transform: rotate(18deg);
+      -ms-transform: rotate(18deg);
+      transform: rotate(18deg);
+    }
+  
+    16% {
+      -webkit-transform: rotate(-12deg);
+      -ms-transform: rotate(-12deg);
+      transform: rotate(-12deg);
+    }
+  
+    18% {
+      -webkit-transform: rotate(12deg);
+      -ms-transform: rotate(12deg);
+      transform: rotate(12deg);
+    }
+  
+    20% {
+      -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+  }
+
+  .animated {
+    -webkit-animation: bell 2s ease infinite;
+    animation: bell 2s ease infinite;
+    -ms-transform-origin-x: 50%;
+    -moz-transform-origin-x: 50%;
+    -webkit-transform-origin-x: 50%;
+    -o-transform-origin-x: 50%;
+    -ms-transform-origin-y: 0%;
+    -moz-transform-origin-y: 0%;
+    -webkit-transform-origin-y: 0%;
+    -o-transform-origin-y: 0%;
+    -ms-transform-origin-z: initial;
+    -moz-transform-origin-z: initial;
+    -webkit-transform-origin-z: initial;
+    -o-transform-origin-z: initial;
+  }
+
+  /* animtating bell icon when a new notification is appended ends*/

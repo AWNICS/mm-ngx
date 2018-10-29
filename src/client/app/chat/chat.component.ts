@@ -576,6 +576,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       //display  loading animaton upon message call in the intitial chat window load
        this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
+      this.message.reset();
       this.messages = [];
       this.page = 1;
       this.oldGroupId = group.id;
