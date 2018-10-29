@@ -178,6 +178,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.typingEventEmitter();
       this.typingEventListener();
       this.receivedGroupStatus();
+      this.listenUserAdded();
+      this.listenUserDeleted();
     } else {
       this.router.navigate([`/`]);
     }
@@ -193,6 +195,17 @@ export class ChatComponent implements OnInit, AfterViewInit  {
 
   errorRead(index: number) {
     this.errors.splice(index, 1);
+  }
+
+  listenUserAdded() {
+    this.socketService.receiveUserAdded().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
+  }
+  listenUserDeleted() {
+    this.socketService.receiveUserDeleted().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
   }
 
   togglePrescriptionComponent() {
@@ -452,6 +465,24 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     }
   }
 
+  createNotificationMessage(Message:string) {
+    let value:any = {};
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
+    value.receiverType = 'group';
+    value.contentType = 'notification';
+    value.type = 'notification';
+    value.status = 'delivered';
+    value.text = Message;
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
+    this.socketService.sendMessage(value, this.selectedGroup);
+    this.message.reset(this.form);
+  }
+
   createGroupAuto() {
     this.newGroup.name = 'Consultation room';
     this.newGroup.userId = this.selectedUser.id;
@@ -636,7 +667,9 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             this.ref.markForCheck();
           });
         }
+        if(msg.senderId !== this.selectedUser.id) {
         this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
+        }
       });
   }
 
@@ -858,14 +891,14 @@ export class ChatComponent implements OnInit, AfterViewInit  {
          });
         }));
   }
-
+//work under progress
   endConsultation() {
     this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
     if (this.selectedUser.role === 'doctor') {
-      this.groups.splice(1, 1);
-      this.selectedGroup = this.groups[0];
-      this.getMessage(this.selectedGroup);
-      this.ref.detectChanges();
+      // this.groups.splice(1, 1);
+      // this.selectedGroup = this.groups[0];
+      // this.getMessage(this.selectedGroup);
+      // this.ref.detectChanges();
     } else {
       return;
     }

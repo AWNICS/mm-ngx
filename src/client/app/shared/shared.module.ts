@@ -12,6 +12,7 @@ import { CheckBoxMessageComponent } from './message-components/checkbox-message.
 import { ImageMessageComponent } from './message-components/image-message.component';
 import { VideoMessageComponent } from './message-components/video-message.component';
 import { TextMessageComponent } from './message-components/text-message.component';
+import { NotificationMessageComponent } from './message-components/notification-message.component';
 import { AppearMessageComponent } from './message-components/appear-message.component';
 //import { AlertMessageComponent } from './message-components/alert-message.component';
 import { SecurityService } from './services/security.service';
@@ -36,6 +37,7 @@ import { PrescriptionComponent } from './prescription/prescription.component';
     ImageMessageComponent,
     VideoMessageComponent,
     TextMessageComponent,
+    NotificationMessageComponent,
     AppearMessageComponent,
     NotificationComponent,
     PrescriptionComponent
@@ -51,6 +53,7 @@ import { PrescriptionComponent } from './prescription/prescription.component';
     ImageMessageComponent,
     VideoMessageComponent,
     TextMessageComponent,
+    NotificationMessageComponent,
     AppearMessageComponent,
     NotificationComponent,
     PrescriptionComponent,

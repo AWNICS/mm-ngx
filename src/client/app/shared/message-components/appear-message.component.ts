@@ -57,9 +57,11 @@ export class AppearMessageComponent implements OnInit {
     }
 
     submit() {
+        if(this.selectedUser.role==='patient') {
         this.message.contentType = 'text';
         this.message.text = 'Doctor started video consultation.';
         this.edit(this.message);
+        }
         let audit = {
             senderId: this.message.senderId,
             receiverId: this.message.receiverId,
