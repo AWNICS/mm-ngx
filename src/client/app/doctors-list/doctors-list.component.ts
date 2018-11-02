@@ -29,9 +29,9 @@ export class DoctorsListComponent implements OnInit {
 
     ngOnInit() {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
-        if(user && user.role === 'doctor') {
-              this.router.navigate([`/dashboards/doctors/${user.id}`]);
-          }
+        if (user && user.role === 'doctor') {
+            this.router.navigate([`/dashboards/doctors/${user.id}`]);
+        }
         this.navbarComponent.navbarColor(0, '#6960FF');
         this.getDoctors();
     }
@@ -45,35 +45,21 @@ export class DoctorsListComponent implements OnInit {
         let size = 5;
         if (location && speciality) {
             this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
-            .subscribe(res => {
-                if(res.length <=0) {
-                    this.message = 'There are no doctors available currently. Try again later!';
-                } else {
-                    this.doctors = res;
-                    if(this.doctors.length === 1) {
-                        this.doctors.speciality = res.speciality;
-                    }
-                    if (this.doctors.length >= 1) {
-                        this.doctors.map((doctor: any) => {
-                            doctor.speciality = JSON.parse(doctor.speciality);
-                            this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
-                                .subscribe(response => {
-                                    let updatedAt = new Date(response[response.length-1].updatedAt);
-                                    let currentTime = new Date();
-                                    let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                                    let date = moment.duration(ms);
-                                    doctor.lastupdated = this.getLastUpdated(date);
-                                });
-                            this.sharedService.getDoctorStore(doctor.userId)
-                                .subscribe(stores => {
-                                    this.getStores(stores, doctor.userId);
-                                });
-                            if (doctor.picUrl) {
-                                this.chatService.downloadFile(doctor.picUrl)
-                                    .subscribe((res) => {
-                                        res.onloadend = () => {
-                                            doctor.picUrl = res.result;
-                                        };
+                .subscribe(res => {
+                    if (res.length <= 0) {
+                        this.message = 'There are no doctors available currently. Try again later!';
+                    } else {
+                        this.doctors = res;
+                        if (this.doctors.length >= 1) {
+                            this.doctors.map((doctor: any) => {
+                                doctor.speciality = JSON.parse(doctor.speciality);
+                                this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                                    .subscribe(response => {
+                                        let updatedAt = new Date(response[response.length - 1].updatedAt);
+                                        let currentTime = new Date();
+                                        let ms = moment(currentTime, 'DD/MM/YYYY HH:mm:ss').diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
+                                        let date = moment.duration(ms);
+                                        doctor.lastupdated = this.getLastUpdated(date);
                                     });
                                 this.sharedService.getDoctorStore(doctor.userId)
                                     .subscribe(stores => {
@@ -84,19 +70,19 @@ export class DoctorsListComponent implements OnInit {
                                         .subscribe((res) => {
                                             res.onloadend = () => {
                                                 doctor.picUrl = res.result;
+                                                this.ref.detectChanges();
                                             };
                                         });
-                                    this.ref.detectChanges();
                                 } else {
                                     this.chatService.downloadFile('doc.png')
                                         .subscribe((res: any) => {
                                             res.onloadend = () => {
                                                 doctor.picUrl = res.result;
+                                                this.ref.detectChanges();
                                             };
                                         });
-                                    this.ref.detectChanges();
                                 }
-                            }});
+                            });
                         }
                     }
                 });

@@ -93,6 +93,7 @@ export class ProfileComponent implements OnInit {
         this.chatService.uploadFile(files[0])
             .subscribe(res => {
                 this.user.picUrl = res._body;
+                this.securityService.setCookie('userDetails', JSON.stringify(this.user), 1);
                 this.downloadProfileImage(res._body);
                 this.profileService.updateUserDetails(this.user)
                     .subscribe(res => {
@@ -106,9 +107,10 @@ export class ProfileComponent implements OnInit {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = res.result;
+                    this.navbarComponent.picUrl = res.result;
+                    this.ref.detectChanges();
                 };
             });
-        this.ref.detectChanges();
     }
 
     downloadAltPic(role: string) {

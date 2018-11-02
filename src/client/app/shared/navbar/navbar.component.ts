@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     notifications: Notification[] = [];
     notify = false;
     @ViewChild('navbar') navbar: ElementRef;
+    @ViewChild('bell') bell: ElementRef;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -130,6 +131,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     startConsultation(notification: Notification) {
         this.socketService.userAdded(this.user, notification);
+        this.bell.nativeElement.classList.remove('animated');
     }
 
     getLatestNotification() {
@@ -137,6 +139,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
             .subscribe((data) => {
                 if (data) {
                     this.notifications.push(data.notification);
+                    this.bell.nativeElement.classList.add('animated');
                 }
             });
     }
