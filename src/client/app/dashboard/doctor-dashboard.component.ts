@@ -60,6 +60,10 @@ export class DoctorDashboardComponent implements OnInit {
             this.router.navigate([`/login`]);
         } else {
             this.userId = this.selectedUser.id;
+            if(window.localStorage.getItem('pageReloaded')) {
+                console.log('Page Reloaded');
+                this.socketService.connection(this.userId);
+              }
             if (this.selectedUser.picUrl) {
                 this.downloadPic(this.selectedUser.picUrl);
             } else {
@@ -158,10 +162,10 @@ export class DoctorDashboardComponent implements OnInit {
         //     });
         this.socketService.doctorStatusUpdate(this.selectedUser.id,status);
     }
-    receiveDoctorStatus(){
-        this.socketService.receiveDoctorStatus().subscribe((status)=>{
+    receiveDoctorStatus() {
+        this.socketService.receiveDoctorStatus().subscribe((status)=> {
             this.doctorSchedule.status = status;
-        })
+        });
     }
 
     getStores(stores: any, doctorId: number) {

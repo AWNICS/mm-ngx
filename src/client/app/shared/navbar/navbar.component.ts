@@ -51,6 +51,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     ngAfterViewInit() {
         this.checkWindowVisibility();
+        window.onunload = ()=> {
+            window.localStorage.setItem('pageReloaded','true');
+        };
     }
 
     ngAfterViewChecked() {
@@ -99,6 +102,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
         this.socketService.logout(this.user.id);
         this.securityService.deleteCookie('userDetails');
         this.securityService.deleteCookie('token');
+        this.socketService.setSocketStatus(false);
+        console.log('Made socketConnected as false')
+        ;
     }
 
     navbarColor(number: number, color: string) {
