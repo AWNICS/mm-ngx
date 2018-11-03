@@ -10,6 +10,7 @@ import { Notification } from '../shared/database/notification';
 
 @Injectable()
 export class SocketService {
+    private socketConnected: Boolean = false;
     private socket: any;
     private baseUrl: string;
 
@@ -23,15 +24,24 @@ export class SocketService {
      * connection
      */
     connection(userId: number) {
-        const token = this.securityService.getCookie('token');
-        this.socket = io(`${this.baseUrl}`, {
+        if(!this.socketConnected) {
+            window.localStorage.setItem('pageReloaded','false');
+            const token = this.securityService.getCookie('token');
+            this.socket = io(`${this.baseUrl}`, {
             query: { token: token },
             secure: true
-        });
-        this.socket.on('connect', () => {
-            this.socket.emit('user-connected', userId);
-        });
+             });
+            this.socket.on('connect', () => {
+                this.socketConnected = true;
+                this.socket.emit('user-connected', userId);
+            });
+        } else {
+            console.log('Socket connection already exists');
+        }
 }
+    setSocketStatus(status:Boolean) {
+        this.socketConnected = status;
+    }
 
     receivedGroupStatus(): Observable<any> {
         const observable = new Observable(observer => {
