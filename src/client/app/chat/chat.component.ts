@@ -66,6 +66,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   fileUrl: SafeResourceUrl;
   mediaMessages: Message[] = [];
   mediaPage = 1;
+  activeGroups: Group[] = [];
+  inactiveGroups: Group[] = [];
+  archiveGroups: Group[] = [];
+  showGroup: boolean = true;
   form = {
     receiverId: '',
     receiverType: '', // group or individual
@@ -118,10 +122,11 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     details: null,
     picture: '',
     status: '',
+    phase: '',
     createdBy: null,
     updatedBy: null,
-    createdTime: Date.now(),
-    updatedTime: Date.now()
+    createdAt: Date.now(),
+    updatedAt: Date.now()
   };
   unreadMessages: any = {};
   typingEvent: Boolean = true;
@@ -178,6 +183,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.typingEventEmitter();
       this.typingEventListener();
       this.receivedGroupStatus();
+      this.socketMedia(); //required for real time change in all file section
     } else {
       this.router.navigate([`/`]);
     }
@@ -484,17 +490,36 @@ export class ChatComponent implements OnInit, AfterViewInit  {
 
   // get all groups of the logged in user
   getGroups() {
+    this.showGroup = true;
     this.chatService.getGroups(this.userId)
       .subscribe((groups) => {
         if(groups) {
+          this.activeGroups = groups.activeGroups;
+          this.inactiveGroups = groups.inactiveGroups;
+          this.selectedGroup = this.activeGroups[0];
           if (!this.selectedGroup) {
-            this.selectedGroup = groups[0];
+            this.selectedGroup = this.activeGroups[0];
             this.getMessage(this.selectedGroup);
           } else {
             this.getMessage(this.selectedGroup);
           }
-          groups.map((group: Group) => {
-            this.groups.push(group);
+          //for active groups
+          this.activeGroups.map((group: Group) => {
+            if (group.picture) {
+              this.chatService.downloadFile(group.picture)
+                .subscribe((res) => {
+                  res.onloadend = () => {
+                    group.picture = res.result;
+                    this.ref.detectChanges();
+                  };
+                });
+            } else {
+              this.downloadAltPic('group.png');
+            }
+            this.ref.detectChanges();
+          });
+          //for inactive groups
+          this.inactiveGroups.map((group: Group) => {
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
                 .subscribe((res) => {
@@ -514,6 +539,50 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       });
   }
 
+  getArchivedGroups() {
+    this.showGroup = false;
+    this.archiveGroups = [];
+    this.chatService.getArchivedGroups(this.userId)
+      .subscribe((groups) => {
+        if(groups) {
+          this.selectedGroup = this.groups[0];
+          if (!this.selectedGroup) {
+            this.selectedGroup = groups[0];
+            this.getMessage(this.selectedGroup);
+          } else {
+            this.getMessage(this.selectedGroup);
+          }
+          groups.map((group: Group) => {
+            this.archiveGroups.push(group);
+            if (group.picture) {
+              this.chatService.downloadFile(group.picture)
+                .subscribe((res) => {
+                  res.onloadend = () => {
+                    group.picture = res.result;
+                    this.ref.detectChanges();
+                  };
+                });
+            } else {
+              this.downloadAltPic('group.png');
+            }
+            this.ref.detectChanges();
+          });
+        } else {
+          return;
+        }
+      });
+  }
+
+  toggleGroup() {
+    if(this.showGroup) {
+      this.showGroup = false;
+    } else {
+      this.showGroup = true;
+      this.selectedGroup = this.activeGroups[0];
+      this.getMessage(this.selectedGroup);
+    }
+  }
+
   getMessage(group: Group) {
     this.chatService.setGroup(group);
     this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
@@ -525,6 +594,11 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       });
     });
     this.selectedGroup = group;
+    if(this.selectedGroup.phase === 'archive') {
+      this.textArea.nativeElement.disabled = true;
+    } else {
+      this.textArea.nativeElement.disabled = false;
+    }
     const size = 20;
     if (this.mySidebar.nativeElement.style.display === 'block') {
       //hides the left sidebar in small screen devices as soon as user selects a group
@@ -592,6 +666,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     value.updatedBy = this.selectedUser.id;
     value.status = 'delivered';
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
+      return;
+    } else if(this.selectedGroup.phase === 'archive') {
       return;
     } else {
       //make typing emite true so that user can send the next message and emit event immediately
@@ -810,6 +886,18 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     this.mediaMessages = [];
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .subscribe(result => {
+        result.map((message: any) => {
+          this.mediaMessages.push(message);
+          this.ref.detectChanges();
+        });
+      });
+  }
+
+  //for all file section to be real time
+  socketMedia() {
+    this.socketService.mediaReceive()
+      .subscribe((result) => {
+        console.log('result: ' + JSON.stringify(result));
         result.map((message: any) => {
           this.mediaMessages.push(message);
           this.ref.detectChanges();

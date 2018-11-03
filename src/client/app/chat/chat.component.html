@@ -9,36 +9,97 @@
         <button class="w3-bar-item w3-button w3-large w3-hide-large" id="close" (click)="close()">
       <i class="fa fa-times-circle-o" aria-hidden="true"></i>
     </button>
-        <div class="search">
+        <div class="row search">
             <input type="text" placeholder="Search" [(ngModel)]="searchText" />
             <i class="fa fa-search"></i>
         </div>
-        <div class="w3-bar-item w3-button" *ngFor="let group of groups | filter : searchText" (click)="resetMessage(group.id)">
-            <div class="people-list" id="people-list">
-                <div class="list">
-                    <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
-                        <div *ngIf="group?.picture else alternateGroup">
-                            <img [src]="group?.picture | safe: 'url'" alt="avatar" />
-                        </div>
-                        <ng-template #alternateGroup>
-                            <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
-                        </ng-template>
-                        <div class="about">
-                            <div class="row">
-                                <div class="name">{{group?.name}}</div>
-                                <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
+        <div *ngIf="showGroup else archiveGroup">
+            <!--active groups in which doc is available-->
+            <p>Active Groups</p>
+            <div class="w3-bar-item w3-button" *ngFor="let group of activeGroups | filter : searchText" (click)="resetMessage(group.id)">
+                <div class="people-list" id="people-list">
+                    <div class="list">
+                        <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
+                            <div *ngIf="group?.picture else alternateGroup">
+                                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
                             </div>
-                            <div class="row">
-                                <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
-                                <ng-template #speciality>
-                                    <small>Specialist in: {{group?.details?.speciality}}</small>
-                                </ng-template>
+                            <ng-template #alternateGroup>
+                                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                            </ng-template>
+                            <div class="about">
+                                <div class="row">
+                                    <div class="name">{{group?.name}}</div>
+                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
+                                </div>
+                                <div class="row">
+                                    <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
+                                    <ng-template #speciality>
+                                        <small>{{group?.details?.speciality}}</small>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Upto 3 days patient can communicate with bot and ask for doctor-->
+            <p>Inactive Groups</p>
+            <div class="w3-bar-item w3-button" *ngFor="let group of inactiveGroups | filter : searchText" (click)="resetMessage(group.id)">
+                <div class="people-list" id="people-list">
+                    <div class="list">
+                        <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
+                            <div *ngIf="group?.picture else alternateGroup">
+                                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
+                            </div>
+                            <ng-template #alternateGroup>
+                                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                            </ng-template>
+                            <div class="about">
+                                <div class="row">
+                                    <div class="name">{{group?.name}}</div>
+                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
+                                </div>
+                                <div class="row">
+                                    <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
+                                    <ng-template #speciality>
+                                        <small>{{group?.details?.speciality}}</small>
+                                    </ng-template>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--for archived groups-->
+        <ng-template #archiveGroup>
+            <button (click)="toggleGroup();">Active Groups</button>
+            <!--Upto 3 days patient can communicate with bot and ask for doctor-->
+            <p>Archived Groups</p>
+            <div class="w3-bar-item w3-button" *ngFor="let group of archiveGroups | filter : searchText" (click)="resetMessage(group.id)">
+                <div class="people-list" id="people-list">
+                    <div class="list">
+                        <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
+                            <div *ngIf="group?.picture else alternateGroup">
+                                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
+                            </div>
+                            <ng-template #alternateGroup>
+                                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                            </ng-template>
+                            <div class="about">
+                                <div class="row">
+                                    <div class="name">{{group?.name}}</div>
+                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
+                                </div>
+                                <div class="row">
+                                    <small>{{group?.details?.speciality}}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
     </div>
 
     <div class="w3-main" style="margin-left:267px;">
@@ -164,6 +225,7 @@
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a> -->
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="togglePrescriptionComponent()">Generate Prescrition</a>
+                            <a class="dropdown-item" (click)="getArchivedGroups();">Archive Groups</a>
                         </div>
                     </div>
                 </div>
@@ -218,7 +280,7 @@
                                         <mm-text-message [message]="message"></mm-text-message>
                                     </div>
                                 </div>
-                                <div class="dropdown delete-message">
+                                <div class="dropdown delete-message" *ngIf="selectedGroup?.phase !== 'archive'">
                                     <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fa-angle-down"></i>
                                     </a>
@@ -293,7 +355,7 @@
                                 <i class="fa fa-paperclip"></i>
                             </a>
                             <div class="dropdown-menu" #dropDown>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" *ngIf="selectedGroup?.phase !== 'archive'">
                                     <i class="fa fa-dot-circle-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
                                     <i class="fa fa-sliders" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
                                     <i class="fa fa-thermometer-three-quarters" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
@@ -315,7 +377,7 @@
                             </div>
                         </div>
                         <div class="col col-2">
-                            <button type="submit" [disabled]="message.invalid">Send</button>
+                            <button type="submit" [disabled]="selectedGroup?.phase === 'archive'">Send</button>
                         </div>
                     </div>
                 </form>
