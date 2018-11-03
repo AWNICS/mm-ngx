@@ -13,7 +13,8 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     template: `
     <div *ngIf="url; else loading">
         <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a>
-        <a [href]="url" *ngIf="toggleFileName" download="{{fileName}}">Download Prescription</a>
+        <a i18n class="button button__accent" [href]="url" *ngIf="toggleFileName" download="{{fileName}}">
+        Download Prescription</a>
     </div>
     <ng-template #loading>
         Downloading PDF ...
@@ -22,6 +23,43 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     styles: [`
     a {
         color:#000000;
+    }
+    button,
+    .button {
+        display: inline-block;
+        padding: 3pt 8pt;
+        line-height: 1.5;
+        border: 1px solid #6C63FF;
+        color: #6C63FF;
+        font-weight: 400;
+        transition: 0.7s;
+        white-space: nowrap;
+        cursor: pointer;
+        background-color: transparent;
+        border-radius: 30px;
+        transition: 0.7s;
+        text-align: center;
+        text-decoration: none;
+        font-family: Lato, sans-serif;
+        font-size: 15px;
+    }
+
+    button:hover,
+    button:focus,
+    .button:hover,
+    .button:focus {
+        outline: none;
+    }
+    .button__accent {
+        background-color: #06d19c;
+        border-color: #06d19c;
+        color: #fff;
+        margin-right: 2%;
+    }
+    @media (max-width: 575.98px) {
+        .button {
+            font-size: 7px
+        }
     }
     `]
 })

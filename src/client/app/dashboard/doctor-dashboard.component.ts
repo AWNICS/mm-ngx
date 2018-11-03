@@ -7,6 +7,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
+import { SocketService } from '../chat/socket.service';
 const Chart = require('chart.js/dist/Chart.bundle.js');
 
 @Component({
@@ -44,6 +45,7 @@ export class DoctorDashboardComponent implements OnInit {
         private sharedService: SharedService,
         private securityService: SecurityService,
         private chatService: ChatService,
+        private socketService: SocketService,
         private router: Router
     ) { }
 
@@ -58,6 +60,10 @@ export class DoctorDashboardComponent implements OnInit {
             this.router.navigate([`/login`]);
         } else {
             this.userId = this.selectedUser.id;
+            if(window.localStorage.getItem('pageReloaded')) {
+                console.log('Page Reloaded');
+                this.socketService.connection(this.userId);
+              }
             if (this.selectedUser.picUrl) {
                 this.downloadPic(this.selectedUser.picUrl);
             } else {
@@ -65,6 +71,7 @@ export class DoctorDashboardComponent implements OnInit {
             }
             this.getDoctorById(this.doctorId);
             this.getDoctorStore(this.doctorId);
+            this.receiveDoctorStatus();
         }
         this.doctorSchedule = { 'status': 'online' };
         this.getConsutationDetails('today');
@@ -149,10 +156,16 @@ export class DoctorDashboardComponent implements OnInit {
 
     //update status in doctor schedule
     updateStatus(status: string) {
-        this.sharedService.updateStatus(status, this.doctorId)
-            .subscribe(res => {
-                this.doctorSchedule.status = status;
-            });
+        // this.sharedService.updateStatus(status, this.doctorId)
+        //     .subscribe(res => {
+        //         this.doctorSchedule.status = status;
+        //     });
+        this.socketService.doctorStatusUpdate(this.selectedUser.id,status);
+    }
+    receiveDoctorStatus() {
+        this.socketService.receiveDoctorStatus().subscribe((status)=> {
+            this.doctorSchedule.status = status;
+        });
     }
 
     getStores(stores: any, doctorId: number) {

@@ -94,7 +94,6 @@ a {
 .people-list:hover {
     background-color: #EEE;
 }
-
 .people-list img {
     float: left;
     height: 60px;
@@ -119,7 +118,7 @@ a {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis; /*for creating ellipses if the name of group is greater than width of side panel*/
-    width: 10rem;
+    max-width: 7rem;
 }
 
 

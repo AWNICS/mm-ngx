@@ -5,7 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  AfterViewInit
+  AfterViewInit,
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +33,7 @@ import { ProfileService } from '../profile/profile.service';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewInit  {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
@@ -137,7 +138,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   digitalSignature:string;
   displayMessageLoader:Boolean ;
 
-
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -164,7 +164,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     } else if (this.userId === JSON.parse(cookie).id) {
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
     //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
-      // this.socketService.connection(this.userId);
+    if(window.localStorage.getItem('pageReloaded')==='true') {
+      console.log('Page Reloaded');
+      this.socketService.connection(this.userId);
+    }
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
@@ -184,6 +187,8 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       this.typingEventListener();
       this.receivedGroupStatus();
       this.socketMedia(); //required for real time change in all file section
+      this.listenUserAdded();
+      this.listenUserDeleted();
     } else {
       this.router.navigate([`/`]);
     }
@@ -197,8 +202,25 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
   }
 
+  ngOnDestroy() {
+    let favicon: any = document.querySelector('head link');
+    favicon.href = 'assets/favicon/favicon-DEV.png';
+    document.querySelector('title').innerText = 'Mesomeds';
+  }
+
   errorRead(index: number) {
     this.errors.splice(index, 1);
+  }
+
+  listenUserAdded() {
+    this.socketService.receiveUserAdded().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
+  }
+  listenUserDeleted() {
+    this.socketService.receiveUserDeleted().subscribe((result)=> {
+      // this.createMessageNotification(result.message);
+    });
   }
 
   togglePrescriptionComponent() {
@@ -458,6 +480,24 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     }
   }
 
+  createNotificationMessage(Message:string) {
+    let value:any = {};
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
+    value.receiverType = 'group';
+    value.contentType = 'notification';
+    value.type = 'notification';
+    value.status = 'delivered';
+    value.text = Message;
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    value.updatedBy = this.selectedUser.id;
+    value.createdBy = this.selectedUser.id;
+    this.socketService.sendMessage(value, this.selectedGroup);
+    this.message.reset(this.form);
+  }
+
   createGroupAuto() {
     this.newGroup.name = 'Consultation room';
     this.newGroup.userId = this.selectedUser.id;
@@ -619,6 +659,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
       //display  loading animaton upon message call in the intitial chat window load
        this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
+      this.message.reset();
       this.messages = [];
       this.page = 1;
       this.oldGroupId = group.id;
@@ -707,11 +748,13 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
             let favicon: any = document.querySelector('head link');
             favicon.href = 'assets/favicon/favicon.png';
-            document.querySelector('title').innerText = ` (${sumOfUnread})` + 'Mesomeds';
+            document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
             this.ref.markForCheck();
           });
         }
+        if(msg.senderId !== this.selectedUser.id) {
         this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
+        }
       });
   }
 
@@ -945,14 +988,14 @@ export class ChatComponent implements OnInit, AfterViewInit  {
          });
         }));
   }
-
+//work under progress
   endConsultation() {
     this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
     if (this.selectedUser.role === 'doctor') {
-      this.groups.splice(1, 1);
-      this.selectedGroup = this.groups[0];
-      this.getMessage(this.selectedGroup);
-      this.ref.detectChanges();
+      // this.groups.splice(1, 1);
+      // this.selectedGroup = this.groups[0];
+      // this.getMessage(this.selectedGroup);
+      // this.ref.detectChanges();
     } else {
       return;
     }
