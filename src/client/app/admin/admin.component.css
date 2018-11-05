@@ -1,0 +1,218 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  background: #C5DDEB;
+  font: 14px/20px "Lato", Arial, sans-serif;
+  padding: 40px 0;
+  color: white;
+}
+
+.container {
+  padding-top: 102.66667px;
+  padding-bottom: 102.66667px;
+  color: #666;
+  font: 14px/20px "Lato", Arial, sans-serif;
+}
+
+.col {
+  border: 1px solid #333C44;
+}
+
+button,
+.button {
+  display: inline-block;
+  padding: 0.1rem 0rem;
+  min-width: 5rem;
+  line-height: 1.7;
+  border: 1px solid #6C63FF;
+  color: #6C63FF;
+  font-weight: 400;
+  transition: 0.7s;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 30px;
+  margin: 0.2rem;
+  transition: 0.7s;
+  text-align: center;
+  text-decoration: none;
+}
+
+button:hover,
+button:focus,
+.button:hover,
+.button:focus {
+  outline: 0;
+}
+
+@media (min-width: 992px) {
+
+  button:hover,
+  .button:hover {
+    border-color: #463aff;
+    color: #463aff;
+  }
+}
+
+.button__primary {
+  background-color: #6C63FF;
+  border-color: #6C63FF;
+  color: #fff;
+}
+
+@media (min-width: 992px) {
+  .button__primary:hover {
+    background-color: #463aff;
+    border-color: #463aff;
+    color: #fff;
+  }
+}
+
+.button__delete {
+  background-color: tomato;
+  border-color: tomato;
+  color: #fff;
+}
+
+@media (min-width: 992px) {
+  .button__delete:hover {
+    background-color: #ff5233;
+    border-color: #ff5233;
+    color: #fff;
+  }
+}
+
+.button__accent {
+  background-color: #06d19c;
+  border-color: #06d19c;
+  color: #fff;
+}
+
+@media (min-width: 992px) {
+  .button__accent:hover {
+    background-color: #05bd8d;
+    border-color: #05bd8d;
+    color: #fff;
+  }
+}
+
+.profile-image {
+  height: 3rem;
+  width: 3rem;
+  border: 1px solid #666;
+  border-radius: 50px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.7rem;
+}
+
+.table td{
+    text-align: center;
+}
+
+label {
+    margin-bottom: 2pt;
+    display: block;
+    text-align: left;
+    color: #666;
+    font-size: 0.9em;
+    padding-left: 10pt;
+}
+
+input {
+    border: 1px solid #eee;
+    width: 100%;
+    transition: 0.7s;
+    color: #111;
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    padding: 10pt 20pt;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+    margin-bottom: 1.4em;
+    display: block;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: rgba(108, 99, 255, 0.5);
+    outline: 0;
+    background-color: #ffffff;
+}
+
+/*
+custom styles for ng-multiselect-dropdown
+*/
+
+:host ::ng-deep .dropdown-btn {
+    border-radius: 30px !important;
+    min-height: 2.3rem !important;
+    padding: 5pt 20pt !important;
+    border: 1px solid #eee !important;
+    font-family: "Lato", sans-serif !important;
+    font-weight: 300 !important;
+    transition: 0.7s !important;
+    background-color: #f7f7f7 !important;
+    color: rgba(102, 102, 102, 0.5) !important;
+  }
+  
+  :host ::ng-deep .selected-item {
+    border-radius: 30px !important;
+    border: 1px solid #463aff !important;
+    font-family: "Lato", sans-serif !important;
+    font-weight: 300 !important;
+    background-color: #463aff !important;
+    color: #F7F7F7 !important;
+    font-size: 14px;
+  }
+  
+  :host ::ng-deep .dropdown-list {
+    border-radius: 30px !important;
+  }
+  
+  :host ::ng-deep li {
+    padding: 6px 20px !important;
+  }
+  
+  :host ::ng-deep .item2::-webkit-scrollbar {
+    width: 0.4em !important;
+  }
+  
+  :host ::ng-deep .item2::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  :host ::ng-deep .item2::-webkit-scrollbar-thumb {
+    background-color: darkgrey !important;
+    outline: 1px solid slategrey !important;
+  }
+  
+  :host ::ng-deep input[type=checkbox]:checked + div:before {
+    background: #463aff !important;
+  }
+  
+  :host ::ng-deep input[type=checkbox] + div:before{
+    color: #463aff !important;
+    border: 2px solid #463aff !important;
+  }
+  
+  :host ::ng-deep .dropdown-down {
+    border-top: 5px solid rgba(102, 102, 102, 0.5) !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+  }
+  
+  :host ::ng-deep .dropdown-up {
+    border-bottom: 5px solid rgba(102, 102, 102, 0.5) !important;
+    border-left: 5px solid transparent !important;
+    border-right: 5px solid transparent !important;
+  }
