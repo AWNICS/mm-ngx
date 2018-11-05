@@ -146,8 +146,8 @@ export class DoctorProfileComponent implements OnInit {
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
                     .subscribe(res => {
-                        window.scrollTo(0, 0);
                         this.message = 'Profile is updated';
+                        window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     });
             });
     }

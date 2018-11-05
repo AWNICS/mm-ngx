@@ -49,6 +49,10 @@ export class HomeComponent implements  OnInit, AfterViewInit {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
       if(this.selectedUser.role === 'doctor') {
         this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
+      } else if (this.selectedUser.role === 'admin') {
+        this.router.navigate([`/admin/${this.selectedUser.id}`]);
+      } else {
+        this.router.navigate([`/`]);
       }
     }
     this.getSpecialities();

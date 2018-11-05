@@ -31,9 +31,12 @@ export class DoctorsListComponent implements OnInit {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
         if (user && user.role === 'doctor') {
             this.router.navigate([`/dashboards/doctors/${user.id}`]);
+        } else if ( user.role === 'admin') {
+            this.router.navigate([`/admin/${user.id}`]);
+        } else {
+            this.navbarComponent.navbarColor(0, '#6960FF');
+            this.getDoctors();
         }
-        this.navbarComponent.navbarColor(0, '#6960FF');
-        this.getDoctors();
     }
 
     getDoctors() {

@@ -58,6 +58,8 @@ export class LoginComponent implements OnInit {
               return;
             });
           this.router.navigate([`/dashboards/doctors/${res.user.id}`]);
+        } else if(res.user.role === 'admin') {
+          this.router.navigate([`/admin/${res.user.id}`]);
         } else {
           this.router.navigate([`/chat/${res.user.id}`]);
         }
