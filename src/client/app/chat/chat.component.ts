@@ -5,7 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  AfterViewInit
+  AfterViewInit,
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +33,7 @@ import { ProfileService } from '../profile/profile.service';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewInit  {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
@@ -132,7 +133,6 @@ export class ChatComponent implements OnInit, AfterViewInit  {
   digitalSignature:string;
   displayMessageLoader:Boolean ;
 
-
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -159,7 +159,10 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     } else if (this.userId === JSON.parse(cookie).id) {
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
     //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
-      // this.socketService.connection(this.userId);
+    if(window.localStorage.getItem('pageReloaded')==='true') {
+      console.log('Page Reloaded');
+      this.socketService.connection(this.userId);
+    }
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
@@ -191,6 +194,12 @@ export class ChatComponent implements OnInit, AfterViewInit  {
     chatHistoryHeight-=46;
   }
   this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
+  }
+
+  ngOnDestroy() {
+    let favicon: any = document.querySelector('head link');
+    favicon.href = 'assets/favicon/favicon-DEV.png';
+    document.querySelector('title').innerText = 'Mesomeds';
   }
 
   errorRead(index: number) {
@@ -663,7 +672,7 @@ export class ChatComponent implements OnInit, AfterViewInit  {
             let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
             let favicon: any = document.querySelector('head link');
             favicon.href = 'assets/favicon/favicon.png';
-            document.querySelector('title').innerText = ` (${sumOfUnread})` + 'Mesomeds';
+            document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
             this.ref.markForCheck();
           });
         }
