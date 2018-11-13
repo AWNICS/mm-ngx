@@ -14,8 +14,8 @@
           <div class="card-body">
             <p>Billed Date: {{bill.date | date:'md'}}</p>
             <p>Amount Paid: Rs {{bill.amount}}</p>
-            <p>Order id: {{12345}}</p>
-            <p>Payment Mode: Net banking</p>
+            <p>Order id: {{bill.orderId}}</p>
+            <p>Payment Mode: {{bill.modeOfPayment}}</p>
             <small><a href="">Download Bill</a></small>
           </div>
         </div>
@@ -30,7 +30,7 @@
 Pay now</button>
           </div>
         </div>
-        <div class="card shadow" *ngSwitchCase="'Failure' || 'Aborted'">
+        <div class="card shadow" *ngSwitchCase="bill.status==='Failure' ? 'Failure' : 'null' || bill.status==='Aborted' ? 'Aborted' : 'null'">
             <div class="card-header">
                     {{bill.description}}
             </div>
