@@ -14,7 +14,6 @@ import { SecurityService } from '../shared/services/security.service';
 export class ChatService {
     private url: string;
     private group: Group;
-
     constructor(
         private http: Http,
         private securityService: SecurityService) {

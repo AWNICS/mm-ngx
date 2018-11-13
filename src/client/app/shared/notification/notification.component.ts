@@ -33,6 +33,8 @@ export class NotificationComponent implements OnInit {
                 if (data) {
                     this.notification = data.notification;
                     this.alert.nativeElement.style.display = 'block';
+                    console.log(data);
+                    this.sharedService.createWebNotification('Consultation Scheduled','Join the consultation');
                 }
             });
     }

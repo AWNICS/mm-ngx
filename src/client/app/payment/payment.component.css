@@ -24,3 +24,33 @@ body {
 a:hover {
     text-decoration: none;
 }
+.modal-dialog{
+    max-width: fit-content;
+    height:97%;
+    width:95%;
+    margin-bottom: 0px;
+}
+.modal-content{
+    height:100%;
+}
+.modal-body {
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-body button, .card-body small a{
+    position: absolute;
+    bottom:21px;
+    right:25px;
+}
+
+.card-header{
+   background: #d70a0a94;
+}
+
+@media(max-width:450px){
+  
+.card-body button, .card-body small a{
+    position: static;
+}
+}
