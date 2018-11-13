@@ -8,9 +8,10 @@ export class Group {
         speciality: string
     };
     picture: string; // picture url
+    phase: string;
     status: string;
     createdBy: number;
     updatedBy: number;
-    createdTime: any;
-    updatedTime: any;
+    createdAt: any;
+    updatedAt: any;
 }
