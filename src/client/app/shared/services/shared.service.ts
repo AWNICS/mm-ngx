@@ -395,6 +395,7 @@ export class SharedService {
 
     // crate web notification
     createWebNotification(title:string,body:string) {
+    console.log('Called create web notification');
     let document:any  = window.document;
     if(document.hidden === true || document.msHidden === true || document.webkitHidden === true) {
         this.windowNotInFocus = true;
@@ -408,7 +409,7 @@ export class SharedService {
                 icon: 'assets/logo/web_notification_logo.png',
                 body: body,
             });
-            // notification.onclick = ()=> { window.open(link); };
+            notification.onclick = ()=> { window.focus(); };
             // notification.onshow = ()=> {console.log('showed');};
             // notification.onclose = ()=> {console.log('closed');};
             notification.onerror = ()=> {console.warn('Error in creating WebNotification');};

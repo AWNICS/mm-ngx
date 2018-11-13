@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
     userDetails: UserDetails;
     error = '';
     otpMessage = '';
-    otpFlag: boolean;
+    otpFlag: boolean=false;
     phoneNo: number;
     loader: boolean;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;

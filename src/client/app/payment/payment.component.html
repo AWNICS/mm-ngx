@@ -3,38 +3,59 @@
   <h1>
     Welcome to payments & billings page
   </h1>
-  <div class="row">
+  <!-- <div class="row"> -->
     <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div *ngFor="let bill of bills;">
-        <div class="card shadow">
+      <div *ngFor="let bill of bills;let i = index">
+        <ng-container [ngSwitch]="bill.status">
+        <div class="card shadow" *ngSwitchCase="'Success'">
+          <div class="card-header" style='background:#3aae3a99'>
+              {{bill.description}}
+          </div>
           <div class="card-body">
-            <h5>{{bill.description}}</h5>
-            <p>Billed on: {{bill.date}}</p>
-            <p>Consultation Charges: Rs{{bill.amount.consultationCharges}}/- Taxes: Rs{{bill.amount.taxes.cgst +
-              bill.amount.taxes.sgst + bill.amount.taxes.igst}}/-</p>
+            <p>Billed Date: {{bill.date | date:'md'}}</p>
+            <p>Amount Paid: Rs {{bill.amount}}</p>
+            <p>Order id: {{12345}}</p>
+            <p>Payment Mode: Net banking</p>
             <small><a href="">Download Bill</a></small>
           </div>
         </div>
+      <div class="card shadow" *ngSwitchCase="'due'">
+          <div class="card-header">
+                  {{bill.description}}
+          </div>
+          <div class="card-body">
+            <p>Status: Unpaid</p>
+            <p>Consultation Charges: Rs {{bill.amount}}</p>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
+Pay now</button>
+          </div>
+        </div>
+        <div class="card shadow" *ngSwitchCase="'Failure' || 'Aborted'">
+            <div class="card-header">
+                    {{bill.description}}
+            </div>
+            <div class="card-body">
+              <p>Status: Failed</p>
+              <p>Consultation Charges: Rs {{bill.amount}}</p>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
+  Retry Payment</button>
+            </div>
+          </div>
+        </ng-container>
       </div>
-    </div>
-  </div>
+      </div>
 </div>
 <div class="container">
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall();">
-    Pay now
-  </button>
-
   <!-- Modal -->
   <div class="modal fade" data-keyboard="false" data-backdrop="static" id="paymentModal" tabindex="-1" role="dialog"
-    aria-labelledby="paymentModalLabel" aria-hidden="true">
+    aria-labelledby="paymentModalLabel" aria-hidden="true" #paymentModal>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-body">
           <div [innerHtml]="response | safe:'html'"></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Dismiss</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" #dismissButton>Dismiss</button>
         </div>
       </div>
     </div>
