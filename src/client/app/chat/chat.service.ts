@@ -44,7 +44,7 @@ export class ChatService {
     }
 
     /** GET groups from the server */
-    getGroups(userId: number): Observable<Group[]> {
+    getGroups(userId: number): Observable<any> {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         const uri = `${this.url}/groups/users/${userId}`;
@@ -186,6 +186,16 @@ export class ChatService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         const uri = `${this.url}/messages/media/groups/${id}?page=${page}&size=${size}`;
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
+    /** GET archived groups from the server */
+    getArchivedGroups(userId: number): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/groups/archived/users/${userId}`;
         return this.http.get(uri, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);

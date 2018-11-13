@@ -1,5 +1,5 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AdminService } from './admin.service';
 import { Group } from '../shared/database/group';
@@ -20,36 +20,38 @@ export class AdminComponent implements OnInit {
     @ViewChild('editGroupModal') editGroupModal: ElementRef;
     @ViewChild('deleteGroupModal') deleteGroupModal: ElementRef;
     groups: Group[] = [];
-    //users: UserDetails[] = [];
     usersByGroup: any[] = [];
     selectedUser: UserDetails;
     newGroup: FormGroup;
-    eidtGroup: FormGroup;
+    editGroup: FormGroup;
     deletedGroup: any;
     editIndex: number;
     deleteIndex: number;
     dropdownSettings: any;
     dropdownList: any[] = [];
+    message: string;
+    alert: boolean = false;
 
     constructor(
         private adminService: AdminService,
         private fb: FormBuilder,
-        private securityService: SecurityService
+        private securityService: SecurityService,
+        private ref:ChangeDetectorRef
     ) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
         this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if (this.selectedUser) {
+            this.createForm();
             this.getAllGroups();
             this.getAllUsers();
-            this.createForm();
             this.dropdownSettings = {
                 singleSelection: false,
                 enableCheckAll: false,
                 unSelectAllText: 'UnSelect All',
                 selectAllText: 'Select All',
-                itemsShowLimit: 2,
+                itemsShowLimit: 3,
                 allowSearchFilter: true,
                 idField: 'id',
                 textField: 'email'
@@ -63,7 +65,7 @@ export class AdminComponent implements OnInit {
             name: ['', Validators.required],
             url: '',
             userId: this.selectedUser.id,
-            users: [],
+            users: [''],
             description: ['', Validators.required],
             speciality: '',
             picture: '',
@@ -72,12 +74,12 @@ export class AdminComponent implements OnInit {
             createdBy: this.selectedUser.id,
             updatedBy: this.selectedUser.id
         });
-        this.eidtGroup = this.fb.group({
+        this.editGroup = this.fb.group({
             id: '',
             name: '',
             url: '',
             userId: '',
-            users: [this.usersByGroup],
+            users: [],
             description: '',
             speciality: '',
             picture: '',
@@ -92,7 +94,17 @@ export class AdminComponent implements OnInit {
         value.url = `/${value.name}/${value.userId}`;
         this.adminService.createNewGroup(value)
             .subscribe((res) => {
-                console.log('created group ', res);
+                this.createGroupUserMap(value.users, res.id);
+                this.createGroupModal.nativeElement.click();
+                this.getAllGroups();
+            });
+    }
+
+    //mapping for the users inside newly created group
+    createGroupUserMap(users: any, groupId: number) {
+        this.adminService.createGroupUserMap(users, groupId)
+            .subscribe((res: any) => {
+                return;
             });
     }
 
@@ -106,39 +118,34 @@ export class AdminComponent implements OnInit {
     getAllUsers() {
         this.adminService.getAllUsers()
             .subscribe((res) => {
-                //this.users = res;
                 this.dropdownList = res;
-                console.log('list ', this.dropdownList);
-            });
-    }
-
-    getAllUsersByGroupId(group: any) {
-        this.adminService.getAllUsersByGroupId(group.id)
-            .subscribe((res) => {
-                    res.map((user) => {
-                        this.usersByGroup.push({id:user.id,email:user.email});
-                    });
-                    console.log('users ', this.usersByGroup);
             });
     }
 
     initializeEdit(group: any, index: number) {
-        this.getAllUsersByGroupId(group);
-        this.eidtGroup.setValue({
-            id: group.id,
-            name: group.name,
-            url: group.url,
-            users: [this.usersByGroup],
-            userId: group.userId,
-            description: group.details.description,
-            speciality: group.details.speciality,
-            picture: group.picture,
-            status: group.status,
-            phase: group.phase,
-            createdBy: group.createdBy,
-            updatedBy: group.updatedBy
-        });
-        this.editIndex = index;
+        this.usersByGroup = [];
+        this.adminService.getAllUsersByGroupId(group.id)
+            .subscribe((res) => {
+                res.map((user) => {
+                    this.usersByGroup.push({id: user.id,email:user.email});
+                });
+                this.editGroup.setValue({
+                    id: group.id,
+                    name: group.name,
+                    url: group.url,
+                    users: this.usersByGroup,
+                    userId: group.userId,
+                    description: group.details.description,
+                    speciality: group.details.speciality,
+                    picture: group.picture,
+                    status: group.status,
+                    phase: group.phase,
+                    createdBy: group.createdBy,
+                    updatedBy: group.updatedBy
+                });
+                this.editIndex = index;
+                this.alert = false;
+            });
     }
 
     initializeDelete(group: any, index: number) {
@@ -147,20 +154,37 @@ export class AdminComponent implements OnInit {
     }
 
     updateGroup({ value, valid }: { value: any, valid: boolean }) {
-        // this.adminService.updateGroup(value)
-        //     .subscribe((res) => {
-                //this.getAllGroups();
-                value.details = {
-                    description: value.description,
-                    speciality: value.speciality
-                };
-                console.log('group updated', value);
-            //     this.groups[this.editIndex] = value;
-            //     this.editGroupModal.nativeElement.click();
-            // });
+        let data = {
+            id: value.id,
+            name: value.name,
+            url: value.url,
+            userId: value.userId,
+            users: value.users,
+            details: {description: value.description, speciality: value.speciality},
+            picture: value.picture,
+            status: value.status,
+            phase: value.phase,
+            createdBy: value.createdBy,
+            updatedBy: value.updatedBy
+        };
+        this.adminService.updateGroup(data)
+            .subscribe((res) => {
+                this.alert = true;
+                if(true) {
+                    this.message = 'Group is updated.';
+                }
+                this.getAllGroups();
+            this.groups[this.editIndex] = value;
+            this.editGroupModal.nativeElement.click();
+            });
     }
 
     deleteGroup() {
-        console.log('delete ', this.deletedGroup);
+        this.adminService.deleteGroup(this.deletedGroup)
+            .subscribe(() => {
+                this.deleteGroupModal.nativeElement.click();
+                this.getAllGroups();
+                return;
+            });
     }
 }

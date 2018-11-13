@@ -198,6 +198,22 @@ export class SocketService {
         return observable;
     }
 
+    /**
+     * all media files receive event
+     */
+    mediaReceive(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('media-file', (data: any) => {
+                console.log('media: ' + JSON.stringify(data));
+                observer.next(data);
+            });
+            return () => {
+                this.socket.disconnect();
+            };
+        });
+        return observable;
+    }
+
     typingEmitter(groupId: any, userName: any) {
         this.socket.emit('send-typing', groupId, userName);
     }

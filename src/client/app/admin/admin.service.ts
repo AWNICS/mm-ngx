@@ -84,6 +84,16 @@ export class AdminService {
             .catch(this.handleError);
     }
 
+    //mapping users in newly created group
+    createGroupUserMap(users: any, groupId: number): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/groups/${groupId}/users/map`;
+        return this.http.post(uri, users, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error);
         return Promise.reject(error.message || error);
