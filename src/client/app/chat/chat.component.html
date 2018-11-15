@@ -243,6 +243,10 @@
                     <span>Loading...</span>
                 </div>
                 <div *ngFor="let message of messages;let i = index;">
+                        <div *ngIf="message?.contentType==='notification'">
+                                <mm-notification-message [message]="message"></mm-notification-message>
+                            </div>
+<ng-container *ngIf="message?.contentType!=='notification'">
                     <div *ngIf="message?.senderId == selectedUser?.id; else alignLeft">
                         <div class="clearfix">
                             <div class="message-data align-right">
@@ -291,7 +295,7 @@
                             </div>
                         </div>
                     </div>
-
+</ng-container>
                     <ng-template #alignLeft>
                         <div class="clearfix">
                             <div class="message-data">
