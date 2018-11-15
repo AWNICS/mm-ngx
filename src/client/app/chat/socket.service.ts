@@ -25,6 +25,8 @@ export class SocketService {
      */
     connection(userId: number) {
         if(!this.socketConnected) {
+            console.log('Socket not connected so making new connection');
+            this.socketConnected = true;
             window.localStorage.setItem('pageReloaded','false');
             const token = this.securityService.getCookie('token');
             this.socket = io(`${this.baseUrl}`, {
@@ -32,7 +34,6 @@ export class SocketService {
             secure: true
              });
             this.socket.on('connect', () => {
-                this.socketConnected = true;
                 this.socket.emit('user-connected', userId);
             });
         } else {

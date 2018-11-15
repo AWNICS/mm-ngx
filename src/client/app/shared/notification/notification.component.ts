@@ -23,7 +23,7 @@ export class NotificationComponent implements OnInit {
     ngOnInit() {
         if(this.selectedUser) {
             this.getNotification();
-            this.consultationStatus();
+            // this.consultationStatus();
         }
     }
 
@@ -33,8 +33,9 @@ export class NotificationComponent implements OnInit {
                 if (data) {
                     this.notification = data.notification;
                     this.alert.nativeElement.style.display = 'block';
+                    console.log('Notification data for rectangle slider notification');
                     console.log(data);
-                    this.sharedService.createWebNotification('Consultation Scheduled','Join the consultation');
+                    this.sharedService.createWebNotification('Scheduled Consultation','Patient waiting for you to join the consultation');
                 }
             });
     }
@@ -46,12 +47,12 @@ export class NotificationComponent implements OnInit {
     startConsultation(notification: Notification) {
         this.socketService.userAdded(this.selectedUser, notification);
     }
-
-    consultationStatus() {
-        this.socketService.receiveUserAdded()
-            .subscribe((response) => {
-                console.log('received user added in notification comp');
-                this.router.navigate([`/chat/${response.doctorId}`]);
-            });
-    }
+    // coomented this as the same method exists in navbar and i hope it works fine even without this method
+    // consultationStatus() {
+    //     this.socketService.receiveUserAdded()
+    //         .subscribe((response) => {
+    //             console.log('received user added in notification comp');
+    //             this.router.navigate([`/chat/${response.doctorId}`]);
+    //         });
+    // }
 }

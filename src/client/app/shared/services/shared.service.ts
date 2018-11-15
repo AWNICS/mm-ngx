@@ -18,7 +18,7 @@ export class SharedService {
     private group: Group;
     private windowNotInFocus:Boolean;
     private windowNotVisible:Boolean;
-
+    private doctorAddedGroupId:number;
     constructor(
         private http: Http,
         private securityService: SecurityService
@@ -32,6 +32,12 @@ export class SharedService {
 
     getLocation() {
         return this.location;
+    }
+    doctorAddedToGroup(groupId:number) {
+        this.doctorAddedGroupId = groupId;
+    }
+    getdoctorAddedGroup() {
+        return this.doctorAddedGroupId;
     }
 
     setSpeciality(speciality: string) {
@@ -405,6 +411,7 @@ export class SharedService {
     if(this.windowNotInFocus || this.windowNotVisible) {
         let webNotification = (window as any).Notification;
         if (webNotification.permission !== 'denied') {
+            console.log('Created web notification');
             let notification = new webNotification(title, {
                 icon: 'assets/logo/web_notification_logo.png',
                 body: body,

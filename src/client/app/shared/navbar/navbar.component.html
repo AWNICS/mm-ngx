@@ -21,6 +21,7 @@
                     <div class="dropdown notification" *ngIf="loggedIn">
                         <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell" aria-hidden="true" #bell></i>
+                            <span style="position: absolute;font-size: 15px;bottom: -13px;right:-1px;color:#f0f0f1c2" *ngIf="unreadNotifications && unreadNotifications!==0">{{unreadNotifications}}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
                             <div *ngIf="notify; else showThis">

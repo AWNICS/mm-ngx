@@ -137,6 +137,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
   showPrescriptionComponent:Boolean = false;
   digitalSignature:string;
   displayMessageLoader:Boolean ;
+  userDetails:any;
 
   constructor(
     private fb: FormBuilder,
@@ -162,6 +163,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
+      this.userDetails = JSON.parse(cookie);
     //set the socket connection otherwise socket will through a connection error if making an call tosocket service
     //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
     if(window.localStorage.getItem('pageReloaded')==='true') {
@@ -200,6 +202,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     chatHistoryHeight-=46;
   }
   this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
+  let result:any = this.sharedService.getdoctorAddedGroup();
+  if(result) {
+    //add user role doctor filter after verifying integrity
+    console.log('result found');
+    console.log(result);
+    this.createNotificationMessage(result.message,result.groupId);
+    this.sharedService.doctorAddedToGroup(null);
+  }
   }
 
   ngOnDestroy() {
@@ -214,7 +224,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   listenUserAdded() {
     this.socketService.receiveUserAdded().subscribe((result)=> {
-      // this.createMessageNotification(result.message);
+      console.log('Received user-added event in chat component');
+      if(this.userDetails.role==='patient') {
+        this.sharedService.createWebNotification('Consultaion scheduled','Doctor arrived for you scheduled consultation please join soon');
+      }
     });
   }
   listenUserDeleted() {
@@ -480,11 +493,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     }
   }
 
-  createNotificationMessage(Message:string) {
+  createNotificationMessage(Message:string, groupId:number) {
     let value:any = {};
-    value.receiverId = this.chatService.getGroup().id;
-    value.senderId = this.selectedUser.id;
-    value.senderName = this.selectedUser.firstname+' '+this.selectedUser.lastname;
+    value.receiverId = groupId;
+    value.senderId = this.userDetails.id;
+    value.senderName = this.userDetails.firstname+' '+this.userDetails.lastname;
     value.receiverType = 'group';
     value.contentType = 'notification';
     value.type = 'notification';
@@ -492,10 +505,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     value.text = Message;
     value.createdTime = Date.now();
     value.updatedTime = Date.now();
-    value.updatedBy = this.selectedUser.id;
-    value.createdBy = this.selectedUser.id;
-    this.socketService.sendMessage(value, this.selectedGroup);
-    this.message.reset(this.form);
+    value.updatedBy = this.userDetails.id;
+    value.createdBy = this.userDetails.id;
+    let group:any= { id:groupId };
+    this.socketService.sendMessage(value, group);
+    console.log('Created Message Notification');
   }
 
   createGroupAuto() {
@@ -727,6 +741,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
   receiveMessageFromSocket() {
     this.socketService.receiveMessages()
       .subscribe((msg: any) => {
+        console.log(msg);
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
