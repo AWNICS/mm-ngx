@@ -768,6 +768,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
           });
         }
         if(msg.senderId !== this.selectedUser.id) {
+        this.sharedService.playsound();
         this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
         }
       });
