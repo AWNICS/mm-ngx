@@ -304,7 +304,6 @@ export class SharedService {
             .map(res => res.json());
     }
 
-
     /**
      *
      * Call to the payment gateway

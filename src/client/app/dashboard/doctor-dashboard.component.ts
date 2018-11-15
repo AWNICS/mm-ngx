@@ -37,6 +37,7 @@ export class DoctorDashboardComponent implements OnInit {
     consultations: any[];
     patients: number;
     hideConsultations = false;
+    earning: number;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -208,13 +209,17 @@ export class DoctorDashboardComponent implements OnInit {
         this.sharedService.getConsutationDetails(this.doctorId)
             .subscribe((res) => {
                 if (str === 'today') {
-                    this.patients = res.today;
+                    this.patients = res.noOfPatients.today;
+                    this.earning = res.earning.today;
                 } else if (str === 'week') {
-                    this.patients = res.week;
+                    this.patients = res.noOfPatients.week;
+                    this.earning = res.earning.week;
                 } else if (str === 'month') {
-                    this.patients = res.month;
+                    this.patients = res.noOfPatients.month;
+                    this.earning = res.earning.month;
                 } else {
                     this.patients = 0;
+                    this.earning = 0;
                 }
             });
     }

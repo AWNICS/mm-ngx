@@ -124,7 +124,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
                 if (notifications.length >= 1) {
                     this.notify = true;
                     this.notifications = notifications;
-                    this.ref.detectChanges();
+                    this.ref.markForCheck();
                 }
             });
     }
