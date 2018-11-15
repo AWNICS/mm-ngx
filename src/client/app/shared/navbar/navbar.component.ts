@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     notify = false;
     @ViewChild('navbar') navbar: ElementRef;
     @ViewChild('bell') bell: ElementRef;
-
+    unreadNotifications:number=0;
     constructor(
         private ref: ChangeDetectorRef,
         private socketService: SocketService,
@@ -121,15 +121,25 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
         let size = 10;
         this.sharedService.getNotificationsByUserId(user.id, page, size)
             .subscribe((notifications) => {
+                console.log('Notifications received all');
                 if (notifications.length >= 1) {
                     this.notify = true;
-                    this.notifications = notifications;
-                    this.ref.markForCheck();
+                    //reverse to show the items from latest to last later will have to change the logic in db itself
+                    this.notifications = notifications.reverse();
+                    notifications.map((notification:any)=> {
+                        if(notification.status!=='read') {
+                            this.unreadNotifications++;
+                        }
+                    });
+                    this.ref.detectChanges();
                 }
             });
     }
 
     startConsultation(notification: Notification) {
+        if(notification.status==='created') {
+            this.unreadNotifications--;
+        }
         this.socketService.userAdded(this.user, notification);
         this.bell.nativeElement.classList.remove('animated');
     }
@@ -138,8 +148,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
         this.socketService.consultNotification()
             .subscribe((data) => {
                 if (data) {
-                    this.notifications.push(data.notification);
+                    console.log('Received latest notification');
+                    //unshift to add the item to start of array
+                    this.notifications.unshift(data.notification);
+                    this.unreadNotifications++;
                     this.bell.nativeElement.classList.add('animated');
+                    this.ref.markForCheck();
                 }
             });
     }
@@ -147,9 +161,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     consultationStatus() {
         this.socketService.receiveUserAdded()
             .subscribe((response) => {
-                this.getNotifications(this.user);
+                console.log('Received user added in navbar');
+                this.sharedService.doctorAddedToGroup(response);
+                // this.getNotifications(this.user);
                 this.router.navigate([`/chat/${response.doctorId}`]);
             });
     }
-
 }

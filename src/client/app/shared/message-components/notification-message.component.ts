@@ -10,15 +10,13 @@ import { Message } from '../database/message';
     selector: 'mm-notification-message',
     template: `
             <div>
-                {{notificationMessage}}
+                {{notificationMessage}}<span>&nbsp;&nbsp;&nbsp;{{time | date:'sm'}}</span>
             </div>
     `,
     styles:[`
     div {
-        font-size:0.75em;
-        position:absolute;
-        left:50%;
-        transform: translateX(-50%);
+        font-size:0.70em;
+        text-align:center;
         color: #80828c
     }
     `]
@@ -27,8 +25,10 @@ import { Message } from '../database/message';
 export class NotificationMessageComponent implements OnInit {
     @Input() message:Message;
     notificationMessage:string;
+    time:string;
 
     ngOnInit() {
         this.notificationMessage = this.message.text;
+        this.time = this.message.createdTime;
     }
 }
