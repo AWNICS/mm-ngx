@@ -153,6 +153,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
                     this.notifications.unshift(data.notification);
                     this.unreadNotifications++;
                     this.bell.nativeElement.classList.add('animated');
+                    this.sharedService.playsound();
                     this.ref.markForCheck();
                 }
             });

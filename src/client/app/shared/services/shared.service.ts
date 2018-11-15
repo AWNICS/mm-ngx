@@ -39,7 +39,10 @@ export class SharedService {
     getdoctorAddedGroup() {
         return this.doctorAddedGroupId;
     }
-
+    playsound() {
+        let audio = new Audio('https://mesomeds.com/assets/sound/sound.mp3');
+        audio.play();
+    }
     setSpeciality(speciality: string) {
         this.speciality = speciality;
     }
@@ -409,6 +412,7 @@ export class SharedService {
         this.windowNotInFocus = false;
     }
     if(this.windowNotInFocus || this.windowNotVisible) {
+        this.playsound();
         let webNotification = (window as any).Notification;
         if (webNotification.permission !== 'denied') {
             console.log('Created web notification');
