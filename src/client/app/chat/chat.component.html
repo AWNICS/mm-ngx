@@ -223,8 +223,8 @@
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
                             <!-- <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a> -->
-                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End consultation</a>
-                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="togglePrescriptionComponent()">Generate Prescrition</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" (click)="endConsultation();">End Consultation</a>
+                            <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="togglePrescriptionComponent()">Generate Prescription</a>
                             <a class="dropdown-item" (click)="getArchivedGroups();">Archived Groups</a>
                         </div>
                     </div>
@@ -243,59 +243,59 @@
                     <span>Loading...</span>
                 </div>
                 <div *ngFor="let message of messages;let i = index;">
-                        <div *ngIf="message?.contentType==='notification'">
-                                <mm-notification-message [message]="message"></mm-notification-message>
-                            </div>
-<ng-container *ngIf="message?.contentType!=='notification'">
-                    <div *ngIf="message?.senderId == selectedUser?.id; else alignLeft">
-                        <div class="clearfix">
-                            <div class="message-data align-right">
-                                <span class="message-data-time">{{message?.createdTime | date: 'sm'}}</span> &nbsp; &nbsp;
-                                <span class="message-data-name">{{message?.senderName}}</span>
-                                <i class="fa fa-circle me"></i>
-                            </div>
-                            <div class="message other-message float-right">
-                                <div [ngSwitch]="message?.contentType" style="margin-right: 7px;">
-                                    <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message"></mm-text-message>
-                                    </div>
-                                    <div *ngSwitchCase="'radio'">
-                                        <mm-radio-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
-                                    </div>
-                                    <div *ngSwitchCase="'slider'">
-                                        <mm-slider-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
-                                    </div>
-                                    <div *ngSwitchCase="'checkbox'">
-                                        <mm-checkbox-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
-                                    </div>
-                                    <div *ngSwitchCase="'video'">
-                                        <mm-video-message [message]="message"></mm-video-message>
-                                    </div>
-                                    <div *ngSwitchCase="'doc'">
-                                        <mm-document-message [message]="message"></mm-document-message>
-                                    </div>
-                                    <div *ngSwitchCase="'appear'">
-                                        <mm-appear-message [message]="message" [index]="i"></mm-appear-message>
-                                    </div>
-                                    <div *ngSwitchCase="'image'">
-                                        <mm-image-message [message]="message"></mm-image-message>
-                                    </div>
-                                    <div *ngSwitchDefault>
-                                        <mm-text-message [message]="message"></mm-text-message>
-                                    </div>
+                    <div *ngIf="message?.contentType==='notification'">
+                        <mm-notification-message [message]="message"></mm-notification-message>
+                    </div>
+                    <ng-container *ngIf="message?.contentType!=='notification'">
+                        <div *ngIf="message?.senderId == selectedUser?.id; else alignLeft">
+                            <div class="clearfix">
+                                <div class="message-data align-right">
+                                    <span class="message-data-time">{{message?.createdTime | date: 'sm'}}</span> &nbsp; &nbsp;
+                                    <span class="message-data-name">{{message?.senderName}}</span>
+                                    <i class="fa fa-circle me"></i>
                                 </div>
-                                <div class="dropdown delete-message" *ngIf="selectedGroup?.phase !== 'archive'">
-                                    <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fa fa-angle-down"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right options-dropdowm">
-                                        <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
+                                <div class="message other-message float-right">
+                                    <div [ngSwitch]="message?.contentType" style="margin-right: 7px;">
+                                        <div *ngSwitchCase="'text'">
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                        <div *ngSwitchCase="'radio'">
+                                            <mm-radio-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
+                                        </div>
+                                        <div *ngSwitchCase="'slider'">
+                                            <mm-slider-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-slider-message>
+                                        </div>
+                                        <div *ngSwitchCase="'checkbox'">
+                                            <mm-checkbox-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-checkbox-message>
+                                        </div>
+                                        <div *ngSwitchCase="'video'">
+                                            <mm-video-message [message]="message"></mm-video-message>
+                                        </div>
+                                        <div *ngSwitchCase="'doc'">
+                                            <mm-document-message [message]="message"></mm-document-message>
+                                        </div>
+                                        <div *ngSwitchCase="'appear'">
+                                            <mm-appear-message [message]="message" [index]="i"></mm-appear-message>
+                                        </div>
+                                        <div *ngSwitchCase="'image'">
+                                            <mm-image-message [message]="message"></mm-image-message>
+                                        </div>
+                                        <div *ngSwitchDefault>
+                                            <mm-text-message [message]="message"></mm-text-message>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown delete-message" *ngIf="selectedGroup?.phase !== 'archive'">
+                                        <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right options-dropdowm">
+                                            <a class="dropdown-item" (click)="delete(message, i);">Delete</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-</ng-container>
+                    </ng-container>
                     <ng-template #alignLeft>
                         <div class="clearfix">
                             <div class="message-data">
