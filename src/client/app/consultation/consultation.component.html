@@ -24,8 +24,8 @@
                         Downloading prescription...
                     </ng-template>
                     <div *ngIf="billUrl; else loading">
-                        <a [href]="billUrl" *ngIf="!toggleBillingFileName" download="{{billingFileName}}">{{billingFileName}}</a>
-                        <a [href]="billUrl" *ngIf="toggleBillingFileName" download="{{billingFileName}}">Download bill</a>
+                        <a [href]="billUrl" *ngIf="billFile" download="{{billingFileName}}">{{billingFileName}}</a>
+                        <a [href]="billUrl" *ngIf="!billFile" download="{{billingFileName}}">Download bill</a>
                     </div>
                     <ng-template #loading>
                         Downloading billing...
