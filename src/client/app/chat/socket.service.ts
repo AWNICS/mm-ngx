@@ -49,9 +49,9 @@ export class SocketService {
             this.socket.on('received-group-status', (groupUpdate:any) => {
                 observer.next(groupUpdate);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -65,9 +65,9 @@ export class SocketService {
             this.socket.on('receive-message', (data: any) => {
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -81,9 +81,9 @@ export class SocketService {
             this.socket.on('updated-message', (res:any) => {
                 observer.next(res);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -97,9 +97,9 @@ export class SocketService {
             this.socket.on('deleted-message', (object: any) => {
                 observer.next(object);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -118,9 +118,9 @@ export class SocketService {
                 observer.next(status);
                 console.log('doctor status '+status );
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -130,9 +130,9 @@ export class SocketService {
             this.socket.on('receive-notification', (notify: any) => {
                 observer.next(notify);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -147,26 +147,26 @@ export class SocketService {
             this.socket.on('receive-user-added', (data: any) => {
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
 
     //whenever a user or doctor removed from the consutation group
-    userDeleted(user: UserDetails, group: Group) {
-        this.socket.emit('user-deleted', user, group);
+    endConsultaion(user: UserDetails, group: Group) {
+        this.socket.emit('end-consultation', user, group);
     }
 
-    receiveUserDeleted(): Observable<any> {
+    receiveEndConsultation(): Observable<any> {
         const observable = new Observable(observer => {
-            this.socket.on('receive-user-deleted', (data: any) => {
+            this.socket.on('receive-end-consultation', (data: any) => {
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -176,9 +176,9 @@ export class SocketService {
             this.socket.on('consult-notification', (data: any) => {
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -192,9 +192,9 @@ export class SocketService {
             this.socket.on('receive-typing', (data:any) => {
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
@@ -208,14 +208,15 @@ export class SocketService {
                 console.log('media: ' + JSON.stringify(data));
                 observer.next(data);
             });
-            return () => {
-                this.socket.disconnect();
-            };
+            // return () => {
+            //     this.socket.disconnect();
+            // };
         });
         return observable;
     }
 
-    typingEmitter(groupId: any, userName: any) {
-        this.socket.emit('send-typing', groupId, userName);
+    typingEmitter(groupId: any, userName: any, prescription:Boolean) {
+        this.socket.emit('send-typing', groupId, userName, prescription);
     }
+
 }

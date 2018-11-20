@@ -18,7 +18,8 @@ export class SharedService {
     private group: Group;
     private windowNotInFocus:Boolean;
     private windowNotVisible:Boolean;
-    private doctorAddedGroupId:number;
+    private doctorAddedGroupId:Object;
+
     constructor(
         private http: Http,
         private securityService: SecurityService
@@ -33,15 +34,20 @@ export class SharedService {
     getLocation() {
         return this.location;
     }
-    doctorAddedToGroup(groupId:number) {
-        this.doctorAddedGroupId = groupId;
+    doctorAddedToGroup(groupInfo:Object) {
+        this.doctorAddedGroupId = groupInfo;
     }
     getdoctorAddedGroup() {
         return this.doctorAddedGroupId;
     }
     playsound() {
-        let audio = new Audio('https://mesomeds.com/assets/sound/sound.mp3');
+    try {
+        let audio = new Audio('https://instaud.io/_/2VGc.mp3');
         audio.play();
+    } catch(e) {
+        console.info('Failed to play audio');
+        console.log(e);
+    }
     }
     setSpeciality(speciality: string) {
         this.speciality = speciality;

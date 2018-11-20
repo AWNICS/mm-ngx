@@ -16,7 +16,7 @@
         <div *ngIf="showGroup else archiveGroup">
             <!--active groups in which doc is available-->
             <p>Active Groups</p>
-            <div class="w3-bar-item w3-button" *ngFor="let group of activeGroups | filter : searchText" (click)="resetMessage(group.id)">
+            <div class="w3-bar-item w3-button" *ngFor="let group of activeGroups| orderBy: unreadMessages  | filter : searchText" (click)="resetMessage(group.id)">
                 <div class="people-list" id="people-list">
                     <div class="list">
                         <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
@@ -305,8 +305,11 @@
                             </div>
                             <div class="message my-message">
                                 <div [ngSwitch]="message?.contentType">
+                                    <!-- <div *ngSwitchCase="message?.receivedNow===true?'text':null">
+                                        <mm-text-message [message]="message" style='background:red'></mm-text-message>
+                                    </div> -->
                                     <div *ngSwitchCase="'text'">
-                                        <mm-text-message [message]="message"></mm-text-message>
+                                        <mm-text-message [message]="message" [ngStyle]="{'font-weight':message.receivedNow?'bold':'none'}"></mm-text-message>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mm-radio-message [message]="message" [index]="i" (onNewEntryAdded)="addNewEntry($event)"></mm-radio-message>
