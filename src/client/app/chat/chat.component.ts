@@ -501,6 +501,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       this.ref.markForCheck();
       // window.localStorage.setItem('prescriptionGenerated'+value.receiverId,'true');
       this.socketService.sendMessage(value, this.selectedGroup);
+      this.updatePrescriptionUrl(fileName);
     });
   }
 
@@ -583,6 +584,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
         this.groups.push(group);
         this.ref.detectChanges();
       });
+  }
+
+  updatePrescriptionUrl(fileName: string) {
+    this.chatService.updatePrescriptionUrl(this.chatService.getGroup().id, this.selectedUser.id, fileName)
+    .subscribe(res => {
+      return;
+    });
   }
 
   // get all groups of the logged in user

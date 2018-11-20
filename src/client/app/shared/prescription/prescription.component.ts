@@ -65,7 +65,8 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
             };
         });
 
-        this.chatService.getConsultationDetails(this.patientDetails.id,this.doctorDetails.doctorDetails.userId).subscribe((consulation)=> {
+        this.chatService.getConsultationDetails(this.patientDetails.id,this.doctorDetails.doctorDetails.userId)
+        .subscribe((consulation)=> {
             this.consultationDetails = consulation;
         });
 
@@ -214,7 +215,7 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
     let prescriptionInfo = {
           visitorId: this.patientDetails.id,
           doctorId: doctorDetailsPassed.doctorDetails.userId,
-          consultationId: this.consultationDetails.id,
+          consultationId: this.consultationDetails.consultationId,
           description: issuePassed,
           issue: issuePassed,
           medication: medicineList,

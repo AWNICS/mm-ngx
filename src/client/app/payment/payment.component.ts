@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
+import { ChatService } from '../chat/chat.service';
 import { CookieXSRFStrategy } from '@angular/http';
 import { window } from 'rxjs/operator/window';
 
@@ -29,7 +30,10 @@ export class PaymentComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private securityService: SecurityService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private chatService: ChatService,
+        private ref: ChangeDetectorRef,
+        private sanitizer: DomSanitizer
         ) {}
 
     ngOnInit() {
@@ -71,8 +75,22 @@ export class PaymentComponent implements OnInit {
     getBills() {
         this.sharedService.getBills(this.visitorId)
             .subscribe((billings) => {
-                console.log(billings);
                 this.bills = billings;
+                this.downloadPdf();
             });
+    }
+
+    downloadPdf() {
+        this.bills.map((bill:any)=> {
+            if(bill.url) {
+                this.chatService.downloadFile(bill.url)
+                    .subscribe((res) => {
+                        res.onloadend = () => {
+                            bill.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                            this.ref.markForCheck();
+                        };
+                    });
+                }
+                });
     }
 }

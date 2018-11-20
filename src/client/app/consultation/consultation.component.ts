@@ -26,6 +26,9 @@ export class ConsultationComponent implements OnInit {
     toggleFileName:Boolean = false;
     oldId:number;
     newId:number;
+    billingFileName: string;
+    billFile: Boolean = false;
+    billUrl: SafeResourceUrl;
 
     constructor(
         private route: ActivatedRoute,
@@ -62,10 +65,23 @@ export class ConsultationComponent implements OnInit {
                 } else {
                     res.map((consultation: any) => {
                         this.consultations.push(consultation);
-                        this.downloadDoc(consultation.urlFileName);
-                        this.fileName = consultation.urlFileName;
+                        this.downloadDoc(consultation.prescription.url);
+                        this.fileName = consultation.prescription.url;
+                        this.downloadBilling(consultation.billing.url);
+                        this.billingFileName = consultation.billing.url;
                     });
                 }
+            });
+    }
+
+    downloadBilling(fileName: string) {
+        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)?this.billFile = true:this.billFile = false;
+        this.chatService.downloadFile(fileName)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    this.ref.markForCheck();
+                };
             });
     }
 

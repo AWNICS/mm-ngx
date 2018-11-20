@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">Consultation summary: {{consultation?.prescription.description}}</p>
-            <p class="card-text">Consulted at: {{consultation?.prescription.createdAt}}</p>
+            <p class="card-text">Consulted at: {{consultation?.prescription.createdAt | date:'md'}}</p>
             <div class="float-right">
                 <a data-toggle="collapse" href="#toggle-{{i}}" role="button" aria-expanded="false" (click)="changeIcon(consultation?.prescription.id);">
                     <div id="toggle-{{consultation?.prescription.id}}">More</div>
@@ -16,14 +16,20 @@
             <div class="collapse" id="toggle-{{i}}">
                 <div style="padding: 1% 0%;">
                     <p class="card-text">Special instructions: {{consultation?.prescription.instructions}}</p>
-                    <div *ngIf="url; else loading">
+                    <div *ngIf="url; else load">
                         <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a>
                         <a [href]="url" *ngIf="toggleFileName" download="{{fileName}}">Download Prescription</a>
                     </div>
-                    <ng-template #loading>
-                        Downloading...
+                    <ng-template #load>
+                        Downloading prescription...
                     </ng-template>
-                    <a [routerLink]="['/bills', consultation?.billId]">Download bill</a>
+                    <div *ngIf="billUrl; else loading">
+                        <a [href]="billUrl" *ngIf="billFile" download="{{billingFileName}}">{{billingFileName}}</a>
+                        <a [href]="billUrl" *ngIf="!billFile" download="{{billingFileName}}">Download bill</a>
+                    </div>
+                    <ng-template #loading>
+                        Downloading billing...
+                    </ng-template>
                 </div>
             </div>
         </div>

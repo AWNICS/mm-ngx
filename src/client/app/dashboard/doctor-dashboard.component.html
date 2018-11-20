@@ -43,9 +43,9 @@
                                     <p class="card-text" style="line-height: 1em; margin-top: 0px;">{{qualifications}}</p>
                                     <p class="card-text" style="line-height: 1em;">{{locations}}</p>
                                     <select [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
-                    <option [ngValue]="undefined" selected disabled>Change Status</option>
-                    <option *ngFor="let option of status" [ngValue]="option"> {{option}} </option>
-                  </select>
+                                        <option [ngValue]="undefined" selected disabled>Change Status</option>
+                                        <option *ngFor="let option of status" [ngValue]="option"> {{option}} </option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -120,6 +120,9 @@
                                 </div>
                                 <div class="card-text" style="font-weight:normal; font-size:0.75rem;">
                                     You have an appointment at {{consultation?.startTime | date: 'lg'}}
+                                </div>
+                                <div class="card-title" style="font-size:1rem; margin-bottom:0px;">
+                                    Status: {{consultation?.status}}
                                 </div>
                             </div>
                         </div>
