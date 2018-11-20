@@ -27,7 +27,7 @@ export class ConsultationComponent implements OnInit {
     oldId:number;
     newId:number;
     billingFileName: string;
-    toggleBillingFileName: Boolean = false;
+    billFile: Boolean = false;
     billUrl: SafeResourceUrl;
 
     constructor(
@@ -75,8 +75,7 @@ export class ConsultationComponent implements OnInit {
     }
 
     downloadBilling(fileName: string) {
-        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)
-            ?this.toggleBillingFileName = true:this.toggleBillingFileName = false;
+        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)?this.billFile = true:this.billFile = false;
         this.chatService.downloadFile(fileName)
             .subscribe((res) => {
                 res.onloadend = () => {
