@@ -283,6 +283,20 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    /**
+     * all consultations by doctor id
+     * @param visitorId
+     * @param page
+     * @param size
+     */
+    getAllConsultationsByDoctorId(doctorId: number, page: number, size: number) {
+        const uri = `${this.url}/doctors/${doctorId}/consultations?page=${page}&size=${size}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     sendOtp(mobileNo: number) {
         const uri = `${this.url}/send/otp/mobile/${mobileNo}`;
         return this.http.get(uri)
@@ -333,6 +347,17 @@ export class SharedService {
      */
     getBills(visitorId: number) {
         const uri = `${this.url}/billing/visitors/${visitorId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
+    /**
+     * @param doctorId get all bills
+     */
+    getBillsByDoctorId(doctorId: number) {
+        const uri = `${this.url}/billing/doctors/${doctorId}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

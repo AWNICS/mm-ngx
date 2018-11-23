@@ -1,10 +1,15 @@
 <mm-navbar></mm-navbar>
 <div class="container">
     <small>{{message}}</small>
-    <div class="card" *ngFor="let consultation of consultations; let i=index;">
-        <div class="card-header">
+    <div class="card" *ngFor="let consultation of consultations; let i=index;" #doctorDashboardComponent>
+        <div class="card-header" *ngIf="selectedUser.role == 'patient' else doctorRole">
             Consultation with Dr. {{consultation?.user.firstname}} {{consultation?.user.lastname}}
         </div>
+        <ng-template #doctorRole>
+            <div class="card-header">
+                Consultation with {{consultation?.user.firstname}} {{consultation?.user.lastname}}
+            </div>
+        </ng-template>
         <div class="card-body">
             <p class="card-text">Consultation summary: {{consultation?.prescription.description}}</p>
             <p class="card-text">Consulted at: {{consultation?.prescription.createdAt | date:'md'}}</p>
