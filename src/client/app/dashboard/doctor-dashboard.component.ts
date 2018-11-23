@@ -223,4 +223,9 @@ export class DoctorDashboardComponent implements OnInit {
                 }
             });
     }
+
+    //redirect to particular consultation details
+    consultationDetail(consultation: any) {
+        this.router.navigate([`/consultation/${consultation.doctorId}?consultationId=${consultation.id}`]);
+    }
 }
