@@ -80,29 +80,14 @@ export class ChatService {
             .catch(this.handleError);
     }
 
-    generatePdf(data:any,doctorId:any): Observable<any> {
-        const url = `${this.url}/doctors/${doctorId}/files/pdf`;
+    generatePdf(data:any, doctorId:any, groupId: number): Observable<any> {
+        const url = `${this.url}/doctors/${doctorId}/groups/${groupId}/files/pdf`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http
             .post(url, data, { headers: headers })
             .map(response => response.json())
             .catch(this.handleError);
-    }
-
-    /**
-     * update prescription URL
-     */
-    updatePrescriptionUrl(groupId: number, doctorId: number, url: string): Observable<any> {
-            const uri = `${this.url}/groups/${groupId}/doctors/${doctorId}/prescriptions`;
-            let headers = new Headers();
-            headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-            return this.http
-                .put(uri, url, { headers: headers })
-                .map(response => {
-                    response.json();
-                })
-                .catch(this.handleError);
     }
 
     /**

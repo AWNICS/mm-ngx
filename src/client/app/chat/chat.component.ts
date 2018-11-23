@@ -36,7 +36,7 @@ import { Subject } from 'rxjs/Subject';
   styleUrls: ['chat.component.css', 'w3schools.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
@@ -175,17 +175,17 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       this.router.navigate([`/login`]);
     } else if (this.userId === JSON.parse(cookie).id) {
       this.userDetails = JSON.parse(cookie);
-    //set the socket connection otherwise socket will through a connection error if making an call tosocket service
-    //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
-    if(window.localStorage.getItem('pageReloaded')==='true') {
-      console.log('Page Reloaded');
-      this.socketService.connection(this.userId);
-    }
+      //set the socket connection otherwise socket will through a connection error if making an call tosocket service
+      //commenting  this for the timebeing. should find an alterantive to reconnect to old socket
+      if (window.localStorage.getItem('pageReloaded') === 'true') {
+        console.log('Page Reloaded');
+        this.socketService.connection(this.userId);
+      }
       this.chatService.getUserById(this.userId)
         .subscribe(user => {
           this.selectedUser = user;
           this.getGroups();
-          if(user.role==='doctor') {
+          if (user.role === 'doctor') {
             this.downloadDoctorSignature();
             this.getDoctorDetails();
           }
@@ -290,9 +290,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   getDoctorDetails() {
     this.sharedService.getDoctorById(this.userId)
-    .subscribe((doctorDetails) => {
-      this.doctorDetails = doctorDetails;
-    });
+      .subscribe((doctorDetails) => {
+        this.doctorDetails = doctorDetails;
+      });
   }
 
   downloadDoctorSignature() {
@@ -335,8 +335,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
           let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
           this.alertMessage = addUserName;
         } else {
-            this.alertMessage = response.userName + ' is typing ';
-          }
+          this.alertMessage = response.userName + ' is typing ';
+        }
         this.ref.markForCheck();
         setTimeout(() => {
           this.alertMessage = null;
@@ -405,7 +405,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
 
   createAppear({ value, valid }: { value: Message, valid: boolean }) {
-    value.contentData = {data: this.doctorDetails.appearUrl};
+    value.contentData = { data: this.doctorDetails.appearUrl };
     value.receiverId = this.chatService.getGroup().id;
     value.senderId = this.selectedUser.id;
     value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -431,7 +431,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       this.chatService.uploadFile(images[0])
         .subscribe(res => {
           //mrch for check erro
-          value.contentData = {data: res._body};
+          value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -463,7 +463,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     if (result.message) {
       this.chatService.uploadFile(videos[0])
         .subscribe(res => {
-          value.contentData = {data:res._body};
+          value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -489,7 +489,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 
   createPrescription(data: any) {
     let value: any = { contentData: { data: '' } };
-    this.chatService.generatePdf(data, this.selectedUser.id).subscribe((fileName) => {
+    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).subscribe((fileName) => {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
@@ -512,7 +512,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
         }
       });
       this.socketService.sendMessage(value, this.selectedGroup);
-      this.updatePrescriptionUrl(fileName);
+      // this.updatePrescriptionUrl(fileName);
     });
   }
 
@@ -524,7 +524,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     if (result.message) {
       this.chatService.uploadFile(files[0])
         .subscribe(res => {
-          value.contentData = {data:res._body};
+          value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -548,11 +548,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     }
   }
 
-  createNotificationMessage(Message:string, groupId:number) {
-    let value:any = {};
+  createNotificationMessage(Message: string, groupId: number) {
+    let value: any = {};
     value.receiverId = groupId;
     value.senderId = this.userDetails.id;
-    value.senderName = this.userDetails.firstname+' '+this.userDetails.lastname;
+    value.senderName = this.userDetails.firstname + ' ' + this.userDetails.lastname;
     value.receiverType = 'group';
     value.contentType = 'notification';
     value.type = 'notification';
@@ -562,7 +562,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     value.updatedTime = Date.now();
     value.updatedBy = this.userDetails.id;
     value.createdBy = this.userDetails.id;
-    let group:any= { id:groupId };
+    let group: any = { id: groupId };
     this.socketService.sendMessage(value, group);
     console.log('Created Message Notification');
   }
@@ -595,13 +595,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
         this.groups.push(group);
         this.ref.detectChanges();
       });
-  }
-
-  updatePrescriptionUrl(fileName: string) {
-    this.chatService.updatePrescriptionUrl(this.chatService.getGroup().id, this.selectedUser.id, fileName)
-    .subscribe(res => {
-      return;
-    });
   }
 
   // get all groups of the logged in user
@@ -683,7 +676,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     this.archiveGroups = [];
     this.chatService.getArchivedGroups(this.userId)
       .subscribe((groups) => {
-        if(groups) {
+        if (groups) {
           this.selectedGroup = this.groups[0];
           if (!this.selectedGroup) {
             this.selectedGroup = groups[0];
@@ -713,7 +706,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
   }
 
   toggleGroup() {
-    if(this.showGroup) {
+    if (this.showGroup) {
       this.showGroup = false;
     } else {
       this.showGroup = true;
@@ -733,7 +726,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       });
     });
     this.selectedGroup = group;
-    if(this.selectedGroup.phase === 'archive') {
+    if (this.selectedGroup.phase === 'archive') {
       this.textArea.nativeElement.disabled = true;
     } else {
       this.textArea.nativeElement.disabled = false;
@@ -765,7 +758,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
         });
     } else if (this.oldGroupId !== group.id) {
       //display  loading animaton upon message call in the intitial chat window load
-       this.displayMessageLoader = true;
+      this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
       this.message.reset();
       this.messages = [];
@@ -869,7 +862,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
         });
         this.ref.detectChanges();
         //this is to prevent the scroll reaching to top when messages are loaded, ideally it shouldbe in same place
-        this.messageBox.nativeElement.scrollTo(0,this.messageBox.nativeElement.scrollHeight-height);
+        this.messageBox.nativeElement.scrollTo(0, this.messageBox.nativeElement.scrollHeight - height);
       });
   }
 
@@ -888,7 +881,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     value.status = 'delivered';
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
-    } else if(this.selectedGroup.phase === 'archive') {
+    } else if (this.selectedGroup.phase === 'archive') {
       return;
     } else {
       //make typing emite true so that user can send the next message and emit event immediately
@@ -944,9 +937,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
             document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
             this.ref.markForCheck();
         }
-        if(msg.senderId !== this.selectedUser.id) {
-        this.sharedService.playsound();
-        this.sharedService.createWebNotification('New Message from '+msg.senderName, msg.text);
+        if (msg.senderId !== this.selectedUser.id) {
+          this.sharedService.playsound();
+          this.sharedService.createWebNotification('New Message from ' + msg.senderName, msg.text);
         }
       });
   }
@@ -1170,14 +1163,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     .takeUntil(this.unsubscribeObservables)
       .subscribe((groupUpdate => {
         this.groups.map((group: any) => {
-          if(groupUpdate.groupId === group.id) {
+          if (groupUpdate.groupId === group.id) {
             group.status = groupUpdate.groupStatus;
           }
           this.ref.markForCheck();
-         });
-        }));
+        });
+      }));
   }
-//work under progress
+  //work under progress
   endConsultation() {
     // let groupId = this.chatService.getGroup().id;
     if(!this.selectedGroup.prescription_generated) {

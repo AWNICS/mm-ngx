@@ -19,11 +19,13 @@ export class PaymentComponent implements OnInit {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     userDetails: any;
-    response:any;
+    response: any;
     visitorId: number;
     bills: any[] = [];
     @ViewChild('paymentModal') paymentModal: ElementRef;
     @ViewChild('dismissButton') dismissButton: ElementRef;
+    selectedUser: any;
+    billUrl: SafeResourceUrl;
 
     constructor(
         private service: SharedService,
@@ -34,7 +36,7 @@ export class PaymentComponent implements OnInit {
         private chatService: ChatService,
         private ref: ChangeDetectorRef,
         private sanitizer: DomSanitizer
-        ) {}
+    ) { }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
@@ -43,54 +45,65 @@ export class PaymentComponent implements OnInit {
         if (cookie === '') {
             this.router.navigate([`/login`]);
         } else {
+            this.selectedUser = cookie;
             this.getBills();
         }
-        this.userDetails = `merchant_id=192155&currency=INR&amount=1.00`+
-        `&redirect_url=https://mesomeds.com:3000/payments/responses&cancel_url=https://mesomeds.com:3000/payments/responses`+
-        `&integration_type=iframe_normal&language=en`+
-        `&billing_name=${cookie.firstname+cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore`+
-        `&billing_state=Karnataka&billing_zip=560043&billing_country=India&billing_email=${cookie.email}&billing_tel=${cookie.phoneNo}`;
+        this.userDetails = `merchant_id=192155&currency=INR&amount=1.00` +
+            `&redirect_url=https://mesomeds.com:3000/payments/responses&cancel_url=https://mesomeds.com:3000/payments/responses` +
+            `&integration_type=iframe_normal&language=en` +
+            `&billing_name=${cookie.firstname + cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore` +
+            `&billing_state=Karnataka&billing_zip=560043&billing_country=India&billing_email=${cookie.email}&billing_tel=${cookie.phoneNo}`;
         console.log(this.userDetails);
-        document.addEventListener('click',(event:any)=> {
-            if(this.paymentModal.nativeElement.style.display ==='block' && event.target.id==='paymentModal') {
+        document.addEventListener('click', (event: any) => {
+            if (this.paymentModal.nativeElement.style.display === 'block' && event.target.id === 'paymentModal') {
                 console.log('Dismissed Modal Window');
                 this.dismissButton.nativeElement.click();
             }
         });
     }
 
-    paymentGatewayCall(i:number) {
-        this.service.paymentGatewayCall(this.userDetails+`&order_id=${this.bills[i].orderId}`)
-        .subscribe((res:any) => {
-            // let  wind:any = window;
-            // let width = wind.innerWidth - 40;
-            // let height = (482*638)/width+20;
-            // res._body = res._body.replace(/width="\d+"/,`width="${width}"`);
-            // res._body = res._body.replace(/height="\d+"/,`height="${height}"`);
-            console.log(res._body);
-            this.response = res._body;
-        });
-    }
-
-    getBills() {
-        this.sharedService.getBills(this.visitorId)
-            .subscribe((billings) => {
-                this.bills = billings;
-                this.downloadPdf();
+    paymentGatewayCall(i: number) {
+        this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[i].orderId}`)
+            .subscribe((res: any) => {
+                // let  wind:any = window;
+                // let width = wind.innerWidth - 40;
+                // let height = (482*638)/width+20;
+                // res._body = res._body.replace(/width="\d+"/,`width="${width}"`);
+                // res._body = res._body.replace(/height="\d+"/,`height="${height}"`);
+                console.log(res._body);
+                this.response = res._body;
             });
     }
 
-    downloadPdf() {
-        this.bills.map((bill:any)=> {
-            if(bill.url) {
-                this.chatService.downloadFile(bill.url)
-                    .subscribe((res) => {
-                        res.onloadend = () => {
-                            bill.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                            this.ref.markForCheck();
-                        };
+    getBills() {
+        if (this.selectedUser.role === 'patient') {
+            this.sharedService.getBillsByDoctorId(this.visitorId)
+                .subscribe((billings) => {
+                    billings.map((billing: any) => {
+                        this.chatService.downloadFile(billing.url)
+                            .subscribe((res) => {
+                                res.onloadend = () => {
+                                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                                };
+                            });
+                        this.bills.push(billing);
                     });
-                }
                 });
+        } else if (this.selectedUser.role === 'doctor') {
+            this.sharedService.getBillsByDoctorId(this.selectedUser.id)
+                .subscribe((billings) => {
+                    billings.map((billing: any) => {
+                        this.chatService.downloadFile(billing.url)
+                            .subscribe((res) => {
+                                res.onloadend = () => {
+                                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                                };
+                            });
+                        this.bills.push(billing);
+                    });
+                });
+        } else {
+            return;
+        }
     }
 }

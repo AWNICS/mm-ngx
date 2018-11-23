@@ -363,10 +363,10 @@
                             </a>
                             <div class="dropdown-menu" #dropDown>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example" *ngIf="selectedGroup?.phase !== 'archive'">
-                                    <i class="fa fa-dot-circle-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
+                                    <!--i class="fa fa-dot-circle-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createRadio(message);" title="Radio question"></i>
                                     <i class="fa fa-sliders" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('ratings', message);" title="Rate slider"></i>
                                     <i class="fa fa-thermometer-three-quarters" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createSlider('meter', message);" title="Pain meter"></i>
-                                    <i class="fa fa-check-square-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i>
+                                    <i class="fa fa-check-square-o" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createCheckbox(message);" title="Checkbox question"></i-->
                                     <i class="fa fa-video-camera" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}" aria-hidden="true" (click)="createAppear(message);" title="Start appear call"></i>
                                     <div class="file-upload" title="Upload image">
                                         <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="createImage($event, message);" #imageUpload/>
