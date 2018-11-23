@@ -405,7 +405,7 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
             this.drawCanvas(this.mesomedslogoImage,90,90).then((res)=> {
             doc.addImage(res,'JPEG',10,10);
             var pdfData = doc.output();
-            this.generatedPdf.emit({'data':pdfData,'userId':this.patientDetails.id});
+            this.generatedPdf.emit({'data':pdfData,'userId':this.patientDetails.id,'groupId':this.selectedGroup.id});
             // this.prescriptionForm.reset();
             });
         });

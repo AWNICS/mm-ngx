@@ -73,7 +73,7 @@
         </div>
         <!--for archived groups-->
         <ng-template #archiveGroup>
-            <button (click)="toggleGroup();">Active Groups</button>
+            <button id='active-group-button'  (click)="toggleGroup();">Active Groups</button>
             <!--Upto 3 days patient can communicate with bot and ask for doctor-->
             <p>Archived Groups</p>
             <div class="w3-bar-item w3-button" *ngFor="let group of archiveGroups | filter : searchText" (click)="resetMessage(group.id)">

@@ -127,6 +127,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     picture: '',
     status: '',
     phase: '',
+    prescription_generated: false,
     createdBy: null,
     updatedBy: null,
     createdAt: Date.now(),
@@ -218,6 +219,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
     chatHistoryHeight-=46;
   }
   this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
+  window.onunload = ()=> {
+    window.localStorage.setItem('unreadMessages',JSON.stringify(this.unreadMessages));
+    window.localStorage.setItem('lastMessages',JSON.stringify(this.newMessages));
+  };
   }
 
   ngOnDestroy() {
@@ -252,6 +257,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       }
     });
   }
+
   receiveEndConsultation() {
     this.socketService.receiveEndConsultation()
     .takeUntil(this.unsubscribeObservables)
@@ -499,7 +505,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
       value.createdBy = this.selectedUser.id;
       this.showPrescriptionComponent = false;
       this.ref.markForCheck();
-      // window.localStorage.setItem('prescriptionGenerated'+value.receiverId,'true');
+      this.selectedGroup.prescription_generated = true;
+      this.activeGroups.map((activeGroup)=> {
+        if(activeGroup.id===this.selectedGroup.id) {
+          activeGroup.prescription_generated =true;
+        }
+      });
       this.socketService.sendMessage(value, this.selectedGroup);
       this.updatePrescriptionUrl(fileName);
     });
@@ -602,6 +613,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
           console.log(groups);
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
+          console.log(Object.keys(this.unreadMessages));
+          Object.keys(this.unreadMessages).map((groupId)=> {
+            let groupFound = false;
+            this.activeGroups.map((activeGroup:any)=> {
+              if(activeGroup.id===parseInt(groupId)) {
+                groupFound = true;
+              }
+            });
+            this.inactiveGroups.map((inactiveGroup:any)=> {
+              if(inactiveGroup.id===parseInt(groupId)) {
+                groupFound = true;
+              }
+            });
+            if(!groupFound) {
+              delete this.unreadMessages[groupId];
+              delete this.newMessages[groupId];
+            }
+            console.log(this.unreadMessages);
+          });
           if(!this.selectedGroup) {
           this.selectedGroup = this.activeGroups[0];
           }
@@ -731,7 +761,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
-          this.newMessages[group.id] = msg[msg.length]._id;
+          this.newMessages[group.id] = msg[msg.length - 1]._id;
         });
     } else if (this.oldGroupId !== group.id) {
       //display  loading animaton upon message call in the intitial chat window load
@@ -803,12 +833,24 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
           msg.reverse().map((message: any) => {
             count ++;
               if(this.newMessages[eachGroup]===message._id) {
-                console.log(eachGroup);
-                console.log(count);
                 this.unreadMessages[eachGroup]= msg.length - count;
-                console.log(this.unreadMessages);
+                this.ref.markForCheck();
               }
       });
+      if(eachGroup = Object.keys(this.newMessages)[Object.keys(this.newMessages).length - 1]) {
+        let unReadObject: any = Object;
+        let unreadObjectValues = unReadObject.values(this.unreadMessages);
+        let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
+        if(sumOfUnread > 0) {
+        let favicon: any = document.querySelector('head link');
+        favicon.href = 'assets/favicon/favicon.png';
+        document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
+        console.log('done');
+        } else if(sumOfUnread < 0) {
+          console.log('Critical error in unreadmessage logic');
+        }
+      }
+      this.ref.markForCheck();
     });
   }
     });
@@ -894,7 +936,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
               }
             }
           });
-          console.log(this.unreadMessages);
             let unReadObject: any = Object;
             let unreadObjectValues = unReadObject.values(this.unreadMessages);
             let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
@@ -1139,10 +1180,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy  {
 //work under progress
   endConsultation() {
     // let groupId = this.chatService.getGroup().id;
+    if(!this.selectedGroup.prescription_generated) {
     let doctorConfirmation = window.confirm('Are you sure you want to leave without generating prescription?');
     if(!doctorConfirmation) {
         return;
     }
+  }
     this.socketService.endConsultaion(this.selectedUser, this.selectedGroup);
     // window.localStorage.removeItem('prescriptionGenerated'+groupId);
     // if (this.selectedUser.role === 'doctor') {

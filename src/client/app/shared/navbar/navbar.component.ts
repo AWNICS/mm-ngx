@@ -56,9 +56,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
     ngAfterViewInit() {
         this.checkWindowVisibility();
-        window.onunload = ()=> {
+        window.addEventListener('unload',()=> {
             window.localStorage.setItem('pageReloaded','true');
-        };
+        });
     }
 
     ngAfterViewChecked() {
@@ -131,10 +131,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.sharedService.getNotificationsByUserId(user.id, page, size)
             .subscribe((notifications) => {
                 console.log('Notifications received all');
+                console.log(notifications);
                 if (notifications.length >= 1) {
                     this.notify = true;
                     //reverse to show the items from latest to last later will have to change the logic in db itself
-                    this.notifications = notifications.reverse();
+                    this.notifications = notifications;
                     notifications.map((notification:any)=> {
                         if(notification.status!=='read') {
                             this.unreadNotifications++;

@@ -1143,6 +1143,7 @@ a {
 
 .w3-animate-left {
     position: relative;
+    text-align: center;
     animation: animateleft 0.4s
 }
 
