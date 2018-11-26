@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, Output,
+    ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl, Validators  } from '@angular/forms';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -6,6 +7,7 @@ import { EventEmitter } from '@angular/core';
 import { ChatService } from '../../chat/chat.service';
 import { ProfileService } from '../../profile/profile.service';
 import { SharedService } from '../services/shared.service';
+import { SocketService } from '../../chat/socket.service';
 
 @Component({
     moduleId: module.id,
@@ -16,7 +18,7 @@ import { SharedService } from '../services/shared.service';
 
 })
 
-export class PrescriptionComponent implements OnInit {
+export class PrescriptionComponent implements OnInit, AfterViewInit {
     prescriptionForm:FormGroup;
     medicineNumber:any=[{'id':1,'checkbox1':false,'checkbox2':false}];
     testNumber:any=[1];
@@ -25,6 +27,7 @@ export class PrescriptionComponent implements OnInit {
     consultationDetails:any;
     patientInfo:any;
     submitted:Boolean=false;
+    typingEvent: Boolean = true;
     @Input() doctorDetails:any;
     @Input() patientDetails:any;
     @Input() selectedUser:any;
@@ -39,7 +42,8 @@ export class PrescriptionComponent implements OnInit {
         private fb: FormBuilder,
         private chatService:ChatService,
         private profileService:ProfileService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private socketService: SocketService
       ) {}
 
     ngOnInit(): void {
@@ -71,9 +75,25 @@ export class PrescriptionComponent implements OnInit {
         });
 
     }
+    ngAfterViewInit() {
+        this.typingEventEmitter();
+    }
     // ngOnDestroy() {
     //     console.log('destroyed');
     // }
+    typingEventEmitter() {
+        this.container.nativeElement.addEventListener('input', (event: any) => {
+          if (this.typingEvent) {
+            this.typingEvent = false;
+            let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+            this.socketService.typingEmitter(this.selectedGroup.id, fullName, true);
+            setTimeout(() => {
+              this.typingEvent = true;
+            }, 8000);
+          }
+        });
+      }
+
     unCheck(index:number,number:number) {
         if(number === 1) {
             if(this.medicineNumber[index].checkbox2===true) {
@@ -385,7 +405,7 @@ export class PrescriptionComponent implements OnInit {
             this.drawCanvas(this.mesomedslogoImage,90,90).then((res)=> {
             doc.addImage(res,'JPEG',10,10);
             var pdfData = doc.output();
-            this.generatedPdf.emit({'data':pdfData,'userId':this.patientDetails.id});
+            this.generatedPdf.emit({'data':pdfData,'userId':this.patientDetails.id,'groupId':this.selectedGroup.id});
             // this.prescriptionForm.reset();
             });
         });

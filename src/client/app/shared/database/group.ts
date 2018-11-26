@@ -10,6 +10,7 @@ export class Group {
     picture: string; // picture url
     phase: string;
     status: string;
+    prescription_generated: Boolean;
     createdBy: number;
     updatedBy: number;
     createdAt: any;

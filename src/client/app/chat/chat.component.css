@@ -341,6 +341,7 @@ textarea {
     font-weight: 300;
     resize: none;
     overflow: hidden !important;
+    text-transform: capitalize
 }
 
 textarea:focus {
@@ -795,3 +796,24 @@ mm-prescription {
         transform: rotate(360deg);
     }
 }
+
+#active-group-button {
+    background: #6c63ff;
+    border-color: #6c63ff;
+    color: #fff;
+    padding: 6pt 12pt;
+    display: inline-block;
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+}
+#active-group-button:hover {
+    background: #463aff;
+} 
