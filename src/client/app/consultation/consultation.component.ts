@@ -33,6 +33,9 @@ export class ConsultationComponent implements OnInit {
     billFile: Boolean = false;
     billUrl: SafeResourceUrl;
     selectedUser: UserDetails;
+    billDownloaded:Boolean = true;
+    prescriptionDownloaded:Boolean = true;
+    consultationId:any;
 
     constructor(
         private route: ActivatedRoute,
@@ -49,19 +52,50 @@ export class ConsultationComponent implements OnInit {
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         }
+        this.consultationId = this.route.snapshot.queryParams.consultationId;
+        if( this.consultationId && this.selectedUser.role==='doctor') {
+            this.getConsultationById(parseInt(this.consultationId));
+        } else {
         this.getConsultations(this.selectedUser.id);
-        this.doctorDashboardComponent.container.nativeElement.scrollIntoView();
+        }
     }
 
-    downloadDoc(fileName: string) {
-        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i) ? this.toggleFileName = true : this.toggleFileName = false;
-        this.chatService.downloadFile(fileName)
+    downloadDoc(index:number,event:any) {
+        if(this.prescriptionDownloaded) {
+            this.prescriptionDownloaded = false;
+        // fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pd
+        // f$/i) ? this.toggleFileName = true : this.toggleFileName = false;
+        this.chatService.downloadFile(this.consultations[index].prescription.url)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                    this.ref.markForCheck();
+                    event.srcElement.href = res.result;
+                    event.srcElement.click();
+                    event.srcElement.removeAttribute('href');
+                    this.prescriptionDownloaded = true;
+                    // this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    // this.ref.markForCheck();
                 };
             });
+    }
+    }
+
+    downloadBilling(index:number,event:any) {
+        if(this.billDownloaded) {
+            this.billDownloaded = false;
+            console.log(this.consultations[index].billing.url);
+        // fileName.match(/\d+-bill-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i) ? this.billFile = true : this.billFile = false;
+        this.chatService.downloadFile(this.consultations[index].billing.url)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    event.srcElement.href = res.result;
+                    event.srcElement.click();
+                    event.srcElement.removeAttribute('href');
+                    this.billDownloaded = true;
+                    // this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    // this.ref.markForCheck();
+                };
+            });
+    }
     }
 
     getConsultations(id: number) {
@@ -73,44 +107,45 @@ export class ConsultationComponent implements OnInit {
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
-                    res.map((consultation: any) => {
-                        this.consultations.push(consultation);
-                        this.downloadDoc(consultation.prescription.url);
-                        this.fileName = consultation.prescription.url;
-                        this.downloadBilling(consultation.billing.url);
-                        this.billingFileName = consultation.billing.url;
-                    });
+                    this.consultations  = res;
+                    // res.map((consultation: any) => {
+                    //     this.consultations.push(consultation);
+                    //     this.downloadDoc(consultation.prescription.url);
+                    //     this.fileName = consultation.prescription.url;
+                    //     this.downloadBilling(consultation.billing.url);
+                    //     this.billingFileName = consultation.billing.url;
+                    // });
                 }
             });
         } else if(this.selectedUser.role === 'doctor') {
             this.sharedService.getAllConsultationsByDoctorId(id, page, size)
             .subscribe((res) => {
+                console.log(res);
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
-                    res.map((consultation: any) => {
-                        this.consultations.push(consultation);
-                        this.downloadDoc(consultation.prescription.url);
-                        this.fileName = consultation.prescription.url;
-                        this.downloadBilling(consultation.billing.url);
-                        this.billingFileName = consultation.billing.url;
-                    });
+                    this.consultations = res;
+                    // res.map((consultation: any) => {
+                    //     this.consultations.push(consultation);
+                    //     this.downloadDoc(consultation.prescription.url);
+                    //     this.fileName = consultation.prescription.url;
+                    //     this.downloadBilling(consultation.billing.url);
+                    //     this.billingFileName = consultation.billing.url;
+                    // });
                 }
             });
         } else {
             return;
         }
     }
-
-    downloadBilling(fileName: string) {
-        fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i) ? this.billFile = true : this.billFile = false;
-        this.chatService.downloadFile(fileName)
-            .subscribe((res) => {
-                res.onloadend = () => {
-                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                    this.ref.markForCheck();
-                };
-            });
+    getConsultationById(consultationId:number) {
+        this.sharedService.getConsultationsByConsultationId(consultationId,this.selectedUser.id).subscribe((res:any)=> {
+            if(res.length > 0) {
+                this.consultations = res;
+            } else {
+                this.message = 'Sorry No consultation exist with that id';
+            }
+        });
     }
 
     changeIcon(id: number) {

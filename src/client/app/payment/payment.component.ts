@@ -7,6 +7,7 @@ import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
 import { CookieXSRFStrategy } from '@angular/http';
 import { window } from 'rxjs/operator/window';
+import { IfObservable } from 'rxjs/observable/IfObservable';
 
 @Component({
     moduleId: module.id,
@@ -24,8 +25,10 @@ export class PaymentComponent implements OnInit {
     bills: any[] = [];
     @ViewChild('paymentModal') paymentModal: ElementRef;
     @ViewChild('dismissButton') dismissButton: ElementRef;
+    @ViewChild('downloadFile') downloadFile: ElementRef;
     selectedUser: any;
     billUrl: SafeResourceUrl;
+    billDownloaded: any = true;
 
     constructor(
         private service: SharedService,
@@ -53,7 +56,6 @@ export class PaymentComponent implements OnInit {
             `&integration_type=iframe_normal&language=en` +
             `&billing_name=${cookie.firstname + cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore` +
             `&billing_state=Karnataka&billing_zip=560043&billing_country=India&billing_email=${cookie.email}&billing_tel=${cookie.phoneNo}`;
-        console.log(this.userDetails);
         document.addEventListener('click', (event: any) => {
             if (this.paymentModal.nativeElement.style.display === 'block' && event.target.id === 'paymentModal') {
                 console.log('Dismissed Modal Window');
@@ -75,32 +77,50 @@ export class PaymentComponent implements OnInit {
             });
     }
 
-    getBills() {
-        if (this.selectedUser.role === 'patient') {
-            this.sharedService.getBillsByDoctorId(this.visitorId)
-                .subscribe((billings) => {
-                    billings.map((billing: any) => {
-                        this.chatService.downloadFile(billing.url)
+    downloadBill(index:number, event:any) {
+        if(this.billDownloaded) {
+            this.billDownloaded = false;
+                this.chatService.downloadFile(this.bills[index].url)
                             .subscribe((res) => {
                                 res.onloadend = () => {
-                                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                                    event.srcElement.href = res.result;
+                                    event.srcElement.click();
+                                    event.srcElement.removeAttribute('href');
+                                    this.billDownloaded = true;
                                 };
                             });
-                        this.bills.push(billing);
-                    });
+    }
+    }
+    getBills() {
+        if (this.selectedUser.role === 'patient') {
+            this.sharedService.getBills(this.visitorId)
+                .subscribe((billings) => {
+                    console.log(billings);
+                    this.bills = billings;
+                    // billings.map((billing: any) => {
+                    //     this.chatService.downloadFile(billing.url)
+                    //         .subscribe((res) => {
+                    //             res.onloadend = () => {
+                    //                 this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    //             };
+                    //         });
+                    //     this.bills.push(billing);
+                    // });
                 });
         } else if (this.selectedUser.role === 'doctor') {
             this.sharedService.getBillsByDoctorId(this.selectedUser.id)
                 .subscribe((billings) => {
-                    billings.map((billing: any) => {
-                        this.chatService.downloadFile(billing.url)
-                            .subscribe((res) => {
-                                res.onloadend = () => {
-                                    this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                                };
-                            });
-                        this.bills.push(billing);
-                    });
+                    this.bills = billings;
+                    console.log(this.bills);
+                    // billings.map((billing: any) => {
+                    //     this.chatService.downloadFile(billing.url)
+                    //         .subscribe((res) => {
+                    //             res.onloadend = () => {
+                    //                 this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
+                    //             };
+                    //         });
+                    //     this.bills.push(billing);
+                    // });
                 });
         } else {
             return;

@@ -301,7 +301,7 @@ button:focus,
 }
 
 .card-overflow > .card-body {
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0.25rem;
 }
 

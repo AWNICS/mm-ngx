@@ -21,20 +21,31 @@
             <div class="collapse" id="toggle-{{i}}">
                 <div style="padding: 1% 0%;">
                     <p class="card-text">Special instructions: {{consultation?.prescription.instructions}}</p>
-                    <div *ngIf="url; else load">
-                        <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a>
-                        <a [href]="url" *ngIf="toggleFileName" download="{{fileName}}">Download Prescription</a>
+                    <!-- <div *ngIf="url; else load"> -->
+                        <!-- <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a> -->
+                        <div id="download-prescription">
+                        <a *ngIf="consultation?.prescription?.url; else prescriptionNotAvailable" download="{{consultation.prescription.url}}" (click)="downloadDoc(i,$evemt)">Download Prescription</a>
+                        <ng-template #prescriptionNotAvailable>
+                                <span>No Prescription</span>
+                        </ng-template>
                     </div>
-                    <ng-template #load>
+                        <!-- <a *ngIf="!consultation?.prescription?.url" download="{{fileName}}" (click)="downloadDoc(i,$evemt)">Download Prescription</a> -->
+                    <!-- </div> -->
+                    <!-- <ng-template #load>
                         Downloading prescription...
-                    </ng-template>
-                    <div *ngIf="billUrl; else loading">
-                        <a [href]="billUrl" *ngIf="billFile" download="{{billingFileName}}">{{billingFileName}}</a>
-                        <a [href]="billUrl" *ngIf="!billFile" download="{{billingFileName}}">Download bill</a>
-                    </div>
-                    <ng-template #loading>
+                    </ng-template> -->
+                    <!-- <div *ngIf="billUrl; else loading"> -->
+                        <!-- <a [href]="billUrl" *ngIf="billFile" download="{{billingFileName}}">{{billingFileName}}</a> -->
+                        <div id="download-bill">
+                        <a *ngIf="consultation?.billing?.url; else billNotAvailable" download="{{consultation.billing.url}}" (click)="downloadBilling(i, $event)">Download bill</a>
+                        <ng-template #billNotAvailable>
+                            <span>No Bill</span>
+                         </ng-template>
+                        </div>  
+                        <!-- </div> -->
+                    <!-- <ng-template #loading>
                         Downloading billing...
-                    </ng-template>
+                    </ng-template> -->
                 </div>
             </div>
         </div>

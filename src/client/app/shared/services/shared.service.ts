@@ -289,6 +289,14 @@ export class SharedService {
             .map(res => res.json());
     }
 
+    getConsultationsByConsultationId(consultationId: number, doctorId:number) {
+        const uri = `${this.url}/doctors/${doctorId}/consultations/${consultationId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     /**
      * all consultations by doctor id
      * @param visitorId

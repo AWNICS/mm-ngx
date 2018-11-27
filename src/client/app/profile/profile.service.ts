@@ -118,6 +118,15 @@ export class ProfileService {
         .catch(this.handleError);
     }
 
+    getDoctorDigitalSignature(id:number): Observable<any> {
+        const uri = `${this.url}/doctors/${id}/digitalsig`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, {headers: headers})
+        .map(res => { console.log(res);res.json();})
+        .catch(this.handleError);
+    }
+
     getLimitedDoctorMedia(id:number, page:number, size:number): Observable<any> {
         const uri = `${this.url}/doctors/${id}/bio?page=${page}&size=${size}`;
         let headers = new Headers();
