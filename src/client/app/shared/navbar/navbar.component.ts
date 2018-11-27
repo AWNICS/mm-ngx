@@ -1,12 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
 import { ChatService } from '../../chat/chat.service';
 import { UserDetails } from '../database/user-details';
 import { SharedService } from '../services/shared.service';
 import { Notification } from '../database/notification';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -15,7 +15,7 @@ import { Notification } from '../database/notification';
     styleUrls: ['navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
     loggedIn: boolean = false;
     user: UserDetails;
     picUrl: string;
@@ -24,6 +24,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
     @ViewChild('navbar') navbar: ElementRef;
     @ViewChild('bell') bell: ElementRef;
     unreadNotifications:number=0;
+    private unsubscribeObservables:any = new Subject();
+
     constructor(
         private ref: ChangeDetectorRef,
         private socketService: SocketService,
@@ -40,7 +42,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
             if (this.user) {
                 this.getNotifications(this.user);
                 this.getLatestNotification();
-                this.consultationStatus();
+                if(this.user.role==='doctor') {
+                    this.consultationStatus();
+                }
                 if (this.user.picUrl) {
                     this.downloadPic(this.user.picUrl);
                 } else {
@@ -52,13 +56,18 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     ngAfterViewInit() {
         this.checkWindowVisibility();
-        window.onunload = ()=> {
+        window.addEventListener('unload',()=> {
             window.localStorage.setItem('pageReloaded','true');
-        };
+        });
     }
 
     ngAfterViewChecked() {
         this.loggedIn = this.securityService.getLoginStatus();
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     checkWindowVisibility() {
@@ -122,10 +131,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
         this.sharedService.getNotificationsByUserId(user.id, page, size)
             .subscribe((notifications) => {
                 console.log('Notifications received all');
+                console.log(notifications);
                 if (notifications.length >= 1) {
                     this.notify = true;
                     //reverse to show the items from latest to last later will have to change the logic in db itself
-                    this.notifications = notifications.reverse();
+                    this.notifications = notifications;
                     notifications.map((notification:any)=> {
                         if(notification.status!=='read') {
                             this.unreadNotifications++;
@@ -146,6 +156,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     getLatestNotification() {
         this.socketService.consultNotification()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((data) => {
                 if (data) {
                     console.log('Received latest notification');
@@ -161,9 +172,11 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked 
 
     consultationStatus() {
         this.socketService.receiveUserAdded()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((response) => {
                 console.log('Received user added in navbar');
                 this.sharedService.doctorAddedToGroup(response);
+                this.sharedService.setGroup(response.group);
                 // this.getNotifications(this.user);
                 this.router.navigate([`/chat/${response.doctorId}`]);
             });

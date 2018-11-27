@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -9,6 +9,7 @@ import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
 import { SocketService } from '../chat/socket.service';
 const Chart = require('chart.js/dist/Chart.bundle.js');
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,7 @@ const Chart = require('chart.js/dist/Chart.bundle.js');
     styleUrls: ['doctor-dashboard.component.css']
 })
 
-export class DoctorDashboardComponent implements OnInit {
+export class DoctorDashboardComponent implements OnInit, OnDestroy {
 
     userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -38,6 +39,7 @@ export class DoctorDashboardComponent implements OnInit {
     patients: number;
     hideConsultations = false;
     earning: number;
+    private unsubscribeObservables:any = new Subject();
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -77,6 +79,11 @@ export class DoctorDashboardComponent implements OnInit {
         this.doctorSchedule = { 'status': 'online' };
         this.getConsutationDetails('today');
     }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+      }
 
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
@@ -164,7 +171,9 @@ export class DoctorDashboardComponent implements OnInit {
         this.socketService.doctorStatusUpdate(this.selectedUser.id,status);
     }
     receiveDoctorStatus() {
-        this.socketService.receiveDoctorStatus().subscribe((status)=> {
+        this.socketService.receiveDoctorStatus()
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((status)=> {
             this.doctorSchedule.status = status;
         });
     }

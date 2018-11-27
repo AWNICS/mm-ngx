@@ -6,10 +6,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   AfterViewInit,
-  OnDestroy
+  OnDestroy,
+  group
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SocketService } from './socket.service';
@@ -22,6 +24,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from '../profile/profile.service';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -124,6 +127,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     picture: '',
     status: '',
     phase: '',
+    prescription_generated: false,
     createdBy: null,
     updatedBy: null,
     createdAt: Date.now(),
@@ -131,13 +135,18 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   unreadMessages: any = {};
   typingEvent: Boolean = true;
-  errors: Array<any> = [];
-  patientDetails: any;
-  doctorDetails: any;
-  showPrescriptionComponent: Boolean = false;
-  digitalSignature: string;
-  displayMessageLoader: Boolean;
-  userDetails: any;
+  errors:Array<any>=[];
+  patientDetails:any;
+  doctorDetails:any;
+  showPrescriptionComponent:Boolean = false;
+  digitalSignature:string;
+  displayMessageLoader:Boolean ;
+  userDetails:any;
+  prescriptionGenerated:any = {};
+  newMessages:any=[];
+  initialLoad:Boolean = true;
+  //this new variable is to unsubscribe all socket calls on component destruction
+  private unsubscribeObservables:any = new Subject();
 
   constructor(
     private fb: FormBuilder,
@@ -150,7 +159,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     private securityService: SecurityService,
     private router: Router,
     private sharedService: SharedService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private location: Location
   ) {
   }
 
@@ -158,6 +168,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
+    console.log(this.selectedGroup);
     const cookie = this.securityService.getCookie('userDetails');
     this.displayMessageLoader = true;
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
@@ -179,40 +190,46 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.getDoctorDetails();
           }
         });
+      try {
+        this.unreadMessages = JSON.parse(window.localStorage.getItem('unreadMessages')) || {};
+        this.newMessages = JSON.parse(window.localStorage.getItem('lastMessages')) || {};
+      } catch(e) {
+        console.log(e);
+      }
       this.createForm();
       this.receiveMessageFromSocket();
       this.receiveNotification();
       this.receiveUpdatedMessageFromSocket();
       this.receiveDeletedMessageFromSocket();
-      this.consultationStatus();
+      // this.consultationStatus();
       this.typingEventEmitter();
       this.typingEventListener();
       this.receivedGroupStatus();
       this.socketMedia(); //required for real time change in all file section
       this.listenUserAdded();
-      this.listenUserDeleted();
+      this.receiveEndConsultation();
     } else {
       this.router.navigate([`/`]);
     }
   }
   ngAfterViewInit() {
     //to set the chat-history height to 87% of window height minus chatwindow header and chatwindow footer
-    let chatHistoryHeight = (window.innerHeight * 87) / 100 - 76 - 151;
-    if (window.innerWidth <= 992) {
-      chatHistoryHeight -= 46;
-    }
-    this.messageBox.nativeElement.style.height = chatHistoryHeight + 'px';
-    let result: any = this.sharedService.getdoctorAddedGroup();
-    if (result) {
-      //add user role doctor filter after verifying integrity
-      console.log('result found');
-      console.log(result);
-      this.createNotificationMessage(result.message, result.groupId);
-      this.sharedService.doctorAddedToGroup(null);
-    }
+  let  chatHistoryHeight = (window.innerHeight*87)/100-76-151;
+  if(window.innerWidth <= 992) {
+    chatHistoryHeight-=46;
+  }
+  this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
+  window.onunload = ()=> {
+    window.localStorage.setItem('unreadMessages',JSON.stringify(this.unreadMessages));
+    window.localStorage.setItem('lastMessages',JSON.stringify(this.newMessages));
+  };
   }
 
   ngOnDestroy() {
+    this.unsubscribeObservables.next();
+    this.unsubscribeObservables.complete();
+    window.localStorage.setItem('unreadMessages',JSON.stringify(this.unreadMessages));
+    window.localStorage.setItem('lastMessages',JSON.stringify(this.newMessages));
     let favicon: any = document.querySelector('head link');
     favicon.href = 'assets/favicon/favicon-DEV.png';
     document.querySelector('title').innerText = 'Mesomeds';
@@ -223,16 +240,43 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   listenUserAdded() {
-    this.socketService.receiveUserAdded().subscribe((result) => {
+    this.socketService.receiveUserAdded()
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((result)=> {
       console.log('Received user-added event in chat component');
-      if (this.userDetails.role === 'patient') {
-        this.sharedService.createWebNotification('Consultaion scheduled', 'Doctor arrived for you scheduled consultation please join soon');
+      if(this.userDetails.role==='patient') {
+        let i = 0;
+        this.inactiveGroups.map((group:any)=> {
+          i++;
+          if(group.id===result.group.id) {
+            let activeGroup:any = this.inactiveGroups.splice(i-1,1)[0];
+            this.activeGroups.push(activeGroup);
+          }
+        });
+        this.sharedService.createWebNotification('Consultaion scheduled','Doctor arrived for you scheduled consultation please join soon');
       }
     });
   }
-  listenUserDeleted() {
-    this.socketService.receiveUserDeleted().subscribe((result) => {
-      // this.createMessageNotification(result.message);
+
+  receiveEndConsultation() {
+    this.socketService.receiveEndConsultation()
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((result)=> {
+      if (this.selectedUser.role === 'doctor') {
+        this.createNotificationMessage(result.message,result.groupId);
+        setTimeout(()=> { this.router.navigate([`dashboards/doctors/${this.selectedUser.id}`]); },2000);
+      } else if(this.selectedUser.role === 'patient') {
+        let i = 0;
+        this.activeGroups.map((group:any)=> {
+          i++;
+          if(group.id===result.groupId) {
+            let inactiveGroup:any = this.activeGroups.splice(i-1,1)[0];
+            this.inactiveGroups.unshift(inactiveGroup);
+          }
+        });
+        console.log(this.activeGroups[0]);
+        this.chatService.setGroup(this.activeGroups[0]);
+      }
     });
   }
 
@@ -270,7 +314,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        this.socketService.typingEmitter(this.selectedGroup.id, fullName);
+        this.socketService.typingEmitter(this.selectedGroup.id, fullName, false);
         setTimeout(() => {
           this.typingEvent = true;
         }, 8000);
@@ -279,12 +323,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   typingEventListener() {
-    this.socketService.typingListener().subscribe((response) => {
+    this.socketService.typingListener()
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((response) => {
       if (this.selectedGroup.id === response.groupId) {
         this.alert = true;
         //this is  to apped the usernames who are typing at a time
-        if (this.alertMessage) {
-          let addUserName = this.alertMessage.replace('is typing', `and ${response.userName} are typing`);
+        if(response.prescription)   {
+          this.alertMessage = response.userName + ' is generating prescription for you ';
+        } else if (this.alertMessage) {
+          let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
           this.alertMessage = addUserName;
         } else {
           this.alertMessage = response.userName + ' is typing ';
@@ -441,25 +489,31 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createPrescription(data: any) {
     let value: any = { contentData: { data: '' } };
-    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id)
-      .subscribe((fileName) => {
-        value.contentData.data = fileName.fileName;
-        value.receiverId = this.chatService.getGroup().id;
-        value.senderId = this.selectedUser.id;
-        value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
-        value.receiverType = 'group';
-        value.contentType = 'doc';
-        value.type = 'doc';
-        value.status = 'delivered';
-        value.text = 'Doc Component';
-        value.createdTime = Date.now();
-        value.updatedTime = Date.now();
-        value.updatedBy = this.selectedUser.id;
-        value.createdBy = this.selectedUser.id;
-        this.showPrescriptionComponent = false;
-        this.ref.markForCheck();
-        this.socketService.sendMessage(value, this.selectedGroup);
+    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).subscribe((fileName) => {
+      value.contentData.data = fileName.fileName;
+      value.receiverId = this.chatService.getGroup().id;
+      value.senderId = this.selectedUser.id;
+      value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+      value.receiverType = 'group';
+      value.contentType = 'doc';
+      value.type = 'doc';
+      value.status = 'delivered';
+      value.text = 'Doc Component';
+      value.createdTime = Date.now();
+      value.updatedTime = Date.now();
+      value.updatedBy = this.selectedUser.id;
+      value.createdBy = this.selectedUser.id;
+      this.showPrescriptionComponent = false;
+      this.ref.markForCheck();
+      this.selectedGroup.prescription_generated = true;
+      this.activeGroups.map((activeGroup)=> {
+        if(activeGroup.id===this.selectedGroup.id) {
+          activeGroup.prescription_generated =true;
+        }
       });
+      this.socketService.sendMessage(value, this.selectedGroup);
+      // this.updatePrescriptionUrl(fileName);
+    });
   }
 
   createFile(event: any, { value, valid }: { value: Message, valid: boolean }) {
@@ -548,10 +602,33 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showGroup = true;
     this.chatService.getGroups(this.userId)
       .subscribe((groups) => {
-        if (groups) {
+        if(groups) {
+          console.log(groups);
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
+          console.log(Object.keys(this.unreadMessages));
+          Object.keys(this.unreadMessages).map((groupId)=> {
+            let groupFound = false;
+            this.activeGroups.map((activeGroup:any)=> {
+              if(activeGroup.id===parseInt(groupId)) {
+                groupFound = true;
+              }
+            });
+            this.inactiveGroups.map((inactiveGroup:any)=> {
+              if(inactiveGroup.id===parseInt(groupId)) {
+                groupFound = true;
+              }
+            });
+            if(!groupFound) {
+              delete this.unreadMessages[groupId];
+              delete this.newMessages[groupId];
+            }
+            console.log(this.unreadMessages);
+          });
+          if(!this.selectedGroup) {
           this.selectedGroup = this.activeGroups[0];
+          }
+          //need to recheck this
           if (!this.selectedGroup) {
             this.selectedGroup = this.activeGroups[0];
             this.getMessage(this.selectedGroup);
@@ -561,7 +638,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           //for active groups
           this.activeGroups.map((group: Group) => {
             if (group.picture) {
-              this.chatService.downloadFile(group.picture)
+               this.chatService.downloadFile(group.picture)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -571,7 +648,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             } else {
               this.downloadAltPic('group.png');
             }
-            this.ref.detectChanges();
+              this.ref.detectChanges();
           });
           //for inactive groups
           this.inactiveGroups.map((group: Group) => {
@@ -666,9 +743,18 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
           });
+          let result:any = this.sharedService.getdoctorAddedGroup();
+          if(result && this.selectedUser.role ==='doctor') {
+            //add user role doctor filter after verifying integrity
+            console.log('result found');
+            console.log(result);
+           this.createNotificationMessage(result.message,result.groupId);
+           this.sharedService.doctorAddedToGroup(null);
+          }
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
+          this.newMessages[group.id] = msg[msg.length - 1]._id;
         });
     } else if (this.oldGroupId !== group.id) {
       //display  loading animaton upon message call in the intitial chat window load
@@ -680,17 +766,89 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .subscribe((msg) => {
+          let last:any = false;
+          let count = 0;
           msg.reverse().map((message: any) => {
+            if(this.newMessages[group.id]) {
+              if(last) {
+                message.receivedNow = true;
+              }
+              if(this.newMessages[group.id]===message._id) {
+                last = true;
+              }
+            } else if(this.unreadMessages[group.id] > 0) {
+              count ++;
+              console.log(msg.length-this.unreadMessages[group.id]);
+              if((msg.length-this.unreadMessages[group.id]) < count) {
+                console.log('true');
+                message.receivedNow = true;
+              }
+            }
             this.messages.push(message);
           });
+          if(this.unreadMessages[group.id]) {
+          this.unreadMessages[group.id] = 0;
+          let unReadObject: any = Object;
+          let unreadObjectValues = unReadObject.values(this.unreadMessages);
+          if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
+            let favicon: any = document.querySelector('head link');
+            favicon.href = 'assets/favicon/favicon-DEV.png';
+            document.querySelector('title').innerText = 'Mesomeds';
+          }}
+          console.log(this.messages);
+          //this is to check if the doctor-added event is listened to trigger a notificaation message
+          let result:any = this.sharedService.getdoctorAddedGroup();
+          if(result && this.selectedUser.role ==='doctor') {
+            //add user role doctor filter after verifying integrity
+           this.createNotificationMessage(result.message,result.group.id);
+           this.sharedService.doctorAddedToGroup(null);
+          }
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
+          this.newMessages[group.id] = msg[msg.length-1]._id;
+          console.log(this.newMessages);
         });
     } else {
       // return 0 if user selects same group more than once
       return;
     }
+    if(this.initialLoad) {
+      console.log('Getting Messages');
+    Object.keys(this.newMessages).map((eachGroup:any)=> {
+      if(parseInt(eachGroup) !== this.selectedGroup.id) {
+      this.chatService.getMessages(this.selectedUser.id, eachGroup, 1, 20)
+      .subscribe((msg:any) => {
+        let last:any = false;
+          let count = 0;
+          console.log(this.newMessages[eachGroup]);
+          console.log(msg);
+          msg.reverse().map((message: any) => {
+            count ++;
+              if(this.newMessages[eachGroup]===message._id) {
+                this.unreadMessages[eachGroup]= msg.length - count;
+                this.ref.markForCheck();
+              }
+      });
+      if(eachGroup = Object.keys(this.newMessages)[Object.keys(this.newMessages).length - 1]) {
+        let unReadObject: any = Object;
+        let unreadObjectValues = unReadObject.values(this.unreadMessages);
+        let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
+        if(sumOfUnread > 0) {
+        let favicon: any = document.querySelector('head link');
+        favicon.href = 'assets/favicon/favicon.png';
+        document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
+        console.log('done');
+        } else if(sumOfUnread < 0) {
+          console.log('Critical error in unreadmessage logic');
+        }
+      }
+      this.ref.markForCheck();
+    });
+  }
+    });
+    this.initialLoad = false;
+  }
     this.groupSelected = true;
   }
 
@@ -741,6 +899,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   receiveMessageFromSocket() {
     this.socketService.receiveMessages()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((msg: any) => {
         console.log(msg);
         if (msg.receiverId === this.selectedGroup.id) {
@@ -750,8 +909,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.alert = false;
           this.ref.detectChanges();
           this.scrollToBottom();
+          this.newMessages[msg.receiverId] = msg._id;
         } else {
-          this.groups.map((group) => {
+          this.activeGroups.map((group) => {
             if (group.id === msg.receiverId) {
               if (this.unreadMessages[group.id]) {
                 this.unreadMessages[group.id]++;
@@ -759,6 +919,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.unreadMessages[group.id] = 1;
               }
             }
+          });
+          this.inactiveGroups.map((group) => {
+            if (group.id === msg.receiverId) {
+              if (this.unreadMessages[group.id]) {
+                this.unreadMessages[group.id]++;
+              } else {
+                this.unreadMessages[group.id] = 1;
+              }
+            }
+          });
             let unReadObject: any = Object;
             let unreadObjectValues = unReadObject.values(this.unreadMessages);
             let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
@@ -766,7 +936,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             favicon.href = 'assets/favicon/favicon.png';
             document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
             this.ref.markForCheck();
-          });
         }
         if (msg.senderId !== this.selectedUser.id) {
           this.sharedService.playsound();
@@ -778,18 +947,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   resetMessage(id: any) {
     //this below step is to hide prescrition component on group change or group icon click
     this.showPrescriptionComponent = false;
-    this.unreadMessages[id] = 0;
-    let unReadObject: any = Object;
-    let unreadObjectValues = unReadObject.values(this.unreadMessages);
-    if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
-      let favicon: any = document.querySelector('head link');
-      favicon.href = 'assets/favicon/favicon-DEV.png';
-      document.querySelector('title').innerText = 'Mesomeds';
-    }
   }
 
   receiveUpdatedMessageFromSocket() {
     this.socketService.receiveUpdatedMessage()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((res: any) => {
         if (res.message.receiverId === this.selectedGroup.id) {
           this.messages[res.index] = res.message; // updates the message in the messages array
@@ -908,6 +1070,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   receiveDeletedMessageFromSocket() {
     this.socketService.receiveDeletedMessage()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe(object => {
         if (object.result.n) {
           this.messages.splice(object.index, 1);
@@ -922,6 +1085,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   receiveNotification() {
     this.socketService.receiveNotifiedUsers()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((notify: any) => {
         this.alertMessage = notify.message;
       });
@@ -956,6 +1120,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   //for all file section to be real time
   socketMedia() {
     this.socketService.mediaReceive()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((result) => {
         console.log('result: ' + JSON.stringify(result));
         result.map((message: any) => {
@@ -979,7 +1144,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .subscribe(result => {
         result.map((message: any) => {
-          debugger;
           this.mediaMessages.push(message);
         });
       });
@@ -996,6 +1160,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   receivedGroupStatus() {
     this.socketService.receivedGroupStatus()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((groupUpdate => {
         this.groups.map((group: any) => {
           if (groupUpdate.groupId === group.id) {
@@ -1007,23 +1172,32 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   //work under progress
   endConsultation() {
-    this.socketService.userDeleted(this.selectedUser, this.selectedGroup);
-    if (this.selectedUser.role === 'doctor') {
-      // this.groups.splice(1, 1);
-      // this.selectedGroup = this.groups[0];
-      // this.getMessage(this.selectedGroup);
-      // this.ref.detectChanges();
-    } else {
-      return;
+    // let groupId = this.chatService.getGroup().id;
+    if(!this.selectedGroup.prescription_generated) {
+    let doctorConfirmation = window.confirm('Are you sure you want to leave without generating prescription?');
+    if(!doctorConfirmation) {
+        return;
     }
   }
-
-  consultationStatus() {
-    this.socketService.receiveUserDeleted()
-      .subscribe((response) => {
-        this.alert = true;
-        this.alertMessage = response.message;
-      });
+    this.socketService.endConsultaion(this.selectedUser, this.selectedGroup);
+    // window.localStorage.removeItem('prescriptionGenerated'+groupId);
+    // if (this.selectedUser.role === 'doctor') {
+    //   // this.groups.splice(1, 1);
+    //   // this.selectedGroup = this.groups[0];
+    //   // this.getMessage(this.selectedGroup);
+    //   // this.ref.detectChanges();
+    // } else {
+    //   return;
+    // }
   }
+
+  // consultationStatus() {
+  //   this.socketService.receiveEndConsultation()
+  //   .takeUntil(this.unsubscribeObservables)
+  //     .subscribe((response) => {
+  //       this.alert = true;
+  //       this.alertMessage = response.message;
+  //     });
+  // }
 }
 

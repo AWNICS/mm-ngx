@@ -9,6 +9,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { Locations } from '../shared/database/location';
 import { UserDetails } from '../shared/database/user-details';
+import { SocketService } from '../chat/socket.service';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -39,7 +40,8 @@ export class HomeComponent implements  OnInit, AfterViewInit {
     @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
     private sharedService: SharedService,
     private router: Router,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private socketService: SocketService
   ) {
   }
 
@@ -47,6 +49,10 @@ export class HomeComponent implements  OnInit, AfterViewInit {
     window.scrollTo(0,0);
     if(this.securityService.getCookie('userDetails')) {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+    if(window.localStorage.getItem('pageReloaded')==='true') {
+      console.log('Page Reloaded');
+      this.socketService.connection(this.selectedUser.id);
+    }
       if(this.selectedUser.role === 'doctor') {
         this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
       } else if (this.selectedUser.role === 'admin') {
