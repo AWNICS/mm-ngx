@@ -10,7 +10,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">URL</th>
                 <th scope="col">Details</th>
-                <th scope="col">Status</th>
+                <!--th scope="col">Status</th-->
                 <th scope="col">Phase</th>
                 <th scope="col">Options</th>
             </tr>
@@ -21,7 +21,7 @@
                 <td>{{group?.name}}</td>
                 <td>{{group?.url}}</td>
                 <td>{{group?.details?.description}}</td>
-                <td>{{group?.status}}</td>
+                <!--td>{{group?.status}}</td-->
                 <td>{{group?.phase}}</td>
                 <td>
                     <button class="button button__primary" data-toggle="modal" data-target="#editGroupModal" (click)="initializeEdit(group, i);">Edit</button>

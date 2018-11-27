@@ -62,11 +62,11 @@ export class AdminComponent implements OnInit {
     createForm() {
         this.newGroup = this.fb.group({
             id: '',
-            name: ['', Validators.required],
+            name: [''],
             url: '',
             userId: this.selectedUser.id,
             users: [''],
-            description: ['', Validators.required],
+            description: [''],
             speciality: '',
             picture: '',
             status: 'online',
@@ -92,7 +92,7 @@ export class AdminComponent implements OnInit {
 
     createNewGroup({ value, valid }: { value: any, valid: boolean }) {
         value.url = `/${value.name}/${value.userId}`;
-        this.adminService.createNewGroup(value)
+        this.adminService.createNewGroupByAdmin(value)
             .subscribe((res) => {
                 this.createGroupUserMap(value.users, res.id);
                 this.createGroupModal.nativeElement.click();
