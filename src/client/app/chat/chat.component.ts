@@ -274,8 +274,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.inactiveGroups.unshift(inactiveGroup);
           }
         });
-        console.log(this.activeGroups[0]);
+        //to change the group and get messages of new group i.e Medhelp
         this.chatService.setGroup(this.activeGroups[0]);
+        this.selectedGroup = this.chatService.getGroup();
+        this.getMessage(this.selectedGroup);
+        this.ref.markForCheck();
       }
     });
   }
@@ -296,16 +299,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadDoctorSignature() {
-    this.profileService.getDoctorMedia(this.selectedUser.id).subscribe((doctorMedia) => {
-      doctorMedia.map((singleMedia: any) => {
-        if (singleMedia.type === 'signature') {
-          this.chatService.downloadFile(singleMedia.url).subscribe((res) => {
+    this.profileService.getDoctorDigitalSignature(this.selectedUser.id).subscribe((digitalSignature) => {
+      if(digitalSignature) {
+          this.chatService.downloadFile(digitalSignature.url).subscribe((res) => {
             res.onloadend = () => {
               this.digitalSignature = res.result;
             };
           });
         }
-      });
     });
   }
 
@@ -1200,4 +1201,3 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   //     });
   // }
 }
-

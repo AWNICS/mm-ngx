@@ -235,6 +235,8 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
 
     //redirect to particular consultation details
     consultationDetail(consultation: any) {
-        this.router.navigate([`/consultation/${consultation.doctorId}?consultationId=${consultation.id}`]);
+        this.router.navigate(['consultation',`${consultation.doctorId}`],{
+            queryParams: {'consultationId':`${consultation.consultationId}`}
+        });
     }
 }

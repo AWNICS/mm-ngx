@@ -43,4 +43,12 @@ a {
     text-decoration: none;
     color: #463AFF;
     font-size: 0.8rem;
+    cursor: pointer;
+}
+#download-prescription{
+display: inline-block;
+}
+
+#download-bill{
+float: right;
 }

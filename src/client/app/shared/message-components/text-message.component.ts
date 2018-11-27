@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
+
 
 /**
  * TextMessageComponent displays the text from the chat window
@@ -9,9 +11,14 @@ import { Message } from '../database/message';
 @Component({
     selector: 'mm-text-message',
     template: `
-            <div id="message">
+            <div *ngIf="!youtubeLink" id="message" style="text-transform: capitalize">
                 {{textMessage}}
-                <a style="color:#c7c1c1c7;" *ngIf="linkFound" target="blank" [href]="link">{{link}}</a>
+                <a style="color:#c7c1c1c7;text-transform:none" *ngIf="linkFound" target="blank" [href]="link">{{link}}</a>
+            </div>
+            <div id="message" >
+            <iframe id="ytplayer" *ngIf="youtubeLink" type="text/html" width="300" height="300"
+              [src]="youtubeLink | safe : 'resourceUrl'"
+            frameborder="2" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
     `
 })
@@ -21,9 +28,15 @@ export class TextMessageComponent implements OnInit {
     textMessage:string;
     linkFound:Boolean;
     link:string;
-
+    youtubeLink:SafeUrl;
+    constructor(public sanitizer: DomSanitizer) {}
     ngOnInit() {
         if(this.message.text) {
+        let youtubeMatch = this.message.text.match(/https:\/\/www.youtube.com\/watch\?v=([a-zA-Z0-9-]+)/) ||
+        this.message.text.match(/http:\/\/www.youtube.com\/watch\?v=([a-zA-Z0-9-]+)/);
+        if(youtubeMatch) {
+            this.youtubeLink = 'https://www.youtube.com/embed/'+youtubeMatch[1]+'?fs=1';
+        } else {
         let match = this.message.text.match(/https:\/\/\S+/) || this.message.text.match(/http:\/\/\S+/);
         if(match) {
             this.linkFound = true;
@@ -32,7 +45,7 @@ export class TextMessageComponent implements OnInit {
         } else {
             this.linkFound = false;
             this.textMessage = this.message.text;
-    }
+    }}
 }
     }
 }
