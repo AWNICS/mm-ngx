@@ -23,7 +23,6 @@ export class ProfileService {
      * GET userById from the server
      */
     getUserDetailsById(id: number): Observable<UserDetails> {
-        console.log('one');
         const uri = `${this.url}/users/${id}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
