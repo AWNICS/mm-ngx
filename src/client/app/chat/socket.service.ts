@@ -155,7 +155,7 @@ export class SocketService {
     }
 
     //whenever a user or doctor removed from the consutation group
-    endConsultaion(user: UserDetails, group: Group) {
+    endConsultation(user: UserDetails, group: Group) {
         this.socket.emit('end-consultation', user, group);
     }
 

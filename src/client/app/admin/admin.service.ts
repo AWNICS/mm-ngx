@@ -66,6 +66,16 @@ export class AdminService {
             .catch(this.handleError);
     }
 
+    //create new group by admin
+    createNewGroupByAdmin(group:any): Observable<any> {
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        const uri = `${this.url}/groups/admin`;
+        return this.http.post(uri, group, { headers: headers })
+            .map(res => res.json())
+            .catch(this.handleError);
+    }
+
     updateGroup(group:any): Observable<any> {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);

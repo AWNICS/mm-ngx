@@ -139,7 +139,8 @@ export class ConsultationComponent implements OnInit {
         }
     }
     getConsultationById(consultationId:number) {
-        this.sharedService.getConsultationsByConsultationId(consultationId,this.selectedUser.id).subscribe((res:any)=> {
+        this.sharedService.getConsultationsByConsultationId(consultationId,this.selectedUser.id)
+        .subscribe((res:any)=> {
             if(res.length > 0) {
                 this.consultations = res;
             } else {
