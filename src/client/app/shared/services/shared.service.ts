@@ -427,11 +427,11 @@ export class SharedService {
     /**
      * create prescription info
      */
-    createPrescription(prescription: any) {
+    updatePrescription(prescription: any) {
         const uri = `${this.url}/visitors/prescriptions`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        return this.http.post(uri, prescription, { headers: headers })
+        return this.http.put(uri, prescription, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);
     }

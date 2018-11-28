@@ -71,10 +71,10 @@ export class ChatService {
             .catch(this.handleError);
     }
 
-    getConsultationDetails(patientId: number, doctorId: number ): Observable<any> {
+    getConsultationDetails(patientId: number, doctorId: number, groupId: number): Observable<any> {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
-        const uri = `${this.url}/visitors/${patientId}/doctors/${doctorId}/appointments`;
+        const uri = `${this.url}/visitors/${patientId}/doctors/${doctorId}/appointments?groupId=${groupId}`;
         return this.http.get(uri, { headers: headers })
             .map(res => res.json())
             .catch(this.handleError);

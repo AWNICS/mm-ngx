@@ -91,7 +91,8 @@ export class AdminComponent implements OnInit {
     }
 
     createNewGroup({ value, valid }: { value: any, valid: boolean }) {
-        value.url = `/${value.name}/${value.userId}`;
+        //value.url = `/${value.name}/${value.userId}`;
+        value.url = `/consultation/${value.userId}`;
         this.adminService.createNewGroupByAdmin(value)
             .subscribe((res) => {
                 this.createGroupUserMap(value.users, res.id);

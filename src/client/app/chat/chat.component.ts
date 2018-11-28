@@ -299,7 +299,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   downloadDoctorSignature() {
-    this.profileService.getDoctorDigitalSignature(this.selectedUser.id).subscribe((digitalSignature) => {
+    this.profileService.getDoctorDigitalSignature(this.selectedUser.id)
+    .subscribe((digitalSignature) => {
       if(digitalSignature) {
           this.chatService.downloadFile(digitalSignature.url).subscribe((res) => {
             res.onloadend = () => {
@@ -1180,7 +1181,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
     }
   }
-    this.socketService.endConsultaion(this.selectedUser, this.selectedGroup);
+    this.socketService.endConsultation(this.selectedUser, this.selectedGroup);
     // window.localStorage.removeItem('prescriptionGenerated'+groupId);
     // if (this.selectedUser.role === 'doctor') {
     //   // this.groups.splice(1, 1);

@@ -123,7 +123,7 @@ export class ProfileService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, {headers: headers})
-        .map(res => { console.log(res);res.json();})
+        .map(res => res.json())
         .catch(this.handleError);
     }
 
