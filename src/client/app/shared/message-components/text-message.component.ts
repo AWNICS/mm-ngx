@@ -11,12 +11,13 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
 @Component({
     selector: 'mm-text-message',
     template: `
-            <div *ngIf="!youtubeLink" id="message" style="text-transform: capitalize">
+            <div *ngIf="!youtubeLink" id="message">
                 {{textMessage}}
                 <a style="color:#c7c1c1c7;text-transform:none" *ngIf="linkFound" target="blank" [href]="link">{{link}}</a>
             </div>
             <div id="message" >
-            <iframe id="ytplayer" *ngIf="youtubeLink" type="text/html" width="300" height="300"
+            <iframe id="ytplayer" style="width:100%;height:200px"
+            *ngIf="youtubeLink" type="text/html"
               [src]="youtubeLink | safe : 'resourceUrl'"
             frameborder="2" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>

@@ -407,10 +407,12 @@
                             <div *ngSwitchCase="'image'" id="image">
                                 <div class="row">
                                     <div class="col col-4">
-                                        <mm-image-message [message]="media"></mm-image-message>
+                                        <mm-image-message [message]="media" id="allFiles"></mm-image-message>
                                     </div>
-                                    <div class="col col-8">
-                                        <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+                                    <div class="col col-8"  style="padding-left:0px">
+                                        <!-- <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp; -->
+                                         <small>  {{media.createdTime | date: 'sm'}}</small>
+                                        <span>{{media.contentData.data[0]}}</span>
                                     </div>
                                 </div>
                             </div>
