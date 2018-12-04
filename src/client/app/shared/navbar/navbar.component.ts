@@ -176,6 +176,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
             .subscribe((response) => {
                 console.log('Received user added in navbar');
                 this.sharedService.doctorAddedToGroup(response);
+                response.group.phase='active';
                 this.sharedService.setGroup(response.group);
                 // this.getNotifications(this.user);
                 this.router.navigate([`/chat/${response.doctorId}`]);

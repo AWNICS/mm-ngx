@@ -23,7 +23,6 @@ export class ProfileService {
      * GET userById from the server
      */
     getUserDetailsById(id: number): Observable<UserDetails> {
-        console.log('one');
         const uri = `${this.url}/users/${id}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
@@ -124,7 +123,7 @@ export class ProfileService {
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, {headers: headers})
-        .map(res => { console.log(res);res.json();})
+        .map(res => res.json())
         .catch(this.handleError);
     }
 

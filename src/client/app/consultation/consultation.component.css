@@ -22,7 +22,7 @@ body {
 }
 
 .card:hover {
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .card-header {
@@ -45,10 +45,35 @@ a {
     font-size: 0.8rem;
     cursor: pointer;
 }
-#download-prescription{
-display: inline-block;
+
+#download-prescription {
+    display: inline-block;
 }
 
-#download-bill{
-float: right;
+#download-bill {
+    float: right;
+}
+
+.bill,
+.prescription {
+    background: #6c63ff;
+    border-color: #6c63ff;
+    color: #fff;
+    padding: 1pt 6pt;
+    display: inline-block;
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+}
+
+.bill,
+.prescription {
+    background: #463aff;
 }
