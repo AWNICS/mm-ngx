@@ -108,6 +108,22 @@ export class SocketService {
         this.socket.emit('notify-users', message);
     }
 
+    emitConsultNow(user:any, doctorId:number, doctorName:string) {
+        this.socket.emit('consult-now', user, doctorId, doctorName);
+    }
+
+    receiveConsultNow() {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-consult-now', (link: any) => {
+                observer.next(link);
+            });
+            // return () => {
+            //     this.socket.disconnect();
+            // };
+        });
+        return observable;
+    }
+
     doctorStatusUpdate(doctorId:any , status:any) {
         this.socket.emit('doctor-status', doctorId, status);
     }

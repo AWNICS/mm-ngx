@@ -312,6 +312,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   typingEventEmitter() {
     this.textArea.nativeElement.addEventListener('input', (event: any) => {
+      if(event.target.value.length===1) {
+        event.target.value = event.target.value.toUpperCase();
+      }
       if (this.typingEvent) {
         this.typingEvent = false;
         let fullName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;

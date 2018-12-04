@@ -341,7 +341,6 @@ textarea {
     font-weight: 300;
     resize: none;
     overflow: hidden !important;
-    text-transform: capitalize
 }
 
 textarea:focus {
@@ -628,8 +627,37 @@ footer {
 
 .media-list {
     background-color: #F2F5F8;
-    overflow: auto;
-    max-height: 100px;
+    /* overflow: auto; */
+    max-height: fit-content;
+}
+
+.media-list .card-body{
+    padding: 10px 7px;
+    
+}
+
+:host ::ng-deep .media-list .lds-roller {
+    left: 50% !important;
+}
+
+:host ::ng-deep .media-list img {
+    height:60px;
+    width:60px;
+}
+
+:host ::ng-deep .media-list span {
+    line-height:1.2;
+    display: block;
+    font-size: 11px;
+    position: relative;
+    top: 8px;
+}
+
+:host ::ng-deep .media-list small {
+    position: absolute;
+    top: -5px;
+    right:19px;
+    font-size: 8px;
 }
 
 #unreadmessage {
