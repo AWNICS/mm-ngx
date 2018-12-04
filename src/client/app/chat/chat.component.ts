@@ -609,6 +609,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((groups) => {
         if(groups) {
           console.log(groups);
+          if(this.route.snapshot.queryParams['active_group']) {
+            groups.activeGroups.map((activeGroup:any)=> {
+              if(activeGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
+                this.chatService.setGroup(activeGroup);
+              }
+            });
+          }
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
           console.log(Object.keys(this.unreadMessages));
