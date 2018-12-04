@@ -32,21 +32,21 @@
                         </div>
                         <div class="card-body offset-1">
                             <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
-                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
+                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
                                     <br>
                                     <h5>Consultation Details</h5>
-                                    <p>Doctor name:{{visitorTimeline.consultations["Doctor name"]}}</p>
-                                    <p>Speciality:{{visitorTimeline.consultations.speciality}}</p>
-                                    <p>Appointment:{{visitorTimeline.consultations.appointment}}</p>
+                                    <p>Doctor name: {{visitorTimeline.consultations.doctorName}}</p>
+                                    <p>Speciality: {{visitorTimeline.consultations.speciality}}</p>
+                                    <p>Appointment: {{visitorTimeline.consultations.description}}</p>
                                 </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
+                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
                                     <br>
                                     <h5>Reminder Details</h5>
                                     <p>Medicines:{{visitorTimeline.reminders.medicines}}</p>
                                     <p>Message:{{visitorTimeline.reminders.message}}</p>
                                     <p>Description:{{visitorTimeline.reminders.description}}</p>
                                 </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'md'">
+                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
                                     <br>
                                     <h5>Event Details</h5>
                                     <p>Type:{{visitorTimeline.events.type}}</p>
@@ -74,13 +74,14 @@
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 290px;">
+                    <div class="card shadow" style="height: 230px;">
                         <div class="card-header">
                             <h5 class="offset-1">Allergies</h5>
                         </div>
-                        <div *ngIf="visitorHealth?.allergies else showThis">
-                            <div *ngFor="let allergy of visitorHealth?.allergies" style="margin-left:8%; margin-bottom: 2%;">
-                                <div class="card-body">{{allergy}}</div>
+                        <div class="allergies" *ngIf="visitorHealth?.allergies else showThis">
+                            <div *ngFor="let allergy of visitorHealth?.allergies" style="margin-left:8%;">
+                                <p style="line-height: 100%;">{{allergy}}
+                                    <p>
                             </div>
                         </div>
                         <ng-template #showThis>
@@ -115,6 +116,7 @@
                                         <p style="text-align: center;">Heart Rate</p>
                                     </div>
                                 </div>
+                                <small style="margin: 4%;">Last updated on: {{visitorHealth?.createdAt | date: 'md'}}</small>
                             </div>
                         </div>
                     </div>
@@ -126,12 +128,12 @@
                         <div class="card-header">
                             <h5 class="offset-1">Reports</h5>
                         </div>
-                        <div *ngIf="!hideVisitorReports else showThis">
+                        <div class="reports" *ngIf="!hideVisitorReports else showThis">
                             <div class="card-body" style="margin-left: -10px;">
                                 <div *ngFor="let report of visitorReport">
                                     <ul>
                                         <li>
-                                            <a href='{{report.url}}'>{{report?.title}}</a>
+                                            <a (click)="reportDetail(report)">{{report?.title}}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -151,9 +153,6 @@
                                 <p>Height: {{visitorDetail?.height}}<small>(ft.)</small></p>
                                 <p>Weight: {{visitorDetail?.weight}}<small>(kgs)</small></p>
                             </div>
-                        </div>
-                        <div class="text-muted" style="margin-left: 8%;">
-                            <p><small>Average height:5 & weight:60(Indian female)</small></p>
                         </div>
                     </div>
                 </div>

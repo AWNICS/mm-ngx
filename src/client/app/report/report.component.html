@@ -1,0 +1,19 @@
+<mm-navbar></mm-navbar><br/><br/><br/><br/>
+<div class="container">
+    <small>{{message}}</small>
+    <div class="card">
+        <div class="card-header">
+            {{report?.title}}
+        </div>
+        <div class="card-body">
+            <p class="card-text">Report description: {{report?.description}}</p>
+            <p class="card-text">Report created on: {{report?.createdAt | date:'md'}}</p>
+            <button class="report">
+                <a *ngIf="url else reportNotAvailable" [href]="url" download="{{report?.url}}">Download Report</a>
+            </button>
+            <ng-template #reportNotAvailable>
+                <span>No Report</span>
+            </ng-template>
+        </div>
+    </div>
+</div>

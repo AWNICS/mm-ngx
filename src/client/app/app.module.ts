@@ -27,6 +27,7 @@ import { ContactModule } from './contact/contact.module';
 import { CareersModule } from './careers/careers.module';
 import { BillModule } from './bill/bill.module';
 import { AdminModule } from './admin/admin.module';
+import { ReportModule } from './report/report.module';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { AdminModule } from './admin/admin.module';
     DoctorsListModule,
     NgbModule.forRoot(),
     PipesModule.forRoot(),
-    DashboardModule
+    DashboardModule,
+    ReportModule
     ],
   declarations: [AppComponent],
   providers: [{

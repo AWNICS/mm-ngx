@@ -490,6 +490,17 @@ export class SharedService {
             .catch(this.handleError);
     }
 
+    /**
+     * get report by report id
+     */
+    getReportById(reportId: number) {
+        const uri = `${this.url}/reports/${reportId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
+
     private handleError(error: any): Observable<any> {
         return Observable.throw(error.message || error);
     }
