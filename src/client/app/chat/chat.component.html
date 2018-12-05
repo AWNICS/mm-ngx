@@ -73,7 +73,7 @@
         </div>
         <!--for archived groups-->
         <ng-template #archiveGroup>
-            <button id='active-group-button'  (click)="toggleGroup();">Active Groups</button>
+            <button id='active-group-button' (click)="toggleGroup();">Active Groups</button>
             <!--Upto 3 days patient can communicate with bot and ask for doctor-->
             <p>Archived Groups</p>
             <div class="w3-bar-item w3-button" *ngFor="let group of archiveGroups | filter : searchText" (click)="resetMessage(group.id)">
@@ -215,15 +215,15 @@
                 </div>
                 <div class="col col-1">
                     <div class="dropdown">
-                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v"></i>
+                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align: center;">
+                            <i class="fa fa-ellipsis-v" style="width: 18px;"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right options-menu">
                             <a class="dropdown-item" (click)="media();">
                                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
                             <!-- <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a> -->
-                            <a class="dropdown-item"  *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'" (click)="endConsultation();">End Consultation</a>
+                            <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'" (click)="endConsultation();">End Consultation</a>
                             <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase!=='archive' && selectedGroup.name!=='MedHelp'" (click)="togglePrescriptionComponent()">Generate Prescription</a>
                             <a class="dropdown-item" (click)="getArchivedGroups();">Archived Groups</a>
                         </div>

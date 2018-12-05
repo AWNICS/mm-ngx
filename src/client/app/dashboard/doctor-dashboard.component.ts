@@ -11,6 +11,8 @@ import { SocketService } from '../chat/socket.service';
 const Chart = require('chart.js/dist/Chart.bundle.js');
 import { Subject } from 'rxjs/Subject';
 
+var moment = require('moment');
+
 @Component({
     moduleId: module.id,
     selector: 'mm-doctor-dashboard',
@@ -24,7 +26,7 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
     status: Array<Object> = ['online', 'offline', 'away', 'invisible'];
-    selectedStatus: string;
+    selectedStatus: string = 'online';
     selectedUser: UserDetails;
     doctor: DoctorProfiles;
     doctorStore: any;
@@ -35,7 +37,7 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
     locations: string = '';
     doctorId: number;
     picUrl: SafeResourceUrl;
-    consultations: any[];
+    consultations: any[] = [];
     patients: number;
     hideConsultations = false;
     earning: number;
@@ -143,6 +145,18 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
                 title: {
                     display: false,
                     text: 'Chart.js Horizontal Bar Chart'
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            userCallback: function(label: any) {
+                                if (Math.floor(label) === label) {
+                                    return label;
+                                }
+                            }
+                        }
+                    }]
                 }
             }
         });
@@ -168,7 +182,7 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
         //     .subscribe(res => {
         //         this.doctorSchedule.status = status;
         //     });
-        this.socketService.doctorStatusUpdate(this.selectedUser.id,status);
+        this.socketService.doctorStatusUpdate(this.selectedUser.id, status);
     }
     receiveDoctorStatus() {
         this.socketService.receiveDoctorStatus()
@@ -208,7 +222,11 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
                     this.hideConsultations = true;
                 } else {
                     this.chart(res.chartDetails);
-                    this.consultations = res.visitorAppointments;
+                    res.visitorAppointments.map((appointment: any) => {
+                        appointment.startTime = moment(appointment.startTime).subtract({ hours: 5, minutes: 30 });
+                        this.consultations.push(appointment);
+                    });
+                    //this.consultations = res.visitorAppointments;
                 }
             });
     }

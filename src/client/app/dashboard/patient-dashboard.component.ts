@@ -222,4 +222,11 @@ export class PatientDashboardComponent implements OnInit {
     edit() {
         this.router.navigate([`/profiles/${this.selectedUser.id}`]);
     }
+
+    //redirect to particular report details
+    reportDetail(report: any) {
+        this.router.navigate(['visitors',`${report.visitorId}`],{
+            queryParams: {'reportId':`${report.id}`}
+        });
+    }
 }

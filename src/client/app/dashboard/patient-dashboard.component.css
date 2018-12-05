@@ -200,22 +200,44 @@ button:focus,
 }
 
 
-/* vertical-timeline */
+/* vertical-timeline and allergies*/
 
-.timeline-scroll {
-    overflow-y: scroll;
+.timeline-scroll,
+.allergies {
+    overflow-y: auto;
 }
 
-.timeline-scroll::-webkit-scrollbar {
+.timeline-scroll,
+.allergies::-webkit-scrollbar {
     width: 0.4em;
 }
 
-.timeline-scroll::-webkit-scrollbar-track {
+.timeline-scroll,
+.allergies::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-.timeline-scroll::-webkit-scrollbar-thumb {
+.timeline-scroll,
+.allergies::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.reports {
+    overflow-y: auto;
+}
+
+.reports::-webkit-scrollbar {
+    width: 0.4em;
+}
+
+.reports::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.reports::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
