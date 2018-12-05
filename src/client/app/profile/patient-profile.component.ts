@@ -150,6 +150,9 @@ export class PatientProfileComponent implements OnInit {
             this.chatService.uploadFile(files[0])
                 .subscribe(res => {
                     this.visitorReport.url = res._body; // setting url of report file
+                    let url = res._body.split('-');
+                    let extension = url[1].split('.');
+                    this.visitorReport.url = url[0] + '.' + extension[1];
                     this.createReport();
                 });
         } else if (files[0].type.match('application')) {
