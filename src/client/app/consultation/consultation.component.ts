@@ -137,7 +137,7 @@ export class ConsultationComponent implements OnInit {
         } else {
             return;
         }
-    }
+   }
     getConsultationById(consultationId:number) {
         this.sharedService.getConsultationsByConsultationId(consultationId,this.selectedUser.id)
         .subscribe((res:any)=> {
@@ -150,12 +150,11 @@ export class ConsultationComponent implements OnInit {
     }
 
     changeIcon(id: number) {
-        if (this.toggle === false) {
-            this.toggle = true;
-            document.getElementById('toggle-' + id.toString()).innerHTML = 'Less';
-        } else {
-            this.toggle = false;
-            document.getElementById('toggle-' + id.toString()).innerHTML = 'More';
-        }
+    let element:any = document.querySelector('.toggle-'+id+' span' );
+    if(element.innerText=== 'More') {
+        element.innerText = 'Less';
+    } else {
+        element.innerText = 'More';
+    }
     }
 }
