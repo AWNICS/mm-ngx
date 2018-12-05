@@ -208,6 +208,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.socketMedia(); //required for real time change in all file section
       this.listenUserAdded();
       this.receiveEndConsultation();
+      this.listenClicksOnChat();
     } else {
       this.router.navigate([`/`]);
     }
@@ -237,6 +238,18 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   errorRead(index: number) {
     this.errors.splice(index, 1);
+  }
+
+  listenClicksOnChat() {
+    this.chat.nativeElement.addEventListener('click',(event:any)=> {
+      if(this.mySidebar.nativeElement.style.display==='block') {
+        this.mySidebar.nativeElement.style.display ='none';
+      }
+      let element:any = document.querySelector('mm-navbar #navbarSupportedContent');
+      if(element.className==='navbar-collapse collapse show') {
+        element.className = 'navbar-collapse collapse';
+      }
+    });
   }
 
   listenUserAdded() {

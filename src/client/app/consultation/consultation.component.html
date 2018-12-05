@@ -13,9 +13,9 @@
         <div class="card-body">
             <p class="card-text">Consultation summary: {{consultation?.prescription.description}}</p>
             <p class="card-text">Consulted at: {{consultation?.prescription.createdAt | date:'md'}}</p>
-            <div class="float-right">
-                <a data-toggle="collapse" href="#toggle-{{i}}" role="button" aria-expanded="false" (click)="changeIcon(consultation?.prescription.id);">
-                    <div id="toggle-{{consultation?.prescription.id}}">More</div>
+            <div class="float-right" data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i"  role="button" aria-expanded="false" (click)="changeIcon(i);">
+                <a>
+                    <span>More</span>
                 </a>
             </div>
             <div class="collapse" id="toggle-{{i}}">
