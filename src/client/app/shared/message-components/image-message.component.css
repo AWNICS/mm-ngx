@@ -49,18 +49,17 @@ img {
 /* The Close Button */
 
 .close {
-    color: white;
+    color: black;
     position: relative;
     top: -35px;
     right: 10%;
-    font-size: 35px;
+    font-size: 25px;
     font-weight: bold;
-    transition: 0.3s;
 }
 
 .close:hover,
 .close:focus {
-    color: #999;
+    color: black;
     text-decoration: none;
     cursor: pointer;
 }

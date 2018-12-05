@@ -23,6 +23,7 @@
                     <div class="card-body">
                         <p>Status: Unpaid</p>
                         <p>Consultation Charges: Rs {{bill.amount}}</p>
+                        <p>Generated on {{bill.date | date: 'md'}} at {{bill.date | date: 'sm'}}</p>
                         <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
 Pay now</button>
                     </div>
@@ -34,6 +35,7 @@ Pay now</button>
                     <div class="card-body">
                         <p>Status: Failed</p>
                         <p>Consultation Charges: Rs {{bill.amount}}</p>
+                        <p>Generated on {{bill.date | date: 'md'}} at {{bill.date | date: 'sm'}}</p>
                         <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
   Retry Payment</button>
                     </div>

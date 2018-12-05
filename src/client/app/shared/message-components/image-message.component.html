@@ -19,7 +19,9 @@
 
 <div class="modal" #modal>
     <ng-container *ngIf="fullImageUrl; else load">
-        <span class="close" (click)="closeModal();">&times;</span>
+        <button class="close" (click)="closeModal()">
+            <i class="fa fa-times-circle-o" aria-hidden="false"></i>
+        </button>
         <div class="modal-content">
             <img [src]="fullImageUrl | safe:'url'">
         </div>

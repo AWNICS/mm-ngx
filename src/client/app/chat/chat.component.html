@@ -394,8 +394,8 @@
         <!-- end chat -->
         <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
             <button class="w3-bar-item w3-button w3-large" id="close" (click)="w3_close()">
-        <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-      </button>
+                <i class="fa fa-times-circle-o" aria-hidden="false"></i>
+            </button>
             <div class="search-right">
                 <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
                 <i class="fa fa-search"></i>
@@ -409,9 +409,9 @@
                                     <div class="col col-4">
                                         <mm-image-message [message]="media" id="allFiles"></mm-image-message>
                                     </div>
-                                    <div class="col col-8"  style="padding-left:0px">
+                                    <div class="col col-8" style="padding-left:0px">
                                         <!-- <small class="text-muted">{{media.createdBy}}&nbsp;&nbsp; -->
-                                         <small>  {{media.createdTime | date: 'sm'}}</small>
+                                        <small>  {{media.createdTime | date: 'sm'}}</small>
                                         <span>{{media.contentData.data[0]}}</span>
                                     </div>
                                 </div>
