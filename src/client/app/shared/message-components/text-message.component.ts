@@ -16,7 +16,7 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
                 <a style="color:#c7c1c1c7;text-transform:none" *ngIf="linkFound" target="blank" [href]="link">{{link}}</a>
             </div>
             <div id="message" >
-            <iframe id="ytplayer" style="width:100%;height:200px"
+            <iframe id="ytplayer" style="max-width:100%;min-height:200px;max-height:300px"
             *ngIf="youtubeLink" type="text/html"
               [src]="youtubeLink | safe : 'resourceUrl'"
             frameborder="2" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

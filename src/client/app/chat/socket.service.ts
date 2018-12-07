@@ -112,9 +112,22 @@ export class SocketService {
         this.socket.emit('consult-now', user, doctorId, doctorName);
     }
 
+    emitMessageRead(groupId:number,userId:number) {
+        this.socket.emit('message-read', groupId, userId);
+    }
+
+    receiveMessageread() {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-message-read', (groupId:number) => {
+                observer.next(groupId);
+            });
+        });
+        return observable;
+    }
+
     receiveConsultNow() {
         const observable = new Observable(observer => {
-            this.socket.on('receive-consult-now', (link: any) => {
+            this.socket.on('receive-consult-now', (link:any) => {
                 observer.next(link);
             });
             // return () => {

@@ -20,6 +20,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     doctors: any = [];
     message: string;
+    selectedUser:any;
     private unsubscribeObservables:any = new Subject();
 
     constructor(
@@ -32,19 +33,19 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        let user = JSON.parse(this.securityService.getCookie('userDetails'));
+         this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if(window.localStorage.getItem('pageReloaded')) {
             console.log('Page Reloaded');
-            this.socketService.connection(user.id);
+            this.socketService.connection(this.selectedUser.id);
         }
-        if (user && user.role === 'doctor') {
-            this.router.navigate([`/dashboards/doctors/${user.id}`]);
-        } else if ( user.role === 'admin') {
-            this.router.navigate([`/admin/${user.id}`]);
+        if (this.selectedUser && this.selectedUser.role === 'doctor') {
+            this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
+        } else if ( this.selectedUser.role === 'admin') {
+            this.router.navigate([`/admin/${this.selectedUser.id}`]);
         } else {
             this.navbarComponent.navbarColor(0, '#6960FF');
             this.getDoctors();
-            this.receiveConsultNow(user);
+            this.receiveConsultNow(this.selectedUser);
         }
     }
 
@@ -62,14 +63,30 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         let page = 1;
         let size = 5;
         if (location && speciality) {
-            this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
+            this.sharedService.getDoctors(this.selectedUser.id,location, speciality, gps, currentTime, page, size)
                 .subscribe(res => {
                     if (res.length <= 0) {
                         this.message = 'There are no doctors available currently. Try again later!';
                     } else {
-                        this.doctors = res;
+                        this.doctors = res.doctors;
                         if (this.doctors.length >= 1) {
                             this.doctors.map((doctor: any) => {
+                                if(res.inactiveGroups.doctorId.length > 0) {
+                                res.inactiveGroups.doctorId.map((doctorId:any)=> {
+                                    if(doctor.userId===doctorId) {
+                                        doctor.message = 'chat';
+                                    }
+                                });
+                            } else {
+                                let count=0;
+                                res.consultations.doctorId.map((doctorId:any)=> {
+                                    if(doctor.userId===doctorId) {
+                                        count++;
+                                        count===1?doctor.message = `You had consulted this doctor ${count} time`:
+                                        doctor.message = `You had consulted this doctor ${count} times`;
+                                    }
+                                });
+                            }
                                 doctor.speciality = JSON.parse(doctor.speciality);
                                 this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
                                     .subscribe(response => {
@@ -164,12 +181,11 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     receiveConsultNow(user:any) {
         this.socketService.receiveConsultNow()
         .takeUntil(this.unsubscribeObservables)
-        .subscribe((res)=> {
-            console.log(res);
-            if(res==='chat') {
+        .subscribe((res:any)=> {
+            if(res[0]==='chat') {
                 this.router.navigate([`/chat/${user.id}`]);
-            } else if (res==='billing') {
-                this.router.navigate([`/payments/${user.id}`]);
+            } else if (res[0]==='billing') {
+                this.router.navigate([`/payments/${user.id}?bill_id=${res[1]}`]);
             }
         });
     }

@@ -33,6 +33,14 @@
                     </div>
                 </div>
             </div>
+            <div style="text-align: center;color:#877474">
+            <span *ngIf="doctor.message && doctor.message!=='chat'">{{doctor.message}}</span>
+            <span *ngIf="doctor.message && doctor.message==='chat'">You have an active group with this doctor.
+                <a routerLink="/chat/{{selectedUser.id}}">
+                    Click here to get there
+                </a>
+            </span>
+            </div>
         </div>
     </div>
 </div>
