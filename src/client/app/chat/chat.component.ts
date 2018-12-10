@@ -6,8 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   AfterViewInit,
-  OnDestroy,
-  group
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -159,8 +158,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     private securityService: SecurityService,
     private router: Router,
     private sharedService: SharedService,
-    private profileService: ProfileService,
-    private location: Location
+    private profileService: ProfileService
   ) {
   }
 
@@ -826,7 +824,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.page = 1;
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
-      .takeUntil(this.unsubscribeObservables)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((msg) => {
           let i =0;
           msg.reverse().map((message: any) => {
@@ -1111,6 +1109,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const size = 5;
     this.mediaMessages = [];
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe(result => {
         result.map((message: any) => {
           this.mediaMessages.push(message);

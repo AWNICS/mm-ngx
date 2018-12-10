@@ -26,7 +26,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
     status: Array<Object> = ['online', 'offline', 'away', 'invisible'];
-    selectedStatus: string = 'online';
+    selectedStatus: string;
     selectedUser: UserDetails;
     doctor: DoctorProfiles;
     doctorStore: any;
@@ -73,11 +73,11 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
             } else {
                 this.downloadAltPic(this.selectedUser.role);
             }
+            this.getDoctorSchedule();
             this.getDoctorById(this.doctorId);
             this.getDoctorStore(this.doctorId);
             this.receiveDoctorStatus();
         }
-        this.doctorSchedule = { 'status': 'online' };
         this.getConsutationDetails('today');
     }
 
@@ -113,6 +113,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
 
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
@@ -131,6 +132,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
@@ -188,6 +190,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
 
     getDoctorById(doctorId: number) {
         this.sharedService.getDoctorById(doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(doctor => {
                 this.doctor = doctor.doctorDetails;
             });
@@ -195,24 +198,38 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
 
     getDoctorStore(doctorId: number) {
         this.sharedService.getDoctorStore(doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(doctorStore => {
                 this.getStores(doctorStore, doctorId);
             });
     }
 
+    getDoctorSchedule() {
+        this.sharedService.getDoctorScheduleByDoctorId(this.doctorId)
+        .takeUntil(this.unsubscribeObservables)
+            .subscribe(doctorSchedule => {
+                this.doctorSchedule = doctorSchedule[0];
+                this.selectedStatus = this.doctorSchedule.status;
+                console.log(this.doctorSchedule);
+            });
+    }
+
     //update status in doctor schedule
     updateStatus(status: string) {
-        // this.sharedService.updateStatus(status, this.doctorId)
-        //     .subscribe(res => {
-        //         this.doctorSchedule.status = status;
-        //     });
+        /*this.sharedService.updateStatus(status, this.doctorId)
+            .subscribe(res => {
+                this.selectedStatus = status;
+                this.doctorSchedule.status = status;
+            });*/
         this.socketService.doctorStatusUpdate(this.selectedUser.id, status);
     }
+
     receiveDoctorStatus() {
         this.socketService.receiveDoctorStatus()
         .takeUntil(this.unsubscribeObservables)
         .subscribe((status)=> {
             this.doctorSchedule.status = status;
+            this.selectedStatus = status;
         });
     }
 
@@ -241,6 +258,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
         let page = 1;
         let size = 20;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if (res.visitorAppointments.length === 0) {
                     this.hideConsultations = true;
@@ -258,6 +276,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
     //for getting the consultation history
     getConsutationDetails(str: string) {
         this.sharedService.getConsutationDetails(this.doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if (str === 'today') {
                     this.patients = res.noOfPatients.today;

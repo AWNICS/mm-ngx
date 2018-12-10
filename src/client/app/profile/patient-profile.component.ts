@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { PatientInfo } from '../shared/database/patient-info';
 import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -15,7 +16,7 @@ import { SharedService } from '../shared/services/shared.service';
     templateUrl: 'patient-profile.component.html',
     styleUrls: ['profile.component.css'],
 })
-export class PatientProfileComponent implements OnInit {
+export class PatientProfileComponent implements OnInit, OnDestroy {
 
     userDetails: FormGroup;
     patientInfo: PatientInfo;
@@ -26,6 +27,7 @@ export class PatientProfileComponent implements OnInit {
     languageList: string[] = [];
     locationList: string[] = [];
     visitorReport: any = '';
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -46,6 +48,7 @@ export class PatientProfileComponent implements OnInit {
         };
 
         this.profileService.getPatientInfoById(this.user.id)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((result: any) => {
                 let language: any;
                 let selectedLocation: any;
@@ -98,8 +101,14 @@ export class PatientProfileComponent implements OnInit {
             });
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     getAllergies() {
         this.sharedService.getAllergies()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(allergies => {
                 allergies.map((allergy: any) => {
                     this.allergyList.push(allergy.name);
@@ -109,6 +118,7 @@ export class PatientProfileComponent implements OnInit {
 
     getLanguages() {
         this.sharedService.getLanguages()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(languages => {
                 languages.map((language: any) => {
                     this.languageList.push(language.name);
@@ -118,6 +128,7 @@ export class PatientProfileComponent implements OnInit {
 
     getLocations() {
         this.sharedService.getLocations()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(locations => {
                 locations.map((location: any) => {
                     this.locationList.push(location.name);
@@ -136,8 +147,10 @@ export class PatientProfileComponent implements OnInit {
             updatedBy: this.user.id
         };
         this.profileService.updatePatientInfo(value)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(res => {
                         this.message = 'Profile is updated';
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -147,16 +160,15 @@ export class PatientProfileComponent implements OnInit {
 
     uploadReport(files: FileList) {
         if (files[0].type.match('image')) {
-            this.chatService.uploadFile(files[0])
+            this.sharedService.uploadReportsFile(files[0])
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     this.visitorReport.url = res._body; // setting url of report file
-                    let url = res._body.split('-');
-                    let extension = url[1].split('.');
-                    this.visitorReport.url = url[0] + '.' + extension[1];
                     this.createReport();
                 });
         } else if (files[0].type.match('application')) {
             this.chatService.uploadFile(files[0])
+            .takeUntil(this. unsubscribeObservables)
                 .subscribe(res => {
                     this.visitorReport.url = res._body; // setting url of report file
                     this.createReport();
@@ -168,6 +180,7 @@ export class PatientProfileComponent implements OnInit {
 
     createReport() {
         this.sharedService.createVisitorReport(this.visitorReport)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 console.log('res ', res);
                 return;

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, HostListener, Inject, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, Inject, AfterViewInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,7 @@ import { SharedService } from '../shared/services/shared.service';
 import { Locations } from '../shared/database/location';
 import { UserDetails } from '../shared/database/user-details';
 import { SocketService } from '../chat/socket.service';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -19,7 +20,7 @@ import { SocketService } from '../chat/socket.service';
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent implements  OnInit, AfterViewInit {
+export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
 
   pageTitle: string = 'Mesomeds';
   speciality: string;
@@ -35,6 +36,7 @@ export class HomeComponent implements  OnInit, AfterViewInit {
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
+  private unsubscribeObservables = new Subject();
 
   constructor(
     @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
@@ -65,6 +67,11 @@ export class HomeComponent implements  OnInit, AfterViewInit {
     this.getGeoLocation();
     this.getLocations();
     console.log(this.router.url);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeObservables.next();
+    this.unsubscribeObservables.complete();
   }
 
   ngAfterViewInit() {
@@ -120,6 +127,7 @@ export class HomeComponent implements  OnInit, AfterViewInit {
 
   getSpecialities() {
     this.sharedService.getSpecialities()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe(specialities => {
         this.specialities = specialities;
       });
@@ -127,6 +135,7 @@ export class HomeComponent implements  OnInit, AfterViewInit {
 
   getLocations() {
     this.sharedService.getLocations()
+    .takeUntil(this.unsubscribeObservables)
       .subscribe(locations => {
         this.locations = locations;
       });

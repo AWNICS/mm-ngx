@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
@@ -8,6 +9,7 @@ import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
 import { SocketService } from '../chat/socket.service';
+import moment = require('moment');
 
 @Component({
     moduleId: module.id,
@@ -16,7 +18,7 @@ import { SocketService } from '../chat/socket.service';
     styleUrls: ['consultation.component.css']
 })
 
-export class ConsultationComponent implements OnInit {
+export class ConsultationComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('doctorDashboardComponent') doctorDashboardComponent: any;
@@ -37,6 +39,7 @@ export class ConsultationComponent implements OnInit {
     billDownloaded:Boolean = true;
     prescriptionDownloaded:Boolean = true;
     consultationId:any;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private route: ActivatedRoute,
@@ -66,12 +69,18 @@ export class ConsultationComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     downloadDoc(index:number,event:any) {
         if(this.prescriptionDownloaded) {
             this.prescriptionDownloaded = false;
         // fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pd
         // f$/i) ? this.toggleFileName = true : this.toggleFileName = false;
         this.chatService.downloadFile(this.consultations[index].prescription.url)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     event.srcElement.href = res.result;
@@ -91,6 +100,7 @@ export class ConsultationComponent implements OnInit {
             console.log(this.consultations[index].billing.url);
         // fileName.match(/\d+-bill-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i) ? this.billFile = true : this.billFile = false;
         this.chatService.downloadFile(this.consultations[index].billing.url)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     event.srcElement.href = res.result;
@@ -109,35 +119,55 @@ export class ConsultationComponent implements OnInit {
         let size = 5;
         if(this.selectedUser.role === 'patient') {
             this.sharedService.getConsultationsByVisitorId(id, page, size)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
                     this.consultations  = res;
-                    // res.map((consultation: any) => {
+                    res.map((consultation: any) => {
+                        if(consultation.billing) {
+                        if(consultation.billing.status==='Success') {
+                            if(moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
+                                    consultation.status='active';
+                            }
+                        }
+                    }
+                        //console.log(moment(consultation.createdAt).add(3, 'd'));
+                        // if(moment(consultation.createdAt).add(3, 'd') >= Date.now())
                     //     this.consultations.push(consultation);
                     //     this.downloadDoc(consultation.prescription.url);
                     //     this.fileName = consultation.prescription.url;
                     //     this.downloadBilling(consultation.billing.url);
                     //     this.billingFileName = consultation.billing.url;
-                    // });
+                    });
                 }
             });
         } else if(this.selectedUser.role === 'doctor') {
             this.sharedService.getAllConsultationsByDoctorId(id, page, size)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 console.log(res);
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
                     this.consultations = res;
-                    // res.map((consultation: any) => {
-                    //     this.consultations.push(consultation);
+                    console.log(this.consultations);
+                    res.map((consultation: any) => {
+                        if(consultation.billing) {
+                        if(consultation.billing.status==='Success') {
+                            console.log('hit');
+                            if(moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
+                                    consultation.status='active';
+                            }
+                        }
+                    }
+                        //     this.consultations.push(consultation);
                     //     this.downloadDoc(consultation.prescription.url);
                     //     this.fileName = consultation.prescription.url;
                     //     this.downloadBilling(consultation.billing.url);
                     //     this.billingFileName = consultation.billing.url;
-                    // });
+                    });
                 }
             });
         } else {
@@ -146,6 +176,7 @@ export class ConsultationComponent implements OnInit {
    }
     getConsultationById(consultationId:number) {
         this.sharedService.getConsultationsByConsultationId(consultationId,this.selectedUser.id)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((res:any)=> {
             if(res.length > 0) {
                 this.consultations = res;

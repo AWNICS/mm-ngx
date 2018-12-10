@@ -5,7 +5,8 @@
         </a>
         <a id="logo" [routerLink]="['/dashboards/doctors',user.id]" routerLinkActive='active' *ngIf="user?.role ==='doctor'">
             <img src="../../../assets/logo/logo_white_transp.png">
-        </a><a id="logo" [routerLink]="['/admin/',user.id]" routerLinkActive='active' *ngIf="user?.role ==='admin'">
+        </a>
+        <a id="logo" [routerLink]="['/admin/',user.id]" routerLinkActive='active' *ngIf="user?.role ==='admin'">
             <img src="../../../assets/logo/logo_white_transp.png">
         </a>
         <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,6 +17,11 @@
             </ul>
             <div class="my-2 my-lg-0">
                 <div class="mr-sm-2 row navbar__menu">
+                    <div *ngIf="loggedIn && user.role ==='patient'" style="margin-right: 3em;">
+                        <button class="doctors">
+                            <a routerLink="/" routerLinkActive='active'>Doctors Available</a>
+                        </button>
+                    </div>
                     <a class="nav-link" routerLink='/registerDoctor' routerLinkActive='active' *ngIf="!loggedIn">For Doctors</a>
                     <a class="nav-link" routerLink="/login" routerLinkActive='active' *ngIf="!loggedIn">Login</a>
                     <div class="dropdown notification" *ngIf="loggedIn">

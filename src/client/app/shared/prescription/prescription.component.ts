@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, Output,
-    ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+    ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl, Validators  } from '@angular/forms';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -8,6 +8,7 @@ import { ChatService } from '../../chat/chat.service';
 import { ProfileService } from '../../profile/profile.service';
 import { SharedService } from '../services/shared.service';
 import { SocketService } from '../../chat/socket.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -18,7 +19,7 @@ import { SocketService } from '../../chat/socket.service';
 
 })
 
-export class PrescriptionComponent implements OnInit, AfterViewInit {
+export class PrescriptionComponent implements OnInit, AfterViewInit, OnDestroy {
     prescriptionForm:FormGroup;
     medicineNumber:any=[{'id':1,'checkbox1':false,'checkbox2':false}];
     testNumber:any=[1];
@@ -37,6 +38,7 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
     @Output() generatedPdf:EventEmitter<any> = new EventEmitter();
     @Output() error:EventEmitter<any> = new EventEmitter();
     @ViewChild('container') container:ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -54,27 +56,40 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
             tests: this.fb.array([this.createTestsItem()]),
             specialInstructions: ''
         });
-        this.chatService.downloadFile('mesomedslogo.jpg').subscribe((res)=> {
+        this.chatService.downloadFile('mesomedslogo.jpg')
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((res)=> {
             res.onloadend = () => {
                 this.mesomedslogoImage=res.result;
             };
         });
-        this.chatService.downloadFile('mesomedsrxlogo.jpeg').subscribe((res)=> {
+        this.chatService.downloadFile('mesomedsrxlogo.jpeg')
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((res)=> {
             res.onloadend = () => {
                 this.rxLogoImage=res.result;
             };
         });
 
         this.chatService.getConsultationDetails(this.patientDetails.id,this.doctorDetails.doctorDetails.userId, this.selectedGroup.id)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((consultation)=> {
             this.consultationDetails = consultation;
         });
 
-        this.profileService.getPatientInfoById(this.patientDetails.id).subscribe((patientInfo:any)=> {
+        this.profileService.getPatientInfoById(this.patientDetails.id)
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((patientInfo:any)=> {
             this.patientInfo = patientInfo.patientInfo;
         });
 
     }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     ngAfterViewInit() {
         this.typingEventEmitter();
     }
@@ -225,6 +240,7 @@ export class PrescriptionComponent implements OnInit, AfterViewInit {
           updatedBy: doctorDetailsPassed.doctorDetails.userId
       };
       this.sharedService.updatePrescription(prescriptionInfo)
+      .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
             return;
         });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 // Import RxJs required methods
@@ -512,6 +512,18 @@ export class SharedService {
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })
             .map(res => res.json());
+    }
+
+    //for reports
+    uploadReportsFile(file: File): Observable<any> {
+        const uri = `${this.url}/file/reports`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        let formData = new FormData();
+        formData.append('file', file);
+        return this.http.post(uri, formData, { headers: headers })
+            .map((res: Response) => res)
+            .catch(this.handleError);
     }
 
     private handleError(error: any): Observable<any> {

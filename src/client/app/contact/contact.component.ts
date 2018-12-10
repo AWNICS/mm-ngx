@@ -1,8 +1,9 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -11,12 +12,13 @@ import { SharedService } from '../shared/services/shared.service';
     styleUrls: ['contact.component.css']
 })
 
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
 
     navIsFixed: boolean = false;
     contactDetails: FormGroup;
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    private unsubscribeObservables = new Subject;
 
     constructor(
         private fb: FormBuilder,
@@ -31,6 +33,11 @@ export class ContactComponent implements OnInit {
             message: [null, Validators.required]
         });
         window.scrollTo(0, 0);
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     @HostListener('window:scroll', [])
@@ -54,6 +61,7 @@ export class ContactComponent implements OnInit {
 
     sendMail({ value, valid }: { value: any, valid: boolean }) {
         this.sharedService.sendMail(value)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if (res) {
                     return;

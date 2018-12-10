@@ -17,6 +17,10 @@ a:active {
     color: #fff;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 a.consult-button {
     background-color: #6C63FF;
     border: none;
@@ -97,6 +101,7 @@ a.consult-button:hover {
 .navbar__menu .nav-link:hover {
     opacity: 1;
     color: #fff;
+    text-decoration: none !important;
 }
 
 .navbar__menu .nav-link:after {
@@ -122,21 +127,17 @@ a.consult-button:hover {
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-
 @media (max-width: 992px) {
     .dropdown-menu-right {
         left: 0 !important;
         margin-left: 15px;
     }
-
     .bubble {
         width: 13rem;
     }
-
-    .notification > .dropdown-menu-right {
+    .notification>.dropdown-menu-right {
         width: 20rem;
     }
-
     .notification-icon {
         left: 5rem !important;
     }
@@ -167,134 +168,115 @@ a.consult-button:hover {
     overflow-y: auto;
 }
 
+
 /* animtating bell icon when a new notification is received*/
 
 @-webkit-keyframes bell {
     0% {
-      -webkit-transform: rotate(-15deg);
-      transform: rotate(-15deg);
+        -webkit-transform: rotate(-15deg);
+        transform: rotate(-15deg);
     }
-  
     2% {
-      -webkit-transform: rotate(15deg);
-      transform: rotate(15deg);
+        -webkit-transform: rotate(15deg);
+        transform: rotate(15deg);
     }
-  
     4% {
-      -webkit-transform: rotate(-18deg);
-      transform: rotate(-18deg);
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
     }
-  
     6% {
-      -webkit-transform: rotate(18deg);
-      transform: rotate(18deg);
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
     }
-  
     8% {
-      -webkit-transform: rotate(-22deg);
-      transform: rotate(-22deg);
+        -webkit-transform: rotate(-22deg);
+        transform: rotate(-22deg);
     }
-  
     10% {
-      -webkit-transform: rotate(22deg);
-      transform: rotate(22deg);
+        -webkit-transform: rotate(22deg);
+        transform: rotate(22deg);
     }
-  
     12% {
-      -webkit-transform: rotate(-18deg);
-      transform: rotate(-18deg);
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
     }
-  
     14% {
-      -webkit-transform: rotate(18deg);
-      transform: rotate(18deg);
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
     }
-  
     16% {
-      -webkit-transform: rotate(-12deg);
-      transform: rotate(-12deg);
+        -webkit-transform: rotate(-12deg);
+        transform: rotate(-12deg);
     }
-  
     18% {
-      -webkit-transform: rotate(12deg);
-      transform: rotate(12deg);
+        -webkit-transform: rotate(12deg);
+        transform: rotate(12deg);
     }
-  
     20% {
-      -webkit-transform: rotate(0deg);
-      transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
     }
-  }
-  
-  @keyframes bell {
-    0% {
-      -webkit-transform: rotate(-15deg);
-      -ms-transform: rotate(-15deg);
-      transform: rotate(-15deg);
-    }
-  
-    2% {
-      -webkit-transform: rotate(15deg);
-      -ms-transform: rotate(15deg);
-      transform: rotate(15deg);
-    }
-  
-    4% {
-      -webkit-transform: rotate(-18deg);
-      -ms-transform: rotate(-18deg);
-      transform: rotate(-18deg);
-    }
-  
-    6% {
-      -webkit-transform: rotate(18deg);
-      -ms-transform: rotate(18deg);
-      transform: rotate(18deg);
-    }
-  
-    8% {
-      -webkit-transform: rotate(-22deg);
-      -ms-transform: rotate(-22deg);
-      transform: rotate(-22deg);
-    }
-  
-    10% {
-      -webkit-transform: rotate(22deg);
-      -ms-transform: rotate(22deg);
-      transform: rotate(22deg);
-    }
-  
-    12% {
-      -webkit-transform: rotate(-18deg);
-      -ms-transform: rotate(-18deg);
-      transform: rotate(-18deg);
-    }
-  
-    14% {
-      -webkit-transform: rotate(18deg);
-      -ms-transform: rotate(18deg);
-      transform: rotate(18deg);
-    }
-  
-    16% {
-      -webkit-transform: rotate(-12deg);
-      -ms-transform: rotate(-12deg);
-      transform: rotate(-12deg);
-    }
-  
-    18% {
-      -webkit-transform: rotate(12deg);
-      -ms-transform: rotate(12deg);
-      transform: rotate(12deg);
-    }
-  
-    20% {
-      -webkit-transform: rotate(0deg);
-      -ms-transform: rotate(0deg);
-      transform: rotate(0deg);
-    }
-  }
+}
 
-  .animated {
+@keyframes bell {
+    0% {
+        -webkit-transform: rotate(-15deg);
+        -ms-transform: rotate(-15deg);
+        transform: rotate(-15deg);
+    }
+    2% {
+        -webkit-transform: rotate(15deg);
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg);
+    }
+    4% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    6% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    8% {
+        -webkit-transform: rotate(-22deg);
+        -ms-transform: rotate(-22deg);
+        transform: rotate(-22deg);
+    }
+    10% {
+        -webkit-transform: rotate(22deg);
+        -ms-transform: rotate(22deg);
+        transform: rotate(22deg);
+    }
+    12% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    14% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    16% {
+        -webkit-transform: rotate(-12deg);
+        -ms-transform: rotate(-12deg);
+        transform: rotate(-12deg);
+    }
+    18% {
+        -webkit-transform: rotate(12deg);
+        -ms-transform: rotate(12deg);
+        transform: rotate(12deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+.animated {
     -webkit-animation: bell 2s ease infinite;
     animation: bell 2s ease infinite;
     -ms-transform-origin-x: 50%;
@@ -309,9 +291,10 @@ a.consult-button:hover {
     -moz-transform-origin-z: initial;
     -webkit-transform-origin-z: initial;
     -o-transform-origin-z: initial;
-  }
+}
 
-  /* animtating bell icon when a new notification is appended ends*/
+
+/* animtating bell icon when a new notification is appended ends*/
 
 :host ::-webkit-scrollbar {
     width: 0.4em;
@@ -325,4 +308,19 @@ a.consult-button:hover {
 :host ::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
+}
+
+.doctors {
+    background: #6c63ff;
+    color: #fff;
+    display: inline-block;
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.7s;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 30px;
+    padding: 3pt 10pt;
 }

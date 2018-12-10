@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../../chat/socket.service';
 import { Notification } from '../database/notification';
 import { UserDetails } from '../database/user-details';
 import { SharedService } from '../services/shared.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -12,11 +13,12 @@ import { SharedService } from '../services/shared.service';
     styleUrls: ['notification.component.css']
 })
 
-export class NotificationComponent implements OnInit {
+export class NotificationComponent implements OnInit, OnDestroy {
 
     notification: Notification;
     @Input() selectedUser: UserDetails;
     @ViewChild('alert') alert: ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(private socketService: SocketService, private router: Router, private sharedService: SharedService) {}
 
@@ -27,8 +29,14 @@ export class NotificationComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     getNotification() {
         this.socketService.consultNotification()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((data) => {
                 if (data) {
                     this.notification = data.notification;

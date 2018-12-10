@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * Create a document message
@@ -64,12 +65,14 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     `]
 })
 
-export class DocumentMessageComponent implements OnInit {
+export class DocumentMessageComponent implements OnInit, OnDestroy {
 
     @Input() message: Message;
     url: SafeResourceUrl;
     fileName: string;
     toggleFileName:Boolean = false;
+    private unsubscribeObservables = new Subject();
+
     constructor(
         private chatService: ChatService,
         private sanitizer: DomSanitizer,
@@ -83,9 +86,15 @@ export class DocumentMessageComponent implements OnInit {
         }, 5000);
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     downloadDoc(fileName: string) {
         fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pdf$/i)?this.toggleFileName = true:this.toggleFileName = false;
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { LoginService } from './login.service';
@@ -7,6 +7,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { SocketService } from '../chat/socket.service';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded LoginComponent.
  */
@@ -16,7 +17,7 @@ import { SocketService } from '../chat/socket.service';
   templateUrl: 'login.component.html',
   styleUrls: ['login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   user: UserDetails;
   error = '';
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   @ViewChild('email') email: ElementRef;
   @ViewChild('password') password: ElementRef;
   @ViewChild('eye') eye: ElementRef;
+  private unsubscribeObservables = new Subject();
 
   constructor(
     private loginService: LoginService,
@@ -38,11 +40,17 @@ export class LoginComponent implements OnInit {
     this.navbarComponent.navbarColor(0, '#6960FF');
   }
 
+  ngOnDestroy() {
+    this.unsubscribeObservables.next();
+    this.unsubscribeObservables.complete();
+  }
+
   login(email: string, password: string) {
     // disables the fields so the user cannot enter anything else until server responds
     this.email.nativeElement.disabled = true;
     this.password.nativeElement.disabled = true;
     this.loginService.login(email, password)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe(res => {
         this.email.nativeElement.value = '';
         this.password.nativeElement.value = '';
@@ -51,9 +59,10 @@ export class LoginComponent implements OnInit {
         this.securityService.setCookie('token', res.token, 1);
         this.socketService.connection(res.user.id);
         if (res.user.role === 'patient') {
-          this.router.navigate([`/doctors`]);
+          this.router.navigate([`/dashboards/patients/${res.user.id}`]);
         } else if (res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
+          .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
               return;
             });

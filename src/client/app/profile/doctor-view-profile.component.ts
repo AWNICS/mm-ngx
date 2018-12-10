@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DragScrollDirective } from 'ngx-drag-scroll';
 import { UserDetails } from '../shared/database/user-details';
@@ -9,6 +9,7 @@ import { ChatService } from '../chat/chat.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from './profile.service';
 import { DoctorMedia } from '../shared/database/doctor-media';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -19,7 +20,7 @@ import { DoctorMedia } from '../shared/database/doctor-media';
     templateUrl: 'doctor-view-profile.component.html',
     styleUrls: ['doctor-view-profile.component.css']
 })
-export class DoctorViewProfileComponent implements OnInit {
+export class DoctorViewProfileComponent implements OnInit, OnDestroy {
 
     item: DoctorMedia = {
         id: null,
@@ -68,6 +69,7 @@ export class DoctorViewProfileComponent implements OnInit {
     @Input() user: UserDetails;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('videoPlayer') videoPlayer: ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private securityService: SecurityService,
@@ -85,9 +87,11 @@ export class DoctorViewProfileComponent implements OnInit {
         const cookie = this.securityService.getCookie('userDetails'); //return logged in user
         this.userId = JSON.parse(cookie).id;
         this.chatService.getUserById(this.doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(user => {
                 this.selectedUser = user;
                 this.sharedService.getDoctorById(this.doctorId)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(doctor => {
                         this.doctor = doctor;
                         this.doctor.speciality = doctor.doctorDetails.speciality;
@@ -103,12 +107,19 @@ export class DoctorViewProfileComponent implements OnInit {
         this.getDoctorMedia();
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     getDoctorMedia() {
         this.profileService.getLimitedDoctorMedia(this.doctorId, 1, 5)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.mediaFiles = res;
                 this.mediaFiles.map((mediaFile: DoctorMedia, i: number) => {
                     this.chatService.downloadFile(mediaFile.thumbUrl)
+                    .takeUntil(this.unsubscribeObservables)
                         .subscribe(res => {
                             res.onloadend = () => {
                                 this.mediaFiles[i].thumbUrl = res.result;
@@ -121,6 +132,7 @@ export class DoctorViewProfileComponent implements OnInit {
     openModal(file: DoctorMedia) {
         if (file.type === 'image' || file.type === 'video') {
             this.chatService.downloadFile(file.url)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     res.onloadend = () => {
                         this.item.type = file.type;
@@ -142,6 +154,7 @@ export class DoctorViewProfileComponent implements OnInit {
 
     getDoctorStore(doctorId: number) {
         this.sharedService.getDoctorStore(doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(doctorStore => {
                 this.getStores(doctorStore, doctorId);
             });
@@ -149,6 +162,7 @@ export class DoctorViewProfileComponent implements OnInit {
 
     getActivities(doctorId: number) {
         this.sharedService.getActivities(doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.doctorActivities = res;
             });
@@ -156,6 +170,7 @@ export class DoctorViewProfileComponent implements OnInit {
 
     getReviews(doctorId: number) {
         this.sharedService.getReviews(doctorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.doctorReviews = res;
             });
@@ -164,6 +179,7 @@ export class DoctorViewProfileComponent implements OnInit {
     getPicUrl(doctor: any, selectedUser: UserDetails) {
         if (selectedUser.picUrl) {
             this.chatService.downloadFile(selectedUser.picUrl)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                     res.onloadend = () => {
                         doctor.picUrl = res.result;
@@ -172,6 +188,7 @@ export class DoctorViewProfileComponent implements OnInit {
             this.ref.detectChanges();
         } else {
             this.chatService.downloadFile('doc.png')
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe((res: any) => {
                     res.onloadend = () => {
                         doctor.picUrl = res.result;
@@ -209,6 +226,7 @@ export class DoctorViewProfileComponent implements OnInit {
     consultNow(doctorId: number) {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
         this.sharedService.consultNow(doctorId, user.id)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if (res) {
                     this.sharedService.setGroup(res);
@@ -223,6 +241,7 @@ export class DoctorViewProfileComponent implements OnInit {
 
     getStatus(doctor: any) {
         this.sharedService.getDoctorScheduleByDoctorId(doctor.doctorDetails.userId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.doctorSchedule = res;
                 this.doctor.status = this.doctorSchedule[this.doctorSchedule.length - 1].status;
