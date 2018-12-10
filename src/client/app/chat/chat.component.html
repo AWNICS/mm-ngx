@@ -29,7 +29,7 @@
                             <div class="about">
                                 <div class="row">
                                     <div class="name">{{group?.name}}</div>
-                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]">{{unreadMessages[group.id]}}</span>
+                                    <span id="unreadmessage" *ngIf="group.unreadCount">{{group.unreadCount}}</span>
                                 </div>
                                 <div class="row">
                                     <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
@@ -57,7 +57,7 @@
                             <div class="about">
                                 <div class="row">
                                     <div class="name">{{group?.name}}</div>
-                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]">{{unreadMessages[group.id]}}</span>
+                                    <span id="unreadmessage" *ngIf="group.unreadCount">{{group.unreadCount}}</span>
                                 </div>
                                 <div class="row">
                                     <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
@@ -89,7 +89,6 @@
                             <div class="about">
                                 <div class="row">
                                     <div class="name">{{group?.name}}</div>
-                                    <span id="unreadmessage" *ngIf="unreadMessages[group?.id]!=0 && unreadMessages[group?.id]">{{unreadMessages[group?.id]}}</span>
                                 </div>
                                 <div class="row">
                                     <small>{{group?.details?.speciality}}</small>

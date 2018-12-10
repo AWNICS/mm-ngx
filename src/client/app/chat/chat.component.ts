@@ -128,23 +128,23 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     status: '',
     phase: '',
     prescription_generated: false,
+    unreadCount:null,
     createdBy: null,
     updatedBy: null,
     createdAt: Date.now(),
     updatedAt: Date.now()
   };
-  unreadMessages: any = {};
   typingEvent: Boolean = true;
   errors:Array<any>=[];
-  patientDetails:any;
+  patientDetails:any; 
   doctorDetails:any;
   showPrescriptionComponent:Boolean = false;
   digitalSignature:string;
   displayMessageLoader:Boolean ;
   userDetails:any;
   prescriptionGenerated:any = {};
-  newMessages:any=[];
   initialLoad:Boolean = true;
+  unreadMessageCount:number = 0;
   //this new variable is to unsubscribe all socket calls on component destruction
   private unsubscribeObservables:any = new Subject();
 
@@ -182,6 +182,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socketService.connection(this.userId);
       }
       this.chatService.getUserById(this.userId)
+      .takeUntil(this.unsubscribeObservables)
         .subscribe(user => {
           this.selectedUser = user;
           this.getGroups();
@@ -190,12 +191,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.getDoctorDetails();
           }
         });
-      try {
-        this.unreadMessages = JSON.parse(window.localStorage.getItem('unreadMessages')) || {};
-        this.newMessages = JSON.parse(window.localStorage.getItem('lastMessages')) || {};
-      } catch(e) {
-        console.log(e);
-      }
       this.createForm();
       this.receiveMessageFromSocket();
       this.receiveNotification();
@@ -209,6 +204,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.listenUserAdded();
       this.receiveEndConsultation();
       this.listenClicksOnChat();
+      this.listenMessageRead();
     } else {
       this.router.navigate([`/`]);
     }
@@ -220,17 +216,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     chatHistoryHeight-=46;
   }
   this.messageBox.nativeElement.style.height = chatHistoryHeight+'px';
-  window.onunload = ()=> {
-    window.localStorage.setItem('unreadMessages',JSON.stringify(this.unreadMessages));
-    window.localStorage.setItem('lastMessages',JSON.stringify(this.newMessages));
-  };
   }
 
   ngOnDestroy() {
     this.unsubscribeObservables.next();
     this.unsubscribeObservables.complete();
-    window.localStorage.setItem('unreadMessages',JSON.stringify(this.unreadMessages));
-    window.localStorage.setItem('lastMessages',JSON.stringify(this.newMessages));
     let favicon: any = document.querySelector('head link');
     favicon.href = 'assets/favicon/favicon-DEV.png';
     document.querySelector('title').innerText = 'Mesomeds';
@@ -249,6 +239,36 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       if(element.className==='navbar-collapse collapse show') {
         element.className = 'navbar-collapse collapse';
       }
+    });
+  }
+
+  listenMessageRead() {
+    this.socketService.receiveMessageread()
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((groupId:number)=> {
+      console.log(groupId);
+      this.activeGroups.map((activeGroup:any) => {
+        if(activeGroup.id===groupId) {
+          this.unreadMessageCount -= activeGroup.unreadCount;
+          activeGroup.unreadCount = 0;
+        }
+      });
+      this.inactiveGroups.map((inactiveGroup:any) => {
+        if(inactiveGroup.id===groupId) {
+          this.unreadMessageCount -= inactiveGroup.unreadCount;
+          inactiveGroup.unreadCount = 0;
+        }
+      });
+      let favicon:any = document.querySelector('head link');
+      if(this.unreadMessageCount > 0 && favicon.href.match(/favicon-dev.png/i)) {
+        favicon.href='assets/favicon/favicon.png';
+        document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
+      } else if (this.unreadMessageCount === 0) {
+        let favicon: any = document.querySelector('head link');
+        favicon.href = 'assets/favicon/favicon-DEV.png';
+        document.querySelector('title').innerText = 'Mesomeds';
+      }
+      this.ref.markForCheck();
     });
   }
 
@@ -306,6 +326,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDoctorDetails() {
     this.sharedService.getDoctorById(this.userId)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((doctorDetails) => {
         this.doctorDetails = doctorDetails;
       });
@@ -313,9 +334,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   downloadDoctorSignature() {
     this.profileService.getDoctorDigitalSignature(this.selectedUser.id)
+    .takeUntil(this.unsubscribeObservables)
     .subscribe((digitalSignature) => {
       if(digitalSignature) {
-          this.chatService.downloadFile(digitalSignature.url).subscribe((res) => {
+          this.chatService.downloadFile(digitalSignature.url).takeUntil(this.unsubscribeObservables).subscribe((res) => {
             res.onloadend = () => {
               this.digitalSignature = res.result;
             };
@@ -447,6 +469,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(images[0].name, 'image');
     if (result.message) {
       this.chatService.uploadFile(images[0])
+      .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           //mrch for check erro
           value.contentData = { data: res._body };
@@ -480,6 +503,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(videos[0].name, 'video');
     if (result.message) {
       this.chatService.uploadFile(videos[0])
+      .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
@@ -507,7 +531,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createPrescription(data: any) {
     let value: any = { contentData: { data: '' } };
-    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).subscribe((fileName) => {
+    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).takeUntil(this.unsubscribeObservables)
+    .subscribe((fileName) => {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
@@ -541,6 +566,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(files[0].name, 'file');
     if (result.message) {
       this.chatService.uploadFile(files[0])
+      .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
@@ -594,6 +620,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((group) => {
         this.groups.push(group);
         this.ref.detectChanges();
@@ -609,6 +636,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((group) => {
         this.groups.push(group);
         this.ref.detectChanges();
@@ -619,11 +647,17 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getGroups() {
     this.showGroup = true;
     this.chatService.getGroups(this.userId)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((groups) => {
         if(groups) {
           console.log(groups);
           if(this.route.snapshot.queryParams['active_group']) {
-            console.log('Active Group Found');
+            groups.inactiveGroups.map((inactiveGroup:any)=> {
+              if(inactiveGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
+                  this.selectedGroup = inactiveGroup;
+                  this.getMessage(this.selectedGroup);
+              }
+            });
             groups.activeGroups.map((activeGroup:any)=> {
               if(activeGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
                   this.selectedGroup = activeGroup;
@@ -633,25 +667,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
-          console.log(Object.keys(this.unreadMessages));
-          Object.keys(this.unreadMessages).map((groupId)=> {
-            let groupFound = false;
-            this.activeGroups.map((activeGroup:any)=> {
-              if(activeGroup.id===parseInt(groupId)) {
-                groupFound = true;
-              }
-            });
-            this.inactiveGroups.map((inactiveGroup:any)=> {
-              if(inactiveGroup.id===parseInt(groupId)) {
-                groupFound = true;
-              }
-            });
-            if(!groupFound) {
-              delete this.unreadMessages[groupId];
-              delete this.newMessages[groupId];
-            }
-            console.log(this.unreadMessages);
-          });
           if(!this.selectedGroup) {
           this.selectedGroup = this.activeGroups[0];
           }
@@ -664,8 +679,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           //for active groups
           this.activeGroups.map((group: Group) => {
+            this.unreadMessageCount =+ group.unreadCount;
             if (group.picture) {
                this.chatService.downloadFile(group.picture)
+               .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -679,8 +696,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           });
           //for inactive groups
           this.inactiveGroups.map((group: Group) => {
+            this.unreadMessageCount =+ group.unreadCount;
+            console.log(group.unreadCount);
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
+              .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -692,6 +712,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.ref.detectChanges();
           });
+      let favicon:any = document.querySelector('head link');
+      if(this.unreadMessageCount > 0 && favicon.href.match(/favicon-dev.png/i)) {
+        favicon.href='assets/favicon/favicon.png';
+        document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
+      }
         } else {
           return;
         }
@@ -702,6 +727,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showGroup = false;
     this.archiveGroups = [];
     this.chatService.getArchivedGroups(this.userId)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((groups) => {
         if (groups) {
           this.selectedGroup = this.groups[0];
@@ -715,6 +741,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.archiveGroups.push(group);
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
+              .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -744,7 +771,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
-    this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
+    this.chatService.getUsersByGroupId(group.id).takeUntil(this.unsubscribeObservables).subscribe((users) => {
       this.patientDetails = null;
       users.map((user: any) => {
         if (user.role === 'patient') {
@@ -766,22 +793,28 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.oldGroupId === group.id && !this.groupSelected && this.selectedUser) {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+      .takeUntil(this.unsubscribeObservables)
         .subscribe((msg) => {
+          let i =0;
           msg.reverse().map((message: any) => {
+            if(i > (19-group.unreadCount)) {
+              message.receivedNow = true;
+            }
+            i++;
             this.messages.push(message);
           });
+          if(group.unreadCount > 0) {
+            this.socketService.emitMessageRead(group.id,this.selectedUser.id);
+          }
           let result:any = this.sharedService.getdoctorAddedGroup();
           if(result && this.selectedUser.role ==='doctor') {
             //add user role doctor filter after verifying integrity
-            console.log('result found');
-            console.log(result);
            this.createNotificationMessage(result.message,result.groupId);
            this.sharedService.doctorAddedToGroup(null);
           }
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
-          this.newMessages[group.id] = msg[msg.length - 1]._id;
         });
     } else if (this.oldGroupId !== group.id) {
       //display  loading animaton upon message call in the intitial chat window load
@@ -792,37 +825,19 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.page = 1;
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+      .takeUntil(this.unsubscribeObservables)
         .subscribe((msg) => {
-          let last:any = false;
-          let count = 0;
+          let i =0;
           msg.reverse().map((message: any) => {
-            if(this.newMessages[group.id]) {
-              if(last) {
-                message.receivedNow = true;
-              }
-              if(this.newMessages[group.id]===message._id) {
-                last = true;
-              }
-            } else if(this.unreadMessages[group.id] > 0) {
-              count ++;
-              console.log(msg.length-this.unreadMessages[group.id]);
-              if((msg.length-this.unreadMessages[group.id]) < count) {
-                console.log('true');
-                message.receivedNow = true;
-              }
+            if(i > (19-group.unreadCount)) {
+              message.receivedNow = true;
             }
+            i++;
             this.messages.push(message);
           });
-          if(this.unreadMessages[group.id]) {
-          this.unreadMessages[group.id] = 0;
-          let unReadObject: any = Object;
-          let unreadObjectValues = unReadObject.values(this.unreadMessages);
-          if (!(unreadObjectValues.find((ojectValue: any) => { return ojectValue !== 0; }))) {
-            let favicon: any = document.querySelector('head link');
-            favicon.href = 'assets/favicon/favicon-DEV.png';
-            document.querySelector('title').innerText = 'Mesomeds';
-          }}
-          console.log(this.messages);
+          if(group.unreadCount > 0) {
+            this.socketService.emitMessageRead(group.id,this.selectedUser.id);
+          }
           //this is to check if the doctor-added event is listened to trigger a notificaation message
           let result:any = this.sharedService.getdoctorAddedGroup();
           if(result && this.selectedUser.role ==='doctor') {
@@ -833,49 +848,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
-          this.newMessages[group.id] = msg[msg.length-1]._id;
-          console.log(this.newMessages);
         });
     } else {
       // return 0 if user selects same group more than once
       return;
     }
-    if(this.initialLoad) {
-      console.log('Getting Messages');
-    Object.keys(this.newMessages).map((eachGroup:any)=> {
-      if(parseInt(eachGroup) !== this.selectedGroup.id) {
-      this.chatService.getMessages(this.selectedUser.id, eachGroup, 1, 20)
-      .subscribe((msg:any) => {
-        let last:any = false;
-          let count = 0;
-          console.log(this.newMessages[eachGroup]);
-          console.log(msg);
-          msg.reverse().map((message: any) => {
-            count ++;
-              if(this.newMessages[eachGroup]===message._id) {
-                this.unreadMessages[eachGroup]= msg.length - count;
-                this.ref.markForCheck();
-              }
-      });
-      if(eachGroup = Object.keys(this.newMessages)[Object.keys(this.newMessages).length - 1]) {
-        let unReadObject: any = Object;
-        let unreadObjectValues = unReadObject.values(this.unreadMessages);
-        let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
-        if(sumOfUnread > 0) {
-        let favicon: any = document.querySelector('head link');
-        favicon.href = 'assets/favicon/favicon.png';
-        document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
-        console.log('done');
-        } else if(sumOfUnread < 0) {
-          console.log('Critical error in unreadmessage logic');
-        }
-      }
-      this.ref.markForCheck();
-    });
-  }
-    });
-    this.initialLoad = false;
-  }
     this.groupSelected = true;
   }
 
@@ -883,6 +860,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const size = 20;
     let height = this.messageBox.nativeElement.scrollHeight;
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((msgs) => {
         msgs.map((message: any) => {
           this.messages.unshift(message);
@@ -936,35 +914,28 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.alert = false;
           this.ref.detectChanges();
           this.scrollToBottom();
-          this.newMessages[msg.receiverId] = msg._id;
+          if (msg.senderId !== this.selectedUser.id) {
+            this.socketService.emitMessageRead(this.selectedGroup.id,this.selectedUser.id);
+          }
         } else {
-          this.activeGroups.map((group) => {
+          this.unreadMessageCount++;
+          this.activeGroups.map((group:any) => {
             if (group.id === msg.receiverId) {
-              if (this.unreadMessages[group.id]) {
-                this.unreadMessages[group.id]++;
-              } else {
-                this.unreadMessages[group.id] = 1;
-              }
+              group.unreadCount++;
+              this.ref.markForCheck();
             }
           });
-          this.inactiveGroups.map((group) => {
+          this.inactiveGroups.map((group:any) => {
             if (group.id === msg.receiverId) {
-              if (this.unreadMessages[group.id]) {
-                this.unreadMessages[group.id]++;
-              } else {
-                this.unreadMessages[group.id] = 1;
-              }
+              group.unreadCount++;
+              this.ref.markForCheck();
             }
           });
-            let unReadObject: any = Object;
-            let unreadObjectValues = unReadObject.values(this.unreadMessages);
-            let sumOfUnread = unreadObjectValues.reduce((a: number, b: number) => a + b, 0);
-            let favicon: any = document.querySelector('head link');
-            favicon.href = 'assets/favicon/favicon.png';
-            document.querySelector('title').innerText = `(${sumOfUnread})` + 'Messages';
-            this.ref.markForCheck();
-        }
+     }
         if (msg.senderId !== this.selectedUser.id) {
+          let favicon:any = document.querySelector('head link');
+          favicon.href='assets/favicon/favicon.png';
+          document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
           this.sharedService.playsound();
           this.sharedService.createWebNotification('New Message from ' + msg.senderName, msg.text);
         }
@@ -1029,6 +1000,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   // download a default image for profile image
   downloadAltPic(fileName: string) {
     this.chatService.downloadFile(fileName)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe((res) => {
         res.onloadend = () => {
           if (fileName === 'group.png') {
@@ -1045,11 +1017,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getDoctors() {
     if (this.doctorList) {
       this.chatService.getDoctors(this.userId)
+      .takeUntil(this.unsubscribeObservables)
         .subscribe((doctors) => {
           doctors.map((doctor: any) => {
             this.doctors.push(doctor);
             if (doctor.picUrl) {
               this.chatService.downloadFile(doctor.picUrl)
+              .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     doctor.picUrl = res.result;
@@ -1169,6 +1143,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getMoreMedia() {
     const size = 5;
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+    .takeUntil(this.unsubscribeObservables)
       .subscribe(result => {
         result.map((message: any) => {
           this.mediaMessages.push(message);
