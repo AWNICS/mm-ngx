@@ -8,6 +8,7 @@ import { ChatService } from '../chat/chat.service';
 import { CookieXSRFStrategy } from '@angular/http';
 import { window } from 'rxjs/operator/window';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { SocketService } from '../chat/socket.service';
 
 @Component({
     moduleId: module.id,
@@ -37,6 +38,7 @@ export class PaymentComponent implements OnInit {
         private securityService: SecurityService,
         private sharedService: SharedService,
         private chatService: ChatService,
+        private socketService: SocketService,
         private ref: ChangeDetectorRef,
         private sanitizer: DomSanitizer
     ) { }
@@ -49,6 +51,10 @@ export class PaymentComponent implements OnInit {
             this.router.navigate([`/login`]);
         } else {
             this.selectedUser = cookie;
+            if (window.localStorage.getItem('pageReloaded') === 'true') {
+                console.log('Page Reloaded');
+                this.socketService.connection(this.selectedUser.id);
+              }
             let billId = this.route.snapshot.queryParams.bill_id;
         if(billId && this.selectedUser.role==='patient') {
             this.getBillById(billId);

@@ -179,7 +179,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 response.group.phase='active';
                 this.sharedService.setGroup(response.group);
                 // this.getNotifications(this.user);
-                this.router.navigate([`/chat/${response.doctorId}`]);
+                if(this.router.url.match(/chat/)) {
+                    console.log('matched');
+                    this.router.navigateByUrl('/', {skipLocationChange: true}).then((a)=> {
+                        console.log(a);
+                        console.log('naviagted');
+                        this.router.navigate([`/chat/${response.doctorId}`]);
+                });
+                } else {
+                    this.router.navigate([`/chat/${response.doctorId}`]);
+                }
             });
     }
 }

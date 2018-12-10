@@ -136,7 +136,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   typingEvent: Boolean = true;
   errors:Array<any>=[];
-  patientDetails:any; 
+  patientDetails:any;
   doctorDetails:any;
   showPrescriptionComponent:Boolean = false;
   digitalSignature:string;
@@ -165,6 +165,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log(this.router.url);
     this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
