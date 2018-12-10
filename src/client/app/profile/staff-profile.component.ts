@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { StaffInfo } from '../shared/database/staff-info';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -13,12 +14,13 @@ import { StaffInfo } from '../shared/database/staff-info';
     templateUrl: 'staff-profile.component.html',
     styleUrls: ['profile.component.css'],
 })
-export class StaffProfileComponent implements OnInit {
+export class StaffProfileComponent implements OnInit, OnDestroy {
 
     staffInfo: StaffInfo;
     userDetails: FormGroup;
     @Input() user: UserDetails;
     message: string;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -27,6 +29,7 @@ export class StaffProfileComponent implements OnInit {
 
     ngOnInit() {
         this.profileService.getStaffById(this.user.id)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(staffInfo => {
                 this.staffInfo = staffInfo;
                 this.userDetails = this.fb.group({
@@ -46,10 +49,17 @@ export class StaffProfileComponent implements OnInit {
             });
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     update({ value, valid }: { value: any, valid: boolean }) {
         this.profileService.updateStaffInfo(value)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(res => {
                         this.message = 'Profile is updated';
                     });

@@ -37,7 +37,7 @@
                                     <h5>Consultation Details</h5>
                                     <p>Doctor name: {{visitorTimeline.consultations.doctorName}}</p>
                                     <p>Speciality: {{visitorTimeline.consultations.speciality}}</p>
-                                    <p>Appointment: {{visitorTimeline.consultations.description}}</p>
+                                    <p style="line-height: 100%;">Appointment: {{visitorTimeline.consultations.description}}</p>
                                 </vertical-timeline-card>
                                 <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
                                     <br>

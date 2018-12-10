@@ -63,6 +63,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         let size = 5;
         if (location && speciality) {
             this.sharedService.getDoctors(location, speciality, gps, currentTime, page, size)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     if (res.length <= 0) {
                         this.message = 'There are no doctors available currently. Try again later!';
@@ -72,6 +73,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                             this.doctors.map((doctor: any) => {
                                 doctor.speciality = JSON.parse(doctor.speciality);
                                 this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                                .takeUntil(this.unsubscribeObservables)
                                     .subscribe(response => {
                                         let updatedAt = new Date(response[response.length - 1].updatedAt);
                                         let currentTime = new Date();
@@ -80,11 +82,13 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                         doctor.lastupdated = this.getLastUpdated(date);
                                     });
                                 this.sharedService.getDoctorStore(doctor.userId)
+                                .takeUntil(this.unsubscribeObservables)
                                     .subscribe(stores => {
                                         this.getStores(stores, doctor.userId);
                                     });
                                 if (doctor.picUrl) {
                                     this.chatService.downloadFile(doctor.picUrl)
+                                    .takeUntil(this.unsubscribeObservables)
                                         .subscribe((res) => {
                                             res.onloadend = () => {
                                                 doctor.picUrl = res.result;
@@ -93,6 +97,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                         });
                                 } else {
                                     this.chatService.downloadFile('doc.png')
+                                    .takeUntil(this.unsubscribeObservables)
                                         .subscribe((res: any) => {
                                             res.onloadend = () => {
                                                 doctor.picUrl = res.result;

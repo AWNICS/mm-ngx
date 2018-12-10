@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -8,6 +8,7 @@ import { ChatService } from '../chat/chat.service';
 import { CookieXSRFStrategy } from '@angular/http';
 import { window } from 'rxjs/operator/window';
 import { IfObservable } from 'rxjs/observable/IfObservable';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -16,7 +17,7 @@ import { IfObservable } from 'rxjs/observable/IfObservable';
     styleUrls: ['payment.component.css']
 })
 
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     userDetails: any;
@@ -29,6 +30,7 @@ export class PaymentComponent implements OnInit {
     selectedUser: any;
     billUrl: SafeResourceUrl;
     billDownloaded: any = true;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private service: SharedService,
@@ -64,8 +66,14 @@ export class PaymentComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     paymentGatewayCall(i: number) {
         this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[i].orderId}`)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 // let  wind:any = window;
                 // let width = wind.innerWidth - 40;
@@ -81,6 +89,7 @@ export class PaymentComponent implements OnInit {
         if(this.billDownloaded) {
             this.billDownloaded = false;
                 this.chatService.downloadFile(this.bills[index].url)
+                .takeUntil(this.unsubscribeObservables)
                             .subscribe((res) => {
                                 res.onloadend = () => {
                                     event.srcElement.href = res.result;
@@ -94,6 +103,7 @@ export class PaymentComponent implements OnInit {
     getBills() {
         if (this.selectedUser.role === 'patient') {
             this.sharedService.getBills(this.visitorId)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
                     console.log(billings);
                     this.bills = billings;
@@ -109,6 +119,7 @@ export class PaymentComponent implements OnInit {
                 });
         } else if (this.selectedUser.role === 'doctor') {
             this.sharedService.getBillsByDoctorId(this.selectedUser.id)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
                     this.bills = billings;
                     console.log(this.bills);

@@ -130,9 +130,9 @@ export class SocketService {
 
     receiveDoctorStatus(): Observable<any> {
         const observable = new Observable(observer => {
-            this.socket.on('doctor-status', (status: any) => {
+            this.socket.on('received-doctor-status', (status: any) => {
                 observer.next(status);
-                console.log('doctor status '+status );
+                console.log('received doctor status '+status );
             });
             // return () => {
             //     this.socket.disconnect();

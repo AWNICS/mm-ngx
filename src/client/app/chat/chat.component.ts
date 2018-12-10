@@ -6,8 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   AfterViewInit,
-  OnDestroy,
-  group
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -159,8 +158,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     private securityService: SecurityService,
     private router: Router,
     private sharedService: SharedService,
-    private profileService: ProfileService,
-    private location: Location
+    private profileService: ProfileService
   ) {
   }
 
@@ -182,6 +180,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socketService.connection(this.userId);
       }
       this.chatService.getUserById(this.userId)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe(user => {
           this.selectedUser = user;
           this.getGroups();
@@ -306,6 +305,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getDoctorDetails() {
     this.sharedService.getDoctorById(this.userId)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((doctorDetails) => {
         this.doctorDetails = doctorDetails;
       });
@@ -313,9 +313,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   downloadDoctorSignature() {
     this.profileService.getDoctorDigitalSignature(this.selectedUser.id)
+    .takeUntil(this.unsubscribeObservables)
     .subscribe((digitalSignature) => {
       if(digitalSignature) {
-          this.chatService.downloadFile(digitalSignature.url).subscribe((res) => {
+          this.chatService.downloadFile(digitalSignature.url)
+          .takeUntil(this.unsubscribeObservables)
+          .subscribe((res) => {
             res.onloadend = () => {
               this.digitalSignature = res.result;
             };
@@ -447,6 +450,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(images[0].name, 'image');
     if (result.message) {
       this.chatService.uploadFile(images[0])
+        .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           //mrch for check erro
           value.contentData = { data: res._body };
@@ -480,6 +484,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(videos[0].name, 'video');
     if (result.message) {
       this.chatService.uploadFile(videos[0])
+        .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
@@ -507,7 +512,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createPrescription(data: any) {
     let value: any = { contentData: { data: '' } };
-    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).subscribe((fileName) => {
+    this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id)
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((fileName) => {
       value.contentData.data = fileName.fileName;
       value.receiverId = this.chatService.getGroup().id;
       value.senderId = this.selectedUser.id;
@@ -541,6 +548,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     let result = this.sharedService.validateFileUpload(files[0].name, 'file');
     if (result.message) {
       this.chatService.uploadFile(files[0])
+        .takeUntil(this.unsubscribeObservables)
         .subscribe(res => {
           value.contentData = { data: res._body };
           value.receiverId = this.chatService.getGroup().id;
@@ -594,6 +602,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupAuto(this.newGroup, this.selectedGroup.id)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((group) => {
         this.groups.push(group);
         this.ref.detectChanges();
@@ -609,6 +618,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.newGroup.createdBy = this.selectedUser.id;
     this.newGroup.updatedBy = this.selectedUser.id;
     this.chatService.createGroupManual(this.newGroup, this.selectedGroup.id, doctor.id)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((group) => {
         this.groups.push(group);
         this.ref.detectChanges();
@@ -619,6 +629,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getGroups() {
     this.showGroup = true;
     this.chatService.getGroups(this.userId)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((groups) => {
         if(groups) {
           console.log(groups);
@@ -664,6 +675,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.activeGroups.map((group: Group) => {
             if (group.picture) {
                this.chatService.downloadFile(group.picture)
+                .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -679,6 +691,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.inactiveGroups.map((group: Group) => {
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
+                .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -700,6 +713,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.showGroup = false;
     this.archiveGroups = [];
     this.chatService.getArchivedGroups(this.userId)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((groups) => {
         if (groups) {
           this.selectedGroup = this.groups[0];
@@ -713,6 +727,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             this.archiveGroups.push(group);
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
+                .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     group.picture = res.result;
@@ -742,7 +757,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
-    this.chatService.getUsersByGroupId(group.id).subscribe((users) => {
+    this.chatService.getUsersByGroupId(group.id)
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((users) => {
       this.patientDetails = null;
       users.map((user: any) => {
         if (user.role === 'patient') {
@@ -764,6 +781,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.oldGroupId === group.id && !this.groupSelected && this.selectedUser) {
       // if the selected group is same, then append messages
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((msg) => {
           msg.reverse().map((message: any) => {
             this.messages.push(message);
@@ -790,6 +808,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.page = 1;
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((msg) => {
           let last:any = false;
           let count = 0;
@@ -843,6 +862,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     Object.keys(this.newMessages).map((eachGroup:any)=> {
       if(parseInt(eachGroup) !== this.selectedGroup.id) {
       this.chatService.getMessages(this.selectedUser.id, eachGroup, 1, 20)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((msg:any) => {
         let last:any = false;
           let count = 0;
@@ -881,6 +901,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const size = 20;
     let height = this.messageBox.nativeElement.scrollHeight;
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((msgs) => {
         msgs.map((message: any) => {
           this.messages.unshift(message);
@@ -1027,6 +1048,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   // download a default image for profile image
   downloadAltPic(fileName: string) {
     this.chatService.downloadFile(fileName)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe((res) => {
         res.onloadend = () => {
           if (fileName === 'group.png') {
@@ -1043,11 +1065,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getDoctors() {
     if (this.doctorList) {
       this.chatService.getDoctors(this.userId)
+        .takeUntil(this.unsubscribeObservables)
         .subscribe((doctors) => {
           doctors.map((doctor: any) => {
             this.doctors.push(doctor);
             if (doctor.picUrl) {
               this.chatService.downloadFile(doctor.picUrl)
+                .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                   res.onloadend = () => {
                     doctor.picUrl = res.result;
@@ -1134,6 +1158,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const size = 5;
     this.mediaMessages = [];
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe(result => {
         result.map((message: any) => {
           this.mediaMessages.push(message);
@@ -1167,6 +1192,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getMoreMedia() {
     const size = 5;
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+      .takeUntil(this.unsubscribeObservables)
       .subscribe(result => {
         result.map((message: any) => {
           this.mediaMessages.push(message);

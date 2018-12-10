@@ -145,7 +145,12 @@
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
                     <label>Title</label>
-                    <input type="text" formControlName="documentTitle" placeholder="X-ray report" />
+                    <select formControlName="documentTitle">
+                        <option  value="null" disabled="true" hidden [selected]="true">Select Title</option>
+                        <option>Blood Reports</option>
+                        <option>CT Scan</option>
+                        <option>Others</option>
+                    </select>
                 </div>
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PasswordValidation } from './password.validator';
@@ -6,6 +6,7 @@ import { LoginService } from './login.service';
 import { UserDetails } from '../shared/database/user-details';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -15,7 +16,7 @@ import { SharedService } from '../shared/services/shared.service';
     templateUrl: 'register.component.html',
     styleUrls: ['register.component.css'],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent implements OnInit, OnDestroy {
     registerDetails: FormGroup;
     userDetails: UserDetails;
     error = '';
@@ -26,6 +27,7 @@ export class RegisterComponent implements OnInit {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -62,11 +64,17 @@ export class RegisterComponent implements OnInit {
         this.navbarComponent.navbarColor(0, '#534FFE');
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     register({ value, valid }: { value: UserDetails, valid: boolean }) {
         if (this.otpFlag === false) {
             value.status = 'offline';
             value.role = 'patient';
             this.loginService.createNewUser(value)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     breakloop: if (res.error) {
@@ -101,6 +109,7 @@ export class RegisterComponent implements OnInit {
         if (phoneNo.length === 10) {
             this.loader = true;
             this.sharedService.sendOtp(Number('91'+phoneNo))
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     if (res.type === 'success') {
                         this.loader = false;
@@ -115,6 +124,7 @@ export class RegisterComponent implements OnInit {
     resendOtp() {
         this.loader =true;
         this.sharedService.resendOtp(Number('91'+this.phoneNo))
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 if (res.type === 'success') {
                     this.loader = false;
@@ -127,6 +137,7 @@ export class RegisterComponent implements OnInit {
     confirmOtp(otp: number) {
         this.loader = true;
         this.sharedService.verifyOtp(Number('91'+this.phoneNo), otp)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 if (res.type === 'success') {
                     this.loader = false;

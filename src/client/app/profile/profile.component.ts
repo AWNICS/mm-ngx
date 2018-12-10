@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
@@ -6,6 +6,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from '../chat/chat.service';
 import { ProfileService } from './profile.service';
 import { DoctorMedia } from '../shared/database/doctor-media';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -16,7 +17,7 @@ import { DoctorMedia } from '../shared/database/doctor-media';
     templateUrl: 'profile.component.html',
     styleUrls: ['profile.component.css'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('videoPlayer') videoPlayer: ElementRef;
@@ -62,6 +63,7 @@ export class ProfileComponent implements OnInit {
         createdAt: null,
         updatedAt: null
     };
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private securityService: SecurityService,
@@ -89,13 +91,20 @@ export class ProfileComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     saveImage(files: FileList) {
         this.chatService.uploadFile(files[0])
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.user.picUrl = res._body;
                 this.securityService.setCookie('userDetails', JSON.stringify(this.user), 1);
                 this.downloadProfileImage(res._body);
                 this.profileService.updateUserDetails(this.user)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(res => {
                         return;
                     });
@@ -104,6 +113,7 @@ export class ProfileComponent implements OnInit {
 
     downloadProfileImage(fileName: string) {
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = res.result;
@@ -123,6 +133,7 @@ export class ProfileComponent implements OnInit {
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.url = res.result;
@@ -133,10 +144,12 @@ export class ProfileComponent implements OnInit {
 
     getDoctorMedia() {
         this.profileService.getDoctorMedia(this.user.id)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.mediaFiles = res;
                 this.mediaFiles.map((mediaFile: any, i: number) => {
                     this.chatService.downloadFile(mediaFile.thumbUrl)
+                    .takeUntil(this.unsubscribeObservables)
                         .subscribe(res => {
                             res.onloadend = () => {
                                 this.mediaFiles[i].thumbUrl = res.result;
@@ -151,16 +164,19 @@ export class ProfileComponent implements OnInit {
         let fileReader: FileReader = new FileReader();
         if (files[0].type.match('image')) {
             this.chatService.uploadFile(files[0])
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     this.doctorMedia.url = res._body; // setting url of media file
                     this.chatService.uploadThumbnail(files[0])
-                        .subscribe(res => {
+                    .takeUntil(this.unsubscribeObservables)
+                    .subscribe(res => {
                             this.doctorMedia.thumbUrl = res._body; // setting thumbUrl of media file
                             this.updateMedia('image', files[0]);
                         });
                 });
         } else if (files[0].type.match('video')) {
             this.chatService.uploadFile(files[0])
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     this.doctorMedia.url = res._body;
                     fileReader.onload = () => {
@@ -189,6 +205,7 @@ export class ProfileComponent implements OnInit {
                 });
         } else if (files[0].type.match('application')) {
             this.chatService.uploadFile(files[0])
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     //this.updateMedia('doc', res._body);
                 });
@@ -216,6 +233,7 @@ export class ProfileComponent implements OnInit {
         if (success) {
             this.thumbImage = this.dataURLtoFile(image, 'thumbnail_' + file.name);
             this.chatService.uploadFile(this.thumbImage)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     this.doctorMedia.thumbUrl = res._body;
                     this.updateMedia('video', file);
@@ -252,9 +270,11 @@ export class ProfileComponent implements OnInit {
         this.doctorMedia.createdBy = this.user.id;
         this.doctorMedia.updatedBy = this.user.id;
         this.profileService.createDoctorMedia(this.doctorMedia)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.mediaFiles.push(res);
                 this.chatService.downloadFile(res.thumbUrl)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(res => {
                         res.onloadend = () => {
                             let length = this.mediaFiles.length;
@@ -266,6 +286,7 @@ export class ProfileComponent implements OnInit {
 
     deleteMedia(i: number, file: any) {
         this.profileService.deleteDoctorMedia(file.id)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.mediaFiles.splice(i, 1);
             });
@@ -274,6 +295,7 @@ export class ProfileComponent implements OnInit {
     openModal(file: DoctorMedia) {
         if (file.type === 'image' || file.type === 'video') {
             this.chatService.downloadFile(file.url)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     res.onloadend = () => {
                         this.item.type = file.type;
