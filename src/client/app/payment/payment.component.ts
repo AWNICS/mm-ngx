@@ -51,7 +51,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
             this.router.navigate([`/login`]);
         } else {
             this.selectedUser = cookie;
+            let billId = this.route.snapshot.queryParams.bill_id;
+        if(billId && this.selectedUser.role==='patient') {
+            this.getBillById(billId);
+        } else {
             this.getBills();
+        }
         }
         this.userDetails = `merchant_id=192155&currency=INR&amount=1.00` +
             `&redirect_url=https://mesomeds.com:3000/payments/responses&cancel_url=https://mesomeds.com:3000/payments/responses` +
@@ -137,4 +142,11 @@ export class PaymentComponent implements OnInit, OnDestroy {
             return;
         }
     }
+
+    getBillById(billId:number) {
+            this.sharedService.getBillById(this.visitorId,billId)
+                .subscribe((billing) => {
+                    this.bills = billing;
+                });
+        }
 }

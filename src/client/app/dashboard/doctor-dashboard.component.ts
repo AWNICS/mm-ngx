@@ -240,7 +240,7 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
                 } else {
                     this.chart(res.chartDetails);
                     res.visitorAppointments.map((appointment: any) => {
-                        appointment.startTime = moment(appointment.startTime).subtract({ hours: 5, minutes: 30 });
+                        appointment.startTime = moment(appointment.startTime);
                         this.consultations.push(appointment);
                     });
                     //this.consultations = res.visitorAppointments;

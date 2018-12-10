@@ -101,9 +101,11 @@ export class SharedService {
             .map(res => res.json());
     }
 
-    getDoctors(location: string, speciality: string, gps: number, time: string, page: number, size: number): Observable<any> {
+    getDoctors(userId:number, location: string, speciality: string, gps: number, time: string, page: number,
+         size: number): Observable<any> {
         const uri1 = `${this.url}/doctors/schedules?`;
-        const uri2 = `location=${location}&speciality=${speciality}&gps=${gps}&current_time=${time}&page=${page}&size=${size}`;
+        const uri2 = `userId=${userId}&location=${location}&speciality=${speciality}&gps=${gps}&current_time=${time}&page=${page}
+        &size=${size}`;
         const uri = uri1 + uri2;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
@@ -367,6 +369,17 @@ export class SharedService {
             .map(res => res.json());
     }
 
+
+    /**
+     * get bill by billid
+     */
+    getBillById(visitorId: number, billId: number) {
+        const uri = `${this.url}/billing/visitors/${visitorId}/bill/${billId}`;
+        let headers = new Headers();
+        headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
+        return this.http.get(uri, { headers: headers })
+            .map(res => res.json());
+    }
     /**
      * @param doctorId get all bills
      */

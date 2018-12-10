@@ -587,6 +587,9 @@ textarea:focus {
 .muted {
     font-size: 12px;
     font: #9C9C9C;
+    position: absolute;
+    left:4%;
+    bottom: 8px;
 }
 
 .message:hover .delete-message {

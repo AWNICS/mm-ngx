@@ -11,6 +11,7 @@ export class Group {
     phase: string;
     status: string;
     prescription_generated: Boolean;
+    unreadCount: number;
     createdBy: number;
     updatedBy: number;
     createdAt: any;
