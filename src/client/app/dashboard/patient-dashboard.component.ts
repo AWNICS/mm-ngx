@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -6,6 +6,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SharedService } from '../shared/services/shared.service';
+import { Subject } from 'rxjs/Subject';
 const Chart = require('chart.js/dist/Chart.bundle.js');
 
 @Component({
@@ -15,7 +16,7 @@ const Chart = require('chart.js/dist/Chart.bundle.js');
     styleUrls: ['patient-dashboard.component.css']
 })
 
-export class PatientDashboardComponent implements OnInit {
+export class PatientDashboardComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('lineChart') lineChart: ElementRef;
@@ -30,6 +31,7 @@ export class PatientDashboardComponent implements OnInit {
     visitorTimelines: any;
     hideVisitorReports = false;
     hideTimeline = false;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -48,6 +50,7 @@ export class PatientDashboardComponent implements OnInit {
             this.router.navigate([`/login`]);
         } else {
             this.chatService.getUserById(this.visitorId)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(user => {
                     this.selectedUser = user;
                     if (this.selectedUser.picUrl) {
@@ -65,8 +68,14 @@ export class PatientDashboardComponent implements OnInit {
         }
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
@@ -85,6 +94,7 @@ export class PatientDashboardComponent implements OnInit {
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
@@ -152,6 +162,7 @@ export class PatientDashboardComponent implements OnInit {
 
     getVisitor(visitorId: number) {
         this.sharedService.getVisitor(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitor => {
                 this.visitorDetail = visitor.patientInfo;
             });
@@ -159,6 +170,7 @@ export class PatientDashboardComponent implements OnInit {
 
     getVisitorStore(visitorId: number) {
         this.sharedService.getVisitorStore(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitorStore => {
                 this.getStores(visitorStore, visitorId);
             });
@@ -179,6 +191,7 @@ export class PatientDashboardComponent implements OnInit {
 
     getVisitorReport(visitorId: number) {
         this.sharedService.getVisitorReport(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitorReport => {
                 this.visitorReport = visitorReport;
                 if(visitorReport.length === 0) {
@@ -189,6 +202,7 @@ export class PatientDashboardComponent implements OnInit {
 
     getVisitorHealth(visitorId: number) {
         this.sharedService.getVisitorHealth(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitorHealth => {
                 this.visitorHealth = visitorHealth[0];
             });
@@ -197,6 +211,7 @@ export class PatientDashboardComponent implements OnInit {
     /* for plotting the consultation history(consultations, reports and vitals) */
     getVisitorAppointmentHistory(visitorId: number) {
         this.sharedService.getVisitorAppointmentHistory(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitorAppointmentHistory => {
                 let consultations = visitorAppointmentHistory.consultations.monthly;
                 let reports = visitorAppointmentHistory.reports.monthly;
@@ -210,6 +225,7 @@ export class PatientDashboardComponent implements OnInit {
     /* get timeline related info */
     getTimeline(visitorId: number) {
         this.sharedService.getTimeline(visitorId)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(visitorTimeline => {
                 if(visitorTimeline.length === 0) {
                     this.hideTimeline = true;

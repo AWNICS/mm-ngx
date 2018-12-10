@@ -81,6 +81,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
     downloadPic(filename: string) {
         this.chatService.downloadFile(filename)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
@@ -99,6 +100,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
             fileName = 'user.png';
         }
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 res.onloadend = () => {
                     this.picUrl = res.result;
@@ -129,6 +131,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         let page = 1;
         let size = 10;
         this.sharedService.getNotificationsByUserId(user.id, page, size)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((notifications) => {
                 console.log('Notifications received all');
                 console.log(notifications);

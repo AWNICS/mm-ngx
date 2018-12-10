@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { SharedService } from '../shared/services/shared.service';
 import { Specialities } from '../shared/database/speciality';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the lazy loaded RegisterComponent.
@@ -15,7 +16,7 @@ import { Specialities } from '../shared/database/speciality';
     templateUrl: 'doctor-profile.component.html',
     styleUrls: ['profile.component.css'],
 })
-export class DoctorProfileComponent implements OnInit {
+export class DoctorProfileComponent implements OnInit, OnDestroy {
 
     doctorProfiles: DoctorProfiles;
     userDetails: FormGroup;
@@ -29,6 +30,7 @@ export class DoctorProfileComponent implements OnInit {
     locationList: string[] = [];
     dropdownSettings: Object;
     specialityDropdownSettings: Object;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -41,11 +43,14 @@ export class DoctorProfileComponent implements OnInit {
         this.getLanguages();
         this.getConsultationModes();
         this.getQualifications();
-        this.sharedService.getSpecialities().subscribe((specialities: Specialities[]) => {
+        this.sharedService.getSpecialities()
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((specialities: Specialities[]) => {
             specialities.map((speciality: Specialities) => {
                 this.specialitiesDropdownList.push(speciality.name);
             });
             this.profileService.getDoctorProfilesById(this.user.id)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(result => {
                     this.doctorProfiles = result.doctorDetails;
                     let doctorStores = result.doctorStores;
@@ -105,8 +110,14 @@ export class DoctorProfileComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     getLocations() {
         this.sharedService.getLocations()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(locations => {
                 locations.map((location: any) => {
                     this.locationList.push(location.name);
@@ -116,6 +127,7 @@ export class DoctorProfileComponent implements OnInit {
 
     getLanguages() {
         this.sharedService.getLanguages()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(languages => {
                 languages.map((language: any) => {
                     this.languageList.push(language.name);
@@ -125,6 +137,7 @@ export class DoctorProfileComponent implements OnInit {
 
     getConsultationModes() {
         this.sharedService.getConsultationModes()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(consultationModes => {
                 consultationModes.map((consultationMode: any) => {
                     this.consultationModeList.push(consultationMode.name);
@@ -134,6 +147,7 @@ export class DoctorProfileComponent implements OnInit {
 
     getQualifications() {
         this.sharedService.getQualifications()
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(qualifications => {
                 qualifications.map((qualification: any) => {
                     this.qualificationList.push(qualification.name);
@@ -143,8 +157,10 @@ export class DoctorProfileComponent implements OnInit {
 
     update({ value }: { value: any }) {
         this.profileService.updateDoctorProfiles(value)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.profileService.updateUserDetails(value)
+                .takeUntil(this.unsubscribeObservables)
                     .subscribe(res => {
                         this.message = 'Profile is updated';
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });

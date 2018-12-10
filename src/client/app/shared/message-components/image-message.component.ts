@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * ImageMessageComponent to display image
@@ -15,13 +16,14 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     styleUrls: ['image-message.component.css']
 })
 
-export class ImageMessageComponent implements OnInit {
+export class ImageMessageComponent implements OnInit, OnDestroy {
 
     @Input() message: Message;
     @ViewChild('modal') modal: ElementRef;
     thumbImageUrl: SafeResourceUrl;
     fullImageUrl: SafeResourceUrl;
     imageName:string;
+    private unsubscribeObservables = new Subject();
 
     constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
 
@@ -31,9 +33,15 @@ export class ImageMessageComponent implements OnInit {
         }, 5000);
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     downloadThumbImage(imageName: string) {
         this.imageName = imageName;
         this.chatService.downloadFile(imageName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.thumbImageUrl = res.result;
@@ -45,6 +53,7 @@ export class ImageMessageComponent implements OnInit {
     downloadFullImage(imageName: string) {
         imageName = imageName.replace('-thumb','');
         this.chatService.downloadFile(imageName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.fullImageUrl = res.result;

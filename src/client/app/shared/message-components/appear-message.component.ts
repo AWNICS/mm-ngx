@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
 import { SharedService } from '../services/shared.service';
 import { UserDetails } from '../database/user-details';
 import { SecurityService } from '../services/security.service';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * appear component to load the appear call in an iframe
@@ -32,13 +33,14 @@ import { SecurityService } from '../services/security.service';
     `]
 })
 
-export class AppearMessageComponent implements OnInit {
+export class AppearMessageComponent implements OnInit, OnDestroy {
     safeUrl: string;
     @Input() message: Message;
     @Input() index: number;
     title: string;
     enable = false;
     selectedUser: UserDetails;
+    private unsubscribeObservables = new Subject();
 
     constructor(private socketService: SocketService,
         private sharedService: SharedService,
@@ -54,6 +56,11 @@ export class AppearMessageComponent implements OnInit {
         } else {
             this.enable = true;
         }
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     submit() {
@@ -86,6 +93,7 @@ export class AppearMessageComponent implements OnInit {
 
     createAudit(audit: any) {
         this.sharedService.createAudit(audit)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 return;
             });

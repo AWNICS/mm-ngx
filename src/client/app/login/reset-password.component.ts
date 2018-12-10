@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { LoginService } from './login.service';
 import { ChatService } from '../chat/chat.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded ResetPasswordComponent.
  */
@@ -14,18 +15,24 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: 'reset-password.component.html',
     styleUrls: ['login.component.css'],
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
 
     message: string = '';
     token: string;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('msg') msg: ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(private loginService: LoginService, private route: ActivatedRoute) {}
 
     ngOnInit(): void {
         this.token = this.route.snapshot.paramMap.get('token');
         this.navbarComponent.navbarColor(0, '#6960FF');
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     validatePassword(password: string, confirmPassword: string) {
@@ -45,6 +52,7 @@ export class ResetPasswordComponent implements OnInit {
             return;
         } else {
             this.loginService.resetPassword(password, this.token)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 this.message = res.message;
                 this.msg.nativeElement.style.display = 'block';

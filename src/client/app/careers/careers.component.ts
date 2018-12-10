@@ -1,8 +1,9 @@
-import { Component, ViewChild, HostListener, OnInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { FileValidator } from './file-input.validator';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
     moduleId: module.id,
@@ -11,7 +12,7 @@ import { FileValidator } from './file-input.validator';
     styleUrls: ['careers.component.css']
 })
 
-export class CareersComponent implements OnInit {
+export class CareersComponent implements OnInit, OnDestroy {
 
     navIsFixed: boolean = false;
     userDetails: any;
@@ -19,6 +20,7 @@ export class CareersComponent implements OnInit {
     @ViewChild('jobModal') jobModal: ElementRef;
     filename: string = 'Upload resume';
     modalHeader: string;
+    private unsubscribeObservables: any = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -34,6 +36,11 @@ export class CareersComponent implements OnInit {
             message: ['', Validators.required],
             resume: new FormControl('', [FileValidator.validate])
         });
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     @HostListener('window:scroll', [])
@@ -65,6 +72,7 @@ export class CareersComponent implements OnInit {
         this.userDetails.reset();
         this.jobModal.nativeElement.click();
         this.sharedService.careerMail(value)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 if(res) {
                     return;

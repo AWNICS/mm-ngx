@@ -1,5 +1,7 @@
-import { Component, ViewChild, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AdminService } from './admin.service';
 import { Group } from '../shared/database/group';
@@ -13,7 +15,7 @@ import { SecurityService } from '../shared/services/security.service';
     styleUrls: ['admin.component.css']
 })
 
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('createGroupModal') createGroupModal: ElementRef;
@@ -31,6 +33,7 @@ export class AdminComponent implements OnInit {
     dropdownList: any[] = [];
     message: string;
     alert: boolean = false;
+    private unsubscribeObservables:any = new Subject();
 
     constructor(
         private adminService: AdminService,
@@ -57,6 +60,11 @@ export class AdminComponent implements OnInit {
                 textField: 'email'
             };
         }
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
     }
 
     createForm() {
@@ -94,6 +102,7 @@ export class AdminComponent implements OnInit {
         //value.url = `/${value.name}/${value.userId}`;
         value.url = `/consultation/${value.userId}`;
         this.adminService.createNewGroupByAdmin(value)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 this.createGroupUserMap(value.users, res.id);
                 this.createGroupModal.nativeElement.click();
@@ -104,6 +113,7 @@ export class AdminComponent implements OnInit {
     //mapping for the users inside newly created group
     createGroupUserMap(users: any, groupId: number) {
         this.adminService.createGroupUserMap(users, groupId)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
                 return;
             });
@@ -111,6 +121,7 @@ export class AdminComponent implements OnInit {
 
     getAllGroups() {
         this.adminService.getAllGroups()
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 this.groups = res;
             });
@@ -118,6 +129,7 @@ export class AdminComponent implements OnInit {
 
     getAllUsers() {
         this.adminService.getAllUsers()
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 this.dropdownList = res;
             });
@@ -126,6 +138,7 @@ export class AdminComponent implements OnInit {
     initializeEdit(group: any, index: number) {
         this.usersByGroup = [];
         this.adminService.getAllUsersByGroupId(group.id)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.map((user) => {
                     this.usersByGroup.push({id: user.id,email:user.email});
@@ -169,6 +182,7 @@ export class AdminComponent implements OnInit {
             updatedBy: value.updatedBy
         };
         this.adminService.updateGroup(data)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 this.alert = true;
                 if(true) {
@@ -182,6 +196,7 @@ export class AdminComponent implements OnInit {
 
     deleteGroup() {
         this.adminService.deleteGroup(this.deletedGroup)
+            .takeUntil(this.unsubscribeObservables)
             .subscribe(() => {
                 this.deleteGroupModal.nativeElement.click();
                 this.getAllGroups();

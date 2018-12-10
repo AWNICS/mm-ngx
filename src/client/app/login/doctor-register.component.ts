@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
 import { SharedService } from '../shared/services/shared.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { Specialities } from '../shared/database/speciality';
 import { PasswordValidation } from './password.validator';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded RegisterComponent.
  */
@@ -14,7 +15,7 @@ import { PasswordValidation } from './password.validator';
     templateUrl: 'doctor-register.component.html',
     styleUrls: ['doctor-register.component.css'],
 })
-export class DoctorRegisterComponent implements OnInit {
+export class DoctorRegisterComponent implements OnInit, OnDestroy {
 
     @ViewChild('msg') msg: ElementRef;
     registerDoctorProfiles: FormGroup;
@@ -29,6 +30,7 @@ export class DoctorRegisterComponent implements OnInit {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
+    private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
@@ -42,7 +44,9 @@ export class DoctorRegisterComponent implements OnInit {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
-        this.sharedService.getSpecialities().subscribe((specialities:Specialities[])=> {
+        this.sharedService.getSpecialities()
+        .takeUntil(this.unsubscribeObservables)
+        .subscribe((specialities:Specialities[])=> {
             let specialitiesList:Array<any> = [];
           specialities.map((speciality:Specialities)=> {
               specialitiesList.push(speciality.name);
@@ -91,6 +95,11 @@ export class DoctorRegisterComponent implements OnInit {
           };
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     register({ value, valid }: { value: any, valid: boolean }) {
         if (this.otpFlag === false) {
             const name = value.firstname + ' ' + value.lastname;
@@ -100,6 +109,7 @@ export class DoctorRegisterComponent implements OnInit {
             value.updatedBy = value.id;
             value.role = 'doctor';
             this.loginService.createNewDoctor(value)
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe((res) => {
                     window.scroll({top: 0, left: 0, behavior: 'smooth'});
                     breakloop: if (res.error === 'DUP_ENTRY') {
@@ -132,6 +142,7 @@ export class DoctorRegisterComponent implements OnInit {
         if (phoneNo.length === 10) {
             this.loader = true;
             this.sharedService.sendOtp(Number('91'+phoneNo))
+            .takeUntil(this.unsubscribeObservables)
                 .subscribe(res => {
                     if (res.type === 'success') {
                         this.loader = false;
@@ -146,6 +157,7 @@ export class DoctorRegisterComponent implements OnInit {
     resendOtp() {
         this.loader =true;
         this.sharedService.resendOtp(Number('91'+this.phoneNo))
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 if (res.type === 'success') {
                     this.loader = false;
@@ -158,6 +170,7 @@ export class DoctorRegisterComponent implements OnInit {
     confirmOtp(otp: number) {
         this.loader = true;
         this.sharedService.verifyOtp(Number('91'+this.phoneNo), otp)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe(res => {
                 if (res.type === 'success') {
                     this.loader = false;
