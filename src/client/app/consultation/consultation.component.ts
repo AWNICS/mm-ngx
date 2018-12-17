@@ -8,6 +8,7 @@ import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
+import { SocketService } from '../chat/socket.service';
 import moment = require('moment');
 
 @Component({
@@ -46,7 +47,8 @@ export class ConsultationComponent implements OnInit, OnDestroy {
         private chatService: ChatService,
         private sanitizer: DomSanitizer,
         private ref: ChangeDetectorRef,
-        private securityService: SecurityService
+        private securityService: SecurityService,
+        private socketService: SocketService
     ) { }
 
     ngOnInit() {
@@ -54,6 +56,10 @@ export class ConsultationComponent implements OnInit, OnDestroy {
         this.userId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+            if (window.localStorage.getItem('pageReloaded') === 'true') {
+                console.log('Page Reloaded');
+                this.socketService.connection(this.selectedUser.id);
+              }
         }
         this.consultationId = this.route.snapshot.queryParams.consultationId;
         if( this.consultationId && this.selectedUser.role==='doctor') {

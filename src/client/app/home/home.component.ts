@@ -51,7 +51,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
     window.scrollTo(0,0);
     if(this.securityService.getCookie('userDetails')) {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
-    if(window.localStorage.getItem('pageReloaded')==='true') {
+    if(window.localStorage.getItem('pageReloaded')==='true' && this.selectedUser) {
       console.log('Page Reloaded');
       this.socketService.connection(this.selectedUser.id);
     }
@@ -66,6 +66,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
     this.getSpecialities();
     this.getGeoLocation();
     this.getLocations();
+    console.log(this.router.url);
   }
 
   ngOnDestroy() {
@@ -74,7 +75,11 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.notificationRequest();
+    if(this.selectedUser) {
+      if(this.selectedUser.role==='patient') {
+        this.notificationRequest();
+      }
+    }
   }
 
   showDoctorsList(value: any) {

@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, AfterViewInit, AfterViewChecked, ViewChild, ElementRef,
+     OnChanges,OnDestroy, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../../chat/socket.service';
 import { SecurityService } from '../services/security.service';
@@ -24,6 +25,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     @ViewChild('navbar') navbar: ElementRef;
     @ViewChild('bell') bell: ElementRef;
     unreadNotifications:number=0;
+    unreadMessageCount:number;
+    @Input() set unreadCount(count:number) {
+        this.unreadMessageCount = count;
+    }
     private unsubscribeObservables:any = new Subject();
 
     constructor(
@@ -42,6 +47,18 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
             if (this.user) {
                 this.getNotifications(this.user);
                 this.getLatestNotification();
+                let initialLoad = this.sharedService.getNavbarLoad();
+                this.receiveMessageFromSocket();
+                if(this.router.url.match(/chat/)) {
+                    console.log(this.unreadCount);
+                    this.unreadMessageCount = this.unreadCount;
+                } else {
+                if(initialLoad) {
+                    this.getUnreadMessages();
+                } else {
+                    this.unreadMessageCount = this.sharedService.getUnreadCount();
+                }
+            }
                 if(this.user.role==='doctor') {
                     this.consultationStatus();
                 }
@@ -65,9 +82,39 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.loggedIn = this.securityService.getLoginStatus();
     }
 
+    // ngOnChanges() {
+    //     console.log(this.unreadCount);
+    // }
+
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
+        this.sharedService.setUnreadCount(this.unreadMessageCount);
+    }
+
+  receiveMessageFromSocket() {
+    this.socketService.receiveMessages()
+    .takeUntil(this.unsubscribeObservables)
+      .subscribe((msg: any) => {
+        if (msg.senderId !== this.user.id) {
+            this.unreadMessageCount++;
+        }
+      });
+  }
+
+    getUnreadMessages() {
+        this.chatService.getGroups(this.user.id)
+        .takeUntil(this.unsubscribeObservables)
+          .subscribe((groups) => {
+              groups.activeGroups.map((activeGroup:any) => {
+                this.unreadMessageCount =+ activeGroup.unreadCount;
+              });
+              groups.inactiveGroups.map((inactiveGroup:any) => {
+                this.unreadMessageCount =+ inactiveGroup.unreadCount;
+              });
+              this.sharedService.setUnreadCount(this.unreadMessageCount);
+              console.log(this.unreadMessageCount);
+          });
     }
 
     checkWindowVisibility() {
@@ -115,8 +162,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.securityService.deleteCookie('userDetails');
         this.securityService.deleteCookie('token');
         this.socketService.setSocketStatus(false);
-        console.log('Made socketConnected as false')
-        ;
+        this.sharedService.setNavbarLoad(true);
+        console.log('Made socketConnected as false');
     }
 
     navbarColor(number: number, color: string) {
@@ -162,10 +209,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         .takeUntil(this.unsubscribeObservables)
             .subscribe((data) => {
                 if (data) {
-                    console.log('Received latest notification');
                     //unshift to add the item to start of array
                     this.notifications.unshift(data.notification);
                     this.unreadNotifications++;
+                    this.notify = true;
                     this.bell.nativeElement.classList.add('animated');
                     this.sharedService.playsound();
                     this.ref.markForCheck();
@@ -182,7 +229,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 response.group.phase='active';
                 this.sharedService.setGroup(response.group);
                 // this.getNotifications(this.user);
-                this.router.navigate([`/chat/${response.doctorId}`]);
+                ///thisis to reload the page if it is chat component
+                if(this.router.url.match(/chat/)) {
+                    this.router.navigateByUrl('/', {skipLocationChange: true}).then((a)=> {
+                        this.router.navigate([`/chat/${response.doctorId}`]);
+                });
+                } else {
+                    this.router.navigate([`/chat/${response.doctorId}`]);
+                }
             });
     }
 }
