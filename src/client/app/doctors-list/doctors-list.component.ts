@@ -83,7 +83,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                 res.consultations.doctorId.map((doctorId:any)=> {
                                     if(doctor.userId===doctorId) {
                                         count++;
-                                        count===1?doctor.message = `You had consulted this doctor ${count} time`:
+                                        count===1?doctor.message = `You had consulted this doctor 1 time`:
                                         doctor.message = `You had consulted this doctor ${count} times`;
                                     }
                                 });
@@ -190,7 +190,9 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             if(res[0]==='chat') {
                 this.router.navigate([`/chat/${user.id}`]);
             } else if (res[0]==='billing') {
-                this.router.navigate([`/payments/${user.id}?bill_id=${res[1]}`]);
+                this.router.navigate([`/payments/${user.id}`],{
+                    queryParams: {'bill_id':`${res[1]}`}
+                });
             }
         });
     }

@@ -19,6 +19,8 @@ export class SharedService {
     private windowNotInFocus:Boolean;
     private windowNotVisible:Boolean;
     private doctorAddedGroupId:Object;
+    private initialNavbarLoad:Boolean = true;
+    private unreadMessageCount:number;
 
     constructor(
         private http: Http,
@@ -34,6 +36,22 @@ export class SharedService {
     getLocation() {
         return this.location;
     }
+    getNavbarLoad() {
+        let loadStatus = this.initialNavbarLoad;
+        this.initialNavbarLoad = false;
+        return loadStatus;
+    }
+    setNavbarLoad(value:any) {
+        this.initialNavbarLoad = value;
+    }
+    setUnreadCount(count:number) {
+        this.unreadMessageCount = count;
+    }
+
+    getUnreadCount() {
+     return this.unreadMessageCount;
+    }
+
     doctorAddedToGroup(groupInfo:Object) {
         this.doctorAddedGroupId = groupInfo;
     }

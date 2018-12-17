@@ -144,8 +144,8 @@ a.consult-button:hover {
 }
 
 .notification-icon {
-    position: absolute;
-    left: -2rem;
+    /* position: absolute; */
+    /* left: -2rem; */
     font-size: 1.5rem;
     color: #F7F7F7 !important;
     cursor: pointer;

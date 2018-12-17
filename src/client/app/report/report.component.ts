@@ -23,6 +23,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     reportId: number;
     selectedUser: UserDetails;
     report: any;
+    message:any;
     url: SafeResourceUrl;
     private unsubscribeObservables = new Subject();
 
@@ -54,9 +55,13 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.sharedService.getReportById(this.reportId)
         .takeUntil(this.unsubscribeObservables)
             .subscribe((report: any) => {
-                console.log('report: ' + JSON.stringify(report));
-                this.report = report;
-                this.downloadDoc();
+                if(report) {
+                    console.log('report: ' + JSON.stringify(report));
+                    this.report = report;
+                    this.downloadDoc();
+                 } else {
+                     this.message = 'Sorry no report is matching with this id';
+                 }
             });
     }
 

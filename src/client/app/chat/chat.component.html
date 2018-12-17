@@ -1,4 +1,4 @@
-<mm-navbar style="margin-bottom:11vh;"></mm-navbar>
+<mm-navbar style="margin-bottom:11vh;" [unreadCount]="unreadMessageCount"></mm-navbar>
 <div class="error-message-body">
     <div class="card error-message" *ngFor="let error of errors;let i = index" (click)="errorRead(i,$event)">
         <div class="card-body error-card" *ngIf="errors[i]"><i class="fa fa-times fa-lg error-close" aria-hidden="true"></i> {{error}}</div>
@@ -16,7 +16,7 @@
         <div *ngIf="showGroup else archiveGroup">
             <!--active groups in which doc is available-->
             <p>Active Groups</p>
-            <div class="w3-bar-item w3-button" *ngFor="let group of activeGroups| orderBy: unreadMessages  | filter : searchText" (click)="resetMessage(group.id)">
+            <div class="w3-bar-item w3-button" *ngFor="let group of activeGroups| filter : searchText" (click)="resetMessage(group.id)">
                 <div class="people-list" id="people-list">
                     <div class="list">
                         <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
@@ -339,15 +339,15 @@
                         </div>
                     </ng-template>
                 </div>
-                <div class="muted" *ngIf="alert">{{alertMessage}}
+                <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
+                    [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
+            </div>
+            <div class="muted" *ngIf="alert">{{alertMessage}}
                     <div class="spinner">
                         <div class="bounce1"></div>
                         <div class="bounce2"></div>
                         <div class="bounce3"></div>
                     </div>
-                </div>
-                <mm-prescription *ngIf="showPrescriptionComponent" (closeIconClicked)="togglePrescriptionComponent()" (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails" [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup"
-                    [selectedUser]="selectedUser" [patientDetails]="patientDetails" #prescriptionComponent></mm-prescription>
             </div>
 
             <!-- end chat-history -->
