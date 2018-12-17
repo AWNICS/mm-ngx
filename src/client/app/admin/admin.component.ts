@@ -7,6 +7,7 @@ import { AdminService } from './admin.service';
 import { Group } from '../shared/database/group';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
+import { GridOptions } from 'ag-grid-community';
 
 @Component({
     moduleId: module.id,
@@ -17,6 +18,9 @@ import { SecurityService } from '../shared/services/security.service';
 
 export class AdminComponent implements OnInit, OnDestroy {
 
+    //gridOptions:GridOptions;
+    //rowData:any[];
+    //columnDefs:any[];
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('createGroupModal') createGroupModal: ElementRef;
     @ViewChild('editGroupModal') editGroupModal: ElementRef;
@@ -40,7 +44,21 @@ export class AdminComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private securityService: SecurityService,
         private ref:ChangeDetectorRef
-    ) { }
+    ) {
+        /*this.gridOptions = <GridOptions>{
+            onGridReady: () => {
+                this.gridOptions.api.sizeColumnsToFit();
+            }
+        };
+        this.columnDefs = [
+            {headerName: 'Make', field: 'make'},
+            {headerName: 'Model', field: 'model'}
+        ];
+        this.rowData = [
+            {make: 'Toyota', model: 'Celica', price: 35000},
+            {make: 'Ford', model: 'Mondeo', price: 32000}
+        ];*/
+    }
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');

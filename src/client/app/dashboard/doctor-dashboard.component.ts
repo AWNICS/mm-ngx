@@ -210,7 +210,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
             .subscribe(doctorSchedule => {
                 this.doctorSchedule = doctorSchedule[0];
                 this.selectedStatus = this.doctorSchedule.status;
-                console.log(this.doctorSchedule);
             });
     }
 

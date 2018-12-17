@@ -784,7 +784,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
-    this.chatService.getUsersByGroupId(group.id).takeUntil(this.unsubscribeObservables).subscribe((users) => {
+    this.chatService.getUsersByGroupId(group.id)
+    .takeUntil(this.unsubscribeObservables)
+    .subscribe((users) => {
       this.patientDetails = null;
       users.map((user: any) => {
         if (user.role === 'patient') {
