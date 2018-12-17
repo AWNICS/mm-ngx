@@ -185,7 +185,6 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
             .subscribe(doctorSchedule => {
                 this.doctorSchedule = doctorSchedule[0];
                 this.selectedStatus = this.doctorSchedule.status;
-                console.log(this.doctorSchedule);
             });
     }
 

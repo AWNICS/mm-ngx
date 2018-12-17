@@ -124,6 +124,21 @@ export class ProjectConfig extends SeedConfig {
       path: 'node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.min.js'
     });
 
+    /*this.addPackageBundles({
+      name: 'ag-grid-angular',
+      path: 'node_modules/ag-grid-angular'
+    });
+
+    this.addPackageBundles({
+      name: 'ag-grid',
+      path: 'node_modules/ag-grid/dist/ag-grid.min.js'
+    });
+
+    this.addPackageBundles({
+      name: 'ag-grid-community',
+      path: 'node_modules/ag-grid-community/dist/ag-grid-community.min.js'
+    });*/
+
 
     // Add packages (e.g. ng2-translate)
     // let additionalPackages: ExtendPackages[] = [{
