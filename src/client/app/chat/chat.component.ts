@@ -246,8 +246,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.receiveMessageread()
     .takeUntil(this.unsubscribeObservables)
     .subscribe((groupId:number)=> {
-      console.log('received message read');
-      console.log(groupId);
       this.activeGroups.map((activeGroup:any) => {
         if(activeGroup.id===groupId) {
           this.unreadMessageCount -= activeGroup.unreadCount;
@@ -532,6 +530,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createPrescription(data: any) {
     let value: any = { contentData: { data: '' } };
+    let buttonLink:any = document.querySelector('mm-prescription button');
+    buttonLink.disabled = true;
     this.chatService.generatePdf(data, this.selectedUser.id, this.chatService.getGroup().id).takeUntil(this.unsubscribeObservables)
     .subscribe((fileName) => {
       value.contentData.data = fileName.fileName;
@@ -549,7 +549,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       value.createdBy = this.selectedUser.id;
       this.showPrescriptionComponent = false;
       this.ref.markForCheck();
-      //check this later
       this.selectedGroup.prescription_generated = true;
       this.activeGroups.map((activeGroup)=> {
         if(activeGroup.id===this.selectedGroup.id) {
@@ -558,7 +557,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       this.socketService.sendMessage(value, this.selectedGroup);
       // this.updatePrescriptionUrl(fileName);
-    });
+    },
+    (err)=> {
+      buttonLink.disabled = false;
+      let error = 'Something went wrong please try generating prescription again';
+      this.errors.push(error);
+    }
+    );
   }
 
   createFile(event: any, { value, valid }: { value: Message, valid: boolean }) {
@@ -673,16 +678,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           //need to recheck this
           if (!this.selectedGroup) {
             if(this.activeGroups[1]) {
-              console.log('active1');
               this.selectedGroup = this.activeGroups[1];
             } else {
-              console.log('active0');
               this.selectedGroup = this.activeGroups[0];
             }
             if(this.route.snapshot.queryParams['inactive_group']) {
-              console.log('inactive0');
               if(this.route.snapshot.queryParams['inactive_group']===(1).toString() && this.inactiveGroups[0]) {
-                console.log('inactive1');
                 this.selectedGroup = this.inactiveGroups[0];
               }
             }
@@ -710,7 +711,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           //for inactive groups
           this.inactiveGroups.map((group: Group) => {
             this.unreadMessageCount =+ group.unreadCount;
-            console.log(group.unreadCount);
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
               .takeUntil(this.unsubscribeObservables)
@@ -784,9 +784,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
-    this.chatService.getUsersByGroupId(group.id)
-    .takeUntil(this.unsubscribeObservables)
-    .subscribe((users) => {
+    this.chatService.getUsersByGroupId(group.id).takeUntil(this.unsubscribeObservables).subscribe((users) => {
       this.patientDetails = null;
       users.map((user: any) => {
         if (user.role === 'patient') {
@@ -942,7 +940,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
               group.unreadCount++;
               this.ref.markForCheck();
             }
-            console.log(group.unreadCount);
           });
           this.inactiveGroups.map((group:any) => {
             if (group.id === msg.receiverId) {
