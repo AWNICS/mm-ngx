@@ -96,7 +96,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.socketService.receiveMessages()
     .takeUntil(this.unsubscribeObservables)
       .subscribe((msg: any) => {
-        if (msg.senderId !== this.user.id && this.router.url.match(/chat/)) {
+        if (msg.senderId !== this.user.id && !this.router.url.match(/chat/)) {
             this.unreadMessageCount++;
         }
       });
