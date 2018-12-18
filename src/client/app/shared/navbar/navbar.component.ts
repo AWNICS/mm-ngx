@@ -49,16 +49,16 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 this.getLatestNotification();
                 let initialLoad = this.sharedService.getNavbarLoad();
                 this.receiveMessageFromSocket();
-                if(this.router.url.match(/chat/)) {
-                    console.log(this.unreadCount);
-                    this.unreadMessageCount = this.unreadCount;
-                } else {
+                // if(this.router.url.match(/chat/)) {
+                    // console.log(this.unreadCount);
+                    // this.unreadMessageCount = this.unreadCount;
+                // } else {
                 if(initialLoad) {
                     this.getUnreadMessages();
                 } else {
                     this.unreadMessageCount = this.sharedService.getUnreadCount();
                 }
-            }
+            // }
                 if(this.user.role==='doctor') {
                     this.consultationStatus();
                 }
@@ -96,7 +96,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     this.socketService.receiveMessages()
     .takeUntil(this.unsubscribeObservables)
       .subscribe((msg: any) => {
-        if (msg.senderId !== this.user.id) {
+        if (msg.senderId !== this.user.id && this.router.url.match(/chat/)) {
             this.unreadMessageCount++;
         }
       });

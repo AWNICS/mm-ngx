@@ -7,7 +7,7 @@ import { AdminService } from './admin.service';
 import { Group } from '../shared/database/group';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
-import { GridOptions } from 'ag-grid-community';
+// import { GridOptions } from 'ag-grid-community';
 
 @Component({
     moduleId: module.id,

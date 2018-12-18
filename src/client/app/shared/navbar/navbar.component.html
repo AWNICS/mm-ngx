@@ -27,13 +27,13 @@
                     <div style="position: relative; left: -12px;top: 2px" class="unread-messages">
                         <a role="button" *ngIf="loggedIn && user.role !=='admin'" class="unread-messages-link" [routerLink]="['/chat',user.id]">
                             <i class="fa fa-comment-o fa-2x unread-message-icon" aria-hidden="true" style="color:white"></i>
-                            <span style="position: absolute;font-size: 15px;bottom: -13px;right:-1px;color:#f0f0f1c2" *ngIf="unreadMessageCount && unreadMessageCount!==0">{{unreadMessageCount}}</span>
+                            <span style="position: absolute;font-size: 15px;bottom: -8px;right:0px;color:#f0f0f1c2" *ngIf="unreadMessageCount && unreadMessageCount!==0">{{unreadMessageCount}}</span>
                         </a>
                     </div>
                     <div class="dropdown notification" *ngIf="loggedIn">
                         <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell" aria-hidden="true" #bell></i>
-                            <span style="position: absolute;font-size: 15px;bottom: -13px;right:-1px;color:#f0f0f1c2">{{unreadNotifications}}</span>
+                            <span style="position: absolute;font-size: 15px;bottom: -10px;right:-2px;color:#f0f0f1c2" *ngIf="unreadNotifications && unreadNotifications!==0">{{unreadNotifications}}</span>
                         </a>
                         <div id="notifications" class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
                             <div *ngIf="notify; else showThis">
