@@ -39,7 +39,12 @@ export class SocketService {
         } else {
             console.log('Socket connection already exists');
         }
-}
+    }
+
+    getSocketId() {
+        return this.socket.id;
+    }
+
     setSocketStatus(status:Boolean) {
         this.socketConnected = status;
     }
