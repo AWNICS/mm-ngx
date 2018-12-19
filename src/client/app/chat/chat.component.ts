@@ -370,12 +370,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         //this is  to apped the usernames who are typing at a time
         if(response.prescription)   {
           this.alertMessage = response.userName + ' is generating prescription for you ';
-        } else if (this.alertMessage) {
-          let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
-          this.alertMessage = addUserName;
         } else {
           this.alertMessage = response.userName + ' is typing ';
         }
+        // else if (this.alertMessage) {
+        //   let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
+        //   this.alertMessage = addUserName;
+        // }
         this.ref.markForCheck();
         setTimeout(() => {
           this.alertMessage = null;
@@ -784,6 +785,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getMessage(group: Group) {
     this.chatService.setGroup(group);
+    this.alert = false;
     this.chatService.getUsersByGroupId(group.id).takeUntil(this.unsubscribeObservables).subscribe((users) => {
       this.patientDetails = null;
       users.map((user: any) => {
