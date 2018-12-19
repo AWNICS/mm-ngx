@@ -38,7 +38,7 @@
             <div style="text-align: center;color:#877474">
             <span *ngIf="doctor.message && doctor.message!=='chat'">{{doctor.message}}</span>
             <span *ngIf="doctor.message && doctor.message==='chat'">You have an active group with this doctor.
-                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:1}">
+                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}">
                     Click here to get there
                 </a>
             </span>

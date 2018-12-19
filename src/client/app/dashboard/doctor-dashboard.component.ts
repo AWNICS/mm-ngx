@@ -165,6 +165,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
                     }
                 },
                 responsive: true,
+                maintainAspectRatio: false,
                 legend: {
                     position: 'right',
                 },

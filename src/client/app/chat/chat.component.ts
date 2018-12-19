@@ -258,6 +258,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           inactiveGroup.unreadCount = 0;
         }
       });
+      this.socketService.emitCountSync(this.selectedUser.id,this.unreadMessageCount);
       let favicon:any = document.querySelector('head link');
       if(this.unreadMessageCount > 0 && favicon.href.match(/favicon-dev.png/i)) {
         favicon.href='assets/favicon/favicon.png';
@@ -275,7 +276,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.receiveUserAdded()
     .takeUntil(this.unsubscribeObservables)
     .subscribe((result)=> {
-      console.log('Received user-added event in chat component');
       if(this.userDetails.role==='patient') {
         let i = 0;
         this.inactiveGroups.map((group:any)=> {
@@ -369,10 +369,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.alert = true;
         //this is  to apped the usernames who are typing at a time
         if(response.prescription)   {
-          this.alertMessage = response.userName + ' is generating prescription for you ';
+          this.alertMessage = this.userDetails.role==='doctor'?'Dr. '+response.userName:response.userName
+          + ' is generating prescription for you ';
         } else {
-          this.alertMessage = response.userName + ' is typing ';
+          this.alertMessage = this.userDetails.role==='doctor'?'Dr. '+response.userName:response.userName + ' is typing ';
         }
+        //commented for time being as there are no multiple users
         // else if (this.alertMessage) {
         //   let addUserName = this.alertMessage.replace('is typing',`and ${response.userName} are typing`);
         //   this.alertMessage = addUserName;
@@ -658,43 +660,45 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     .takeUntil(this.unsubscribeObservables)
       .subscribe((groups) => {
         if(groups) {
-          console.log('groups');
           console.log(groups);
-          if(this.route.snapshot.queryParams['active_group']) {
-            groups.inactiveGroups.map((inactiveGroup:any)=> {
-              if(inactiveGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
-                  this.selectedGroup = inactiveGroup;
-                  // this.getMessage(this.selectedGroup);
+          let activeGroupParam = this.route.snapshot.queryParams['active_group'];
+          let inactiveGroupParam = this.route.snapshot.queryParams['inactive_group'];
+          if( activeGroupParam || inactiveGroupParam ) {
+            groups.activeGroups.map((activeGroup:any)=> {
+              if(activeGroupParam) {
+                if(activeGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
+                  this.selectedGroup = activeGroup;
+               }
               }
             });
-            groups.activeGroups.map((activeGroup:any)=> {
-              if(activeGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
-                  this.selectedGroup = activeGroup;
-                  // this.getMessage(this.selectedGroup);
+            groups.inactiveGroups.map((inactiveGroup:any)=> {
+            if(activeGroupParam) {
+                if(inactiveGroup.id === parseInt(this.route.snapshot.queryParams['active_group'])) {
+                  this.selectedGroup = inactiveGroup;
               }
+            }
+            if(inactiveGroupParam) {
+              if(inactiveGroup.id===parseInt(inactiveGroupParam)) {
+                this.selectedGroup = inactiveGroup;
+              }
+            }
             });
           }
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
-          //need to recheck this
           if (!this.selectedGroup) {
             if(this.activeGroups[1]) {
               this.selectedGroup = this.activeGroups[1];
             } else {
               this.selectedGroup = this.activeGroups[0];
             }
-            if(this.route.snapshot.queryParams['inactive_group']) {
-              if(this.route.snapshot.queryParams['inactive_group']===(1).toString() && this.inactiveGroups[0]) {
-                this.selectedGroup = this.inactiveGroups[0];
-              }
-            }
             this.getMessage(this.selectedGroup);
           } else {
             this.getMessage(this.selectedGroup);
           }
-          //for active groups
+          //for active groups unreadcount
           this.activeGroups.map((group: Group) => {
-            this.unreadMessageCount =+ group.unreadCount;
+            this.unreadMessageCount += group.unreadCount;
             if (group.picture) {
                this.chatService.downloadFile(group.picture)
                .takeUntil(this.unsubscribeObservables)
@@ -709,9 +713,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             }
               this.ref.detectChanges();
           });
-          //for inactive groups
+          //for inactive groups unreadCount
           this.inactiveGroups.map((group: Group) => {
-            this.unreadMessageCount =+ group.unreadCount;
+            this.unreadMessageCount += group.unreadCount;
             if (group.picture) {
               this.chatService.downloadFile(group.picture)
               .takeUntil(this.unsubscribeObservables)
@@ -949,6 +953,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
               this.ref.markForCheck();
             }
           });
+          this.socketService.emitCountSync(this.selectedUser.id,this.unreadMessageCount);
      }
         if (msg.senderId !== this.selectedUser.id && this.unreadMessageCount > 0) {
           let favicon:any = document.querySelector('head link');

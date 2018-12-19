@@ -34,7 +34,7 @@
                                 <div class="row">
                                     <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
                                     <ng-template #speciality>
-                                        <small>{{group?.details?.speciality}}</small>
+                                        <small>{{group?.speciality}}</small>
                                     </ng-template>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                 <div class="row">
                                     <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small></div>
                                     <ng-template #speciality>
-                                        <small>{{group?.details?.speciality}}</small>
+                                        <small>{{group?.speciality}}</small>
                                     </ng-template>
                                 </div>
                             </div>
@@ -91,7 +91,7 @@
                                     <div class="name">{{group?.name}}</div>
                                 </div>
                                 <div class="row">
-                                    <small>{{group?.details?.speciality}}</small>
+                                    <small>{{group?.speciality}}</small>
                                 </div>
                             </div>
                         </div>

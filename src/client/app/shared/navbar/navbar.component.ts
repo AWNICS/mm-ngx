@@ -25,9 +25,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     @ViewChild('navbar') navbar: ElementRef;
     @ViewChild('bell') bell: ElementRef;
     unreadNotifications:number=0;
-    unreadMessageCount:number;
+    unreadMessageCount:number=0;
     @Input() set unreadCount(count:number) {
         this.unreadMessageCount = count;
+        console.log('changed from socket event');
     }
     private unsubscribeObservables:any = new Subject();
 
@@ -49,16 +50,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 this.getLatestNotification();
                 let initialLoad = this.sharedService.getNavbarLoad();
                 this.receiveMessageFromSocket();
-                // if(this.router.url.match(/chat/)) {
-                    // console.log(this.unreadCount);
-                    // this.unreadMessageCount = this.unreadCount;
-                // } else {
+                this.receiveSyncCount();
                 if(initialLoad) {
                     this.getUnreadMessages();
                 } else {
                     this.unreadMessageCount = this.sharedService.getUnreadCount();
                 }
-            // }
                 if(this.user.role==='doctor') {
                     this.consultationStatus();
                 }
@@ -107,10 +104,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         .takeUntil(this.unsubscribeObservables)
           .subscribe((groups) => {
               groups.activeGroups.map((activeGroup:any) => {
-                this.unreadMessageCount =+ activeGroup.unreadCount;
+                this.unreadMessageCount += activeGroup.unreadCount;
               });
               groups.inactiveGroups.map((inactiveGroup:any) => {
-                this.unreadMessageCount =+ inactiveGroup.unreadCount;
+                this.unreadMessageCount += inactiveGroup.unreadCount;
               });
               this.sharedService.setUnreadCount(this.unreadMessageCount);
               console.log(this.unreadMessageCount);
@@ -172,6 +169,12 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         } else {
             this.navbar.nativeElement.style.backgroundColor = color;
         }
+    }
+    receiveSyncCount() {
+        this.socketService.receiveCountSync().subscribe((count:any)=> {
+            this.unreadMessageCount = count;
+            console.log('received sync count'+count);
+        });
     }
 
     getNotifications(user: UserDetails) {
