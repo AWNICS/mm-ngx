@@ -21,6 +21,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     doctors: any = [];
     message: string;
     selectedUser:any;
+    doctorSelected:any;
     private unsubscribeObservables:any = new Subject();
 
     constructor(
@@ -168,10 +169,11 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         }
     }
 
-    consultNow(doctor:any) {
+    consultNow(doctor:any, event:any) {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
         let speciality = this.sharedService.getSpeciality();
         console.log('speciality: '+speciality);
+        this.doctorSelected = doctor.userId;
         this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality);
     }
 
@@ -184,6 +186,22 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             } else if (res[0]==='billing') {
                 this.router.navigate([`/payments/${user.id}`],{
                     queryParams: {'bill_id':`${res[1]}`}
+                });
+            } else if(res[0]==='busy') {
+                this.doctors.map((doctor:any)=> {
+                    if(doctor.id===this.doctorSelected.id) {
+                        doctor.availability = 'busy';
+                        doctor.status='busy';
+                        this.doctorSelected = null;
+                    }
+                });
+            } else if(res[0]==='offline') {
+                this.doctors.map((doctor:any)=> {
+                    if(doctor.id===this.doctorSelected.id) {
+                        doctor.availability = 'offline';
+                        doctor.status='offline';
+                        this.doctorSelected = null;
+                    }
                 });
             }
         });
