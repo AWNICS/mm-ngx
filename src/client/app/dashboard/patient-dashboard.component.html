@@ -30,7 +30,7 @@
                         <div class="card-header">
                             <h5 class="offset-1">Timeline</h5>
                         </div>
-                        <div class="card-body offset-1">
+                        <div class="card-body offset-1" style="overflow:auto">
                             <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
                                 <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
                                     <br>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef, ElementRef, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -20,7 +20,7 @@ var moment = require('moment');
     styleUrls: ['doctor-dashboard.component.css']
 })
 
-export class DoctorDashboardComponent implements OnInit, OnDestroy {
+export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestroy {
 
     userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -81,9 +81,34 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
         this.getConsutationDetails('today');
     }
 
+  ngAfterViewInit() {
+      this.notificationRequest();
+  }
+
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
+    }
+
+    notificationRequest() {
+        let webNotification = (window as any).Notification;
+        if (!webNotification) {
+            console.warn('Desktop notifications not available in your browser. Try Chrome.');
+            return;
+          }
+        if(webNotification.permission !== 'granted') {
+        webNotification.requestPermission((response:any)=> {
+            if(response!=='denied') {
+              let notification = new webNotification('Web Notifications Enabled', {
+                icon: 'assets/logo/web_notification_logo.png',
+                body: 'Hello. You are subscribed to Web Notifications',
+              });
+              notification.onerror = ()=> {console.log('Error in creating WebNotification');};
+            } else {
+                console.warn('WebPush notications are Blocked. Try enabling them in browser\'s notification settings');
+            }
+        });
+        }
       }
 
     downloadPic(filename: string) {
@@ -140,6 +165,7 @@ export class DoctorDashboardComponent implements OnInit, OnDestroy {
                     }
                 },
                 responsive: true,
+                maintainAspectRatio: false,
                 legend: {
                     position: 'right',
                 },

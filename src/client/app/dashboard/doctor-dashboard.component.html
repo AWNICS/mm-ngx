@@ -97,9 +97,7 @@
                     <h5 class="offset-1">Appointments for Today</h5>
                 </div>
                 <div class="card-body">
-                    <div *ngIf="!hideConsultations else showThis">
-                        <canvas #barChart width="500" height="587"></canvas>
-                    </div>
+                        <canvas *ngIf="!hideConsultations else showThis" #barChart></canvas>
                 </div>
             </div>
         </div>

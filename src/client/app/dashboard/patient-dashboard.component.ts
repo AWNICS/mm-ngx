@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
+import { SocketService } from '../chat/socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SharedService } from '../shared/services/shared.service';
 import { Subject } from 'rxjs/Subject';
@@ -39,6 +40,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         private securityService: SecurityService,
         private router: Router,
         private chatService: ChatService,
+        private socketService: SocketService,
         private sharedService: SharedService
     ) { }
 
@@ -53,6 +55,9 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
             .takeUntil(this.unsubscribeObservables)
                 .subscribe(user => {
                     this.selectedUser = user;
+                    if(window.localStorage.getItem('pageReloaded')) {
+                        this.socketService.connection(this.selectedUser.id);
+                      }
                     if (this.selectedUser.picUrl) {
                         this.downloadPic(this.selectedUser.picUrl);
                     } else {

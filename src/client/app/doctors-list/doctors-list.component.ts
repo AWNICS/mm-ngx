@@ -70,12 +70,14 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                         this.message = 'There are no doctors available currently. Try again later!';
                     } else {
                         this.doctors = res.doctors;
+                        console.log(res);
                         if (this.doctors.length >= 1) {
                             this.doctors.map((doctor: any) => {
-                                if(res.inactiveGroups.doctorId.length > 0) {
-                                res.inactiveGroups.doctorId.map((doctorId:any)=> {
-                                    if(doctor.userId===doctorId) {
+                                if(res.inactiveGroups.groups.length > 0) {
+                                res.inactiveGroups.groups.map((group:any)=> {
+                                    if(doctor.userId===group.doctorId) {
                                         doctor.message = 'chat';
+                                        doctor.group = group.groupId;
                                     }
                                 });
                             } else {
@@ -83,7 +85,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                 res.consultations.doctorId.map((doctorId:any)=> {
                                     if(doctor.userId===doctorId) {
                                         count++;
-                                        count===1?doctor.message = `You had consulted this doctor ${count} time`:
+                                        count===1?doctor.message = `You had consulted this doctor 1 time`:
                                         doctor.message = `You had consulted this doctor ${count} times`;
                                     }
                                 });
@@ -168,19 +170,9 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
 
     consultNow(doctor:any) {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
-        // this.sharedService.consultNow(doctorId, user.id)
-        //     .subscribe((res) => {
-        //         console.log('doctors list component consult now ', res);
-        //         if (res) {
-        //             this.sharedService.setGroup(res);
-        //             setTimeout(() => {
-        //                 this.router.navigate([`/chat/${user.id}`]);
-        //             }, 500);
-        //         } else {
-        //             this.message = 'There was an error. Please re-login and try again.';
-        //         }
-        //     });
-        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`);
+        let speciality = this.sharedService.getSpeciality();
+        console.log('speciality: '+speciality);
+        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality);
     }
 
     receiveConsultNow(user:any) {
@@ -190,7 +182,9 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             if(res[0]==='chat') {
                 this.router.navigate([`/chat/${user.id}`]);
             } else if (res[0]==='billing') {
-                this.router.navigate([`/payments/${user.id}?bill_id=${res[1]}`]);
+                this.router.navigate([`/payments/${user.id}`],{
+                    queryParams: {'bill_id':`${res[1]}`}
+                });
             }
         });
     }

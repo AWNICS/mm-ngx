@@ -80,3 +80,8 @@ button:hover {
     background-color: #05bd8d;
     color: #fff;
 }
+button:disabled,
+button[disabled]{
+opacity: 0.4;
+cursor: not-allowed;
+}

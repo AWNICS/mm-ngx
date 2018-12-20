@@ -5,6 +5,9 @@ import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { SharedService } from '../shared/services/shared.service';
 import { Specialities } from '../shared/database/speciality';
+import { SocketService } from '../chat/socket.service';
+import { SecurityService } from '../shared/services/security.service';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 
 /**
@@ -30,15 +33,27 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
     locationList: string[] = [];
     dropdownSettings: Object;
     specialityDropdownSettings: Object;
+    selectedUser:any;
     private unsubscribeObservables = new Subject();
 
     constructor(
         private fb: FormBuilder,
         private profileService: ProfileService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private router: Router,
+        private securityService: SecurityService,
+        private socketService: SocketService
     ) { }
 
     ngOnInit() {
+        const cookie = JSON.parse(this.securityService.getCookie('userDetails'));
+        if (cookie === '') {
+            this.router.navigate([`/login`]);
+        } else {
+            this.selectedUser = cookie;
+        if (window.localStorage.getItem('pageReloaded') === 'true') {
+            this.socketService.connection(this.selectedUser.id);
+        }
         this.getLocations();
         this.getLanguages();
         this.getConsultationModes();
@@ -108,6 +123,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                 allowSearchFilter: true
             };
         });
+    }
     }
 
     ngOnDestroy() {

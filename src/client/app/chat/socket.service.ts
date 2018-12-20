@@ -7,6 +7,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { Group } from '../shared/database/group';
 import { UserDetails } from '../shared/database/user-details';
 import { Notification } from '../shared/database/notification';
+import { NumberValueAccessor } from '@angular/forms/src/directives';
 
 @Injectable()
 export class SocketService {
@@ -54,9 +55,6 @@ export class SocketService {
             this.socket.on('received-group-status', (groupUpdate:any) => {
                 observer.next(groupUpdate);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -70,9 +68,6 @@ export class SocketService {
             this.socket.on('receive-message', (data: any) => {
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -86,9 +81,6 @@ export class SocketService {
             this.socket.on('updated-message', (res:any) => {
                 observer.next(res);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -102,9 +94,6 @@ export class SocketService {
             this.socket.on('deleted-message', (object: any) => {
                 observer.next(object);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -113,8 +102,8 @@ export class SocketService {
         this.socket.emit('notify-users', message);
     }
 
-    emitConsultNow(user:any, doctorId:number, doctorName:string) {
-        this.socket.emit('consult-now', user, doctorId, doctorName);
+    emitConsultNow(user:any, doctorId:number, doctorName:string, speciality:string) {
+        this.socket.emit('consult-now', user, doctorId, doctorName, speciality);
     }
 
     emitMessageRead(groupId:number,userId:number) {
@@ -135,9 +124,6 @@ export class SocketService {
             this.socket.on('receive-consult-now', (link:any) => {
                 observer.next(link);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -152,9 +138,6 @@ export class SocketService {
                 observer.next(status);
                 console.log('received doctor status '+status );
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -164,9 +147,6 @@ export class SocketService {
             this.socket.on('receive-notification', (notify: any) => {
                 observer.next(notify);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -181,9 +161,6 @@ export class SocketService {
             this.socket.on('receive-user-added', (data: any) => {
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -198,9 +175,6 @@ export class SocketService {
             this.socket.on('receive-end-consultation', (data: any) => {
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -210,9 +184,6 @@ export class SocketService {
             this.socket.on('consult-notification', (data: any) => {
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
@@ -226,10 +197,10 @@ export class SocketService {
             this.socket.on('receive-typing', (data:any) => {
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
+        // return () => {
+        //     this.socket.disconnect();
+        // };
         return observable;
     }
 
@@ -242,15 +213,25 @@ export class SocketService {
                 console.log('media: ' + JSON.stringify(data));
                 observer.next(data);
             });
-            // return () => {
-            //     this.socket.disconnect();
-            // };
         });
         return observable;
     }
 
     typingEmitter(groupId: any, userName: any, prescription:Boolean) {
         this.socket.emit('send-typing', groupId, userName, prescription);
+    }
+
+    emitCountSync(userId:number, count:number) {
+        this.socket.emit('count-sync', userId, count);
+    }
+
+    receiveCountSync() {
+        const observable = new Observable(observer => {
+            this.socket.on('receive-count-sync', (data:any) => {
+                observer.next(data);
+            });
+        });
+        return observable;
     }
 
 }

@@ -5,9 +5,7 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
-import { CookieXSRFStrategy } from '@angular/http';
-import { window } from 'rxjs/operator/window';
-import { IfObservable } from 'rxjs/observable/IfObservable';
+import { SocketService } from '../chat/socket.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -39,6 +37,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         private securityService: SecurityService,
         private sharedService: SharedService,
         private chatService: ChatService,
+        private socketService: SocketService,
         private ref: ChangeDetectorRef,
         private sanitizer: DomSanitizer
     ) { }
@@ -51,8 +50,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
             this.router.navigate([`/login`]);
         } else {
             this.selectedUser = cookie;
-            let billId = this.route.snapshot.queryParams.bill_id;
-        if(billId && this.selectedUser.role==='patient') {
+            if (window.localStorage.getItem('pageReloaded') === 'true') {
+                console.log('Page Reloaded');
+                this.socketService.connection(this.selectedUser.id);
+              }
+        let billId = this.route.snapshot.queryParams.bill_id;
+        if(billId && billId!=='null' && this.selectedUser.role==='patient') {
             this.getBillById(billId);
         } else {
             this.getBills();
@@ -80,6 +83,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[i].orderId}`)
         .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
+                //letting these stay if we change implementation for iframe these calculations would be helpful
                 // let  wind:any = window;
                 // let width = wind.innerWidth - 40;
                 // let height = (482*638)/width+20;
@@ -110,33 +114,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
             this.sharedService.getBills(this.visitorId)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
-                    console.log(billings);
                     this.bills = billings;
-                    // billings.map((billing: any) => {
-                    //     this.chatService.downloadFile(billing.url)
-                    //         .subscribe((res) => {
-                    //             res.onloadend = () => {
-                    //                 this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                    //             };
-                    //         });
-                    //     this.bills.push(billing);
-                    // });
                 });
         } else if (this.selectedUser.role === 'doctor') {
             this.sharedService.getBillsByDoctorId(this.selectedUser.id)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
                     this.bills = billings;
-                    console.log(this.bills);
-                    // billings.map((billing: any) => {
-                    //     this.chatService.downloadFile(billing.url)
-                    //         .subscribe((res) => {
-                    //             res.onloadend = () => {
-                    //                 this.billUrl = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                    //             };
-                    //         });
-                    //     this.bills.push(billing);
-                    // });
                 });
         } else {
             return;
