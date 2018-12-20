@@ -189,7 +189,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                 });
             } else if(res[0]==='busy') {
                 this.doctors.map((doctor:any)=> {
-                    if(doctor.id===this.doctorSelected.id) {
+                    if(doctor.userId===this.doctorSelected.id) {
                         doctor.availability = 'busy';
                         doctor.status='busy';
                         this.doctorSelected = null;
@@ -197,7 +197,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                 });
             } else if(res[0]==='offline') {
                 this.doctors.map((doctor:any)=> {
-                    if(doctor.id===this.doctorSelected.id) {
+                    if(doctor.userId===this.doctorSelected.id) {
                         doctor.availability = 'offline';
                         doctor.status='offline';
                         this.doctorSelected = null;

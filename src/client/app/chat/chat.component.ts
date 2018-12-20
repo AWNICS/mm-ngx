@@ -372,10 +372,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.alert = true;
         //this is  to apped the usernames who are typing at a time
         if(response.prescription)   {
-          this.alertMessage = this.userDetails.role==='doctor'?'Dr. '+response.userName:response.userName
+          this.alertMessage = this.userDetails.role==='patient'?'Dr. '+response.userName:response.userName
           + ' is generating prescription for you ';
         } else {
-          this.alertMessage = this.userDetails.role==='doctor'?'Dr. '+response.userName:response.userName + ' is typing ';
+          this.alertMessage = this.userDetails.role==='patient'?'Dr. '+response.userName:response.userName + ' is typing ';
         }
         //commented for time being as there are no multiple users
         // else if (this.alertMessage) {
