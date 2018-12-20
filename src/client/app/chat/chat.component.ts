@@ -25,6 +25,8 @@ import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { Subject } from 'rxjs/Subject';
+var moment = require('moment');
+
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -928,7 +930,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.receiveMessages()
     .takeUntil(this.unsubscribeObservables)
       .subscribe((msg: any) => {
-        console.log(msg);
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket

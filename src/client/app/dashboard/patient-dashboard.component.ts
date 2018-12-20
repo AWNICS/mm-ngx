@@ -51,13 +51,14 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         if (cookie === '') {
             this.router.navigate([`/login`]);
         } else {
+            let userInfo = JSON.parse(cookie);
+            if(window.localStorage.getItem('pageReloaded')) {
+                this.socketService.connection(userInfo.id);
+              }
             this.chatService.getUserById(this.visitorId)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe(user => {
                     this.selectedUser = user;
-                    if(window.localStorage.getItem('pageReloaded')) {
-                        this.socketService.connection(this.selectedUser.id);
-                      }
                     if (this.selectedUser.picUrl) {
                         this.downloadPic(this.selectedUser.picUrl);
                     } else {
