@@ -938,7 +938,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.receiveMessages()
     .takeUntil(this.unsubscribeObservables)
       .subscribe((msg: any) => {
-        console.log(msg);
         if (msg.receiverId === this.selectedGroup.id) {
           this.messages.push(msg);
           //making the alert message null immediately after receiving message from socket
