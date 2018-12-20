@@ -25,6 +25,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { Subject } from 'rxjs/Subject';
+var moment = require('moment');
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -916,7 +917,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       //make typing emite true so that user can send the next message and emit event immediately
       this.typingEvent = true;
-      this.socketService.sendMessage(value, this.selectedGroup);
+      let notify = moment(this.messages[this.messages.length-1].createdTime).add(1,'h') < moment(value.createdTime);
+      if(this.selectedGroup.phase === 'botInactive' && notify) {
+        console.log('Trigerred notify message');
+        this.socketService.sendNotifyMessage(value, this.selectedGroup);
+      } else {
+        this.socketService.sendMessage(value, this.selectedGroup);
+      }
     }
     this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
       let key = e.which || e.keyCode;

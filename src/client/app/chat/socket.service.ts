@@ -62,6 +62,9 @@ export class SocketService {
     sendMessage(message: Message, group: Group) {
         this.socket.emit('send-message', message, group);
     }
+    sendNotifyMessage(message: Message, group: Group) {
+        this.socket.emit('send-message', message, group, 1);
+    }
 
     receiveMessages(): Observable<any> {
         const observable = new Observable(observer => {
