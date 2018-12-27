@@ -11,8 +11,8 @@
             </div>
         </ng-template>
         <div class="card-body">
-            <p class="card-text">Consultation summary: {{consultation?.prescription.description}}</p>
-            <p class="card-text">Consulted at: {{consultation?.prescription.createdAt | date:'md'}}</p>
+            <p class="card-text">Consultation Summary: {{consultation?.prescription.description}}</p>
+            <p class="card-text">Consulted on: {{consultation?.prescription.createdAt | date:'md'}}</p>
             <div class="float-right" data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i" role="button" aria-expanded="false" (click)="changeIcon(i);">
                 <a>
                     <span>More</span>
@@ -20,7 +20,7 @@
             </div>
             <div class="collapse" id="toggle-{{i}}">
                 <div style="padding: 1% 0%;">
-                    <p class="card-text">Special instructions: {{consultation?.prescription.instructions}}</p>
+                    <p class="card-text">Special Instructions: {{consultation?.prescription.instructions}}</p>
                     <!-- <div *ngIf="url; else load"> -->
                     <!-- <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{fileName}}</a> -->
                     <div id="download-prescription">
@@ -50,4 +50,4 @@
             </div>
         </div>
     </div>
-</div>  
+</div>
