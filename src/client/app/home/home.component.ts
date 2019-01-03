@@ -30,7 +30,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   user: any;
   location: string;
   locations: Locations[];
-  currentLocation: string = 'Bangalore';
+  currentLocation: string = 'Bengaluru';
   currentSpeciality: string = 'Physician';
   selectedUser: UserDetails;
 

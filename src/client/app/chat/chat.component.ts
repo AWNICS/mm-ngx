@@ -27,7 +27,6 @@ import { ProfileService } from '../profile/profile.service';
 import { Subject } from 'rxjs/Subject';
 var moment = require('moment');
 
-
 /**
  * This class represents the lazy loaded ChatComponent.
  */
@@ -51,6 +50,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('fileUpload') fileUpload: ElementRef;
   @ViewChild('prescriptionComponent') prescriptionComponent: any;
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+  @ViewChild('prescriptionGeneration') prescriptionGeneration: ElementRef;
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
@@ -296,24 +296,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.receiveEndConsultation()
     .takeUntil(this.unsubscribeObservables)
     .subscribe((result)=> {
-      if (this.selectedUser.role === 'doctor') {
-        this.createNotificationMessage(result.message,result.groupId);
-        setTimeout(()=> { this.router.navigate([`dashboards/doctors/${this.selectedUser.id}`]); },2000);
-      } else if(this.selectedUser.role === 'patient') {
-        let i = 0;
-        this.activeGroups.map((group:any)=> {
-          i++;
-          if(group.id===result.groupId) {
-            let inactiveGroup:any = this.activeGroups.splice(i-1,1)[0];
-            this.inactiveGroups.unshift(inactiveGroup);
-          }
-        });
-        //to change the group and get messages of new group i.e Medhelp
-        this.chatService.setGroup(this.activeGroups[0]);
-        this.selectedGroup = this.chatService.getGroup();
-        this.getMessage(this.selectedGroup);
-        this.ref.markForCheck();
-      }
+      let socketId = this.socketService.getSocketId();
+            if (this.selectedUser.role === 'doctor' && result.socketId === socketId) {
+              this.createNotificationMessage(result.message, result.groupId);
+              setTimeout(()=> { this.router.navigate([`dashboards/doctors/${this.selectedUser.id}`]); },2000);
+            } else if(this.selectedUser.role === 'patient') {
+              let i = 0;
+              this.activeGroups.map((group:any)=> {
+                i++;
+                if(group.id===result.groupId) {
+                  let inactiveGroup:any = this.activeGroups.splice(i-1,1)[0];
+                  this.inactiveGroups.unshift(inactiveGroup);
+                }
+              });
+              //to change the group and get messages of new group i.e Medhelp
+              this.chatService.setGroup(this.activeGroups[0]);
+              this.selectedGroup = this.chatService.getGroup();
+              this.getMessage(this.selectedGroup);
+              this.ref.markForCheck();
+            }
     });
   }
 
@@ -864,11 +865,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           //this is to check if the doctor-added event is listened to trigger a notificaation message
           let result:any = this.sharedService.getdoctorAddedGroup();
-          if(result && this.selectedUser.role ==='doctor') {
-            //add user role doctor filter after verifying integrity
-           this.createNotificationMessage(result.message,result.group.id);
-           this.sharedService.doctorAddedToGroup(null);
-          }
+          let socketId = this.socketService.getSocketId();
+            if(result && this.selectedUser.role==='doctor' && result.socketId===socketId) {
+              //add user role doctor filter after verifying integrity
+             this.createNotificationMessage(result.message, result.group.id);
+             this.sharedService.doctorAddedToGroup(null);
+            }
           this.displayMessageLoader = false;
           this.ref.detectChanges();
           this.scrollToBottom();
@@ -915,7 +917,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       //make typing emite true so that user can send the next message and emit event immediately
       this.typingEvent = true;
-      this.socketService.sendMessage(value, this.selectedGroup);
+      let notify = moment(this.messages[this.messages.length-1].createdTime).add(1,'h') < moment(value.createdTime);
+      if(this.selectedGroup.phase === 'botInactive' && notify) {
+        console.log('Trigerred notify message');
+        this.socketService.sendNotifyMessage(value, this.selectedGroup);
+      } else {
+        this.socketService.sendMessage(value, this.selectedGroup);
+      }
     }
     this.textArea.nativeElement.addEventListener('keypress', (e: any) => {
       let key = e.which || e.keyCode;

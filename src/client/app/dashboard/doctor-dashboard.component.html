@@ -11,20 +11,26 @@
                                 <div class="col col-12 col-xl-5 col-lg-12 col-md-4 col-sm-12">
                                     <img class="profile-image" [src]="picUrl" alt="avatar" />
                                     <div [ngSwitch]="doctorSchedule?.status">
-                                        <div *ngSwitchCase="'online'">
+                                        <div *ngSwitchCase="'Online'">
                                             <div class="status-online" title="Online"></div>
                                             <div class="row small-font status-text">
                                                 <i>Available</i>
                                             </div>
                                         </div>
-                                        <div *ngSwitchCase="'offline'">
+                                        <div *ngSwitchCase="'Offline'">
                                             <div class="status-offline" title="Offline"></div>
                                             <div class="row small-font status-text">
                                                 <i>Offline</i>
                                             </div>
                                         </div>
-                                        <div *ngSwitchCase="'busy'">
-                                            <div class="status-away" title="Away"></div>
+                                        <!-- <div *ngSwitchCase="'invisible'">
+                                            <div class="status-invisible" title="Invisible"></div>
+                                            <div class="row small-font status-text">
+                                                <i>Invisible</i>
+                                            </div>
+                                        </div> -->
+                                        <div *ngSwitchCase="'Busy'">
+                                            <div class="status-busy" title="Busy"></div>
                                             <div class="row small-font status-text">
                                                 <i>Busy</i>
                                             </div>
@@ -54,10 +60,11 @@
                         </div>
                         <div class="card-body">
                             <div class="row justify-content-center">
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-secondary" (click)="getConsutationDetails('today');">Today</button>
-                                    <button type="button" class="btn btn-secondary" (click)="getConsutationDetails('week');">Week</button>
-                                    <button type="button" class="btn btn-secondary" (click)="getConsutationDetails('month');">Month</button>
+                                <div class="btn-group" role="group" style="padding:0pt;">
+                                    <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;" (click)="getConsutationDetails('today');">Today</button>
+                                    <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;" (click)="getConsutationDetails('week');">Week</button>
+                                    <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:80px;" (click)="getConsutationDetails('month');">Month</button>
+                                    <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;" (click)="getConsutationDetails('year');">Year</button>
                                 </div>
                             </div>
                             <br>
@@ -76,8 +83,8 @@
                                             <h4>{{earning}}</h4>
                                         </div>
                                     </div>
-                                    <p style="text-align: center;">Earning</p>
-                                    <p style="text-align: center;"><small>(in Rupees)</small></p>
+                                    <p style="text-align: center;">Billings</p>
+                                    <p style="text-align: center;"><small>(INR)</small></p>
                                 </div>
                             </div>
                         </div>
@@ -88,10 +95,10 @@
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <div class="card shadow" style="height: 539px;">
                 <div class="card-header">
-                    <h5 class="offset-1">Appointments for Today</h5>
+                    <h5 class="offset-1">Today's Appointments</h5>
                 </div>
                 <div class="card-body">
-                        <canvas *ngIf="!hideConsultations else showThis" #barChart></canvas>
+                    <canvas *ngIf="!hideConsultations else showThis" #barChart></canvas>
                 </div>
             </div>
         </div>

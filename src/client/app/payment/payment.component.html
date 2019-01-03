@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <p>Billed Date: {{bill.date | date:'md'}}</p>
                         <p>Amount Paid: Rs {{bill.amount}}</p>
-                        <p>Order id: {{bill.orderId}}</p>
+                        <p>Order Id: {{bill.orderId}}</p>
                         <p>Payment Mode: {{bill.modeOfPayment}}</p>
                         <small><a download="{{bill.url}}" (click)="downloadBill(i, $event)">Download Bill</a></small>
                     </div>

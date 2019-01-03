@@ -187,19 +187,19 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                 this.router.navigate([`/payments/${user.id}`],{
                     queryParams: {'bill_id':`${res[1]}`}
                 });
-            } else if(res[0]==='busy') {
+            } else if(res[0]==='Busy') {
                 this.doctors.map((doctor:any)=> {
                     if(doctor.userId===this.doctorSelected) {
-                        doctor.availability = 'busy';
-                        doctor.status='busy';
+                        doctor.availability = 'Busy';
+                        doctor.status='Busy';
                         this.doctorSelected = null;
                     }
                 });
-            } else if(res[0]==='offline') {
+            } else if(res[0]==='Offline') {
                 this.doctors.map((doctor:any)=> {
                     if(doctor.userId===this.doctorSelected) {
-                        doctor.availability = 'offline';
-                        doctor.status='offline';
+                        doctor.availability = 'Offline';
+                        doctor.status='Offline';
                         this.doctorSelected = null;
                     }
                 });

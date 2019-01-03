@@ -40,7 +40,12 @@ export class SocketService {
         } else {
             console.log('Socket connection already exists');
         }
-}
+    }
+
+    getSocketId() {
+        return this.socket.id;
+    }
+
     setSocketStatus(status:Boolean) {
         this.socketConnected = status;
     }
@@ -56,6 +61,9 @@ export class SocketService {
 
     sendMessage(message: Message, group: Group) {
         this.socket.emit('send-message', message, group);
+    }
+    sendNotifyMessage(message: Message, group: Group) {
+        this.socket.emit('send-message', message, group, 1);
     }
 
     receiveMessages(): Observable<any> {
