@@ -83,6 +83,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[i].orderId}`)
         .takeUntil(this.unsubscribeObservables)
             .subscribe((res: any) => {
+                //letting these stay if we change implementation for iframe these calculations would be helpful
                 // let  wind:any = window;
                 // let width = wind.innerWidth - 40;
                 // let height = (482*638)/width+20;

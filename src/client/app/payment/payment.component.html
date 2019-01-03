@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <p>Billed Date: {{bill.date | date:'md'}}</p>
                         <p>Amount Paid: Rs {{bill.amount}}</p>
-                        <p>Order id: {{bill.orderId}}</p>
+                        <p>Order Id: {{bill.orderId}}</p>
                         <p>Payment Mode: {{bill.modeOfPayment}}</p>
                         <small><a download="{{bill.url}}" (click)="downloadBill(i, $event)">Download Bill</a></small>
                     </div>
@@ -50,7 +50,7 @@ Pay now</button>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div [innerHtml]="response | safe:'html'"></div>
+                    <div *ngIf="response" [innerHtml]="response | safe:'html'"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" #dismissButton>Dismiss</button>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
+import { SocketService } from '../chat/socket.service';
 import { UserDetails } from '../shared/database/user-details';
 import { SharedService } from '../shared/services/shared.service';
 import { Subject } from 'rxjs/Subject';
@@ -39,6 +40,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         private securityService: SecurityService,
         private router: Router,
         private chatService: ChatService,
+        private socketService: SocketService,
         private sharedService: SharedService
     ) { }
 
@@ -49,6 +51,10 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         if (cookie === '') {
             this.router.navigate([`/login`]);
         } else {
+            let userInfo = JSON.parse(cookie);
+            if(window.localStorage.getItem('pageReloaded')) {
+                this.socketService.connection(userInfo.id);
+              }
             this.chatService.getUserById(this.visitorId)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe(user => {

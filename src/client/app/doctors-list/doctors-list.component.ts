@@ -21,6 +21,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     doctors: any = [];
     message: string;
     selectedUser:any;
+    doctorSelected:any;
     private unsubscribeObservables:any = new Subject();
 
     constructor(
@@ -70,12 +71,14 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                         this.message = 'There are no doctors available currently. Try again later!';
                     } else {
                         this.doctors = res.doctors;
+                        console.log(res);
                         if (this.doctors.length >= 1) {
                             this.doctors.map((doctor: any) => {
-                                if(res.inactiveGroups.doctorId.length > 0) {
-                                res.inactiveGroups.doctorId.map((doctorId:any)=> {
-                                    if(doctor.userId===doctorId) {
+                                if(res.inactiveGroups.groups.length > 0) {
+                                res.inactiveGroups.groups.map((group:any)=> {
+                                    if(doctor.userId===group.doctorId) {
                                         doctor.message = 'chat';
+                                        doctor.group = group.groupId;
                                     }
                                 });
                             } else {
@@ -166,21 +169,12 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         }
     }
 
-    consultNow(doctor:any) {
+    consultNow(doctor:any, event:any) {
         let user = JSON.parse(this.securityService.getCookie('userDetails'));
-        // this.sharedService.consultNow(doctorId, user.id)
-        //     .subscribe((res) => {
-        //         console.log('doctors list component consult now ', res);
-        //         if (res) {
-        //             this.sharedService.setGroup(res);
-        //             setTimeout(() => {
-        //                 this.router.navigate([`/chat/${user.id}`]);
-        //             }, 500);
-        //         } else {
-        //             this.message = 'There was an error. Please re-login and try again.';
-        //         }
-        //     });
-        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`);
+        let speciality = this.sharedService.getSpeciality();
+        console.log('speciality: '+speciality);
+        this.doctorSelected = doctor.userId;
+        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality);
     }
 
     receiveConsultNow(user:any) {
@@ -192,6 +186,22 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             } else if (res[0]==='billing') {
                 this.router.navigate([`/payments/${user.id}`],{
                     queryParams: {'bill_id':`${res[1]}`}
+                });
+            } else if(res[0]==='busy') {
+                this.doctors.map((doctor:any)=> {
+                    if(doctor.userId===this.doctorSelected.id) {
+                        doctor.availability = 'busy';
+                        doctor.status='busy';
+                        this.doctorSelected = null;
+                    }
+                });
+            } else if(res[0]==='offline') {
+                this.doctors.map((doctor:any)=> {
+                    if(doctor.userId===this.doctorSelected.id) {
+                        doctor.availability = 'offline';
+                        doctor.status='offline';
+                        this.doctorSelected = null;
+                    }
                 });
             }
         });

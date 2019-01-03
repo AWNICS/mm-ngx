@@ -25,7 +25,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
     userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
-    status: Array<Object> = ['online', 'offline', 'away', 'invisible'];
+    status: Array<Object> = ['Online', 'Offline', 'Busy'];
     selectedStatus: string;
     selectedUser: UserDetails;
     doctor: DoctorProfiles;
@@ -150,7 +150,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
                 backgroundColor: '#9690FD',
                 data: chartDetails.followUps
             }, {
-                label: 'New Patients',
+                label: 'New Patient',
                 backgroundColor: '#C4C1FF',
                 data: chartDetails.newConsultations
             }]
@@ -165,6 +165,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
                     }
                 },
                 responsive: true,
+                maintainAspectRatio: false,
                 legend: {
                     position: 'right',
                 },
@@ -286,6 +287,9 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit ,OnDestro
                 } else if (str === 'month') {
                     this.patients = res.noOfPatients.month;
                     this.earning = res.earning.month;
+                } else if(str === 'year') {
+                    this.patients = res.noOfPatients.year;
+                    this.earning = res.earning.year;
                 } else {
                     this.patients = 0;
                     this.earning = 0;
