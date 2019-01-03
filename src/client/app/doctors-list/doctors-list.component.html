@@ -3,7 +3,7 @@
     <small>{{message}}</small>
     <div *ngFor="let doctor of doctors" class="card mb-3 shadow">
         <div class="card-body">
-            <div *ngIf="doctor.availability" style="text-align:center;color:red">
+            <div *ngIf="doctor.availability || doctor.status" style="text-align:center;color:red">
                 <span *ngIf="doctor.availability === 'offline' || doctor.status === 'offline'">Doctor is currently unavailable</span>
                 <span *ngIf="doctor.availability === 'busy' || doctor.status === 'busy'">Doctor is currently in another consultation</span>
             </div>
