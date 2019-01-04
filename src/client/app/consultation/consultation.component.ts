@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
@@ -18,7 +18,7 @@ import moment = require('moment');
     styleUrls: ['consultation.component.css']
 })
 
-export class ConsultationComponent implements OnInit, OnDestroy {
+export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('doctorDashboardComponent') doctorDashboardComponent: any;
@@ -39,6 +39,7 @@ export class ConsultationComponent implements OnInit, OnDestroy {
     billDownloaded:Boolean = true;
     prescriptionDownloaded:Boolean = true;
     consultationId:any;
+    page:number =1;
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -53,7 +54,8 @@ export class ConsultationComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.navbarComponent.navbarColor(0, '#6960FF');
-        this.userId = +this.route.snapshot.paramMap.get('id');// this is will give doctorId
+        // this is will give doctorId
+        this.userId = +this.route.snapshot.paramMap.get('id');
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
             if (window.localStorage.getItem('pageReloaded') === 'true') {
@@ -65,8 +67,19 @@ export class ConsultationComponent implements OnInit, OnDestroy {
         if( this.consultationId && this.selectedUser.role==='doctor') {
             this.getConsultationById(parseInt(this.consultationId));
         } else {
-        this.getConsultations(this.selectedUser.id);
+        this.getConsultations(this.selectedUser.id, this.page);
         }
+    }
+
+    ngAfterViewInit() {
+        window.addEventListener('scroll',(event:any) => {
+            if (event.target.documentElement.scrollTop + event.target.documentElement.clientHeight ===
+                event.target.documentElement.offsetHeight || event.target.documentElement.scrollTop +
+                 event.target.documentElement.clientHeight + 1 >= event.target.documentElement.offsetHeight) {
+            this.page = this.page + 1;
+            this.getConsultations(this.selectedUser.id,this.page);
+            }
+        });
     }
 
     ngOnDestroy() {
@@ -77,8 +90,6 @@ export class ConsultationComponent implements OnInit, OnDestroy {
     downloadDoc(index:number,event:any) {
         if(this.prescriptionDownloaded) {
             this.prescriptionDownloaded = false;
-        // fileName.match(/\d+-\d\d-\d\d-[0-9]{4}T\d\d-\d\d-\d\d-[0-9]{3}\.pd
-        // f$/i) ? this.toggleFileName = true : this.toggleFileName = false;
         this.chatService.downloadFile(this.consultations[index].prescription.url)
         .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
@@ -88,7 +99,6 @@ export class ConsultationComponent implements OnInit, OnDestroy {
                     event.srcElement.removeAttribute('href');
                     this.prescriptionDownloaded = true;
                     // this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                    // this.ref.markForCheck();
                 };
             });
     }
@@ -114,8 +124,7 @@ export class ConsultationComponent implements OnInit, OnDestroy {
     }
     }
 
-    getConsultations(id: number) {
-        let page = 1;
+    getConsultations(id: number, page:number) {
         let size = 5;
         if(this.selectedUser.role === 'patient') {
             this.sharedService.getConsultationsByVisitorId(id, page, size)
@@ -124,8 +133,8 @@ export class ConsultationComponent implements OnInit, OnDestroy {
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
-                    this.consultations  = res;
                     res.map((consultation: any) => {
+                        this.consultations.push(consultation);
                         if(consultation.billing) {
                         if(consultation.billing.status==='Success') {
                             if(moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
@@ -147,16 +156,16 @@ export class ConsultationComponent implements OnInit, OnDestroy {
             this.sharedService.getAllConsultationsByDoctorId(id, page, size)
             .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
-                console.log(res);
                 if (res.length === 0) {
                     this.message = 'There are no consultations or events to be display';
                 } else {
-                    this.consultations = res;
-                    console.log(this.consultations);
+                    res.map((consultation:any)=> {
+                        this.consultations.push(consultation);
+                    });
+                    this.ref.markForCheck();
                     res.map((consultation: any) => {
                         if(consultation.billing) {
                         if(consultation.billing.status==='Success') {
-                            console.log('hit');
                             if(moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
                                     consultation.status='active';
                             }

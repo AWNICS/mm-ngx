@@ -379,8 +379,8 @@ export class SharedService {
     /**
      * get all bills
      */
-    getBills(visitorId: number) {
-        const uri = `${this.url}/billing/visitors/${visitorId}`;
+    getBills(visitorId: number, page:number) {
+        const uri = `${this.url}/billing/visitors/${visitorId}?page=${page}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })
@@ -401,8 +401,8 @@ export class SharedService {
     /**
      * @param doctorId get all bills
      */
-    getBillsByDoctorId(doctorId: number) {
-        const uri = `${this.url}/billing/doctors/${doctorId}`;
+    getBillsByDoctorId(doctorId: number, page:number) {
+        const uri = `${this.url}/billing/doctors/${doctorId}?page=${page}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
         return this.http.get(uri, { headers: headers })

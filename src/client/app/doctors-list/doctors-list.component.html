@@ -3,9 +3,9 @@
     <small>{{message}}</small>
     <div *ngFor="let doctor of doctors" class="card mb-3 shadow">
         <div class="card-body">
-            <div *ngIf="doctor.availability" style="text-align:center;color:red">
-                <span *ngIf="doctor.availability === 'offline' || doctor.status === 'Offline'">Doctor is currently unavailable</span>
-                <span *ngIf="doctor.availability === 'busy' || doctor.status === 'Busy'">Doctor is currently in another consultation</span>
+            <div *ngIf="doctor.availability || doctor.status" style="text-align:center;color:red">
+                <span *ngIf="doctor.availability === 'Offline' || doctor.status === 'Offline'">Doctor is currently unavailable</span>
+                <span *ngIf="doctor.availability === 'Busy' || doctor.status === 'Busy'">Doctor is currently in another consultation</span>
             </div>
             <div class="row">
                 <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-3 col-xs-2">
@@ -34,7 +34,7 @@
                         </div>
                         <div class="col col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
                             <button class="btn btn-primary" (click)="openDoctorProfile(doctor);">View Profile</button>
-                            <button class="btn btn-primary" *ngIf="doctor.status === 'online'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">Pay and Consult Now</button>
+                            <button class="btn btn-primary" *ngIf="doctor.status === 'Online'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">Pay and Consult Now</button>
                         </div>
                     </div>
                 </div>
