@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -15,7 +15,7 @@ import { Subject } from 'rxjs/Subject';
     styleUrls: ['payment.component.css']
 })
 
-export class PaymentComponent implements OnInit, OnDestroy {
+export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     userDetails: any;
@@ -28,6 +28,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     selectedUser: any;
     billUrl: SafeResourceUrl;
     billDownloaded: any = true;
+    page:number = 1;
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -58,7 +59,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         if(billId && billId!=='null' && this.selectedUser.role==='patient') {
             this.getBillById(billId);
         } else {
-            this.getBills();
+            this.getBills(this.page);
         }
         }
         this.userDetails = `merchant_id=192155&currency=INR&amount=1.00` +
@@ -73,6 +74,18 @@ export class PaymentComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    ngAfterViewInit() {
+        window.addEventListener('scroll',(event:any) => {
+            if (event.target.documentElement.scrollTop + event.target.documentElement.clientHeight ===
+                event.target.documentElement.offsetHeight || event.target.documentElement.scrollTop +
+                 event.target.documentElement.clientHeight + 1 >= event.target.documentElement.offsetHeight) {
+            this.page = this.page + 1;
+            this.getBills(this.page);
+            }
+        });
+    }
+
 
     ngOnDestroy() {
         this.unsubscribeObservables.next();
@@ -109,18 +122,22 @@ export class PaymentComponent implements OnInit, OnDestroy {
                             });
     }
     }
-    getBills() {
+    getBills(page:number) {
         if (this.selectedUser.role === 'patient') {
-            this.sharedService.getBills(this.visitorId)
+            this.sharedService.getBills(this.visitorId, page)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
-                    this.bills = billings;
+                    billings.map((bill:any)=> {
+                        this.bills.push(bill);
+                    });
                 });
         } else if (this.selectedUser.role === 'doctor') {
-            this.sharedService.getBillsByDoctorId(this.selectedUser.id)
+            this.sharedService.getBillsByDoctorId(this.selectedUser.id, page)
             .takeUntil(this.unsubscribeObservables)
                 .subscribe((billings) => {
-                    this.bills = billings;
+                    billings.map((bill:any)=> {
+                        this.bills.push(bill);
+                    });
                 });
         } else {
             return;
