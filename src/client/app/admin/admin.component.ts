@@ -1,18 +1,14 @@
-import { Component, OnInit, Input, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { OrderRequest } from '../shared/database/order-request';
+import { Component, ViewChild, OnInit, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+
+import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AdminService } from './admin.service';
-import { Ng2SmartTableModule, LocalDataSource } from 'ng2-smart-table';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { CreateModalComponent } from './create-modal.component';
-import { EditModalComponent } from './edit-modal.component';
-import { ImageRenderComponent } from './image-render.component';
-import { MailToComponent } from './mailTo.component';
-/**
- * @export
- * @class AdminComponent
- * @implements {OnInit}
- */
+import { Group } from '../shared/database/group';
+import { UserDetails } from '../shared/database/user-details';
+import { SecurityService } from '../shared/services/security.service';
+// import { GridOptions } from 'ag-grid-community';
+
 @Component({
     moduleId: module.id,
     selector: 'mm-admin',
@@ -20,179 +16,209 @@ import { MailToComponent } from './mailTo.component';
     styleUrls: ['admin.component.css']
 })
 
-export class AdminComponent implements OnInit {
-    orderRequests: OrderRequest[];
-    title: string = 'Welcome Admin';
-    customerDetails: FormGroup;
-    source: LocalDataSource = new LocalDataSource(); // setting LocalDataSource for the table
+export class AdminComponent implements OnInit, OnDestroy {
 
-    @ViewChild(CreateModalComponent)
-    modalHtml: CreateModalComponent;
+    //gridOptions:GridOptions;
+    //rowData:any[];
+    //columnDefs:any[];
+    @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    @ViewChild('createGroupModal') createGroupModal: ElementRef;
+    @ViewChild('editGroupModal') editGroupModal: ElementRef;
+    @ViewChild('deleteGroupModal') deleteGroupModal: ElementRef;
+    groups: Group[] = [];
+    usersByGroup: any[] = [];
+    selectedUser: UserDetails;
+    newGroup: FormGroup;
+    editGroup: FormGroup;
+    deletedGroup: any;
+    editIndex: number;
+    deleteIndex: number;
+    dropdownSettings: any;
+    dropdownList: any[] = [];
+    message: string;
+    alert: boolean = false;
+    private unsubscribeObservables:any = new Subject();
 
-    @ViewChild(EditModalComponent)
-    modalHtml1: EditModalComponent;
-
-    /**
-     * settings for the smart table
-     * @memberOf AdminComponent
-     */
-    settings = {
-        mode: 'external',
-        actions: {
-            columnTitle: 'Actions',
-            position: 'right'
-        },
-        columns: {
-            dp: {
-                title: 'Display Picture',
-                type: 'custom',
-                width: '20px',
-                filter: false,
-                renderComponent: ImageRenderComponent
-            },
-            id: {
-                title: 'ID',
-                filter: false
-            },
-            fullname: {
-                title: 'Fullname',
-                filter: false
-            },
-            tel: {
-                title: 'Primary Tel No.',
-                filter: false
-            },
-            watel: {
-                title: 'Whatsapp No.',
-                filter: false
-            },
-            location: {
-                title: 'Location',
-                filter: false
-            },
-            speciality: {
-                title: 'Speciality',
-                filter: false
-            },
-            mail: {
-                title: 'Email',
-                filter: false,
-                type: 'custom',
-                renderComponent: MailToComponent
-            },
-            manual: {
-                title: 'Manual message',
-                filter: false
-            },
-            termsAccepted: {
-                title: 'Terms Accepted',
-                filter: false
-            },
-            confirmationId: {
-                title: 'Confirmation ID',
-                filter: false
+    constructor(
+        private adminService: AdminService,
+        private fb: FormBuilder,
+        private securityService: SecurityService,
+        private ref:ChangeDetectorRef
+    ) {
+        /*this.gridOptions = <GridOptions>{
+            onGridReady: () => {
+                this.gridOptions.api.sizeColumnsToFit();
             }
-        }
-    };
-
-    /**
-     * Creates an instance of AdminComponent.
-     * @param {AdminService} adminService
-     * @param {FormBuilder} fb
-     *
-     * @memberof AdminComponent
-     */
-    constructor(private adminService: AdminService, private fb: FormBuilder) {
-        this.getOrderRequests();
+        };
+        this.columnDefs = [
+            {headerName: 'Make', field: 'make'},
+            {headerName: 'Model', field: 'model'}
+        ];
+        this.rowData = [
+            {make: 'Toyota', model: 'Celica', price: 35000},
+            {make: 'Ford', model: 'Mondeo', price: 32000}
+        ];*/
     }
 
-    /**
-     * FormGroup initialization
-     * @memberOf AdminComponent
-     */
     ngOnInit() {
-        this.customerDetails = this.fb.group({
-            tel: ['', [Validators.required]],
-            location: ['', [Validators.required]],
-            fullname: ['', [Validators.required]],
-            watel: ['', [Validators.required]],
-            mail: [''],
-            termsAccepted: [''],
-            confirmationId: [''],
-            manual: [''],
-            id: [''],
-            dp: [''],
-            button: ['']
+        this.navbarComponent.navbarColor(0, '#6960FF');
+        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+        if (this.selectedUser) {
+            this.createForm();
+            this.getAllGroups();
+            this.getAllUsers();
+            this.dropdownSettings = {
+                singleSelection: false,
+                enableCheckAll: false,
+                unSelectAllText: 'UnSelect All',
+                selectAllText: 'Select All',
+                itemsShowLimit: 3,
+                allowSearchFilter: true,
+                idField: 'id',
+                textField: 'email'
+            };
+        }
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
+    createForm() {
+        this.newGroup = this.fb.group({
+            id: '',
+            name: [''],
+            url: '',
+            userId: this.selectedUser.id,
+            users: [''],
+            description: [''],
+            speciality: '',
+            picture: '',
+            status: 'online',
+            phase: 'active',
+            createdBy: this.selectedUser.id,
+            updatedBy: this.selectedUser.id
+        });
+        this.editGroup = this.fb.group({
+            id: '',
+            name: '',
+            url: '',
+            userId: '',
+            users: [],
+            description: '',
+            speciality: '',
+            picture: '',
+            status: '',
+            phase: '',
+            createdBy: '',
+            updatedBy: ''
         });
     }
 
-    onSearch(query: string = '') {
-        this.source.setFilter([
-            // fields we want to include in the search
-            {
-                field: 'id',
-                search: query
-            },
-            {
-                field: 'fullname',
-                search: query
-            },
-            {
-                field: 'tel',
-                search: query
-            },
-            {
-                field: 'mail',
-                search: query
-            }
-        ], false);
-        // second parameter specifying whether to perform 'AND' or 'OR' search
-        // (meaning all columns should contain search query or at least one)
-        // 'AND' by default, so changing to 'OR' by setting false here
-    }
-
-
-    /**
-     * function to get the orderRequests stored in the database
-     * @memberof AdminComponent
-     */
-    getOrderRequests() {
-        this.adminService.getOrderRequests()
-            .then((orderRequests) => {
-                this.orderRequests = orderRequests;
-                this.source.load(orderRequests);
+    createNewGroup({ value, valid }: { value: any, valid: boolean }) {
+        //value.url = `/${value.name}/${value.userId}`;
+        value.url = `/consultation/${value.userId}`;
+        this.adminService.createNewGroupByAdmin(value)
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                this.createGroupUserMap(value.users, res.id);
+                this.createGroupModal.nativeElement.click();
+                this.getAllGroups();
             });
     }
 
-    /**
-     * function to open the modal window on create
-     * @param {*} event
-     * @memberof AdminComponent
-     */
-    onCreate(event: any) {
-        this.modalHtml.openModal(this.source);
+    //mapping for the users inside newly created group
+    createGroupUserMap(users: any, groupId: number) {
+        this.adminService.createGroupUserMap(users, groupId)
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res: any) => {
+                return;
+            });
     }
 
-    /**
-     * delete function that removes a row from the table
-     * @param {*} orderRequest
-     * @memberof AdminComponent
-     */
-    onDelete(orderRequest: any) {
-        this.adminService.delete(orderRequest.data)
-        .then(() => {
-            this.orderRequests = this.orderRequests.filter(o => o !== orderRequest);
-        });
-        this.source.remove(orderRequest.data);
+    getAllGroups() {
+        this.adminService.getAllGroups()
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                this.groups = res;
+            });
     }
 
-    /**
-     * edit function that sets the data for a selected row and open modal window
-     * @param {*} event
-     * @memberof AdminComponent
-     */
-    onSave(event: any) {
-        this.adminService.setDetails(event.data);
-        this.modalHtml1.openModal(this.source);
+    getAllUsers() {
+        this.adminService.getAllUsers()
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                this.dropdownList = res;
+            });
+    }
+
+    initializeEdit(group: any, index: number) {
+        this.usersByGroup = [];
+        this.adminService.getAllUsersByGroupId(group.id)
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                res.map((user) => {
+                    this.usersByGroup.push({id: user.id,email:user.email});
+                });
+                this.editGroup.setValue({
+                    id: group.id,
+                    name: group.name,
+                    url: group.url,
+                    users: this.usersByGroup,
+                    userId: group.userId,
+                    description: group.details.description,
+                    speciality: group.details.speciality,
+                    picture: group.picture,
+                    status: group.status,
+                    phase: group.phase,
+                    createdBy: group.createdBy,
+                    updatedBy: group.updatedBy
+                });
+                this.editIndex = index;
+                this.alert = false;
+            });
+    }
+
+    initializeDelete(group: any, index: number) {
+        this.deletedGroup = group;
+        this.deleteIndex = index;
+    }
+
+    updateGroup({ value, valid }: { value: any, valid: boolean }) {
+        let data = {
+            id: value.id,
+            name: value.name,
+            url: value.url,
+            userId: value.userId,
+            users: value.users,
+            details: {description: value.description, speciality: value.speciality},
+            picture: value.picture,
+            status: value.status,
+            phase: value.phase,
+            createdBy: value.createdBy,
+            updatedBy: value.updatedBy
+        };
+        this.adminService.updateGroup(data)
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                this.alert = true;
+                if(true) {
+                    this.message = 'Group is updated.';
+                }
+                this.getAllGroups();
+            this.groups[this.editIndex] = value;
+            this.editGroupModal.nativeElement.click();
+            });
+    }
+
+    deleteGroup() {
+        this.adminService.deleteGroup(this.deletedGroup)
+            .takeUntil(this.unsubscribeObservables)
+            .subscribe(() => {
+                this.deleteGroupModal.nativeElement.click();
+                this.getAllGroups();
+                return;
+            });
     }
 }

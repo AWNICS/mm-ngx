@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
-import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * ImageMessageComponent to display image
@@ -9,42 +10,64 @@ import { DomSanitizer ,SafeResourceUrl } from '@angular/platform-browser';
  * @class ImageMessageComponent
  */
 @Component({
+    moduleId: module.id,
     selector: 'mm-image-message',
-    template: `
-            <div *ngIf="url; else loading">
-                <img [src]="url" alt="Image" class="rounded img-fluid">
-            </div>
-            <ng-template #loading>
-                Loading...
-            </ng-template>
-    `,
-    styles: [`
-    img {
-        max-width: 70%    !important;
-        height: auto   !important;
-    }
-    `]
+    templateUrl: 'image-message.component.html',
+    styleUrls: ['image-message.component.css']
 })
 
-export class ImageMessageComponent implements OnInit {
+export class ImageMessageComponent implements OnInit, OnDestroy {
+
     @Input() message: Message;
-    url: SafeResourceUrl;
+    @ViewChild('modal') modal: ElementRef;
+    thumbImageUrl: SafeResourceUrl;
+    fullImageUrl: SafeResourceUrl;
+    imageName:string;
+    private unsubscribeObservables = new Subject();
 
     constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
 
     ngOnInit() {
         setTimeout(() => {
-            this.downloadImage(this.message.contentData.data[0]);
+            this.downloadThumbImage(this.message.contentData.data[0]);
         }, 5000);
     }
 
-    downloadImage(fileName: string) {
-        this.chatService.downloadFile(fileName)
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
+    downloadThumbImage(imageName: string) {
+        this.imageName = imageName;
+        this.chatService.downloadFile(imageName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
-                    this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.thumbImageUrl = res.result;
+                    this.ref.markForCheck();
                 };
             });
-            this.ref.detectChanges();
+    }
+
+    downloadFullImage(imageName: string) {
+        imageName = imageName.replace('-thumb','');
+        this.chatService.downloadFile(imageName)
+        .takeUntil(this.unsubscribeObservables)
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.fullImageUrl = res.result;
+                    this.ref.markForCheck();
+                };
+            });
+    }
+
+    openModal() {
+        this.downloadFullImage(this.imageName);
+        this.modal.nativeElement.style.display = 'block';
+      }
+
+      closeModal() {
+        this.modal.nativeElement.style.display = 'none';
     }
 }

@@ -3,10 +3,11 @@
 }
 
 nav {
-    background-color: #4696e5;
+    background-color: transparent;
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
+    transition: 0.7s;
 }
 
 a,
@@ -16,7 +17,40 @@ a:active {
     color: #fff;
 }
 
-.navbar-brand:hover {
+a:hover {
+    text-decoration: none;
+}
+
+a.consult-button {
+    background-color: #6C63FF;
+    border: none;
+    border-radius: 50px;
+    color: #F7F7F7;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    width: 8rem;
+    font-family: Lato, sans-serif;
+}
+
+a.consult-button:hover {
+    cursor: pointer;
+    color: #F7F7F7;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
+}
+
+#logo>img {
+    width: auto;
+    height: 7vh;
+    padding-top: .5rem;
+}
+
+.navbar-light .navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+#icon-bar {
     color: #fff;
 }
 
@@ -32,38 +66,42 @@ a:active {
 
 .inset img {
     border-radius: inherit;
-    width: inherit;
-    height: inherit;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #FFF;
+    border-radius: 50%;
     display: block;
     position: relative;
+    transition: 0.5s;
+    margin-left: 15px;
 }
 
 .dropdown-menu {
-    margin-left: -100px;
-    background-color: #2E86C1;
+    background-color: #FFF;
 }
 
 .dropdown-item {
-    color: #d0e4f8;
+    padding: .25rem 1.5rem;
+    color: #111 !important;
 }
 
-.dropdown-menu .dropdown-item:hover {
-    background-color: transparent;
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
 }
 
 .navbar__menu .nav-link {
-    margin-left: 4pt;
     backface-visibility: hidden;
     display: inline-block;
-}
-
-.navbar__menu .nav-link {
+    font-family: Lato, sans-serif;
+    font-size: 15px;
     opacity: 0.75;
 }
 
 .navbar__menu .nav-link:hover {
     opacity: 1;
     color: #fff;
+    text-decoration: none !important;
 }
 
 .navbar__menu .nav-link:after {
@@ -76,4 +114,213 @@ a:active {
 
 .navbar__menu .nav-link:hover:after {
     transform: scaleX(1);
+}
+
+
+/* bubble for dropdown */
+
+.bubble {
+    position: absolute;
+    margin-top: 7px;
+    border: none;
+    outline: none;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 992px) {
+    .dropdown-menu-right {
+        left: 0 !important;
+        margin-left: 15px;
+    }
+    .bubble {
+        width: 13rem;
+    }
+    .notification>.dropdown-menu-right {
+        width: 20rem;
+    }
+    .notification-icon {
+        left: 5rem !important;
+    }
+}
+
+.notification-icon {
+    /* position: absolute; */
+    /* left: -2rem; */
+    font-size: 1.5rem;
+    color: #F7F7F7 !important;
+    cursor: pointer;
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.card-title {
+    font-size: 1rem;
+}
+
+.card-text {
+    font-size: 0.8rem;
+}
+
+#notifications {
+    max-height: 52vh;
+    overflow-y: auto;
+}
+
+
+/* animtating bell icon when a new notification is received*/
+
+@-webkit-keyframes bell {
+    0% {
+        -webkit-transform: rotate(-15deg);
+        transform: rotate(-15deg);
+    }
+    2% {
+        -webkit-transform: rotate(15deg);
+        transform: rotate(15deg);
+    }
+    4% {
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    6% {
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    8% {
+        -webkit-transform: rotate(-22deg);
+        transform: rotate(-22deg);
+    }
+    10% {
+        -webkit-transform: rotate(22deg);
+        transform: rotate(22deg);
+    }
+    12% {
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    14% {
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    16% {
+        -webkit-transform: rotate(-12deg);
+        transform: rotate(-12deg);
+    }
+    18% {
+        -webkit-transform: rotate(12deg);
+        transform: rotate(12deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes bell {
+    0% {
+        -webkit-transform: rotate(-15deg);
+        -ms-transform: rotate(-15deg);
+        transform: rotate(-15deg);
+    }
+    2% {
+        -webkit-transform: rotate(15deg);
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg);
+    }
+    4% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    6% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    8% {
+        -webkit-transform: rotate(-22deg);
+        -ms-transform: rotate(-22deg);
+        transform: rotate(-22deg);
+    }
+    10% {
+        -webkit-transform: rotate(22deg);
+        -ms-transform: rotate(22deg);
+        transform: rotate(22deg);
+    }
+    12% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    14% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    16% {
+        -webkit-transform: rotate(-12deg);
+        -ms-transform: rotate(-12deg);
+        transform: rotate(-12deg);
+    }
+    18% {
+        -webkit-transform: rotate(12deg);
+        -ms-transform: rotate(12deg);
+        transform: rotate(12deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+.animated {
+    -webkit-animation: bell 2s ease infinite;
+    animation: bell 2s ease infinite;
+    -ms-transform-origin-x: 50%;
+    -moz-transform-origin-x: 50%;
+    -webkit-transform-origin-x: 50%;
+    -o-transform-origin-x: 50%;
+    -ms-transform-origin-y: 0%;
+    -moz-transform-origin-y: 0%;
+    -webkit-transform-origin-y: 0%;
+    -o-transform-origin-y: 0%;
+    -ms-transform-origin-z: initial;
+    -moz-transform-origin-z: initial;
+    -webkit-transform-origin-z: initial;
+    -o-transform-origin-z: initial;
+}
+
+
+/* animtating bell icon when a new notification is appended ends*/
+
+:host ::-webkit-scrollbar {
+    width: 0.4em;
+}
+
+:host ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+:host ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.doctors {
+    background: #6c63ff;
+    color: #fff;
+    display: inline-block;
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.7s;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 30px;
+    padding: 3pt 10pt;
 }

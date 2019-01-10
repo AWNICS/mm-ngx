@@ -1,20 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DoctorsListComponent } from './doctors-list.component';
-import { VideoModalComponent } from './video-modal.component';
-import { DoctorsListRoutingModule } from './doctors-list-routing.module';
-import { DoctorsListService } from './doctors-list.service';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { SharedModule } from '../shared/shared.module';
-
-// module for star rating
 import { RatingModule } from 'ngx-rating';
 
+import { SharedModule } from '../shared/shared.module';
+import { PipesModule } from '../pipes/pipes.module';
+import { DoctorsListComponent } from './doctors-list.component';
+import { DoctorsListRoutingModule } from './doctors-list-routing.module';
+
 @NgModule({
-  imports: [CommonModule, DoctorsListRoutingModule, SharedModule, Ng2Bs3ModalModule, RatingModule],
-  declarations: [DoctorsListComponent, VideoModalComponent],
-  exports: [DoctorsListComponent],
-  providers: [DoctorsListService]
+  imports: [CommonModule, SharedModule, PipesModule, RatingModule, FormsModule, ReactiveFormsModule, DoctorsListRoutingModule],
+  declarations: [DoctorsListComponent],
+  exports: [DoctorsListComponent]
 })
 export class DoctorsListModule { }

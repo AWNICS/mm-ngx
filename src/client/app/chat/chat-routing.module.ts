@@ -5,7 +5,7 @@ import { ChatComponent } from './chat.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'chat/:userId', component: ChatComponent}
+      { path: 'chat/:userId', component: ChatComponent }
     ])
   ],
   exports: [RouterModule]

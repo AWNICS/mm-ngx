@@ -1,17 +1,16 @@
-import { Component, ViewChild, Input, Output, OnInit, EventEmitter, HostListener, Inject } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener, Inject, AfterViewInit, OnDestroy } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Router } from '@angular/router';
 
-import { OrderWindowComponent } from '../order-window/order-window.component';
-import { DoctorsListComponent } from '../doctors-list/doctors-list.component';
-import { OrderRequest } from '../shared/database/order-request';
-import { SpecialityService } from '../shared/speciality/speciality.service';
 import { Specialities } from '../shared/database/speciality';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
-import { ChatService } from '../chat/chat.service';
-import { UserDetails } from '../shared/database/user-details';
+import { ContentsComponent } from './contents.component';
 import { SecurityService } from '../shared/services/security.service';
+import { SharedService } from '../shared/services/shared.service';
+import { Locations } from '../shared/database/location';
+import { UserDetails } from '../shared/database/user-details';
+import { SocketService } from '../chat/socket.service';
+import { Subject } from 'rxjs/Subject';
 /**
  * This class represents the lazy loaded HomeComponent.
  */
@@ -21,85 +20,162 @@ import { SecurityService } from '../shared/services/security.service';
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
 
   pageTitle: string = 'Mesomeds';
   speciality: string;
   mobileNumber: number;
   specialities: Specialities[];
   navIsFixed: boolean = false;
+  user: any;
+  location: string;
+  locations: Locations[];
+  currentLocation: string = 'Bengaluru';
+  currentSpeciality: string = 'Physician';
+  selectedUser: UserDetails;
+
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-  user: UserDetails;
+  @ViewChild(ContentsComponent) contentsComponent: ContentsComponent;
+  private unsubscribeObservables = new Subject();
 
-  @ViewChild(OrderWindowComponent)
-  modalHtml: OrderWindowComponent;
-
-  @ViewChild(DoctorsListComponent)
-  modalHtml1: DoctorsListComponent;
-
-  current: string = 'Select'; //first string to load in the select field
-
-  constructor(@Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
-    private specialityService: SpecialityService,
-    private chatService: ChatService,
+  constructor(
+    @Inject(DOCUMENT) private document: Document, // used to get the position of the scroll
+    private sharedService: SharedService,
     private router: Router,
-    private securityService: SecurityService
-  ) { //constructor for LocationService
+    private securityService: SecurityService,
+    private socketService: SocketService
+  ) {
   }
 
-  //function to validate the phone number entered and open the OrderWindow else show an alert
-  open(value: any) {
-    let result: boolean = isNaN(value.mobileNumber);
-    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
-      || value.speciality === null || value.speciality === 'Select') {
-      return;
-    } else {
-      this.modalHtml.open();
+  ngOnInit(): void {
+    window.scrollTo(0,0);
+    if(this.securityService.getCookie('userDetails')) {
+      this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+    if(window.localStorage.getItem('pageReloaded')==='true' && this.selectedUser) {
+      console.log('Page Reloaded');
+      this.socketService.connection(this.selectedUser.id);
+    }
+      if(this.selectedUser.role === 'doctor') {
+        this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
+      } else if (this.selectedUser.role === 'admin') {
+        this.router.navigate([`/admin/${this.selectedUser.id}`]);
+      } else {
+        this.router.navigate([`/`]);
+      }
+    }
+    this.getSpecialities();
+    this.getGeoLocation();
+    this.getLocations();
+    console.log(this.router.url);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeObservables.next();
+    this.unsubscribeObservables.complete();
+  }
+
+  ngAfterViewInit() {
+    if(this.selectedUser) {
+      if(this.selectedUser.role==='patient') {
+        this.notificationRequest();
+      }
     }
   }
 
-  openConsultant(value: any) {
-    let result: boolean = isNaN(value.mobileNumber);
-    let speciality: string = value.speciality;
-    let mobileNumber: number = value.mobileNumber;
-    this.user = JSON.parse(this.securityService.getUser());
-    if (result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
-      || speciality === null || speciality === 'Select') {
+  showDoctorsList(value: any) {
+    this.user = this.securityService.getCookie('userDetails');
+    if (//result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
+      value.location === null ||
+      value.location === '' ||
+      value.speciality === null ||
+      value.speciality === ''
+    ) {
       return;
     } else {
-      if (this.user) {
-        if (this.user.phoneNo === mobileNumber) {
-          this.router.navigate([`/chat/${this.user.id}`]);
-        } else {
-          console.log('update your phone no');
-        }
+      if ((this.user)) {
+        this.sharedService.setLocation(value.location);
+        this.sharedService.setSpeciality(value.speciality);
+        this.router.navigate([`/doctors`]);
       } else {
+        this.sharedService.setLocation(value.location);
+        this.sharedService.setSpeciality(value.speciality);
         this.router.navigate([`/login`]);
       }
     }
-
-  }
-  //initializes the select field options from LocationService
-  ngOnInit(): void {
-    this.getSpecialities();
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     let number = window.scrollY;
-    if (number > 800) {
+    if (number > 500) {
       this.navIsFixed = true;
       document.getElementById('myBtn').style.display = 'block';
-      this.navbarComponent.navbarColor(number);
     } else if (this.navIsFixed && number < 1000) {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';
-      this.navbarComponent.navbarColor(number);
+    }
+
+    //for moving to next section and to show navbar
+    if (number > 100) {
+      //this.contentsComponent.scrollDownHidden(number);
+      this.navbarComponent.navbarColor(number, '#6960FF');
+    } else {
+      //this.contentsComponent.scrollDownHidden(number);
+      this.navbarComponent.navbarColor(number, 'transparent');
     }
   }
 
   getSpecialities() {
-    this.specialityService.getSpecialities()
-      .then(specialities => this.specialities = specialities);
+    this.sharedService.getSpecialities()
+    .takeUntil(this.unsubscribeObservables)
+      .subscribe(specialities => {
+        this.specialities = specialities;
+      });
+  }
+
+  getLocations() {
+    this.sharedService.getLocations()
+    .takeUntil(this.unsubscribeObservables)
+      .subscribe(locations => {
+        this.locations = locations;
+      });
+  }
+
+  notificationRequest() {
+    let webNotification = (window as any).Notification;
+    if (!webNotification) {
+        console.warn('Desktop notifications not available in your browser. Try Chrome.');
+        return;
+      }
+    if(webNotification.permission !== 'granted') {
+    webNotification.requestPermission((response:any)=> {
+        if(response!=='denied') {
+          let notification = new webNotification('Web Notifications Enabled', {
+            icon: 'assets/logo/web_notification_logo.png',
+            body: 'Hello. You are subscribed to Web Notifications',
+          });
+
+          notification.onerror = ()=> {console.log('Error in creating WebNotification');};
+        } else {
+            console.warn('WebPush notications are Blocked. Try enabling them in browser\'s notification settings');
+        }
+    });
+    }
+  }
+
+  getGeoLocation() {
+    const options = {
+      enableHighAccuracy: true
+    };
+    window.navigator.geolocation.getCurrentPosition((pos) => {
+      var crd = pos.coords;
+
+      console.log('Your current position is:');
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude: ${crd.longitude}`);
+      console.log(`More or less ${crd.accuracy} meters.`);
+    }, (err) => {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }, options);
   }
 }

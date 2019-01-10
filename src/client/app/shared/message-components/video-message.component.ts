@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy  } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * Create a video message
@@ -29,12 +30,13 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     `]
 })
 
-export class VideoMessageComponent implements OnInit {
+export class VideoMessageComponent implements OnInit, OnDestroy {
 
     @Input() message: Message;
     url: SafeResourceUrl;
+    private unsubscribeObservables = new Subject();
 
-    constructor(private chatService: ChatService, private sanitizer: DomSanitizer) { }
+    constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref:ChangeDetectorRef) { }
 
     ngOnInit() {
         setTimeout(() => {
@@ -42,11 +44,18 @@ export class VideoMessageComponent implements OnInit {
         }, 5000);
     }
 
+    ngOnDestroy() {
+        this.unsubscribeObservables.next();
+        this.unsubscribeObservables.complete();
+    }
+
     downloadVideo(fileName: string) {
         this.chatService.downloadFile(fileName)
+        .takeUntil(this.unsubscribeObservables)
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.markForCheck();
                 };
             });
     }

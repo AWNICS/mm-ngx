@@ -1,10 +1,12 @@
 export class UserDetails {
   id: any;
   socketId: string;
-  name: string;
+  firstname: string;
+  lastname: string;
   email: string;
   password:string;
   phoneNo: number;
+  aadhaarNo: number;
   picUrl: string;
   description: string;
   status: string;

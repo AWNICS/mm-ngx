@@ -3,6 +3,7 @@ export class Message {
     receiverId: number; // id of the user to whom the message was sent
     receiverType: string; // group or individual
     senderId: number; // id of the user who has sent the message
+    senderName: string; //name of the sender
     picUrl: string;
     text: string;
     type: string;
@@ -14,8 +15,9 @@ export class Message {
     responseData: { // data that componenet send out to the web services
         data:string[];
     };
-    createdBy: string;
-    updatedBy: string;
+    lastUpdateTime: any;
+    createdBy: number;
+    updatedBy: number;
     createdTime: any;
     updatedTime: any;
 }

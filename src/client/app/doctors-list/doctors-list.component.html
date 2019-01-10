@@ -1,59 +1,52 @@
-<modal style="z-index: 1049;" #doctorsList>
-    <modal-header [show-close]="true">
-    </modal-header>
-    <modal-body>
-        <div *ngFor="let doctorDetail of doctorDetails">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div [ngSwitch]="doctorDetail.status">
-                                <div *ngSwitchCase="'online'">
-                                    <div class="led-box led-green"></div>
-                                </div>
-                                <div *ngSwitchCase="'offline'">
-                                    <div class="led-box led-red"></div>
-                                </div>
-                                <div *ngSwitchCase="'busy'">
-                                    <div class="led-box led-blue"></div>
-                                </div>
-                                <div *ngSwitchCase="'away'">
-                                    <div class="led-box led-yellow"></div>
-                                </div>
-                                <div *ngSwitchDefault>
-                                    <div class="led-box led-red"></div>
-                                </div>
-                            </div>
-                            <img class="rounded-circle" src="{{doctorDetail.picUrl}}" data-toggle="tooltip" title="{{doctorDetail.status}}" style="height: 100px; width: 100px;" alt="Not found" />
-                        </div>
-                        <div class="col-sm-9">
-                            <h3 class="card-title">{{doctorDetail.name}}</h3>
-                            <p class="card-text">Doctor is {{doctorDetail.experience}} years experienced in {{doctorDetail.speciality}}. <br/> {{doctorDetail.description}}
-                            </p>
-                            <rating [(ngModel)]="doctorDetail.rating" [readonly]="true"> </rating>
-                        </div>
-                    </div>
+<mm-navbar></mm-navbar>
+<div class="container">
+    <small>{{message}}</small>
+    <div *ngFor="let doctor of doctors" class="card mb-3 shadow">
+        <div class="card-body">
+            <div *ngIf="doctor.availability || doctor.status" style="text-align:center;color:red">
+                <span *ngIf="doctor.availability === 'Offline' || doctor.status === 'Offline'">Doctor is currently unavailable</span>
+                <span *ngIf="doctor.availability === 'Busy' || doctor.status === 'Busy'">Doctor is currently in another consultation</span>
+            </div>
+            <div class="row">
+                <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-3 col-xs-2">
+                    <img [src]="doctor.picUrl | safe: 'url'" class="display-image" alt="avatar">
+                    <div class="status-online" title="Online" *ngIf="doctor.status === 'Online';"></div>
+                    <div class="status-offline" title="Offline" *ngIf="doctor.status === 'Offline';"></div>
+                    <div class="status-away" title="Away" *ngIf="doctor.status === 'Busy';"></div>
+                    <!-- <div class="status-invisible" title="Invisible" *ngIf="doctor.status === 'invisible';"></div> -->
                 </div>
-                <br/>
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <button type="button" class="btn btn-primary" style="float:right; margin:2px;" (click)="navigate(doctorDetail)">Consult now</button>
-                        <button type="button" class="btn btn-primary" data-toggle="collapse" [attr.data-target]="'#' + doctorDetail.collapseId" aria-expanded="false" aria-controls="doctorDetail.collapseId" style="float:right; margin:2px;">
-                        <i class="fa fa-angle-double-down" aria-hidden="true"></i>
-                        </button>
-                        <div id="{{doctorDetail.collapseId}}" class="collapse">
-                            <br/><br/>
-                            <div class="card card-block">
-                                <img id="thumbnail" src="{{doctorDetail.thumbnailUrl}}" data-toggle="tooltip" title="Click to play" (click)="openModal(doctorDetail)" />
-                            </div>
+                <div class="col col-10 col-xl-10 col-lg-10 col-md-10 col-sm-7 col-xs-8">
+                    <h5 class="card-title">Dr. {{doctor.firstName}} {{doctor.lastName}}</h5>
+                    <p>{{doctor.qualificationStr}} -{{doctor.speciality}}, {{doctor.experience}} years of practice</p>
+                    <p class="card-text small-font">Speaks: {{doctor.languageStr}}</p>
+                    <p class="card-text small-font">Consults via: {{doctor.consultationModeStr}}</p>
+                    <p class="card-text small-font">{{doctor.shortBio}}</p>
+                    <p class="card-text small-font">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{doctor.locationStr}}</p>
+                    <small>
+              <rating [(ngModel)]="doctor.ratingValue" [readonly]="true"> </rating>
+            </small>
+                    <div class="row">
+                        <div class="col col-12 col-xl-7 col-lg-7 col-md-7 col-sm-12">
+                            <p class="card-text text-muted">
+                                <small>Last updated {{doctor.lastupdated}} ago</small>
+                            </p>
+                        </div>
+                        <div class="col col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                            <button class="btn btn-primary" (click)="openDoctorProfile(doctor);">View Profile</button>
+                            <button class="btn btn-primary" *ngIf="doctor.status === 'Online'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">Pay and Consult Now</button>
                         </div>
                     </div>
                 </div>
             </div>
+            <div style="text-align: center;color:#877474">
+                <span *ngIf="doctor.message && doctor.message!=='chat'">{{doctor.message}}</span>
+                <span *ngIf="doctor.message && doctor.message==='chat'">You have an active group with this doctor.
+                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}">
+                    Click here to get there
+                </a>
+            </span>
+            </div>
         </div>
-    </modal-body>
-    <modal-footer>
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="doctorsList.dismiss()">Cancel</button>
-    </modal-footer>
-</modal>
-<mm-video-modal></mm-video-modal>
+    </div>
+</div>

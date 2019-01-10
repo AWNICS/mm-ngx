@@ -1,0 +1,197 @@
+<mm-navbar></mm-navbar>
+<div class="container">
+    <div class="row doctor-profiles">
+        <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12 no-gutters">
+            <img [src]="doctor?.picUrl | safe: 'url'" class="profile-image" alt="avatar">
+            <div class="status-online" title="Online" *ngIf="selectedUser?.status === 'online';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'online';">
+                <i>Available now</i>
+            </div>
+            <div class="status-offline" title="Offline" *ngIf="selectedUser?.status === 'offline';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'offline';">
+                <i>Not Available</i>
+            </div>
+            <div class="status-away" title="Away" *ngIf="selectedUser?.status === 'away';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'away';">
+                <i>Away</i>
+            </div>
+            <div class="status-invisible" title="Invisible" *ngIf="selectedUser?.status === 'invisible';"></div>
+            <div class="row small-font status-text" *ngIf="selectedUser?.status === 'invisible';">
+                <i>Invisible</i>
+            </div>
+        </div>
+        <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
+            <div class="row">
+                <h5>
+                    Dr. {{selectedUser?.firstname}} {{selectedUser?.lastname}}
+                </h5>
+            </div>
+            <div class="row">
+                {{qualifications}} - {{doctor?.speciality}}, {{doctor?.doctorDetails.experience}} years of practice
+            </div>
+            <div class="row small-font">Speaks: {{languages}}</div>
+            <div class="row small-font">Consults via: {{consultationModes}}</div>
+            <div class="row small-font">{{doctor?.doctorDetails.longBio}}</div>
+            <div class="row small-font">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{locations}}
+            </div>
+            <div class="row">
+                <div class="col col-12 col-xl-9 col-lg-9 col-md-12 col-sm-12 no-gutters">
+                    <!--rating *ngIf="doctor" [(ngModel)]="doctor.doctorDetails.ratingValue" [readonly]="true"> </rating-->
+                </div>
+                <div class="col col-12 col-xl-3 col-lg-3 col-md-12 col-sm-12 no-gutters">
+                    <button class="btn-primary" *ngIf="selectedUser?.status==='online'" (click)="consultNow(doctor.doctorDetails.userId);">Consult now</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="content col no-gutters">
+                    <button class="navigate-left" [disabled]="leftNavDisabled" (click)="moveLeft()">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </button>
+                    <div class="demo-one" dragScroll drag-scroll-y-disabled="true" scrollbar-hidden="true" (reachesLeftBound)="leftBoundStat($event)" (reachesRightBound)="rightBoundStat($event)" #nav>
+                        <img *ngFor="let mediaFile of mediaFiles" [src]="mediaFile?.thumbUrl | safe: 'url'" (click)="openModal(mediaFile);" data-toggle="modal" data-target="#exampleModal" />
+                    </div>
+                    <button class="navigate-right" [disabled]="rightNavDisabled" (click)="moveRight()">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true" (click)="stopVideo(item);">&times;</span>
+                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div *ngIf="item.type=='image'; else showVideo">
+                                    <img class="img-fluid" [src]="item.url | safe:'url'" alt="image">
+                                </div>
+                                <ng-template #showVideo>
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <video class="embed-responsive-item" controls #videoPlayer>
+                                            <source [src]="item.url | safe: 'resourceUrl'" type="video/mp4">
+                                            <source [src]="item.url | safe: 'resourceUrl'" type="video/webm"> Your browser does not support HTML5 video. {{item.url}}
+                                        </video>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="padding-top: 30px;">
+        <div class="row">
+            <div class="col col-12">
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pills-actvities-tab" data-toggle="pill" href="#pills-actvities" role="tab" aria-controls="pills-actvities" aria-selected="true">Activities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="true">Reviews</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="pills-actvities" role="tabpanel" aria-labelledby="pills-actvities-tab">
+                        <div class="row">
+                            <div class="card" *ngFor="let doctorActivity of doctorActivities" style="width: 100%;">
+                                <div class="card-header">
+                                    {{doctorActivity.title}}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{doctorActivity.title}}</h5>
+                                    <p class="card-text">
+                                        {{doctorActivity.comment}}
+                                    </p>
+                                    <a href="#" class="btn btn-primary" style="display: none;">
+                    Interested
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                  </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
+                        <div class="row">
+                            <div class="card" *ngFor="let doctorReview of doctorReviews" style="width:100%;">
+                                <div class="card-header">
+                                    Review by {{doctorReview.name}}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{doctorReview.title}}</h5>
+                                    <rating *ngIf="doctor" [(ngModel)]="doctorReview.ratingValue" [readonly]="true"></rating>
+                                    <p class="card-text">
+                                        {{doctorReview.comment}}
+                                    </p>
+                                    <a href="#" class="btn btn-primary" style="display: none;">
+                    Helpful
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                  </a>
+                                    <a href="#" class="btn btn-primary" style="display: none;">
+                    Not Helpful
+                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                  </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="row">
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        EDUCATION AND TRAINING:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{doctor?.doctorDetails.education}}, ({{doctor?.doctorDetails.educationYear}})
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        CERTIFICATIONS AND LICENSURE:
+                                    </h5>
+                                    <p class="card-text">
+                                        MCI No.: {{doctor?.doctorDetails.regNo}}
+                                    </p>
+                                    <p class="card-text">
+                                        Validity: {{doctor?.doctorDetails.validity}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        WORK HISTORY:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{doctor?.doctorDetails.workHistory}}
+                                    </p>
+                                    <p class="card-text">
+                                        Visiting doctor timing: {{slots}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 100%;">
+                                <div class="card-body">
+                                    <h5>
+                                        PROFESSIONAL SOCIETIES:
+                                    </h5>
+                                    <p class="card-text">
+                                        {{professionalSociety}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

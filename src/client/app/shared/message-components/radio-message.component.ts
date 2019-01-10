@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
-import { ChatService } from '../../chat/chat.service';
 import { UserDetails } from '../database/user-details';
+import { SecurityService } from '../services/security.service';
 
 /**
  * RadioMessageComponent to display the radio message
@@ -28,25 +28,26 @@ import { UserDetails } from '../database/user-details';
 export class RadioMessageComponent implements OnInit {
 
     @Input() message: Message;
+    @Input() index: number;
     @Input() public selectedOption: string;
     @Output() public onNewEntryAdded = new EventEmitter();
     header: string;
     options: string[];
     selectedUser: UserDetails;
-    enable: boolean = true;
+    enable = true;
 
-    constructor( private socketService: SocketService, private chatService: ChatService ) {
+    constructor( private socketService: SocketService, private securityService: SecurityService ) {
     }
 
     ngOnInit() {
         this.options = this.message.contentData.data;
         this.header = this.message.text;
-        /*this.selectedUser = this.chatService.getUser();
+        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if(this.selectedUser.id === this.message.senderId) {
             this.enable = false;
         } else {
             this.enable = true;
-        }*/
+        }
     }
 
     onSelectionChange(option:string) {
@@ -54,9 +55,8 @@ export class RadioMessageComponent implements OnInit {
     }
 
     addNewEntry(): void {
-        console.log('Selected option is: ', this.selectedOption);
         this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.selectedOption
+            value: 'Option chosen: ' + this.selectedOption
         });
     }
 
@@ -73,6 +73,6 @@ export class RadioMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.socketService.updateMessage(message);
+        this.socketService.updateMessage(message, this.index);
     }
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, FormArray } from '@angular/forms';
 import { Message } from '../database/message';
 import { SocketService } from '../../chat/socket.service';
+import { UserDetails } from '../database/user-details';
+import { SecurityService } from '../services/security.service';
 
 /**
  * CheckBoxMessageComponent to display check box options
@@ -21,24 +23,33 @@ import { SocketService } from '../../chat/socket.service';
                 (change)="onSelectionChange($event, option)">
             <label class="custom-control-label" for="{{option}}">{{option}}</label>
         </div>
-        <button type="button" class="btn btn-secondary" (click)="submit()">Submit</button>
+        <button type="button" [disabled]="!enable" class="btn btn-secondary" (click)="submit()">Submit</button>
     `
 })
 
 export class CheckBoxMessageComponent implements OnInit {
 
     @Input() message: Message;
+    @Input() index: number;
     @Input() public selectedOption: string[] = [];
     @Output() public onNewEntryAdded = new EventEmitter();
     header: string = '';
     options: string[];
+    selectedUser: UserDetails;
+    enable = true;
 
-    constructor(private socketService: SocketService) {
+    constructor(private socketService: SocketService, private securityService: SecurityService) {
     }
 
     ngOnInit() {
         this.options = this.message.contentData.data;
         this.header = this.message.text;
+        this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+        if (this.selectedUser.id === this.message.senderId) {
+            this.enable = false;
+        } else {
+            this.enable = true;
+        }
     }
 
     onSelectionChange(event: any, option: any) {
@@ -59,13 +70,15 @@ export class CheckBoxMessageComponent implements OnInit {
         this.message.contentType = 'text';
         this.message.text = this.header + this.message.contentData.data;
         this.message.responseData.data = this.options;
+        this.message.createdBy = this.message.senderId;
+        this.message.updatedBy = this.message.senderId;
         this.edit(this.message);
         this.addNewEntry();
     }
 
     addNewEntry(): void {
         this.onNewEntryAdded.emit({
-            value: 'You chose: ' + this.selectedOption
+            value: 'Option chosen: ' + this.selectedOption
         });
     }
 
@@ -74,6 +87,6 @@ export class CheckBoxMessageComponent implements OnInit {
         if (!result) {
             return;
         }
-        this.socketService.updateMessage(message);
+        this.socketService.updateMessage(message, this.index);
     }
 }

@@ -1,0 +1,57 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background: #C5DDEB;
+    font: 14px/20px "Lato", Arial, sans-serif;
+    padding: 40px 0;
+    color: white;
+}
+
+.container {
+    padding-top: 102.66667px;
+}
+
+.card {
+    margin-bottom: 25px;
+}
+
+a:hover {
+    text-decoration: none;
+    cursor: pointer;
+}
+.modal-dialog{
+    max-width: fit-content;
+    height:97%;
+    width:95%;
+    margin-bottom: 0px;
+}
+.modal-content{
+    height:100%;
+}
+.modal-body {
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-body button, .card-body small a{
+    position: absolute;
+    bottom:21px;
+    right:25px;
+}
+
+.card-header{
+   background: #d70a0a94;
+}
+
+@media(max-width:450px){
+  
+.card-body button, .card-body small a{
+    position: static;
+}
+}

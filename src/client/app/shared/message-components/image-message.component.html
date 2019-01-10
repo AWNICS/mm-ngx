@@ -1,0 +1,41 @@
+<div *ngIf="thumbImageUrl; else loading">
+    <img [src]="thumbImageUrl | safe:'url'" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
+</div>
+
+<ng-template #loading>
+    <div style="width:130px;height:130px">
+        <div class="lds-roller" style="top:24%;left:28%">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</ng-template>
+
+<div class="modal" #modal>
+    <ng-container *ngIf="fullImageUrl; else load">
+        <button class="close" (click)="closeModal()">
+            <i class="fa fa-times-circle-o" aria-hidden="false"></i>
+        </button>
+        <div class="modal-content">
+            <img [src]="fullImageUrl | safe:'url'">
+        </div>
+    </ng-container>
+    <ng-template #load>
+        <div class="lds-roller" style="top:34%;left:46%">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </ng-template>
+</div>

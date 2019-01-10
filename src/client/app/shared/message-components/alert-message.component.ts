@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+/*import { Component, Input, OnInit } from '@angular/core';
 import { Message } from '../database/message';
 import { LiveChatService } from '../../doctor-live/live-chat.service';
 
@@ -7,7 +7,7 @@ import { LiveChatService } from '../../doctor-live/live-chat.service';
  * @export
  * @class AlertMessageComponent
  */
-@Component({
+/*@Component({
     selector: 'mm-alert-message',
     template: `
             <div>
@@ -48,4 +48,4 @@ export class AlertMessageComponent implements OnInit {
                 return null;
             });
     }
-}
+}*/

@@ -1,16 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
-import { UserDetails } from '../database/user-details';
 
 @Injectable()
 export class SecurityService {
 
-    key = 'Bearer';
-    private jwt: string;
+    public key = 'Bearer';
+    public baseUrl = 'http://localhost:3000';
     private loginStatus = false;
-
-    constructor(private cookieService: CookieService) {
-    }
 
     setLoginStatus(status: boolean) {
         this.loginStatus = status;
@@ -20,21 +15,32 @@ export class SecurityService {
         return this.loginStatus;
     }
 
-    setToken(token: string) {
-        this.cookieService.put('token', token, { domain: 'localhost'});
+    setCookie(cname: string, cvalue: string, exdays: number) {
+        let date = new Date();
+        date.setTime(date.getTime() + (exdays*24*60*60*1000));
+        let expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${cname}=${cvalue};${expires};path=/`;
     }
 
-    getToken() {
-        return this.cookieService.get('token');
+    getCookie(cname: string) {
+        let name = cname + '=';
+        let ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) === 0) {
+                //if there is a valid cookie then set the loginstatus to true so that user's navbar wont changes as if he is loogedout
+                this.loginStatus = true;
+                return c.substring(name.length, c.length);
+            }
+        }
+        return '';
     }
 
-    setUser(user: UserDetails) {
-        this.cookieService.put('userDetails', JSON.stringify(user), { domain: 'localhost' });
+    deleteCookie(cname: string) {
+        document.cookie = `${cname}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     }
-
-    getUser() {
-        return this.cookieService.get('userDetails');
-    }
-
 }
 

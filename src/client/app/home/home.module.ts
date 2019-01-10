@@ -4,17 +4,17 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { OrderWindowModule } from '../order-window/order-window.module';
-import { ContentsModule } from '../contents/contents.module';
-import { DoctorsListModule } from '../doctors-list/doctors-list.module';
+import { ContentsComponent } from './contents.component';
+import { NotFoundComponent } from './not-found.component';
 
 // smooth scroll module
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { DoctorsListModule } from '../doctors-list/doctors-list.module';
 
 @NgModule({
   imports: [CommonModule, HomeRoutingModule, Ng2PageScrollModule.forRoot(),
-     SharedModule, OrderWindowModule, ContentsModule, DoctorsListModule],
-  declarations: [HomeComponent],
-  exports: [HomeComponent]
+     SharedModule, DoctorsListModule],
+  declarations: [HomeComponent, ContentsComponent, NotFoundComponent],
+  exports: [HomeComponent, ContentsComponent, NotFoundComponent]
 })
 export class HomeModule { }

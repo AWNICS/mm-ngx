@@ -1,27 +1,31 @@
 <mm-navbar></mm-navbar>
-<div class="container">
-    <div class="row">
-        <div class="col col-6">
-            <form>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Email" #email>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="password" class="form-control" placeholder="Password" #password>
-                    </div>
-                </div>
-                <div class="error" *ngIf="error">
-                    {{error}}
-                </div>
-                <button i18n type="submit" class="btn btn-primary" (click)="login(email.value,password.value); email.value=''; password.value='';">Login</button>
-                <a routerLink='/register' routerLinkActive='active'>
-                    Not a member yet? Sign up
-                </a>
-            </form>
-        </div>
+<div class="auth">
+  <div class="container">
+    <div class="auth__inner">
+      <div class="auth__media">
+        <img src="assets/svg/undraw_selfie.svg">
+      </div>
+      <div class="auth__auth">
+        <h1 class="auth__title">Access your account</h1>
+        <p class="info">Enter your registered email address and password to proceed</p>
+        <p class="error">{{error}}</p>
+        <form>
+          <label>Email</label>
+          <input type="email" placeholder="you@example.com" #email required>
+          <label>Password</label>
+          <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+            autocomplete="off" #password required>
+          <a class="show-password" (click)="showPassword();">
+              <i class="fa fa-eye" #eye aria-hidden="true"></i>
+            </a>
+          <button type="submit" class="button button__accent" (click)="login(email.value,password.value);">Log in</button>
+          <a class="sign-up" routerLink='/forgotPassword' routerLinkActive='active'>
+            <span>Forgot Password?</span>
+          </a>
+          <span class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign
+              up!</a></span>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
-<mm-footer></mm-footer>

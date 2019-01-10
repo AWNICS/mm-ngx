@@ -1,3 +1,6 @@
 export class Specialities {
-  speciality:string;
+  id: number;
+  name:string;
+  createdBy: number;
+  updatedBy: number;
 }

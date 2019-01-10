@@ -1,0 +1,80 @@
+<mm-navbar></mm-navbar>
+<div class="container">
+    <h1 class="profile-title" *ngIf="user">{{user.firstname}} {{user.lastname}}</h1>
+    <div class="row">
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="display-image" title="Upload image">
+                <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="saveImage($event.target.files)" />
+                <img class="rounded-circle img-fluid img-thumbnail" [src]="url | safe: 'url'">
+            </div>
+            <div class="row description">
+                {{user.description}}
+            </div>
+            <div class="row" *ngIf="user.role==='doctor'">
+                <div class="file-upload">
+                    <input type="file" (change)="uploadMedia($event.target.files);" />
+                    <i class="fa fa-upload" aria-hidden="true"></i>
+                </div>
+                <p style="font-size: 12px;">Upload your images(.jpeg, .png, .gif)/videos(.mp4, .ogg, .webm) here</p>
+            </div>
+            <div class="row" *ngIf="user.role==='doctor'">
+                <div class="gallery" *ngFor="let mediaFile of mediaFiles; let i=index;">
+                    <button class="delete-media" (click)="deleteMedia(i,mediaFile);">&times;</button>
+                    <div [ngSwitch]="mediaFile?.type">
+                        <div *ngSwitchCase="'image'">
+                            <img [src]="mediaFile?.thumbUrl | safe: 'url'" (click)="openModal(mediaFile);" data-toggle="modal" data-target="#mediaModal">
+                        </div>
+                        <div *ngSwitchCase="'video'">
+                            <img [src]="mediaFile?.thumbUrl | safe: 'url'" (click)="openModal(mediaFile);" data-toggle="modal" data-target="#mediaModal">
+                        </div>
+                        <div *ngSwitchCase="'doc'">
+                            <object [data]="mediaFile?.url | safe: 'resourceUrl'">
+                                                </object>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true" (click)="stopVideo(item);">&times;</span>
+                                        </button>
+                            </div>
+                            <div class="modal-body">
+                                <div *ngIf="item.type=='image'; else showVideo">
+                                    <img class="img-fluid" [src]="item.url | safe:'url'" alt="image">
+                                </div>
+                                <ng-template #showVideo>
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <video class="embed-responsive-item" controls #videoPlayer>
+                                            <source [src]="item.url | safe: 'resourceUrl'" type="video/mp4">
+                                            <source [src]="item.url | safe: 'resourceUrl'" type="video/ogg">
+                                            <source [src]="item.url | safe: 'resourceUrl'" type="video/webm"> Your browser does not support HTML5 video. {{item.url}}
+                                        </video>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div [ngSwitch]="user.role">
+                <div *ngSwitchCase="'patient'">
+                    <mm-patient-profile [user]="user"></mm-patient-profile>
+                </div>
+                <div *ngSwitchCase="'doctor'">
+                    <mm-doctor-profile [user]="user"></mm-doctor-profile>
+                </div>
+                <div *ngSwitchCase="'bot'">
+                    <mm-staff-profile [user]="user"></mm-staff-profile>
+                </div>
+                <div *ngSwitchDefault>
+                    <div>Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

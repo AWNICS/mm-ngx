@@ -1,98 +1,161 @@
-/*styling for cards in the modal window*/
-
-.card {
-    margin: 5px;
-    padding: 5px;
-    border: 0px solid grey;
-    border-radius: 4px;
-    box-shadow: 2px 4px 10px grey;
-    width: 100%;
-    height: auto;
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-
-/*status box for doctors*/
-
-.led-box {
-    height: 30px;
-    width: 25%;
-    margin: 10px 0;
-    float: left;
+body {
+    background: #C5DDEB;
+    font: 14px/20px "Lato", Arial, sans-serif;
+    padding: 40px 0;
+    color: #666;
 }
 
-.led-box p {
-    font-size: 12px;
+.container {
+    padding-top: 102.66667px;
+    color: #666;
+}
+
+.display-image {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    border: 1px solid rgba(102, 102, 102, 0.5);
+    padding: 3px;
+    border-radius: 100%;
+}
+
+.shadow {
+    border: none;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background-color: #6960FF;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #6C63FF;
+    color: #FFFFFF;
+    font-weight: 400;
+    white-space: nowrap;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
     text-align: center;
-    margin: 1em;
+    text-decoration: none;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
 }
 
-
-/*offline state*/
-
-.led-red {
-    margin: 0 auto;
-    width: 15px;
-    height: 15px;
-    background-color: #F00;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #441313 0 -1px 9px, rgba(255, 0, 0, 0.5) 0 2px 12px;
+.btn-primary:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #463AFF;
 }
 
-
-/*away state*/
-
-.led-yellow {
-    margin: 0 auto;
-    width: 15px;
-    height: 15px;
-    background-color: #FF0;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #808002 0 -1px 9px, #FF0 0 2px 12px;
+.small-font {
+    font-size: 14px;
+    line-height: normal;
+    word-wrap: break-word;
+    word-break: normal;
 }
 
-
-/*available state*/
-
-.led-green {
-    margin: 0 auto;
-    width: 15px;
-    height: 15px;
-    background-color: #ABFF00;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #304701 0 -1px 9px, #89FF00 0 2px 12px;
+p {
+    margin: 0px;
 }
 
-
-/*busy state*/
-
-.led-blue {
-    margin: 0 auto;
-    width: 15px;
-    height: 15px;
-    background-color: #24E0FF;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.2) 0 -1px 7px 1px, inset #006 0 -1px 9px, #3F8CFF 0 2px 14px;
+.status-text {
+    margin-left: 8%;
+    margin-top: -15px;
 }
 
-
-/*video thumbnails for video profiles*/
-
-#thumbnail {
-    margin: 20px;
-    padding: 5px;
-    height: 60%;
-    width: 60%;
+.status-online {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #3AD29F;
 }
 
-#thumbnail:hover {
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.status-offline {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FF5252;
 }
 
+.status-away {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FFFF00;
+}
 
-/*scrolling to enable modal window scroll*/
+.status-invisible {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #E2E0FF;
+}
 
-modal {
-    overflow: auto !important;
+@media (max-width: 765px) {
+    .status-online {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-text {
+        margin-top: -15px;
+    }
+    .status-offline {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-away {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-invisible {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .col-xs-8 {
+        padding-left: 30px;
+    }
+    .col-xs-2 {
+        padding-right: 20px;
+    }
+    .display-image {
+        width: 60px;
+        height: 60px;
+    }
+    .text-muted {
+        margin-bottom: 20px;
+    }
 }

@@ -1,0 +1,87 @@
+
+.notification-header {
+    font-size: 16px;
+    padding: 0px 10px;
+}
+
+.notification-body {
+    font-size: 12px;
+    padding: 8px 10px;
+}
+
+a.consult-button {
+    background-color: #6C63FF;
+    border: none;
+    border-radius: 50px;
+    color: #F7F7F7;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    margin-left: 1rem;
+    font-family: Lato, sans-serif;
+}
+
+a.consult-button:hover {
+    cursor: pointer;
+    color: #F7F7F7;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
+}
+
+.snackbar {
+    display: none; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -200px; /* Divide value of min-width by 2 */
+    background-color: #6C63FF;
+    color: #F7F7F7;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 90%; /* Center the snackbar */
+    top: 5rem; /* 5rem from the top */
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 3.5em; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {top: 0; opacity: 0;}
+    to {top: 3.5em; opacity: 1;}
+}
+
+.alert {
+    position: fixed;
+    top: 3.5em;
+    width: 100%;
+    color: #6C63FF;
+    background-color: #F7F7F7;
+    border-color: #F7F7F7;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0px;
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+    display: none;
+    z-index: 999;
+    font-family: Lato, sans-serif;
+    padding: 0.5rem 1.25rem;
+}
+
+h5 {
+    font-family: Lato, sans-serif;
+    font-weight: 600;
+    margin-bottom: 0px;
+    font-size: 1rem;
+}
+
+p {
+    font-size: 0.8rem;
+    font-family: Lato, sans-serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

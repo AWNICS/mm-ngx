@@ -1,0 +1,106 @@
+/**
+ * 1. Add the correct box sizing in IE 10.
+ * 2. Remove the padding in IE 10.
+ */
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    /* 1 */
+    padding: 0;
+    /* 2 */
+}
+
+
+/* Remove default Radio Buttons */
+
+[type="radio"]:not(:checked),
+[type="radio"]:checked {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
+    transition: .28s ease;
+}
+
+[type="radio"]:not(:checked)+label,
+[type="radio"]:checked+label {
+    position: relative;
+    padding-left: 2em;
+    cursor: pointer;
+    display: inline-block;
+    height: 1.7em;
+    line-height: 1.7em;
+    transition: .28s ease;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+[type="radio"]+label:before,
+[type="radio"]+label:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 3px;
+    width: 1.2em;
+    height: 1.2em;
+    z-index: 0;
+    transition: .28s ease;
+}
+
+
+/* Unchecked styles */
+
+[type="radio"]:not(:checked)+label:before {
+    transition: .28s ease;
+    border-radius: 50%;
+    border: 1px solid #666;
+}
+
+[type="radio"]:not(:checked)+label:after {
+    transition: .28s ease;
+    border-radius: 50%;
+    border: 1px solid #666;
+    z-index: -1;
+    transform: scale(0);
+}
+
+
+/* Checked styles */
+
+[type="radio"]:checked+label:before {
+    border-radius: 50%;
+    border: 1px solid transparent;
+}
+
+[type="radio"]:checked+label:after {
+    border-radius: 50%;
+    border: 1px solid #6C63FF;
+    background-color: #6C63FF;
+    z-index: 0;
+    transform: scale(1.02);
+}
+
+
+/* Disabled style */
+
+[type="radio"]:disabled:not(:checked)+label:before,
+[type="radio"]:disabled:checked+label:before {
+    background-color: transparent;
+    border-color: #eee;
+    cursor: default;
+}
+
+[type="radio"]:disabled+label {
+    color: #eee;
+    cursor: default;
+}
+
+[type="radio"]:disabled:not(:checked)+label:before {
+    border-color: #eee;
+}
+
+[type="radio"]:disabled:checked+label:after {
+    background-color: #eee;
+    border-color: #666;
+}
