@@ -380,6 +380,7 @@ export class SharedService {
      * get all bills
      */
     getBills(visitorId: number, page:number) {
+        console.log(page);
         const uri = `${this.url}/billing/visitors/${visitorId}?page=${page}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
@@ -402,6 +403,7 @@ export class SharedService {
      * @param doctorId get all bills
      */
     getBillsByDoctorId(doctorId: number, page:number) {
+        console.log(page);
         const uri = `${this.url}/billing/doctors/${doctorId}?page=${page}`;
         let headers = new Headers();
         headers.append('Authorization', `${this.securityService.key} ${this.securityService.getCookie('token')}`);
