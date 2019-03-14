@@ -1,0 +1,113 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row" style="margin:0px 0px 1rem;">
+        <button class="button button__accent" data-toggle="modal" data-target="#createGroupModal">New Group</button>
+    </div>
+    <table class="table table-bordered table-hover table-responsive-md table-responsive-sm" id="scroll">
+        <thead>
+            <tr>
+                <th scope="col">Group ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">URL</th>
+                <th scope="col">Details</th>
+                <th scope="col">Phase</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let group of groups; let i = index;">
+                <td>{{ group?.id }}</td>
+                <td>{{ group?.name }}</td>
+                <td>{{ group?.url }}</td>
+                <td>{{ group?.details?.description }}</td>
+                <td>{{ group?.phase }}</td>
+                <td>
+                    <button class="button button__primary" data-toggle="modal" data-target="#editGroupModal" (click)="initializeEdit(group, i);">Edit</button>
+                    <button class="button button__delete" data-toggle="modal" data-target="#deleteGroupModal" (click)="initializeDelete(group, i);">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- Create Group Modal starts-->
+    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createGroupModalLabel">Create new group</h5>
+                    <a class="close" #createGroupModal data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <form novalidate [formGroup]="newGroup" (ngSubmit)="createNewGroup(newGroup);">
+                        <label>Group Name</label>
+                        <input type="text" placeholder="Group Name" formControlName="name" autocomplete>
+                        <label>Group description</label>
+                        <input type="text" placeholder="Group description" formControlName="description" autocomplete>
+                        <label>Group speciality</label>
+                        <input type="text" placeholder="Group speciality" formControlName="speciality" autocomplete>
+                        <label>Group members</label>
+                        <ng-multiselect-dropdown [placeholder]="'Members'" formControlName="users" [data]="dropdownList" [settings]="dropdownSettings">
+                        </ng-multiselect-dropdown>
+                        <button type="submit" class="button button__accent" [disabled]="newGroup.invalid">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create Group Modal ends-->
+
+    <!-- Edit Group Modal starts-->
+    <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-labelledby="editGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editGroupModalLabel">Edit group</h5>
+                    <a class="close" #editGroupModal data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="alert-message" *ngIf="alert">{{ message }}</div>
+                    <form novalidate [formGroup]="editGroup" (ngSubmit)="updateGroup(editGroup);">
+                        <label>Group Name</label>
+                        <input type="text" placeholder="Group Name" formControlName="name" autocomplete>
+                        <label>Group description</label>
+                        <input type="text" placeholder="Group description" formControlName="description" autocomplete>
+                        <label>Group speciality</label>
+                        <input type="text" placeholder="Group speciality" formControlName="speciality" autocomplete>
+                        <label>Group members</label>
+                        <ng-multiselect-dropdown [placeholder]="'Members'" formControlName="users" [data]="dropdownList" [settings]="dropdownSettings">
+                        </ng-multiselect-dropdown>
+                        <button type="submit" class="button button__accent" [disabled]="editGroup.invalid">Edit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Group Modal ends-->
+
+    <!-- Delete Group Modal starts-->
+    <div class="modal fade" id="deleteGroupModal" tabindex="-1" role="dialog" aria-labelledby="deleteGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteGroupModalLabel">Modal title</h5>
+                    <a class="close" #deleteGroupModal data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to permanently delete this group and remove members from this group?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="button button__delete" (click)="deleteGroup();">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Group Modal ends-->
+</div>
+
+<!--ag-grid-angular style="width: 500px; height: 500px;" class="ag-theme-balham" [gridOptions]="gridOptions" [rowData]="rowData" [columnDefs]="columnDefs">
+</ag-grid-angular-->

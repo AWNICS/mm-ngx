@@ -1,0 +1,402 @@
+:host {
+    display: block;
+}
+
+nav {
+    background-position: top left, center center;
+    background-attachment: fixed, fixed;
+    background-size: auto, cover;
+    height: 7%;
+    transition: 0.7s;
+    background-color: white;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08); 
+    padding: 0px 1rem;
+}
+
+a,
+a:link,
+a:visited,
+a:active {
+    color: black;
+    font-size: 14px;
+    font-family: "Poppins SemiBold";
+    line-height: 1.2; 
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a.consult-button {
+    background-color: #6C63FF;
+    border: none;
+    border-radius: 50px;
+    color: #F7F7F7;
+    font-size: 0.8rem;
+    padding: 2px 6px;
+    width: 8rem;
+    font-family: Lato, sans-serif;
+}
+
+a.consult-button:hover {
+    cursor: pointer;
+    color: #F7F7F7;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    font-family: Lato, sans-serif;
+}
+
+#logo>img {
+    width: auto;
+    height: 80%;
+    /* padding-top: .5rem; */
+}
+#logo{
+    margin: 0% 0px;
+}
+.navbar-light .navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+#icon-bar {
+    color: #fff;
+}
+
+
+/* for profile image on navbar */
+
+.inset {
+    width: 45px;
+    height: 42px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.inset img {
+    border-radius: inherit;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #FFF;
+    border-radius: 50%;
+    display: block;
+    position: relative;
+    transition: 0.5s;
+    /* margin-left: 15px; */
+}
+
+.dropdown-menu {
+    background-color: #FFF;
+}
+
+.dropdown-item {
+    padding: .25rem 1.5rem;
+    color: #111 !important;
+}
+
+.dropdown-menu-right {
+    right: 0;
+    left: auto;
+}
+
+.navbar__menu .nav-link {
+    backface-visibility: hidden;
+    display: inline-block;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+    opacity: 0.75;
+}
+
+.navbar__menu .nav-link:hover {
+    opacity: 1;
+    color: #fff;
+    text-decoration: none !important;
+}
+
+.navbar__menu .nav-link:after {
+    display: block;
+    content: '';
+    border-bottom: solid 1px #fff;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+}
+
+.navbar__menu .nav-link:hover:after {
+    transform: scaleX(1);
+}
+
+
+/* bubble for dropdown */
+
+.bubble {
+    position: absolute;
+    margin-top: 14px;
+    border: none;
+    outline: none;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 992px) {
+    .dropdown-menu-right {
+        /* left: 0 !important; */
+        /* margin-left: 15px; */
+    }
+    .bubble {
+        width: 13rem;
+    }
+    .notification>.dropdown-menu-right {
+        width: 17rem;
+    }
+    .notification-icon {
+        left: 5rem !important;
+    }
+}
+
+@media (max-width: 650px){
+
+    div.navbar__menu > div.navbar-link:not(:last-child){
+        margin-right: 15px !important;
+    }
+    div.container{
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+@media (max-width: 576px){
+
+    div.navbar__menu > div.navbar-link:not(:last-child){
+        margin-right: 15px !important;
+    }
+    div.container{
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 1.5% 0px;
+    }
+    .test{
+        margin: 0% 0% !important;
+    }
+    nav{
+        height: auto;
+        /* min-height: 7%; */
+    }
+    .navbar__menu{
+        margin: 0% 0%;
+        display: flex;
+        justify-content: center;
+    }
+    div.navbar-link{
+        height: 40px;
+    }
+}
+
+.notification-icon {
+    /* position: absolute; */
+    /* left: -2rem; */
+    font-size: 1.5rem;
+    color: #F7F7F7 !important;
+    cursor: pointer;
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.card-title {
+    font-size: 1rem;
+}
+
+.card-text {
+    font-size: 0.8rem;
+}
+
+#notifications {
+    max-height: 52vh;
+    overflow-y: auto;
+}
+
+
+/* animtating bell icon when a new notification is received*/
+
+@-webkit-keyframes bell {
+    0% {
+        -webkit-transform: rotate(-15deg);
+        transform: rotate(-15deg);
+    }
+    2% {
+        -webkit-transform: rotate(15deg);
+        transform: rotate(15deg);
+    }
+    4% {
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    6% {
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    8% {
+        -webkit-transform: rotate(-22deg);
+        transform: rotate(-22deg);
+    }
+    10% {
+        -webkit-transform: rotate(22deg);
+        transform: rotate(22deg);
+    }
+    12% {
+        -webkit-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    14% {
+        -webkit-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    16% {
+        -webkit-transform: rotate(-12deg);
+        transform: rotate(-12deg);
+    }
+    18% {
+        -webkit-transform: rotate(12deg);
+        transform: rotate(12deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes bell {
+    0% {
+        -webkit-transform: rotate(-15deg);
+        -ms-transform: rotate(-15deg);
+        transform: rotate(-15deg);
+    }
+    2% {
+        -webkit-transform: rotate(15deg);
+        -ms-transform: rotate(15deg);
+        transform: rotate(15deg);
+    }
+    4% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    6% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    8% {
+        -webkit-transform: rotate(-22deg);
+        -ms-transform: rotate(-22deg);
+        transform: rotate(-22deg);
+    }
+    10% {
+        -webkit-transform: rotate(22deg);
+        -ms-transform: rotate(22deg);
+        transform: rotate(22deg);
+    }
+    12% {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
+        transform: rotate(-18deg);
+    }
+    14% {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
+        transform: rotate(18deg);
+    }
+    16% {
+        -webkit-transform: rotate(-12deg);
+        -ms-transform: rotate(-12deg);
+        transform: rotate(-12deg);
+    }
+    18% {
+        -webkit-transform: rotate(12deg);
+        -ms-transform: rotate(12deg);
+        transform: rotate(12deg);
+    }
+    20% {
+        -webkit-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+}
+
+.animated {
+    -webkit-animation: bell 2s ease infinite;
+    animation: bell 2s ease infinite;
+    -ms-transform-origin-x: 50%;
+    -moz-transform-origin-x: 50%;
+    -webkit-transform-origin-x: 50%;
+    -o-transform-origin-x: 50%;
+    -ms-transform-origin-y: 0%;
+    -moz-transform-origin-y: 0%;
+    -webkit-transform-origin-y: 0%;
+    -o-transform-origin-y: 0%;
+    -ms-transform-origin-z: initial;
+    -moz-transform-origin-z: initial;
+    -webkit-transform-origin-z: initial;
+    -o-transform-origin-z: initial;
+}
+
+
+/* animtating bell icon when a new notification is appended ends*/
+
+:host ::-webkit-scrollbar {
+    width: 0.4em;
+}
+
+:host ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+:host ::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+
+.doctors-available  {
+    display: flex;
+    align-items:center;
+    color: black;
+    line-height: 1.5;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    padding: 3pt 0pt;
+}
+
+.doctors-available:hover,
+.doctors-available:active {
+    border-bottom: 3px solid rgb(17,119,198);
+}
+.height-100{
+    height: 100%;
+}
+.center-v{
+    margin: auto 0px;
+}
+.center-h{
+    margin: 0px auto;
+}
+.center-v-flex{
+    display: flex;
+    align-items: center;
+}
+.center-h-flex{
+    display: flex;
+    justify-content: center;
+}
+.unread-messages{
+    display: flex;
+    align-items: center;
+}
+div.navbar__menu > div.navbar-link:not(:last-child){
+    margin-right: 40px;
+}
+.login-text:hover a{
+    color:rgb(17,119,198);
+}

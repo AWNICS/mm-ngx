@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+<app-notification [selectedUser]="selectedUser"></app-notification>
+<a href="#myHeader" pageScroll [pageScrollDuration]="800">
+    <button id="myBtn" title="Go to top">
+        <i class="fa fa-angle-up" aria-hidden="true"></i>
+    </button>
+</a>
+<header id="myHeader">
+    <div class="container">
+        <div class="jumbotron">
+            <img src="../../assets/logo/logo_white_transp.png" style="height:6rem; width: auto;">
+            <p i18n="Brief introduction | Tagline for the product" style="font-family: Lato,sans-serif; font-size: 15px;">You focus on healing, we do the running!
+            </p>
+            <form #f="ngForm">
+                <div class="row justify-content-center">
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                        <div class="form-group select">
+                            <select class="form-control select-box" required [(ngModel)]="currentLocation" name="location">
+                                <option *ngFor="let location of locations" [value]="location.name">
+                                    {{ location.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                        <div class="form-group select">
+                            <select class="form-control select-box" required id="selectSpeciality" [(ngModel)]="currentSpeciality" name="speciality">
+                                <option *ngFor="let speciality of specialities" [value]="speciality.name">
+                                    {{ speciality.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="col col-lg-3" style="display: none;">
+                        <div class="form-group">
+                            <input type="tel" class="form-control" required [(ngModel)]="mobileNumber" name="mobileNumber" id="mobileNumber" autofocus placeholder="Mobile number" pattern="\d{10}" minlength="10" maxlength="10">
+                        </div>
+                    </div>-->
+                </div>
+                <!--<div class="row justify-content-center">
+                    <div class="alert alert-danger" role="alert" *ngIf="f.invalid && f.touched"><small>Select a field and enter a valid mobile number</small></div>
+                </div>-->
+                <div class="row justify-content-center">
+                    <!--<app-order-window [result]="mobileNumber" [speciality]="current"></app-order-window>-->
+                    <button i18n class="button button__accent" type="submit" (click)="showDoctorsList(f.value);"> Consult Now </button>
+                    <a href="#contents" pageScroll [pageScrollDuration]="500" id="learnMore">
+                        <button i18n class="button hero__button">Learn more</button>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+<app-contents id="contents"></app-contents>
+<app-footer></app-footer>

@@ -1,0 +1,161 @@
+ _____       _           _____           _        _ _         ___
+|  __ \     | |         |_   _|         | |      | | |       |__ \
+| |__) |   _| |__  _   _  | |  _ __  ___| |_ __ _| | | ___ _ __ ) |
+|  _  / | | | '_ \| | | | | | | '_ \/ __| __/ _` | | |/ _ \ '__/ /
+| | \ \ |_| | |_) | |_| |_| |_| | | \__ \ || (_| | | |  __/ | / /_
+|_|  \_\__,_|_.__/ \__, |_____|_| |_|___/\__\__,_|_|_|\___|_||____|
+                    __/ |           _
+                   |___/          _|_ _  __   | | o __  _| _     _
+                                   | (_) |    |^| | | |(_|(_)\^/_>
+
+   1 - MSYS2 base installation
+   2 - MSYS2 system update (optional)
+   3 - MSYS2 and MINGW development toolchain
+
+Which components shall be installed? If unsure press ENTER [1,2,3] 1
+
+> sh -lc true
+'C:\WINDOWS\system32\drivers\etc\hosts' -> '/etc/hosts'
+'C:\WINDOWS\system32\drivers\etc\protocol' -> '/etc/protocols'
+'C:\WINDOWS\system32\drivers\etc\services' -> '/etc/services'
+'C:\WINDOWS\system32\drivers\etc\networks' -> '/etc/networks'
+gpg: /etc/pacman.d/gnupg/trustdb.gpg: trustdb created
+gpg: no ultimately trusted keys found
+gpg: starting migration from earlier GnuPG versions
+gpg: porting secret keys from '/etc/pacman.d/gnupg/secring.gpg' to gpg-agent
+gpg: migration succeeded
+gpg: Generating pacman keyring master key...
+gpg: key EBD458AFC101B2D1 marked as ultimately trusted
+gpg: directory '/etc/pacman.d/gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/etc/pacman.d/gnupg/openpgp-revocs.d/814EFE7B1CA8106485F0B73FEBD458AFC101B2D1.rev'
+gpg: Done
+==> Updating trust database...
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 1u
+==> Appending keys from msys2.gpg...
+==> Locally signing trusted keys in keyring...
+  -> Locally signing key D55E7A6D7CE9BA1587C0ACACF40D263ECA25678A...
+  -> Locally signing key 123D4D51A1793859C2BE916BBBE514E53E0D0813...
+  -> Locally signing key B91BCF3303284BF90CC043CA9F418C233E652008...
+  -> Locally signing key 9DD0D4217D75A33B896159E6DA7EF2ABAEEA755C...
+==> Importing owner trust values...
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: setting ownertrust to 4
+gpg: inserting ownertrust of 4
+==> Updating trust database...
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   4  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:   4  signed:   3  trust: 0-, 0q, 0n, 4m, 0f, 0u
+gpg: depth: 2  valid:   3  signed:   0  trust: 3-, 0q, 0n, 0m, 0f, 0u
+gpg: refreshing 8 keys from hkps://hkps.pool.sks-keyservers.net
+gpg: key 4DF3B7664CA56930: 1 signature not checked due to a missing key
+gpg: key 4DF3B7664CA56930: "Ray Donnelly (MSYS2 Developer) <mingw.android@gmail.com>" 2 new signatures
+gpg: key D595C9AB2C51581E: "Martell Malone (MSYS2 Developer) <martellmalone@gmail.com>" not changed
+gpg: key 5F92EFC1A47D45A1: 1 signature not checked due to a missing key
+gpg: key 5F92EFC1A47D45A1: "Alexey Pavlov (Alexpux) <alexpux@gmail.com>" 1 new signature
+gpg: key 9F418C233E652008: "Ignacio Casal Quinteiro <icquinteiro@gmail.com>" 2 new signatures
+gpg: key BBE514E53E0D0813: "Ray Donnelly (MSYS2 Developer - master key) <mingw.android@gmail.com>" 2 new signatures
+gpg: key DA7EF2ABAEEA755C: 1 signature not checked due to a missing key
+gpg: key DA7EF2ABAEEA755C: "Martell Malone (martell) <martellmalone@gmail.com>" 3 new signatures
+gpg: key F40D263ECA25678A: 1 signature not checked due to a missing key
+gpg: key F40D263ECA25678A: "Alexey Pavlov (Alexpux) <alexey.pawlow@gmail.com>" 4 new signatures
+gpg: Total number processed: 7
+gpg:              unchanged: 1
+gpg:         new signatures: 14
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: depth: 0  valid:   1  signed:   4  trust: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: depth: 1  valid:   4  signed:   3  trust: 0-, 0q, 0n, 4m, 0f, 0u
+gpg: depth: 2  valid:   3  signed:   0  trust: 3-, 0q, 0n, 0m, 0f, 0u
+--> Installing /usr/share/info/assuan.info.gz ... done
+--> Installing /usr/share/info/autoconf.info.gz ... done
+--> Installing /usr/share/info/autoconf2.13.info.gz ... done
+--> Installing /usr/share/info/autogen.info.gz ... done
+--> Installing /usr/share/info/automake1.10.info.gz ... done
+--> Installing /usr/share/info/automake1.11.info.gz ... done
+--> Installing /usr/share/info/automake1.12.info.gz ... done
+--> Installing /usr/share/info/automake1.13.info.gz ... done
+--> Installing /usr/share/info/automake1.14.info.gz ... done
+--> Installing /usr/share/info/automake1.15.info.gz ... done
+--> Installing /usr/share/info/automake1.16.info.gz ... done
+--> Installing /usr/share/info/automake1.6.info.gz ... done
+--> Installing /usr/share/info/automake1.7.info.gz ... done
+--> Installing /usr/share/info/automake1.8.info.gz ... done
+--> Installing /usr/share/info/automake1.9.info.gz ... done
+--> Installing /usr/share/info/automake-history1.12.info.gz ...install-info: warning: no info dir entry in `/usr/share/info/automake-history1.12.info.gz'
+ done
+--> Installing /usr/share/info/automake-history1.13.info.gz ...install-info: warning: no info dir entry in `/usr/share/info/automake-history1.13.info.gz'
+ done
+--> Installing /usr/share/info/automake-history1.14.info.gz ...install-info: warning: no info dir entry in `/usr/share/info/automake-history1.14.info.gz'
+ done
+--> Installing /usr/share/info/automake-history1.15.info.gz ...install-info: warning: no info dir entry in `/usr/share/info/automake-history1.15.info.gz'
+ done
+--> Installing /usr/share/info/automake-history1.16.info.gz ...install-info: warning: no info dir entry in `/usr/share/info/automake-history1.16.info.gz'
+ done
+--> Installing /usr/share/info/autosprintf.info.gz ... done
+--> Installing /usr/share/info/bash.info.gz ... done
+--> Installing /usr/share/info/coreutils.info.gz ... done
+--> Installing /usr/share/info/diffutils.info.gz ... done
+--> Installing /usr/share/info/find.info.gz ... done
+--> Installing /usr/share/info/find-maint.info.gz ... done
+--> Installing /usr/share/info/flex.info.gz ... done
+--> Installing /usr/share/info/gawk.info.gz ... done
+--> Installing /usr/share/info/gawkinet.info.gz ... done
+--> Installing /usr/share/info/gawkworkflow.info.gz ... done
+--> Installing /usr/share/info/gcrypt.info.gz ... done
+--> Installing /usr/share/info/gdbm.info.gz ... done
+--> Installing /usr/share/info/gettext.info.gz ... done
+--> Installing /usr/share/info/gmp.info.gz ... done
+--> Installing /usr/share/info/gnupg.info.gz ... done
+--> Installing /usr/share/info/gnutls.info.gz ... done
+--> Installing /usr/share/info/gnutls-guile.info.gz ... done
+--> Installing /usr/share/info/gpgme.info.gz ... done
+--> Installing /usr/share/info/grep.info.gz ... done
+--> Installing /usr/share/info/gzip.info.gz ... done
+--> Installing /usr/share/info/history.info.gz ... done
+--> Installing /usr/share/info/inetutils.info.gz ... done
+--> Installing /usr/share/info/info-stnd.info.gz ... done
+--> Installing /usr/share/info/ksba.info.gz ... done
+--> Installing /usr/share/info/libffi.info.gz ... done
+--> Installing /usr/share/info/libgomp.info.gz ... done
+--> Installing /usr/share/info/libidn2.info.gz ... done
+--> Installing /usr/share/info/libquadmath.info.gz ... done
+--> Installing /usr/share/info/libtasn1.info.gz ... done
+--> Installing /usr/share/info/libtool.info.gz ... done
+--> Installing /usr/share/info/libunistring.info.gz ... done
+--> Installing /usr/share/info/m4.info.gz ... done
+--> Installing /usr/share/info/make.info.gz ... done
+--> Installing /usr/share/info/mpfr.info.gz ... done
+--> Installing /usr/share/info/nettle.info.gz ... done
+--> Installing /usr/share/info/pinentry.info.gz ... done
+--> Installing /usr/share/info/readline.info.gz ... done
+--> Installing /usr/share/info/rluserman.info.gz ... done
+--> Installing /usr/share/info/sed.info.gz ... done
+--> Installing /usr/share/info/tar.info.gz ... done
+--> Installing /usr/share/info/texinfo.info.gz ... done
+--> Installing /usr/share/info/time.info.gz ... done
+--> Installing /usr/share/info/wget.info.gz ... done
+--> Installing /usr/share/info/which.info.gz ... done
+
+
+
+
+###################################################################
+#                                                                 #
+#                                                                 #
+#                   C   A   U   T   I   O   N                     #
+#                                                                 #
+#                  This is first start of MSYS2.                  #
+#       You MUST restart shell to apply necessary actions.        #
+#                                                                 #
+#                                                                 #
+###################################################################
+
+
+MSYS2 seems to be properly installed
+
+   1 - MSYS2 base installation
+   2 - MSYS2 system update (optional)
+   3 - MSYS2 and MINGW development toolchain
+
+Which components shall be installed? If unsure press ENTER []

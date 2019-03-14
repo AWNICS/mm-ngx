@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+<!-- <div class="auth">
+  <div class="container">
+    <div class="auth__inner">
+      <div class="auth__media">
+        <img src="assets/svg/undraw_selfie.svg">
+      </div>
+      <div class="auth__auth">
+        <h1 class="auth__title">Access your account</h1>
+        <p class="info">Enter your registered email address and password to proceed</p>
+        <p class="error">{{ error }}</p>
+        <form>
+          <label>Email</label>
+          <input type="email" placeholder="you@example.com" #email required>
+          <label>Password</label>
+          <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+            autocomplete="off" #password required>
+          <a class="show-password" (click)="showPassword();">
+              <i class="fa fa-eye" #eye aria-hidden="true"></i>
+            </a>
+          <button type="submit" class="button button__accent" (click)="login(email.value,password.value);">Log in</button>
+          <a class="sign-up" routerLink='/forgotPassword' routerLinkActive='active'>
+            <span>Forgot Password?</span>
+          </a>
+          <span class="sign-up">Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Sign
+              up!</a></span>
+        </form>
+      </div>
+    </div>
+  </div> -->
+<div class="container">
+  <div class="login-form">
+    <div class="login">
+    <h1>Login to <span>MESOMEDS</span></h1>
+    <p>Enter your registered email address and password to proceed</p>
+    <form [formGroup]="form">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" placeholder="you@example.com" #email required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" formControlName="password" class="form-control" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
+          autocomplete="off" #password required>
+        <a class="show-password" (click)="showPassword();">
+          <i class="fa fa-eye" #eye aria-hidden="true"></i>
+        </a>
+      </div>
+        <div class="form-group">
+        <input id="remember-me" type="checkbox">
+        <label class="remember-label" for="remember-me">Remember me</label>
+        <a class="forgot-password" routerLink='/forgotPassword' routerLinkActive='active'>Forgot Password?</a>
+      </div>
+      <button type="submit" class="login-button" (click)="login(email.value,password.value);">LOGIN</button> 
+    </form>
+  </div>
+  <div class="sign-up-text">
+    Not a member yet?&nbsp;&nbsp;<a routerLink='/register' routerLinkActive='active'>Signup!</a>
+  </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <img src="../../assets/images/blue-back.png">
+</div>

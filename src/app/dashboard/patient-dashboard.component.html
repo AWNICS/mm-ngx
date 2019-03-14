@@ -1,0 +1,309 @@
+<app-navbar></app-navbar>
+<div class="container container-1">
+        <div class="row main-row">
+                <h1>Swayam's Dashboard</h1>
+                <button class="btn edit-profile" [routerLink]="['/profiles',visitorId]">EDIT PROFILE</button>
+            </div>
+</div>
+<div class="container container-2" style="padding-top: 15px">
+    <div class="row body-row-1">
+        <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
+            <div class="card person-info">
+                <div class="card-header">
+                    <div class="person-info-head">
+                        <img class="profile-pic" src="../../assets/png/male1.png">
+                        <div class="profile-name">Swayam Goswami</div>
+                        <span class="profile-age">28 Years Old | Male</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="profile-item-div">
+                        <div><i class="fa fa-tint"></i></div>
+                        <div class="profile-item">B+ve</div>
+                    </div>
+                    <div class="profile-item-div">
+                        <div><i class="fa fa-envelope"></i></div>
+                        <span class="profile-item">swayamgoswami@gmail.com</span>
+                    </div>
+                    <div class="profile-item-div">
+                        <div><i class="fa fa-phone"></i></div>
+                        <div class="profile-item">7013842401</div>
+                    </div>
+                    <div class="profile-item-div">
+                        <div><i class="fa fa-map-marker"></i></div>
+                        <div class="profile-item">785 Birndavan road Halltown ,MO 65664</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
+            <div class="card height-weight">
+                <div class="card-header">
+                    Basic Info
+                </div>
+                <div class="card-body">
+                    <div class="height-scale">
+                        <span>153cm</span>
+                        <img src="../../assets/images/height-marks.png">
+                    </div>
+                    <div class="human-logo">
+                        <img src="../../assets/images/ic-human.png">
+                    </div>
+                    <div class="weight-scale">
+                        <!-- <img src="../../assets/images/ic-weighing-scale.png"> -->
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
+            <div class="card blood-pressure">
+                <div class="card-body">
+                    <div>
+                        <img src="../../assets/png/ic-blood-pressure.png" />
+                    </div>
+                    <div class="bp-text"> 
+                        Blood Pressure
+                    </div>
+                    <div class="bp-value">120 &#124; 89</div>
+                    <div class="bp-units"> mmHg </div>
+                    <div class="ideal bp-ideal">
+                        Ideal Blood Pressure
+                    </div>
+                    <hr>
+                    <div class="last-up bp-last-up">
+                        Last Updated on 31 Jan, 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 5px;">
+            <div class="card heart-rate">
+                <div class="card-body">
+                    <div>
+                        <img src="../../assets/png/ic-heart-rate.png" />
+                    </div>
+                    <div class="hr-text"> 
+                        Blood Pressure
+                    </div>
+                    <div class="hr-value">120 &#124; 89</div>
+                    <div class="hr-units"> mmHg </div>
+                    <div class="ideal hr-ideal">
+                        Ideal Blood Pressure
+                    </div>
+                    <hr>
+                    <div class="last-up hr-last-up">
+                        Last Updated on 31 Jan, 2018
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid container-3" style="margin-top: 25px;">
+<div class="row body-row-2">
+        <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 5px">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row" style="margin: 0px 0px;">
+                    <h4 style="font-size: 16px;font-family: 'Poppins SemiBold';">Consultation History</h4>
+                    <!-- <div style="margin-left: auto"> -->
+                    <!-- <label>Sort By Type</label>
+                    <select>
+                        <option>All</option>
+                    </select>
+                    <label>Sort By Year</label>
+                    <select>
+                        <option>2018</option>
+                    </select> -->
+                <!-- </div> -->
+                </div>
+                      
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr *ngFor="let i of [1,2,2,2,2,2,2]">
+                            <td style="font-size: 14px;font-family: 'Poppins SemiBold';">
+                                <img src="../../assets/png/male2.png" style="width: 44px;height: 44px;">&nbsp;&nbsp;&nbsp;Dr. John Doe
+                            </td>
+                            <td>Dermatalogist</td>
+                            <td><i class="fa fa-calendar"></i>&nbsp;22/07/2018</td>
+                            <td>Skin Irritation</td>
+                            <td><i class="fa fa-map-marker"></i>&nbsp;Chennai</td>
+                            <td class="via-video">
+                                <div>
+                                    <i class="fa fa-play-circle"></i>&nbsp;Via Video
+                               </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="container">
+    <div class="row">
+        <div class="col col-12 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
+                                    <img class="profile-image" [src]="picUrl | safe: 'url'" alt="avatar" />
+                                    <div class="status" title="Online"></div>
+                                </div>
+                                <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
+                                    <h5 class="card-title">{{ selectedUser?.firstname }} {{ selectedUser?.lastname }}</h5>
+                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em">
+                                       <span *ngIf="visitorDetail?.age"> {{ visitorDetail?.age }} years,</span> 
+                                       <span *ngIf="visitorDetail?.sex"> {{ visitorDetail?.sex }}, </span> 
+                                       <span *ngIf="visitorDetail?.bloodGroup"> {{ visitorDetail?.bloodGroup }}</span>
+                                    </p>
+                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em" *ngIf="languages">Speaks: {{ languages }}</p>
+                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em" *ngIf="locations">{{ locations }}</p>
+                                    <button type="submit" class="button button__accent" (click)="edit();">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="!hideTimeline">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 650px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Timeline</h5>
+                        </div>
+                        <div class="card-body offset-1" style="overflow:auto">
+                            <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
+                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
+                                    <br>
+                                    <h5>Consultation Details</h5>
+                                    <p>Doctor name: {{ visitorTimeline.consultations.doctorName }}</p>
+                                    <p>Speciality: {{ visitorTimeline.consultations.speciality }}</p>
+                                    <p style="line-height: 100%;">Appointment: {{ visitorTimeline.consultations.description }}</p>
+                                </vertical-timeline-card>
+                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
+                                    <br>
+                                    <h5>Reminder Details</h5>
+                                    <p>Medicines:{{ visitorTimeline.reminders.medicines }}</p>
+                                    <p>Message:{{ visitorTimeline.reminders.message }}</p>
+                                    <p>Description:{{ visitorTimeline.reminders.description }}</p>
+                                </vertical-timeline-card>
+                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
+                                    <br>
+                                    <h5>Event Details</h5>
+                                    <p>Type:{{ visitorTimeline.events.type }}</p>
+                                    <p>Message:{{ visitorTimeline.events.message }}</p>
+                                </vertical-timeline-card>
+                            </vertical-timeline>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 355px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Consultation History</h5>
+                        </div>
+                        <div class="card-body offset-1">
+                            <canvas #lineChart width="500" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 230px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Allergies</h5>
+                        </div>
+                        <div class="allergies" *ngIf="visitorHealth?.allergies else showThis">
+                            <div *ngFor="let allergy of visitorHealth?.allergies" style="margin-left:8%;">
+                                <p style="line-height: 100%;">{{ allergy }}
+                                    <p>
+                            </div>
+                        </div>
+                        <ng-template #showThis>
+                            <p class="text-center">No data to display.</p>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 290px; width:99%;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Vitals</h5>
+                        </div>
+                        <div *ngIf="visitorHealth?.vitals else showThis">
+                            <div class="card-body">
+                                <div class="row justify-content-around">
+                                    <div class="col col-5 offset-1">
+                                        <div id="circle">
+                                            <div id="text">
+                                                <h4>{{ visitorHealth?.vitals.bloodPressure }}</h4>
+                                            </div>
+                                        </div>
+                                        <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
+                                    </div>
+                                    <div class="col col-5">
+                                        <div id="circle">
+                                            <div id="text">
+                                                <h4>{{ visitorHealth?.vitals.heartRate }}</h4>
+                                            </div>
+                                        </div>
+                                        <p style="text-align: center;">Heart Rate</p>
+                                    </div>
+                                </div>
+                                <small style="margin: 4%;">Last updated on: {{ visitorHealth?.updatedAt | date: 'md' }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Reports</h5>
+                        </div>
+                        <div class="reports" *ngIf="!hideVisitorReports else showThis">
+                            <div class="card-body" style="margin-left: -10px;">
+                                <div *ngFor="let report of visitorReport">
+                                    <ul>
+                                        <li>
+                                            <a (click)="reportDetail(report)">{{ report?.title }}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card shadow" style="height: 250px;">
+                        <div class="card-header">
+                            <h5 class="offset-1">Height & Weight</h5>
+                        </div>
+                        <div *ngIf="visitorDetail?.height else showThis">
+                            <div class="card-body offset-1">
+                                <p>Height: {{ visitorDetail?.height }}<small>(ft.)</small></p>
+                                <p>Weight: {{ visitorDetail?.weight }}<small>(kgs)</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

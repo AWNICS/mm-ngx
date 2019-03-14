@@ -1,0 +1,20 @@
+<!-- <div class="snackbar shadow" id="alert">
+  <div class="row notification-header">
+    {{notification?.title}}
+  </div>
+  <div class="row notification-body">
+    {{notification?.content}}
+  </div>
+  <div class="row">
+    <a class="consult-button" (click)="startConsultation();">Start Consultation</a>
+    <a class="consult-button" (click)="dismissNotification();">Dismiss</a>
+  </div>
+</div> -->
+<div class="alert" role="alert" #alert>
+    <h5 class="alert-heading">{{ notification?.title }}</h5>
+    <p>Speciality choosen: {{ notification?.content.speciality }}</p>
+    <div class="row justify-content-end">
+        <a class="consult-button" (click)="startConsultation(notification);">Start Consultation</a>
+        <a class="consult-button" (click)="dismissNotification();">Dismiss</a>
+    </div>
+</div>

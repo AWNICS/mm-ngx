@@ -1,0 +1,249 @@
+<app-navbar></app-navbar>
+<div class="container-fluid doctor-details">
+  <div class="row doctor-details-main">
+    <div class="col col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 doctor-details-main-spacing-left">
+    </div>
+    <div class="col col-10 col-xl-10 col-lg-10 col-md-10 col-sm-10">
+      <div class="row doctor-details-body">
+        <div class="col col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+          <div class="card doctor-info">
+            <div class="card-header doctor-info-header">
+              <div class="row">
+                <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                  <img class="doctor-info-image" src="../../assets/test.jpg" />
+                </div>
+                <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                  <div>
+                    <p class="doctor-info-name">Dr. Shawna Larson</p>
+                    <span class="doctor-info-price">$150</span>
+                    <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="row">
+                            <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                              <span>4.5</span>
+                            </div>
+                            <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8" style="display: flex;align-items:center">
+                                <div class="loading-holder">
+                                    <span class="loading-bar"></span>
+                                </div>
+                            </div>
+                            <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-2">
+
+                            </div>
+                        </div> -->
+            </div>
+            <div class="card-body doctor-info-body">
+              <div class="row doctor-info-body-row">
+                <div class="col col-7 col-xl-7 col-lg-7 col-md-7 col-sm-7 doctor-info-experience">
+                  <span class="sub-heading-text">Experience:</span>
+                  <span> 7 years</span>
+                </div>
+                <div class="col col-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 doctor-info-patients">
+                  <span class="sub-heading-text">Patients:</span>
+                  <span>28</span>
+                </div>
+              </div>
+              <span class="sub-heading-text">Info</span>
+              <p class="sub-heading-text-value">MBBS - Physician, Psychiatrist</p>
+              <span class="sub-heading-text">Locations</span>
+              <p class="sub-heading-text-value">Kolkata, Bangalore, Chennai</p>
+              <span class="sub-heading-text">Consults via</span>
+              <p class="sub-heading-text-value">Video, Audio and Text</p>
+              <button class="btn pay-button">PAY AND CONSULT NOW</button>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="col col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+          <div class="doctor-profile" style="background-color: black;width: 100%;min-height: 55%">
+
+            <div class="card text-center">
+              <div class="card-header" style="padding: 0px 4px;background: white">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link link" id="pills-home-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                      aria-controls="pills-home" aria-selected="true">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link link" id="pills-profile-tab" data-toggle="pill" href="#pills-media" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">Media</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link link active" id="pills-contact-tab" data-toggle="pill" href="#pills-activities" role="tab"
+                      aria-controls="pills-contact" aria-selected="false">Activities</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link link" id="pills-home-tab" data-toggle="pill" href="#pills-reviews" role="tab"
+                      aria-controls="pills-home" aria-selected="true">Reviews</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-home-tab"
+                    style="text-align: left">
+                    <div class="row">
+                      <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <span class="sub-heading-text">Languages known</span>
+                        <p>Hindi, Gujarathi, English, Marathi</p>
+                      </div>
+                      <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <span class="sub-heading-text">Education & Training</span>
+                        <p>MBBS, MD, MS</p>
+                      </div>
+                      <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                        <span class="sub-heading-text">Certification & Licensure</span>
+                        <p>MCI No: 11371026 </p>
+                      </div>
+                    </div>
+                    <span class="sub-heading-text">Work History</span>
+
+                    <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <div class="work-history" class="row">
+                        <ng-container *ngFor="let i of [1,2,3,4]">
+                          <div class="card work-history-card" style="width:48%;">
+                            <div class="card-header"></div>
+                            <div class="card-body">
+                              <span>9AM - 9PM</span>
+                              <p>Worked as full time doctor at abcdcabscba, chennai</p>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </div>
+                    <!-- <div class="col col-6 col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                <div class="card">
+                                                        <div class="card-header"></div>
+                                                        <div class="card-body">
+                                                            <span>9AM - 9PM</span>
+                                                            <p>Worked as full time doctor at abcdcabscba, chennai</p>
+                                                        </div>
+                                                </div>
+                                            </div> -->
+                    <!-- </div> -->
+                    <div class="row">
+                      <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <span>Professional Societies</span>
+                        <h5>Blah blah baldsa dnksajdba hemachandsai ia asd sadsakjbdoisaosad</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-media" role="tabpanel" aria-labelledby="pills-profile-tab">
+                        <div class="row">
+                            <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <span class="sub-heading-text">Honours</span>
+                                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                              <div class="carousel-item active" style="display:-webkit-inline-box">
+                                            <ng-container *ngFor="let i of [1,2,3,4]">
+                                                <div class="card" style="max-width: 23%;margin-right: 10px;">
+                                                    <div class="card-header" style="padding: 0px;">
+                                                        <img class="w-100" src="../../assets/png/Symphony.png" alt="First slide">
+                                                    </div>
+                                                    <div class="card-body" style="padding: 0px;">
+                                                        <span>daskljdaosjhdoahdoash</span>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                              <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                              <span class="sr-only">Next</span>
+                                            </a>
+                                    </div>
+                                <span class="sub-heading-text">Awards & Recognitions</span>
+                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                                <div class="carousel-item active" style="display:-webkit-inline-box">
+                                              <ng-container *ngFor="let i of [1,2,3,4]">
+                                                  <div class="card" style="max-width: 23%;margin-right: 10px;">
+                                                      <div class="card-header" style="padding: 0px;">
+                                                          <img class="w-100" src="../../assets/png/Symphony.png" alt="First slide">
+                                                      </div>
+                                                      <div class="card-body" style="padding: 0px;">
+                                                          <span>daskljdaosjhdoahdoash</span>
+                                                      </div>
+                                                  </div>
+                                              </ng-container>
+                                              </div>
+                                              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                              </a>
+                                              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                              </a>
+                                        </div>
+                                </div>
+
+                                <span class="sub-heading-text">Videos</span>
+                                
+                                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                                        <div class="carousel-inner">
+                                                <div class="carousel-item active" style="display:-webkit-inline-box">
+                                              <ng-container *ngFor="let i of [1,2,3,4]">
+                                                  <div class="card" style="max-width: 23%;margin-right: 10px;">
+                                                      <div class="card-header" style="padding: 0px;">
+                                                          <img class="w-100" src="../../assets/png/Symphony.png" alt="First slide">
+                                                      </div>
+                                                      <div class="card-body" style="padding: 0px;">
+                                                          <span>daskljdaosjhdoahdoash</span>
+                                                      </div>
+                                                  </div>
+                                              </ng-container>
+                                              </div>
+                                              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Previous</span>
+                                              </a>
+                                              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="sr-only">Next</span>
+                                              </a>
+                                      </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                  </div>
+                </div>
+                  <div class="tab-pane fade show active" id="pills-activities" role="tabpanel" aria-labelledby="pills-contact-tab">
+                      <div class="row">
+                            <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                    <span class="sub-heading-text" style="display: block;text-align: left">Recent Activities</span>
+                                        <ng-container *ngFor="let i of [1,2,3,4,5,6]">
+                                        <div class="card recent-activity">
+                                            <div class="card-body" style="padding: 0px;">
+                                                <div style="width: 20%;float: left;">
+                                                    <img src="../../assets/png/doc.png" style="width: 100%;height: 100%">
+                                                </div>
+                                                <div style="width: 80%;display: inline-block;text-align: left;">
+                                                        <p style="padding: 4% 4%;word-break: break-all;"> dahdlsaid  dhsailhdlsa hdslaidh hbdasi hdsaaaaaaaaaaaaaaaaaa hdaosssssssssssss dsaohhhhh</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                            </div>  
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-1 col-xl-1 col-lg-1 col-md-1 col-sm-1 doctor-details-main-spacing-right">
+    </div>
+  </div>
+</div>

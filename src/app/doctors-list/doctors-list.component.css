@@ -1,0 +1,332 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    background: #C5DDEB;
+    font: "Lato", Arial, sans-serif;
+    font-size: 14px;
+    padding: 40px 0;
+    color: #666;
+}
+
+.container {
+    padding-top: 102.66667px;
+    /* color: #666; */
+}
+
+.display-image {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    border: 1px solid rgba(102, 102, 102, 0.5);
+    padding: 3px;
+    border-radius: 100%;
+}
+
+.shadow {
+    border: none;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background-color: #6960FF;
+    padding: 6pt 20pt;
+    line-height: 1.5;
+    border: 1px solid #6C63FF;
+    color: #FFFFFF;
+    font-weight: 400;
+    white-space: nowrap;
+    border-radius: 30px;
+    margin-bottom: 1.3em;
+    transition: 0.7s;
+    text-align: center;
+    text-decoration: none;
+    font-family: Lato, sans-serif;
+    font-size: 15px;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #463AFF;
+}
+
+.small-font {
+    font-size: 14px;
+    line-height: normal;
+    word-wrap: break-word;
+    word-break: normal;
+}
+
+p {
+    margin: 0px;
+}
+
+.status-text {
+    margin-left: 8%;
+    margin-top: -15px;
+}
+
+.status-online {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #3AD29F;
+}
+
+.status-offline {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FF5252;
+}
+
+.status-away {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #FFFF00;
+}
+
+.status-invisible {
+    position: relative;
+    top: -30px;
+    left: 93px;
+    border: none;
+    border-radius: 100%;
+    width: 18px;
+    height: 18px;
+    background-color: #E2E0FF;
+}
+
+@media (max-width: 765px) {
+    .status-online {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-text {
+        margin-top: -15px;
+    }
+    .status-offline {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-away {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+    .status-invisible {
+        top: -1.5rem;
+        left: 3rem;
+        width: 14px;
+        height: 14px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .col-xs-8 {
+        padding-left: 30px;
+    }
+    .col-xs-2 {
+        padding-right: 20px;
+    }
+    .display-image {
+        width: 60px;
+        height: 60px;
+    }
+    .text-muted {
+        margin-bottom: 20px;
+    }
+}
+
+
+.doctor-details-main {
+    height: 96%;
+  }
+  .sub-heading-text{
+    color: #7b7777d1;
+  }
+  
+  .doctor-name {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  .pay-button{
+    width:100%;
+    padding: 8px 0px;
+    background: #16a716cc;
+    color: white;
+    font-size: 13px;
+  }
+  .sub-heading-text-value{
+      font-size: 14px;
+  }
+  .doctor-info{
+      text-align: left;
+      min-height: 50%;
+      max-height: fit-content;
+  }
+  .doctor-info-price{
+    padding: 4px 17px;
+    background: #366dcba6;
+    color: #0a85e8b0;
+  }
+  .doctor-info-body{
+      text-align: left;
+  }
+  .nav-link.active{
+      background: white;
+      color: blue;
+      border-bottom: 2px solid blue;
+  }
+  .work-history-card:nth-child(even){
+    margin-left: 4%;
+  }
+
+  .doctor-details{
+    height: 96%;
+    padding-top: 20%;
+  }
+
+  .doctor-details-body{
+    height: 96%
+  }
+  .text-center{
+      text-align: center;
+  }
+  .text-left{
+      text-align: left;
+  }
+  .doctor-info-header{
+    border-bottom: none;
+    background-color: white;
+    margin-bottom: 10px;
+  }
+  .doctor-info-image{
+    width:100%;
+    border-radius: 36%;
+  }
+
+  span.sub-heading-text.small{
+    font-size: 13px;
+  }
+  .doctor-info-body-row{
+    border-bottom: 1px solid #7b7777d1;
+    margin-bottom:17px;
+    border-top:1px solid #7b7777d1;
+  }
+  .doctor-info-experience{
+    border-right: 1px solid #7b7777d1;
+    padding:10px 21px;
+    padding-right:0px
+  }
+  .doctor-info-patients{
+    padding:10px 21px;
+    padding-right: 0px
+  }
+
+  @media (max-width: 1200px){
+    .rest{
+        font-size: 90%;
+    }
+  }
+  @media (max-width: 992px){
+    .rest{
+        font-size: 81%;
+    }
+  }
+  @media (max-width: 768px){
+    .rest{
+        font-size: 73%;
+    }
+  }
+  
+  @media (max-width: 576px){
+    .rest{
+        font-size: 72%;
+    }
+  }
+  
+  @media (max-width: 515px){
+    .rest{
+        font-size: 62%;
+    }
+  }
+  @media (max-width: 414px){
+    .rest{
+        font-size: 55%;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container-1{
+        width: 1082px;
+        max-width: none;
+    }
+    .container-2{
+        width: 1082px;
+        max-width: none;
+    }
+    .container-3{
+        width: 1082px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 992px) {
+.container-2{
+    width: 804px;
+    max-width: none;
+}
+}
+
+@media (max-width: 992px) and (min-width:768px) {
+    .container-2{
+        width: 526px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 768px) and (min-width:576px){
+    .container-2{
+        width: 526px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 576px){
+    .container-2{
+        width: 278px;
+        max-width: none;
+    }
+}
+
+/* new re-design */
+.container-fluid{
+  width:100%;
+  height:400px;
+  background: blue;
+  background: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);
+}

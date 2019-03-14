@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <div class="row">
+    <ng-container *ngFor="let bill of bills; let i = index">
+    <div class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12">
+            <div [ngSwitch]="bill?.status">
+                <div class="card shadow">
+                    <div class="card-header" style='background:#3aae3a99'>
+                        {{ bill.description }}
+                    </div>
+                    <div class="card-body">
+                        <p>Billed Date: {{ bill.date | date:'md' }}</p>
+                        <p>Amount Paid: Rs {{ bill.amount }}</p>
+                        <p>Order Id: {{ bill.orderId }}</p>
+                        <p>Payment Mode: {{ bill.modeOfPayment }}</p>
+                        <small><a download="{{bill.url}}" (click)="downloadBill(i, $event)">Download Bill</a></small>
+                    </div>
+                </div>
+                <!-- <div class="card shadow" *ngSwitchCase="'due'">
+                    <div class="card-header">
+                        {{ bill.description }}
+                    </div>
+                    <div class="card-body">
+                        <p>Status: Unpaid</p>
+                        <p>Consultation Charges: Rs {{ bill.amount }}</p>
+                        <p>Generated on {{ bill.date | date: 'md' }} at {{ bill.date | date: 'sm' }}</p> -->
+                        <!-- <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);"> -->
+<!-- Pay now</button> -->
+                    <!-- </div>
+                </div>
+                <div class="card shadow" *ngSwitchCase="bill.status==='Failure' ? 'Failure' : 'null' || bill.status==='Aborted' ? 'Aborted' : 'null'">
+                    <div class="card-header">
+                        {{ bill.description }}
+                    </div>
+                    <div class="card-body">
+                        <p>Status: Failed</p>
+                        <p>Consultation Charges: Rs {{ bill.amount }}</p>
+                        <p>Generated on {{ bill.date | date: 'md' }} at {{ bill.date | date: 'sm' }}</p>
+                        <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
+  Retry Payment</button>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </ng-container>
+    <!-- </div> -->
+    
+    <h4 *ngIf="emptyBills && bills.length===0" style="text-align: center">There are no bills at this point</h4>
+    <h4 *ngIf="emptyBills && bills.length > 0" style="text-align: center">There are no more bills</h4>
+    <h4 *ngIf="noBillWithId" style="text-align: center">There are no bills with that id</h4>
+</div>
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true" #paymentModal>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div *ngIf="response" [innerHtml]="response | safe:'html'"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #dismissButton>Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

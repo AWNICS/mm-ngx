@@ -1,0 +1,145 @@
+<app-navbar></app-navbar>
+<div class="container-fluid">
+  <div class="container" style="color:white;">
+    <div>
+      <div>
+        <h3>Available Doctors</h3>
+      </div>
+      <!-- <div class="s">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Ratings
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Location
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Online
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Action</a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+    </div>
+  </div> -->
+    </div>
+    <p class="rest">
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+      standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+      a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+      remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+      Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
+      of Lorem Ipsum.
+    </p>
+  </div>
+</div>
+<div class="container container-2" style="top:-226px; position: relative;width:100%">
+  <div class="row">
+    <ng-container *ngFor="let i of [1,2,3,3,3,5,6]">
+      <div class="col col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12" style="display: flex;justify-content: center">
+        <div class="card doctor-info" style="margin-bottom: 10px;width: 300px;">
+          <div class="card-header doctor-info-header">
+            <div class="row">
+              <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                <img class="doctor-info-image" src="../../assets/test.jpg" />
+              </div>
+              <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                <div>
+                  <p class="doctor-info-name">Dr. Shawna Larson</p>
+                  <span class="doctor-info-price">$150</span>
+                  <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body doctor-info-body">
+            <div class="row doctor-info-body-row">
+              <div class="col col-7 col-xl-7 col-lg-7 col-md-7 col-sm-7 doctor-info-experience">
+                <span class="sub-heading-text">Experience:</span>
+                <span> 7 years</span>
+              </div>
+              <div class="col col-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 doctor-info-patients">
+                <span class="sub-heading-text">Patients:</span>
+                <span>28</span>
+              </div>
+            </div>
+            <span class="sub-heading-text">Info</span>
+            <p class="sub-heading-text-value">MBBS - Physician, Psychiatrist</p>
+            <span class="sub-heading-text">Locations</span>
+            <p class="sub-heading-text-value">Kolkata, Bangalore, Chennai</p>
+            <span class="sub-heading-text">Consults via</span>
+            <p class="sub-heading-text-value">Video, Audio and Text</p>
+            <button class="btn pay-button">PAY AND CONSULT NOW</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- <div class="container">
+    <small>{{ message }}</small>
+    <div *ngFor="let doctor of doctors" class="card mb-3 shadow">
+        <div class="card-body">
+            <div *ngIf="doctor.availability || doctor.status" style="text-align:center;color:red">
+                <span *ngIf="doctor.availability === 'Offline' || doctor.status === 'Offline'">Doctor is currently unavailable</span>
+                <span *ngIf="doctor.availability === 'Busy' || doctor.status === 'Busy'">Doctor is currently in another consultation</span>
+            </div>
+            <div class="row">
+                <div class="col col-2 col-xl-2 col-lg-2 col-md-2 col-sm-3 col-xs-2">
+                    <img [src]="doctor.picUrl | safe: 'url'" class="display-image" alt="avatar">
+                    <div class="status-online" title="Online" *ngIf="doctor.status === 'Online';"></div>
+                    <div class="status-offline" title="Offline" *ngIf="doctor.status === 'Offline';"></div>
+                    <div class="status-away" title="Away" *ngIf="doctor.status === 'Busy';"></div>
+                    <div class="status-invisible" title="Invisible" *ngIf="doctor.status === 'invisible';"></div>
+                </div>
+                <div class="col col-10 col-xl-10 col-lg-10 col-md-10 col-sm-7 col-xs-8">
+                    <h5 class="card-title">Dr. {{ doctor.firstName }} {{ doctor.lastName }}</h5>
+                    <p>{{ doctor.qualificationStr }} -{{ doctor.speciality }}, {{ doctor.experience }} years of practice</p>
+                    <p class="card-text small-font">Speaks: {{ doctor.languageStr }}</p>
+                    <p class="card-text small-font">Consults via: {{ doctor.consultationModeStr }}</p>
+                    <p class="card-text small-font">{{ doctor.shortBio }}</p>
+                    <p class="card-text small-font">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;&nbsp;{{ doctor.locationStr }}</p>
+                    <small>
+              <rating [(ngModel)]="doctor.ratingValue" [readonly]="true"> </rating>
+            </small>
+                    <div class="row">
+                        <div class="col col-12 col-xl-7 col-lg-7 col-md-7 col-sm-12">
+                            <p class="card-text text-muted">
+                                <small>Last updated {{ doctor.lastupdated }} ago</small>
+                            </p>
+                        </div>
+                        <div class="col col-12 col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                            <button class="btn btn-primary" (click)="openDoctorProfile(doctor);">View Profile</button>
+                            <button class="btn btn-primary" *ngIf="doctor.status === 'Online'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">Pay and Consult Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center;color:#877474">
+                <span *ngIf="doctor.message && doctor.message!=='chat'">{{ doctor.message }}</span>
+                <span *ngIf="doctor.message && doctor.message==='chat'">You have an active group with this doctor.
+                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}">
+                    Click here to get there
+                </a>
+            </span>
+            </div>
+        </div>
+    </div>
+</div> -->

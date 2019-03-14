@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="7a0b164f5505adef366b7f26dc52f2191b20ebc4" datatype="html">
+        <source>Get Medicines, Health care products, cosmetics and much more<x id="LINE_BREAK" ctype="lb"/> delivered to your doorstep.</source>
+        <target>Obtenga medicamentos, productos para el cuidado de la salud, cosméticos y mucho más<x id="LINE_BREAK" ctype="lb"/> Entregado a su puerta.</target>
+      </trans-unit>
+      <trans-unit id="6a3ddf8c732552fc14e8785886d92751ffc6e0cc" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>How this works?</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>¿Cómo funciona esto?</target>
+      </trans-unit>
+      <trans-unit id="70e60a9599eb6145892630539649f2f1c3396ada" datatype="html">
+        <source>Enter your phone number to create an order.</source>
+        <target>Introduzca su número de teléfono para crear un pedido.</target>
+      </trans-unit>
+      <trans-unit id="715d2e5b4aa64fc455a1d516793c33fa54682dcc" datatype="html">
+        <source> Upload your prescription or enter the products you wish to order.</source>
+        <target>Cargue su receta o ingrese los productos que desea ordenar.</target>
+      </trans-unit>
+      <trans-unit id="fa5bd03aef5704df39349466bf714535d4b3889c" datatype="html">
+        <source> What&apos;s even better? Simply request a call back!!!</source>
+        <target>¿Qué es aún mejor? Simplemente solicite una devolución de llamada!!!</target>
+      </trans-unit>
+      <trans-unit id="beb48aac24389c5672901426f6aa962a8aa11b3c" datatype="html">
+        <source> Our agents will call you to gather the required information and deliver the order within the hour.</source>
+        <target>Nuestros agentes le llamarán para recopilar la información requerida y entregar la orden dentro de la hora.</target>
+      </trans-unit>
+      <trans-unit id="ae51a51ee04313a6b40493e51a6cb860bdfd2256" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>What is Mesomeds?</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>¿Qué es Mesomeds?</target>
+      </trans-unit>
+      <trans-unit id="7a601cc93e43307666a815945d7aed2d68020ab9" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong"/>Mesomeds<x id="CLOSE_TAG_STRONG" ctype="x-strong"/> aims to revolutionize the hyperlocal pharmacy business by providing indepent pharmacists a platform to expand their reach and customer base.</source>
+        <target><x id="START_TAG_STRONG" ctype="x-strong"/>Mesomeds<x id="CLOSE_TAG_STRONG" ctype="x-strong"/> Tiene como objetivo revolucionar el negocio de la farmacia hiperlocal proporcionando a los farmacéuticos independientes una plataforma para expandir su alcance y base de clientes.</target>
+      </trans-unit>
+      <trans-unit id="4b2eb489f5810d3f8130348754764fae9569c03b" datatype="html">
+        <source>And the end user with easier access to their medical needs, thereby providing them discounts which were never offered to them by their local pharmacy.</source>
+        <target>Y el usuario final con un acceso más fácil a sus necesidades médicas, proporcionándoles descuentos que nunca fueron ofrecidos a ellos por su farmacia local.</target>
+      </trans-unit>
+      <trans-unit id="30bbc17fbdb0fce6df637ed5ce98395791ce4833" datatype="html">
+        <source>We aim at getting the local pharmacy to your doorsteps and thus providing you the ease of ordering all your medical needs from the comfort of your home, on the move or otherwise.</source>
+        <target>Nuestro objetivo es conseguir la farmacia local a sus puertas y así proporcionarle la facilidad de ordenar todas sus necesidades médicas desde la comodidad de su hogar, en movimiento o de otra manera.</target>
+      </trans-unit>
+      <trans-unit id="91e18523bc6ffd6e98ef618be0104edc314fa4e9" datatype="html">
+        <source>All at the click of a mouse.</source>
+        <target>Todo en el tecleo de un ratón.</target>
+      </trans-unit>
+      <trans-unit id="dd0146f09cb9ad7f25ee1c2a1619787bf37f8030" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Partner with us</source>
+        <target><x id="START_ITALIC_TEXT" ctype="x-i"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i"/>Asociarse con nosotros</target>
+      </trans-unit>
+      <trans-unit id="0647dce06730a6bd1a1a196562fee6442c54ee0b" datatype="html">
+        <source>Why partner with us? Expand your customerbase and retain your existing customers by providing them never before access to your store.</source>
+        <target>¿Por qué asociarse con nosotros? Amplíe su base de clientes y retenga a sus clientes existentes proporcionándoles acceso nunca antes a su tienda.</target>
+      </trans-unit>
+      <trans-unit id="d984f0432a67bd9cdee7588f214f047a42769942" datatype="html">
+        <source>Why order from us?</source>
+        <target>¿Por qué pedir de nosotros?</target>
+      </trans-unit>
+      <trans-unit id="af9f2dbf19fb48662d4af47fb3b8054b961fb50c" datatype="html">
+        <source>Get medicines from your trusted local store.</source>
+        <target>Obtenga medicamentos de su tienda local de confianza.</target>
+      </trans-unit>
+      <trans-unit id="147c915791789e2175e71fb6d2abacdedb619de4" datatype="html">
+        <source>Order additional items when the agent calls you.</source>
+        <target>Pida artículos adicionales cuando el agente lo llame.</target>
+      </trans-unit>
+      <trans-unit id="d75c92845394b42012c47cc1562609e487be7047" datatype="html">
+        <source>Guaranteed bill for all services.</source>
+        <target>Factura garantizada para todos los servicios.</target>
+      </trans-unit>
+      <trans-unit id="3195d1e93f58e9dcb3fb490202c12b26063c005c" datatype="html">
+        <source>Service hours: Mon - Sat : 10AM - 10PM</source>
+        <target>Horario de servicio: Lunes - Sábado: de 10AM - 10 PM</target>
+      </trans-unit>
+      <trans-unit id="378ad9d4847be954a4e7a84159c200da577c6895" datatype="html">
+        <source>This is a brief introduction to Mesomeds.<x id="LINE_BREAK" ctype="lb"/> Get medicines at the convenience of your home.</source>
+        <target>Esta es una breve introducción a Mesomeds.<x id="LINE_BREAK" ctype="lb"/> Consiga medicinas en la comodidad de su hogar.</target>
+      </trans-unit>
+      <trans-unit id="a78cffe5784d41cbc725cdcaedc332976fdaa887" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Place order</source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Realizar pedido</target>
+      </trans-unit>
+      <trans-unit id="2d6876ebdad5dc8c8b648566de7c7692772220a5" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Learn more</source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Aprende más</target>
+      </trans-unit>
+      <trans-unit id="a150f07968a51138940f56eafbfe0d0d8c72399e" datatype="html">
+        <source>Order Meds, at your ease<x id="LINE_BREAK" ctype="lb"/> You focus on healing, we do the running! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></source>
+        <target>Ordene Medicamentos, a su gusto<x id="LINE_BREAK" ctype="lb"/> Usted se centra en la curación, hacemos el correr! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></target>
+      </trans-unit>
+      <trans-unit id="21eb77556dcaac3c65c37919e124f282d10fa46f" datatype="html">
+        <source> Thank you for visiting us! One of our customer executives will contact you soon... </source>
+        <target>¡Gracias por visitarnos! Uno de nuestros ejecutivos de clientes se pondrá en contacto con usted en breve ...</target>
+      </trans-unit>
+      <trans-unit id="3ec25044b787a828b659798034ddb01e57ddf5a4" datatype="html">
+        <source>Fill in the details below:</source>
+        <target>Rellene los siguientes datos:</target>
+      </trans-unit>
+      <trans-unit id="0f56ca136061c4d57b4251eabcf4ab7c125d4b19" datatype="html">
+        <source>Request callback</source>
+        <target>Solicitar devolución de llamada</target>
+      </trans-unit>
+      <trans-unit id="bc6926713d62bb9fbb8d2d3bfa167cf0d04972e4" datatype="html">
+        <source> Or</source>
+        <target>O </target>
+      </trans-unit>
+      <trans-unit id="923bfb48568f8bd2020916fe6a21b884d2d458a4" datatype="html">
+        <source> <x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Upload prescription:</source>
+        <target> <x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Carga de la receta:</target>
+      </trans-unit>
+      <trans-unit id="e5f80e896af2763005bcf4386d9307a012821476" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Enter manually:</source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Ingresar manualmente:</target>
+      </trans-unit>
+      <trans-unit id="b4b22b45fee2426fedc4ebe439829af9509f2e9e" datatype="html">
+        <source><x id="TAG_INPUT" ctype="x-input"/>I agree to <x id="START_LINK" ctype="x-a"/>Terms and Conditions<x id="CLOSE_LINK" ctype="x-a"/></source>
+        <target><x id="TAG_INPUT" ctype="x-input"/>estoy de acuerdo con <x id="START_LINK" ctype="x-a"/>Términos y Condiciones<x id="CLOSE_LINK" ctype="x-a"/></target>
+      </trans-unit>
+      <trans-unit id="d7b35c384aecd25a516200d6921836374613dfe7" datatype="html">
+        <source>Cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>
+      <trans-unit id="71c77bb8cecdf11ec3eead24dd1ba506573fa9cd" datatype="html">
+        <source>Submit</source>
+        <target>Enviar</target>
+      </trans-unit>
+      <trans-unit id="f83c5959a9749f137dc01f594daf05c14be8abf0" datatype="html">
+        <source>Order Meds, at your ease<x id="LINE_BREAK" ctype="lb"/> You focus on healing, we do the running! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></source>
+        <target>Ordene Medicamentos, a su gusto<x id="LINE_BREAK" ctype="lb"/> Usted se centra en la curación, hacemos el correr! <x id="START_LINK" ctype="x-a"/> Mesomeds<x id="CLOSE_LINK" ctype="x-a"/></target>
+        <note priority="1" from="description"> Tagline for the product</note>
+        <note priority="1" from="meaning">Brief introduction </note>
+      </trans-unit>
+      <trans-unit id="c10ebaf85d5ffdd63b43cfac9a6dabdff4b033b2" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Place Order </source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Realizar pedido</target>
+      </trans-unit>
+      <trans-unit id="ad80b701d62c61b898ccbf6d1b1ad40ba6deaf31" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Learn more </source>
+        <target><x id="START_TAG_SPAN" ctype="x-span"/><x id="CLOSE_TAG_SPAN" ctype="x-span"/> Aprende más </target>
+      </trans-unit>
+      <trans-unit id="e9048704780ed5bb3fc1af4f94d4fc5fdeb72cab" datatype="html">
+        <source>Terms and Conditions</source>
+        <target>Términos y Condiciones</target>
+      </trans-unit>
+      <trans-unit id="1987a8ddd8b3d44728b729795f94cf3b113ce4d3" datatype="html">
+        <source>TERMS OF USE</source>
+        <target>TÉRMINOS DE USO</target>
+      </trans-unit>
+      <trans-unit id="7a96189ced3c6b216ba5c61aa46df5abfb2a2078" datatype="html">
+        <source>These Terms of Use (“terms of Use”) have been drafted in accordance with the provisions of Rule 3 (1) of the Information Technology (Intermediaries guidelines) Rules, 2011 that require publishing the rules and regulations, privacy policy and Terms
+        of Use for access or usage of <x id="START_LINK" ctype="x-a"/> www.mesomeds.com <x id="CLOSE_LINK" ctype="x-a"/>
+    </source>
+        <target>Estos Términos de Uso ("Términos de Uso") han sido redactados de acuerdo con las disposiciones de la Regla 3 (1) de las Normas de Tecnología de la Información (Directrices para los intermediarios) de 2011 que requieren la publicación de las normas y reglamentos, la política de privacidad y los Términos de Uso Para el acceso o uso de <x id="START_LINK" ctype="x-a"/> www.mesomeds.com <x id="CLOSE_LINK" ctype="x-a"/></target>
+      </trans-unit>
+      <trans-unit id="1d4cbb4e4b8ae06ed0d5b51ddb86c3121dc3cb1c" datatype="html">
+        <source>About Us</source>
+        <target>Sobre nosotros</target>
+      </trans-unit>
+      <trans-unit id="174d3434e823345a49c72de7b561a0b798e26c97" datatype="html">
+        <source>
+        The domain name <x id="START_LINK" ctype="x-a"/> www.mesomeds.com <x id="CLOSE_LINK" ctype="x-a"/> (hereinafter referred to as &quot;Website&quot;) owned and managed by Awnics Technology Private Limited, a private limited company, incorporated
+        and existing under the laws of India and having its registered office at No 11, 2nd floor, 6th Cross, Sampige Road, Malleshwaram, Bangalore-560003(hereinafter referred to as “Company”)
+    </source>
+        <target>El nombre de dominio <x id="START_LINK" ctype="x-a"/> www.mesomeds.com <x id="CLOSE_LINK" ctype="x-a"/> (En lo sucesivo denominada "Sitio Web"), propiedad y gestionada por Awnics Technology Private Limited, una sociedad de responsabilidad limitada, constituida y existente con arreglo a las leyes de la India y que tiene su domicilio social en el número 11, 2do piso, 6th Cross, Sampige Road, Malleshwaram, Bangalore-560003 (en lo sucesivo, "la Compañía")
+        </target>
+      </trans-unit>
+      <trans-unit id="d86e1be5e751d8542b2e1b6f674dd493cf66bc1c" datatype="html">
+        <source>
+        Terms of Use
+    </source>
+        <target>Términos de Uso</target>
+      </trans-unit>
+      <trans-unit id="fefdf24a4b4ccc3a7a1f5bcbc41e413cd09627bc" datatype="html">
+        <source>
+        Your use of the Website and services and tools are governed by the following terms and conditions <x id="START_BOLD_TEXT" ctype="x-b"/>(&quot;Terms of Use&quot;)<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> as applicable to the Website including the applicable policies which are incorporated herein by way of reference. If You
+        transact on the Website, You shall be subject to the policies that are applicable to the Website for such transaction. By mere use of the Website, You shall be contracting with Company and these terms and conditions including the policies constitute
+        your binding obligations, with the Website. <x id="LINE_BREAK" ctype="lb"/> For the purpose of these Terms of Use, wherever the context so requires <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;You&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> or <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;User&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> shall mean any natural or legal person who has agreed to become a user of the Website by providing
+        Registration Data while registering on the Website as Registered User, including a guest User whose registration shall be subject to verification and confirmation by the Company, using the computer systems. This Website allows the User to surf
+        the Website or making purchases without registering on the Website. The term <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;We&quot;, &quot;Us&quot;, &quot;Our&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> shall mean Company.
+    </source>
+        <target>El uso del Sitio Web y los servicios y herramientas se rigen por los siguientes términos y condiciones <x id="START_BOLD_TEXT" ctype="x-b"/>(&quot;Términos de Uso&quot;)<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> Según sea aplicable al Sitio Web, incluyendo las políticas aplicables que se incorporan en el presente documento como referencia. Si realiza transacciones en el Sitio Web, estará sujeto a las políticas que son aplicables al Sitio Web para dicha transacción. Por el mero uso del Sitio Web, Usted estará contratando con la Compañía y estos términos y condiciones incluyendo las políticas constituyen sus obligaciones vinculantes, con el Sitio Web. <x id="LINE_BREAK" ctype="lb"/> A los efectos de estos Términos de Uso, siempre que el contexto así lo requiera <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;Tú&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> o <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;Usuario&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> Se entenderá cualquier persona física o jurídica que haya aceptado convertirse en usuario del Sitio Web proporcionando Datos de Registro mientras se registra en el Sitio Web como Usuario Registrado, incluido un Usuario invitado cuyo registro estará sujeto a verificación y confirmación por parte de la Compañía utilizando el ordenador Sistemas. Este Sitio Web permite al Usuario navegar por el Sitio Web o realizar compras sin registrarse en el Sitio Web. El termino <x id="START_BOLD_TEXT" ctype="x-b"/>&quot;Nosotros&quot;, &quot;Nos&quot;, &quot;Nuestra&quot;<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> Significa Empresa.</target>
+      </trans-unit>
+      <trans-unit id="71ad71fea20d2f9875df624fb08dda5b1e69cfad" datatype="html">
+        <source>
+        Eligibility to use
+    </source>
+        <target>Elegibilidad para usar</target>
+      </trans-unit>
+      <trans-unit id="256590668d27ffc19551cbcb87e16bf482a36db7" datatype="html">
+        <source>
+        Use of the Website is available only to persons who can form legally binding contracts under Indian Contract Act, 1872. Persons who are &quot;incompetent to contract&quot; within the meaning of the Indian Contract Act, 1872 including minors, un-discharged insolvents
+        etc. are not eligible to use the Website. If you are a minor i.e. under the age of 18 years, you shall not register as a User of the Company website and shall not transact on or use the Website. As a minor if you wish to use or transact on Website,
+        such use or transaction may be made by your legal guardian or parents on the Website. Company reserves the right to terminate your membership and / or refuse to provide you with access to the Website if it is brought to Company&apos;s notice or if
+        it is discovered that you are under the age of 18 years. By visiting Company Website or accepting these Terms of Use, You represent and warrant to Company that You are 18 years of age or older, and that You have the right, authority and capacity
+        to use the Website and agree to and abide by these Terms of Use. You also represent and warrant to the Company that You will use the Website in a manner consistent with any and all applicable laws and regulations. <x id="LINE_BREAK" ctype="lb"/> Company reserves
+        the right to refuse access to use the Services offered at the Website to new Users or to terminate access granted to existing Users at any time without according any reasons for doing so You shall not have more than one active Account on the Website.
+        Additionally, You are prohibited from selling, trading, or otherwise transferring Your Account to another party.
+    </source>
+        <target>El uso del Sitio Web está disponible solamente para las personas que pueden formar contratos legalmente vinculantes bajo la Ley de Contrato de la India, 1872. Las personas que son "incompetentes para contratar & quot; Dentro del significado de la Ley del Contrato de la India, 1872 incluyendo menores, insolventes no-descargados etc. no son elegibles para usar el Sitio Web. Si usted es un menor de edad, es decir, menor de 18 años, no se registrará como Usuario del sitio web de la Compañía y no podrá realizar transacciones o usar el Sitio Web. Como menor de edad si desea utilizar o realizar transacciones en el Sitio Web, dicho uso o transacción puede ser realizado por su tutor legal o los padres en el Sitio Web. La Compañía se reserva el derecho de cancelar su membresía y / o rehusarse a proporcionarle acceso al Sitio Web si se Empresa&apos;s Aviso o si se descubre que usted es menor de 18 años. Al visitar el Sitio Web de la Compañía o aceptar estos Términos de Uso, usted declara y garantiza a la Compañía que tiene 18 años de edad o más, y que tiene el derecho, la autoridad y la capacidad de usar el Sitio Web y acepta y cumple estos Términos de Utilizar. Usted también declara y garantiza a la Compañía que Usted usará el Sitio Web de una manera consistente con cualquier y todas las leyes y regulaciones aplicables. <x id="LINE_BREAK" ctype="lb"/> Empresa se reserva el derecho de denegar el acceso a utilizar los Servicios ofrecidos en el Sitio Web a nuevos Usuarios o de dar por terminado el acceso concedido a Usuarios existentes en cualquier momento sin necesidad de motivación alguna. No tendrá más de una Cuenta activa en el Sitio Web. Además, está prohibido vender, comerciar o transferir su Cuenta a otra parte.</target>
+      </trans-unit>
+      <trans-unit id="6565d685bed31a75b56fa94079e4773a87758019" datatype="html">
+        <source>
+        Your Company Account
+    </source>
+        <target>Su Cuenta de Empresa</target>
+      </trans-unit>
+      <trans-unit id="d7fe5f5b2224330b41c61a83acc5b4881637779e" datatype="html">
+        <source>
+        The Company offers its services to different categories. Users of each of the categories are required to register themselves on the Website and make an individual account with Company in order to receive its services. Such an account is accessible by
+        the unique username and password provided to the User by the Company when they chose to register themselves on the Website. The said username and password should be kept highly confidential and should not be disclosed to any third party. You agree
+        to accept responsibility for all activities that occur under your account or password. You should take all necessary steps to ensure that the password is kept confidential and secure and should inform us immediately if you have any reason to believe
+        that your password has become known to anyone else, or if the password is being, or is likely to be used in an unauthorised manner.<x id="LINE_BREAK" ctype="lb"/> You shall ensure that the Account Information provided by You in the Website&apos;s registration form is
+        complete, accurate and up-to-date. Use of another user&apos;s Account Information for availing the Services is expressly prohibited.<x id="LINE_BREAK" ctype="lb"/> If You provide any information that is untrue, inaccurate, not current or incomplete (or becomes untrue, inaccurate,
+        not current or incomplete), or Company has reasonable grounds to suspect that such information is untrue, inaccurate, not current or incomplete, Company has the right to suspend or terminate Your Account and refuse any and all current or future
+        use of the Website (or any portion thereof).<x id="LINE_BREAK" ctype="lb"/> Users may fall under any of the following categories and provide to Company the corresponding information.
+    </source>
+        <target>La empresa ofrece sus servicios a diferentes categorías. Los usuarios de cada una de las categorías están obligados a registrarse en el Sitio Web y hacer una cuenta individual con la Compañía para recibir sus servicios. Dicha cuenta es accesible por el nombre de usuario y contraseña únicos proporcionados al Usuario por la Compañía cuando eligieron registrarse en el Sitio Web. Dicho nombre de usuario y contraseña deben mantenerse altamente confidenciales y no deben ser revelados a terceros. Usted acepta la responsabilidad de todas las actividades que ocurren bajo su cuenta o contraseña. Usted debe tomar todas las medidas necesarias para asegurarse de que la contraseña se mantiene confidencial y segura y debe informarnos inmediatamente si tiene alguna razón para creer que su contraseña ha sido conocida por alguien más, o si la contraseña es o es probable que sea Utilizado de manera no autorizada.<x id="LINE_BREAK" ctype="lb"/> Usted se asegurará de que la Información de la Cuenta proporcionada por Usted en el Sitio Web Formulario de registro es completo, exacto y actualizado. El uso de otro usuario La información de la cuenta para hacer uso de los servicios está expresamente prohibida.<x id="LINE_BREAK" ctype="lb"/> Si usted provee cualquier información que sea falsa, inexacta, no actual o incompleta (o que sea falsa, inexacta, no actual o incompleta), o la Compañía tenga motivos razonables para sospechar que dicha información es falsa, inexacta, no actual o incompleta, El derecho de suspender o cancelar su Cuenta y rechazar cualquier uso actual o futuro del Sitio Web (o cualquier parte del mismo).<x id="LINE_BREAK" ctype="lb"/> Los usuarios pueden pertenecer a cualquiera de las siguientes categorías y proporcionar a la Compañía la información correspondiente.</target>
+      </trans-unit>
+      <trans-unit id="dad6087e5fee89990f102235d423f6c574abfdf1" datatype="html">
+        <source>
+        Category 1: Users placing order for Prescription Drugs
+    </source>
+        <target>Categoría 1: Usuarios que ordenan medicamentos recetados</target>
+      </trans-unit>
+      <trans-unit id="4f96b94288932fa6e67939cc25cda0eb2abc9de7" datatype="html">
+        <source>
+        <x id="START_BOLD_TEXT" ctype="x-b"/>Prescription Drugs<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> means a pharmaceutical drug that requires a prior medical prescription issued by a registered medical practitioner to be provided to a registered pharmacist for the purpose of dispensing such medicine.<x id="LINE_BREAK" ctype="lb"/> If You are
+        a User falling in Category 1, You shall be required to abide by the terms specified below:<x id="LINE_BREAK" ctype="lb"/> While placing the order for a Prescription Drug, You shall be required to mandatorily upload the prescription issued by a registered medical practitioner,
+        along with Your personal information on the Website. All payments in respect of any orders pertaining to Prescription Drug placed by you shall be collected either in cash or by the payment options as provided for on the Website by the Company.
+        You may choose to pay online in respect of any other products ordered online by you which do not fall within this Category.<x id="LINE_BREAK" ctype="lb"/> You hereby understand and acknowledge that the Company shall reserve the right to cancel the order, if the copy of
+        the Prescription uploaded by You is not legible or the order placed by You is not in accordance with the Prescription.<x id="LINE_BREAK" ctype="lb"/> You further confirm that the delivery of such Prescription Drug shall be deemed to have been completed only upon production
+        of the original copy of the Prescription from a registered medical practitioner (A written document issued on the letterhead of a registered medical practitioner along with the date of issue of such prescription, name and address of the person
+        for whose treatment the said prescription is being issued along with the total quantity of the medicine to be supplied and the prescribed dosage) to the Chemist Representative (Person appointed by the Seller who shall be responsible for delivering
+        the order to the Buyer and shall deliver any order for prescribed drugs after authenticating the originality of the prescription uploaded upon the Website) of the Seller(Sellers includes all the retailers who register themselves on the Website
+        after understanding the terms and conditions under which they shall operate upon any order placed by the Buyer on the Website). The Company shall not be liable to complete the delivery if the Chemist Representative is not provided with the original
+        copy of the Prescription. You hereby affirm and warrant that the Prescription uploaded by You is genuine and has not been tampered with in any manner. Further, the original copy of the Prescription needs to match with the copy that was uploaded
+        at the time of order submission.<x id="LINE_BREAK" ctype="lb"/> User shall allow the Chemist Representative to stamp or sticker the original prescription at the time of medicine delivery failing which medicines will not be delivered.<x id="LINE_BREAK" ctype="lb"/> You hereby understand and acknowledge
+        that the Company reserves the right to verify the Prescription uploaded by You. The Company reserves the right to cancel your order immediately, in the event the Company discovers any discrepancy in the Prescription uploaded by You. Further, upon
+        delivery, if the Chemist Representative discovers any discrepancy between the prescription uploaded and the physical copy produced at the time of delivery, the delivery may be withheld and the order shall stand cancelled.<x id="LINE_BREAK" ctype="lb"/> You further understand
+        and acknowledge that only such quantity of drugs shall be dispensed in accordance with the uploaded Prescription. The quantity of Prescription Drugs dispensed shall be the lesser of:<x id="LINE_BREAK" ctype="lb"/> the quantity requested by the Customer; or the quantity
+        allowed by the Prescription (subject to Prescription Drugs served as strips not being cut / reduced in any manner).
+    </source>
+        <target>
+        <x id="START_BOLD_TEXT" ctype="x-b"/>Medicamentos con receta<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> Significa un medicamento farmacéutico que requiere una prescripción médica previa expedida por un médico registrado para ser proporcionada a un farmacéutico registrado con el propósito de dispensar dicho medicamento.<x id="LINE_BREAK" ctype="lb"/> Si usted es un Usuario perteneciente a la Categoría 1, se le exigirá que cumpla con los términos especificados a continuación:<x id="LINE_BREAK" ctype="lb"/> Al realizar el pedido de un medicamento recetado, se le requerirá que envíe de forma obligatoria la receta emitida por un médico registrado, junto con su información personal en el sitio web. Todos los pagos relacionados con las órdenes que pertenezcan a Medicamentos Recetados colocados por usted serán recaudados en efectivo o por las opciones de pago establecidas en el Sitio Web por la Compañía. Usted puede elegir pagar en línea con respecto a cualquier otro producto ordenado en línea por usted que no caigan dentro de esta categoría.<x id="LINE_BREAK" ctype="lb"/> Por la presente entiende y reconoce que la Compañía se reservará el derecho de cancelar el pedido, si la copia de la Prescripción cargada por Usted no es legible o si el pedido realizado por Usted no está de acuerdo con la Prescripción.<x id="LINE_BREAK" ctype="lb"/> Usted confirma además que la entrega de dicho medicamento recetado se considerará que se ha completado sólo con la producción de la copia original de la receta de un médico registrado (Un documento escrito emitido en el membrete de un médico registrado junto con la fecha de El nombre y la dirección de la persona para cuyo tratamiento está siendo emitida dicha receta junto con la cantidad total del medicamento a suministrar y la dosis prescrita) al Representante Químico (Persona designada por el Vendedor quien será responsable Para entregar la orden al Comprador y entregar cualquier orden para los medicamentos recetados después de autenticar la originalidad de la receta subida en el Sitio Web) del Vendedor (Vendedores incluye todos los minoristas que se registran en el Sitio Web después de entender los términos y condiciones bajo los cuales Ellos operarán en cualquier orden colocada por el Comprador en el Sitio Web). La Compañía no será responsable de completar la entrega si el Representante Químico no recibe la copia original de la Prescripción. Por la presente, declara y garantiza que la Prescripción cargada por Usted es genuina y no ha sido manipulada de ninguna manera. Además, la copia original de la prescripción debe coincidir con la copia que se cargó en el momento de la presentación del pedido.<x id="LINE_BREAK" ctype="lb"/> El Usuario deberá permitir que el Representante Químico estampe o pegue la receta original en el momento de la entrega de la medicina, en su defecto, los medicamentos no serán entregados.<x id="LINE_BREAK" ctype="lb"/> Usted entiende y reconoce que la Compañía se reserva el derecho de verificar la Prescripción cargada por Usted. La Compañía se reserva el derecho de cancelar su pedido inmediatamente, en caso de que la Compañía descubra cualquier discrepancia en la Prescripción cargada por Usted. Además, a la entrega, si el Representante Químico descubre cualquier discrepancia entre la prescripción cargada y la copia física producida en el momento de la entrega, la entrega puede ser retenida y la orden cancelada.<x id="LINE_BREAK" ctype="lb"/> Además, usted entiende y reconoce que sólo dicha cantidad de medicamentos se dispensará de acuerdo con la Prescripción cargada. La cantidad de Medicamentos Recetados dispensados será la menor de:<x id="LINE_BREAK" ctype="lb"/> La cantidad solicitada por el Cliente; O la cantidad permitida por la Prescripción (sujeto a Medicamentos Recetados servidos como tiras no cortadas / reducidas de ninguna manera).</target>
+      </trans-unit>
+      <trans-unit id="8a4ff856f0e9ea982aede35a7cda50108039b88f" datatype="html">
+        <source> Category 2: Users placing order for Over the Counter (“OTC”) Medicines/ Products/ Medical Equipment/ Wellness Products</source>
+        <target> Categoría 2: Usuarios que ordenan medicamentos de venta libre ("OTC") Medicamentos / Productos / Equipo médico / Productos de bienestar</target>
+      </trans-unit>
+      <trans-unit id="2f636c81f59136db18f7244bdf384beb14b56c17" datatype="html">
+        <source>Such users shall be required to provide the Company with their personal information and/or their banking details.</source>
+        <target>Dichos usuarios deberán proporcionar a la Compañía su información personal y / o sus datos bancarios.</target>
+      </trans-unit>
+      <trans-unit id="cce9db4e948806121e96cabb6d7a8868d8a527e6" datatype="html">
+        <source> Category 3: Retailers registered with the Site </source>
+        <target> Categoría 3: Minoristas registrados en el Sitio</target>
+      </trans-unit>
+      <trans-unit id="62192e3f703d046775e38815fd82bf0885070abe" datatype="html">
+        <source> The Retailers are verified retailers who hold valid license numbers, employ registered pharmacists and actin accordance with the applicable laws.<x id="LINE_BREAK" ctype="lb"/> The Retailers shall not engage in any transaction in an item or service, which is prohibited by the
+        provisions of any applicable law including Drugs and Cosmetics Act, 1940, the Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954 or regulations for the time being in force.
+        <x id="LINE_BREAK" ctype="lb"/> The Retailer shall ensure that all applicable laws, rules and regulations and taxes in respect of the medicines including, but not limited to, sales tax/ VAT, income tax, octroi, service tax, central excise, custom duty, local levies, etc.
+        have been duly paid by the users prior to dispensing any medicines or products on the Website. The Retailer shall not solicit offers to purchase and sale of discounted items or additional services on the Website shall be displayed only after the
+        prior written approval of the Company.
+    </source>
+        <target> Los Minoristas son minoristas verificados que tienen números de licencia válidos, emplean farmacéuticos registrados y actúan de acuerdo con las leyes aplicables.<x id="LINE_BREAK" ctype="lb"/> Los minoristas no realizarán ninguna transacción en un artículo o servicio, lo cual está prohibido por las disposiciones de cualquier ley aplicable, incluyendo la Ley de Drogas y Cosméticos, de 1940, la Ley de Drogas y Remedios de Magia (Anuncios Objetivos) de 1954 o regulaciones por el momento en vigor. <x id="LINE_BREAK" ctype="lb"/> El minorista se asegurará de que todas las leyes, normas y reglamentos aplicables y los impuestos sobre los medicamentos, incluyendo, pero no limitado a, impuesto sobre la venta / IVA, impuesto sobre la renta, octroi, impuesto de servicio, impuestos centrales, derechos de aduana, etc. Han sido debidamente pagados por los usuarios antes de dispensar medicamentos o productos en el Sitio Web. El minorista no solicitará ofertas para la compra y venta de artículos descontados o servicios adicionales en el Sitio Web se mostrará sólo después de la aprobación previa por escrito de la Compañía.</target>
+      </trans-unit>
+      <trans-unit id="e06e58203ceedfbd04c6467836170030d96c164f" datatype="html">
+        <source>
+        Privacy and Information Protection
+    </source>
+        <target>Privacidad y protección de la información</target>
+      </trans-unit>
+      <trans-unit id="2c7f9beda5eca746838e1cfc531f839bd9410f88" datatype="html">
+        <source>
+        Please review our Privacy Policy, which also governs your visit to this Site, to understand our internal policies and practices. The personal information / data provided to us by you during the course of usage of www.mesomeds.com will be treated as strictly
+        confidential and in accordance with the Privacy Policy and applicable laws and regulations. If you object to your information being transferred or used, please do not use the website.
+    </source>
+        <target>Revise nuestra Política de privacidad, que también regula su visita a este sitio, para comprender nuestras políticas y prácticas internas. La información personal / datos proporcionados por nosotros durante el curso del uso de www.mesomeds.com serán tratados como estrictamente confidenciales y de acuerdo con la Política de Privacidad y las leyes y regulaciones aplicables. Si se opone a que su información sea transferida o utilizada, no utilice el sitio web.</target>
+      </trans-unit>
+      <trans-unit id="39b49342d5f9d09097a607cb3898c310776b77eb" datatype="html">
+        <source>
+        E-Platform for transactions
+    </source>
+        <target>Plataforma electrónica para transacciones</target>
+      </trans-unit>
+      <trans-unit id="45ad17e9da3047f53488e714c12807f0274c4e71" datatype="html">
+        <source>
+        You agree, understand and acknowledge that the website is an online platform that enables you to purchase products required by You on the website at the price indicated therein at any time from any location. <x id="START_BOLD_TEXT" ctype="x-b"/>You further agree and acknowledge that Company
+        is only a facilitator and is not and cannot be a party to or control in any manner any transactions on the website.<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> Accordingly, the contract of sale of products on the website shall be a strictly bipartite contract between you and the sellers
+        on this site.
+    </source>
+        <target>Usted acepta, entiende y reconoce que el sitio web es una plataforma en línea que le permite comprar productos requeridos por Usted en el sitio web al precio indicado en el mismo en cualquier momento desde cualquier lugar.<x id="START_BOLD_TEXT" ctype="x-b"/>Además, acepta y reconoce que la Compañía es sólo un facilitador y no es y no puede ser parte o controlar de ninguna manera las transacciones en el sitio web.<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> En consecuencia, el contrato de venta de productos en el sitio web será un contrato estrictamente bipartito entre usted y los vendedores en este sitio.</target>
+      </trans-unit>
+      <trans-unit id="e6a7b6c9fd8ec20ef18d5902c4cb7adaf537045f" datatype="html">
+        <source>
+        Henceforth:<x id="LINE_BREAK" ctype="lb"/> All commercial / contractual terms are offered by and agreed to between Buyers and Sellers alone. The commercial/contractual terms include without limitation price, shipping costs, delivery / convenience fee, payment methods, payment
+        terms, date, period and mode of delivery. The Company does not have any control or does not determine or advise or in any way involve itself in the offering or acceptance of such commercial / contractual terms between the Buyers and Sellers.
+        <x id="LINE_BREAK" ctype="lb"/> Company does not make any representation or Warranty as to specifics (such as quality, value, salability, etc) of the products or services proposed to be sold or offered to be sold or purchased on the Website. Company does not implicitly
+        or explicitly support or endorse the sale or purchase of any products or services on the Website. Company accepts no liability for any errors or omissions, whether on behalf of itself or third parties.<x id="LINE_BREAK" ctype="lb"/> At no time shall Company hold any right,
+        title or interest over the products nor shall Company have any obligations or liabilities in respect of such contract entered into between Buyers and Sellers. Company is not responsible for unsatisfactory or delayed performance of services or
+        damages or delays as a result of products which are out of stock, unavailable or back ordered.<x id="LINE_BREAK" ctype="lb"/>
+        <x id="START_BOLD_TEXT" ctype="x-b"/>Fulfillment of Orders:<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> In the event an order placed by you is confirmed to be dispensed and delivered by a seller registered on the website but subsequently due to any reason, the seller is not able to fulfill such order, the Company shall,
+        on a best efforts basis, endeavor to fulfill the order through third party sellers having requisite license to dispense such orders. In such cases, the Company will contact you to seek your confirmation if the order can be dispensed by such third
+        party sellers, whose details will be provided to you in the intimation call made by the Company / SMS sent to you. If you choose to confirm the replacement of the seller for fulfillment of your order, the Company shall get the order processed
+        from the seller confirmed by you. However, if you choose to cancel your order, the Company shall cancel the same on your behalf.
+    </source>
+        <target>De ahora en adelante:<x id="LINE_BREAK" ctype="lb"/> Todos los términos comerciales / contractuales son ofrecidos y acordados entre compradores y vendedores solos. Los términos comerciales / contractuales incluyen sin limitación el precio, los gastos de envío, la tarifa de entrega / conveniencia, los métodos de pago, las condiciones de pago, la fecha, el período y el modo de entrega. La Compañía no tiene ningún control o no determina o aconseja o de ninguna manera se involucra en la oferta o aceptación de tales términos comerciales / contractuales entre los Compradores y Vendedores.
+        <x id="LINE_BREAK" ctype="lb"/> La Compañía no hace ninguna representación o Garantía en cuanto a los detalles (tales como calidad, valor, venta, etc.) de los productos o servicios propuestos para ser vendidos o ofrecidos para ser vendidos o comprados en el Sitio Web. La Compañía no respalda ni endosa implícita o explícitamente la venta o compra de ningún producto o servicio en el Sitio Web. La Compañía no se hace responsable de errores u omisiones, ya sea en su propio nombre o en terceros.<x id="LINE_BREAK" ctype="lb"/> En ningún momento la Compañía tendrá ningún derecho, título o interés sobre los productos ni tendrá ninguna obligación o responsabilidad con respecto a dicho contrato celebrado entre Compradores y Vendedores. La Compañía no es responsable por el desempeño insatisfactorio o retrasado de los servicios o por los daños o los retrasos como resultado de productos que están fuera de stock, no disponibles o devueltos.<x id="LINE_BREAK" ctype="lb"/><x id="START_BOLD_TEXT" ctype="x-b"/>Cumplimiento de órdenes:<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> En el caso de que una orden por usted sea confirmada por un vendedor registrado en el sitio web pero posteriormente por cualquier motivo, el vendedor no puede cumplir con dicho pedido, la Compañía, en el mejor de los casos, Para cumplir con la orden a través de terceros vendedores con la licencia necesaria para dispensar tales órdenes. En tales casos, la Compañía se pondrá en contacto con usted para solicitar su confirmación si el pedido puede ser dispensado por dichos vendedores terceros, cuyos detalles le serán proporcionados en la llamada de intimación hecha por la Compañía / SMS enviada a usted. Si decide confirmar la sustitución del vendedor por el cumplimiento de su pedido, la Compañía recibirá el pedido procesado por el vendedor confirmado por usted. Sin embargo, si decide cancelar su pedido, la Compañía lo cancelará en su nombre.</target>
+      </trans-unit>
+      <trans-unit id="63ec85c3ad729f16136cdc4ed16a1023cbceea9f" datatype="html">
+        <source>
+        Charges for using the Website
+    </source>
+        <target>Cargos por utilizar el sitio web</target>
+      </trans-unit>
+      <trans-unit id="98dc98694f8fffaa5e7d0a7034a283bfaba553a5" datatype="html">
+        <source>
+        Membership on the Website is free for Buyers. Company does not charge any fee for browsing and buying on the Website. Company reserves the right to change its Fee Policy from time to time. In particular, Company may at its sole discretion introduce new
+        services and modify some or all of the existing services offered on the Website. In such an event Company reserves the right to introduce fees for the new services offered or amend/introduce fees for existing services, as the case may be. Changes
+        to the Fee Policy shall be posted on the Website and such changes shall automatically become effective immediately after they are posted on the Website. Unless otherwise stated, all fees shall be quoted in Indian Rupees.
+    </source>
+        <target>La membresía en el sitio web es gratuita para los compradores. La empresa no cobra ningún cargo por navegar y comprar en el sitio web. La Compañía se reserva el derecho de cambiar su Política de Cuotas de vez en cuando. En particular, la Compañía puede, a su sola discreción, introducir nuevos servicios y modificar algunos o todos los servicios existentes ofrecidos en el Sitio Web. En tal caso, la Compañía se reserva el derecho de introducir tarifas por los nuevos servicios ofrecidos o modificar o introducir tarifas por servicios existentes, según sea el caso. Los cambios a la Política de Cuotas se publicarán en el Sitio Web y dichos cambios entrarán automáticamente en vigor inmediatamente después de que se publiquen en el Sitio Web. A menos que se indique lo contrario, todas las tasas se cotizarán en rupias indias.</target>
+      </trans-unit>
+      <trans-unit id="d1cefe3a35e1e2d36d501578587f2123cc32d1a8" datatype="html">
+        <source>
+        License for Website Access
+    </source>
+        <target>Licencia para acceso a sitios web</target>
+      </trans-unit>
+      <trans-unit id="6748957ca25fc6fc1e6ecd2689e98dccf9aee5cc" datatype="html">
+        <source>
+        Company grants you a limited licence to access and make personal use of this website, but not to download (other than page caching) or modify it, or any portion of it. This licence does not include any resale or commercial use of this website or its contents;
+        any collection and use of any product listings, descriptions, or prices; any derivative use of this website or its contents; any downloading or copying of account information for the benefit of another seller; or any use of data mining, robots,
+        or similar data gathering and extraction tools.<x id="LINE_BREAK" ctype="lb"/> This website or any portion of this website (including but not limited to any copyrighted material, trademarks, or other proprietary information) may not be reproduced, duplicated, copied,
+        sold, resold, visited, distributed or otherwise exploited for any commercial purpose.
+    </source>
+        <target>Empresa le concede una licencia limitada para acceder y hacer uso personal de este sitio web, pero no para descargar (que no sea el caché de páginas) o modificarlo, ni ninguna parte de él. Esta licencia no incluye ninguna reventa o uso comercial de este sitio web o de su contenido; Cualquier colección y uso de cualquier listado de productos, descripciones o precios; Cualquier uso derivado de este sitio web o de su contenido; Cualquier descarga o copia de información de cuenta para el beneficio de otro vendedor; O cualquier uso de minería de datos, robots o herramientas similares de recopilación y extracción de datos.<x id="LINE_BREAK" ctype="lb"/> Este sitio web o cualquier parte de este sitio web (incluyendo, pero no limitado a, material protegido por derechos de autor, marcas registradas u otra información de propiedad) no puede ser reproducido, duplicado, copiado, vendido, revendido, visitado, distribuido o explotado de cualquier otra forma para ningún propósito comercial.</target>
+      </trans-unit>
+      <trans-unit id="c445bc62dd68716bb520dd0851c664d4a7f91d9d" datatype="html">
+        <source>
+        Your Conduct
+    </source>
+        <target>Tu conducta</target>
+      </trans-unit>
+      <trans-unit id="50fab819a12617ad4ce1980d6d331e877aca2b34" datatype="html">
+        <source>
+        You must not use the Website in any way that causes, or is likely to cause, the Website or access to it to be interrupted, damaged or impaired in any way. You understand that you, and not Company, are responsible for all electronic communications and
+        content sent from your computer to us and you must use the Website for lawful purposes only. You must not use the Website for any of the following: for fraudulent purposes, or in connection with a criminal offense or other unlawful activity to
+        send, use or reuse any material that does not belong to you; or is illegal, offensive (including but not limited to material that is sexually explicit content or which promotes racism, bigotry, hatred or physical harm), deceptive, misleading,
+        abusive, indecent, harassing, blasphemous, defamatory, libelous, obscene, pornographic, pedophilic or menacing; ethnically objectionable, disparaging or in breach of copyright, trademark, confidentiality, privacy or any other proprietary information
+        or right; or is otherwise injurious to third parties; or relates to or promotes money laundering or gambling; or is harmful to minors in any way; or impersonates another person; or threatens the unity, integrity, security or sovereignty of India
+        or friendly relations with foreign States; or objectionable or otherwise unlawful in any manner whatsoever; or which consists of or contains software viruses, political campaigning, commercial solicitation, chain letters, mass mailings or any
+        &quot;spam to cause annoyance, inconvenience or needless anxiety.
+    </source>
+        <target>Usted no debe usar el Sitio Web de ninguna manera que cause, o pueda causar, que el Sitio Web o el acceso a él sea interrumpido, dañado o alterado de alguna manera. Usted entiende que usted, y no la Compañía, es responsable de todas las comunicaciones electrónicas y
+        Contenido enviado desde su computadora a nosotros y usted debe usar el Sitio Web sólo para propósitos legales. Usted no debe usar el Sitio Web para cualquiera de los siguientes: para propósitos fraudulentos, o en conexión con un delito u otra actividad ilegal para
+        Enviar, usar o reutilizar cualquier material que no le pertenezca; O es ilegal, ofensivo (incluyendo pero no limitado a material que es contenido sexualmente explícito o que promueve racismo, fanatismo, odio o daño físico), engañoso, engañoso,
+        Abusivo, indecente, acosador, blasfemo, difamatorio, difamatorio, obsceno, pornográfico, pedofílico o amenazante; Étnicamente objetable, despectivo o en violación de los derechos de autor, marca registrada, confidencialidad, privacidad o cualquier otra información de propiedad
+        o hacia la derecha; O sea de otro modo perjudicial para terceros; O se relaciona o promueve lavado de dinero o juego; O es perjudicial para los menores de cualquier manera; O suplantar a otra persona; O amenaza la unidad, la integridad, la seguridad o la soberanía de la India
+        O relaciones amistosas con Estados extranjeros; O objetable o ilegal en cualquier forma; O que contenga o contenga virus de software, campañas políticas, solicitaciones comerciales, cartas en cadena, envíos masivos o cualquier
+        Spam para causar molestia, molestias o ansiedad innecesaria.</target>
+      </trans-unit>
+      <trans-unit id="67f8e32379b2fcb60fcdfa72cb9633f7c79e1bd4" datatype="html">
+        <source>
+        Selling
+    </source>
+        <target>De venta</target>
+      </trans-unit>
+      <trans-unit id="f9917c4d4033a00a1796034c5de3a25321d173c6" datatype="html">
+        <source>
+        The Retailer is legally able to sell the item(s) listed by such Retailer on the Website and such listings shall only include text descriptions, graphics and pictures that describe the item(s) for sale. All listed item(s) will be listed in an appropriate
+        category on the Website and shall be kept in stock for successful fulfillment of sales. The Retailer shall not sell any Schedule ‘X’ drugs in contravention of the provisions of the Drugs and Cosmetics Act, 1940, the Drugs and Cosmetics Rules,
+        1945 or under any orders/ directions of the Drug Controlling Authority of India. The Retailer shall not sell any prescription drug without a prescription and incase a prescription is uploaded, without due authentication of the prescription. The
+        Retailer shall ensure that the listing description of the item is not misleading and describes actual condition of the product.
+    </source>
+        <target>El minorista es legalmente capaz de vender los artículos enumerados por dicho minorista en el sitio web y tales listados solo incluirán descripciones de texto, gráficos y fotos que describan los artículos para la venta. Todos los artículos enumerados serán listados en una categoría apropiada en el Sitio Web y se mantendrán en stock para el éxito en el cumplimiento de las ventas. El Comerciante no venderá ningún medicamento de la Lista 'X' en contravención de las disposiciones de la Ley de Medicamentos y Cosméticos de 1940, las Reglas de Drogas y Cosméticos, de 1945 o bajo cualquier órdenes / instrucciones de la Autoridad de Control de Drogas de la India. El minorista no venderá ningún medicamento recetado sin receta médica y si se envía una receta sin la debida autenticación de la receta. El minorista se asegurará de que la descripción del artículo no sea engañosa y describa la condición real del producto.</target>
+      </trans-unit>
+      <trans-unit id="5564d6d93509ecf6ff31834c8693913459481ee8" datatype="html">
+        <source>
+        Payments
+    </source>
+        <target>Pagos</target>
+      </trans-unit>
+      <trans-unit id="8b1057b87531965536ed7e6cfd594153f0593cf8" datatype="html">
+        <source>
+        While availing any of the payment method/s available on the Website, we will not be responsible or assume any liability, whatsoever in respect of any loss or damage arising directly or indirectly to You due to: Lack of authorization for any transaction/s,
+        or Payments exceeding the preset limit mutually agreed by You and between &quot;Bank/s&quot;, or Any payment issues arising out of the transaction, or Decline of transaction for any other reason/s All payments made against the purchases/services on Website
+        by you shall be compulsorily in Indian Rupees acceptable in the Republic of India. Website will not facilitate transaction with respect to any other form of currency with respect to the purchases made on Website. Before delivering your order to
+        you, Seller may request you to provide supporting documents (including but not limited to Govt. issued ID and address proof) to establish the authenticity of the payment instrument used by you for your purchase. This is done in the interest of
+        providing a safe online shopping environment to Our Users. Transactions, Transaction Price and all commercial terms such as Delivery, Dispatch of products and/or services are as per principal to principal bipartite contractual obligations between
+        Buyer and Seller and payment facility is merely used by the Buyer and Seller to facilitate the completion of the Transaction. Use of the payment facility shall not render the Company liable or responsible for the non-delivery, non-receipt, non-payment,
+        damage, breach of representations and warranties, non-provision of after sales or warranty services or fraud as regards the products and /or services listed on Company&apos;s Website. You have specifically authorized Company or its service providers
+        to collect, process, facilitate and remit payments and / or the Transaction Price electronically or through Cash on Delivery to and from other Users in respect of transactions through Payment Facility. Your relationship with Company is on a principal
+        to principal basis and by accepting these Terms of Use you agree that Company is an independent contractor for all purposes, and does not have control of or liability for the products or services that are listed on the Company&apos;s Website that are
+        paid for by using the Payment Facility. Company does not guarantee the identity of any User nor does it ensure that a Buyer or a Seller will complete a transaction. You understand, accept and agree that the payment facility provided by Company
+        is neither a banking nor financial service but is merely a facilitator providing an electronic, automated online electronic payment, receiving payment through Cash On Delivery, collection and remittance facility for the Transactions on the Company
+        Website using the existing authorized banking infrastructure and Credit Card payment gateway networks. Further, by providing Payment Facility, Company is neither acting as trustees nor acting in a fiduciary capacity with respect to the Transaction
+        or the Transaction Price. All Valid Credit / Debit/ Cash Card/ and other payment instruments are processed using a Credit Card payment gateway or appropriate payment system infrastructure and the same will also be governed by the terms and conditions
+        agreed to between the Buyer and the respective Issuing Bank and payment instrument issuing company.
+    </source>
+        <target>Si utilizamos cualquiera de los métodos de pago disponibles en el Sitio Web, no seremos responsables ni asumiremos responsabilidad alguna en relación con cualquier pérdida o daño que se le cause directa o indirectamente debido a: Falta de autorización para cualquier transacción, O Pagos que excedan el límite preestablecido que usted acordó mutuamente y entre "Bank / s", o Cualquier problema de pago que surja de la transacción, o Declinación de la transacción por cualquier otra razón / s Todos los pagos efectuados contra las compras / Usted será obligatoriamente en Rupias indias aceptables en la República de la India. El sitio web no facilitará la transacción con respecto a cualquier otra forma de moneda con respecto a las compras realizadas en el Sitio Web. Antes de entregarle su pedido, el Vendedor puede solicitarle que proporcione documentos de respaldo (incluyendo, pero no limitado a, identificación emitida por el gobierno y prueba de dirección) para establecer la autenticidad del instrumento de pago utilizado por usted para su compra. Esto se hace en el interés de proporcionar un ambiente seguro de compras en línea a nuestros usuarios. Las transacciones, el precio de la transacción y todos los términos comerciales tales como la entrega, el envío de los productos y / o servicios son según el principal a las obligaciones contractuales principales del bipartito entre el comprador y el vendedor y la facilidad de pago es utilizada meramente por el comprador y el vendedor para facilitar la terminación de la transacción . El uso de la facilidad de pago no hará responsable a la Compañía ni será responsable de la falta de entrega, falta de pago, daño, incumplimiento de las declaraciones y garantías, no prestación de servicios posventa o servicios de garantía o fraude con respecto a los productos Y / o servicios listados en el sitio web de la empresa. Usted ha autorizado específicamente a la Compañía oa sus proveedores de servicios para recoger, procesar, facilitar y remitir los pagos y / o el Precio de la Transacción electrónicamente oa través del Efectivo en la Entrega de y hacia otros Usuarios con respecto a las transacciones a través de la Facilidad de Pagos. Su relación con la Compañía es de principal a principal y al aceptar estos Términos de Uso usted acepta que la Compañía es un contratista independiente para todos los propósitos y no tiene control ni responsabilidad por los productos o servicios que están listados en el Sitio Web de la Compañía Que se pagan mediante el uso de la facilidad de pago. La Compañía no garantiza la identidad de ningún Usuario ni garantiza que un Comprador o un Vendedor completará una transacción. Usted entiende, acepta y acepta que la facilidad de pago proporcionada por la Compañía no es ni un servicio bancario ni financiero, sino que es simplemente un facilitador que proporciona un pago electrónico electrónico en línea, recibiendo el pago a través de efectivo en la entrega, recaudación y facilidad de remesas para las transacciones en la Sitio web de la empresa utilizando la infraestructura bancaria autorizada existente y las redes de pasarela de pago de tarjetas de crédito. Además, al proporcionar facilidades de pago, la Compañía no actúa como fiduciarios ni actúa en una capacidad fiduciaria con respecto a la transacción o al precio de transacción. Todas las tarjetas de crédito / débito / tarjeta de efectivo válidas y otros instrumentos de pago se procesan utilizando una pasarela de pago de tarjeta de crédito o una infraestructura de sistema de pago apropiada y también se regirán por los términos y condiciones acordados entre el comprador y el banco emisor respectivo y el pago Empresa emisora ​​de instrumentos.</target>
+      </trans-unit>
+      <trans-unit id="36e5e124e887a8a0bc380fc2118073ce47ebfad1" datatype="html">
+        <source>
+        POLICIES
+    </source>
+        <target>POLÍTICAS</target>
+      </trans-unit>
+      <trans-unit id="d05fb6a45616af2fdfe63a715adab0dffbeaef93" datatype="html">
+        <source>
+        <x id="START_EMPHASISED_TEXT" ctype="x-em"/>Profanity Policy<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em"/><x id="LINE_BREAK" ctype="lb"/> Our Website prohibits the use of language that is racist, hateful, sexual or obscene in nature in a public area. This policy extends to text within listings, on Seller pages and all other areas of the site that another
+        User may view. If the profane words are part of a title for the item being sold, we allow Sellers to &apos;blur&apos; out the bulk of the offending word with asterisks Please report any violations of this policy to the correct area for review: Report offensive
+        and or inappropriate User Profiles Report offensive and or inappropriate language in a listing or otherwise If a feedback comment; or any communication made between Users on the Website; or email communication between Users in relation to transactions
+        conducted on Website contain profanity, please review Our feedback removal policy and submit a request for action/removal. Disciplinary action may result in the indefinite suspension of a User&apos;s account, temporary suspension, or a formal warning.
+        Company will consider the circumstances of an alleged policy violation and the user&apos;s trading records before taking action. Violations of this policy may result in a range of actions, including: Limits placed on account privileges; Loss of special
+        status; Account suspension.
+    </source>
+        <target><x id="START_EMPHASISED_TEXT" ctype="x-em"/>Política de Profanidad<x id="CLOSE_EMPHASISED_TEXT" ctype="x-em"/><x id="LINE_BREAK" ctype="lb"/> Nuestro Sitio Web prohíbe el uso de un lenguaje racista, odioso, sexual u obsceno en la naturaleza en un área pública. Esta política se extiende al texto dentro de los listados, en las páginas del Vendedor y en todas las demás áreas del sitio que otro Usuario pueda ver. Si las palabras profanas forman parte de un título para el artículo que se vende, permitimos que los Vendedores "borren" la mayor parte de la palabra ofensiva con asteriscos. Informe cualquier violación de esta política al área correcta para su revisión: Informe ofensivo o inapropiado. Perfiles de usuario Reporte un lenguaje ofensivo o inapropiado en una lista o de otra manera Si un comentario de comentarios; O cualquier comunicación hecha entre Usuarios en el Sitio Web; O comunicación por correo electrónico entre los Usuarios en relación con las transacciones realizadas en el Sitio Web contienen palabras profanas, por favor revise Nuestra política de eliminación de comentarios y envíe una solicitud de acción / eliminación. La acción disciplinaria puede resultar en la suspensión indefinida de la cuenta de un Usuario, suspensión temporal, o una advertencia formal. La compañía considerará las circunstancias de una presunta violación de la política y los registros de operaciones del usuario antes de tomar acción. Las violaciones de esta política pueden resultar en una serie de acciones, incluyendo: Límites colocados en privilegios de cuenta; Pérdida del estatuto especial; Suspensión de cuenta.</target>
+      </trans-unit>
+      <trans-unit id="32a908229ba69884b20f02c1a7d874f1edfe941a" datatype="html">
+        <source>
+        Returns Policy
+    </source>
+        <target>Política de devoluciones</target>
+      </trans-unit>
+      <trans-unit id="5f6b7bb66b2620da55795767f68a3715a5ce1094" datatype="html">
+        <source>
+        Definition: &apos;Return&apos; is defined as the action of taking back all of the item(s) which make up the order <x id="START_BOLD_TEXT" ctype="x-b"/>(“Returned Order”)<x id="CLOSE_BOLD_TEXT" ctype="x-b"/>, placed by the Buyer on the Website, by the Seller. Return may result in refund of money in most of the cases. Products
+        may be returned at the time of delivery in the following cases: In the event the original prescription does not match the scanned prescription (where prescription drugs are part of the order), the Chemist Representative will refuse to deliver
+        the entire order; In the event the product received by you is damaged, you should refuse to accept the damaged products and these will be brought back by the Chemist Representative; In the event the packaging has been tampered with, you should
+        refuse to accept the delivery; and/or If an incorrect order has been delivered which is not consistent with the order placed by you on the Website, you should refuse to accept the delivery. It is clarified that on the occurrence of the above mentioned
+        events, any payment for the Returned Order shall be refunded to you. In the event the Returned Order is prepaid, a refund would be generated to the same channel from where the money was received at the time of order placement. It is further clarified
+        that all the other item(s) in an invoice, if any, which constitute such Returned Order, shall also be compulsorily required to be returned back to the Seller. Products may be returned post delivery in the following cases: If an expired product
+        has been delivered, request for returning the products has to be initiated within a period of twenty-four (24) hours from the time of acceptance of delivery; and/or In the event that there is malfunctioning of delivered medical devices, the request
+        for return has to be initiated within seven (7) days of the date of acceptance of delivery. The malfunctioning of the medical device is the sole reason which may constitute return of the order. The following points need to be kept in mind before
+        initiating any request for return: Medicine strips which have been opened by the Buyer or do not any longer bear the expiry date or price of the medicine shall not be returned. The bar code on the medicine should NOT be tampered with under any
+        circumstance. The User should be in possession of the unique serial number sticker that was issued to the User by the Chemist Representative at the time of delivery.
+    </source>
+        <target>Definición: «Retorno» se define como la acción de recuperar todos los elementos que componen el pedido<x id="START_BOLD_TEXT" ctype="x-b"/>(“Orden devuelta”)<x id="CLOSE_BOLD_TEXT" ctype="x-b"/>, Colocado por el Comprador en el Sitio Web, por el Vendedor. La devolución puede resultar en un reembolso de dinero en la mayoría de los casos. Productos Puede ser devuelto en el momento del parto en los siguientes casos: En caso de que la receta original no coincida con la receta escaneada (donde los medicamentos recetados forman parte de la orden), el Representante Químico se negará a entregar La orden entera; En el caso de que el producto recibido por usted esté dañado, debe negarse a aceptar los productos dañados y estos serán devueltos por el Representante Químico; En caso de que se haya manipulado el embalaje, debe
+        Negarse a aceptar la entrega; Y / o Si se ha entregado una orden incorrecta que no es consistente con la orden colocada por usted en el Sitio Web, debe negarse a aceptar la entrega. Se aclara que en la ocurrencia de los mencionados
+        Eventos, cualquier pago por la Orden devuelta se le reembolsará. En el caso de que la Orden devuelta sea prepagada, se generaría un reembolso al mismo canal desde donde se recibió el dinero en el momento de la colocación del pedido. Se aclara más
+        Que todos los demás artículos en una factura, si los hubiere, que constituyan tal Orden Devuelto, también serán obligatoriamente requeridos para ser devueltos al Vendedor. Los productos pueden devolverse después de la entrega en los siguientes casos: Si un producto caducado
+        Ha sido entregada, la solicitud de devolución de los productos debe iniciarse en un plazo de veinticuatro (24) horas a partir de la fecha de aceptación de la entrega; Y / o En el caso de que se produzca un mal funcionamiento de los dispositivos médicos entregados, la solicitud
+        Para la devolución tiene que ser iniciado dentro de siete (7) días de la fecha de aceptación de la entrega. El mal funcionamiento del dispositivo médico es la única razón que puede constituir la devolución de la orden. Los siguientes puntos deben tenerse en cuenta antes
+        Iniciar cualquier solicitud de devolución: Las tiras de medicamentos que hayan sido abiertas por el Comprador o que ya no lleven la fecha de caducidad o el precio del medicamento no se devolverán. El código de barras del medicamento NO debe manipularse
+        circunstancia. El Usuario debe estar en posesión de la etiqueta de número de serie única que fue emitida al Usuario por el Representante Químico en el momento de la entrega.</target>
+      </trans-unit>
+      <trans-unit id="ccceadb32ec76b64bcb31ac081f37a0dfd8c094d" datatype="html">
+        <source>
+        Disclaimer of Warranties and Liabilities
+    </source>
+        <target>Renuncia de garantías y responsabilidades</target>
+      </trans-unit>
+      <trans-unit id="a837e1bc3528ba1e5e2717686d3a494e0e35fcd9" datatype="html">
+        <source>
+        Usted reconoce y asume que está accediendo a los servicios en el Sitio Web y realiza transacciones bajo su propio riesgo y está usando su mejor y prudente juicio antes de entrar en cualquier transacción a través del Sitio Web. No seremos responsables ni responsables por acciones u omisiones de los vendedores, ni por el incumplimiento de las condiciones, declaraciones o garantías por parte de los vendedores o fabricantes de los productos y por la presente renunciamos expresamente a toda responsabilidad en este sentido. No mediaremos ni resolveremos ninguna disputa o desacuerdo entre usted y los vendedores o fabricantes de los productos. Excluimos expresamente cualquier garantía o representación (expresa o implícita) con respecto a calidad, idoneidad, exactitud, confiabilidad, integridad, puntualidad, desempeño, seguridad, comerciabilidad, idoneidad para un propósito en particular o legalidad de los productos listados o mostrados o transaccionados O el contenido (incluyendo información del producto y / o especificaciones) en el sitio web. Si bien hemos tomado precauciones para evitar imprecisiones en el contenido, este sitio web, todo el contenido, información, software, productos, servicios y gráficos relacionados se proporcionan como es, sin garantía de ningún tipo. No implícita ni explícitamente apoyamos o avalamos la venta o compra de ningún producto en el Sitio Web. En ningún momento ningún derecho, título o interés en los productos vendidos a través de o exhibidos en el sitio Web cobrarán a la Compañía ni la Compañía tendrá ninguna obligación o responsabilidad con respecto a cualquier transacción en el sitio web. Se declara expresamente que el Sitio Web es sólo un mercado para que los Compradores compren a los Vendedores registrados y ni el Sitio Web ni la Empresa son responsables de ninguna venta o compra realizada en la plataforma del mercado.
+    </source>
+        <target></target>
+      </trans-unit>
+      <trans-unit id="f67ec66b8d0800a7de01345cc22d16dbbfa8723e" datatype="html">
+        <source>
+        Indemnity and Release
+    </source>
+        <target>Indemnización y liberación</target>
+      </trans-unit>
+      <trans-unit id="59884424e71ac95e50e842590fa992c707fa6194" datatype="html">
+        <source>
+        You shall indemnify and hold harmless Company, its subsidiaries, affiliates and their respective officers, directors, agents and employees, from any claim or demand, or actions including reasonable attorney&apos;s fees, made by any third party or penalty imposed
+        due to or arising out of your breach of these Conditions of Use or any document incorporated by reference, or your violation of any law, rules, regulations or the rights of a third party. You hereby expressly release Company and/or its affiliates
+        and/or any of its officers and representatives from any cost, damage, liability or other consequence of any of the actions/inactions of the vendors and specifically waiver any claims or demands that you may have in this behalf under any statute,
+        contract or otherwise. In no event shall the Company and/or its affiliates and/or any of its officers and representative and/or the Retailers be held liable for any non-delivery or late delivery due to any force majeur event or if the customer
+        fails to provide a valid prescription.
+    </source>
+        <target>Usted deberá indemnizar y eximir a la Compañía, a sus subsidiarias, afiliadas y sus respectivos funcionarios, directores, agentes y empleados de cualquier reclamación o demanda, o acciones que incluyan honorarios razonables de abogados, hechas por terceros o sanciones impuestas debido o surgidas De su incumplimiento de estas Condiciones de Uso o cualquier documento incorporado por referencia, o su violación de cualquier ley, reglamento, o los derechos de un tercero. Por la presente, usted expresamente exonera a la Compañía y / o sus afiliados y / oa cualquiera de sus funcionarios y representantes de cualquier costo, daño, responsabilidad u otra consecuencia de cualquiera de las acciones / inacciones de los vendedores y renuncia específicamente a cualquier reclamación o demanda que usted pueda tener En este nombre bajo cualquier estatuto, contrato o de otra manera. En ningún caso la Compañía y / o sus filiales y / o cualquiera de sus funcionarios y representantes y / o los minoristas serán responsables de cualquier no entrega o entrega tardía debido a cualquier evento de fuerza mayor o si el cliente no proporciona una Prescripción válida.</target>
+      </trans-unit>
+      <trans-unit id="15cc5d0ff6e7ce6623cd428a7495674419d3b99a" datatype="html">
+        <source>
+        Communications
+    </source>
+        <target>Comunicaciones</target>
+      </trans-unit>
+      <trans-unit id="f6d970c6725369c0d549fcdd52ceedbc05603124" datatype="html">
+        <source>
+        When you visit the Website or send e-mails to us, you are communicating with us electronically. You will be required to provide a valid phone number while placing an order with us. We may communicate with you by e-mail, SMS, phone call or by posting notices
+        on the website or by any other mode of communication. For contractual purposes, you consent to receive communications including SMS, e-mail or phone calls from us with respect to your order.
+    </source>
+        <target>Cuando visita el sitio web o nos envía correos electrónicos, se comunica con nosotros por medios electrónicos. Se le pedirá que proporcione un número de teléfono válido mientras realiza un pedido con nosotros. Podemos comunicarnos con usted por correo electrónico, SMS, llamada telefónica o mediante la publicación de avisos en el sitio web o por cualquier otro medio de comunicación. Para propósitos contractuales, usted acepta recibir comunicaciones incluyendo SMS, e-mail o llamadas telefónicas de nosotros con respecto a su pedido.</target>
+      </trans-unit>
+      <trans-unit id="db5d70a6d1c08f4f6309b0f40121f524928f61a4" datatype="html">
+        <source>
+        Losses
+    </source>
+        <target>Pérdidas</target>
+      </trans-unit>
+      <trans-unit id="1434c7ca2af06e84efca1698a642e506c106e4f0" datatype="html">
+        <source>
+        We will not be responsible for any business loss (including loss of profits, revenue, contracts, anticipated savings, data, goodwill or wasted expenditure) or any other indirect or consequential loss that is not reasonably foreseeable to both you and
+        us when you commenced using the website.
+    </source>
+        <target>No seremos responsables de ninguna pérdida de negocios (incluyendo pérdidas de ganancias, ingresos, contratos, ahorros anticipados, datos, fondos de comercio o gastos perdidos) o cualquier otra pérdida indirecta o consecuente que no sea razonablemente previsible tanto para usted como para nosotros cuando comenzó a utilizar el sitio web.</target>
+      </trans-unit>
+      <trans-unit id="dcebf3ebccb386b770edad78a5477cc255c469b2" datatype="html">
+        <source>
+        Alteration of Service or Amendments to the Conditions
+    </source>
+        <target>Alteración de Servicio o Modificación de las Condiciones</target>
+      </trans-unit>
+      <trans-unit id="477b3296c4ebfe9ca463f8890011a6e988444834" datatype="html">
+        <source>
+        We reserve the right to make changes to our website, policies, and these Conditions of Use at any time. You will be subject to the policies and Conditions of Use in force at the time that you use the website or that you order goods from us, unless any
+        change to those policies or these conditions is required to be made by law or government authority (in which case it will apply to orders previously placed by you). If any of these conditions is deemed invalid, void, or for any reason unenforceable,
+        that condition will be deemed severable and will not affect the validity and enforceability of any remaining condition.
+    </source>
+        <target>Nos reservamos el derecho de hacer cambios en nuestro sitio web, las políticas y estas Condiciones de Uso en cualquier momento. Usted estará sujeto a las políticas y condiciones de uso vigentes en el momento en que usted usa el sitio web o que nos envía mercancías, a menos que cualquier cambio a esas políticas o estas condiciones sea requerido por la ley o la autoridad gubernamental Caso que se aplicará a las órdenes previamente colocadas por usted). Si alguna de estas condiciones se considera inválida, nula, o por cualquier razón inaplicable, dicha condición será considerada separable y no afectará la validez y aplicabilidad de cualquier condición restante.</target>
+      </trans-unit>
+      <trans-unit id="201f1db6f105eed601e67b39575b9dd1806c4d4e" datatype="html">
+        <source>
+        Events beyond our reasonable control
+    </source>
+        <target>Eventos fuera de nuestro control razonable</target>
+      </trans-unit>
+      <trans-unit id="80bba70edbb983f929a7eee32e379ae13430cb53" datatype="html">
+        <source>
+        We will not be held responsible for any delay or failure to comply with our obligations under these conditions if the delay or failure arises from any cause which is beyond our reasonable control. This condition does not affect your statutory rights.
+    </source>
+        <target>No nos hacemos responsables de ninguna demora o incumplimiento de nuestras obligaciones bajo estas condiciones si el retraso o el fallo surge de cualquier causa que esté fuera de nuestro control razonable. Esta condición no afecta a sus derechos legales.</target>
+      </trans-unit>
+      <trans-unit id="2456b4f6e1c510b6efbfd4a01357f9b2442c1783" datatype="html">
+        <source>
+        Waiver
+    </source>
+        <target>Renuncia</target>
+      </trans-unit>
+      <trans-unit id="0f0879f112c7d2c9676475f079f8accd656f0ac9" datatype="html">
+        <source>
+        If you breach these conditions and we take no action, we will still be entitled to use our rights and remedies in any other situation where you breach these conditions.
+    </source>
+        <target>Si incumple estas condiciones y no tomamos ninguna medida, seguiremos teniendo derecho a utilizar nuestros derechos y recursos en cualquier otra situación en la que incumpla estas condiciones.</target>
+      </trans-unit>
+      <trans-unit id="4b6c4ee2817503f2e40cba7aaed2efc17676cd85" datatype="html">
+        <source>
+        Governing law and Jurisdiction
+    </source>
+        <target>Ley aplicable y jurisdicción</target>
+      </trans-unit>
+      <trans-unit id="87da6bddd9500e2c1e9c227ab9cf00d5a13931d9" datatype="html">
+        <source>
+        These conditions are governed by and construed in accordance with the laws of India. You agree, as we do, to submit to the exclusive jurisdiction of the courts at Bangalore.
+    </source>
+        <target>Estas condiciones se rigen e interpretan de acuerdo con las leyes de la India. Usted está de acuerdo, como nosotros, en someterse a la jurisdicción exclusiva de los tribunales de Bangalore.</target>
+      </trans-unit>
+      <trans-unit id="3081fa9b8d86f9cae430d976c0557364581c40ba" datatype="html">
+        <source>
+        Limitation of Liability
+    </source>
+        <target>Limitación de responsabilidad</target>
+      </trans-unit>
+      <trans-unit id="7933c907c59c1045e91635926579f4d1c6bbe8fc" datatype="html">
+        <source>
+        IN NO EVENT SHALL <x id="START_BOLD_TEXT" ctype="x-b"/>AWNICS TECHNOLOGIES PRIVATE LIMITED<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND IN CONNECTION WITH THESE TERMS OF USE, EVEN IF USER HAS BEEN INFORMED IN ADVANCE OF THE POSSIBILITY
+        OF SUCH DAMAGES.
+    </source>
+        <target>EN NINGÚN CASO<x id="START_BOLD_TEXT" ctype="x-b"/> AWNICS TECHNOLOGIES PRIVATE LIMITED<x id="CLOSE_BOLD_TEXT" ctype="x-b"/> SERÁ RESPONSABLE POR CUALQUIER DAÑO ESPECIAL, INCIDENTAL, INDIRECTO O CONSECUENTE DE CUALQUIER TIPO EN RELACIÓN CON ESTOS TÉRMINOS DE USO, AUN CUANDO EL USUARIO HA SIDO INFORMADO ANTES DE LA POSIBILIDAD DE TALES DAÑOS.</target>
+      </trans-unit>
+      <trans-unit id="21a42ea8e6c0c3252acebb3108acd8388c1a6644" datatype="html">
+        <source>
+        Severability &amp; Waiver Contact Information
+    </source>
+        <target>División y Renuncia Información de Contacto</target>
+      </trans-unit>
+      <trans-unit id="c2b8fd2b8517100f1dfe17b4412a24be8423b257" datatype="html">
+        <source>
+        If any provision of this Terms of Use is held to be invalid or unenforceable, such provision shall be struck and the remaining provisions shall be enforced.
+    </source>
+        <target>Si alguna provisión de estos Términos de Uso se considera inválida o no ejecutable, dicha disposición será ejecutada y las disposiciones restantes serán ejecutadas.</target>
+      </trans-unit>
+      <trans-unit id="f80cbfe937db6ee58e0c90f6c9c5fd38bec71b00" datatype="html">
+        <source>
+        Contact Information
+    </source>
+        <target>Información del contacto</target>
+      </trans-unit>
+      <trans-unit id="18b73e29f04f7dd34b3983c58a93f64e972b54cc" datatype="html">
+        <source>
+        If You any have any question, issue, complaint regarding any of our Services, please contact our Grievance Officer at 9986806824
+    </source>
+        <target>Si tiene alguna pregunta, problema o queja con respecto a cualquiera de nuestros Servicios, comuníquese con nuestro Oficial de Quejas al 9986806824</target>
+      </trans-unit>
+      <trans-unit id="84ae6cf096c12381f4cf7ffc733d86ecbb5c79a9" datatype="html">
+        <source>
+        Corporate address:
+    </source>
+        <target>Dirección corporativa:</target>
+      </trans-unit>
+      <trans-unit id="f6d6218caf4b07776cbaaf710d28968441c040e9" datatype="html">
+        <source>
+        Awnics Technologies Pvt. Ltd.<x id="LINE_BREAK" ctype="lb"/> No. 11, 2nd Floor, 6th Cross, Sampige Road, Malleshwaram, Bengaluru, Karnataka 560003
+    </source>
+        <target>Awnics Technologies Pvt. Ltd.<x id="LINE_BREAK" ctype="lb"/> No. 11, 2do piso, 6ta cruz, camino de Sampige, Malleshwaram, Bengaluru, Karnataka 560003</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
