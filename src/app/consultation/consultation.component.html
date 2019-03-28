@@ -1,40 +1,48 @@
 <app-navbar></app-navbar>
 <div class="container">
-    <div class="card" *ngFor="let consultation of consultations; let i=index;" #doctorDashboardComponent>
-        <div class="card-header" [ngStyle]="{'background': consultation?.status==='active'?'#3aae3a99':'rgba(0,0,0,.03)'}" *ngIf="selectedUser.role == 'patient' else doctorRole">
-            Consultation with Dr. {{ consultation?.user.firstname }} {{ consultation?.user.lastname }}
+    <div class="card" *ngFor="let consultation of [1,22,2,2,2,2,2,2]; let i=index;" #doctorDashboardComponent>
+        <div class="card-header" *ngIf="selectedUser.role == 'patient' else doctorRole">
+            <img src="../../assets/png/female2.png">
+            <div class="head-text"><span>Patient</span>John Adams</div>
+            <div class="head-text"><span>Consulted On</span>Jan 04,2019</div>
+            <div class="head-logos">
+                <button class="prescription" (click)="downloadDoc(i,$event)"><i class="fa fa-file-text" aria-hidden="true"></i>PRESCRIPTION</button>
+                <button class="bill" (click)="downloadBilling(i, $event)">BILL</button>
+                <div data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i" role="button" aria-expanded="false" (click)="changeIcon(i);">
+                    <span>
+                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
         </div>
-        <ng-template #doctorRole>
+        <!-- <ng-template #doctorRole>
             <div class="card-header" [ngStyle]="{'background': consultation.status==='active'?'#3aae3a99':'rgba(0,0,0,.03)'}">
                 Consultation with {{ consultation?.user.firstname }} {{ consultation?.user.lastname }}
-            </div>
-        </ng-template>
-        <div class="card-body">
-            <p class="card-text">Consultation Summary: {{ consultation?.prescription.description }}</p>
-            <p class="card-text">Consulted on: {{ consultation?.prescription.createdAt | date:'md' }}</p>
-            <div class="float-right" data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i" role="button" aria-expanded="false" (click)="changeIcon(i);">
-                <a>
-                    <span>More</span>
-                </a>
-            </div>
-            <div class="collapse" id="toggle-{{i}}">
-                <div style="padding: 1% 0%;">
-                    <p class="card-text">Special Instructions: {{ consultation?.prescription.instructions }}</p>
-                    <div id="download-prescription">
-                        <button class="prescription" [ngClass]="{'non-clickable': !consultation?.prescription?.url}"><a *ngIf="consultation?.prescription?.url; else prescriptionNotAvailable" download="{{consultation.prescription.url}}" (click)="downloadDoc(i,$event)">Download Prescription</a></button>
+            </div> -->
+        <!-- </ng-template> -->
+        <div class="card-body collapse" id="toggle-{{i}}">
+            <p class="card-text"><span>Consultation Summary:&nbsp;</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
+                    the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <!-- <p class="card-text"><span>Consulted on:&nbsp;</span> {{ consultation?.prescription.createdAt | date:'md' }}</p> -->
+            <div>
+                <!-- <div style="padding: 1% 0%;"> -->
+                    <!-- <p class="card-text">Special Instructions: {{ consultation?.prescription.instructions }}</p> -->
+                    <!-- <div id="download-prescription">
+                        <button class="prescription" [ngClass]="{'non-clickable': !consultation?.prescription?.url}"><a ; else prescriptionNotAvailable" download="{{consultation.prescription.url}}" >Download Prescription</a></button>
                         <ng-template #prescriptionNotAvailable>
                             <span>No Prescription</span>
                         </ng-template>
                     </div>
                     <div id="download-bill">
-                        <button class="bill" [ngClass]="{'non-clickable': !consultation?.billing?.url}"><a *ngIf="consultation?.billing?.url; else billNotAvailable" download="{{consultation.billing.url}}" (click)="downloadBilling(i, $event)">Download bill</a></button>
+                        <button class="bill" [ngClass]="{'non-clickable': !consultation?.billing?.url}"><a else billNotAvailable" download="{{consultation.billing.url}}" >Download bill</a></button>
                         <ng-template #billNotAvailable>
                             <span>No Bill</span>
                         </ng-template>
-                    </div>
-                </div>
+                    </div> -->
+                <!-- </div> -->
             </div>
         </div>
     </div>
     <h2 style="text-align: center">{{ message }}</h2>
 </div>
+<app-footer></app-footer> 

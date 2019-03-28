@@ -47,7 +47,7 @@ import { ReportModule } from './report/report.module';
     PaymentModule,
     ProfileModule,
     DoctorsListModule,
-    NgbModule.forRoot(),
+    NgbModule,
     PipesModule.forRoot(),
     DashboardModule,
     ReportModule

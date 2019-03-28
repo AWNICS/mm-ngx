@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="container">
+<!-- <div class="container">
     <div class="row">
     <ng-container *ngFor="let bill of bills; let i = index">
     <div class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12">
@@ -16,17 +16,17 @@
                         <small><a download="{{bill.url}}" (click)="downloadBill(i, $event)">Download Bill</a></small>
                     </div>
                 </div>
-                <!-- <div class="card shadow" *ngSwitchCase="'due'">
+                <div class="card shadow" *ngSwitchCase="'due'">
                     <div class="card-header">
                         {{ bill.description }}
                     </div>
                     <div class="card-body">
                         <p>Status: Unpaid</p>
                         <p>Consultation Charges: Rs {{ bill.amount }}</p>
-                        <p>Generated on {{ bill.date | date: 'md' }} at {{ bill.date | date: 'sm' }}</p> -->
-                        <!-- <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);"> -->
-<!-- Pay now</button> -->
-                    <!-- </div>
+                        <p>Generated on {{ bill.date | date: 'md' }} at {{ bill.date | date: 'sm' }}</p>
+                        <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
+Pay now</button>
+                    </div>
                 </div>
                 <div class="card shadow" *ngSwitchCase="bill.status==='Failure' ? 'Failure' : 'null' || bill.status==='Aborted' ? 'Aborted' : 'null'">
                     <div class="card-header">
@@ -39,18 +39,18 @@
                         <button type="button" class="btn btn-primary" *ngIf="selectedUser.role === 'patient'" data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall(i);">
   Retry Payment</button>
                     </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </ng-container>
-    <!-- </div> -->
+    </div>
     
     <h4 *ngIf="emptyBills && bills.length===0" style="text-align: center">There are no bills at this point</h4>
     <h4 *ngIf="emptyBills && bills.length > 0" style="text-align: center">There are no more bills</h4>
     <h4 *ngIf="noBillWithId" style="text-align: center">There are no bills with that id</h4>
 </div>
 <div class="container">
-    <!-- Modal -->
+    Modal
     <div class="modal fade" data-keyboard="false" data-backdrop="static" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true" #paymentModal>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -63,4 +63,83 @@
             </div>
         </div>
     </div>
+</div> -->
+<div class="container">
+  <div class="heading">
+    <h1>Billings</h1>
+    <div class="sorting">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="payment-mode" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <span class="dropdown-text">Payment Method</span>
+      </button>
+      <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">All</a>
+        <a class="dropdown-item" href="#">Credit Card</a>
+        <a class="dropdown-item" href="#">Debit Card</a>
+        <a class="dropdown-item" href="#">Net Banking</a>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="sort-date" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <span class="dropdown-text">Billing Date</span>
+      </button>
+      <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
+      </div>
+    </div>
+  </div>
 </div>
+  <div class="row test1">
+    <div *ngFor="let i of [1,32,3,3,3,3]" class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12" style="display: flex;justify-content: center">
+      <div class="card bill-data">
+        <div class="card-header">
+          <div class="row">
+            <img class="doctor-image" src="../../assets/png/doc.png">
+            <div class="patient-name">
+              <span class="title"> Patient</span>
+              <div class="name">John Adams</div>
+            </div>
+            <div class="download-icon">
+              <img src="../../assets/images/download-icon.png">
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="bill-id">
+            Bill #12345
+          </div>
+          <div class="amount-bill">
+            <div class="amount">
+              <span>Amount</span>
+              <span>&#8377;230.00</span>
+            </div>
+            <div class="bill-date">
+              <span>Billed Date</span>
+              <span>02 Jan 19</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <img class="wallet-icon" src="../../assets/images/wallet-icon.png">
+          <div class="payment-method">
+            <span class="title">Payment Method</span>
+            <div class="method">Net Banking</div>
+          </div>
+        </div>
+      <div class="bill-info">
+          <div class="wrapper">
+          <div>Bill <span>#270832</span></div>
+          <div>02 Jan 2019</div>
+          <div>Bill <span>#270832</span></div>
+          <div>Bill <span>#270832</span></div>
+          <div>Bill <span>#270832</span></div>
+          <div>Bill <span>#270832</span></div>
+          <div>Total Amount <span>&#8377;800</span></div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

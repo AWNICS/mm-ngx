@@ -45,8 +45,8 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             this.router.navigate([`/admin/${this.selectedUser.id}`]);
         } else {
             // this.navbarComponent.navbarColor(0, '#6960FF');
-            this.getDoctors();
-            this.receiveConsultNow(this.selectedUser);
+            // this.getDoctors();
+            // this.receiveConsultNow(this.selectedUser);
         }
     }
 

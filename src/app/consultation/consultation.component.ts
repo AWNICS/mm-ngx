@@ -189,11 +189,11 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     changeIcon(id: number) {
-    const element: any = document.querySelector('.toggle-' + id + ' span' );
-    if (element.innerText === 'More') {
-        element.innerText = 'Less';
+    const element: any = document.querySelector('.toggle-' + id + ' span i' );
+    if (element.className === 'fa fa-angle-down'){
+        element.className = 'fa fa-angle-up';
     } else {
-        element.innerText = 'More';
+        element.className = 'fa fa-angle-down';
     }
     }
 }

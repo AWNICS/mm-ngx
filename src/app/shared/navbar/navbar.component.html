@@ -13,7 +13,7 @@
             <div class="fa fa-reorder" id="icon-bar" style="color: rgb(68, 68, 68)"></div>
         </button>
         <div class="collapse navbar-collapse height-100" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav">
             </ul>
             <div class="my-2 my-lg-0 height-100 test">
                 <div class="mr-sm-2 row navbar__menu height-100">
@@ -21,7 +21,7 @@
                         <a routerLink="/" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Doctors Available</a>
                     </div>
                     <div *ngIf="loggedIn && user.role ==='patient'" class="height-100 navbar-link">
-                            <a routerLink="/" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Reports</a>
+                            <a [routerLink]="['/visitors', user.id]" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Reports</a>
                     </div>
                     <div *ngIf="!loggedIn" class="height-100 navbar-link login-text">
                             <a routerLink="login" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Login / Signup</a>

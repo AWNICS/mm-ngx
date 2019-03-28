@@ -167,7 +167,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.navbarComponent.navbarColor(0, '#6960FF');
+    // this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
     console.log('this.selectedGroup');

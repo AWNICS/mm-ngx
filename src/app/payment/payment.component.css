@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+/* @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
 *,
 *:before,
 *:after {
@@ -54,4 +54,296 @@ a:hover {
 .card-body button, .card-body small a{
     position: static;
 }
+} */
+::ng-deep body {
+    background: rgb(244, 244, 244);
+}
+
+.container{
+    padding-top: 102px;
+}
+h1{
+    font-size: 32px;
+    font-weight: bold;      
+}
+
+.heading{
+    display: flex;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+.sorting{
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+}
+.sorting-button {
+    height: 37px;
+    font-size: 12px;
+    font-family: "Poppins SemiBold";
+    color: rgb(0, 0, 0);
+    border-radius: 4px;
+    border: none;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.08);      
+}
+.items{
+    font-size: 12px;      
+} 
+span.dropdown-text{
+    padding-right: 28px;
+}
+.sorting div:first-child{
+    margin-right: 10px;
+}
+.card{
+    margin-bottom: 25px;
+    padding: 1rem;
+    width: 300px;      
+}
+.amount-bill{
+    display: flex;
+}
+.amount,
+.bill-date{
+display: flex;
+flex-direction: column;
+width: 50%;
+}
+.doctor-image{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; 
+}
+.card-header,
+.card-footer{
+    border: none;
+    background: white;
+    padding: 0px;
+}
+.card-header .row{
+    margin: 0px;
+}
+.download-icon{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+.download-icon img{
+    padding: 5px 7px;
+    border-radius: 4px;
+    background:rgba(31, 214, 166, 0.149); 
+}
+.patient-name,
+.payment-method{
+    margin-left: 10px;
+}
+.patient-name .title,
+.payment-method .title{
+    font-size: 11px;
+    color: #9da3a5;
+}
+.patient-name .name,
+.payment-method .method{
+    font-size: 16px;
+    font-family: "Poppins SemiBold";
+    color: #000000;      
+}
+.payment-method .method{
+    font-size: 13px;
+}
+.card-body{
+    border: 1px dashed #9da3a5;
+    margin: 1rem 0px; 
+}
+.wallet-icon{
+    border-radius: 50%;
+    background-color: rgba(157, 163, 165, 0.2);
+    padding: 8px;
+}
+.card-footer{
+    display: flex;
+}
+.bill-id{
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    color: rgb(157, 163, 165);
+    margin-bottom: 12px;      
+}
+.amount span:first-child,
+.bill-date span:first-child{
+    font-size: 13px;
+    color: rgb(157, 163, 165);      
+}
+.amount span:last-child,
+.bill-date span:last-child{
+    font-size: 20px;
+    font-family: "Poppins SemiBold";
+}
+.bill-info{
+    position: absolute;
+    background: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);;
+    z-index: 1;
+    box-shadow: -1.553px 5.796px 12px 0px rgba(0, 0, 0, 0.18);
+    width: 85%;
+    top: 50%;
+    display: none;
+    clip-path: polygon(0% 0%, 96% 0%, 96% 46%, 100% 50%, 96% 54%, 96% 100%, 0% 100%);
+}
+.test1 div:not(:nth-child(3n+1)) div.bill-data:hover .bill-info{
+    display: block;
+    padding-right: 4%;
+    left: 0;
+    transform: translate(-90%,-50%);
+}
+.test1 div:nth-child(3n+1) div.bill-data:hover .bill-info{
+    display: block;
+    padding-left: 4%;
+    right: 0;
+    transform: translate(+89%,-50%);
+    clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%);
+}  
+
+/* .test1 div:not(:nth-child(3n+1)) div.bill-data .bill-info:after {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-left-color: rgb(17,119,198);
+	border-width: 8px;
+	margin-top: -8px; */ */
+/* }
+/* 
+.test1 div:nth-child(3n+1) div.bill-data .bill-info:after {
+    right: 100%;
+    transform: rotate(180deg);
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-left-color: rgb(17,119,198);
+	border-width: 8px;
+	margin-top: -8px;
+} */
+.bill-info .wrapper div:first-child{
+    font-size: 18px;
+    font-family: "Poppins SemiBold";
+    color: rgb(255, 255, 255);      
+}
+.bill-info .wrapper div:first-child span{
+    font-family: "Poppins Medium";
+    color: rgba(255, 255, 255, 0.502);           
+}
+.bill-info .wrapper{
+    padding: 20px 0;
+}
+.bill-info div{      
+    font-size: 14px;
+    padding: 0 20px;
+    font-family: "Poppins Medium";
+    color: rgba(255, 255, 255, 0.502);      
+}
+.bill-info .wrapper div span{
+    color: rgb(255, 255, 255);
+    float: right;
+}      
+.bill-info .wrapper div:nth-child(2){
+    margin-bottom: 10px;
+} 
+.bill-info .wrapper div:last-child{
+    margin-top: 15px;
+    border-top: 1px solid white;
+    padding-top: 5px;
+}
+
+@media (min-width: 1200px) {
+    :host ::ng-deep .container{
+        width: 950px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+:host ::ng-deep .container{
+    /* width: 1040px; */
+    width: 950px;
+    max-width: none;
+}
+}
+
+@media (max-width: 991px) and (min-width:768px) {
+    :host ::ng-deep .container{
+        width: 625px;
+        max-width: none;
+    }
+    .test1 div:nth-child(even) div.bill-data:hover .bill-info{
+        display: block;
+        padding-right: 4%;
+        left: 0;
+        right: unset;
+        transform: translate(-90%,-50%);
+        padding-left: 0;
+        clip-path: polygon(0% 0%, 96% 0%, 96% 46%, 100% 50%, 96% 54%, 96% 100%, 0% 100%);
+    }
+    
+    .test1 div:nth-child(odd) div.bill-data:hover .bill-info{
+        display: block;
+        padding-left: 4%;
+        right: 0;
+        left: unset;
+        padding-right: 0;
+        transform: translate(+89%,-50%);
+        clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%);
+    }  
+}
+@media (max-width: 767px){
+    .heading{
+        justify-content: center;
+    }
+    .sorting{
+        margin-left: 0;
+    }
+
+    .test1 div div.bill-data:hover .bill-info{
+        display: block;
+        padding-left: 4%;
+        padding-right: 0% !important;
+        right: 0;
+        left: unset !important;
+        transform: translateY(-50%) !important;
+        clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%);
+    }  
+    .bill-info{
+        width: 70%;
+    }
+}
+@media (max-width: 767px) and (min-width:576px){
+    :host ::ng-deep app-footer .container,.container
+    {
+        width: 350px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 575px) and (min-width: 321px){
+    :host ::ng-deep .container{
+        width: 350px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 320px){
+    :host ::ng-deep .container{
+        width: 320px;
+        max-width: none;
+    }
 }

@@ -250,6 +250,8 @@ button:focus,
 }
 .card, .card-header {
     background: white;
+}
+.card-header{
     border-bottom: none;
 }
 .person-info > .card-header {
@@ -389,6 +391,34 @@ hr{
 }
 .via-video div i{
     color: rgb(17, 119, 198);
+}
+h4{
+    font-size: 16px;
+    font-family: "Poppins SemiBold";
+}
+.allergies-container{
+    background: white;
+    margin-bottom: 50px;
+}
+.allergies-container h3{
+    padding: 15px;
+    font-size: 16px;
+    font-family: "Poppins SemiBold";      
+}
+.allergies-container div.allergies{
+    border: 1px solid rgba(0,0,0,.125);
+}
+.allergies-container ul li{
+    list-style: none;
+    float: left;
+    font-size: 16px;
+    font-family: "Poppins SemiBold";
+    color: rgb(17, 119, 198);
+    border-radius: 4px;
+    background-color: rgba(17, 119, 198, 0.102);
+    padding: 6px 14px;
+    margin-right: 10px;
+    margin-bottom: 10px;      
 }
 /* 1082 */
 

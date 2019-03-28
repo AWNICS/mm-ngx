@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PasswordValidation } from './password.validator';
@@ -16,7 +16,7 @@ import { takeUntil } from 'rxjs/operators';
     templateUrl: 'register.component.html',
     styleUrls: ['register.component.css'],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     registerDetails: FormGroup;
     userDetails: UserDetails;
     error = '';
@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     formSubmitted: Boolean;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
+    @ViewChild('otpInput') otpInput: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
     private unsubscribeObservables = new Subject();
 
@@ -66,7 +67,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
         // this.navbarComponent.navbarColor(0, '#534FFE');
         this.f = this.registerDetails.controls;
     }
-
+    ngAfterViewInit(){
+        if (this.otpInput) {
+        this.otpInput.nativeElement.addEventListener('input',(value: any) => {
+        if (value.data) {
+            if (value.data.match(/[0-9]/)) {
+                if (value.path[1].children[3] !== value.srcElement) {
+                    value.srcElement.nextSibling.focus();
+                } else{
+                    value.path[1].children[0].focus();
+                }
+            }
+        }
+        });
+        }
+    }
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();

@@ -522,7 +522,7 @@ a {
     overflow-y: auto;
     overflow-x: hidden;
     border: none;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
+    /* box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15); */
 }
 
 .w3-bar-block .w3-dropdown-hover,

@@ -1,5 +1,5 @@
-.footer {
-  background-color: #ffffff;
+/* .footer {
+  background-color: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);
   padding: 36pt 0;
 }
 
@@ -82,7 +82,6 @@
   margin-bottom: 8pt;
 }
 
-/*--- Modifiers---*/
 .footer--dark {
   background-color: #333C44;
 }
@@ -113,4 +112,50 @@ a {
 
 #lang:hover {
   cursor: pointer;
+} */
+.footer{
+  background: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);
+  color: white;
+  font-size: 12px;
+  font-family: "Poppins Light";
+}
+.container{
+  padding-top: 30px;
+}
+.footer-data{ 
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid blue;
+}
+.footer section ul li a{
+  color: white;
+}
+.footer section ul{
+  list-style: none;
+  padding-left: 0;
+}
+.footer section{
+  float: left;
+  margin: 0px;
+}
+.container section:first-child{
+  /* width: 34%; */
+}
+section div{
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-family: "Poppins SemiBold"
+}
+.copyrights{
+  margin-bottom: 0px;
+}
+.footer-icons{
+  display: flex;
+  padding: 15px 0px;
+}
+.footer-icons .icons{
+  margin-left: auto;
+}
+.footer-icons .icons i{
+  margin: 0 10px;
 }

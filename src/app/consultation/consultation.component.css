@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+/* @import url(https://fonts.googleapis.com/css?family=Lato:400,700); */
 *,
 *:before,
 *:after {
@@ -6,11 +6,8 @@
     box-sizing: border-box;
 }
 
-body {
-    background: #C5DDEB;
-    font: 14px/20px "Lato", Arial, sans-serif;
-    padding: 40px 0;
-    color: white;
+/* ::ng-deep body {
+    background: rgb(244, 244, 244);
 }
 
 .container {
@@ -80,4 +77,110 @@ a {
 
 .non-clickable {
     cursor: not-allowed;
+} */
+
+::ng-deep body{
+    background-color: rgb(244, 244, 244);      
+}
+.card{
+    margin-top: 15px;
+}
+.card-header{
+    background: white;
+    flex-wrap: wrap;
+}
+.container {
+    padding-top: 102.66667px;
+    min-height: calc(100vh - 172px);
+    margin-bottom: 30px;
+}
+.card-header img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.head-text{
+    display: flex;
+    flex-direction: column;
+}
+.card-header .head-text:nth-child(2) {
+    padding-right: 10%;
+    border-right: 2px solid rgba(0, 0, 0, 0.149);       
+}
+.card-header .head-text:nth-child(3) {
+    margin-left: 5%;
+}
+.head-logos{
+    margin-left: auto;
+    align-self: center;
+}
+.head-logos > *{
+    margin: 0 10px;
+}
+.card-header button i{
+    padding-right: 8px;
+}
+.card-header span i{
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgb(244, 244, 244);  
+}
+.card-header, .head-logos{
+    display: flex;
+}
+.head-text{
+    font-family: "Poppins SemiBold";
+    font-size: 16px;
+}
+.head-text span,
+.card-text span{
+    color: #9da3a5;
+    font-family: "Poppins";
+    font-size: 11px;
+}
+.card-text{
+    font-size: 14px;
+}
+.card-text span{
+    display: block;
+}
+button{
+    border: none;
+    padding: 0 15px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: "Poppins SemiBold";
+    cursor: pointer;
+}
+.prescription {
+    background-color: rgba(17, 119, 198, 0.102);
+    color: rgb(17, 119, 198);          
+}
+.bill {
+    background-color: rgba(31, 214, 166, 0.149);
+    color: rgb(1, 197, 146);  
+}
+
+@media (max-width: 767px){   
+
+.head-logos{
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+}
+@media (max-width: 575px) and (min-width: 320px){
+
+.head-text {
+    font-size: 10px;
+}   
+.head-text span {
+    font-size: 10px;
+}
+button {
+    padding: 0 8px;
+}
+
 }

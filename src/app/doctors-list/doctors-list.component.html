@@ -3,7 +3,31 @@
   <div class="container" style="color:white;">
     <div>
       <div>
-        <h3>Available Doctors</h3>
+        <div class="heading">
+           <h1>Available Doctors</h1>
+            <div class="sorting">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="payment-mode" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="dropdown-text">Payment Method</span>
+              </button>
+              <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">All</a>
+                <a class="dropdown-item" href="#">Credit Card</a>
+                <a class="dropdown-item" href="#">Debit Card</a>
+                <a class="dropdown-item" href="#">Net Banking</a>
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="sort-date" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="dropdown-text">Billing Date</span>
+              </button>
+              <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- <div class="s">
     <div class="dropdown">
@@ -48,11 +72,11 @@
     </p>
   </div>
 </div>
-<div class="container container-2" style="top:-226px; position: relative;width:100%">
+<div class="container container-1">
   <div class="row">
     <ng-container *ngFor="let i of [1,2,3,3,3,5,6]">
       <div class="col col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12" style="display: flex;justify-content: center">
-        <div class="card doctor-info" style="margin-bottom: 10px;width: 300px;">
+        <div class="card doctor-info" style="margin-bottom: 25px;width: 300px;">
           <div class="card-header doctor-info-header">
             <div class="row">
               <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
@@ -61,7 +85,7 @@
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
                   <p class="doctor-info-name">Dr. Shawna Larson</p>
-                  <span class="doctor-info-price">$150</span>
+                  <span class="doctor-info-price">&#8377;150</span>
                   <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
                 </div>
               </div>

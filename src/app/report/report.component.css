@@ -1,26 +1,237 @@
-a {
-    color: #F7F7F7;
+::ng-deep body{
+    background: rgb(244, 244, 244);      
 }
+h2{
 
-a:hover {
-    color: #F7F7F7;
-    text-decoration: none;
 }
-
-.report {
-    background: #6c63ff;
-    border-color: #6c63ff;
-    color: #fff;
-    padding: 1pt 6pt;
-    display: inline-block;
-    line-height: 1.5;
-    font-weight: 400;
-    white-space: nowrap;
+h3{
+    font-size: 16px;
+    font-family: "Poppins SemiBold";
+    color: rgb(0, 0, 0);      
+    margin: 0 20px;
+}
+.report-header{
+    background: white;
+    padding: 15px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-date {
+    display: flex;
+    align-items: center;
+}
+.nav-date > div > i {
+    opacity: 0.6;
     cursor: pointer;
-    border-radius: 30px;
-    margin-bottom: 1.3em;
-    transition: 0.7s;
+}
+.nav-date > div > i:active {
+    opacity: 1;
+}
+.nav-span{
+    display: flex;
+}
+.nav-span > div{
+    padding: 5px 10px;
+    border: 1px solid rgb(17,119,198);
+    color: rgb(17,119,198);
+    cursor: pointer;
+    outline: none;
+}
+.nav-span > button{
+    padding: 0px 12px;
+    margin-right: 20px;
+    border: 1px solid rgb(117, 126, 132);
+    border-radius: 4px;
+    background: rgba(244, 244, 244, 0.4);
+      
+}
+.nav-buttons button{
+    padding: 8px 3px;
+    background: white;
+    font-size: 12px;
+    width: 120px;
+    font-family: "Poppins Medium";
+    border: 1px solid rgb(17,119,198);
+    color: rgb(17,119,198);
+    outline: none;
+    cursor: pointer; 
+}
+.nav-buttons button:first-child,
+.nav-span div:nth-child(2){
+    border-right: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px; 
+}
+.nav-buttons button:last-child,
+.nav-span div:last-child{
+    border-left: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.nav-buttons button:hover,
+.nav-buttons button.active,
+.nav-span div:hover,
+.nav-span div.active
+{
+    background: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);
+    color: white;
+}
+:host ::ng-deep .cal-header{
+    height: 45px;
+    background: rgb(244, 244, 244);
+    text-align: right;
+}
+:host ::ng-deep .cal-header > .cal-cell{
+    margin: auto;
+}
+:host ::ng-deep .cal-day-cell{
+    position: relative;
+}
+:host ::ng-deep .cal-events{
+    position: relative;   
+    bottom: 23px;
+    justify-content: center;
+    line-height: unset;
+}
+:host ::ng-deep .cal-events > span{
+    background: rgba(33, 92, 160,0.68);
+    border-radius: 4px;
+    padding: 7px 0;
     text-align: center;
-    text-decoration: none;
-    border: none;
+    width: 100%;
+    font-size: 12px;
+    font-family: "Poppins SemiBold";
+    color: rgb(75, 39, 142);
+    cursor: pointer;
+}
+:host ::ng-deep .report-info{
+    display: none;
+    width: 400px;
+    border-radius: 4px;
+    border: 1.5px solid  rgb(33, 92, 160);
+    border-right: 8px solid rgb(33, 92, 160);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.16);
+    margin-right: 10px;
+    z-index: 2;
+    /* clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%); */
+}
+:host ::ng-deep .cal-events span:hover + .report-info,
+:host ::ng-deep .report-info:hover,
+.week-consultations:hover + .report-info {
+    display: block;
+    position: absolute;
+    left: 90%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+:host ::ng-deep .report-info-header{
+    display: flex;
+    border-bottom: 1px solid rgb(207, 217, 227);
+    align-items: center;
+    padding: 10px;
+}
+
+:host ::ng-deep .report-info-header div{
+    font-size: 14px;
+    font-weight: "bold";
+}
+
+:host ::ng-deep .report-info-header span{
+    font-size: 11px;
+    color: #757e84;
+}
+
+:host ::ng-deep .report-info-header img{ 
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+:host ::ng-deep .report-info-header button{
+    margin-left: auto;
+    padding: 3px 10px;
+    background: white;
+    border: 1px solid rgb(33, 92, 160);
+    color: rgb(33, 92, 160);
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: "Poppins SemiBold";
+    font-size: 12px;
+}
+:host ::ng-deep .report-doc-name{ 
+    display: flex;
+    flex-direction: column;
+}
+:host ::ng-deep .report-time{
+    padding: 15px 10px;
+    border-bottom: 1px solid rgb(207, 217, 227);
+    font-size: 12px;
+}
+:host ::ng-deep .report-time > div{
+    border: 1px solid gray;
+    /* border-radius: 10px; */
+    width: fit-content;
+    padding: 0px 10px;
+}
+
+:host ::ng-deep .report-time> div > i{
+    margin-right: 5px;
+}
+:host ::ng-deep .report-summary{
+    padding: 10px;
+    font-size: 12px;
+}
+:host ::ng-deep .report-summary span{
+    font-size: 11px;
+    color: #757e84;
+}
+
+
+:host ::ng-deep .cal-event{
+    /* display: none; */
+}
+:host ::ng-deep .cal-day-number{
+    opacity: 1;
+    font-weight: bold;
+}
+:host ::ng-deep .cal-day-badge{
+    display: none;                      
+}
+
+.week-consultations{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    background: white;
+    border-left: 2px solid rgb(33, 92, 160); 
+    padding: 10px 4px;
+    cursor: pointer;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.week-consultations .doctor-info{
+    display: flex;
+    flex-direction: column;
+}
+.week-consultations img{
+    width: 30px;
+    height: 30px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background: gray;
+}
+.week-consultations .doctor-info .doctor-name{
+    font-size: bold;
+    white-space: pre;
+    font-weight: bold;   
+}
+.week-consultations .doctor-info span{
+    font-size: 9px;
+}
+:host ::ng-deep .cal-event-container{
+    left: 0 !important;
 }

@@ -7,6 +7,7 @@ import { HomeModule } from '../home/home.module';
 import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
+import { TermsModule } from '../terms/terms.module';
 import { DoctorRegisterComponent } from './doctor-register.component';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { LoginService } from './login.service';
@@ -16,7 +17,7 @@ import { ActivationComponent } from './activation.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, HomeModule, FormsModule, ReactiveFormsModule, LoginRoutingModule,
-     NgMultiSelectDropDownModule.forRoot()],
+     NgMultiSelectDropDownModule.forRoot(), TermsModule],
   declarations: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent,
     ResetPasswordComponent, ActivationComponent],
   exports: [LoginComponent, RegisterComponent, DoctorRegisterComponent, ForgotPasswordComponent,

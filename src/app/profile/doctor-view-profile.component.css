@@ -1,330 +1,39 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins:500");
+/* @import url("https://fonts.googleapis.com/css?family=Poppins:500");
 html {
     line-height: 1.15;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
 }
-*{
-    font-family: 'Poppins', sans-serif;
-}
-body {
-    margin: 0;
-    background: #F7F7F7;
-    font-family: 'Poppins', sans-serif;
-    color: #666;
-}
+*/
 
 .container {
+    padding: 0px;
     padding-top: 102.66667px;
 }
-
-.profile-image {
-    max-height: 120px;
-    max-width: 120px;
-    padding: 3px;
-    border: 1px solid rgba(102, 102, 102, 0.1);
-    border-radius: 100%;
+.doctor-info{
+    width: 312px;
+    margin: 0 auto;
+    margin-top: 15px;
 }
-
-.status-online {
-    position: relative;
-    top: -30px;
-    left: 6rem;
-    border: none;
-    border-radius: 100%;
-    width: 22px;
-    height: 22px;
-    background-color: #3AD29F;
+.doctor-info-body{
+    max-width: 630px;
+    margin-top: 15px;
 }
-
-.status-offline {
-    position: relative;
-    top: -40px;
-    left: 6rem;
-    border: none;
-    border-radius: 100%;
-    width: 22px;
-    height: 22px;
-    background-color: #FF5252;
-}
-
-.status-away {
-    position: relative;
-    top: -40px;
-    left: 6rem;
-    border: none;
-    border-radius: 100%;
-    width: 22px;
-    height: 22px;
-    background-color: #FFFF00;
-}
-
-.status-invisible {
-    position: relative;
-    top: -40px;
-    left: 6rem;
-    border: none;
-    border-radius: 100%;
-    width: 22px;
-    height: 22px;
-    background-color: #E2E0FF;
-}
-
-.doctor-profiles {
-    background-color: #F7F7F7;
-    color: #666;
-    padding: 2rem;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-    line-height: 1.5;
-}
-
-.btn-primary {
-    background-color: #6960FF !important;
-    padding: 6pt 20pt;
-    line-height: 1.5;
-    border: 1px solid #6C63FF;
-    color: #FFFFFF;
-    font-weight: 400;
-    white-space: nowrap;
-    border-radius: 30px;
-    transition: 0.7s;
-    text-align: center;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.btn-primary:hover {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-    background-color: #463AFF;
-    cursor: pointer;
-}
-
-.no-gutters {
-    padding: 0px;
-}
-
-.hover-shadow {
-    margin-top: 10px;
-    border: 1px solid rgba(51, 60, 68, 0.1);
-    border-radius: 5px;
-    height: 100px;
-    width: 200px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.hover-shadow:hover {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-}
-
-.close {
-    color: white;
-    position: absolute;
-    top: 0px;
-    left: 90%;
-    font-size: 3em;
-    font-weight: 400;
-    transition: 0.3s;
-}
-
-.close:hover,
-.close:focus {
-    color: #999;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-@-webkit-keyframes zoom {
-    from {
-        -webkit-transform: scale(0)
-    }
-    to {
-        -webkit-transform: scale(1)
-    }
-}
-
-@keyframes zoom {
-    from {
-        transform: scale(0.1)
-    }
-    to {
-        transform: scale(1)
-    }
-}
-
-a {
-    color: #6960FF;
-}
-
-.card {
-    border: none;
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-    line-height: 26px;
-    width: auto;
-    max-width: 100%;
-    word-wrap: break-word;
-}
-
-.small-font {
+span{
+    color: #9da3a5;
     font-size: 14px;
-    line-height: 1.5;
-    word-wrap: break-word;
-    word-break: normal;
+    font-family: "Poppins Medium";
 }
-
-.status-text {
-    margin-left: 13%;
-    margin-top: -15px;
+p{
+    font-size: 14px;
+    font-family: "Poppins SemiBold";
+    color: black;
 }
-
-@media (max-width: 765px) {
-    .profile-image {
-        max-height: 90px;
-        max-width: 90px;
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .status-online {
-        top: -25px;
-        left: 56%;
-        width: 15px;
-        height: 15px;
-    }
-    .status-offline {
-        top: -25px;
-        left: 56%;
-        width: 15px;
-        height: 15px;
-    }
-    .status-away {
-        top: -25px;
-        left: 56%;
-        width: 15px;
-        height: 15px;
-    }
-    .status-invisible {
-        top: -25px;
-        left: 56%;
-        width: 15px;
-        height: 15px;
-    }
-    .status-text {
-        margin-left: 37%;
-        margin-bottom: 20px;
-        margin-top: -15px;
-    }
-}
-
-.modal-content {
-    background-color: transparent !important;
-    border: none !important;
-}
-
-.modal-header {
-    border: none !important;
-}
-
-.modal-footer {
-    border: none !important;
-}
-
-.demo-one {
-    overflow: hidden !important;
-    background-color: transparent;
-}
-
-.demo-one img {
-    height: 160px;
-    width: 160px;
-    cursor: pointer;
-    padding: 10px;
-}
-
-.demo-two {
-    height: 500px;
-}
-
-.toggle-box {
-    width: 49%;
-    display: inline-block;
-}
-
-.toggle-box mat-slide-toggle {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-@media only screen and (max-width: 960px) {
-    .toggle-box {
-        width: 100%;
-        display: block;
-    }
-    .demo-content {
-        margin: 16px;
-    }
-}
-
-.content {
-    max-width: 100% !important;
-    margin: 10px 0px;
-}
-
-.navigate-left {
-    display: block;
-    position: absolute;
-    top: 70px;
-    background-color: rgba(247, 247, 247, 0.3);
-    border: none;
-    outline: none;
-}
-
-.navigate-right {
-    display: block;
-    position: absolute;
-    top: 70px;
-    right: 0px;
-    background-color: rgba(247, 247, 247, 0.3);
-    border: none;
-    outline: none;
-}
-
-.navigate-left:hover,
-.navigate-right:hover {
-    color: #FFFFFF;
-    cursor: pointer;
-    background-color: rgba(247, 247, 247, 0.5);
-}
-
-.navigate-left:disabled,
-.navigate-right:disabled {
-    display: none;
-}
-
-@media screen and (min-width: 600px) and (max-width: 1279px) {
-    .content {
-        margin: 10px 0px;
-    }
-}
-
-@media screen and (max-width: 599px) {
-    .content {
-        margin: 8px 12px;
-    }
-    .api-table-containter {
-        display: none;
-    }
-}
-
-
 .loading-bar{
     animation-iteration-count: 10;
     width: 0%;
     background-color: green;
-    height: 9px;
+    height: 7px;
     position: absolute;
     left: 0;
     border-radius: 10px;
@@ -332,7 +41,7 @@ a {
   }
   .loading-holder{
     position: relative;
-    height: 9px;
+    height: 7px;
     border-radius: 10px;
     background-color: #7b7777d1;
     width: 100%;
@@ -342,13 +51,205 @@ a {
       width: 0%;
     }
     100%{
-      width: 100%;
+      width: 90%;
     }
   }
-
-  .doctor-details-main {
-    height: 96%;
+  .card-header{
+      border-bottom: none;
   }
+  .card-header,
+  .card-footer{
+    background: white;  
+  }
+  .shadow{
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.08);
+  }
+  .profile-image{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+  }
+  .flex{
+      display: flex;
+  }
+  .flex-column{
+    flex-direction: column;
+  }
+  .loading-holder{
+      margin-left: 10px;
+      align-self: center;
+  }
+  .ratings{
+    margin: 22px 0;
+  }
+  .doctor-experience{
+      width: 62%;
+      padding: 10px 0px;
+  }
+  .doctor-patients{
+      width:38%;
+      padding: 10px 0px;
+  }
+  .doctor-details{
+      margin-top: 10px;
+  }
+  .doctor-details p{
+    font-family: "Poppins Medium";  
+  }
+  .doctor-details span{
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    color: #9da3a5;         
+ }
+ .doctor-details button{
+    width:100%;
+    padding: 8px 0px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(31, 214, 166);
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    margin-top: 12px;
+ }
+ .doctor-experience span:first-child,
+ .doctor-patients span:first-child{
+    font-size: 16px;
+    font-family: "Poppins Medium";
+    color: #9da3a5;         
+ }
+ .doctor-experience span:last-child,
+ .doctor-patients span:last-child{
+    font-size: 16px;
+    color: black;
+    font-family: "Poppins Medium";
+ }
+ .doctor-name p{
+    font-size: 18px;
+ }
+ .doctor-name{
+     margin-left: 12px;
+ }
+ .doctor-price span:first-child{
+    font-size: 16px;
+    font-family: "Poppins SemiBold";
+    color: rgb(17, 119, 198);
+    border-radius: 4px;
+    background-color: rgba(17, 119, 198, 0.102);
+    text-decoration: underline;
+    padding: 7px 20px;
+ }
+ .doctor-price span:last-child,
+ #pills-profile .row + span{
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    color: #9da3a5;
+}
+.nav-pills .nav-item{
+    padding-right: 15px;
+}
+.doctor-info-body .card-header{
+    padding: 0 1.25rem;
+}
+.nav-pills .nav-item  a{
+    padding: 14px 0px;
+    border-radius: 0px;
+    background: white;
+    color: #9fa5a7;
+    font-family: "Poppins SemiBold";
+    font-size: 14px;
+}
+.nav-pills .nav-item  a.active{
+    border-bottom: 2px solid #1177c6;
+    color: #1177c6;
+}
+.doctor-body-info span{
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    color: rgb(157, 163, 165);      
+}
+
+.work-history{
+    /* width: 48%; */
+    border-left: 2px solid rgb(105,96,255);
+}
+/* .work-history:nth-child(even){
+    margin-left: 15px;
+} */
+.test:not(:nth-child(1)):not(:nth-child(2)){
+    margin-top: 15px;
+}
+.work-history .card-body p{
+    margin-bottom: 0px;
+}
+.work-history .card-body span{
+    color: #1177c6;
+    font-size: 14px;
+    font-family: "Poppins SemiBold";
+}
+.professional-societies{
+    margin-top: 15px;
+}
+.recent-activity{
+    margin: 0 15px;
+    margin-top: 15px;
+}
+.recent-activity .card-body{
+    padding: 0px;
+    display: flex;
+    height: 114px;
+}
+.recent-activity .card-body img{
+    width: 20%;
+    height: 100%;      
+}
+.recent-activity .card-body p{
+    padding: 4% 4%;
+    margin-bottom: 0px;
+    font-size: 14px;
+    font-family: "Poppins";
+    color: rgb(68, 68, 68);
+    overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        width: 942px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 992px) {
+.container{
+    width: 942px;
+    max-width: none;
+}
+}
+
+@media (max-width: 991px) and (min-width:768px) {
+    .container{
+        width: 640px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 767px){
+    .container{
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 575px){
+    .test:nth-child(2){
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 320px){
+}
+/* 
   .sub-heading-text{
     color: #7b7777d1;
   }
@@ -387,11 +288,6 @@ a {
   }
   .work-history-card:nth-child(even){
     margin-left: 4%;
-  }
-
-  .doctor-details{
-    height: 96%;
-    padding-top: 9%;
   }
 
   .doctor-details-body{
@@ -436,40 +332,17 @@ a {
 }
 .tab-content > div > div > div > .sub-heading-text {
     font-size: 15px;
-}
-
-@media (min-width: 481px) and (max-width: 767px) {
-  
-    /* span {
-        color:red;
-    }
-    p {
-        color:red;
-    } */
-    
-  }
-  
-  /* 
-    ##Device = Most of the Smartphones Mobiles (Portrait)
-    ##Screen = B/w 320px to 479px
-  */
-  
-  @media (min-width: 320px) and (max-width: 480px) {
-    
-  }
-    
+}   
 .carousel-item img{
     width: 100% !important;
     height: 100px !important;
-    /* padding: 10px; */
+    padding: 10px;
 }
-
 #pills-media * .sub-heading-text {
     text-align: left;
     display: block;
 }
-
 .recent-activity{
     margin: 10px 6px;
     border: 1px solid #7b7777d1;
-}
+} */

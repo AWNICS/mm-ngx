@@ -1,19 +1,138 @@
-<app-navbar></app-navbar><br/><br/><br/><br/>
+<app-navbar></app-navbar><br /><br /><br /><br />
+
 <div class="container">
-    <small>{{ message }}</small>
-    <div class="card">
-        <div class="card-header">
-            {{ report?.title }}
+  <h2>Reports</h2>
+  <div class="row  report-header text-center">
+    <div class="nav-buttons">
+      <button class="active" (click)="toggleView($event,0)">Consultations</button>
+      <button (click)="toggleView($event,1)">Vital Reports</button>
+    </div>
+    <div class="nav-date">
+      <div class="left-arrow" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        <i class="fa fa-2x fa-angle-left" aria-hidden="true"></i>
+      </div>
+      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+      <div class="right-arrow" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()">
+        <i class="fa fa-2x fa-angle-right" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="nav-span">
+      <button>TODAY</button>
+      <div class="month" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+        31
+      </div>
+      <div class="week" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+        7
+      </div>
+    </div>
+
+  </div>
+  <ng-container>
+    <div [ngSwitch]="view" *ngIf="showConsultation; else showReports">
+      <mwl-calendar-month-view [cellTemplate]="monthCellTemplate" *ngSwitchCase="CalendarView.Month"
+        [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [eventTemplate]="weekEventTemplate"
+        [viewDate]="viewDate" [events]="events" [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
+      </mwl-calendar-week-view>
+    </div>
+  </ng-container>
+  <ng-template #showReports>
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+        [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+    </div>
+  </ng-template>
+</div>
+
+<!-- <div class="report-info">
+    <div class="report-info-header">
+        <img src="../../assets/png/doc.png">
+        <div class="report-doc-name">
+            <div>Dr. Rick Grimes</div>
+            <span>PHYSIOTHERAPIST</span>
         </div>
-        <div class="card-body">
-            <p class="card-text">Report description: {{ report?.description }}</p>
-            <p class="card-text">Report created on: {{ report?.createdAt | date:'md' }}</p>
-            <button class="report">
-                <a *ngIf="url else reportNotAvailable" [href]="url" download="{{report?.url}}">Download Report</a>
-            </button>
-            <ng-template #reportNotAvailable>
-                <span>No Report</span>
-            </ng-template>
+        <button>DOWNLOAD</button>
+    </div>
+    <div class="report-time">
+        <div>
+            <i class="fa fa-calendar" aria-hidden="true"></i>
+            19 Feb, 2019 to 21 Feb, 2019
         </div>
     </div>
-</div>
+    <div class="report-summary">
+        <span>Report Summary</span>
+        <div>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+        </div>
+    </div>
+</div> -->
+<!-- <div style="margin-bottom: 30px;">dsasd</div> -->
+
+<!-- Template for month cell -->
+<ng-template #monthCellTemplate let-day="day" let-openDay="openDay" let-locale="locale"
+  let-tooltipPlacement="tooltipPlacement" let-highlightDay="highlightDay" let-unhighlightDay="unhighlightDay"
+  let-eventClicked="eventClicked" let-tooltipTemplate="tooltipTemplate" let-tooltipAppendToBody="tooltipAppendToBody">
+  <div class="cal-cell-top">
+    <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+  </div>
+  <div class="cal-events" *ngIf="day.events.length > 0">
+    <ng-container *ngFor="let event of day.events.slice(0,2); trackBy:trackByEventId">
+      <ng-template [ngTemplateOutlet]="eventHoverTemplateWeek" [ngTemplateOutletContext]="{event: event}"></ng-template>
+    </ng-container>
+    <span *ngIf="day.events.length > 2" (click)="setMonthView(CalendarView.Week,day.events[0].start)">More</span>
+  </div>
+</ng-template>
+<!-- Template for Month cell end -->
+<!-- Template for eventHoverInfo -->
+
+<ng-template let-event="event" #eventHoverTemplateWeek>
+  <span>Details</span>
+  <ng-template [ngTemplateOutlet]="eventHoverTemplate" [ngTemplateOutletContext]="{event:event}"></ng-template>
+</ng-template>
+<!-- Template End for eventHoverInfo -->
+<!-- Template for Week Event End -->
+<ng-template #weekEventTemplate let-event="weekEvent.event" let-tooltipDisabled="tooltipDisabled">
+  <!-- <div class="cal-event"> -->
+  <div class="week-consultations shadow">
+    <img src="../../src/assets/png/doc.png">
+    <div class="doctor-info">
+      <div class="doctor-name">
+        {{event.docname}}
+      </div>
+      <span>{{event.qualification}}</span>
+    </div>
+  </div>
+  <ng-template [ngTemplateOutlet]="eventHoverTemplate" [ngTemplateOutletContext]="{event: event}"></ng-template>
+  <!-- </div> -->
+</ng-template>
+<!-- Template for Week Event End -->
+<!-- Template for Week Event Ho -->
+<ng-template let-event="event" #eventHoverTemplate>
+  <div class="report-info">
+    <div class="report-info-header">
+      <img src="../../src/assets/png/doc.png">
+      <div class="report-doc-name">
+        <div>{{event.docname}}</div>
+        <span>{{event.qualification}}</span>
+      </div>
+      <button>DOWNLOAD</button>
+    </div>
+    <div class="report-time">
+      <div>{{event.start}} to {{event.end}}</div>
+    </div>
+    <div class="report-summary"> <span>Report Summary</span>
+      <div>{{event.summary}}</div>
+    </div>
+  </div>
+</ng-template>

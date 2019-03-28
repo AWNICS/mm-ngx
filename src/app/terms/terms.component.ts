@@ -14,6 +14,6 @@ export class TermsComponent implements OnInit {
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
 
   ngOnInit() {
-    this.navbarComponent.navbarColor(0, '#6960FF');
+    // this.navbarComponent.navbarColor(0, '#6960FF');
   }
 }
