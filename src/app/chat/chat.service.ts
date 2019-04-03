@@ -138,7 +138,7 @@ export class ChatService {
         const formData = new FormData();
         formData.append('file', file);
         return this.http.post(uri, formData, this.httpOptions)
-        .pipe(map((res: any) => res.json()),
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
 

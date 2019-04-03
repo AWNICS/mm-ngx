@@ -13,7 +13,6 @@ import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
-
 const colors: any = {
     red: {
       primary: '#ad2121',
@@ -47,7 +46,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 
   activeDayIsOpen: Boolean = false;
   viewDate: Date = new Date();
-  monthActive: Boolean = true;
 
   modalData: {
     action: string;
@@ -58,14 +56,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        // this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        // this.handleEvent('Deleted', event);
       }
     }
   ];
@@ -81,6 +79,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedUser: UserDetails;
     report: any;
     message: any;
+    reportData:any;
     url: SafeResourceUrl;
     showConsultation: Boolean = true;
     consultationData: Array<any> = [{
@@ -125,6 +124,32 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       endTime: new Date('29/march/2019 11:40:00')
     },
   ];
+  reports: Array<any> = [{
+    reportname: 'Chandu',
+    starttime: new Date('21/mar/2019 10:00:00'),
+    endTime: new Date('21/mar/2019 11:00:00')
+  },
+  {
+    reportname: 'Chandu Aluri',
+    starttime: new Date('22/march/2019 10:40:00'),
+    endTime: new Date('22/march/2019 11:40:00')
+  },
+  {
+    reportname: 'Chandu Hema',
+    starttime: new Date('23/march/2019 11:40:00'),
+    endTime: new Date('23/march/2019 11:40:00')
+  },
+  {
+    reportname: 'Chandu Sai',
+    starttime: new Date('23/march/2019 12:40:00'),
+    endTime: new Date('23/march/2019 11:40:00')
+  },
+  {
+    reportname: 'Dilip Varma',
+    starttime: new Date('29/march/2019 13:40:00'),
+    endTime: new Date('29/march/2019 11:40:00')
+  },
+];
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -167,77 +192,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           summary: consultation.summary
         });
       });
-      this.cd.detectChanges();
-      const  eventElemets = document.querySelectorAll('.cal-event');
-      // let presentDate;
-      // let pastDate;
-      // for (let i = 0; i < eventElemets.length ; i++) {
-      //   presentDate = new Date(this.consultationData[i].starttime).toDateString();
-      //     if (presentDate !== pastDate) {
-      //     const parentElement: any = eventElemets[i].parentNode;
-      //     parentElement.innerHTML += `<span>Details</span><div class="report-info">
-      //     <div class="report-info-header">
-      //     <img src="../../src/assets/png/doc.png">
-      //     <div class="report-doc-name"> <div>${this.consultationData[i].docname}</div>
-      //      <span>${this.consultationData[i].qualification}</span> </div>
-      //      <button>DOWNLOAD</button> </div>
-      //       <div class="report-time"> <div> ${new Date(this.consultationData[i].starttime).toDateString()}
-      //       to ${new Date(this.consultationData[i].endTime).toDateString()} </div>
-      //       </div> <div class="report-summary"> <span>Report Summary</span>
-      //       <div>${this.consultationData[i].summary}</div>
-      //       </div>
-      //       </div>`;
-      //       pastDate = new Date(this.consultationData[i].starttime).toDateString();
-      //     } else {
-      //       const eventElement = document.querySelectorAll('.cal-event');
-      //       const parentElement: any = eventElement[i].parentNode;
-      //       parentElement.innerHTML += `<span>Details</span><div class="report-info">
-      //     <div class="report-info-header">
-      //     <img src="../../src/assets/png/doc.png">
-      //     <div class="report-doc-name"> <div>${this.consultationData[i].docname}</div>
-      //      <span>${this.consultationData[i].qualification}</span> </div>
-      //      <button>DOWNLOAD</button> </div>
-      //       <div class="report-time"> <div> ${new Date(this.consultationData[i].starttime).toDateString()}
-      //       to ${new Date(this.consultationData[i].endTime).toDateString()} </div>
-      //       </div> <div class="report-summary"> <span>Report Summary</span>
-      //       <div>${this.consultationData[i].summary}</div>
-      //       </div>
-      //       </div>
-      //       <span id="more-${i}" value=${i}>more...</span>`;
-      //       document.querySelector(`span#more-${i}`).addEventListener('click', (event: any) => {
-      //         this.viewDate = new Date(event.srcElement.parentNode.querySelector('.report-time div').innerHTML.split('to')[0]);
-      //         this.setView(CalendarView.Week, null);
-      //       });
-      //       pastDate = new Date(this.consultationData[i].starttime).toDateString();
-      //     }
-      // }
-    }
-    insertWeekEvents() {
-      const  eventElemets = document.querySelectorAll('.cal-event');
-      for (let i = 0; i < eventElemets.length ; i++) {
-          const parentElement: any = eventElemets[i].parentNode;
-          parentElement.innerHTML += `<span>Details</span><div class="report-info">
-          <div class="report-info-header">
-          <img src="../../src/assets/png/doc.png">
-          <div class="report-doc-name"> <div>${this.consultationData[i].docname}</div>
-           <span>${this.consultationData[i].qualification}</span> </div>
-           <button>DOWNLOAD</button> </div>
-            <div class="report-time"> <div> ${new Date(this.consultationData[i].starttime).toDateString()}
-            to ${new Date(this.consultationData[i].endTime).toDateString()} </div>
-            </div> <div class="report-summary"> <span>Report Summary</span>
-            <div>${this.consultationData[i].summary}</div>
-            </div>
-            </div>`;
-        }
+      this.reportData = [];
+      this.reports.forEach((report:any) => {
+        this.reportData.push({
+          start: report.starttime,
+          end: report.endTime,
+          title: 'Report event',
+          draggable: false,
+          reportname: report.reportname
+        });
+      });
     }
     toggleView(event: any, number: any) {
       event.srcElement.className += ' active';
       number === 1 ? event.srcElement.parentNode.children[0].className = '' : event.srcElement.parentNode.children[1].className = '';
       this.showConsultation = !(this.showConsultation);
-      this.cd.detectChanges();
-      if (this.monthActive) {
-      this.insertEvents();
-      }
+      // this.cd.detectChanges();
     }
     // get the details of the report
     getReport() {
@@ -267,20 +237,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-        // if (isSameMonth(date, this.viewDate)) {
-        //   this.viewDate = date;
-        //   if (
-        //     (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        //     events.length === 0
-        //   ) {
-        //     this.activeDayIsOpen = false;
-        //   } else {
-        //     this.activeDayIsOpen = true;
-        //   }
-        // }
-      }
-
       eventTimesChanged({
         event,
         newStart,
@@ -296,31 +252,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return iEvent;
         });
-        this.handleEvent('Dropped or resized', event);
+        // this.handleEvent('Dropped or resized', event);
       }
 
-      handleEvent(action: string, event: CalendarEvent): void {
-        this.modalData = { event, action };
-        this.modal.open(this.modalContent, { size: 'lg' });
-      }
+      // handleEvent(action: string, event: CalendarEvent): void {
+      //   this.modalData = { event, action };
+      //   this.modal.open(this.modalContent, { size: 'lg' });
+      // }
 
 
     setView(view: CalendarView, event: any) {
-      if (view.match(/week/)) {
-        console.log('made false');
-        this.monthActive = false;
-      } else {
-        this.monthActive = true;
-      }
-    this.view = view;
-    }
-
-    setMonthView(view: CalendarView, date: any) {
-      this.viewDate = date;
       this.view = view;
     }
-    test(){
-      console.log('called');
+
+    setWonthView(view: CalendarView, date: any) {
+      this.viewDate = date;
+      this.view = view;
     }
 
     closeOpenMonthViewDay() {

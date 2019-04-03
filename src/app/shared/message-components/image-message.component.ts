@@ -29,6 +29,7 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         setTimeout(() => {
+            console.log(this.message);
             this.downloadThumbImage(this.message.contentData.data[0]);
         }, 5000);
     }
@@ -38,7 +39,7 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
         this.unsubscribeObservables.complete();
     }
 
-    downloadThumbImage(imageName: string) {
+    downloadThumbImage(imageName: any) {
         this.imageName = imageName;
         this.chatService.downloadFile(imageName)
             .pipe(takeUntil(this.unsubscribeObservables))

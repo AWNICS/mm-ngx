@@ -147,6 +147,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   userDetails: any;
   prescriptionGenerated: any = {};
   initialLoad: Boolean = true;
+  gettingMessages: Boolean;
   @Output() unreadMessageCount = 0;
   // this new variable is to unsubscribe all socket calls on component destruction
   private unsubscribeObservables: any = new Subject();
@@ -236,9 +237,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   listenClicksOnChat() {
     this.chat.nativeElement.addEventListener('click', (event: any) => {
-      if (this.mySidebar.nativeElement.style.display === 'block') {
-        this.mySidebar.nativeElement.style.display = 'none';
-      }
+      this.mySidebar.nativeElement.style.display = 'none';
       const element: any = document.querySelector('app-navbar #navbarSupportedContent');
       if (element.className === 'navbar-collapse collapse show') {
         element.className = 'navbar-collapse collapse';
@@ -505,7 +504,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe(res => {
           // mrch for check erro
-          value.contentData = { data: res._body };
+          value.contentData = { data: res.fileName };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -538,7 +537,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.uploadFile(videos[0])
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe(res => {
-          value.contentData = { data: res._body };
+          value.contentData = { data: res.fileName };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -823,6 +822,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getMessage(group: Group) {
+    if( this.rightSidebar.nativeElement.style.display === 'block') {
+        this.rightSidebar.nativeElement.style.display = 'none';
+        this.chat.nativeElement.style.width = '100%';
+    }
     this.chatService.setGroup(group);
     this.alert = false;
     this.chatService.getUsersByGroupId(group.id)
@@ -950,9 +953,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     } else {
       // make typing emite true so that user can send the next message and emit event immediately
-      this.typingEvent = true;
-      const notify = moment(this.messages[this.messages.length - 1].createdTime).add(1, 'h') < moment(value.createdTime);
-      if (this.selectedGroup.phase === 'botInactive' && notify) {
+      // this.typingEvent = true;
+      // let notify: any;
+      // if(this.messages.length > 0){
+      //  notify = moment(this.messages[this.messages.length - 1].createdTime).add(1, 'h') < moment(value.createdTime);
+      // }
+      // && (this.messages.length = 0 || notify)
+      if (this.selectedGroup.phase === 'botInactive') {
         console.log('Trigerred notify message');
         this.socketService.sendNotifyMessage(value, this.selectedGroup);
       } else {
@@ -1171,19 +1178,23 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const x = window.matchMedia('(min-width: 769px)');
     if (x.matches) {
       this.rightSidebar.nativeElement.style.display = 'block';
-      this.chat.nativeElement.style.width = '70%';
+      this.chat.nativeElement.style.width = 'calc(100% - 266px)';
       this.ref.detectChanges();
     } else {
       this.rightSidebar.nativeElement.style.display = 'block';
-      this.rightSidebar.nativeElement.style.width = '100%';
       this.chat.nativeElement.style.width = '100%';
       this.ref.detectChanges();
     }
     const size = 5;
     this.mediaMessages = [];
+    this.gettingMessages = true;
+    console.log('made true');
+    this.ref.markForCheck();
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe(result => {
+        this.gettingMessages = false;
+        this.ref.markForCheck();
         result.map((message: any) => {
           this.mediaMessages.push(message);
           this.ref.detectChanges();

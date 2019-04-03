@@ -514,11 +514,11 @@ a {
 }
 
 .w3-sidebar {
-    height: 84.6% !important;
-    width: 23% !important;
-    background-color: #F7F7F7;
+    height: 99% !important;
+    width: 300px !important;
+    background-color: white;
     position: absolute !important;
-    z-index: 1;
+    z-index: 3;
     overflow-y: auto;
     overflow-x: hidden;
     border: none;
@@ -891,7 +891,7 @@ a {
 @media (max-width:992px) {
     .w3-sidebar.w3-collapse {
         display: none;
-        width: 90% !important;
+        /* width: 90% !important; */
     }
     .w3-main {
         margin-left: 0!important;

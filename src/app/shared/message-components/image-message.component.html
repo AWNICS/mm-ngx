@@ -1,9 +1,9 @@
-<div *ngIf="thumbImageUrl; else loading">
+<div *ngIf="thumbImageUrl; else loading" style="float:left">
     <img [src]="thumbImageUrl | safe:'url'" alt="Image" class="rounded img-fluid hover-shadow block" (click)="openModal();">
 </div>
 
 <ng-template #loading>
-    <div style="width:130px;height:130px">
+    <div class="loader-holder" style="width:130px;height:130px">
         <div class="lds-roller" style="top:24%;left:28%">
             <div></div>
             <div></div>
