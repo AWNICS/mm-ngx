@@ -390,6 +390,7 @@ input::placeholder {
   width: 100%;
   border: none;
   color: white;
+  outline: none;
   font-size: 14px;
   font-weight: bold;  
   border-radius: 4px;
@@ -437,8 +438,8 @@ a{
   width: 100%;
 }
 .otp-inputs input[type="tel"]{
-  width: 47px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   font-size: 18px;
   font-family: "Poppins SemiBold";
   color: rgb(0, 0, 0);
@@ -446,7 +447,7 @@ a{
   text-align: center;  
 }
 .otp-inputs input[type="tel"]:not(:first-child){
-  margin-left: 20px;
+  margin-left: 15px;
 }
 .otp-inputs input[type='tel'] {
   -moz-appearance:textfield;
@@ -496,7 +497,7 @@ a{
 .otp-inputs{
   text-align: center;
 }
-#otp-window .modal-body :nth-child(5){
+#otp-window .modal-body p:nth-child(5){
   margin-top: 26px;
   margin-bottom: 10px;
   font-size: 13.5px;
@@ -509,4 +510,50 @@ a{
 }
 #otp-window a{
   font-weight: bold;
+}
+
+
+
+
+
+
+
+.lds-ring {
+  display: inline-block;
+  position: absolute;
+  top: 5px;
+  left: 25%;
+  width: 6  4px;
+  height: 64px;
+}.lds-ring.verify-ring{
+  left: 18%;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  margin: 6px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #fff transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

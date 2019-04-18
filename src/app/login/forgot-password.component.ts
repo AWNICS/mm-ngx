@@ -23,7 +23,6 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     constructor(private loginService: LoginService) {}
 
     ngOnInit(): void {
-        this.navbarComponent.navbarColor(0, '#6960FF');
     }
 
     ngOnDestroy() {

@@ -45,8 +45,8 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             this.router.navigate([`/admin/${this.selectedUser.id}`]);
         } else {
             // this.navbarComponent.navbarColor(0, '#6960FF');
-            // this.getDoctors();
-            // this.receiveConsultNow(this.selectedUser);
+            this.getDoctors();
+            this.receiveConsultNow(this.selectedUser);
         }
     }
 
@@ -71,7 +71,6 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                         this.message = 'There are no doctors available currently. Try again later!';
                     } else {
                         this.doctors = res.doctors;
-                        console.log(res);
                         if (this.doctors.length >= 1) {
                             this.doctors.map((doctor: any) => {
                                 if (res.inactiveGroups.groups.length > 0) {
@@ -92,21 +91,25 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                 });
                             }
                                 doctor.speciality = JSON.parse(doctor.speciality);
-                                this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
-                                    .pipe(takeUntil(this.unsubscribeObservables))
-                                    .subscribe(response => {
-                                        const updatedAt = new Date(response[response.length - 1].updatedAt);
-                                        const currentTime1 = new Date();
-                                        const ms = moment(currentTime1, 'DD/MM/YYYY HH:mm:ss')
-                                        .diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                                        const date = moment.duration(ms);
-                                        doctor.lastupdated = this.getLastUpdated(date);
-                                    });
-                                this.sharedService.getDoctorStore(doctor.userId)
-                                    .pipe(takeUntil(this.unsubscribeObservables))
-                                    .subscribe(stores => {
-                                        this.getStores(stores, doctor.userId);
-                                    });
+                                doctor.qualification = JSON.parse(doctor.qualification);
+                                doctor.location = JSON.parse(doctor.location);
+                                doctor.consultationMode = JSON.parse(doctor.consultationMode);
+
+                                // this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
+                                //     .pipe(takeUntil(this.unsubscribeObservables))
+                                //     .subscribe(response => {
+                                //         const updatedAt = new Date(response[response.length - 1].updatedAt);
+                                //         const currentTime1 = new Date();
+                                //         const ms = moment(currentTime1, 'DD/MM/YYYY HH:mm:ss')
+                                //         .diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
+                                //         const date = moment.duration(ms);
+                                //         doctor.lastupdated = this.getLastUpdated(date);
+                                //     });
+                                // this.sharedService.getDoctorStore(doctor.userId)
+                                //     .pipe(takeUntil(this.unsubscribeObservables))
+                                //     .subscribe(stores => {
+                                //         this.getStores(stores, doctor.userId);
+                                //     });
                                 if (doctor.picUrl) {
                                     this.chatService.downloadFile(doctor.picUrl)
                                         .pipe(takeUntil(this.unsubscribeObservables))
@@ -182,6 +185,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         this.socketService.receiveConsultNow()
             .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((res: any) => {
+            console.log(res);
             if (res[0] === 'chat') {
                 this.router.navigate([`/chat/${user.id}`]);
             } else if (res[0] === 'billing') {

@@ -31,6 +31,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     page = 1;
     emptyBills: Boolean;
     noBillWithId: Boolean;
+    billById;
     notquerying: Boolean = true;
     private unsubscribeObservables = new Subject();
 
@@ -58,10 +59,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log('Page Reloaded');
                 this.socketService.connection(this.selectedUser.id);
               }
-        const billId = this.route.snapshot.queryParams.bill_id;
+        this.billById = this.route.snapshot.queryParams.bill_id;
         // recheck here the case with billid as null and check if scroll bar in case of get bill by id
-        if (billId && billId !== 'null') {
-            this.getBillById(billId);
+        if (this.billById && this.billById !== 'null') {
+            this.getBillById(this.billById);
         } else {
             this.getBills(this.page);
         }
@@ -81,43 +82,51 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         window.addEventListener('scroll', (event: any) => {
+            if ( !this.billById ) {
             if (Math.max(event.target.documentElement.scrollTop / (event.target.documentElement.scrollHeight - window.innerHeight) 
             * 100) > 94 && !this.emptyBills && this.notquerying) {
             this.page = this.page + 1;
             this.getBills(this.page);
             }
+        }
         });
     }
 
+    // filter(type: any){
+    //     const name = type.replace('@', ' ');
+    //     this.bills.
+
+    // }
 
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
 
-    paymentGatewayCall(i: number) {
-        this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[i].orderId}`)
+    paymentGatewayCall() {
+        const billId = this.route.snapshot.queryParams.bill_id;
+        if (billId && billId !== 'null') {
+        this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[0].orderId}`)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 console.log(res._body);
                 this.response = res._body;
             });
     }
+}
 
     downloadBill(index: number, event: any) {
-        if (this.billDownloaded) {
-            this.billDownloaded = false;
                 this.chatService.downloadFile(this.bills[index].url)
                     .pipe(takeUntil(this.unsubscribeObservables))
                             .subscribe((res) => {
                                 res.onloadend = () => {
-                                    event.srcElement.href = res.result;
-                                    event.srcElement.click();
-                                    event.srcElement.removeAttribute('href');
-                                    this.billDownloaded = true;
+                                    const file = res.result.replace('octet-stream', 'pdf');
+                                    const element = event.srcElement.parentNode.children[1];
+                                    element.href = file;
+                                    element.click();
+                                    element.removeAttribute('href');
                                 };
                             });
-    }
     }
     getBills(page: number) {
         this.notquerying = false;
@@ -126,12 +135,13 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((billings) => {
                     console.log('No of bills received: ' + billings.length + ' on page: ' + page);
-                    if (billings.length === 0) {
+                    if (billings.length === 0 || billings.length < 5) {
                         this.emptyBills = true;
                     }
-                    billings.map((bill: any) => {
+                    billings.map((bill: any, index: any) => {
                         this.bills.push(bill);
-                        this.bills.push(bill);
+                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, index) :
+                        this.downloadAltPic(this.selectedUser.role, index);
                     });
                     console.log(this.bills);
                     this.notquerying = true;
@@ -140,12 +150,15 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sharedService.getBillsByDoctorId(this.selectedUser.id, page)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((billings) => {
+                    console.log(billings);
                     console.log('No of bills received: ' + billings.length + ' on page: ' + page);
-                    if (billings.length === 0) {
+                    if (billings.length === 0 || billings.length < 5) {
                         this.emptyBills = true;
                     }
-                    billings.map((bill: any) => {
+                    billings.map((bill: any, index: any) => {
                         this.bills.push(bill);
+                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, index) :
+                        this.downloadAltPic(this.selectedUser.role, index);
                     });
                     this.notquerying = true;
                 });
@@ -154,11 +167,42 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    downloadPic(filename: string, index): any {
+        this.chatService.downloadFile(filename)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.bills[index].picUrl = res.result;
+                };
+            });
+    }
+
+    downloadAltPic(role: string, index: number ): any {
+        let fileName: string;
+        if (role === 'bot') {
+            fileName = 'bot.jpg';
+        } else if (role === 'doctor') {
+            fileName = 'user.png';
+        } else {
+            fileName = 'doc.png';
+        }
+        this.chatService.downloadFile(fileName)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.bills[index].picUrl = res.result;
+                };
+            });
+    }
+
     getBillById(billId: number) {
             this.sharedService.getBillById(this.visitorId, billId)
                 .subscribe((billing) => {
+                    console.log(billing);
                     if (billing) {
                         this.bills = billing;
+                        billing.picUrl = billing.picUrl ? this.downloadPic(billing.picUrl, 0) :
+                        this.downloadAltPic(this.selectedUser.role, 0);
                     } else {
                         this.noBillWithId = true;
                     }

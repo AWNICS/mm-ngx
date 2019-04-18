@@ -136,7 +136,8 @@ export class SharedService {
     getDoctors(userId: number, location: string, speciality: string, gps: number, time: string, page: number,
          size: number): Observable<any> {
         const uri1 = `${this.url}/doctors/schedules?`;
-        const uri2 = `userId=${userId}&location=${location}&speciality=${speciality}&gps=${gps}&current_time=${time}&page=${page}
+        // &current_time=${time}
+        const uri2 = `userId=${userId}&location=${location}&speciality=${speciality}&gps=${gps}&page=${page}
         &size=${size}`;
         const uri = uri1 + uri2;
         return this.http.get(uri, this.httpOptions)
@@ -277,6 +278,12 @@ export class SharedService {
 
     getConsultationsByVisitorId(visitorId: number, page: number, size: number) {
         const uri = `${this.url}/visitors/${visitorId}/consultations?page=${page}&size=${size}`;
+        return this.http.get(uri, this.httpOptions)
+            .pipe(map((res: any) => res));
+    }
+
+    getReportsByVisitorId(visitorId: number) {
+        const uri = `${this.url}/visitors/${visitorId}/reports`;
         return this.http.get(uri, this.httpOptions)
             .pipe(map((res: any) => res));
     }
@@ -496,3 +503,4 @@ export class SharedService {
         return throwError(error.message || error);
     }
 }
+    

@@ -8,14 +8,14 @@ import { ReportRoutingModule } from './report-routing.module';
 import { ReportComponent } from './report.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { FlatpickrModule } from 'angularx-flatpickr';
+// import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
+// FlatpickrModule.forRoot(),
 @NgModule({
   imports: [CommonModule, BrowserAnimationsModule, SharedModule,
      PipesModule, FormsModule, ReactiveFormsModule, ReportRoutingModule, NgbModalModule,
-    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

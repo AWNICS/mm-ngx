@@ -85,6 +85,15 @@ a {
 .card{
     margin-top: 15px;
 }
+.bill,
+.prescription{
+    padding: 0 15px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: "Poppins SemiBold";
+    cursor: pointer;
+    line-height: 28px;
+}
 .card-header{
     background: white;
     flex-wrap: wrap;
@@ -154,11 +163,11 @@ button{
     font-family: "Poppins SemiBold";
     cursor: pointer;
 }
-.prescription {
+a.prescription {
     background-color: rgba(17, 119, 198, 0.102);
     color: rgb(17, 119, 198);          
 }
-.bill {
+a.bill {
     background-color: rgba(31, 214, 166, 0.149);
     color: rgb(1, 197, 146);  
 }

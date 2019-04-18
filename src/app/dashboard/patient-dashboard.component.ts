@@ -9,7 +9,7 @@ import { UserDetails } from '../shared/database/user-details';
 import { SharedService } from '../shared/services/shared.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as Chart from 'chart.js';
+// import * as Chart from 'chart.js';
 
 
 @Component({
@@ -21,7 +21,7 @@ import * as Chart from 'chart.js';
 export class PatientDashboardComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    @ViewChild('lineChart') lineChart: ElementRef;
+    // @ViewChild('lineChart') lineChart: ElementRef;
     visitorId: number;
     selectedUser: UserDetails;
     visitorDetail: any;
@@ -33,6 +33,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
     visitorTimelines: any;
     hideVisitorReports = false;
     hideTimeline = false;
+    consultations: Array<any>;
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -47,7 +48,6 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.securityService);
-        // this.navbarComponent.navbarColor(0, '#6960FF');
         this.visitorId = +this.route.snapshot.paramMap.get('id'); // this will give the visitor id
         const cookie = this.securityService.getCookie('userDetails');
         if (cookie === '') {
@@ -61,20 +61,19 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
             this.chatService.getUserById(this.visitorId)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((user: any) => {
-                    console.log(user);
                     this.selectedUser = user;
                     if (this.selectedUser.picUrl) {
-                        this.downloadPic(this.selectedUser.picUrl);
+                        this.downloadPic(this.selectedUser.picUrl, null);
                     } else {
-                        this.downloadAltPic(this.selectedUser.role);
+                        this.downloadAltPic(this.selectedUser.role, null);
                     }
                 });
             this.getVisitor(this.visitorId);
             this.getVisitorStore(this.visitorId);
             this.getVisitorAppointmentHistory(this.visitorId);
-            this.getVisitorReport(this.visitorId);
+            // this.getVisitorReport(this.visitorId);
             this.getVisitorHealth(this.visitorId);
-            this.getTimeline(this.visitorId);
+            // this.getTimeline(this.visitorId);
         }
     }
 
@@ -83,18 +82,21 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         this.unsubscribeObservables.complete();
     }
 
-    downloadPic(filename: string) {
+    downloadPic(filename: string, index): any {
         this.chatService.downloadFile(filename)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = res.result;
-                    this.ref.detectChanges();
+                    if ( index === null ) {
+                        this.picUrl = res.result;
+                    } else {
+                    this.consultations[index].picUrl = res.result;
+                    }
                 };
             });
     }
 
-    downloadAltPic(role: string) {
+    downloadAltPic(role: string, index: number ): any {
         let fileName: string;
         if (role === 'bot') {
             fileName = 'bot.jpg';
@@ -107,68 +109,13 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = res.result;
-                    this.ref.detectChanges();
+                    if ( index === null ) {
+                        this.picUrl = res.result;
+                    } else {
+                    this.consultations[index].picUrl = res.result;
+                    }
                 };
             });
-    }
-
-    chart(consultations: any, reports: any, vitals: any) {
-        const ctx = this.lineChart.nativeElement.getContext('2d');
-        const barChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Consultations',
-                    backgroundColor: '#4B8AF4',
-                    radius: 6,
-                    fill: false,
-                    data: consultations,
-                    showLine: false
-                }, {
-                    label: 'Reports',
-                    backgroundColor: '#D0CEFD',
-                    radius: 5,
-                    fill: false,
-                    data: reports,
-                    showLine: false
-                }, {
-                    label: 'Vitals',
-                    backgroundColor: '#FDC2CC',
-                    radius: 4,
-                    fill: false,
-                    data: vitals,
-                    showLine: false
-                }]
-            },
-            options: {
-                responsive: true,
-                tooltips: {
-                    mode: 'index',
-                },
-                hover: {
-                    mode: 'index'
-                },
-
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        }
-                    }],
-                    yAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: {
-                            fixedStepSize: 1,
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
     }
 
     getVisitor(visitorId: number) {
@@ -176,6 +123,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(visitor => {
                 this.visitorDetail = visitor.patientInfo;
+                this.visitorHealth =  visitor.visitorHealthInfo[0];
             });
     }
 
@@ -200,22 +148,22 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    getVisitorReport(visitorId: number) {
-        this.sharedService.getVisitorReport(visitorId)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(visitorReport => {
-                this.visitorReport = visitorReport;
-                if (visitorReport.length === 0) {
-                    this.hideVisitorReports = true;
-                }
-            });
-    }
+    // getVisitorReport(visitorId: number) {
+    //     this.sharedService.getVisitorReport(visitorId)
+    //         .pipe(takeUntil(this.unsubscribeObservables))
+    //         .subscribe(visitorReport => {
+    //             this.visitorReport = visitorReport;
+    //             if (visitorReport.length === 0) {
+    //                 this.hideVisitorReports = true;
+    //             }
+    //         });
+    // }
 
     getVisitorHealth(visitorId: number) {
         this.sharedService.getVisitorHealth(visitorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(visitorHealth => {
-                this.visitorHealth = visitorHealth[0];
+                // this.visitorHealth = visitorHealth[0];
             });
     }
 
@@ -224,27 +172,32 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         this.sharedService.getVisitorAppointmentHistory(visitorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(visitorAppointmentHistory => {
-                const consultations = visitorAppointmentHistory.consultations.monthly;
+                console.log(visitorAppointmentHistory);
+                this.consultations = visitorAppointmentHistory.consultations;
+                this.consultations.map((consultation: any, index: number) => {
+                    consultation.picUrl1 = consultation.picUrl ? this.downloadPic(consultation.picUrl, index)
+                    : this.downloadAltPic('doctor', index);
+                });
                 const reports = visitorAppointmentHistory.reports.monthly;
                 const vitals = visitorAppointmentHistory.vitals.monthly;
                 if (visitorAppointmentHistory) {
-                    this.chart(consultations, reports, vitals);
+                    // this.chart(consultations, reports, vitals);
                 }
             });
     }
 
     /* get timeline related info */
-    getTimeline(visitorId: number) {
-        this.sharedService.getTimeline(visitorId)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(visitorTimeline => {
-                if (visitorTimeline.length === 0) {
-                    this.hideTimeline = true;
-                } else {
-                    this.visitorTimelines = visitorTimeline;
-                }
-            });
-    }
+    // getTimeline(visitorId: number) {
+    //     this.sharedService.getTimeline(visitorId)
+    //         .pipe(takeUntil(this.unsubscribeObservables))
+    //         .subscribe(visitorTimeline => {
+    //             if (visitorTimeline.length === 0) {
+    //                 this.hideTimeline = true;
+    //             } else {
+    //                 this.visitorTimelines = visitorTimeline;
+    //             }
+    //         });
+    // }
 
     edit() {
         this.router.navigate([`/profiles/${this.selectedUser.id}`]);

@@ -822,7 +822,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getMessage(group: Group) {
-    if( this.rightSidebar.nativeElement.style.display === 'block') {
+    if ( this.rightSidebar.nativeElement.style.display === 'block') {
         this.rightSidebar.nativeElement.style.display = 'none';
         this.chat.nativeElement.style.width = '100%';
     }

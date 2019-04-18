@@ -2,7 +2,7 @@
 <br /><br /><br /><br />
 <div class="container">
   <h2>Reports</h2>
-  <div class="row  report-header text-center">
+  <div class="row  main-header text-center">
     <div class="nav-buttons">
       <button class="active" (click)="toggleView($event,0)">Consultations</button>
       <button (click)="toggleView($event,1)">Vital Reports</button>
@@ -29,24 +29,24 @@
     </div>
 
   </div>
-  <ng-container>
-    <div [ngSwitch]="view" *ngIf="!showConsultation; else showReports">
+  <ng-container *ngIf="consultationEvents">
+    <div [ngSwitch]="view" *ngIf="showConsultation; else showReports">
       <mwl-calendar-month-view [cellTemplate]="monthCellTemplate" *ngSwitchCase="CalendarView.Month"
-        [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+        [viewDate]="viewDate" [events]="consultationEvents" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
         (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-month-view>
       <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [eventTemplate]="weekEventTemplate"
-        [viewDate]="viewDate" [events]="events" [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
+        [viewDate]="viewDate" [events]="consultationEvents" [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
       </mwl-calendar-week-view>
     </div>
   </ng-container>
   <ng-template #showReports>
     <div [ngSwitch]="view">
-      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="reportData"
-        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (eventTimesChanged)="eventTimesChanged($event)">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [cellTemplate]="monthCellTemplateReports" [viewDate]="viewDate" [events]="reportEvents"
+        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen">
       </mwl-calendar-month-view>
-      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="reportData"
-        [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh" (eventTimesChanged)="eventTimesChanged($event)">
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [eventTemplate]="weekEventTemplate" [viewDate]="viewDate" [events]="reportEvents"
+        [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
       </mwl-calendar-week-view>
     </div>
   </ng-template>
@@ -64,7 +64,7 @@
       <ng-template [ngTemplateOutlet]="eventHoverTemplateMonth" [ngTemplateOutletContext]="{event: event}">
       </ng-template>
     </ng-container>
-    <span *ngIf="day.events.length > 2" (click)="setWeekView(CalendarView.Week,day.events[0].start)">More</span>
+    <span *ngIf="day.events.length > 2" (click)="setView(CalendarView.Week,day.events[0].start)">More</span>
   </div>
 </ng-template>
 <!-- Template for Month cell end for Consultations-->
@@ -77,12 +77,9 @@
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
   <div class="cal-events" *ngIf="day.events.length > 0">
-    <span>{{days.events.length}} Reports</span>
-  <!-- <ng-container *ngFor="let event of day.events; trackBy:trackByEventId">
-      <ng-template [ngTemplateOutlet]="eventHoverTemplateMonth" [ngTemplateOutletContext]="{event: event}">
+    <span (click)="setWeekView(CalendarView.Week,day.events[0].start)">{{day.events.length}} Reports</span>
+      <ng-template [ngTemplateOutlet]="eventHoverTemplateMonthReports" [ngTemplateOutletContext]="{events: day.events}">
       </ng-template>
-    </ng-container> -->
-    <!-- <span *ngIf="day.events.length > 2" (click)="setWeekView(CalendarView.Week,day.events[0].start)">More</span> -->
   </div>
 </ng-template>
 <!-- Template for Month cell end Reports-->
@@ -96,9 +93,13 @@
 <!-- Template End for eventHoverInfo for consultations-->
 
 <!-- Template for eventHoverInfo for reports -->
-<ng-template let-event="event" #eventHoverTemplateMonthReports>
-  <span>Details</span>
-  <ng-template [ngTemplateOutlet]="eventHoverTemplate" [ngTemplateOutletContext]="{event:event}"></ng-template>
+<ng-template let-events="events" #eventHoverTemplateMonthReports>
+  <div class="reports">
+      <div class="report-info" *ngFor="let event of events">
+        <span>{{event.reportname}}</span>
+        <a (click)="downloadItem(event.url, $event)" download>DOWNLOAD</a>
+      </div>
+  </div>
 </ng-template>
 <!-- Template End for eventHoverInfo for reports-->
 
@@ -106,10 +107,10 @@
 <!-- Template for Week Event Start for consultations-->
 <ng-template #weekEventTemplate let-event="weekEvent.event" let-tooltipDisabled="tooltipDisabled">
   <div class="week-consultations shadow">
-    <img src="../../src/assets/png/doc.png">
+    <img src="../../assets/png/male1.png">
     <div class="doctor-info">
       <div class="doctor-name">
-        {{event.docname}}
+        {{event.doctorName}}
       </div>
       <span>{{event.qualification}}</span>
     </div>
@@ -120,19 +121,19 @@
 
 <!-- Template for Week Event Hover Start for consultations-->
 <ng-template let-event="event" #eventHoverTemplate>
-  <div class="report-info">
-    <div class="report-info-header">
-      <img src="../../src/assets/png/doc.png">
-      <div class="report-doc-name">
-        <div>{{event.docname}}</div>
+  <div class="consultation-info">
+    <div class="consultation-info-header">
+      <img src="../../assets/png/male1.png">
+      <div class="consultation-doc-name">
+        <div>{{event.doctorName}}</div>
         <span>{{event.qualification}}</span>
       </div>
-      <button>DOWNLOAD</button>
+      <button *ngIf="event.prescriptionUrl">DOWNLOAD</button>
     </div>
-    <div class="report-time">
-      <div>{{event.start}} to {{event.end}}</div>
+    <div class="consultation-time">
+      <div>{{event.start | date:'dd MMM,yyyy h:mm:ss a'}} to {{event.end | date:'dd MMM,yyyy h:mm:ss a'}}</div>
     </div>
-    <div class="report-summary"> <span>Report Summary</span>
+    <div class="consultation-summary"> <span>Report Summary</span>
       <div>{{event.summary}}</div>
     </div>
   </div>

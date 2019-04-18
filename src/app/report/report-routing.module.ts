@@ -5,7 +5,8 @@ import { ReportComponent } from './report.component';
 @NgModule({
   imports: [
     RouterModule.forChild([
-      { path: 'visitors/:visitorId', component: ReportComponent }
+      { path: 'visitors/:visitorId', component: ReportComponent },
+      { path: 'doctor/reports/:doctorId', component: ReportComponent }
     ])
   ],
   exports: [RouterModule]

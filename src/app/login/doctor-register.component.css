@@ -1,17 +1,9 @@
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
+/* h1 {
   font-family: Lato, sans-serif;
-}
-
-h1 {
   margin: 1.414em 0 0.5em;
   line-height: 1.35;
   color: #111;
   font-weight: 400;
-}
-
-h1 {
   margin-top: 0;
   font-size: 2.074em;
 }
@@ -310,8 +302,6 @@ button.button__accent:disabled {
   }
 }
 
-/* disabling the scrollbar for input[type]='number'*/
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   appearance: none;
@@ -333,7 +323,6 @@ input::-webkit-inner-spin-button {
   animation: spin 2s linear infinite;
 }
 
-/* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
   100% { -webkit-transform: rotate(360deg); }
@@ -343,10 +332,6 @@ input::-webkit-inner-spin-button {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
-/*
-custom styles for ng-multiselect-dropdown
-*/
 
 :host ::ng-deep .dropdown-btn {
   border-radius: 30px !important;
@@ -411,4 +396,196 @@ custom styles for ng-multiselect-dropdown
   border-bottom: 5px solid rgba(102, 102, 102, 0.5) !important;
   border-left: 5px solid transparent !important;
   border-right: 5px solid transparent !important;
+} */
+
+.main-holder{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.container{
+  padding-top: 102px;
+  height: fit-content;  
+}
+h1{
+  font-size: 32px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  line-height: 1.2;
+  text-align: center;  
+}
+p{
+  font-size: 13px;
+  color: rgb(157, 163, 165);
+  text-align: center;  
+  margin-bottom: 32px;
+}
+.message{
+  color: green;
+}
+.error{
+  color: red;
+}
+input.form-control {          
+  border-radius: 0px;
+  background: white;
+  border: 1px solid #eee;
+  width: 100%;
+  transition: 0.7s;
+  font-size: 13px; 
+  color: rgb(0, 0, 0); 
+  line-height: 1.692;
+  font-weight: 450;
+  margin-bottom: 1.4em;
+  display: block;
+  padding-left: 17px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus{
+    box-shadow: 0 0 0 30px white inset !important;
+}
+input::placeholder {
+    font-size: 13px; 
+    color: rgb(157, 163, 165); 
+    line-height: 1.692;
+}
+.form-group{
+  position: relative;
+}
+.form-group label{
+  position: absolute;
+  font-size: 11px;
+  left: 8px;
+  top: -10.5px;
+  z-index: 100;
+  background: white;
+  color: rgb(157, 163, 165); 
+  line-height: 2; 
+}
+.send-otp,
+.register,
+.proceed-to-signin{
+  width: 100%;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;  
+  border-radius: 4px;
+  background-color: rgb(31, 214, 166);
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.12);  
+  padding: 13px 0px;
+  margin-bottom: 25px;   
+  position: relative;
+  margin-top: 16px;  
+}
+.send-otp i{
+  position: absolute;
+  right: 16px;
+  top: 18px;
+}
+form{
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+}
+.terms-policy{
+  font-size: 13px;
+  font-family: "Poppins";
+  color: rgb(157, 163, 165);  
+  margin: 9px auto;
+  text-align: center;
+}
+.sign-in{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: rgb(157, 163, 165);
+}
+a{
+  color: rgb(31, 214, 166); 
+}
+.container-fluid{
+  width: -moz-available;          /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+  padding: 0;
+  /* background-image: url(../../assets/images/blue-back.png);
+  background-size: cover; */
+}
+.container-fluid img{
+  height: 100%;
+  width: 100%;
+}
+.otp-inputs input[type="tel"]{
+  width: 47px;
+  height: 40px;
+  font-size: 18px;
+  font-family: "Poppins SemiBold";
+  color: rgb(0, 0, 0);
+  line-height: 1.222;
+  text-align: center;  
+}
+.otp-inputs input[type="tel"]:not(:first-child){
+  margin-left: 20px;
+}
+.otp-inputs input[type='tel'] {
+  -moz-appearance:textfield;
+}
+.otp-inputs input[type=tel]::-webkit-inner-spin-button,
+.otp-inputs input[type=tel]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#otp-window  .modal-dialog{
+  max-width: 300px;
+}
+#otp-window .modal-header{
+  border-bottom: none;
+  padding: 6px 2px;
+}
+#otp-window h3{
+    font-size: 18px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-align: center;  
+
+}
+#otp-window .modal-body{
+  padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);;
+}
+/* #otp-window .modal-body p{
+  color: green;
+} */
+#otp-window .modal-body p:first-of-type {
+    font-size: 14px;
+    font-family: "Poppins Medium";
+    margin-bottom: 0;
+}
+#otp-window .modal-body p:first-of-type span{
+  color: black;
+  font-weight: bold;
+}
+.otp-timer{
+  font-size: 30px;
+  font-family: "Poppins SemiBold";
+  color: blue;
+  margin: 18px 0;
+  text-align: center;
+}
+.otp-inputs{
+  text-align: center;
+}
+#otp-window .modal-body :nth-child(5){
+  margin-top: 26px;
+  margin-bottom: 10px;
+  font-size: 13.5px;
+}
+#otp-window .modal-footer{
+  justify-content: center;
+}
+#otp-window .modal-footer p{
+  margin-bottom: 9px;
+}
+#otp-window a{
+  font-weight: bold;
 }

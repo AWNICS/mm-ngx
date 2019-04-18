@@ -37,7 +37,7 @@ export class LoginService {
         const uri = `${this.url}/users`;
         return this.http
             .post(uri, userDetails, this.httpOptions)
-            .pipe(map((res: any) =>  res.json() as DoctorProfiles ),
+            .pipe(map((res: any) =>  res as DoctorProfiles ),
                catchError(this.handleError));
     }
 
@@ -45,7 +45,7 @@ export class LoginService {
         const url = `${this.url}/doctors`;
         return this.http
             .post(url, doctorProfiles, this.httpOptions)
-            .pipe(map((res: any) =>  res.json() as DoctorProfiles ),
+            .pipe(map((res: any) =>  res as DoctorProfiles ),
             catchError(this.handleError));
     }
 

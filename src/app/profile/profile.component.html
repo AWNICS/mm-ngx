@@ -10,7 +10,7 @@
             <div class="row description">
                 {{user.description}}
             </div>
-            <div class="row" *ngIf="user.role==='doctor'">
+            <!-- <div class="row" *ngIf="user.role==='doctor'">
                 <div class="file-upload">
                     <input type="file" (change)="uploadMedia($event.target.files);" />
                     <i class="fa fa-upload" aria-hidden="true"></i>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="col col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div [ngSwitch]="user.role">
@@ -78,3 +78,4 @@
         </div>
     </div>
 </div>
+<!-- <app-footer></app-footer> -->

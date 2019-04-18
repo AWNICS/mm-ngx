@@ -23,7 +23,7 @@ export class ActivationComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.token = this.route.snapshot.paramMap.get('token');
-        this.navbarComponent.navbarColor(0, '#6960FF');
+        // this.navbarComponent.navbarColor(0, '#6960FF');
         this.activateUser();
     }
 

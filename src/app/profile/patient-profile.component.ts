@@ -93,9 +93,9 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                     language: [language],
                     allergies: [allergies],
                     location: [selectedLocation],
-                    address: null,
+                    address: this.patientInfo.address,
                     description: this.user.description,
-                    documentType: null,
+                    documentType: {value: null, disabled: true},
                     documentTitle: null,
                     documentDescription: null
                 });

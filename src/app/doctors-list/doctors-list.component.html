@@ -62,19 +62,19 @@
     </div>
   </div> -->
     </div>
-    <p class="rest">
+    <!-- <p class="rest">
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
       standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
       a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
       remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
       Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
       of Lorem Ipsum.
-    </p>
+    </p> -->
   </div>
 </div>
 <div class="container container-1">
   <div class="row">
-    <ng-container *ngFor="let i of [1,2,3,3,3,5,6]">
+    <ng-container *ngFor="let doctor of doctors;">
       <div class="col col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12" style="display: flex;justify-content: center">
         <div class="card doctor-info" style="margin-bottom: 25px;width: 300px;">
           <div class="card-header doctor-info-header">
@@ -84,7 +84,7 @@
               </div>
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
-                  <p class="doctor-info-name">Dr. Shawna Larson</p>
+                  <p class="doctor-info-name">{{doctor.firstName+' '+doctor.lastName}}</p>
                   <span class="doctor-info-price">&#8377;150</span>
                   <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
                 </div>
@@ -95,7 +95,7 @@
             <div class="row doctor-info-body-row">
               <div class="col col-7 col-xl-7 col-lg-7 col-md-7 col-sm-7 doctor-info-experience">
                 <span class="sub-heading-text">Experience:</span>
-                <span> 7 years</span>
+                <span> {{doctor.experience}} years</span>
               </div>
               <div class="col col-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 doctor-info-patients">
                 <span class="sub-heading-text">Patients:</span>
@@ -103,12 +103,12 @@
               </div>
             </div>
             <span class="sub-heading-text">Info</span>
-            <p class="sub-heading-text-value">MBBS - Physician, Psychiatrist</p>
+            <p class="sub-heading-text-value">{{doctor.speciality}}</p>
             <span class="sub-heading-text">Locations</span>
-            <p class="sub-heading-text-value">Kolkata, Bangalore, Chennai</p>
+            <p class="sub-heading-text-value">{{doctor.location}}</p>
             <span class="sub-heading-text">Consults via</span>
-            <p class="sub-heading-text-value">Video, Audio and Text</p>
-            <button class="btn pay-button">PAY AND CONSULT NOW</button>
+            <p class="sub-heading-text-value">{{doctor.consultationMode}}</p>
+            <button class="btn pay-button" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
           </div>
         </div>
       </div>

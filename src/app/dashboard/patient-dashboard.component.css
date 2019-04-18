@@ -355,15 +355,23 @@ hr{
     display: flex;
     flex-direction: column;
 }
-.height-scale img{
+.height-scale img,
+.weight-scale img{
     position: relative;
     height: 100%;
 }
 .weight-scale{
-    top: 400px;
+    height: 23%;
+    bottom: 10px;
+    left: -1px;    
+}
+span.weight-info{
+    position: absolute;
+    left: 102px;
+    top: 65%;
 }
 .human-logo{
-    height: 72%; 
+    height: 66%; 
     left: 32%;
     /* transform: translateX(-50%); */
 }

@@ -87,6 +87,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   showDoctorsList(value: any) {
+    console.log(value);
     this.user = this.securityService.getCookie('userDetails');
     if (// result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
       value.location === null ||

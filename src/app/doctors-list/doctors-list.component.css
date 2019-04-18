@@ -213,6 +213,7 @@ p {
     background: #16a716cc;
     color: white;
     font-size: 13px;
+    margin-top: 28px;
   }
   .sub-heading-text-value{
       font-size: 14px;
@@ -328,7 +329,7 @@ p {
 /* new re-design */
 .container-fluid{
   width:100%;
-  height:400px;
+  height:320px;
   display: flex;
   background: blue;
   background: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);

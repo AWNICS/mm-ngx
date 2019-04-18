@@ -43,6 +43,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
     ngOnInit() {
         this.loggedIn = this.securityService.getLoginStatus();
+        console.log(this.loggedIn);
         if (this.loggedIn === true) {
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
             if (this.user) {
@@ -163,6 +164,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.sharedService.setToken();
         this.socketService.setSocketStatus(false);
         this.sharedService.setNavbarLoad(true);
+        this.router.navigateByUrl('/login');
         console.log('Made socketConnected as false');
     }
 

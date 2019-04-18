@@ -146,7 +146,10 @@
       <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12" style="margin: 0 auto;">
         <h1>Register With Us</h1>
         <p>All fields are mandatory</p>
-        <form novalidate [formGroup]="registerDetails" (ngSubmit)="register(registerDetails)">
+        <p class="error" *ngIf="error">
+            <small>{{ error }}</small>
+        </p>
+        <form [formGroup]="registerDetails" (ngSubmit)="submitForm()">
           <!-- firstname and lastname -->
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
@@ -191,7 +194,7 @@
               <div class="form-group">
                 <label>Mobile No.</label>
                 <input class="form-control" type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo"
-                  placeholder="xxxxxxxxxx" #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);" [ngClass]="{'error-form':f.phoneNo.errors && formSubmitted}"
+                  placeholder="xxxxxxxxxx" #phoneNum [ngClass]="{'error-form':f.phoneNo.errors && formSubmitted}"
                   autocomplete="new-password">
                 <!-- <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton
                       data-toggle="modal" data-target="#confirmModal">Send OTP</button> -->
@@ -245,7 +248,10 @@
           </div>
           <div class="terms-policy">By Signing up, you agree to mesomeds <a href="#" data-toggle="modal" data-target="#terms-conditions">Terms
               and Conditions</a> & <a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a></div>
-          <button class="send-otp" data-toggle="modal" data-target="#otp-window">SEND OTP<i class="fa fa-lg fa-angle-right"
+          <button type="submit" class="send-otp" data-toggle="modal">
+            <div class="lds-ring" *ngIf="loader"><div></div><div></div><div></div><div></div></div>
+            SEND OTP
+            <i class="fa fa-lg fa-angle-right"
               aria-hidden="true"></i>
           </button>
         </form>
@@ -309,30 +315,33 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <ng-container *ngIf="1===1">
+      <ng-container *ngIf="otpFlag">
         <div class="modal-body">
           <h3>OTP Verification</h3>
           <p>Enter the OTP sent to <span>+91-7013842401</span></p>
-          <div class="otp-timer">2:00</div>
+          <div class="otp-timer">{{ this.timer | date:'mm:ss'}}</div>
           <div class="otp-inputs" #otpInput>
-            <input type="tel" maxlength="1" size="1">
-            <input type="tel" maxlength="1" size="1">
-            <input type="tel" maxlength="1" size="1">
-            <input type="tel" maxlength="1" size="1">
+            <input type="tel" maxlength="1" size="1" #val1>
+            <input type="tel" maxlength="1" size="1" #val2>
+            <input type="tel" maxlength="1" size="1" #val3>
+            <input type="tel" maxlength="1" size="1" #val4>
+            <input type="tel" maxlength="1" size="1" #val5>
+            <input type="tel" maxlength="1" size="1" #val6>
           </div>
           <p>Didn't receive the verification code? <br /><a href="#">Resend OTP</a></p>
-          <button class="register"><span>VERIFY & REGISTER</span></button>
+          <button class="register"><span *ngIf="!verifyOtp" (click)="confirmOtp(val1.value,val2.value,val3.value,val4.value,val5.value,val6.value)">VERIFY & REGISTER</span><span *ngIf="verifyOtp"><div class="lds-ring verify-ring"><div></div><div></div><div></div><div></div></div>Verifying OTP</span></button>
+
         </div>
 
         <div class="modal-footer">
           <p>Already a member?<a href="#"> Sign in</a></p>
         </div>
       </ng-container>
-      <ng-container *ngIf="1!==1">
+      <ng-container *ngIf="!otpFlag">
         <div class="modal-body" style="border-bottom: none; text-align: center">
           <img src="../../assets/images/verified-tick.png" style="width: 40px">
           <h2 style="margin-top: 15px;font-size: 30px;font-family: 'Poppins SemiBold';color: blue;">OTP Verified!</h2>
-          <button class="proceed-to-signin">PROCEED TO SIGN IN</button>
+          <button class="proceed-to-signin" routerLink="/login">PROCEED TO SIGN IN</button>
         </div>
       </ng-container>
     </div>

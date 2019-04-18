@@ -74,10 +74,10 @@ Pay now</button>
         <span class="dropdown-text">Payment Method</span>
       </button>
       <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">All</a>
-        <a class="dropdown-item" href="#">Credit Card</a>
-        <a class="dropdown-item" href="#">Debit Card</a>
-        <a class="dropdown-item" href="#">Net Banking</a>
+        <a class="dropdown-item" (click)="filter('All')">All</a>
+        <a class="dropdown-item" (click)="filter('Credit@Card')">Credit Card</a>
+        <a class="dropdown-item" (click)="filter('Debit@Card')">Debit Card</a>
+        <a class="dropdown-item" (click)="filter('Net@Banking')">Net Banking</a>
       </div>
     </div>
     <div class="dropdown">
@@ -91,55 +91,86 @@ Pay now</button>
   </div>
 </div>
   <div class="row test1">
-    <div *ngFor="let i of [1,32,3,3,3,3]" class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12" style="display: flex;justify-content: center">
+    <div *ngFor="let bill of bills;let i = index" class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12" style="display: flex;justify-content: center">
       <div class="card bill-data">
         <div class="card-header">
-          <div class="row">
-            <img class="doctor-image" src="../../assets/png/doc.png">
+          <div class="row" style="align-items: center">
+            <img class="doctor-image" [src]="bill.picUrl | safe:'url'">
             <div class="patient-name">
-              <span class="title"> Patient</span>
-              <div class="name">John Adams</div>
+              <span class="title" *ngIf="selectedUser.role==='patient'"> Doctor</span>
+              <span class="title" *ngIf="selectedUser.role==='doctor'"> Patient</span>
+              <div class="name">{{bill.firstname + ' '+ bill.lastname}}</div>
             </div>
-            <div class="download-icon">
-              <img src="../../assets/images/download-icon.png">
+            <div class="download-icon" *ngIf="bill.status==='Success'">
+              <img src="../../assets/images/download-icon.png" (click)="downloadBill(i, $event)">
+              <a style="display:none"></a>
             </div>
           </div>
         </div>
         <div class="card-body">
           <div class="bill-id">
-            Bill #12345
+            Bill #{{bill.orderId}}
           </div>
           <div class="amount-bill">
             <div class="amount">
               <span>Amount</span>
-              <span>&#8377;230.00</span>
+              <span>&#8377;{{bill.amount}}.00</span>
             </div>
             <div class="bill-date">
               <span>Billed Date</span>
-              <span>02 Jan 19</span>
+              <span>{{bill.updatedAt | date: 'dd MMM yyyy'}}</span>
             </div>
           </div>
         </div>
         <div class="card-footer">
-          <img class="wallet-icon" src="../../assets/images/wallet-icon.png">
-          <div class="payment-method">
-            <span class="title">Payment Method</span>
-            <div class="method">Net Banking</div>
+          <ng-container *ngIf="bill.status==='Success'">
+              <img class="wallet-icon" src="../../assets/images/wallet-icon.png">
+              <div class="payment-method">
+                <span class="title">Payment Method</span>
+                <div class="method">{{bill.modeOfPayment}}</div>
+              </div>
+          </ng-container>
+          <div class="retry-payment" *ngIf="bill.status==='Failure' || bill.status==='Aborted' ">
+            <button data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall()">
+              Retry Payment
+            </button>
           </div>
+          <div class="pay-now" *ngIf="bill.status==='due'">
+              <button data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall()">
+                Pay now
+              </button> 
+            </div>
         </div>
       <div class="bill-info">
           <div class="wrapper">
-          <div>Bill <span>#270832</span></div>
-          <div>02 Jan 2019</div>
-          <div>Bill <span>#270832</span></div>
-          <div>Bill <span>#270832</span></div>
-          <div>Bill <span>#270832</span></div>
-          <div>Bill <span>#270832</span></div>
-          <div>Total Amount <span>&#8377;800</span></div>
+          <div>Bill <span>#{{bill.orderId}}</span></div>
+          <div>{{bill.updatedAt | date: 'dd MMM yyyy'}}</div>
+          <div>Total Hours <span>#270832</span></div>
+          <div>Rate per hour <span>#270832</span></div>
+          <div>Subtotal <span>#270832</span></div>
+          <div>Taxes <span>#270832</span></div>
+          <div>Total Amount <span>&#8377;{{bill.amount}}</span></div>
         </div>
         </div>
       </div>
     </div>
   </div>
+  <h4 *ngIf="emptyBills && bills.length===0" style="text-align: center">There are no bills at this point</h4>
+  <h4 *ngIf="emptyBills && bills.length > 0" style="text-align: center">There are no more bills</h4>
+  <h4 *ngIf="noBillWithId" style="text-align: center">There are no bills with that id</h4>
+</div>
+<div class="container">
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true" #paymentModal>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div *ngIf="response" [innerHtml]="response | safe:'html'"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" #dismissButton>Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <app-footer></app-footer>

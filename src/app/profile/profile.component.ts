@@ -101,9 +101,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.chatService.uploadFile(files[0])
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {
-                this.user.picUrl = res._body;
+                this.user.picUrl = res.fileName;
                 this.securityService.setCookie('userDetails', JSON.stringify(this.user), 1);
-                this.downloadProfileImage(res._body);
+                this.downloadProfileImage(res.fileName);
                 this.profileService.updateUserDetails(this.user)
                     .pipe(takeUntil(this.unsubscribeObservables))
                     .subscribe((res1: any) => {

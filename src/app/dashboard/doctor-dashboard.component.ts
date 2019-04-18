@@ -8,7 +8,6 @@ import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
 import { SocketService } from '../chat/socket.service';
-// const Chart = require('chart.js');
 import * as Chart from 'chart.js';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -56,7 +55,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
     ) { }
 
     ngOnInit() {
-        this.navbarComponent.navbarColor(0, '#6960FF');
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         }
@@ -194,6 +192,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         this.sharedService.getDoctorById(doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(doctor => {
+                console.log(doctor);
                 this.doctor = doctor.doctorDetails;
             });
     }

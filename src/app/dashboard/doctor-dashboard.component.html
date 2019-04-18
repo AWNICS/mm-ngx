@@ -1,6 +1,138 @@
 <app-navbar></app-navbar>
 <app-notification [selectedUser]="selectedUser"></app-notification>
-<div class="container">
+<app-navbar></app-navbar>
+<div class="container container-1">
+  <div class="row main-row">
+    <h1>{{selectedUser?.firstname}}'s Dashboard</h1>
+    <button class="btn edit-profile" [routerLink]="['/profiles',visitorId]">EDIT PROFILE</button>
+  </div>
+</div>
+<div class="container container-2" style="padding-top: 0px">
+  <div class="row body-row-1">
+    <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 15px;">
+      <div class="card person-info">
+        <div class="card-header">
+          <div class="person-info-head">
+            <img class="profile-pic" [src]="picUrl | safe:'url'">
+            <div class="profile-name">{{selectedUser?.firstname+' '+selectedUser?.lastname}}</div>
+            <span class="profile-age">12 Years Old | Male</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="profile-item-div">
+            <div><i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            </div>
+            <div class="profile-item">MBBS, MD</div>
+          </div>
+          <div class="profile-item-div">
+            <div><i class="fa fa-map-marker"></i></div>
+            <div class="profile-item">Bangalore</div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <select class="doctor-status" [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
+            <option *ngFor="let option of status" [ngValue]="option"> {{ option }} </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 15px;">
+      <div class="card height-weight">
+        <div class="card-header">
+          Basic Info
+        </div>
+        <div class="card-body">
+          <div class="height-scale">
+            <span>{{visitorDetail?.height}} ft</span>
+            <img src="../../assets/images/height-marks.png">
+          </div>
+          <div class="human-logo">
+            <img src="../../assets/images/ic-human.png">
+          </div>
+          <div class="weight-scale">
+            <img src="../../assets/images/ic-weighing-scale1.png">
+            <span class="weight-info">100kg</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col col-12 col-xl-6 col-lg-8 col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px;">
+      <div class="card history">
+        <div class="card-body">
+          <div class="row justify-content-center">
+            <div class="btn-group" role="group" style="padding:0pt;">
+              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
+                (click)="getConsutationDetails('today');">Today</button>
+              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
+                (click)="getConsutationDetails('week');">Week</button>
+              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:80px;"
+                (click)="getConsutationDetails('month');">Month</button>
+              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
+                (click)="getConsutationDetails('year');">Year</button>
+            </div>
+          </div>
+          <br>
+          <div class="row justify-content-around">
+            <div class="col col-5 offset-1">
+              <div id="circle">
+                  <div class="circle1">
+                <div id="text">
+                  <h4>{{ patients }}</h4>
+                </div>
+            </div>
+              </div>
+              <p style="text-align: center; line-height: 1.3em;">Number of Patients</p>
+            </div>
+            <div class="col col-5">
+              <div id="circle">
+                <div id="text">
+                  <h4>{{ earning }}</h4>
+                </div>
+              </div>
+              <p style="text-align: center;">Billings</p>
+              <p style="text-align: center;"><small>(INR)</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid container-3" style="margin-top: 25px;">
+  <div class="row body-row-2">
+    <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 5px">
+      <div class="card">
+        <div class="card-header">
+          <div class="row" style="margin: 0px 0px;">
+            <h4>Consultation History</h4>
+          </div>
+        </div>
+        <div class="card-body" style="max-height: 400px;overflow: auto;">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <tr *ngFor="let consultation of consultations">
+                <td style="font-size: 14px;font-family: 'Poppins SemiBold';">
+                  <img [src]="consultation.picUrl | safe:'url'"
+                    style="width: 44px;height: 44px;">&nbsp;&nbsp;&nbsp;{{consultation.firstname +' '+consultation.lastname}}
+                </td>
+                <td>{{consultation.speciality}}</td>
+                <td><i class="fa fa-calendar"></i>&nbsp;{{consultation.startTime | date: 'dd/MM/yyyy'}}</td>
+                <td>{{consultation.status}}</td>
+                <td><i class="fa fa-map-marker"></i>&nbsp;Chennai</td>
+                <td class="via-video">
+                  <div>
+                    <i class="fa fa-play-circle"></i>&nbsp;Via Video
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="container">
     <div class="row">
         <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
@@ -23,12 +155,12 @@
                                                 <i>Offline</i>
                                             </div>
                                         </div>
-                                        <!-- <div *ngSwitchCase="'invisible'">
+                                        <div *ngSwitchCase="'invisible'">
                                             <div class="status-invisible" title="Invisible"></div>
                                             <div class="row small-font status-text">
                                                 <i>Invisible</i>
                                             </div>
-                                        </div> -->
+                                        </div>
                                         <div *ngSwitchCase="'Busy'">
                                             <div class="status-busy" title="Busy"></div>
                                             <div class="row small-font status-text">
@@ -133,3 +265,5 @@
             </div>
         </div>
     </div>
+</div> -->
+<app-footer></app-footer>

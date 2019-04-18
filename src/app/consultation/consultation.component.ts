@@ -88,32 +88,29 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     downloadDoc(index: number, event: any) {
-        if (this.prescriptionDownloaded) {
-        this.prescriptionDownloaded = false;
-        this.chatService.downloadFile(this.consultations[index].prescription.url)
+        if (event.screenX !== 0  && event.screenY !== 0) {
+        this.chatService.downloadFile(this.consultations[index].prescriptionUrl)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
                 res.onloadend = () => {
                     event.srcElement.href = res.result;
                     event.srcElement.click();
                     event.srcElement.removeAttribute('href');
-                    this.prescriptionDownloaded = true;
                 };
             });
     }
     }
 
     downloadBilling(index: number, event: any) {
-        if (this.billDownloaded) {
-        this.billDownloaded = false;
-        this.chatService.downloadFile(this.consultations[index].billing.url)
+        if (event.screenX !== 0  && event.screenY !== 0 ) {
+        this.chatService.downloadFile(this.consultations[index].billingUrl)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
                 res.onloadend = () => {
-                    event.srcElement.href = res.result;
+                    const file = res.result.replace('octet-stream', 'pdf');
+                    event.srcElement.href = file;
                     event.srcElement.click();
                     event.srcElement.removeAttribute('href');
-                    this.billDownloaded = true;
                 };
             });
     }
@@ -127,21 +124,23 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
                 console.log('No of consultaions received: ' + res.length + ' on page: ' + page);
-                if (res.length === 0) {
+                if (res.prescriptions.length === 0) {
                     this.consultations.length > 0 ?  this.message = 'There are no more consultations to display' :
                     this.message = 'There are no past consultations to display';
                     this.emptyConsultations = true;
                 } else {
-                    res.map((consultation: any) => {
+                    res.prescriptions.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
-                        if (consultation.billing) {
-                            // recheck this logic at backend and for doctor success should be displayed and for user all
-                        if (consultation.billing.status === 'Success') {
-                            if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
-                                    consultation.status = 'active';
-                            }
-                        }
-                    }
+                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
+                        this.downloadAltPic(this.selectedUser.role, index);
+
+                        // if (consultation.billing) {
+                        //     // recheck this logic at backend and for doctor success should be displayed and for user all
+                        // if (consultation.billing.status === 'Success') {
+                        //     if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
+                        //             consultation.status = 'active';
+                        //     }
+                        // }
                     });
                     this.notquerying = true;
                 }
@@ -156,19 +155,22 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.message = 'There are no past consultations to display';
                      this.emptyConsultations = true;
                 } else {
-                    res.map((consultation: any) => {
+                    res.consultations.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
+                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
+                        this.downloadAltPic(this.selectedUser.role, index);
+                        // if (consultation.billing) {
+                        //     // recheck this logic at backend and for doctor success should be displayed and for user all
+                        // if (consultation.billing.status === 'Success') {
+                        //     if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
+                        //             consultation.status = 'active';
+                        //     }
+                        // }
                     });
-                    this.ref.markForCheck();
-                    res.map((consultation: any) => {
-                        if (consultation.billing) {
-                        if (consultation.billing.status === 'Success') {
-                            if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
-                                    consultation.status = 'active';
-                            }
-                        }
-                    }
-                    });
+                    // res.map((consultation: any) => {
+                    //     this.consultations.push(consultation);
+                    // });
+                    // this.ref.markForCheck();
                 }
                 this.notquerying = true;
             });
@@ -186,6 +188,35 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.message = 'Sorry No consultation exists with that id';
             }
         });
+    }
+
+
+    downloadPic(filename: string, index): any {
+        this.chatService.downloadFile(filename)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.consultations[index].picUrl = res.result;
+                };
+            });
+    }
+
+    downloadAltPic(role: string, index: number ): any {
+        let fileName: string;
+        if (role === 'bot') {
+            fileName = 'bot.jpg';
+        } else if (role === 'doctor') {
+            fileName = 'user.png';
+        } else {
+            fileName = 'doc.png';
+        }
+        this.chatService.downloadFile(fileName)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                res.onloadend = () => {
+                    this.consultations[index].picUrl = res.result;
+                };
+            });
     }
 
     changeIcon(id: number) {

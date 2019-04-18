@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  showPassword() {  
+  showPassword() {
     if (this.password.nativeElement.type === 'password') {
       this.password.nativeElement.type = 'text';
       this.eye.nativeElement.classList.remove('fa-eye');

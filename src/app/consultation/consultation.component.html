@@ -1,13 +1,16 @@
 <app-navbar></app-navbar>
 <div class="container">
-    <div class="card" *ngFor="let consultation of [1,22,2,2,2,2,2,2]; let i=index;" #doctorDashboardComponent>
-        <div class="card-header" *ngIf="selectedUser.role == 'patient' else doctorRole">
-            <img src="../../assets/png/female2.png">
-            <div class="head-text"><span>Patient</span>John Adams</div>
-            <div class="head-text"><span>Consulted On</span>Jan 04,2019</div>
+    <div class="card" *ngFor="let consultation of consultations;let i = index" #doctorDashboardComponent>
+        <div class="card-header">
+            <img [src]="consultation.picUrl | safe: 'url'">
+            <div class="head-text">
+                <span *ngIf="selectedUser.role==='patient'">Doctor</span>
+                <span *ngIf="selectedUser.role==='doctor'">Patient</span>
+                {{consultation.firstname+' '+consultation.lastname}}</div>
+            <div class="head-text"><span>Consulted On</span>{{consultation.updatedAt | date: 'MMM dd, yyyy'}}</div>
             <div class="head-logos">
-                <button class="prescription" (click)="downloadDoc(i,$event)"><i class="fa fa-file-text" aria-hidden="true"></i>PRESCRIPTION</button>
-                <button class="bill" (click)="downloadBilling(i, $event)">BILL</button>
+                <a class="prescription" (click)="downloadDoc(i,$event)" *ngIf="consultation.prescriptionUrl" download><i class="fa fa-file-text" aria-hidden="true"></i>PRESCRIPTION</a>
+                <a class="bill" (click)="downloadBilling(i, $event)" *ngIf="consultation.billingUrl" download>BILL</a>
                 <div data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i" role="button" aria-expanded="false" (click)="changeIcon(i);">
                     <span>
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -15,14 +18,10 @@
                 </div>
             </div>
         </div>
-        <!-- <ng-template #doctorRole>
-            <div class="card-header" [ngStyle]="{'background': consultation.status==='active'?'#3aae3a99':'rgba(0,0,0,.03)'}">
-                Consultation with {{ consultation?.user.firstname }} {{ consultation?.user.lastname }}
-            </div> -->
-        <!-- </ng-template> -->
-        <div class="card-body collapse" id="toggle-{{i}}">
-            <p class="card-text"><span>Consultation Summary:&nbsp;</span> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
-                    the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+        <div class="wrapper collapse" id="toggle-{{i}}">
+        <div class="card-body">
+            <p class="card-text"><span>Consultation Summary:&nbsp;</span>{{consultation.analysis}}</p>
+            <p class="card-text"><span>Special Instructions:&nbsp;</span>{{consultation.Instructions}}</p>
             <!-- <p class="card-text"><span>Consulted on:&nbsp;</span> {{ consultation?.prescription.createdAt | date:'md' }}</p> -->
             <div>
                 <!-- <div style="padding: 1% 0%;"> -->
@@ -42,6 +41,7 @@
                 <!-- </div> -->
             </div>
         </div>
+    </div>
     </div>
     <h2 style="text-align: center">{{ message }}</h2>
 </div>

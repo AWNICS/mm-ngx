@@ -19,7 +19,9 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
 
     @ViewChild('msg') msg: ElementRef;
     registerDoctorProfiles: FormGroup;
-    message = '';
+    f: any;
+    message: String;
+    error: String;
     otpMessage = '';
     otpFlag: boolean;
     phoneNo: number;
@@ -78,7 +80,7 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
             token: null,
             type: null,
             activate: null,
-            termsAccepted: ['', Validators.required],
+            termsAccepted: [''],
             createdTime: '',
             createdBy: null,
             updatedTime: '',
@@ -86,7 +88,7 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
         }, {
                 validator: PasswordValidation.matchPassword // your validation method
             });
-        this.navbarComponent.navbarColor(0, '#6960FF');
+            this.f = this.registerDoctorProfiles.controls;
         this.specialityDropdownSettings = {
             singleSelection: false,
             enableCheckAll: false,
@@ -101,7 +103,6 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
     }
 
     register({ value, valid }: { value: any, valid: boolean }) {
-        if (this.otpFlag === false) {
             const name = value.firstname + ' ' + value.lastname;
             const split = name.split(' ');
             value.appearUrl = `https://appear.in/${split[0]}-${split[1]}`;
@@ -112,9 +113,10 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res) => {
                     window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                    breakloop: if (res.error === 'DUP_ENTRY') {
-                        this.message = res.message;
-                        break breakloop;
+                    console.log(res);
+                    if (res.error === 'DUP_ENTRY') {
+                        this.error = res.message;
+                        console.log(this.error);
                     } else if (res) {
                         this.message = `Thank you for registering with us!
                     We will get in touch with you to complete registration process.
@@ -122,63 +124,49 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
                         this.registerDoctorProfiles.reset();
                     }
                 });
-        } else {
-            this.message = 'Verify your phone number before registering';
-            window.scroll({top: 0, left: 0, behavior: 'smooth'});
-        }
     }
 
-    checkPhoneNumber(value: any) {
-        if (value.length === 10) {
-            this.otpButton.nativeElement.style.visibility = 'visible';
-            this.otpButton.nativeElement.style.opacity = 1;
-        } else {
-            this.otpButton.nativeElement.style.visibility = 'hidden';
-            this.otpButton.nativeElement.style.opacity = 0;
-        }
-    }
+    // sendOtp(phoneNo: any) {
+    //     if (phoneNo.length === 10) {
+    //         this.loader = true;
+    //         this.sharedService.sendOtp(Number('91' + phoneNo))
+    //         .pipe(takeUntil(this.unsubscribeObservables))
+    //             .subscribe(res => {
+    //                 if (res.type === 'success') {
+    //                     this.loader = false;
+    //                     this.otpFlag = true;
+    //                     this.phoneNo = phoneNo;
+    //                     this.otpMessage = 'OTP sent successfully!';
+    //                 }
+    //             });
+    //     }
+    // }
 
-    sendOtp(phoneNo: any) {
-        if (phoneNo.length === 10) {
-            this.loader = true;
-            this.sharedService.sendOtp(Number('91' + phoneNo))
-            .pipe(takeUntil(this.unsubscribeObservables))
-                .subscribe(res => {
-                    if (res.type === 'success') {
-                        this.loader = false;
-                        this.otpFlag = true;
-                        this.phoneNo = phoneNo;
-                        this.otpMessage = 'OTP sent successfully!';
-                    }
-                });
-        }
-    }
+    // resendOtp() {
+    //     this.loader = true;
+    //     this.sharedService.resendOtp(Number('91' + this.phoneNo))
+    //     .pipe(takeUntil(this.unsubscribeObservables))
+    //         .subscribe(res => {
+    //             if (res.type === 'success') {
+    //                 this.loader = false;
+    //                 this.otpFlag = true;
+    //                 this.otpMessage = 'OTP re-sent successfully!';
+    //             }
+    //         });
+    // }
 
-    resendOtp() {
-        this.loader = true;
-        this.sharedService.resendOtp(Number('91' + this.phoneNo))
-        .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(res => {
-                if (res.type === 'success') {
-                    this.loader = false;
-                    this.otpFlag = true;
-                    this.otpMessage = 'OTP re-sent successfully!';
-                }
-            });
-    }
-
-    confirmOtp(otp: number) {
-        this.loader = true;
-        this.sharedService.verifyOtp(Number('91' + this.phoneNo), otp)
-        .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(res => {
-                if (res.type === 'success') {
-                    this.loader = false;
-                    this.otpFlag = false;
-                    this.otpButton.nativeElement.style.visibility = 'hidden';
-                    this.otpButton.nativeElement.style.opacity = 0;
-                    this.phoneNum.nativeElement.disabled = true;
-                }
-            });
-    }
+    // confirmOtp(otp: number) {
+    //     this.loader = true;
+    //     this.sharedService.verifyOtp(Number('91' + this.phoneNo), otp)
+    //     .pipe(takeUntil(this.unsubscribeObservables))
+    //         .subscribe(res => {
+    //             if (res.type === 'success') {
+    //                 this.loader = false;
+    //                 this.otpFlag = false;
+    //                 this.otpButton.nativeElement.style.visibility = 'hidden';
+    //                 this.otpButton.nativeElement.style.opacity = 0;
+    //                 this.phoneNum.nativeElement.disabled = true;
+    //             }
+    //         });
+    // }
 }

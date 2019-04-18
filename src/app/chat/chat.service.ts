@@ -166,8 +166,7 @@ export class ChatService {
         return reader; }),
         catchError(this.handleError)
         );
-    }
-
+        }
     /**
      * for getting all the media files
      */

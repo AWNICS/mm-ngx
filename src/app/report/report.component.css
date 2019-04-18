@@ -1,16 +1,14 @@
 ::ng-deep body{
     background: rgb(244, 244, 244);      
 }
-h2{
 
-}
 h3{
     font-size: 16px;
     font-family: "Poppins SemiBold";
     color: rgb(0, 0, 0);      
     margin: 0 20px;
 }
-.report-header{
+.main-header{
     background: white;
     padding: 15px;
     margin: 0;
@@ -106,7 +104,7 @@ h3{
     color: rgb(75, 39, 142);
     cursor: pointer;
 }
-:host ::ng-deep .report-info{
+:host ::ng-deep .consultation-info{
     display: none;
     width: 400px;
     border-radius: 4px;
@@ -118,40 +116,71 @@ h3{
     z-index: 2;
     /* clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%); */
 }
-:host ::ng-deep .cal-events span:hover + .report-info,
-:host ::ng-deep .report-info:hover,
-.week-consultations:hover + .report-info {
+.reports{
+    background: white;
+    display: none;
+    width: 250px;
+    border-radius: 1px;
+    padding: 15px;
+    cursor: auto;
+    z-index: 1;
+    border: 1px solid black;
+}
+.report-info{
+    display: flex;
+    justify-content: space-between;
+    background: #008fff52;
+    border-radius: 4px;
+    padding: 3px 5px;
+}
+.reports .report-info:not(:first-child){
+    margin-top: 10px;
+}
+.reports .report-info span:first-child{
+    width: 120px;
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow: hidden;
+}
+.reports .report-info a{
+    cursor: pointer;
+}
+:host ::ng-deep .cal-events span:hover + .consultation-info,
+:host ::ng-deep .cal-events span:hover + .reports,
+:host ::ng-deep .cal-events .reports:hover,
+:host ::ng-deep .consultation-info:hover,
+.week-consultations:hover + .consultation-info {
     display: block;
     position: absolute;
     left: 90%;
     top: 50%;
     transform: translateY(-50%);
 }
-:host ::ng-deep .report-info-header{
+:host ::ng-deep .consultation-info-header{
     display: flex;
     border-bottom: 1px solid rgb(207, 217, 227);
     align-items: center;
     padding: 10px;
 }
 
-:host ::ng-deep .report-info-header div{
+:host ::ng-deep .consultation-info-header div{
     font-size: 14px;
     font-weight: "bold";
 }
 
-:host ::ng-deep .report-info-header span{
+:host ::ng-deep .consultation-info-header span{
     font-size: 11px;
     color: #757e84;
 }
 
-:host ::ng-deep .report-info-header img{ 
+:host ::ng-deep .consultation-info-header img{ 
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
-:host ::ng-deep .report-info-header button{
+:host ::ng-deep .consultation-info-header button{
     margin-left: auto;
     padding: 3px 10px;
     background: white;
@@ -162,38 +191,34 @@ h3{
     font-family: "Poppins SemiBold";
     font-size: 12px;
 }
-:host ::ng-deep .report-doc-name{ 
+:host ::ng-deep .consultation-doc-name{ 
     display: flex;
     flex-direction: column;
 }
-:host ::ng-deep .report-time{
+:host ::ng-deep .consultation-time{
     padding: 15px 10px;
     border-bottom: 1px solid rgb(207, 217, 227);
     font-size: 12px;
 }
-:host ::ng-deep .report-time > div{
+:host ::ng-deep .consultation-time > div{
     border: 1px solid gray;
     /* border-radius: 10px; */
     width: fit-content;
     padding: 0px 10px;
 }
 
-:host ::ng-deep .report-time> div > i{
+:host ::ng-deep .consultation-time> div > i{
     margin-right: 5px;
 }
-:host ::ng-deep .report-summary{
+:host ::ng-deep .consultation-summary{
     padding: 10px;
     font-size: 12px;
 }
-:host ::ng-deep .report-summary span{
+:host ::ng-deep .consultation-summary span{
     font-size: 11px;
     color: #757e84;
 }
 
-
-:host ::ng-deep .cal-event{
-    /* display: none; */
-}
 :host ::ng-deep .cal-day-number{
     opacity: 1;
     font-weight: bold;

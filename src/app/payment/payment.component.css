@@ -138,6 +138,20 @@ width: 50%;
 .payment-method{
     margin-left: 10px;
 }
+.pay-now,
+.retry-payment{
+    width: 100%;
+}
+.pay-now button,
+.retry-payment button{
+    width:100%;
+    padding: 8px 0px;
+    background: #16a716cc;
+    color: white;
+    font-size: 13px;
+    border: none;
+    margin-top: 28px;
+}
 .patient-name .title,
 .payment-method .title{
     font-size: 11px;
@@ -177,7 +191,7 @@ width: 50%;
 }
 .amount span:last-child,
 .bill-date span:last-child{
-    font-size: 20px;
+    font-size: 18px;
     font-family: "Poppins SemiBold";
 }
 .bill-info{

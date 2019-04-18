@@ -4,10 +4,10 @@
             <img src="../../../assets/logo/logo.png">
         </a>
         <a id="logo" [routerLink]="['/dashboards/doctors',user.id]" routerLinkActive='active' *ngIf="user?.role ==='doctor'">
-            <img src="../../../assets/logo/logo_white_transp.png">
+            <img src="../../../assets/logo/logo.png">
         </a>
         <a id="logo" [routerLink]="['/admin/',user.id]" routerLinkActive='active' *ngIf="user?.role ==='admin'">
-            <img src="../../../assets/logo/logo_white_transp.png">
+            <img src="../../../assets/logo/logo.png">
         </a>
         <button class="navbar-toggler navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <div class="fa fa-reorder" id="icon-bar" style="color: rgb(68, 68, 68)"></div>
@@ -23,8 +23,11 @@
                     <div *ngIf="loggedIn && user.role ==='patient'" class="height-100 navbar-link">
                             <a [routerLink]="['/visitors', user.id]" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Reports</a>
                     </div>
+                    <div *ngIf="loggedIn && user.role ==='doctor'" class="height-100 navbar-link">
+                            <a [routerLink]="['/doctor/reports', user.id]" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Reports</a>
+                    </div>
                     <div *ngIf="!loggedIn" class="height-100 navbar-link login-text">
-                            <a routerLink="login" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Login / Signup</a>
+                            <a routerLink="/login" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Login / Signup</a>
                     </div>
                     <div *ngIf="!loggedIn" class="height-100 navbar-link login-text">
                             <a routerLink="/registerDoctor" class="doctors-available height-100 center-v-flex"  routerLinkActive='active'>Are you a Doctor?</a>
@@ -76,7 +79,7 @@
                             <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role ==='patient'">Consultation & History</a>
                             <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role ==='doctor'">Billings</a>
                             <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role ==='patient'">Payment & Billing</a>
-                            <a class="dropdown-item" routerLink="/login" routerLinkActive='active' (click)="logout();">Logout</a>
+                            <a class="dropdown-item"  routerLinkActive='active' (click)="logout();">Logout</a>
                         </div>
                     </div>
                 </div>

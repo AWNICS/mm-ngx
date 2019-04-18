@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { PasswordValidation } from './password.validator';
@@ -20,10 +20,14 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     registerDetails: FormGroup;
     userDetails: UserDetails;
     error = '';
+    Math: Math = Math;
     otpMessage = '';
     otpFlag = true;
     phoneNo: number;
     loader: boolean;
+    timer: any;
+    endTime: any;
+    verifyOtp: Boolean;
     f: any;
     formSubmitted: Boolean;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -35,7 +39,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         private loginService: LoginService,
-        private sharedService: SharedService
+        private sharedService: SharedService,
+        private cd: ChangeDetectorRef
     ) { }
 
     /**
@@ -43,6 +48,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
+        this.timer = 30 * 60 * 1000 + (2 * 60 * 1000);
+        this.endTime = 30 * 60 * 1000;
         this.registerDetails = this.fb.group({
             id: null,
             socketId: null,
@@ -60,7 +67,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             createdBy: null,
             updatedTime: '',
             updatedBy: null,
-            termsAccepted: ['', Validators.required]
+            termsAccepted: ['']
         }, {
                 validator: PasswordValidation.matchPassword // your validation method
             });
@@ -69,10 +76,10 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     ngAfterViewInit(){
         if (this.otpInput) {
-        this.otpInput.nativeElement.addEventListener('input',(value: any) => {
+        this.otpInput.nativeElement.addEventListener('input', (value: any) => {
         if (value.data) {
             if (value.data.match(/[0-9]/)) {
-                if (value.path[1].children[3] !== value.srcElement) {
+                if (value.path[1].children[5] !== value.srcElement) {
                     value.srcElement.nextSibling.focus();
                 } else{
                     value.path[1].children[0].focus();
@@ -83,17 +90,25 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     ngOnDestroy() {
+        const win: any = window;
+        if(win.$('#otp-window')[0].className === 'modal fade show') {
+            win.$('#otp-window').modal('hide');
+        }
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
-
-    register({ value, valid }: { value: UserDetails, valid: boolean }) {
-        console.log('submitted');
+    submitForm(){
         this.formSubmitted = true;
-        if (this.registerDetails.invalid && this.formSubmitted) {
+        if (this.registerDetails.invalid) {
+            console.log('retusdf');
             return;
         } else {
-        if (this.otpFlag === false) {
+            this.formSubmitted = false;
+            this.sendOtp(this.registerDetails.value.phoneNo);
+        }
+    }
+    register() {
+        const value = this.registerDetails.value;
             value.status = 'offline';
             value.role = 'patient';
             this.loginService.createNewUser(value)
@@ -106,18 +121,13 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                             break breakloop;
                         }
                     } else {
+                        this.otpFlag = false;
                         this.registerDetails.reset();
-                        this.error = `An email has been sent to your inbox.
-                    Please activate your account using the link to login.
-                    Kindly check spam folder if not found in your inbox.`;
+                    //     this.error = `An email has been sent to your inbox.
+                    // Please activate your account using the link to login.
+                    // Kindly check spam folder if not found in your inbox.`;
                     }
                 });
-        } else {
-            this.error = 'Verify your phone number before registering';
-            window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-        }
-        this.formSubmitted = false;
-    }
 }
 
     checkPhoneNumber(value: any) {
@@ -131,21 +141,32 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     sendOtp(phoneNo: any) {
-        if (phoneNo.length === 10) {
+        this.loader = true;
+        if (phoneNo.length === 10 && this.registerDetails.valid) {
             this.loader = true;
             this.sharedService.sendOtp(Number('91' + phoneNo))
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
                     if (res.type === 'success') {
+                        const win: any = window;
+                        win.$('#otp-window').modal('show');
                         this.loader = false;
+                        this.runTimer();
                         this.otpFlag = true;
-                        this.phoneNo = phoneNo;
-                        this.otpMessage = 'OTP sent successfully!';
                     }
                 });
         }
     }
-
+    runTimer() {
+        const timer = setInterval(() => {
+            this.timer = this.timer - 1000;
+            if (this.timer <= this.endTime ) {
+                this.timer = 30 * 60 * 1000 + (2 * 60 * 1000);
+                this.endTime = 30 * 60 * 1000;
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
     resendOtp() {
         this.loader = true;
         this.sharedService.resendOtp(Number('91' + this.phoneNo))
@@ -153,23 +174,21 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe(res => {
                 if (res.type === 'success') {
                     this.loader = false;
-                    this.otpFlag = true;
-                    this.otpMessage = 'OTP re-sent successfully!';
                 }
             });
     }
 
-    confirmOtp(otp: number) {
-        this.loader = true;
-        this.sharedService.verifyOtp(Number('91' + this.phoneNo), otp)
+    confirmOtp(val1: any, val2: any, val3: any, val4: any, val5: any, val6: any ) {
+        this.verifyOtp = true;
+        let otp:any = String(val1) + String(val2) + String(val3) + String(val4) + String(val5) + String(val6) ;
+        otp = Number(otp);
+        console.log(otp);
+        this.sharedService.verifyOtp(Number('91' + this.registerDetails.value.phoneNo), otp)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {
                 if (res.type === 'success') {
-                    this.loader = false;
-                    this.otpFlag = false;
-                    this.otpButton.nativeElement.style.visibility = 'hidden';
-                    this.otpButton.nativeElement.style.opacity = 0;
-                    this.phoneNum.nativeElement.disabled = true;
+                    this.verifyOtp = false;
+                    this.register();
                 }
             });
     }

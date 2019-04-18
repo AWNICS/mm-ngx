@@ -15,6 +15,7 @@ export class Message {
     responseData: { // data that componenet send out to the web services
         data: string[];
     };
+    thumbUrl: string;
     lastUpdateTime: any;
     createdBy: number;
     updatedBy: number;

@@ -343,3 +343,42 @@ button:focus,
         border-color: #e3e3e3;
     }
 }
+
+.testimonial{
+    padding: 20px;
+    width: 98%;
+    max-width: 350px;
+    word-break: break-all;
+}
+.testimonial .header{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.header img{
+    width: 40px;
+    height: 40px;
+}
+.header .info{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.info span{
+    color: green;
+}
+.carousel .wrapper{
+    padding: 10px 20px;
+}
+::ng-deep .owl-stage{
+    height: 300px;
+    display: flex;
+    align-items: center;
+}
+::ng-deep .owl-item{
+    opacity: 0.5;
+}
+::ng-deep .owl-item.center{
+    transform: scale(1.04);
+    opacity: 1;
+}

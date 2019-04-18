@@ -9,6 +9,7 @@ import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
@@ -45,7 +46,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   CalendarView = CalendarView;
 
   activeDayIsOpen: Boolean = false;
-  viewDate: Date = new Date();
+  viewDate: Date = new Date('12/5/2018');
 
   modalData: {
     action: string;
@@ -62,15 +63,13 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     {
       label: '<i class="fa fa-fw fa-times"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
+        // this.events = this.events.filter(iEvent => iEvent !== event);
         // this.handleEvent('Deleted', event);
       }
     }
   ];
 
   refresh: Subject<any> = new Subject();
-
-  events: any;
 //    activeDayIsOpen: Boolean = true;
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -79,77 +78,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedUser: UserDetails;
     report: any;
     message: any;
-    reportData:any;
     url: SafeResourceUrl;
     showConsultation: Boolean = true;
-    consultationData: Array<any> = [{
-      docname: 'Chandu',
-      qualification: 'Physicist',
-      summary: 'Great consultaiton infact',
-      status: 'Success',
-      meta: 'data',
-      starttime: new Date('21/mar/2019 10:00:00'),
-      endTime: new Date('21/mar/2019 11:00:00')
-    },
-    {
-      docname: 'Chandu Aluri',
-      qualification: 'Physiactrist',
-      summary: 'Great consultaiton infact',
-      status: 'Success',
-      starttime: new Date('22/march/2019 10:40:00'),
-      endTime: new Date('22/march/2019 11:40:00')
-    },
-    {
-      docname: 'Chandu Hema',
-      qualification: 'Dermatologist',
-      summary: 'Great consultaiton infact',
-      status: 'Success',
-      starttime: new Date('22/march/2019 11:40:00'),
-      endTime: new Date('22/march/2019 11:40:00')
-    },
-    {
-      docname: 'Chandu Sai',
-      qualification: 'Physicist',
-      summary: 'Great consultaiton infact',
-      status: 'Success',
-      starttime: new Date('22/march/2019 12:40:00'),
-      endTime: new Date('22/march/2019 11:40:00')
-    },
-    {
-      docname: 'Dilip Varma',
-      qualification: 'Speciality',
-      summary: 'Great consultaiton infact',
-      status: 'Success',
-      starttime: new Date('29/march/2019 13:40:00'),
-      endTime: new Date('29/march/2019 11:40:00')
-    },
-  ];
-  reports: Array<any> = [{
-    reportname: 'Chandu',
-    starttime: new Date('21/mar/2019 10:00:00'),
-    endTime: new Date('21/mar/2019 11:00:00')
-  },
-  {
-    reportname: 'Chandu Aluri',
-    starttime: new Date('22/march/2019 10:40:00'),
-    endTime: new Date('22/march/2019 11:40:00')
-  },
-  {
-    reportname: 'Chandu Hema',
-    starttime: new Date('23/march/2019 11:40:00'),
-    endTime: new Date('23/march/2019 11:40:00')
-  },
-  {
-    reportname: 'Chandu Sai',
-    starttime: new Date('23/march/2019 12:40:00'),
-    endTime: new Date('23/march/2019 11:40:00')
-  },
-  {
-    reportname: 'Dilip Varma',
-    starttime: new Date('29/march/2019 13:40:00'),
-    endTime: new Date('29/march/2019 11:40:00')
-  },
-];
+    page: any = 1;
+    firstCall: Boolean = true;
+    consultations: Array<any> = [];
+    reports: Array<any> = [];
+    consultationEvents: any = [];
+    reportEvents: any = [];
+    downloaded = true;
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -168,6 +105,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         }
+        if (this.selectedUser.role === 'patient') {
+          this.getConsultations(this.selectedUser.id, this.page);
+        }
         this.getReport();
     }
 
@@ -177,37 +117,60 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-      this.insertEvents();
     }
-    insertEvents() {
-      this.events = [];
-        this.consultationData.forEach((consultation:any) => {
-        this.events.push({
-          start: consultation.starttime,
-          end: consultation.endTime,
+    insertEvents(type: string) {
+      if ( type === 'consultation' ) {
+        console.log(this.consultations);
+        this.consultationEvents = [];
+        this.consultations.forEach((consultation: any) => {
+          this.consultationEvents.push({
+          start: new Date(consultation.updatedAt),
+          end: new Date(new Date(consultation.updatedAt).setTime(new Date(consultation.updatedAt).getTime() + 1 * 900000)),
           title: 'Consultation event',
           draggable: false,
-          docname: consultation.docname,
+          doctorName: consultation.firstname + ' ' + consultation.lastname,
+          doctorPicUrl: consultation.picUrl,
           qualification: consultation.qualification,
-          summary: consultation.summary
+          prescriptionUrl: consultation.prescriptionUrl,
+          mode: consultation.consultationMode,
+          summary: consultation.analysis,
+          instructions: consultation.Instructions
         });
+        this.cd.markForCheck();
       });
-      this.reportData = [];
-      this.reports.forEach((report:any) => {
-        this.reportData.push({
-          start: report.starttime,
-          end: report.endTime,
-          title: 'Report event',
-          draggable: false,
-          reportname: report.reportname
+      } else {
+        this.reportEvents = [];
+        this.reports.forEach((report: any) => {
+          this.reportEvents.push({
+            start: new Date(report.updatedAt),
+            end: new Date(new Date(report.updatedAt).setTime(new Date(report.updatedAt).getTime() + 1 * 900000)),
+            title: 'Report event',
+            draggable: false,
+            reportname: report.title,
+            url: report.url
+          });
         });
-      });
+        this.reports.forEach((report: any) => {
+          this.reportEvents.push({
+            start: new Date(report.updatedAt),
+            end: new Date(new Date(report.updatedAt).setTime(new Date(report.updatedAt).getTime() + 1 * 900000)),
+            title: 'Report event',
+            draggable: false,
+            reportname: report.title,
+            url: report.url
+          });
+        });
+        this.cd.markForCheck();
+      }
     }
     toggleView(event: any, number: any) {
+      if(number === 1 && this.firstCall ) {
+        this.getReports();
+        this.firstCall = false;
+      }
       event.srcElement.className += ' active';
       number === 1 ? event.srcElement.parentNode.children[0].className = '' : event.srcElement.parentNode.children[1].className = '';
       this.showConsultation = !(this.showConsultation);
-      // this.cd.detectChanges();
     }
     // get the details of the report
     getReport() {
@@ -224,6 +187,61 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
+    downloadItem(url: any, event: any) {
+      console.log('calling');
+      if (this.downloaded) {
+        this.downloaded = false;
+      this.chatService.downloadFile(url)
+          .pipe(takeUntil(this.unsubscribeObservables))
+          .subscribe((res) => {
+              res.onloadend = () => {
+                console.log('one');
+                event.preventDefault();
+                const out = 
+                res.result.replace('application/octet-stream', 'image/jpeg');
+                event.srcElement.href = out;
+                event.srcElement.click();
+                event.srcElement.removeAttribute('href');
+                this.downloaded = true;
+              };
+          });
+    }
+  }
+
+    getConsultations(id: number, page: number) {
+      const size = 5;
+      if (this.selectedUser.role === 'patient') {
+          this.sharedService.getConsultationsByVisitorId(id, page, size)
+              .pipe(takeUntil(this.unsubscribeObservables))
+              .subscribe((res) => {
+                  res.prescriptions.map((consultation: any, index: number) => {
+                      this.consultations.push(consultation);
+                      // consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
+                      // this.downloadPic(this.selectedUser.role, index);
+                  });
+                  this.insertEvents('consultation');
+          });
+      } else if (this.selectedUser.role === 'doctor') {
+        return;
+      } else {
+          return;
+      }
+ }
+
+ getReports() {
+  if (this.selectedUser.role === 'patient') {
+      this.sharedService.getReportsByVisitorId(this.selectedUser.id)
+          .pipe(takeUntil(this.unsubscribeObservables))
+          .subscribe((res) => {
+              res.map((report: any, index: number) => {
+                console.log(report);
+                  this.reports.push(report);
+              });
+              this.insertEvents('report');
+      });
+}
+}
+
     downloadDoc() {
         this.chatService.downloadFile(this.report.url)
             .pipe(takeUntil(this.unsubscribeObservables))
@@ -237,29 +255,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
-      eventTimesChanged({
-        event,
-        newStart,
-        newEnd
-      }: CalendarEventTimesChangedEvent): void {
-        this.events = this.events.map(iEvent => {
-          if (iEvent === event) {
-            return {
-              ...event,
-              start: newStart,
-              end: newEnd
-            };
-          }
-          return iEvent;
-        });
-        // this.handleEvent('Dropped or resized', event);
-      }
-
-      // handleEvent(action: string, event: CalendarEvent): void {
-      //   this.modalData = { event, action };
-      //   this.modal.open(this.modalContent, { size: 'lg' });
+      // eventTimesChanged({
+      //   event,
+      //   newStart,
+      //   newEnd
+      // }: CalendarEventTimesChangedEvent): void {
+      //   this.events = this.events.map(iEvent => {
+      //     if (iEvent === event) {
+      //       return {
+      //         ...event,
+      //         start: newStart,
+      //         end: newEnd
+      //       };
+      //     }
+      //     return iEvent;
+      //   });
       // }
-
 
     setView(view: CalendarView, event: any) {
       this.view = view;

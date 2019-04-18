@@ -97,11 +97,11 @@ h1{
     font-size: 11px;
     font-family: "Poppins";
     left: 32px;
-    top: -11.5px;
+    top: -5.5px;
     z-index: 100;
     background: white;
     color: rgb(157, 163, 165); 
-    line-height: 2; 
+    line-height: 1; 
 }
 
 input {
@@ -403,7 +403,7 @@ custom styles for ng-multiselect-dropdown
     /* border-radius: 30px !important; */
 /* } */
 
- :host ::ng-deep li {
+ :host ::ng-deep li:not(section ul li) {
     padding: 6px 20px !important;
 }
 
