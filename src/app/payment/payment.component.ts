@@ -92,11 +92,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
-    // filter(type: any){
-    //     const name = type.replace('@', ' ');
-    //     this.bills.
-
-    // }
+    filter(type: any){
+        const name = type.replace('@', ' ');
+        return;
+    }
 
     ngOnDestroy() {
         this.unsubscribeObservables.next();

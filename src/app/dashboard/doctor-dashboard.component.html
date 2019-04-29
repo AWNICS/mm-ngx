@@ -4,7 +4,7 @@
 <div class="container container-1">
   <div class="row main-row">
     <h1>{{selectedUser?.firstname}}'s Dashboard</h1>
-    <button class="btn edit-profile" [routerLink]="['/profiles',visitorId]">EDIT PROFILE</button>
+    <button class="btn edit-profile" [routerLink]="['/profiles',selectedUser?.id]">EDIT PROFILE</button>
   </div>
 </div>
 <div class="container container-2" style="padding-top: 0px">
@@ -14,22 +14,37 @@
         <div class="card-header">
           <div class="person-info-head">
             <img class="profile-pic" [src]="picUrl | safe:'url'">
-            <div class="profile-name">{{selectedUser?.firstname+' '+selectedUser?.lastname}}</div>
-            <span class="profile-age">12 Years Old | Male</span>
+            <div [ngSwitch]="doctorSchedule?.status">
+                <div *ngSwitchCase="'Online'">
+                    <div class="status-online" title="Online"></div>
+                </div>
+                <div *ngSwitchCase="'Offline'">
+                    <div class="status-offline" title="Offline"></div>
+                </div>
+                <div *ngSwitchCase="'invisible'">
+                    <div class="status-invisible" title="Invisible"></div>
+                </div>
+                <div *ngSwitchCase="'Busy'">
+                    <div class="status-busy" title="Busy"></div>
+                </div>
+            </div>
+            <div class="profile-name">Dr.{{selectedUser?.firstname+' '+selectedUser?.lastname}}</div>
+            <span class="profile-age">{{doctorDetails?.age}} Years Old | {{doctorDetails?.sex}}</span>
           </div>
         </div>
         <div class="card-body">
           <div class="profile-item-div">
             <div><i class="fa fa-graduation-cap" aria-hidden="true"></i>
             </div>
-            <div class="profile-item">MBBS, MD</div>
+            <div class="profile-item">{{qualifications}}</div>
           </div>
           <div class="profile-item-div">
             <div><i class="fa fa-map-marker"></i></div>
-            <div class="profile-item">Bangalore</div>
+            <div class="profile-item">{{locations}}</div>
           </div>
         </div>
         <div class="card-footer">
+          <small>Status</small>
           <select class="doctor-status" [(ngModel)]="selectedStatus" (ngModelChange)="updateStatus($event)">
             <option *ngFor="let option of status" [ngValue]="option"> {{ option }} </option>
           </select>
@@ -39,58 +54,43 @@
     <div class="col col-12 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-top: 15px;">
       <div class="card height-weight">
         <div class="card-header">
-          Basic Info
+          Overall Rating
         </div>
         <div class="card-body">
-          <div class="height-scale">
-            <span>{{visitorDetail?.height}} ft</span>
-            <img src="../../assets/images/height-marks.png">
-          </div>
-          <div class="human-logo">
-            <img src="../../assets/images/ic-human.png">
-          </div>
-          <div class="weight-scale">
-            <img src="../../assets/images/ic-weighing-scale1.png">
-            <span class="weight-info">100kg</span>
-          </div>
+          4.5
         </div>
       </div>
     </div>
     <div class="col col-12 col-xl-6 col-lg-8 col-md-12 col-sm-12 col-xs-12" style="margin-top: 15px;">
       <div class="card history">
-        <div class="card-body">
-          <div class="row justify-content-center">
-            <div class="btn-group" role="group" style="padding:0pt;">
-              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
-                (click)="getConsutationDetails('today');">Today</button>
-              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
-                (click)="getConsutationDetails('week');">Week</button>
-              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:80px;"
-                (click)="getConsutationDetails('month');">Month</button>
-              <button type="button" class="btn btn-secondary" style="padding-left: 15px; width:75px;"
-                (click)="getConsutationDetails('year');">Year</button>
+        <div class="card-header">
+          <div class="history-span">
+            <h5>Consultation History</h5>
+            <div class="button-group" role="group" #buttonGroup>
+              <a class="button active" (click)="toggleValues('today', 1);">Today</a>
+              <a class="button" (click)="toggleValues('week', 2);">Week</a>
+              <a class="button" (click)="toggleValues('month', 3);">Month</a>
+              <a class="button" (click)="toggleValues('year', 4);">Year</a>
             </div>
           </div>
-          <br>
+        </div>
+        <div class="card-body">
           <div class="row justify-content-around">
-            <div class="col col-5 offset-1">
-              <div id="circle">
-                  <div class="circle1">
-                <div id="text">
-                  <h4>{{ patients }}</h4>
-                </div>
-            </div>
+            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+              <div class="outer-circle  patients-circle">
+                  <div class="circle-info" *ngIf="patients || patients === 0">
+                    <span>{{ patients }}</span>
+                    <span>Patients</span>
+                  </div>
               </div>
-              <p style="text-align: center; line-height: 1.3em;">Number of Patients</p>
             </div>
-            <div class="col col-5">
-              <div id="circle">
-                <div id="text">
-                  <h4>{{ earning }}</h4>
+            <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="outer-circle earnings-circle">
+                    <div class="circle-info" *ngIf="earning || earning === 0">
+                      <span>&#8377;{{ earning }}</span>
+                      <span>Billings</span>
+                      </div>
                 </div>
-              </div>
-              <p style="text-align: center;">Billings</p>
-              <p style="text-align: center;"><small>(INR)</small></p>
             </div>
           </div>
         </div>
@@ -98,16 +98,16 @@
     </div>
   </div>
 </div>
-<div class="container-fluid container-3" style="margin-top: 25px;">
-  <div class="row body-row-2">
-    <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right: 5px">
+<div class="container-fluid container-3" style="margin-top:30px; margin-bottom: 50px;">
+  <div class="body-row-2">
+    <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 0">
       <div class="card">
         <div class="card-header">
           <div class="row" style="margin: 0px 0px;">
             <h4>Consultation History</h4>
           </div>
         </div>
-        <div class="card-body" style="max-height: 400px;overflow: auto;">
+        <div class="card-body">
           <div class="table-responsive">
             <table class="table table-striped">
               <tr *ngFor="let consultation of consultations">
@@ -121,7 +121,7 @@
                 <td><i class="fa fa-map-marker"></i>&nbsp;Chennai</td>
                 <td class="via-video">
                   <div>
-                    <i class="fa fa-play-circle"></i>&nbsp;Via Video
+                    <i class="fa fa-play-circle"></i>&nbsp;Via {{consultation?.consultationMode}}
                   </div>
                 </td>
               </tr>

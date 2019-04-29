@@ -97,14 +97,20 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
-    submitForm(){
+    submitForm() {
+        this.error = '';
         this.formSubmitted = true;
         if (this.registerDetails.invalid) {
-            console.log('retusdf');
             return;
         } else {
             this.formSubmitted = false;
-            this.sendOtp(this.registerDetails.value.phoneNo);
+            this.loginService.checkDuplicates(this.registerDetails.value.email, this.registerDetails.value.phoneNo).subscribe((res) => {
+                if(res.error){
+                    this.error = res.message;
+                } else {
+                this.sendOtp(this.registerDetails.value.phoneNo);
+                }
+            });
         }
     }
     register() {
@@ -115,10 +121,9 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
                     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
-                    breakloop: if (res.error) {
+                    if (res.error) {
                         if (res.error === 'DUP_ENTRY') {
                             this.error = res.message;
-                            break breakloop;
                         }
                     } else {
                         this.otpFlag = false;
@@ -129,6 +134,9 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                     }
                 });
 }
+    checkDupEmailAndMob() {
+
+    }
 
     checkPhoneNumber(value: any) {
         if (value.length === 10) {

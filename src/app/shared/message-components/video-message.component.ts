@@ -60,6 +60,7 @@ export class VideoMessageComponent implements OnInit, OnDestroy {
             .subscribe((res) => {
                 res.onloadend = () => {
                     this.url = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    console.log(this.url);
                     this.ref.markForCheck();
                 };
             });

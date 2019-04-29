@@ -29,7 +29,7 @@
                 <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
               </ng-template>
               <div class="about">
-                <div>
+                <div style="display: flex; align-items: center;">
                   <div class="name">{{ group?.name }}</div>
                   <span id="unreadmessage" *ngIf="group.unreadCount">{{ group.unreadCount }}</span>
                 </div>
@@ -51,7 +51,7 @@
         (click)="resetMessage(group.id)">
         <div class="people-list" id="people-list">
           <div class="list">
-            <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
+            <div class="pad" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
               <div *ngIf="group?.picture else alternateGroup">
                 <img [src]="group?.picture | safe: 'url'" alt="avatar" />
               </div>
@@ -59,11 +59,11 @@
                 <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
               </ng-template>
               <div class="about">
-                <div class="row">
+                <div>
                   <div class="name">{{group?.name}}</div>
                   <span id="unreadmessage" *ngIf="group.unreadCount">{{group.unreadCount}}</span>
                 </div>
-                <div class="row">
+                <div>
                   <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small>
                   </div>
                   <ng-template #speciality>
@@ -80,12 +80,12 @@
     <ng-template #archiveGroup>
       <button id='active-group-button' (click)="toggleGroup();">Active Groups</button>
       <!--Upto 3 days patient can communicate with bot and ask for doctor-->
-      <p style="text-align: left;">Archived Groups</p>
+      <p style="text-align: left;padding: 0% 6%;color: #0000007a;font-size:13px;margin-bottom: 3px">Archived Groups</p>
       <div class="w3-bar-item w3-button" *ngFor="let group of archiveGroups | filter : searchText"
         (click)="resetMessage(group.id)">
         <div class="people-list" id="people-list">
           <div class="list">
-            <div class="clearfix" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
+            <div class="pad" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
               <div *ngIf="group?.picture else alternateGroup">
                 <img [src]="group?.picture | safe: 'url'" alt="avatar" />
               </div>
@@ -93,10 +93,10 @@
                 <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
               </ng-template>
               <div class="about">
-                <div class="row">
+                <div>
                   <div class="name">{{group?.name}}</div>
                 </div>
-                <div class="row">
+                <div>
                   <small>{{group?.speciality}}</small>
                 </div>
               </div>
@@ -219,29 +219,48 @@
                     </ng-template> -->
           <!-- end Doctor List Modal -->
         </div>
-        <div class="group-action-icons">
-          <div title="fsadfds">
-            <i class="fa fa-video-camera" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}"
-            aria-hidden="true" (click)="createAppear(message);" title="Start appear call" aria-hidden="true"></i>
+        <div class="group-action-icons" *ngIf="!window.matchMedia('(max-width: 768px)').matches else icons">
+          <div title="Start Video Call" [ngStyle]="{'display':selectedUser?.role === 'doctor'&&selectedGroup.name!=='MedHelp' ? 'block' : 'none'}">
+            <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" aria-hidden="true"></i>
           </div>
-          <div (click)="media();">
+          <div title="All Files" (click)="media();">
             <i class="fa fa-files-o" aria-hidden="true"></i>
           </div>
+          <div title="Generate Prescription" (click)="togglePrescriptionComponent()"
+            *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'">
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+          </div>
+          <div title="Archived Groups" (click)="getArchivedGroups();">
+            <i class="fa fa-archive" aria-hidden="true"></i>
+          </div>
+          <div title="End Consultation"
+            *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'"
+            (click)="endConsultation();">
+            <i class="fa fa-window-close-o" aria-hidden="true"></i>
+          </div>
         </div>
-        <!-- <div class="dropdown">
-                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align: center;">
-                            <i class="fa fa-ellipsis-v" style="width: 18px;"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right options-menu">
-                            <a class="dropdown-item" (click)="media();">
-                                <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
-                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a>
-                             <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a> 
-                            <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'" (click)="endConsultation();">End Consultation</a>
-                            <a class="dropdown-item" (click)="togglePrescriptionComponent()">Generate Prescription</a>
-                            <a class="dropdown-item" (click)="getArchivedGroups();">Archived Groups</a>
-                        </div>
-                    </div> -->
+        <ng-template #icons>
+          <div class="dropdown">
+            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-align: center;">
+              <i class="fa fa-ellipsis-v" style="width: 18px;"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right options-menu">
+              <a class="dropdown-item" (click)="media();">
+                <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
+              <a class="dropdown-item"
+                *ngIf="selectedUser?.role === 'doctor' && selectedGroup.name!=='MedHelp'"
+                (click)="createAppear(message)">Video Call</a>
+
+              <!-- <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a> -->
+              <!-- <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" data-toggle="modal" data-target="#doctorModal" (click)="openDoctor(doctorModal);">Manual Create</a>  -->
+              <a class="dropdown-item"
+                *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'"
+                (click)="endConsultation();">End Consultation</a>
+              <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'" (click)="togglePrescriptionComponent()">Generate Prescription</a>
+              <a class="dropdown-item" (click)="getArchivedGroups();">Archived Groups</a>
+            </div>
+          </div>
+        </ng-template>
       </div>
       <!-- end chat-header -->
 
@@ -264,7 +283,7 @@
               <div class="clearfix">
                 <div class="message-data align-right">
                   <span class="message-data-name">{{message?.senderName}}</span>
-                  <span class="message-data-time">{{message?.createdTime | date: 'sm'}}</span>
+                  <span class="message-data-time">{{message?.createdTime | date: 'hh:mm a'}}</span>
                   <!-- <i class="fa fa-circle me"></i> -->
                 </div>
                 <div class="message other-message float-right">
@@ -315,9 +334,8 @@
           <ng-template #alignLeft>
             <div class="clearfix">
               <div class="message-data">
-                <span class="message-data-name">
-                  <i class="fa fa-circle other"></i>{{message?.senderName}}</span>
-                <span class="message-data-time">{{message?.createdTime | date : 'sm'}}</span>
+                <span class="message-data-name">{{message?.senderName}}</span>
+                <span class="message-data-time">{{message?.createdTime | date : 'hh:mm a'}}</span>
               </div>
               <div class="message my-message">
                 <div [ngSwitch]="message?.contentType">
@@ -383,11 +401,11 @@
           <div class="row justify-content-between chat-footer">
             <!-- <div class="col col-2 dropup"> -->
             <div class="wrapper">
-                <div class="three-green-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+              <div class="three-green-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
               <!-- <i class="fa fa-paperclip"></i> -->
               <div class="wrapper-icons">
                 <i class="fa fa-video-camera" [ngStyle]="{'display':selectedUser?.role === 'doctor' ? 'block' : 'none'}"
@@ -454,50 +472,51 @@
         </button>
       </div>
       <ng-container *ngIf="!gettingMessages && mediaMessages.length === 0">
-          <span style="position: relative;left: 25%;">No files Found</span>
+        <span style="position: relative;left: 25%;">No files Found</span>
       </ng-container>
       <ng-container *ngIf="gettingMessages">
-            <span style="position: relative;left: 25%;">Loading Files</span>
-        </ng-container>
-        <ng-container *ngIf="mediaMessages.length > 0">
-      <div class="search-right">
-        <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
-        <i class="fa fa-search"></i>
-      </div>
-      <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
-        <div class="card media-list">
-          <div class="card-body">
-            <div [ngSwitch]="media?.contentType">
-              <div *ngSwitchCase="'image'" id="image">
-                <!-- <div class="row"> -->
-                <!-- <div class="col col-4"> -->
-                <div class="allfiles-image">
-                  <app-image-message [message]="media" id="allFiles"></app-image-message>
+        <span style="position: relative;left: 25%;">Loading Files</span>
+      </ng-container>
+      <ng-container *ngIf="mediaMessages.length > 0">
+        <div class="search-right">
+          <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
+          <i class="fa fa-search"></i>
+        </div>
+        <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">
+          <div class="card media-list">
+            <div class="card-body">
+              <div [ngSwitch]="media?.contentType">
+                <div *ngSwitchCase="'image'" id="image">
+                  <!-- <div class="row"> -->
+                  <!-- <div class="col col-4"> -->
+                  <div class="allfiles-image">
+                    <app-image-message [message]="media" id="allFiles"></app-image-message>
+                  </div>
+                  <!-- </div> -->
+                  <!-- <div class="col col-8" style="padding-left:0px"> -->
+                  <div class="allfiles-image-info">
+                    <span class="allfiles-sendername">{{media.senderName}}</span>
+                    <span class="allfiles-media-date">{{media.createdTime | date: 'sm'}}</span>
+                  </div>
+                  <!-- <span>{{media.contentData.data[0]}}</span> -->
+                  <!-- </div> -->
+                  <!-- </div> -->
                 </div>
-                <!-- </div> -->
-                <!-- <div class="col col-8" style="padding-left:0px"> -->
-                <div class="allfiles-image-info">
-                  <span class="allfiles-sendername">{{media.senderName}}</span>
-                  <span class="allfiles-media-date">{{media.createdTime | date: 'sm'}}</span>
-                </div>
-                <!-- <span>{{media.contentData.data[0]}}</span> -->
-                <!-- </div> -->
-                <!-- </div> -->
-              </div>
-              <div *ngSwitchCase="'video'">
-                <div class="allfiles-video">
-                  <app-video-message [message]="media"></app-video-message>
-                </div>
-                <span class="allfiles-video-sendername">{{media.senderName}}</span>
-                <span class="allfiles-video-date">{{media.createdTime | date: 'sm'}}</span>
-                <div *ngSwitchCase="'doc'">
-                  <div class="row">
-                    <div class="col col-4">
-                      <app-document-message [message]="media"></app-document-message>
-                    </div>
-                    <div class="col col-8">
-                      <small
-                        class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+                <div *ngSwitchCase="'video'">
+                  <div class="allfiles-video">
+                    <app-video-message [message]="media"></app-video-message>
+                  </div>
+                  <span class="allfiles-video-sendername">{{media.senderName}}</span>
+                  <span class="allfiles-video-date">{{media.createdTime | date: 'sm'}}</span>
+                  <div *ngSwitchCase="'doc'">
+                    <div class="row">
+                      <div class="col col-4">
+                        <app-document-message [message]="media"></app-document-message>
+                      </div>
+                      <div class="col col-8">
+                        <small
+                          class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -505,7 +524,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
     </div>
   </div>

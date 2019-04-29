@@ -8,10 +8,8 @@ import { UserDetails } from '../shared/database/user-details';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { ChatService } from '../chat/chat.service';
 import { SocketService } from '../chat/socket.service';
-import * as Chart from 'chart.js';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as moment from 'moment';
 
 
 @Component({
@@ -25,10 +23,11 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
     userId: number;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('barChart') barChart: ElementRef;
+    @ViewChild('buttonGroup') buttonGroup: ElementRef;
     status: Array<Object> = ['Online', 'Offline', 'Busy'];
     selectedStatus: string;
     selectedUser: UserDetails;
-    doctor: DoctorProfiles;
+    doctorDetails: DoctorProfiles;
     doctorStore: any;
     doctorSchedule: any;
     qualifications = '';
@@ -41,6 +40,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
     patients: number;
     hideConsultations = false;
     earning: number;
+    billingAndPatientCount: any = {};
     private unsubscribeObservables: any = new Subject();
 
     constructor(
@@ -68,16 +68,15 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
                 this.socketService.connection(this.userId);
               }
             if (this.selectedUser.picUrl) {
-                this.downloadPic(this.selectedUser.picUrl);
+                this.downloadPic(this.selectedUser.picUrl, null);
             } else {
-                this.downloadAltPic(this.selectedUser.role);
+                this.downloadAltPic(this.selectedUser.role, null);
             }
             this.getDoctorSchedule();
             this.getDoctorById(this.doctorId);
-            this.getDoctorStore(this.doctorId);
             this.receiveDoctorStatus();
         }
-        this.getConsutationDetails('today');
+        this.getBillingAndPatientTotal();
     }
 
   ngAfterViewInit() {
@@ -109,19 +108,21 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         });
         }
       }
-
-    downloadPic(filename: string) {
+      downloadPic(filename: string, index): any {
         this.chatService.downloadFile(filename)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
-                    this.ref.detectChanges();
+                    if ( index === null ) {
+                        this.picUrl = res.result;
+                    } else {
+                    this.consultations[index].picUrl = res.result;
+                    }
                 };
             });
     }
 
-    downloadAltPic(role: string) {
+    downloadAltPic(role: string, index: number ): any {
         let fileName: string;
         if (role === 'bot') {
             fileName = 'bot.jpg';
@@ -134,74 +135,21 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 res.onloadend = () => {
-                    this.picUrl = this.domSanitizer.bypassSecurityTrustUrl(res.result);
-                    this.ref.detectChanges();
+                    if ( index === null ) {
+                        this.picUrl = res.result;
+                    } else {
+                    this.consultations[index].picUrl = res.result;
+                    }
                 };
             });
-    }
-
-    chart(chartDetails: any) {
-        const ctx = this.barChart.nativeElement.getContext('2d');
-        const horizontalBarChartData = {
-            labels: ['9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm'],
-            datasets: [{
-                label: 'Follow Ups',
-                backgroundColor: '#9690FD',
-                data: chartDetails.followUps
-            }, {
-                label: 'New Patient',
-                backgroundColor: '#C4C1FF',
-                data: chartDetails.newConsultations
-            }]
-        };
-        const barChart = new Chart(ctx, {
-            type: 'horizontalBar',
-            data: horizontalBarChartData,
-            options: {
-                elements: {
-                    rectangle: {
-                        borderWidth: 1,
-                    }
-                },
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    position: 'right',
-                },
-                title: {
-                    display: false,
-                    text: 'Chart.js Horizontal Bar Chart'
-                },
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            userCallback: function(label: any) {
-                                if (Math.floor(label) === label) {
-                                    return label;
-                                }
-                            }
-                        }
-                    }]
-                }
-            }
-        });
     }
 
     getDoctorById(doctorId: number) {
         this.sharedService.getDoctorById(doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(doctor => {
-                console.log(doctor);
-                this.doctor = doctor.doctorDetails;
-            });
-    }
-
-    getDoctorStore(doctorId: number) {
-        this.sharedService.getDoctorStore(doctorId)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(doctorStore => {
-                this.getStores(doctorStore, doctorId);
+                this.doctorDetails = doctor.doctorDetails;
+                this.getStores(doctor.doctorStores, doctorId);
             });
     }
 
@@ -218,11 +166,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
 
     // update status in doctor schedule
     updateStatus(status: string) {
-        /*this.sharedService.updateStatus(status, this.doctorId)
-            .subscribe(res => {
-                this.selectedStatus = status;
-                this.doctorSchedule.status = status;
-            });*/
         this.socketService.doctorStatusUpdate(this.selectedUser.id, status);
     }
 
@@ -237,22 +180,28 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
     }
 
     getStores(stores: any, doctorId: number) {
-        this.qualifications = '';
-        this.languages = '';
-        this.consultationModes = '';
-        this.locations = '';
+        // this.qualifications = '';
+        // this.languages = '';
+        // this.consultationModes = '';
+        // this.locations = '';
+        console.log(stores);
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
                 this.qualifications += stores[i].value;
+                console.log(this.qualifications);
+                this.qualifications.replace(',', ', ');
             }
-            if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-                this.languages += stores[i].value;
-            }
+            // if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
+            //     this.languages += stores[i].value;
+            //     this.languages.replace(',', ', ');
+            // }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
                 this.consultationModes += stores[i].value;
+                this.consultationModes.replace(',', ', ');
             }
             if (stores[i].type === 'Location' && stores[i].userId === doctorId) {
                 this.locations += stores[i].value;
+                this.locations.replace(',', ', ');
             }
         }
     }
@@ -262,42 +211,42 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         const size = 20;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                if (res.visitorAppointments.length === 0) {
-                    this.hideConsultations = true;
-                } else {
-                    this.chart(res.chartDetails);
-                    res.visitorAppointments.map((appointment: any) => {
-                        appointment.startTime = moment(appointment.startTime);
-                        this.consultations.push(appointment);
-                    });
-                    // this.consultations = res.visitorAppointments;
-                }
-            });
+            .subscribe((consultations) => {
+                this.consultations = consultations;
+                console.log(this.consultations);
+                this.consultations.map((consultation: any, index: number) => {
+                    consultation.picUrl1 = consultation.picUrl ? this.downloadPic(consultation.picUrl, index)
+                    : this.downloadAltPic('user', index);
+                });
+                });
     }
 
     // for getting the consultation history
-    getConsutationDetails(str: string) {
+    toggleValues(str: string, srcElement: number) {
+    this.buttonGroup.nativeElement.querySelector('.active').className = 'button';
+    this.buttonGroup.nativeElement.children[srcElement - 1].className = 'button active';
+        if (str === 'today') {
+            this.patients = this.billingAndPatientCount.noOfPatients.today;
+            this.earning = this.billingAndPatientCount.earning.today;
+        } else if (str === 'week') {
+            this.patients = this.billingAndPatientCount.noOfPatients.week;
+            this.earning = this.billingAndPatientCount.earning.week;
+        } else if (str === 'month') {
+            this.patients = this.billingAndPatientCount.noOfPatients.month;
+            this.earning = this.billingAndPatientCount.earning.month;
+        } else {
+            this.patients = this.billingAndPatientCount.noOfPatients.year;
+            this.earning = this.billingAndPatientCount.earning.year;
+        }
+    }
+    getBillingAndPatientTotal() {
         this.sharedService.getConsutationDetails(this.doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
-                if (str === 'today') {
-                    this.patients = res.noOfPatients.today;
-                    this.earning = res.earning.today;
-                } else if (str === 'week') {
-                    this.patients = res.noOfPatients.week;
-                    this.earning = res.earning.week;
-                } else if (str === 'month') {
-                    this.patients = res.noOfPatients.month;
-                    this.earning = res.earning.month;
-                } else if (str === 'year') {
-                    this.patients = res.noOfPatients.year;
-                    this.earning = res.earning.year;
-                } else {
-                    this.patients = 0;
-                    this.earning = 0;
-                }
-            });
+                this.patients = res.noOfPatients.today;
+                this.earning = res.earning.today;
+                this.billingAndPatientCount = res;
+            })
     }
 
     // redirect to particular consultation details

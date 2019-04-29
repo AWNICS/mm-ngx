@@ -10,7 +10,7 @@ import { Message } from '../database/message';
     selector: 'app-notification-message',
     template: `
             <div>
-                {{ notificationMessage }}<span>&nbsp;&nbsp;&nbsp;{{ time | date:'sm' }}</span>
+                {{ notificationMessage }}<span>&nbsp;&nbsp;&nbsp;{{ time | date:'hh:mm a' }}</span>
             </div>
     `,
     styles: [`

@@ -98,6 +98,7 @@ span.dropdown-text{
 
 p {
     margin: 0px;
+    margin-bottom: 4px;
 }
 
 .status-text {
@@ -279,11 +280,11 @@ p {
   }
   .doctor-info-experience{
     border-right: 1px solid #7b7777d1;
-    padding:10px 21px;
+    padding: 10px 5px;
     padding-right:0px
   }
   .doctor-info-patients{
-    padding:10px 21px;
+    padding:10px 5px;
     padding-right: 0px
   }
 

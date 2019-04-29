@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Message } from '../database/message';
 import { ChatService } from '../../chat/chat.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -20,6 +20,8 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
 
     @Input() message: Message;
     @ViewChild('modal') modal: ElementRef;
+    @Input() imageUrl;
+    @Output() imageFullUrl = new EventEmitter();
     thumbImageUrl: SafeResourceUrl;
     fullImageUrl: SafeResourceUrl;
     imageName: string;
@@ -29,8 +31,7 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         setTimeout(() => {
-            console.log(this.message);
-            this.downloadThumbImage(this.message.contentData.data[0]);
+            this.message ? this.downloadThumbImage(this.message.contentData.data[0]) : this.downloadThumbImage(this.imageUrl);
         }, 5000);
     }
 
@@ -64,8 +65,12 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
     }
 
     openModal() {
+        if(this.message){
         this.downloadFullImage(this.imageName);
         this.modal.nativeElement.style.display = 'block';
+        } else {
+            this.imageFullUrl.emit('click');
+        }
       }
 
       closeModal() {

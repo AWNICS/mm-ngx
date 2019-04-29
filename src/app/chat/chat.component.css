@@ -124,11 +124,8 @@ a {
     display: flex;
     flex-direction: column; 
     justify-content: space-evenly;
-    width: 80.5%;
+    width: 79.5%;
     height: 44px;
-    /* margin-top: 8px; */
-    /* color: #666; */
-    /* padding-left: 8px; */
     margin-left: 7px;
 }
 
@@ -296,7 +293,7 @@ a {
     color: #333C44;
     padding: 5px 8px;
     line-height: 20px;
-    font-size: 0.8em;
+    font-size: 13px;
     border-radius: 7px;
     border-bottom-right-radius: 0px;
     width: auto;
@@ -319,7 +316,10 @@ a {
 
 .chat .chat-history .my-message {
     float: left;
-    background: #EDE7F6;
+    background-image: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%);
+    border-radius: 7px;
+    border-top-left-radius: 0px;
+    color: white;
 }
 
 .chat .chat-history .other-message {
@@ -463,7 +463,10 @@ textarea:focus {
 .fa-file-video-o,
 .fa-file-image-o,
 .fa-files-o,
-.fa-file-o {
+.fa-file-o,
+.fa-archive,
+.fa-window-close-o,
+.fa-newspaper-o {
     font-size: 1.2rem;
     color: gray;
     margin: 5px;
@@ -601,8 +604,9 @@ textarea:focus {
     font-size: 12px;
     font: #9C9C9C;
     position: absolute;
-    background: #F7F7F7;
-    transform: translate(5.5vw, -3vh);
+    background: #ded4d4;
+    border-radius: 10px;
+    transform: translate(3vw, -3vh);
 }
 
 .message:hover .delete-message {
@@ -692,16 +696,12 @@ footer {
 
 #unreadmessage {
     color: white;
-    position: relative;
-    top: 4px;
-    border-radius: 16px;
+    border-radius: 50%;
     background-color: #004eff;
     font-size: 12px;
     font-weight: 700;
-    height: 18px;
-    line-height: 18px;
     margin-left: 4px;
-    padding: 0 9px;
+    padding: 0 8px;
 }
 
 .error-message-body {

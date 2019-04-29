@@ -33,6 +33,7 @@
     <div class="login">
     <h1>Login to <span>MESOMEDS</span></h1>
     <p>Enter your registered email address and password to proceed</p>
+    <p *ngIf="error" class="error">{{error}}</p>
     <form [formGroup]="form">
       <div class="form-group">
         <label>Email</label>

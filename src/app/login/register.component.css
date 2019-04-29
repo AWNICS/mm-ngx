@@ -334,6 +334,9 @@ button.button__accent:disabled {
   padding-top: 102px;
   height: fit-content;  
 }
+.error{
+  color: red;
+}
 h1{
   font-size: 32px;
   color: rgb(0, 0, 0);

@@ -30,7 +30,15 @@ export class LoginService {
     login(email: string, password: string): Observable<any> {
         const uri = `${this.url}/login`;
         return this.http.post(uri, {email: email, password: password}, this.httpOptions)
-        .pipe(map((res: any) => res ));
+        .pipe(map((res: any) => res ),
+        catchError(this.handleError));
+    }
+
+    checkDuplicates(email: string , phoneNo: number) {
+        const uri = `${this.url}/users/validate?email=${email}&phoneNo=${phoneNo}`;
+        return this.http.get(uri, this.httpOptions)
+        .pipe(map((res: any) => res ),
+        catchError(this.handleError));
     }
 
     createNewUser(userDetails: UserDetails): Observable<UserDetails | any> {
@@ -74,6 +82,6 @@ export class LoginService {
     }
 
     private handleError(error: any): Observable<any> {
-        return throwError(error.message || error);
+        return throwError(error.error.message || error);
     }
 }

@@ -71,6 +71,8 @@ form{
 form select{
     font-size: 14px;
     color: rgb(68, 68, 68);      
+    -moz-appearance: initial;
+    -webkit-appearance: initial;
 }
 .consult-now{
     background-color: rgb(31, 214, 166);

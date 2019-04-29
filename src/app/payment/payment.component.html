@@ -131,14 +131,20 @@ Pay now</button>
               </div>
           </ng-container>
           <div class="retry-payment" *ngIf="bill.status==='Failure' || bill.status==='Aborted' ">
-            <button data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall()">
+            <button data-toggle="modal"  *ngIf="selectedUser.role==='patient'" data-target="#paymentModal" (click)="paymentGatewayCall()">
               Retry Payment
             </button>
+            <button data-toggle="modal"  *ngIf="selectedUser.role==='doctor'" data-target="#paymentModal">
+                Request Pay
+              </button> 
           </div>
           <div class="pay-now" *ngIf="bill.status==='due'">
-              <button data-toggle="modal" data-target="#paymentModal" (click)="paymentGatewayCall()">
+              <button data-toggle="modal"  *ngIf="selectedUser.role==='patient'" data-target="#paymentModal" (click)="paymentGatewayCall()">
                 Pay now
-              </button> 
+              </button>
+              <button data-toggle="modal"  *ngIf="selectedUser.role==='doctor'" data-target="#paymentModal">
+                  Request Pay
+                </button> 
             </div>
         </div>
       <div class="bill-info">

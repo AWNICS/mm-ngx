@@ -518,7 +518,7 @@ a {
     width: 300px !important;
     background-color: white;
     position: absolute !important;
-    z-index: 3;
+    z-index: 2;
     overflow-y: auto;
     overflow-x: hidden;
     border: none;

@@ -137,6 +137,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     createdAt: Date.now(),
     updatedAt: Date.now()
   };
+  window: any;
   typingEvent: Boolean = true;
   errors: Array<any> = [];
   patientDetails: any;
@@ -168,6 +169,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.window = window;
     // this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();

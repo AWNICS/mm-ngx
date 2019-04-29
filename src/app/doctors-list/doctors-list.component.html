@@ -80,7 +80,7 @@
           <div class="card-header doctor-info-header">
             <div class="row">
               <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                <img class="doctor-info-image" src="../../assets/test.jpg" />
+                <img class="doctor-info-image" [routerLink]="['/profiles/doctors',doctor.userId]" [src]="doctor.picUrl | safe: 'url'" />
               </div>
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
@@ -108,7 +108,14 @@
             <p class="sub-heading-text-value">{{doctor.location}}</p>
             <span class="sub-heading-text">Consults via</span>
             <p class="sub-heading-text-value">{{doctor.consultationMode}}</p>
-            <button class="btn pay-button" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
+            <button class="btn pay-button" [disabled]="doctor.status === 'Offline'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
+            <span style="text-align: center;color:#877474" *ngIf="doctor.status === 'Offline'">Doctor Offline</span>
+            <div *ngIf="doctor.message" style="text-align: center;color:#877474">
+                <span *ngIf="doctor.message && doctor.message!=='chat'">{{ doctor.message }}</span>
+                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}">
+                  Active group
+                </a>
+            </div>
           </div>
         </div>
       </div>

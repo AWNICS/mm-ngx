@@ -306,6 +306,12 @@ export class SharedService {
             .pipe(map((res: any) => res));
     }
 
+    readAllConsultationsByDoctorId(doctorId: number) {
+        const uri = `${this.url}/doctors/${doctorId}/consultations/readall`;
+        return this.http.get(uri, this.httpOptions)
+            .pipe(map((res: any) => res));
+    }
+
     sendOtp(mobileNo: number) {
         const uri = `${this.url}/send/otp/mobile/${mobileNo}`;
         return this.http.get(uri)

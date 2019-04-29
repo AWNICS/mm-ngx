@@ -265,6 +265,9 @@ p{
     text-align: center;
     margin: 26px auto;
 }
+p.error{
+    color: red;
+}
 input.form-control {          
     border-radius: 0px;
     background: white;

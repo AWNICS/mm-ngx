@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DragScrollDirective } from 'ngx-drag-scroll';
 import { UserDetails } from '../shared/database/user-details';
@@ -6,10 +6,12 @@ import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { SecurityService } from '../shared/services/security.service';
 import { ChatService } from '../chat/chat.service';
+import { SocketService } from '../chat/socket.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from './profile.service';
 import { DoctorMedia } from '../shared/database/doctor-media';
 import { Subject } from 'rxjs';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { takeUntil } from 'rxjs/operators';
 
 /**
@@ -20,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
     templateUrl: 'doctor-view-profile.component.html',
     styleUrls: ['doctor-view-profile.component.css']
 })
-export class DoctorViewProfileComponent implements OnInit, OnDestroy {
+export class DoctorViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
     item: DoctorMedia = {
         id: null,
@@ -35,19 +37,21 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
         createdAt: null,
         updatedAt: null
     };
-    mediaFiles: DoctorMedia[] = [{
-        id: null,
-        title: null,
-        description: null,
-        url: null,
-        thumbUrl: null,
-        userId: null,
-        type: null,
-        createdBy: null,
-        updatedBy: null,
-        createdAt: null,
-        updatedAt: null
-    }];
+    mediaFiles: any = [];
+    // [{
+    //     id: null,
+    //     title: null,
+    //     description: null,
+    //     url: null,
+    //     thumbUrl: null,
+    //     userId: null,
+    //     type: null,
+    //     createdBy: null,
+    //     updatedBy: null,
+    //     createdAt: null,
+    //     updatedAt: null
+    // }];
+    doctorSelected: any;
     leftNavDisabled = false;
     rightNavDisabled = false;
     dragScroll: DragScrollDirective;
@@ -62,13 +66,18 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
     locations = '';
     professionalSociety = '';
     doctorSchedule: any;
-    doctorActivities: any;
+    doctorActivities: any = [];
     doctorReviews: any;
     message: string;
     slots = '';
+    fullImageUrl;
+    videoUrl;
     @ViewChild('nav', { read: DragScrollDirective }) ds: DragScrollDirective;
     @Input() user: UserDetails;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
+    @ViewChild('modal') modal: any;
+    @ViewChild('modal1') modal1: any;
+    @ViewChild('video') video: any;
     @ViewChild('videoPlayer') videoPlayer: ElementRef;
     private unsubscribeObservables = new Subject();
 
@@ -76,9 +85,11 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
         private securityService: SecurityService,
         private chatService: ChatService,
         private sharedService: SharedService,
+        private socketService: SocketService,
         private router: Router,
         private ref: ChangeDetectorRef,
         private route: ActivatedRoute,
+        private sanitizer: DomSanitizer,
         private profileService: ProfileService
     ) { }
 
@@ -95,6 +106,7 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this.unsubscribeObservables))
                     .subscribe(doctor => {
                         this.doctor = doctor;
+                        console.log(this.doctor);
                         this.doctor.speciality = doctor.doctorDetails.speciality;
                         const date = new Date(this.doctor.validity);
                         this.doctor.validity = date.getUTCDay() + '-' + date.getUTCMonth() + '-' + date.getUTCFullYear();
@@ -102,49 +114,87 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
                         this.getStatus(this.doctor);
                     });
             });
+            console.log(cookie);
         this.getDoctorStore(this.doctorId);
-        this.getActivities(this.doctorId);
-        this.getReviews(this.doctorId);
-        this.getDoctorMedia();
+        // this.getActivities(this.doctorId);
+        // this.getReviews(this.doctorId);
+        // this.getDoctorMedia();
+        this.receiveConsultNow(JSON.parse(cookie));
+    }
+    ngAfterViewInit(): void {
     }
 
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
-
+    carousel(){
+        const win: any = window;
+        win.$(document).ready(function(){
+          win.$('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 10,
+            items: 3,
+            dots: false,
+            // autoWidth: true,
+            // autoHeight: true,
+            // center: true
+            // nav: false
+            autoplay: true,
+            autoplayTimeout : 4000,
+            responsive : {
+              300 : {
+                items: 2,
+                margin: 10
+              },
+              620 : {
+                items: 3,
+                margin: 20
+              }
+          }
+          });
+        });
+      }
     getDoctorMedia() {
-        this.profileService.getLimitedDoctorMedia(this.doctorId, 1, 5)
+        console.log(this.mediaFiles);
+        if (this.mediaFiles.length === 0) {
+            this.profileService.getLimitedDoctorMedia(this.doctorId, 1, 5)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
+                console.log(res);
                 this.mediaFiles = res;
-                this.mediaFiles.map((mediaFile: DoctorMedia, i: number) => {
-                    this.chatService.downloadFile(mediaFile.thumbUrl)
-                        .pipe(takeUntil(this.unsubscribeObservables))
-                        .subscribe(res1 => {
-                            res1.onloadend = () => {
-                                this.mediaFiles[i].thumbUrl = res1.result;
-                            };
-                        });
-                });
+                this.carousel();
             });
-    }
-
-    openModal(file: DoctorMedia) {
-        if (file.type === 'image' || file.type === 'video') {
-            this.chatService.downloadFile(file.url)
-                .pipe(takeUntil(this.unsubscribeObservables))
-                .subscribe(res => {
-                    res.onloadend = () => {
-                        this.item.type = file.type;
-                        this.item.url = res.result;
-                    };
-                });
-        } else {
-            return;
         }
     }
 
+    openVideo(url){
+        this.videoUrl = null;
+        this.modal1.nativeElement.style.display = 'block';
+        this.chatService.downloadFile(url)
+        .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res) => {
+                res.onloadend = () => {
+                    this.videoUrl = this.sanitizer.bypassSecurityTrustUrl(res.result);
+                    this.ref.detectChanges();
+                    this.video.nativeElement.style.display = 'block';
+                    this.video.nativeElement.load();
+                    this.video.nativeElement.play();
+                    // this.video.nativeElement.addEventListener('fullscreenchange', ()=> {
+                    //     if(!document.fullscreenElement){
+                    //         this.video.nativeElement.pause();
+                    //         this.video.nativeElement.style.display = 'none';
+                    //     }
+                    // })
+                    this.video.nativeElement.onended = () =>{
+                        this.video.nativeElement.style.display = 'none';
+                        this.modal1.nativeElement.style.display = 'none';
+                        // document.exitFullscreen();
+                    }
+                    // this.ref.markForCheck();
+                };
+            });
+    }
     stopVideo(item: any) {
         if (item.type === 'video') {
             this.videoPlayer.nativeElement.pause();
@@ -162,11 +212,18 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
     }
 
     getActivities(doctorId: number) {
-        this.sharedService.getActivities(doctorId)
+        if(this.doctorActivities.length === 0) {
+            this.sharedService.getActivities(doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {
                 this.doctorActivities = res;
+                this.doctorActivities.map((activity, index) => {
+                    if (activity.mediaUrl) {
+                        this.downloadPic(activity.mediaUrl, index,'activity');
+                    }
+                })
             });
+        }
     }
 
     getReviews(doctorId: number) {
@@ -200,6 +257,7 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
     }
 
     getStores(stores: any, doctorId: number) {
+        console.log(stores);
         this.qualifications = '';
         this.languages = '';
         this.consultationModes = '';
@@ -224,20 +282,35 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
         }
     }
 
-    consultNow(doctorId: number) {
-        const user = JSON.parse(this.securityService.getCookie('userDetails'));
-        this.sharedService.consultNow(doctorId, user.id)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                if (res) {
-                    this.sharedService.setGroup(res);
-                    setTimeout(() => {
-                        this.router.navigate([`/chat/${user.id}`]);
-                    }, 500);
-                } else {
-                    this.message = 'There was an error. Please re-login and try again.';
-                }
-            });
+    // consultNow(doctorId: number) {
+    //     const user = JSON.parse(this.securityService.getCookie('userDetails'));
+    //     this.sharedService.consultNow(doctorId, user.id)
+    //         .pipe(takeUntil(this.unsubscribeObservables))
+    //         .subscribe((res) => {
+    //             if (res) {
+    //                 this.sharedService.setGroup(res);
+    //                 setTimeout(() => {
+    //                     this.router.navigate([`/chat/${user.id}`]);
+    //                 }, 500);
+    //             } else {
+    //                 this.message = 'There was an error. Please re-login and try again.';
+    //             }
+    //         });
+    // }
+    openModal(image){
+        this.fullImageUrl = '';
+        this.modal.nativeElement.style.display = 'block';
+        this.downloadPic(image.replace('-thumb', ''), 0, 'modal');
+    }
+
+    closeModal() {
+        this.modal.nativeElement.style.display = 'none';
+        this.modal1.nativeElement.style.display = 'none';
+        this.fullImageUrl = '';
+        if(this.video){
+        this.video.nativeElement.pause();
+        this.video.nativeElement.style.display = 'none';
+        }
     }
 
     getStatus(doctor: any) {
@@ -267,6 +340,77 @@ export class DoctorViewProfileComponent implements OnInit, OnDestroy {
             this.slots = this.slots + ' ' + initial + ' - ' + end + ',';
         }
         this.slots = this.slots.slice(0, this.slots.length - 1);
+    }
+
+     downloadPic(filename: string, index = 0, param = 'none'): any {
+         if(param === 'modal'){
+            this.chatService.downloadFile(filename)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                 res.onloadend = () => {
+                    this.fullImageUrl =  res.result;
+                    // this.doctorActivities[index].mediaUrl = res.result;
+                };
+            });
+         }if(param === 'modal'){
+            this.chatService.downloadFile(filename)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                 res.onloadend = () => {
+                    this.fullImageUrl =  res.result;
+                    // this.doctorActivities[index].mediaUrl = res.result;
+                };
+            });
+         } else if (param === 'activity'){
+            this.chatService.downloadFile(filename)
+            .pipe(takeUntil(this.unsubscribeObservables))
+            .subscribe((res: any) => {
+                 res.onloadend = () => {
+                    this.doctorActivities[index].mediaUrl = res.result;
+                };
+            });
+         }
+    }
+
+    consultNow(doctor: any, event: any) {
+        const user = JSON.parse(this.securityService.getCookie('userDetails'));
+        console.log(this.doctor);
+        const speciality = this.sharedService.getSpeciality();
+        console.log('speciality: ' + speciality);
+        this.doctorSelected = doctor.userId;
+        this.socketService.emitConsultNow(user, doctor.doctorDetails.userId,
+             `${this.selectedUser.firstname} ${this.selectedUser.lastname}`, speciality);
+    }
+
+    receiveConsultNow(user: any) {
+        this.socketService.receiveConsultNow()
+            .pipe(takeUntil(this.unsubscribeObservables))
+        .subscribe((res: any) => {
+            console.log(res);
+            if (res[0] === 'chat') {
+                this.router.navigate([`/chat/${user.id}`]);
+            } else if (res[0] === 'billing') {
+                this.router.navigate([`/payments/${user.id}`], {
+                    queryParams: {'bill_id': `${res[1]}`}
+                });
+            } else if (res[0] === 'Busy') {
+                // this.doctors.map((doctor: any) => {
+                    // if (doctor.userId === this.doctorSelected) {
+                        // this.doctor.availability = 'Busy';
+                        // this.doctor.status = 'Busy';
+                        // this.doctorSelected = null;
+                    // }
+                // });
+            } else if (res[0] === 'Offline') {
+                // this.doctors.map((doctor: any) => {
+                    // if (doctor.userId === this.doctorSelected) {
+                        // this.doctor.availability = 'Offline';
+                        // this.doctor.status = 'Offline';
+                        // this.doctorSelected = null;
+                    // }
+                // });
+            }
+        });
     }
 
     moveLeft() {

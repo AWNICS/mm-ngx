@@ -5,7 +5,7 @@
   <div class="row  main-header text-center">
     <div class="nav-buttons">
       <button class="active" (click)="toggleView($event,0)">Consultations</button>
-      <button (click)="toggleView($event,1)">Vital Reports</button>
+      <button *ngIf="selectedUser.role==='patient'" (click)="toggleView($event,1)">Vital Reports</button>
     </div>
     <div class="nav-date">
       <div class="left-arrow" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
@@ -20,10 +20,10 @@
     </div>
     <div class="nav-span">
       <button>TODAY</button>
-      <div class="month" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+      <div class="month" (click)="setView(CalendarView.Month, $event)" [class.active]="view === CalendarView.Month">
         31
       </div>
-      <div class="week" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+      <div class="week" (click)="setView(CalendarView.Week, $event)" [class.active]="view === CalendarView.Week">
         7
       </div>
     </div>
@@ -107,7 +107,7 @@
 <!-- Template for Week Event Start for consultations-->
 <ng-template #weekEventTemplate let-event="weekEvent.event" let-tooltipDisabled="tooltipDisabled">
   <div class="week-consultations shadow">
-    <img src="../../assets/png/male1.png">
+    <img [src]="event.picUrl | safe:'url'">
     <div class="doctor-info">
       <div class="doctor-name">
         {{event.doctorName}}
@@ -123,7 +123,7 @@
 <ng-template let-event="event" #eventHoverTemplate>
   <div class="consultation-info">
     <div class="consultation-info-header">
-      <img src="../../assets/png/male1.png">
+      <img [src]="event.picUrl | safe:'url'">
       <div class="consultation-doc-name">
         <div>{{event.doctorName}}</div>
         <span>{{event.qualification}}</span>

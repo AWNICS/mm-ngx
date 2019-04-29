@@ -162,9 +162,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.securityService.deleteCookie('userDetails');
         this.securityService.deleteCookie('token');
         this.sharedService.setToken();
+        this.router.navigateByUrl('/login');
         this.socketService.setSocketStatus(false);
         this.sharedService.setNavbarLoad(true);
-        this.router.navigateByUrl('/login');
         console.log('Made socketConnected as false');
     }
 

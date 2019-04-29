@@ -370,15 +370,15 @@ button:focus,
 .carousel .wrapper{
     padding: 10px 20px;
 }
-::ng-deep .owl-stage{
+::ng-deep .testimonial-carousel .owl-stage{
     height: 300px;
     display: flex;
     align-items: center;
 }
-::ng-deep .owl-item{
+::ng-deep .testimonial-carousel  .owl-item{
     opacity: 0.5;
 }
-::ng-deep .owl-item.center{
+::ng-deep .testimonial-carousel  .owl-item.center{
     transform: scale(1.04);
     opacity: 1;
 }

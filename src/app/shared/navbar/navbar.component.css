@@ -18,7 +18,6 @@ a:link,
 a:visited,
 a:active {
     color: black;
-    font-size: 14px;
     font-family: "Poppins SemiBold";
     line-height: 1.2; 
 }
@@ -30,14 +29,15 @@ a:hover {
     justify-content: space-between;
 }
 a.consult-button {
-    background-color: #6C63FF;
+    background-color: #1148f2cf;
     border: none;
-    border-radius: 50px;
+    display: block;
+    border-radius: 5px;
     color: #F7F7F7;
     font-size: 0.8rem;
-    padding: 2px 6px;
-    width: 8rem;
-    font-family: Lato, sans-serif;
+    padding: 5px 6px;
+    width: fit-content;
+    font-family: "Poppins";
 }
 
 a.consult-button:hover {
@@ -94,6 +94,9 @@ a.consult-button:hover {
     padding: .25rem 1.5rem;
     color: #111 !important;
 }
+.notification-dropdown{
+    padding: 0 15px;
+}
 
 .dropdown-menu-right {
     right: 0;
@@ -126,7 +129,6 @@ a.consult-button:hover {
     transform: scaleX(1);
 }
 
-
 /* bubble for dropdown */
 
 .bubble {
@@ -136,7 +138,10 @@ a.consult-button:hover {
     outline: none;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
 }
-
+.navbar-link{
+    display: flex;
+    align-items: center;
+}
 @media (max-width: 992px) {
     .dropdown-menu-right {
         /* left: 0 !important; */
@@ -213,10 +218,12 @@ a.consult-button:hover {
 }
 
 #notifications {
-    max-height: 52vh;
+    border-top: 3px solid rgba(9,138,238,1);
+}
+.dropdown-holder{
+    max-height: 45vh;
     overflow-y: auto;
 }
-
 
 /* animtating bell icon when a new notification is received*/
 
@@ -393,6 +400,14 @@ a.consult-button:hover {
     display: flex;
     justify-content: center;
 }
+a span.unread-count{
+    margin-left: 5px;
+    padding: 2px 7px;
+    background: red;
+    border-radius: 50%;
+    font-size: 12px;
+    color: white;
+}
 .unread-messages{
     display: flex;
     align-items: center;
@@ -412,3 +427,59 @@ div.navbar__menu > div.navbar-link:not(:last-child){
     height: 4px;
     background: blue;
 } */
+.notification-item{
+    /* padding: 0 20px; */
+    margin: 10px 0px;
+}
+#notifications h5{
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: bold;   
+    display: inline-block;   
+}
+#notifications h5 + span{
+    font-size: 12px;
+    font-family: "Poppins SemiBold";
+    color: rgb(31, 214, 166);
+    float: right;
+    margin-right: 15px;
+    margin-top: 3px;
+
+}
+.notification-item .content{
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.102);       
+}
+.notification-item .content img{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+.notification-item .content div{
+    font-size: 12px;
+    width: 230px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+::-webkit-scrollbar-track
+{
+	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: rgba(68, 68, 68, 0.2);;
+}
+   
+::-webkit-scrollbar
+{
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	/* box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
+    background-color: rgb(68, 68, 68);
+}

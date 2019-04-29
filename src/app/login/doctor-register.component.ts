@@ -26,6 +26,7 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
     otpFlag: boolean;
     phoneNo: number;
     loader: boolean;
+    formSubmitted: Boolean = false;
     number: Array<number> = [];
     specialityDropdownSettings: Object;
     specialitiesDropdownList: Array<any> = [];
@@ -103,27 +104,40 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
     }
 
     register({ value, valid }: { value: any, valid: boolean }) {
-            const name = value.firstname + ' ' + value.lastname;
-            const split = name.split(' ');
-            value.appearUrl = `https://appear.in/${split[0]}-${split[1]}`;
-            value.createdBy = value.id;
-            value.updatedBy = value.id;
-            value.role = 'doctor';
-            this.loginService.createNewDoctor(value)
-            .pipe(takeUntil(this.unsubscribeObservables))
-                .subscribe((res) => {
-                    window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                    console.log(res);
-                    if (res.error === 'DUP_ENTRY') {
-                        this.error = res.message;
-                        console.log(this.error);
-                    } else if (res) {
-                        this.message = `Thank you for registering with us!
-                    We will get in touch with you to complete registration process.
-                    Kindly check inbox/spam folder for more details.`;
-                        this.registerDoctorProfiles.reset();
+        this.formSubmitted = true;
+        this.error = '';
+        this.message = '';
+        this.loginService.checkDuplicates(value.email, value.phoneNo).subscribe((res) => {
+            if (res.error) {
+                this.error = res.message;
+            } else {
+                if (!this.registerDoctorProfiles.invalid) {
+                    const name = value.firstname + ' ' + value.lastname;
+                    const split = name.split(' ');
+                    value.appearUrl = `https://appear.in/${split[0]}-${split[1]}`;
+                    value.createdBy = value.id;
+                    value.updatedBy = value.id;
+                    value.role = 'doctor';
+                    this.loginService.createNewDoctor(value)
+                    .pipe(takeUntil(this.unsubscribeObservables))
+                        .subscribe((res) => {
+                            window.scroll({top: 0, left: 0, behavior: 'smooth'});
+                            console.log(res);
+                            if (res.error === 'DUP_ENTRY') {
+                                this.error = res.message;
+                                console.log(this.error);
+                            } else if (res) {
+                                this.message = `Thank you for registering with us!
+                            We will get in touch with you to complete registration process.
+                            Kindly check inbox/spam folder for more details.`;
+                                this.registerDoctorProfiles.reset();
+                            }
+                        });
+                    } else {
+                    return;
                     }
-                });
+            }
+        });
     }
 
     // sendOtp(phoneNo: any) {

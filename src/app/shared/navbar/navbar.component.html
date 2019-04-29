@@ -47,16 +47,29 @@
                         </a>
                         <div id="notifications" class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
                             <div *ngIf="notify; else showThis">
-                                <div *ngFor="let notification of notifications" class="dropdown-item">
-                                    <div class="card">
+                                <h5>Notifications</h5>
+                                <span>CLEAR ALL</span>
+                                <div class="dropdown-holder">
+                                <div *ngFor="let notification of notifications" class="dropdown-item notification-dropdown">
+                                    <div class="notification-item">
+                                        <div class="content">
+                                            <img src="../../../assets/png/male1.png">
+                                            <div>{{ notification?.title }}
+                                                    <a class="consult-button" *ngIf="notification?.type==='consultation'" (click)="startConsultation(notification);">Start Consultation</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- <div class="card">
                                         <div class="card-body">
                                             <span style="position: absolute;right: 4px;font-size: 9px;top: 0px">{{ notification?.triggerTime | date: 'md' }}</span>
                                             <h5 class="card-title">{{ notification?.title }}</h5>
                                             <p class="card-text">Speciality choosen: {{ notification?.content?.speciality }}</p>
                                             <a class="consult-button" *ngIf="notification?.status==='sent' || notification?.status==='created'" (click)="startConsultation(notification);">Start Consultation</a>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
+                            </div>
                             </div>
                             <ng-template #showThis>
                                 <div class="dropdown-item">
@@ -72,6 +85,7 @@
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="profileSetting">
                             <!-- <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat</a> -->
                             <a class="dropdown-item" [routerLink]="['/profiles',user.id]" *ngIf="user.role !=='admin'">Profile</a>
+                            <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat <span class="unread-count" *ngIf="unreadMessageCount && unreadMessageCount!==0">{{ unreadMessageCount }}</span></a>
                             <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot' && user.role !=='admin'">Dashboard</a>

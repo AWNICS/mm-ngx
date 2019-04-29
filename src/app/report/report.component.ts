@@ -105,9 +105,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         }
-        if (this.selectedUser.role === 'patient') {
+        // if (this.selectedUser.role === 'patient') {
           this.getConsultations(this.selectedUser.id, this.page);
-        }
+        // } else {
+        // }
         this.getReport();
     }
 
@@ -122,7 +123,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       if ( type === 'consultation' ) {
         console.log(this.consultations);
         this.consultationEvents = [];
-        this.consultations.forEach((consultation: any) => {
+        this.consultations.forEach((consultation: any, index) => {
           this.consultationEvents.push({
           start: new Date(consultation.updatedAt),
           end: new Date(new Date(consultation.updatedAt).setTime(new Date(consultation.updatedAt).getTime() + 1 * 900000)),
@@ -134,8 +135,12 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           prescriptionUrl: consultation.prescriptionUrl,
           mode: consultation.consultationMode,
           summary: consultation.analysis,
-          instructions: consultation.Instructions
+          instructions: consultation.Instructions,
+          picUrl: ''
         });
+        if(consultation.picUrl){
+          this.downloadConsultationProfileImages(consultation.picUrl, index);
+        }
         this.cd.markForCheck();
       });
       } else {
@@ -187,15 +192,24 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
             });
     }
 
+    downloadConsultationProfileImages(fileName: string, index) {
+      this.chatService.downloadFile(fileName)
+          .pipe(takeUntil(this.unsubscribeObservables))
+          .subscribe((res) => {
+              res.onloadend = () => {
+                  this.consultationEvents[index].picUrl = res.result;
+                  this.cd.markForCheck();
+              };
+          });
+  }
+
     downloadItem(url: any, event: any) {
-      console.log('calling');
       if (this.downloaded) {
         this.downloaded = false;
       this.chatService.downloadFile(url)
           .pipe(takeUntil(this.unsubscribeObservables))
           .subscribe((res) => {
               res.onloadend = () => {
-                console.log('one');
                 event.preventDefault();
                 const out = 
                 res.result.replace('application/octet-stream', 'image/jpeg');
@@ -222,7 +236,14 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.insertEvents('consultation');
           });
       } else if (this.selectedUser.role === 'doctor') {
-        return;
+        this.sharedService.readAllConsultationsByDoctorId(id)
+        .pipe(takeUntil(this.unsubscribeObservables))
+        .subscribe((res) => {
+            res.consultations.map((consultation: any) => {
+                this.consultations.push(consultation);
+            });
+            this.insertEvents('consultation');
+    });
       } else {
           return;
       }

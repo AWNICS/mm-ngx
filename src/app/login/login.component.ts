@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login(email: string, password: string) {
-    console.log('called');
     // disables the fields so the user cannot enter anything else until server responds
     this.email.nativeElement.disabled = true;
     this.password.nativeElement.disabled = true;
@@ -84,8 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate([`/chat/${res.user.id}`]);
         }
       }, err => {
-        console.log(err);
-        // this.error = (JSON.parse(err._body)).message;
+        this.error = err;
         this.email.nativeElement.disabled = false;
         this.password.nativeElement.disabled = false;
       });
