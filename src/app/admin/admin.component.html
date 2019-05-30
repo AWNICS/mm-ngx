@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
+    <ng-container *ngIf="showGroups else showDoctors">
     <div class="row" style="margin:0px 0px 1rem;">
         <button class="button button__accent" data-toggle="modal" data-target="#createGroupModal">New Group</button>
     </div>
@@ -106,8 +107,68 @@
             </div>
         </div>
     </div>
-    <!-- Delete Group Modal ends-->
-</div>
+</ng-container>
+<!-- New UI for Doctor Details Upload-->
+<ng-template #showDoctors>
+           <div class="row" style="margin:0px 0px 1rem;">
+                <button class="button button__accent" data-toggle="modal" data-target="#createGroupModal">New Group</button>
+            </div>
+            <table class="table table-bordered table-hover" id="scroll">
+                <thead>
+                    <tr>
+                        <th scope="col">Doctor ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Work History</th>
+                        <th scope="col">Activity Title</th>
+                        <th scope="col">Digital Signature</th>
+                        <th scope="col">Professional Society</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let profile of doctorProfiles; let i = index;">
+                        <td>{{profile.userId}}</td>
+                        <td>{{profile.name}}</td>
+                        <td>{{profile.workHistory || 'Not Updated'}}</td>
+                        <td>{{profile.activityTitle || 'Not Updated'}}</td>
+                        <td>{{profile.sigUrl || 'Not Updated'}}</td>
+                        <td>{{JSON.parse(profile.profSocieties) || 'Not Updated' }}</td>
+                        <td><button (click)="triggerForm(i)">EDIT</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Create Group Modal starts-->
+            <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createGroupModalLabel">Create new group</h5>
+                            <a class="close" #createGroupModal data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                        </div>
+                        <div class="modal-body">
+                            <form novalidate [formGroup]="doctorDetails" (ngSubmit)="updateDoctorDetails();">
+                                <label>DoctorName</label>
+                                <input type="text" placeholder="Dr.John Doe" formControlName="name" autocomplete>
+                                <label>Professional Societies</label>
+                                <input type="text" placeholder="['Barclay','Citrus']" formControlName="professionalSocieties" autocomplete>
+                                <label>Digital Signature</label>
+                                <input type="file" (change)="uploadFile($event)"  title="upload" autocomplete #fileUpload>
+                                <label>Work History</label>
+                                <input type="text" placeholder='[{place:"Test Hospital blah",time:"9AM - 10PM"}]' formControlName="workHistory" autocomplete>
+                                <label>Activities</label>
+                                <input type="text" placeholder="Activity Title" formControlName="activity" autocomplete>
+                                <button type="submit" class="button button__accent" #button>Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Create Group Modal ends-->
+</ng-template>
+
+
 
 <!--ag-grid-angular style="width: 500px; height: 500px;" class="ag-theme-balham" [gridOptions]="gridOptions" [rowData]="rowData" [columnDefs]="columnDefs">
 </ag-grid-angular-->

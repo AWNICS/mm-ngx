@@ -86,6 +86,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.error = err;
         this.email.nativeElement.disabled = false;
         this.password.nativeElement.disabled = false;
+        setTimeout(() => {
+          this.error = '';
+        }, 8000);
       });
   }
 

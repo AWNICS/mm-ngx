@@ -399,7 +399,7 @@ button.edit-profile{
     transition: 0.7s;
 }
 p {
-    line-height: 50%;
+    text-align: center;
 }
 
 .card {
@@ -732,7 +732,7 @@ button:focus,
 }
 .profile-item-div{
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 }
 .blood-pressure{
     background: linear-gradient( -90deg, rgb(40,109,202) 0%, rgb(71,153,255) 100%);

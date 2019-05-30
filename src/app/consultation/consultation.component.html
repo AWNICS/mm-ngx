@@ -1,5 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container">
+    <h4>Consultation History</h4>
     <div class="card" *ngFor="let consultation of consultations;let i = index" #doctorDashboardComponent>
         <div class="card-header">
             <img [src]="consultation.picUrl | safe: 'url'">
@@ -43,6 +44,6 @@
         </div>
     </div>
     </div>
-    <h2 style="text-align: center">{{ message }}</h2>
+    <p class="message">{{ message }}</p>
 </div>
 <app-footer></app-footer> 

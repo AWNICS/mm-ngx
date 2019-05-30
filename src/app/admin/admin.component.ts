@@ -7,6 +7,7 @@ import { AdminService } from './admin.service';
 import { Group } from '../shared/database/group';
 import { UserDetails } from '../shared/database/user-details';
 import { SecurityService } from '../shared/services/security.service';
+import { DISABLED } from '@angular/forms/src/model';
 // import { GridOptions } from 'ag-grid-community';
 
 @Component({
@@ -23,12 +24,16 @@ export class AdminComponent implements OnInit, OnDestroy {
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('createGroupModal') createGroupModal: ElementRef;
     @ViewChild('editGroupModal') editGroupModal: ElementRef;
+    @ViewChild('button') button: ElementRef;
     @ViewChild('deleteGroupModal') deleteGroupModal: ElementRef;
     groups: Group[] = [];
     usersByGroup: any[] = [];
     selectedUser: UserDetails;
     newGroup: FormGroup;
+    pastForm: any;
     editGroup: FormGroup;
+    doctorDetails: FormGroup;
+    doctorProfiles: any;
     deletedGroup: any;
     editIndex: number;
     deleteIndex: number;
@@ -36,6 +41,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     dropdownList: any[] = [];
     message: string;
     alert = false;
+    JSON = JSON;
+    showGroups: Boolean = false;
     private unsubscribeObservables: any = new Subject();
 
     constructor(
@@ -60,7 +67,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.navbarComponent.navbarColor(0, '#6960FF');
+        // this.navbarComponent.navbarColor(0, '#6960FF');
         this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if (this.selectedUser) {
             this.createForm();
@@ -77,6 +84,7 @@ export class AdminComponent implements OnInit, OnDestroy {
                 textField: 'email'
             };
         }
+        this.getAllDoctors();
     }
 
     ngOnDestroy() {
@@ -113,8 +121,88 @@ export class AdminComponent implements OnInit, OnDestroy {
             createdBy: '',
             updatedBy: ''
         });
+        this.doctorDetails = this.fb.group({
+            name: {value: '', disabled: true},
+            workHistory: '',
+            activity: '',
+            activityUrl: '',
+            signature: '',
+            professionalSocieties: ['']
+        })
     }
-
+    getAllDoctors () {
+        this.adminService.getAllDoctors().subscribe((res) => {
+            this.doctorProfiles = res;
+        })
+    }
+    triggerForm(index) {
+        const data: any = this.doctorProfiles.slice(index, index + 1);
+        this.pastForm = new Object(data[0]);
+        console.log(this.pastForm);
+        // console.log(data);
+        // console.log(data[0].profSocieties);
+        // data[0].profSocieties = JSON.parse(data[0].profSocieties);
+        this.doctorDetails.patchValue(data[0]);
+        const win: any = window;
+        win.$('.modal').modal('show');
+    }
+    uploadFile(event){
+        console.log(event.target.files[0]);
+        this.button.nativeElement.disabled = true;
+        this.adminService.uploadFile(event.target.files[0]).subscribe((res) => {
+            this.doctorDetails.patchValue({signature: res.fileName});
+            // if(event.target.files[0].type.match(/image/)){
+            //     this.doctorDetails.patchValue({type: 'image'});
+            // }
+            this.button.nativeElement.disabled = false;
+            console.log(res);
+        });
+    }
+    updateDoctorDetails(){
+        const values: any = this.doctorDetails.value;
+        const body: any = {};
+        Object.keys(values).map((key) => {
+            if(key === 'professionalSocieties') {
+                if(values[key] !== this.pastForm.professionalSocieties && this.pastForm.professionalSocieties) {
+                    body.professionalSocieties = {
+                        value: JSON.parse(values[key]),
+                        operation: 'update',
+                    };
+                } else if(values[key] !== this.pastForm.professionalSocieties && !this.pastForm.professionalSocieties) {
+                    body.professionalSocieties = {
+                        value: JSON.parse(values[key]),
+                        operation: 'insert',
+                    };
+                }
+            } else if (key === 'activity'){
+                if(values[key] !== this.pastForm.activity && this.pastForm.activity) {
+                     body.activity = {
+                         value: JSON.parse(values[key]),
+                         url: values['activityUrl'],
+                         operation: 'update'
+                     };
+                    //  values[key];
+                 } else if (values[key] !== this.pastForm.activity && !this.pastForm.activity) {
+                    body.activity = {
+                        value: JSON.parse(values[key]),
+                        url: values['activityUrl'],
+                        operation: 'insert'
+                    };
+                 }
+            } else if(key === 'workHistory'){
+                if(values[key] !== this.pastForm.workHistory) {
+                     body.workHistory = JSON.stringify(JSON.stringify(values[key]));
+                }
+            }
+        });
+        // if(values.signature && values.type){
+        //     body.signature = {
+        //         url: values.signature,
+                
+        //     }
+        // }
+        console.log(body);
+    }
     createNewGroup({ value, valid }: { value: any, valid: boolean }) {
         // value.url = `/${value.name}/${value.userId}`;
         value.url = `/consultation/${value.userId}`;
@@ -151,7 +239,6 @@ export class AdminComponent implements OnInit, OnDestroy {
                 this.dropdownList = res;
             });
     }
-
     initializeEdit(group: any, index: number) {
         this.usersByGroup = [];
         this.adminService.getAllUsersByGroupId(group.id)

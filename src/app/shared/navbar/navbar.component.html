@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm fixed-top navbar-light" #navbar>
-    <div class="container" style="max-width: 100%; height: 100%;">
+    <div class="container" style="width: 100%; max-width: 100%; height: 100%;">
         <a id="logo" routerLink='/' routerLinkActive='active' *ngIf="user?.role !=='doctor' && user?.role !=='admin'">
             <img src="../../../assets/logo/logo.png">
         </a>
@@ -85,7 +85,7 @@
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="profileSetting">
                             <!-- <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat</a> -->
                             <a class="dropdown-item" [routerLink]="['/profiles',user.id]" *ngIf="user.role !=='admin'">Profile</a>
-                            <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat <span class="unread-count" *ngIf="unreadMessageCount && unreadMessageCount!==0">{{ unreadMessageCount }}</span></a>
+                            <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat <span class="unread-count" [ngStyle]="{'padding':unreadMessageCount <= 9 ? '1px 8px': '2px 6px'}" *ngIf="unreadMessageCount && unreadMessageCount!==0">{{ unreadMessageCount }}</span></a>
                             <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot' && user.role !=='admin'">Dashboard</a>

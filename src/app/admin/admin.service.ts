@@ -46,10 +46,24 @@ export class AdminService {
         .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
-
+    getAllDoctors() {
+        const uri = `${this.url}/doctors/admin/all?offset=0&limit=20`;
+        return this.http.get(uri, this.httpOptions)
+        .pipe(map((res: any) => res),
+        catchError(this.handleError));
+    }
     getAllUsersByGroupId(groupId: number): Observable<UserDetails[]> {
         const uri = `${this.url}/groups/${groupId}/users`;
         return this.http.get(uri, this.httpOptions)
+        .pipe(map((res: any) => res),
+        catchError(this.handleError));
+    }
+
+    uploadFile(file: File): Observable<any> {
+        const uri = `${this.url}/file`;
+        const formData = new FormData();
+        formData.append('file', file);
+        return this.http.post(uri, formData, this.httpOptions)
         .pipe(map((res: any) => res),
         catchError(this.handleError));
     }

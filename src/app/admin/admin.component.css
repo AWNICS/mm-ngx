@@ -228,17 +228,17 @@ custom styles for ng-multiselect-dropdown
     margin-bottom: 15px;
 }
 
-tbody {
+/* tbody {
     display: block;
     overflow-y: scroll;
-}
+} */
 
-thead,
+/* thead,
 tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
-}
+} */
 
 tbody::-webkit-scrollbar {
     width: 0.4em !important;

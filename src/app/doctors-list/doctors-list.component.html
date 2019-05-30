@@ -74,6 +74,7 @@
 </div>
 <div class="container container-1">
   <div class="row">
+    <p class="message" *ngIf="message">{{message}}</p>
     <ng-container *ngFor="let doctor of doctors;">
       <div class="col col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12" style="display: flex;justify-content: center">
         <div class="card doctor-info" style="margin-bottom: 25px;width: 300px;">
@@ -85,7 +86,7 @@
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
                   <p class="doctor-info-name">{{doctor.firstName+' '+doctor.lastName}}</p>
-                  <span class="doctor-info-price">&#8377;150</span>
+                  <span class="doctor-info-price">&#8377;{{doctor.price || 0}}</span>
                   <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
                 </div>
               </div>

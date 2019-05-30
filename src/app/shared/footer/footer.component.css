@@ -118,7 +118,7 @@ a {
   color: white;
   background-image: linear-gradient( 180deg, rgb(17,119,198) 0%, rgb(105,96,255) 100%); 
   font-size: 12px;
-  font-family: "Poppins Light";
+  font-weight: 300;
 }
 .container{
   padding-top: 30px;

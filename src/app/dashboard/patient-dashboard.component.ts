@@ -122,6 +122,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         this.sharedService.getVisitor(visitorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(visitor => {
+                console.log(visitor);
                 this.visitorDetail = visitor.patientInfo;
                 this.visitorHealth =  visitor.visitorHealthInfo[0];
             });

@@ -13,23 +13,26 @@
                     <div class="person-info-head">
                         <img class="profile-pic" [src]="picUrl | safe:'url'">
                         <div class="profile-name">{{selectedUser?.firstname+' '+selectedUser?.lastname}}</div>
-                        <span class="profile-age">{{visitorDetail?.age}} Years Old | {{visitorDetail?.sex}}</span>
+                        <span class="profile-age">
+                            <span>{{visitorDetail?.age || 0}} Years Old </span>
+                            <span *ngIf="visitorDetail?.sex as sex">| {{sex}}</span>
+                        </span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="profile-item-div">
+                    <div class="profile-item-div" *ngIf="visitorDetail?.bloodGroup">
                         <div><i class="fa fa-tint"></i></div>
                         <div class="profile-item">{{visitorDetail?.bloodGroup}}</div>
                     </div>
-                    <div class="profile-item-div">
+                    <div class="profile-item-div" *ngIf="selectedUser?.email">
                         <div><i class="fa fa-envelope"></i></div>
                         <span class="profile-item">{{selectedUser?.email}}</span>
                     </div>
-                    <div class="profile-item-div">
+                    <div class="profile-item-div" *ngIf="selectedUser?.phoneNo">
                         <div><i class="fa fa-phone"></i></div>
                         <div class="profile-item">{{selectedUser?.phoneNo}}</div>
                     </div>
-                    <div class="profile-item-div">
+                    <div class="profile-item-div" *ngIf="visitorDetail?.address">
                         <div><i class="fa fa-map-marker"></i></div>
                         <div class="profile-item">{{visitorDetail?.address}}</div>
                     </div>
@@ -43,7 +46,7 @@
                 </div>
                 <div class="card-body">
                     <div class="height-scale">
-                        <span>{{visitorDetail?.height}} ft</span>
+                        <span>{{visitorDetail?.height || 0}} Ft</span>
                         <img src="../../assets/images/height-marks.png">
                     </div>
                     <div class="human-logo">
@@ -51,7 +54,7 @@
                     </div>
                     <div class="weight-scale">
                         <img src="../../assets/images/ic-weighing-scale1.png">
-                        <span class="weight-info">100kg</span>
+                        <span class="weight-info">{{visitorDetail?.weight || 0}} Kg</span>
                     </div>
                 </div>
             </div>            
@@ -65,14 +68,24 @@
                     <div class="bp-text"> 
                         Blood Pressure
                     </div>
-                    <div class="bp-value">{{visitorHealth?.vitals?.bloodPressure.split('/')[0]}} &#124; {{visitorHealth?.vitals?.bloodPressure.split('/')[1]}}</div>
+                    <div class="bp-value">
+                        <span *ngIf="visitorHealth?.vitals?.bloodPressure as bp; else noBp">{{bp?.split('/')[0]}} &#124; {{bp?.split('/')[1]}}</span>
+                        <ng-template #noBp>
+                            <span>0 &#124; 0</span>
+                        </ng-template>                        
+                    </div>
                     <div class="bp-units"> mmHg </div>
                     <div class="ideal bp-ideal">
-                        Ideal Blood Pressure
+                        <span  *ngIf="!visitorHealth?.vitals?.bloodPressure?.split('/')[0] else bpExists">BP not updated</span>
+                        <ng-template #bpExists>
+                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] < 90">Low Blood Pressure</span>
+                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] <= bp <= 120">Ideal Blood Pressure</span>
+                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] > 120">High Blood Pressure</span>
+                        </ng-template>
                     </div>
                     <hr>
                     <div class="last-up bp-last-up">
-                        Last Updated on {{visitorHealth?.updatedAt | date: 'dd MMM,yyyy'}}
+                        Last Updated on {{(visitorHealth?.updatedAt | date: 'dd MMM,yyyy') || 'Not updated'}}
                     </div>
                 </div>
             </div>
@@ -86,14 +99,19 @@
                     <div class="hr-text"> 
                         Heart Rate
                     </div>
-                    <div class="hr-value">{{visitorHealth?.vitals?.heartRate}}</div>
+                    <div class="hr-value">{{visitorHealth?.vitals?.heartRate || 0}}</div>
                     <div class="hr-units"> beats per min </div>
                     <div class="ideal hr-ideal">
-                        Ideal Heart Rate
+                        <span *ngIf="!visitorHealth?.vitals?.heartRate else noHr">HeartRate not updated</span>
+                        <ng-template #noHr>
+                            <span *ngIf="visitorHealth?.vitals?.heartRate < 60">Low Heart Rate</span>
+                            <span *ngIf="60 <= visitorHealth?.vitals?.heartRate <= 100">Ideal Heart Rate</span>
+                            <span *ngIf="visitorHealth?.vitals?.heartRate > 100">High Heart Rate</span>
+                        </ng-template>
                     </div>
                     <hr>
                     <div class="last-up hr-last-up">
-                        Last Updated on {{visitorHealth?.updatedAt | date: 'dd MMM,yyyy'}}
+                        Last Updated on: {{visitorHealth?.updatedAt | date: 'dd MMM,yyyy' || 'Not updated'}}
                     </div>
                 </div>
             </div>
@@ -111,8 +129,9 @@
                 </div>
                 <div class="card-body scroll" style="max-height: 400px;overflow: auto;">
                     <div class="table-responsive">
-                    <table class="table table-striped">
-                        <tr *ngFor="let consultation of consultations">
+                    <table class="table table-striped" *ngIf="consultations?.length > 0; else noConsultations">
+                        <ng-template *ngIf="consultations.length > 0; else noConsultations">
+                            <tr *ngFor="let consultation of consultations">
                             <td style="font-size: 14px;font-family: 'Poppins SemiBold';">
                                 <img [src]="consultation.picUrl | safe:'url'" style="width: 44px;height: 44px;">&nbsp;&nbsp;&nbsp;{{consultation.firstname +' '+consultation.lastname}}
                             </td>
@@ -126,7 +145,12 @@
                                </div>
                             </td>
                         </tr>
+                        </ng-template>
                     </table>
+                    <ng-template #noConsultations>
+                        <p>There are no past consultations to display</p>
+                    </ng-template>
+                    
                 </div>
                 </div>
             </div>
@@ -136,173 +160,12 @@
 <div class="container-fluid container-3 allergies-container" style="margin-top: 25px;padding-right: 6px;">
     <div class="clearfix allergies">
     <h3>Known Medical Conditions</h3>
-    <ul>
+    <ul *ngIf="visitorHealth?.allergies?.length > 0 else noAllergies">
         <li *ngFor="let allergy of visitorHealth?.allergies">{{allergy}}</li>
     </ul>
+    <ng-template #noAllergies>
+            <h5 style="margin-left: 20px;color: #666;">There are no allergies updated</h5>
+    </ng-template>
 </div>
 </div>
 <app-footer></app-footer>
-<!--<div class="container">
-    <div class="row">
-        <div class="col col-12 col-lg-8 col-md-12 col-sm-12 col-xs-12">
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col col-12 col-xl-3 col-lg-3 col-md-4 col-sm-12">
-                                    <img class="profile-image" [src]="picUrl | safe: 'url'" alt="avatar" />
-                                    <div class="status" title="Online"></div>
-                                </div>
-                                <div class="col col-12 col-xl-9 col-lg-9 col-md-8 col-sm-12">
-                                    <h5 class="card-title">{{ selectedUser?.firstname }} {{ selectedUser?.lastname }}</h5>
-                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em">
-                                       <span *ngIf="visitorDetail?.age"> {{ visitorDetail?.age }} years,</span> 
-                                       <span *ngIf="visitorDetail?.sex"> {{ visitorDetail?.sex }}, </span> 
-                                       <span *ngIf="visitorDetail?.bloodGroup"> {{ visitorDetail?.bloodGroup }}</span>
-                                    </p>
-                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em" *ngIf="languages">Speaks: {{ languages }}</p>
-                                    <p class="card-text" style="line-height: 1em;margin-bottom:0.5em;margin-top:0.5em" *ngIf="locations">{{ locations }}</p>
-                                    <button type="submit" class="button button__accent" (click)="edit();">Edit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" *ngIf="!hideTimeline">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 650px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Timeline</h5>
-                        </div>
-                        <div class="card-body offset-1" style="overflow:auto">
-                            <vertical-timeline style="width: 100%;" *ngFor="let visitorTimeline of visitorTimelines">
-                                <vertical-timeline-card *ngIf="visitorTimeline.consultations != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
-                                    <br>
-                                    <h5>Consultation Details</h5>
-                                    <p>Doctor name: {{ visitorTimeline.consultations.doctorName }}</p>
-                                    <p>Speciality: {{ visitorTimeline.consultations.speciality }}</p>
-                                    <p style="line-height: 100%;">Appointment: {{ visitorTimeline.consultations.description }}</p>
-                                </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.reminders != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
-                                    <br>
-                                    <h5>Reminder Details</h5>
-                                    <p>Medicines:{{ visitorTimeline.reminders.medicines }}</p>
-                                    <p>Message:{{ visitorTimeline.reminders.message }}</p>
-                                    <p>Description:{{ visitorTimeline.reminders.description }}</p>
-                                </vertical-timeline-card>
-                                <vertical-timeline-card *ngIf="visitorTimeline.events != null;" [dateValue]="visitorTimeline.timestamp" [timeString]="visitorTimeline.timestamp | date: 'sm'">
-                                    <br>
-                                    <h5>Event Details</h5>
-                                    <p>Type:{{ visitorTimeline.events.type }}</p>
-                                    <p>Message:{{ visitorTimeline.events.message }}</p>
-                                </vertical-timeline-card>
-                            </vertical-timeline>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 355px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Consultation History</h5>
-                        </div>
-                        <div class="card-body offset-1">
-                            <canvas #lineChart width="500" height="200"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col col-12 col-lg-4 col-md-12 col-sm-12 col-xs-12">
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 230px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Allergies</h5>
-                        </div>
-                        <div class="allergies" *ngIf="visitorHealth?.allergies else showThis">
-                            <div *ngFor="let allergy of visitorHealth?.allergies" style="margin-left:8%;">
-                                <p style="line-height: 100%;">{{ allergy }}
-                                    <p>
-                            </div>
-                        </div>
-                        <ng-template #showThis>
-                            <p class="text-center">No data to display.</p>
-                        </ng-template>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 290px; width:99%;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Vitals</h5>
-                        </div>
-                        <div *ngIf="visitorHealth?.vitals else showThis">
-                            <div class="card-body">
-                                <div class="row justify-content-around">
-                                    <div class="col col-5 offset-1">
-                                        <div id="circle">
-                                            <div id="text">
-                                                <h4>{{ visitorHealth?.vitals.bloodPressure }}</h4>
-                                            </div>
-                                        </div>
-                                        <p style="text-align: center; line-height: 1em;">Blood Pressure</p>
-                                    </div>
-                                    <div class="col col-5">
-                                        <div id="circle">
-                                            <div id="text">
-                                                <h4>{{ visitorHealth?.vitals.heartRate }}</h4>
-                                            </div>
-                                        </div>
-                                        <p style="text-align: center;">Heart Rate</p>
-                                    </div>
-                                </div>
-                                <small style="margin: 4%;">Last updated on: {{ visitorHealth?.updatedAt | date: 'md' }}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 250px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Reports</h5>
-                        </div>
-                        <div class="reports" *ngIf="!hideVisitorReports else showThis">
-                            <div class="card-body" style="margin-left: -10px;">
-                                <div *ngFor="let report of visitorReport">
-                                    <ul>
-                                        <li>
-                                            <a (click)="reportDetail(report)">{{ report?.title }}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col col-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card shadow" style="height: 250px;">
-                        <div class="card-header">
-                            <h5 class="offset-1">Height & Weight</h5>
-                        </div>
-                        <div *ngIf="visitorDetail?.height else showThis">
-                            <div class="card-body offset-1">
-                                <p>Height: {{ visitorDetail?.height }}<small>(ft.)</small></p>
-                                <p>Weight: {{ visitorDetail?.weight }}<small>(kgs)</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->

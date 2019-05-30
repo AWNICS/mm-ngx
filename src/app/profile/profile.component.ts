@@ -5,6 +5,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { UserDetails } from '../shared/database/user-details';
 import { ChatService } from '../chat/chat.service';
 import { ProfileService } from './profile.service';
+import { SocketService } from '../chat/socket.service';
 import { DoctorMedia } from '../shared/database/doctor-media';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -68,6 +69,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     constructor(
         private securityService: SecurityService,
         private chatService: ChatService,
+        private socketService: SocketService,
         private profileService: ProfileService,
         private ref: ChangeDetectorRef,
         private router: Router
@@ -78,6 +80,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         console.log(cookie);
         this.user = JSON.parse(cookie);
         if (this.user || cookie !== '') {
+            if (window.localStorage.getItem('pageReloaded')) {
+                this.socketService.connection(this.user.id);
+              }
             if (this.user.picUrl) {
                 this.downloadProfileImage(this.user.picUrl);
             } else {
@@ -86,10 +91,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
             this.router.navigate([`/login`]);
         }
-        // this.navbarComponent.navbarColor(0, '#6960FF');
-        if (this.user.role === 'doctor') {
-            this.getDoctorMedia();
-        }
+        // if (this.user.role === 'doctor') {
+        //     this.getDoctorMedia();
+        // }
     }
 
     ngOnDestroy() {

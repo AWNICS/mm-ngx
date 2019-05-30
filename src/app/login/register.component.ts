@@ -20,6 +20,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     registerDetails: FormGroup;
     userDetails: UserDetails;
     error = '';
+    message = '';
     Math: Math = Math;
     otpMessage = '';
     otpFlag = true;
@@ -28,8 +29,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     timer: any;
     endTime: any;
     verifyOtp: Boolean;
-    f: any;
     formSubmitted: Boolean;
+    formControls: any;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
     @ViewChild('otpInput') otpInput: ElementRef;
@@ -71,8 +72,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         }, {
                 validator: PasswordValidation.matchPassword // your validation method
             });
-        // this.navbarComponent.navbarColor(0, '#534FFE');
-        this.f = this.registerDetails.controls;
+        this.formControls = this.registerDetails.controls;
     }
     ngAfterViewInit(){
         if (this.otpInput) {
@@ -99,6 +99,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     submitForm() {
         this.error = '';
+        this.message = '';
         this.formSubmitted = true;
         if (this.registerDetails.invalid) {
             return;
@@ -106,17 +107,26 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             this.formSubmitted = false;
             this.loginService.checkDuplicates(this.registerDetails.value.email, this.registerDetails.value.phoneNo).subscribe((res) => {
                 if(res.error){
-                    this.error = res.message;
+                    this.message = res.message;
+                    this.clearErrorAndMessage();
                 } else {
                 this.sendOtp(this.registerDetails.value.phoneNo);
                 }
             });
         }
     }
+    clearErrorAndMessage() {
+        setTimeout(() => {
+            this.message = '';
+            this.error = '';
+        }, 8000);
+    }
     register() {
         const value = this.registerDetails.value;
             value.status = 'offline';
             value.role = 'patient';
+            value.firstname = value.firstname.charAt(0).toUpperCase() + value.firstname.substring(1);
+            value.lastname = value.lastname.charAt(0).toUpperCase() + value.lastname.substring(1);
             this.loginService.createNewUser(value)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
@@ -124,19 +134,14 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (res.error) {
                         if (res.error === 'DUP_ENTRY') {
                             this.error = res.message;
+                            this.clearErrorAndMessage();
                         }
                     } else {
                         this.otpFlag = false;
                         this.registerDetails.reset();
-                    //     this.error = `An email has been sent to your inbox.
-                    // Please activate your account using the link to login.
-                    // Kindly check spam folder if not found in your inbox.`;
                     }
                 });
 }
-    checkDupEmailAndMob() {
-
-    }
 
     checkPhoneNumber(value: any) {
         if (value.length === 10) {
@@ -188,9 +193,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
 
     confirmOtp(val1: any, val2: any, val3: any, val4: any, val5: any, val6: any ) {
         this.verifyOtp = true;
-        let otp:any = String(val1) + String(val2) + String(val3) + String(val4) + String(val5) + String(val6) ;
+        let otp: any = String(val1) + String(val2) + String(val3) + String(val4) + String(val5) + String(val6) ;
         otp = Number(otp);
-        console.log(otp);
         this.sharedService.verifyOtp(Number('91' + this.registerDetails.value.phoneNo), otp)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {

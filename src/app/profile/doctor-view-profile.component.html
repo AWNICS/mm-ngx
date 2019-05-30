@@ -39,7 +39,7 @@
             <p>{{locations}}</p>
             <span>Consults via</span>
             <p>{{consultationModes}}</p>
-            <button (click)="consultNow(doctor, $event)" [disabled]="doctor?.status === 'Offline'&& doctor?.unavailable">PAY AND CONSULT NOW</button>
+            <button (click)="consultNow()">PAY AND CONSULT NOW</button>
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 ::ng-deep body{
     background: rgb(244, 244, 244);      
 }
-
+.container{
+    min-width: 960px;
+}
 h3{
     font-size: 16px;
     font-family: "Poppins SemiBold";

@@ -372,14 +372,15 @@ export class DoctorViewProfileComponent implements OnInit, AfterViewInit, OnDest
          }
     }
 
-    consultNow(doctor: any, event: any) {
+    consultNow() {
         const user = JSON.parse(this.securityService.getCookie('userDetails'));
-        console.log(this.doctor);
-        const speciality = this.sharedService.getSpeciality();
-        console.log('speciality: ' + speciality);
-        this.doctorSelected = doctor.userId;
-        this.socketService.emitConsultNow(user, doctor.doctorDetails.userId,
-             `${this.selectedUser.firstname} ${this.selectedUser.lastname}`, speciality);
+        this.router.navigate(['doctors']);
+        // console.log(this.doctor);/
+        // const speciality = this.sharedService.getSpeciality();
+        // console.log('speciality: ' + speciality);
+        // this.doctorSelected = doctor.userId;
+        // this.socketService.emitConsultNow(user, doctor.doctorDetails.userId,
+        //      `${this.selectedUser.firstname} ${this.selectedUser.lastname}`, speciality);
     }
 
     receiveConsultNow(user: any) {

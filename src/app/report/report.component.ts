@@ -46,7 +46,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   CalendarView = CalendarView;
 
   activeDayIsOpen: Boolean = false;
-  viewDate: Date = new Date('12/5/2018');
+  viewDate: Date = new Date();
 
   modalData: {
     action: string;
@@ -145,16 +145,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       } else {
         this.reportEvents = [];
-        this.reports.forEach((report: any) => {
-          this.reportEvents.push({
-            start: new Date(report.updatedAt),
-            end: new Date(new Date(report.updatedAt).setTime(new Date(report.updatedAt).getTime() + 1 * 900000)),
-            title: 'Report event',
-            draggable: false,
-            reportname: report.title,
-            url: report.url
-          });
-        });
         this.reports.forEach((report: any) => {
           this.reportEvents.push({
             start: new Date(report.updatedAt),

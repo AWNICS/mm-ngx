@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-
-
 import { UserDetails } from '../shared/database/user-details';
 import { Message } from '../shared/database/message';
 import { Group } from '../shared/database/group';
@@ -25,7 +23,7 @@ export class ChatService {
             this.url = this.securityService.baseUrl;
     }
 
-    setToken(){
+    setToken() {
         this.httpOptions = {
             headers: new HttpHeaders({
                 'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`

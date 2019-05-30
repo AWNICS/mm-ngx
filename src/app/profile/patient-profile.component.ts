@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
 import { PatientInfo } from '../shared/database/patient-info';
@@ -71,7 +71,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                     heartRate = result.visitorHealthInfo[0].vitals.heartRate;
                 } else {
                     allergies = [];
-                    bloodPressure = [];
+                    bloodPressure = '0 | 0';
                     heartRate = [];
                 }
                 this.patientInfo = result.patientInfo;
@@ -88,7 +88,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                     height: this.patientInfo.height,
                     weight: this.patientInfo.weight,
                     bloodGroup: this.patientInfo.bloodGroup,
-                    bloodPressure: bloodPressure,
+                    bloodPressure: [bloodPressure],
                     heartRate: heartRate,
                     language: [language],
                     allergies: [allergies],
@@ -99,6 +99,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                     documentTitle: null,
                     documentDescription: null
                 });
+                // console.log();
             });
     }
 
@@ -166,14 +167,14 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
             this.sharedService.uploadReportsFile(files[0])
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
-                    this.visitorReport.url = res._body; // setting url of report file
+                    this.visitorReport.url = res.fileName; // setting url of report file
                     this.createReport();
                 });
         } else if (files[0].type.match('application')) {
             this.chatService.uploadFile(files[0])
             .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res: any) => {
-                    this.visitorReport.url = res._body; // setting url of report file
+                    this.visitorReport.url = res.fileName; // setting url of report file
                     this.createReport();
                 });
         } else {

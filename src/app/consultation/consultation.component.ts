@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, AfterViewIn
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -133,14 +134,6 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.consultations.push(consultation);
                         consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
                         this.downloadAltPic(this.selectedUser.role, index);
-
-                        // if (consultation.billing) {
-                        //     // recheck this logic at backend and for doctor success should be displayed and for user all
-                        // if (consultation.billing.status === 'Success') {
-                        //     if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
-                        //             consultation.status = 'active';
-                        //     }
-                        // }
                     });
                     this.notquerying = true;
                 }
@@ -148,29 +141,18 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (this.selectedUser.role === 'doctor') {
             this.sharedService.getAllConsultationsByDoctorId(id, page, size)
                 .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                console.log('No of consultaions received: ' + res.length + ' on page: ' + page);
-                if (res.length === 0) {
+            .subscribe((res: any) => {
+                console.log('No of consultaions received: ' + res.consultations.length + ' on page: ' + page);
+                if (res.consultations.length === 0) {
                     this.consultations.length > 0 ?  this.message = 'There are no more consultations to display' :
                     this.message = 'There are no past consultations to display';
                      this.emptyConsultations = true;
                 } else {
                     res.consultations.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
-                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
+                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index) :
                         this.downloadAltPic(this.selectedUser.role, index);
-                        // if (consultation.billing) {
-                        //     // recheck this logic at backend and for doctor success should be displayed and for user all
-                        // if (consultation.billing.status === 'Success') {
-                        //     if (moment(consultation.billing.createdAt).add(3, 'd').unix() > Date.now()) {
-                        //             consultation.status = 'active';
-                        //     }
-                        // }
                     });
-                    // res.map((consultation: any) => {
-                    //     this.consultations.push(consultation);
-                    // });
-                    // this.ref.markForCheck();
                 }
                 this.notquerying = true;
             });

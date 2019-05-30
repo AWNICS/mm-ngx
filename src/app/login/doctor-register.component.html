@@ -1,121 +1,4 @@
 <app-navbar></app-navbar>
-<!-- <div class="auth">
-  <div class="container">
-    <div class="auth__inner">
-      <div class="auth__media">
-        <img src="assets/svg/undraw_selfie.svg">
-      </div>
-      <div class="auth__auth"><br><br>
-        <h1 class="auth__title">Doctor Registration Form</h1>
-        <p class="info">All fields are mandatory</p>
-        <p class="error" #msg>
-          <small>{{ message }}</small>
-        </p>
-        <form novalidate [formGroup]="registerDoctorProfiles" (ngSubmit)="register(registerDoctorProfiles)">
-          <div class="row">
-            <div class="col">
-              <label>First Name</label>
-              <input type="text" placeholder="First Name" formControlName="firstname">
-            </div>
-            <div class="col">
-              <label>Last Name</label>
-              <input type="text" placeholder="Last Name" formControlName="lastname">
-            </div>
-          </div>
-          <label>MCI Reg No.</label>
-          <input type="text" formControlName="regNo" placeholder="MCI Reg No.">
-          <label>Email</label>
-          <input type="email" formControlName="email" placeholder="you@example.com">
-          <div class="row">
-            <div class="col-3 col-xl-2 col-lg-2 col-md-2 col-sm-3">
-              <label>Country</label>
-              <input type="number" value="91" disabled style="padding: 1.1rem;">
-            </div>
-            <div class="col-9 col-xl-10 col-lg-10 col-md-10 col-sm-9">
-              <label>Mobile No.</label>
-              <input type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo" placeholder="xxxxxxxxxx"
-                #phoneNum (keyup)="checkPhoneNumber(phoneNum.value);">
-              <button type="button" class="button button__primary" (click)="sendOtp(phoneNum.value);" #otpButton
-                data-toggle="modal" data-target="#confirmModal">Send OTP</button>
-            </div>
-          </div>
-          <label>Password</label>
-          <input type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-            autocomplete="off">
-          <label>Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-            autocomplete="off">
-          <div class="row">
-            <div class="col"> <label>Speciality</label>
-              <ng-multiselect-dropdown [placeholder]="'Specialities'" [data]="specialitiesDropdownList" formControlName="speciality"
-                [settings]="specialityDropdownSettings" #specialitiesBlock></ng-multiselect-dropdown>
-            </div>
-            <div class="col">
-              <label>Experience (in years)</label>
-              <input type="number" formControlName="experience" placeholder="Experience">
-            </div>
-          </div>
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="termsAccepted" formControlName="termsAccepted"
-              required>
-            <label class="custom-control-label" for="termsAccepted" style="margin-left: -12px;">I agree to the <a href="#">Terms
-                and Conditions</a></label>
-          </div><br>
-          <button i18n type="submit" class="button button__accent" [disabled]="registerDoctorProfiles.invalid">Register</button>
-        </form>
-        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false"
-          aria-labelledby="confirmModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </div>
-                <br />
-                <div class="container">
-                  <div class="loader" *ngIf="loader else content"></div>
-                  <ng-template #content>
-                    <div *ngIf="otpFlag; else verified">
-                      <div class="row justify-content-center">
-                        <div class="content-head">{{ otpMessage }}</div>
-                      </div>
-                      <div class="row justify-content-center">
-                        <input type="number" #otp class="form-control form-control-sm confirm-otp" id="otp"
-                          aria-describedby="otp" placeholder="Enter OTP">
-                      </div>
-                      <div class="row justify-content-center">
-                        <div class="col">
-                          <button type="submit" class="button button__accent small__button" (click)="resendOtp();">Resend
-                            OTP</button>
-                        </div>
-                        <div class="col">
-                          <button type="submit" class="button button__accent small__button" (click)="confirmOtp(otp.value);">Verfiy
-                            OTP</button>
-                        </div>
-                      </div>
-                    </div>
-                    <ng-template #verified>
-                      <div class="content">
-                        <div class="row justify-content-center">
-                          <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        </div>
-                        <div class="row justify-content-center">
-                          <div class="content-head">
-                            Phone number verified!
-                          </div>
-                        </div>
-                      </div>
-                    </ng-template>
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
 <div class="main-holder">
   <div class="container" style="width: 100%;">
     <div class="row">
@@ -130,7 +13,7 @@
               <div class="form-group">
                 <label>First Name</label>
                 <input class="form-control" type="text" placeholder="First Name" formControlName="firstname"
-                  autocomplete [ngClass]="{'error-form':f.firstname.errors && formSubmitted}">
+                  autocomplete [ngClass]="{'error-form':f.firstname.errors && formSubmitted}" autocapitalize="on">
                 <div *ngIf="f.firstname.errors && formSubmitted" style="position: relative;">
                   <div *ngIf="f.firstname.errors.required"
                     style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
@@ -157,6 +40,7 @@
           <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
               <div class="form-group">
+                <label>MCI Reg No</label>
                 <input class="form-control" type="number" placeholder="MCI Reg No" formControlName="regNo" autocomplete
                   [ngClass]="{'error-form':f.email.errors && formSubmitted}">
                 <div *ngIf="f.regNo.errors && formSubmitted" style="position: relative;">
@@ -190,7 +74,7 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label>Mobile No.</label>
-                <input class="form-control" type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo"
+                <input class="form-control" type="tel" id="phoneNo" formControlName="phoneNo"
                   placeholder="xxxxxxxxxx" #phoneNum 
                   [ngClass]="{'error-form':f.phoneNo.errors && formSubmitted}" autocomplete="new-password">
                 <div *ngIf="f.phoneNo.errors && formSubmitted" style="position: relative;">
@@ -216,7 +100,7 @@
               <div class="form-group">
                 <label>Password</label>
                 <input class="form-control" type="password" formControlName="password"
-                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="new-password"
                   [ngClass]="{'error-form':f.password.errors && formSubmitted}">
                 <div *ngIf="f.password.errors && formSubmitted" style="position: relative;">
                   <div *ngIf="f.password.errors.required"
@@ -265,7 +149,7 @@
             <div class="col-12 col-xl-4 col-lg-4 col-md-12 col-sm-12">
               <div class="form-group">
                 <label>Experience (in years)</label>
-                <input type="number" class="form-control" formControlName="experience" placeholder="Experience">
+                <input type="number" class="form-control" formControlName="experience" placeholder="1" min="1" max="90">
               </div>
             </div>
           </div>
@@ -277,7 +161,7 @@
               class="fa fa-lg fa-angle-right" aria-hidden="true"></i>
           </button>
         </form>
-        <div class="sign-in">Already a member? <a href="#">Sign in</a></div>
+        <div class="sign-in">Already a member? <a routerLink="/login">Sign in</a></div>
       </div>
     </div>
   </div>

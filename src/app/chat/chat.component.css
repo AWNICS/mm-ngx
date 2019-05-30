@@ -7,7 +7,7 @@
 }
 
 body {
-    background: #F7F7F7;
+    background: #F7F7F7 !important;
     font: 14px/20px "Lato", Arial, sans-serif;
     padding: 0px 0;
     color: #666;
@@ -18,7 +18,7 @@ app-navbar{
 .container-fluid{
     padding-left: 0;
     padding-right: 0;
-    height: 91%;
+    height: 92.3%;
     position: relative;
 }
 a {
@@ -205,6 +205,7 @@ a {
 }
 .chat .container{
     height: 10% !important;
+    position: relative;
 }
 .w3-main{
     height: 100%;
@@ -246,7 +247,7 @@ a {
 
 .chat .chat-history {
     padding: 30px 30px 20px;
-    border-bottom: 2px solid rgba(0,0,0,0.102);;
+    border-bottom: 2px solid rgba(0,0,0,0.102);
     overflow-y: auto;
     overflow-x: hidden;
     height: 44vh;
@@ -328,7 +329,7 @@ a {
     color: rgb(68, 68, 68);      
 }
 
-.chat .chat-history .other-message:after {
+/* .chat .chat-history .other-message:after { */
     /* content: "";
     position: absolute;
     width: 0;
@@ -341,7 +342,7 @@ a {
     transform: rotate(180deg);
     -ms-transform: rotate(180deg);
     -webkit-transform: rotate(180deg); */
-}
+/* } */
 
 .chat .chat-footer {
     padding: 15px;
@@ -357,10 +358,11 @@ textarea {
     /* background-color: #F7F7F7; */
     /* border-radius: 30px; */
     padding: 5px 10px;
-    padding-right: 25px;
-    margin-top: 20px !important;
+    padding-right: 40px;
+    margin-top: 15px !important;
     font-family: "Lato", sans-serif;
     font-weight: 300;
+    line-height: 1;
     /* resize: none; */
     overflow: hidden !important;
 }
@@ -604,9 +606,11 @@ textarea:focus {
     font-size: 12px;
     font: #9C9C9C;
     position: absolute;
-    background: #ded4d4;
+    top: 57px;
+    left: 30px;
+    /* background: #ded4d4; */
     border-radius: 10px;
-    transform: translate(3vw, -3vh);
+    /* transform: translate(3vw, -3vh); */
 }
 
 .message:hover .delete-message {
@@ -701,7 +705,6 @@ footer {
     font-size: 12px;
     font-weight: 700;
     margin-left: 4px;
-    padding: 0 8px;
 }
 
 .error-message-body {
@@ -895,8 +898,8 @@ app-prescription {
 .three-green-dots{
     display: flex;
     background: #16bf16;
-    height: 36px;
-    width: 36px;
+    height: 34px;
+    width: 34px;
     justify-content: center;
     align-items: center;
     border-radius: 50%; 
@@ -940,7 +943,7 @@ app-prescription {
 }
 .chat-footer{
     position: absolute;
-    top: 3px;
+    top: 0;
     right: 3px;
 }
 form.message{

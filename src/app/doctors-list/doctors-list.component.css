@@ -100,7 +100,10 @@ p {
     margin: 0px;
     margin-bottom: 4px;
 }
-
+p.message{
+    color: #18e6a9de;
+    margin: auto;
+}
 .status-text {
     margin-left: 8%;
     margin-top: -15px;

@@ -148,6 +148,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         this.sharedService.getDoctorById(doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(doctor => {
+                console.log(doctor);
                 this.doctorDetails = doctor.doctorDetails;
                 this.getStores(doctor.doctorStores, doctorId);
             });
@@ -158,8 +159,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(doctorSchedule => {
                 this.doctorSchedule = doctorSchedule[0];
-                this.doctorSchedule.status = this.doctorSchedule.status[0].charAt(0).toUpperCase() +
-                this.doctorSchedule.status.substring(1);
                 this.selectedStatus = this.doctorSchedule.status;
             });
     }
@@ -180,10 +179,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
     }
 
     getStores(stores: any, doctorId: number) {
-        // this.qualifications = '';
-        // this.languages = '';
-        // this.consultationModes = '';
-        // this.locations = '';
         console.log(stores);
         for (let i = 0; i < stores.length; i++) {
             if (stores[i].type === 'Qualification' && stores[i].userId === doctorId) {
@@ -191,10 +186,6 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
                 console.log(this.qualifications);
                 this.qualifications.replace(',', ', ');
             }
-            // if (stores[i].type === 'Language' && stores[i].userId === doctorId) {
-            //     this.languages += stores[i].value;
-            //     this.languages.replace(',', ', ');
-            // }
             if (stores[i].type === 'Consultation mode' && stores[i].userId === doctorId) {
                 this.consultationModes += stores[i].value;
                 this.consultationModes.replace(',', ', ');

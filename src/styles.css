@@ -8,3 +8,9 @@ body {
 .error{
     color: red;
 }
+input:focus{
+    box-shadow: unset !important;
+}
+button:focus{
+   outline: 0 !important;
+}

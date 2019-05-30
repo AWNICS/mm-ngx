@@ -30,8 +30,8 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   user: any;
   location: string;
   locations: Locations[];
-  currentLocation = 'Bengaluru';
-  currentSpeciality = 'Physician';
+  currentLocation;
+  currentSpeciality;
   selectedUser: UserDetails;
 
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
@@ -48,11 +48,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    // this.sharedService.setLocation(value.location);
-    // this.sharedService.setSpeciality(value.speciality);
-    this.router.navigate([`/home`]);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     if (this.securityService.getCookie('userDetails')) {
       this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
     if (window.localStorage.getItem('pageReloaded') === 'true' && this.selectedUser) {
@@ -63,14 +59,11 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
         this.router.navigate([`/dashboards/doctors/${this.selectedUser.id}`]);
       } else if (this.selectedUser.role === 'admin') {
         this.router.navigate([`/admin/${this.selectedUser.id}`]);
-      } else {
-        this.router.navigate([`/`]);
       }
     }
     this.getSpecialities();
-    this.getGeoLocation();
+    // this.getGeoLocation();
     this.getLocations();
-    console.log(this.router.url);
   }
 
   ngOnDestroy() {
@@ -87,17 +80,8 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
   }
 
   showDoctorsList(value: any) {
-    console.log(value);
-    this.user = this.securityService.getCookie('userDetails');
-    if (// result === true || value.mobileNumber.toString().length < 10 || value.mobileNumber.toString().match(/^\s*$/g)
-      value.location === null ||
-      value.location === '' ||
-      value.speciality === null ||
-      value.speciality === ''
-    ) {
-      return;
-    } else {
-      if ((this.user)) {
+    if (this.currentLocation && this.currentSpeciality) {
+      if (this.selectedUser) {
         this.sharedService.setLocation(value.location);
         this.sharedService.setSpeciality(value.speciality);
         this.router.navigate([`/doctors`]);
@@ -119,15 +103,6 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
       this.navIsFixed = false;
       document.getElementById('myBtn').style.display = 'none';
     }
-
-    // for moving to next section and to show navbar
-    // if (number > 100) {
-      // this.contentsComponent.scrollDownHidden(number);
-      // this.navbarComponent.navbarColor(number, 'white');
-    // } else {
-      // this.contentsComponent.scrollDownHidden(number);
-      // this.navbarComponent.navbarColor(number, 'transparent');
-    // }
   }
 
   getSpecialities() {
@@ -135,6 +110,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe(specialities => {
         this.specialities = specialities;
+        this.currentSpeciality = specialities[0].name;
       });
   }
 
@@ -143,6 +119,7 @@ export class HomeComponent implements  OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe(locations => {
         this.locations = locations;
+        this.currentLocation = locations[0].name;
       });
   }
 

@@ -31,7 +31,7 @@
               <div class="about">
                 <div style="display: flex; align-items: center;">
                   <div class="name">{{ group?.name }}</div>
-                  <span id="unreadmessage" *ngIf="group.unreadCount">{{ group.unreadCount }}</span>
+                  <span id="unreadmessage" *ngIf="group.unreadCount" [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{ group.unreadCount }}</span>
                 </div>
                 <div>
                   <div *ngIf="group?.name == 'MedHelp' else speciality" class="group-info">
@@ -61,7 +61,7 @@
               <div class="about">
                 <div>
                   <div class="name">{{group?.name}}</div>
-                  <span id="unreadmessage" *ngIf="group.unreadCount">{{group.unreadCount}}</span>
+                  <span id="unreadmessage" *ngIf="group.unreadCount" [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{group.unreadCount}}</span>
                 </div>
                 <div>
                   <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small>
@@ -383,13 +383,6 @@
           [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup" [selectedUser]="selectedUser"
           [patientDetails]="patientDetails" #prescriptionComponent></app-prescription>
       </div>
-      <div class="muted" *ngIf="alert">{{alertMessage}}
-        <div class="spinner">
-          <div class="bounce1"></div>
-          <div class="bounce2"></div>
-          <div class="bounce3"></div>
-        </div>
-      </div>
 
       <!-- end chat-history -->
 
@@ -460,6 +453,13 @@
             <!-- </div> -->
           </div>
         </form>
+        <div class="muted" *ngIf="alert">{{alertMessage}}
+            <div class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          </div>
       </div>
       <!-- end chat-message -->
     </div>

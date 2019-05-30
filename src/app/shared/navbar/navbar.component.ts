@@ -43,10 +43,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
 
     ngOnInit() {
         this.loggedIn = this.securityService.getLoginStatus();
-        console.log(this.loggedIn);
         if (this.loggedIn === true) {
             this.user = JSON.parse(this.securityService.getCookie('userDetails'));
-            if (this.user) {
+            if (this.user && this.user.role !== 'admin') {
                 this.getNotifications(this.user);
                 this.getLatestNotification();
                 const initialLoad = this.sharedService.getNavbarLoad();

@@ -218,6 +218,23 @@ width: 50%;
     clip-path: polygon(6% 0%, 100% 0%, 100% 100%, 6% 100%, 6% 54%, 0% 50%, 6% 46%, 6% 0%);
 }  
 
+.modal-dialog{
+    max-width: fit-content;
+    height:97%;
+    width:95%;
+    margin-bottom: 0px;
+}
+.modal-content{
+    height:100%;
+}
+.modal-body {
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+.empty-bills{
+    text-align: center;
+    color: gray;
+}
 /* .test1 div:not(:nth-child(3n+1)) div.bill-data .bill-info:after {
 	left: 100%;
 	top: 50%;
@@ -354,7 +371,11 @@ width: 50%;
         max-width: none;
     }
 }
-
+@media (max-width: 575px) {
+    div.bill-container{
+        padding-top: 60px;
+    }
+}
 @media (max-width: 320px){
     :host ::ng-deep .container{
         width: 320px;

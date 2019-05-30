@@ -6,6 +6,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
 import { SocketService } from '../chat/socket.service';
+import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -72,12 +73,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
             `&integration_type=iframe_normal&language=en` +
             `&billing_name=${cookie.firstname + cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore` +
             `&billing_state=Karnataka&billing_zip=560043&billing_country=India&billing_email=${cookie.email}&billing_tel=${cookie.phoneNo}`;
-        document.addEventListener('click', (event: any) => {
-            if (this.paymentModal.nativeElement.style.display === 'block' && event.target.id === 'paymentModal') {
-                console.log('Dismissed Modal Window');
-                this.dismissButton.nativeElement.click();
-            }
-        });
     }
 
     ngAfterViewInit() {
@@ -101,16 +96,29 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
-
+    paymentModalClick(event: any) {
+            // this.paymentModal.nativeElement.style.display === 'block' &&
+            if (event.target.id === 'paymentModal') {
+                console.log('Dismissed Modal Window');
+                this.dismissButton.nativeElement.click();
+            }
+    }
     paymentGatewayCall() {
         const billId = this.route.snapshot.queryParams.bill_id;
         if (billId && billId !== 'null') {
-        this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[0].orderId}`)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res: any) => {
-                console.log(res._body);
-                this.response = res._body;
-            });
+            if(environment.production){
+                this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[0].orderId}`)
+                .pipe(takeUntil(this.unsubscribeObservables))
+                .subscribe((res: any) => {
+                    this.response = res.response;
+                });
+            } else {
+                const win: any = window;
+                console.log(`http://localhost:3000/payments/responses/bypass?orderNo=${this.bills[0].orderId}` +
+                `&customerName=${this.selectedUser.firstname} ${this.selectedUser.lastname}&billAmount=100`);
+                win.location = `http://localhost:3000/payments/responses/bypass?orderNo=${this.bills[0].orderId}` +
+                `&customerName=${this.selectedUser.firstname} ${this.selectedUser.lastname}&billAmount=100`;
+            }
     }
 }
 

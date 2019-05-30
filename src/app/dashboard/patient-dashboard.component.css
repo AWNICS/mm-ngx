@@ -39,7 +39,7 @@ button.edit-profile{
     transition: 0.7s;
 }
 p {
-    line-height: 50%;
+    text-align: center;
 }
 
 .card {
@@ -274,17 +274,10 @@ button:focus,
 .profile-item{
     font-size: 12px;
     display: inline-block;
-    margin-left: 10px;
-    /* overflow: hidden; */
+    margin-left: 5px;
     white-space: initial;
-    /* width: 130px; */
-    /* text-overflow: ellipsis; */
+    word-break: break-word;
 }
-
-/* .profile-item-div i {
-    position: relative;
-    top: 2px;
-} */
 .profile-item-div div:first-child{
     min-width: 20px;
 }
@@ -356,20 +349,25 @@ hr{
 .weight-scale img{
     position: relative;
     height: 100%;
+    width: 100%;
+}
+.weight-scaleimg{
+    margin: 0 auto;
 }
 .weight-scale{
     height: 23%;
     bottom: 10px;
-    left: -1px;    
+    width: calc(100% - 2.50rem);
 }
 span.weight-info{
     position: absolute;
-    left: 102px;
+    left: 50%;
     top: 65%;
+    transform: translateX(-50%);
 }
 .human-logo{
     height: 66%; 
-    left: 32%;
+    left: 33.5%;
     /* transform: translateX(-50%); */
 }
 .human-logo img{

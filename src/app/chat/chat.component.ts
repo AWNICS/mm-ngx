@@ -59,7 +59,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   groups: Group[] = [];
   messages: Message[] = [];
   message: FormGroup;
-  oldGroupId = 1;
+  oldGroupId = 0;
   page = 1;
   groupSelected = false;
   doctors: DoctorProfiles[] = [];
@@ -413,8 +413,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         // }
         this.ref.markForCheck();
         setTimeout(() => {
-          this.alertMessage = null;
-          this.alert = false;
+          // this.alertMessage = null;
+          // this.alert = false;
           this.ref.markForCheck();
         }, 8000);
       }
@@ -727,6 +727,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             } else {
               this.selectedGroup = this.activeGroups[0];
             }
+            console.log(this.selectedGroup);
             this.getMessage(this.selectedGroup);
           } else {
             this.getMessage(this.selectedGroup);
@@ -881,6 +882,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     //     });
     // } else
     if (this.oldGroupId !== group.id && this.selectedUser) {
+      console.log('calling messages');
       // display  loading animaton upon message call in the intitial chat window load
       this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
@@ -892,6 +894,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((msg) => {
           let i = 0;
+          console.log(msg);
           msg.reverse().map((message: any) => {
             if (i > (19 - group.unreadCount)) {
               message.receivedNow = true;

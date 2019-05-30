@@ -34,6 +34,8 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     ) { }
 
     ngOnInit() {
+        // work here on login status based on cookie
+        // console.log(this.securityService.getLoginStatus());
          this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if (window.localStorage.getItem('pageReloaded')) {
             console.log('Page Reloaded');
@@ -44,7 +46,6 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         } else if ( this.selectedUser.role === 'admin') {
             this.router.navigate([`/admin/${this.selectedUser.id}`]);
         } else {
-            // this.navbarComponent.navbarColor(0, '#6960FF');
             this.getDoctors();
             this.receiveConsultNow(this.selectedUser);
         }
@@ -67,6 +68,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
             this.sharedService.getDoctors(this.selectedUser.id, location, speciality, gps, currentTime, page, size)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
+                    console.log(res);
                     if (res.doctors.length <= 0) {
                         this.message = 'There are no doctors available currently. Try again later!';
                     } else {

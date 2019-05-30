@@ -261,12 +261,23 @@ p{
     font-size: 13px;
     color: rgb(157, 163, 165);
     line-height: 1.385;
-    width: 70%;
+    width: 89%;
     text-align: center;
     margin: 26px auto;
 }
 p.error{
     color: red;
+    position: relative;
+    animation: moveLeft 0.5s ease-out;
+    animation-fill-mode: forwards;
+}
+@keyframes moveLeft{
+    0%{
+        right: 100px;
+    }
+    100%{
+        right: 0px;
+    }
 }
 input.form-control {          
     border-radius: 0px;
@@ -326,6 +337,7 @@ input::placeholder {
     margin-bottom: 34px;   
 }  
 .remember-label{
+    visibility: hidden;
     margin-left: 4px;
     position: relative;
     bottom: 2px;

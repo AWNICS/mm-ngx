@@ -254,7 +254,7 @@ export class SharedService {
     createVisitorReport(report: any): Observable<any> {
         const uri = `${this.url}/visitors/reports`;
         return this.http.post(uri, report, this.httpOptions)
-        .pipe(map((res: any) => res.json()),
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
 
@@ -349,6 +349,8 @@ export class SharedService {
      */
     paymentGatewayCall(data: any): any {
         const uri = `${this.url}/payments/requests`;
+        const option = new Object(this.httpOptions);
+        option['responseType'] = 'text';
         return this.http.post(uri, data, this.httpOptions)
         .pipe(map((res: any) => res));
     }
@@ -496,7 +498,6 @@ export class SharedService {
 
     // for reports
     uploadReportsFile(file: File): Observable<any> {
-        console.log('triggere');
         const uri = `${this.url}/file/reports`;
         const formData = new FormData();
         formData.append('file', file);

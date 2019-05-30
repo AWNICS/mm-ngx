@@ -9,7 +9,7 @@ import { Message } from '../database/message';
 @Component({
     selector: 'app-notification-message',
     template: `
-            <div>
+            <div style="padding: 5px 0px;">
                 {{ notificationMessage }}<span>&nbsp;&nbsp;&nbsp;{{ time | date:'hh:mm a' }}</span>
             </div>
     `,
