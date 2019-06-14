@@ -9,7 +9,7 @@ import {
   OnDestroy,
   Output
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -43,8 +43,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('messageBox') messageBox: ElementRef;
   @ViewChild('mySidebar') mySidebar: ElementRef;
   @ViewChild('chat') chat: ElementRef;
+  @ViewChild('modal') modal: ElementRef;
   @ViewChild('rightSidebar') rightSidebar: ElementRef;
   @ViewChild('dropDown') dropDown: ElementRef;
+  @ViewChild('dataSubmit') dataSubmit: ElementRef;
   @ViewChild('textArea') textArea: ElementRef;
   @ViewChild('imageUpload') imageUpload: ElementRef;
   @ViewChild('videoUpload') videoUpload: ElementRef;
@@ -55,7 +57,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   userId: number; // to initialize the user logged in
   selectedUser: UserDetails;
-  selectedGroup: Group;
+  selectedGroup: any;
   groups: Group[] = [];
   messages: Message[] = [];
   message: FormGroup;
@@ -73,10 +75,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   fileUrl: SafeResourceUrl;
   mediaMessages: Message[] = [];
   mediaPage = 1;
+  emptyMessages: Boolean = true;
   activeGroups: Group[] = [];
   inactiveGroups: Group[] = [];
   archiveGroups: Group[] = [];
   showGroup = true;
+  formSubmitted: Boolean = false;
   form = {
     receiverId: '',
     receiverType: '', // group or individual
@@ -149,6 +153,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   prescriptionGenerated: any = {};
   initialLoad: Boolean = true;
   gettingMessages: Boolean;
+  selectTagError: Boolean = false;
+  visitorInfo: any;
+  formControls: any;
+  requiredInfo: FormGroup;
   @Output() unreadMessageCount = 0;
   // this new variable is to unsubscribe all socket calls on component destruction
   private unsubscribeObservables: any = new Subject();
@@ -170,6 +178,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.window = window;
+
     // this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
@@ -190,6 +199,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.getUserById(this.userId)
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((user: any) => {
+          console.log(user);
+          if(user.role==='patient') {
+            this.getVisitorInfo(user.id);
+          }
           this.selectedUser = user;
           this.getGroups();
           if (user.role === 'doctor') {
@@ -211,6 +224,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.receiveEndConsultation();
       this.listenClicksOnChat();
       this.listenMessageRead();
+      this.requiredInfoReceive();
       this.receiveSyncCount();
     } else {
       this.router.navigate([`/`]);
@@ -223,16 +237,22 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     chatHistoryHeight -= 46;
   }
   this.messageBox.nativeElement.style.height = chatHistoryHeight + 'px';
+  // this.window.$('.modal').modal('show');
   }
 
   ngOnDestroy() {
     this.unsubscribeObservables.next();
     this.unsubscribeObservables.complete();
-    const favicon: any = document.querySelector('head link');
-    favicon.href = 'assets/favicon/favicon-DEV.png';
+    // const favicon: any = document.querySelector('head link');
+    // favicon.href = 'assets/favicon/favicon-DEV.png';
     document.querySelector('title').innerText = 'Mesomeds';
   }
-
+  getVisitorInfo(visitorId) {
+    this.chatService.getVisitorInfo(visitorId).subscribe((res) => {
+      console.log(res);
+      this.visitorInfo = res;
+    });
+  }
   errorRead(index: number) {
     this.errors.splice(index, 1);
   }
@@ -264,13 +284,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
       this.socketService.emitCountSync(this.selectedUser.id, this.unreadMessageCount, groupId);
-      const favicon: any = document.querySelector('head link');
-      if (this.unreadMessageCount > 0 && favicon.href.match(/favicon-dev.png/i)) {
-        favicon.href = 'assets/favicon/favicon.png';
+      // const favicon: any = document.querySelector('head link');
+      if (this.unreadMessageCount > 0) {
+        // favicon.href = 'assets/favicon/favicon.png';
         document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
       } else if (this.unreadMessageCount === 0) {
-        const favicon1: any = document.querySelector('head link');
-        favicon1.href = 'assets/favicon/favicon-DEV.png';
+        // const favicon1: any = document.querySelector('head link');
+        // favicon1.href = 'assets/favicon/favicon-DEV.png';
         document.querySelector('title').innerText = 'Mesomeds';
       }
       this.ref.markForCheck();
@@ -292,8 +312,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
         if (this.unreadMessageCount === 0) {
-        const favicon: any = document.querySelector('head link');
-        favicon.href = 'assets/favicon/favicon-DEV.png';
+        // const favicon: any = document.querySelector('head link');
+        // favicon.href = 'assets/favicon/favicon-DEV.png';
         document.querySelector('title').innerText = 'Mesomeds';
         }
     });
@@ -413,8 +433,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         // }
         this.ref.markForCheck();
         setTimeout(() => {
-          // this.alertMessage = null;
-          // this.alert = false;
+          this.alertMessage = null;
+          this.alert = false;
           this.ref.markForCheck();
         }, 8000);
       }
@@ -534,6 +554,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const el: HTMLElement = this.dropDown.nativeElement as HTMLElement;
     el.click(); // to hide the dropup menu
     const videos: FileList = event.target.files;
+    if(videos[0].size / (1024 * 1024) > 5){
+      const error = 'File size greater than 5MB. Try smaller file';
+      this.errors.push(error);
+      this.videoUpload.nativeElement.value = null;
+      return;
+    }
     const result = this.sharedService.validateFileUpload(videos[0].name, 'video');
     if (result.message) {
       this.chatService.uploadFile(videos[0])
@@ -611,7 +637,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.uploadFile(files[0])
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe(res => {
-          value.contentData = { data: res._body };
+          console.log(res)
+          value.contentData = { data: res.fileName };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
           value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
@@ -689,13 +716,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   // get all groups of the logged in user
   getGroups() {
     this.showGroup = true;
-    console.log(this.userId);
     this.chatService.getGroups(this.userId)
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((groups) => {
-        console.log(groups);
         if (groups) {
-          console.log(groups);
           const activeGroupParam = this.route.snapshot.queryParams['active_group'];
           const inactiveGroupParam = this.route.snapshot.queryParams['inactive_group'];
           if ( activeGroupParam || inactiveGroupParam ) {
@@ -721,6 +745,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.activeGroups = groups.activeGroups;
           this.inactiveGroups = groups.inactiveGroups;
+          this.ref.markForCheck ();
           if (!this.selectedGroup) {
             if (this.activeGroups[1]) {
               this.selectedGroup = this.activeGroups[1];
@@ -767,9 +792,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             this.ref.detectChanges();
           });
-      const favicon: any = document.querySelector('head link');
-      if (this.unreadMessageCount > 0 && favicon.href.match(/favicon-dev.png/i)) {
-        favicon.href = 'assets/favicon/favicon.png';
+      // const favicon: any = document.querySelector('head link');
+      if (this.unreadMessageCount > 0) {
+        // favicon.href = 'assets/favicon/favicon.png';
         document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
       }
         } else {
@@ -784,7 +809,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatService.getArchivedGroups(this.userId)
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((groups) => {
-        if (groups) {
+        if (groups.length > 0) {
           this.selectedGroup = this.groups[0];
           if (!this.selectedGroup) {
             this.selectedGroup = groups[0];
@@ -892,15 +917,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.oldGroupId = group.id;
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .pipe(takeUntil(this.unsubscribeObservables))
-        .subscribe((msg) => {
-          let i = 0;
+        .subscribe((msg: any) => {
           console.log(msg);
+          if (this.selectedUser.role === 'patient' && this.archiveGroups.indexOf(this.selectedGroup) === -1) {
+            this.checkRequiredInfo();
+          }
+          if(msg.length === 0 || msg.length < 20){
+            this.emptyMessages = true;
+          } else {
+            this.emptyMessages = false;
+          }
+          let i = 0;
           msg.reverse().map((message: any) => {
             if (i > (19 - group.unreadCount)) {
               message.receivedNow = true;
             }
             i++;
-            this.messages.push(message);
+            if(message.info !== true || this.selectedUser.role === 'doctor'){
+              this.messages.push(message);
+            }
           });
           if (group.unreadCount > 0) {
             this.socketService.emitMessageRead(group.id, this.selectedUser.id);
@@ -923,6 +958,66 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // this.groupSelected = true;
   }
+  checkRequiredInfo() {
+    const group: any = this.selectedGroup;
+    if(group.requireInfo){
+        this.requiredInfo = this.fb.group({
+          'issue': ['', [Validators.required, Validators.minLength(10), Validators.maxLength(150)]]
+        });
+        if (!this.visitorInfo.sex) {
+          this.requiredInfo.setControl('sex', new FormControl(['', Validators.required]));
+        }
+        this.formControls = this.requiredInfo.controls;
+    }
+  }
+
+  calculateAge(dab) {
+    const dob: any = new Date(dab);
+    const val = Date.now() - dob ;
+    const temp: any = new Date(val);
+    const age = temp.getYear() - 70;
+    return age;
+}
+  submitForm() {
+    const newVal = JSON.parse(JSON.stringify(this.requiredInfo.value));
+    this.formSubmitted = true;
+    if(this.requiredInfo.value.sex){
+      if(Array.isArray(this.requiredInfo.value.sex)) {
+        this.selectTagError = true;
+      } else {
+        this.selectTagError = false;
+      }
+    }
+    if (this.requiredInfo.invalid || this.selectTagError) {
+      return;
+    } else {
+      if(this.visitorInfo.sex){
+        newVal['sex'] = this.visitorInfo.sex;
+      }
+      newVal['name'] = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+      newVal['age'] = this.calculateAge(this.visitorInfo.dob);
+      this.sendPrivateMessage(this.newMessage, newVal);
+    }
+  }
+
+  sendPrivateMessage( value , values): void {
+    this.dataSubmit.nativeElement.disabled = true;
+    value.receiverId = this.chatService.getGroup().id;
+    value.senderId = this.selectedUser.id;
+    value.senderName = this.selectedUser.firstname + ' ' + this.selectedUser.lastname;
+    value.receiverType = 'group';
+    value.contentType = 'text';
+    value.type = 'text';
+    value.picUrl = this.selectedUser.picUrl;
+    value.createdTime = Date.now();
+    value.updatedTime = Date.now();
+    value.createdBy = this.selectedUser.id;
+    value.updatedBy = this.selectedUser.id;
+    value.status = 'delivered';
+    value.info = true;
+    this.socketService.sendInfoMessage(value, values, this.selectedGroup.doctorId);
+  }
+
 
   getMoreMessages(group: Group) {
     const size = 20;
@@ -930,6 +1025,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((msgs) => {
+        console.log(msgs);
+        if(msgs.length === 0 || msgs.length < 20){
+          console.log('empty messages');
+          this.emptyMessages = true;
+        } else {
+          console.log('non empty');
+          this.emptyMessages = false;
+        }
         msgs.map((message: any) => {
           this.messages.unshift(message);
         });
@@ -952,13 +1055,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     value.createdBy = this.selectedUser.id;
     value.updatedBy = this.selectedUser.id;
     value.status = 'delivered';
+    console.log(value);
     if (value.text.match(/^\s*$/g) || value.text === '' || value.text === null) {
       return;
     } else if (this.selectedGroup.phase === 'archive') {
       return;
     } else {
       // make typing emite true so that user can send the next message and emit event immediately
-      // this.typingEvent = true;
+      this.typingEvent = true;
       // let notify: any;
       // if(this.messages.length > 0){
       //  notify = moment(this.messages[this.messages.length - 1].createdTime).add(1, 'h') < moment(value.createdTime);
@@ -986,13 +1090,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((msg: any) => {
         if (msg.receiverId === this.selectedGroup.id) {
-          this.messages.push(msg);
+          // if (msg.info && msg.senderId === this.selectedUser.id ) {
+          //   // this.messages.push(msg);
+          // } else {
+            this.messages.push(msg);
+          // }
           // making the alert message null immediately after receiving message from socket
           this.alertMessage = null;
           this.alert = false;
           this.ref.detectChanges();
           this.scrollToBottom();
-          console.log(msg);
           if (msg.senderId !== this.selectedUser.id) {
             console.log('emit message read');
             this.socketService.emitMessageRead(this.selectedGroup.id, this.selectedUser.id);
@@ -1017,12 +1124,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           // }
      }
         if (msg.senderId !== this.selectedUser.id && this.unreadMessageCount > 0) {
-          const favicon: any = document.querySelector('head link');
-          favicon.href = 'assets/favicon/favicon.png';
+          // const favicon: any = document.querySelector('head link');
+          // favicon.href = 'assets/favicon/favicon.png';
           document.querySelector('title').innerText = `(${this.unreadMessageCount}) ` + 'Messages';
-          this.sharedService.playsound();
           this.sharedService.createWebNotification('New Message from ' + msg.senderName, msg.text);
-        }
+        } 
+      if (msg.senderId !== this.selectedUser.id) {
+        this.sharedService.playsound();
+      }
       });
   }
 
@@ -1075,7 +1184,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   // call get more messages to get next page of messages
   onScroll() {
     const scrollPane: any = this.messageBox.nativeElement;
-    if (scrollPane.scrollTop === 0) {
+    if (scrollPane.scrollTop === 0 && this.messages.length > 0 && !this.emptyMessages) {
+      console.log('no empty messages');
       this.page = this.page + 1;
       this.getMoreMessages(this.selectedGroup);
     }
@@ -1168,6 +1278,26 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  requiredInfoReceive() {
+    this.socketService.receiveInfoMessage()
+    .pipe(takeUntil(this.unsubscribeObservables))
+      .subscribe((groupId: any) => {
+        this.dataSubmit.nativeElement.disabled = false;
+        console.log('received info ' + groupId);
+        this.activeGroups.map((group: any) => {
+          if(group.id === groupId){
+            group.requireInfo = false;
+          }
+        });
+        this.inactiveGroups.map((group: any) => {
+          if(group.id === groupId){
+            group.requireInfo = false;
+          }
+        });
+        this.ref.detectChanges();
+      });
+  }
+
   receiveNotification() {
     this.socketService.receiveNotifiedUsers()
     .pipe(takeUntil(this.unsubscribeObservables))
@@ -1212,7 +1342,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socketService.mediaReceive()
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((result) => {
-        console.log('result: ' + JSON.stringify(result));
         result.map((message: any) => {
           this.mediaMessages.push(message);
           this.ref.detectChanges();

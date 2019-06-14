@@ -91,6 +91,7 @@ input::placeholder {
   margin-bottom: 25px;   
   position: relative;
   margin-top: 16px;  
+  cursor: pointer;
 }
 .send-otp i{
   position: absolute;
@@ -102,7 +103,6 @@ form{
 }
 .terms-policy{
   font-size: 13px;
-  font-family: "Poppins";
   color: rgb(157, 163, 165);  
   margin: 9px auto;
   text-align: center;
@@ -132,7 +132,7 @@ a{
   width: 47px;
   height: 40px;
   font-size: 18px;
-  font-family: "Poppins SemiBold";
+  font-weight: 600;
   color: rgb(0, 0, 0);
   line-height: 1.222;
   text-align: center;  
@@ -171,7 +171,7 @@ a{
 } */
 #otp-window .modal-body p:first-of-type {
     font-size: 14px;
-    font-family: "Poppins Medium";
+    font-weight: 500;
     margin-bottom: 0;
 }
 #otp-window .modal-body p:first-of-type span{
@@ -180,7 +180,7 @@ a{
 }
 .otp-timer{
   font-size: 30px;
-  font-family: "Poppins SemiBold";
+  font-weight: 600;
   color: blue;
   margin: 18px 0;
   text-align: center;

@@ -1,11 +1,11 @@
 <app-navbar></app-navbar>
 <div class="container-fluid">
-  <div class="container" style="color:white;">
+  <div class="container container-0" style="color:white;">
     <div>
       <div>
         <div class="heading">
            <h1>Available Doctors</h1>
-            <div class="sorting">
+            <!-- <div class="sorting">
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="payment-mode" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -26,7 +26,7 @@
               <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- <div class="s">
@@ -75,13 +75,24 @@
 <div class="container container-1">
   <div class="row">
     <p class="message" *ngIf="message">{{message}}</p>
-    <ng-container *ngFor="let doctor of doctors;">
+    <ng-container *ngFor="let doctor of doctors;let i =index;">
       <div class="col col-12 col-xl-4 col-lg-4 col-md-6 col-sm-12" style="display: flex;justify-content: center">
         <div class="card doctor-info" style="margin-bottom: 25px;width: 300px;">
           <div class="card-header doctor-info-header">
             <div class="row">
               <div class="col col-4 col-xl-4 col-lg-4 col-md-4 col-sm-4">
-                <img class="doctor-info-image" [routerLink]="['/profiles/doctors',doctor.userId]" [src]="doctor.picUrl | safe: 'url'" />
+                <img class="doctor-info-image" (click)="navigate(doctor)" [src]="sharedService.isValidImage(doctor.picUrl) ? (doctor.picUrl | safe: 'url'): ' ' " />
+                <div [ngSwitch]="doctor.status">
+                  <div *ngSwitchCase="'Online'">
+                      <div class="status-online" title="Online"></div>
+                  </div>
+                  <div *ngSwitchCase="'Offline'">
+                      <div class="status-offline" title="Offline"></div>
+                  </div>
+                  <div *ngSwitchCase="'Busy'">
+                      <div class="status-busy" title="Busy"></div>
+                  </div>
+              </div>
               </div>
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
@@ -95,34 +106,38 @@
           <div class="card-body doctor-info-body">
             <div class="row doctor-info-body-row">
               <div class="col col-7 col-xl-7 col-lg-7 col-md-7 col-sm-7 doctor-info-experience">
-                <span class="sub-heading-text">Experience:</span>
+                <span class="sub-heading-text">Experience: </span>
                 <span> {{doctor.experience}} years</span>
               </div>
               <div class="col col-5 col-xl-5 col-lg-5 col-md-5 col-sm-5 doctor-info-patients">
-                <span class="sub-heading-text">Patients:</span>
-                <span>28</span>
+                <span class="sub-heading-text">Patients: </span>
+                <span>{{doctor.count || 0}}</span>
               </div>
             </div>
             <span class="sub-heading-text">Info</span>
-            <p class="sub-heading-text-value">{{doctor.speciality}}</p>
+            <p class="sub-heading-text-value">{{doctor.speciality || 'Not Updated'}}</p>
             <span class="sub-heading-text">Locations</span>
-            <p class="sub-heading-text-value">{{doctor.location}}</p>
+            <p class="sub-heading-text-value">{{doctor.location || 'Not Updated'}}</p>
             <span class="sub-heading-text">Consults via</span>
-            <p class="sub-heading-text-value">{{doctor.consultationMode}}</p>
-            <button class="btn pay-button" [disabled]="doctor.status === 'Offline'&& !doctor.unavailable" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
-            <span style="text-align: center;color:#877474" *ngIf="doctor.status === 'Offline'">Doctor Offline</span>
-            <div *ngIf="doctor.message" style="text-align: center;color:#877474">
-                <span *ngIf="doctor.message && doctor.message!=='chat'">{{ doctor.message }}</span>
-                <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}">
-                  Active group
-                </a>
-            </div>
+            <p class="sub-heading-text-value">{{doctor.consultationMode || 'Not Updated'}}</p>
+          </div>
+          <div class="card-footer">
+              <button class="btn pay-button" [disabled]="doctor.status === 'Offline' ||  doctor.status === 'Busy'" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
+              <span style="position: absolute;bottom: 3px; left: 50%; transform: translateX(-50%);color: red" *ngIf="doctor.status === 'Offline' || doctor.status === 'Busy'">{{ doctor.status === 'Offline' ? 'Doctor Offline' : 'Doctor Busy'}}</span>
+              <div *ngIf="doctor.message" style="position: absolute;bottom: 3px; left: 50%; transform: translateX(-50%); color:#877474">
+                  <span style="white-space: pre; color: red;font-size: 12px;" *ngIf="doctor.message && doctor.message!=='chat'">{{ doctor.message }}</span>
+                  <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}" *ngIf="doctor.message==='chat'">
+                    Active group
+                  </a>
+              </div>
           </div>
         </div>
       </div>
     </ng-container>
+    <p class="message" style="text-align: center;width: 100%" *ngIf="emptyDoctors && !message">There are no more doctors available</p>
   </div>
 </div>
+<app-footer></app-footer>
 
 <!-- <div class="container">
     <small>{{ message }}</small>

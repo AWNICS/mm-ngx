@@ -23,15 +23,17 @@
           <div class="list">
             <div class="pad" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
               <div *ngIf="group?.picture else alternateGroup">
-                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(group?.picture) ? (group.picture | safe: 'url') : ''"
+                  alt="avatar" />
               </div>
               <ng-template #alternateGroup>
-                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(altGroupPic) ? (altGroupPic | safe: 'url') : ''" alt="avatar" />
               </ng-template>
               <div class="about">
                 <div style="display: flex; align-items: center;">
                   <div class="name">{{ group?.name }}</div>
-                  <span id="unreadmessage" *ngIf="group.unreadCount" [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{ group.unreadCount }}</span>
+                  <span id="unreadmessage" *ngIf="group.unreadCount"
+                    [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{ group.unreadCount }}</span>
                 </div>
                 <div>
                   <div *ngIf="group?.name == 'MedHelp' else speciality" class="group-info">
@@ -53,15 +55,17 @@
           <div class="list">
             <div class="pad" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
               <div *ngIf="group?.picture else alternateGroup">
-                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(group?.picture) ? (group.picture | safe: 'url') : ''"
+                  alt="avatar" />
               </div>
               <ng-template #alternateGroup>
-                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(altGroupPic) ? (altGroupPic | safe: 'url') : ''" alt="avatar" />
               </ng-template>
               <div class="about">
-                <div>
+                <div style="display: flex; align-items: center;">
                   <div class="name">{{group?.name}}</div>
-                  <span id="unreadmessage" *ngIf="group.unreadCount" [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{group.unreadCount}}</span>
+                  <span id="unreadmessage" *ngIf="group.unreadCount"
+                    [ngStyle]="{'padding': group.unreadCount < 10 ? '0 8px' : '0 5px'}">{{group.unreadCount}}</span>
                 </div>
                 <div>
                   <div *ngIf="group?.name == 'MedHelp' else speciality"><small>{{group?.details?.speciality}}</small>
@@ -87,10 +91,11 @@
           <div class="list">
             <div class="pad" [class.selected-group]="group?.id === selectedGroup?.id" (click)="getMessage(group)">
               <div *ngIf="group?.picture else alternateGroup">
-                <img [src]="group?.picture | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(group?.picture) ? (group.picture | safe: 'url') : ''"
+                  alt="avatar" />
               </div>
               <ng-template #alternateGroup>
-                <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+                <img [src]="sharedService.isValidImage(altGroupPic) ? (altGroupPic | safe: 'url') : ''" alt="avatar" />
               </ng-template>
               <div class="about">
                 <div>
@@ -115,14 +120,14 @@
       <div class="chat-header" *ngIf="selectedGroup">
         <div class="wrapper">
           <div *ngIf="selectedGroup?.picture else alternateSelectedGroup">
-            <img [src]="selectedGroup?.picture | safe: 'url'" alt="avatar" />
+            <img [src]="sharedService.isValidImage(group?.picture) ? (group.picture | safe: 'url') : ''" alt="avatar" />
           </div>
           <ng-template #alternateSelectedGroup>
-            <img [src]="altGroupPic | safe: 'url'" alt="avatar" />
+            <img [src]="sharedService.isValidImage(altGroupPic) ? (altGroupPic | safe: 'url') : ''" alt="avatar" />
           </ng-template>
           <div class="chat-about">
             <div class="chat-with ellipsize">{{selectedGroup?.name}}</div>
-            <div class="chat-num-messages ellipsize"><span class="green-dot"></span>3 participants |
+            <div class="chat-num-messages ellipsize"><span class="green-dot"></span>2 participants |
               {{selectedGroup?.details?.description}}</div>
           </div>
           <!-- Doctor List Modal -->
@@ -220,7 +225,8 @@
           <!-- end Doctor List Modal -->
         </div>
         <div class="group-action-icons" *ngIf="!window.matchMedia('(max-width: 768px)').matches else icons">
-          <div title="Start Video Call" [ngStyle]="{'display':selectedUser?.role === 'doctor'&&selectedGroup.name!=='MedHelp' ? 'block' : 'none'}">
+          <div title="Start Video Call"
+            [ngStyle]="{'display':selectedUser?.role === 'doctor'&&selectedGroup.name!=='MedHelp' ? 'block' : 'none'}">
             <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" aria-hidden="true"></i>
           </div>
           <div title="All Files" (click)="media();">
@@ -247,8 +253,7 @@
             <div class="dropdown-menu dropdown-menu-right options-menu">
               <a class="dropdown-item" (click)="media();">
                 <i class="fa fa-file"></i>&nbsp;&nbsp;All Files</a>
-              <a class="dropdown-item"
-                *ngIf="selectedUser?.role === 'doctor' && selectedGroup.name!=='MedHelp'"
+              <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor' && selectedGroup.name!=='MedHelp'"
                 (click)="createAppear(message)">Video Call</a>
 
               <!-- <a class="dropdown-item" [ngStyle]="{'display':selectedUser?.role !== 'patient' ? 'block' : 'none'}" (click)="createGroupAuto();">Auto Create</a> -->
@@ -256,7 +261,9 @@
               <a class="dropdown-item"
                 *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'"
                 (click)="endConsultation();">End Consultation</a>
-              <a class="dropdown-item" *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'" (click)="togglePrescriptionComponent()">Generate Prescription</a>
+              <a class="dropdown-item"
+                *ngIf="selectedUser?.role === 'doctor'&& selectedGroup.phase==='active' && selectedGroup.name!=='MedHelp'"
+                (click)="togglePrescriptionComponent()">Generate Prescription</a>
               <a class="dropdown-item" (click)="getArchivedGroups();">Archived Groups</a>
             </div>
           </div>
@@ -283,7 +290,7 @@
               <div class="clearfix">
                 <div class="message-data align-right">
                   <span class="message-data-name">{{message?.senderName}}</span>
-                  <span class="message-data-time">{{message?.createdTime | date: 'hh:mm a'}}</span>
+                  <span class="message-data-time">{{message?.createdTime | date : 'dd-MM-yyyy hh:mm a'}}</span>
                   <!-- <i class="fa fa-circle me"></i> -->
                 </div>
                 <div class="message other-message float-right">
@@ -335,7 +342,7 @@
             <div class="clearfix">
               <div class="message-data">
                 <span class="message-data-name">{{message?.senderName}}</span>
-                <span class="message-data-time">{{message?.createdTime | date : 'hh:mm a'}}</span>
+                <span class="message-data-time">{{message?.createdTime | date : 'dd-MM-yyyy hh:mm a'}}</span>
               </div>
               <div class="message my-message">
                 <div [ngSwitch]="message?.contentType">
@@ -382,6 +389,41 @@
           (generatedPdf)="createPrescription($event)" (error)="errors.push($event)" [doctorDetails]="doctorDetails"
           [digitalSignature]="digitalSignature" [selectedGroup]="selectedGroup" [selectedUser]="selectedUser"
           [patientDetails]="patientDetails" #prescriptionComponent></app-prescription>
+        <form class='data-form' [formGroup]="requiredInfo" *ngIf="requiredInfo && selectedGroup.requireInfo" (ngSubmit)="submitForm()">
+          <h4>Please fill in the required details</h4>
+          <p>Please update allergies, blood pressure, heartrate in the <a [routerLink]="['/profiles',selectedUser?.id]">profile page</a></p>
+          <div class="form-group">
+            <label>ISSUE</label>
+            <textarea class="form-control" style="height: 60px;margin-top: 0 !important" formControlName="issue" rows="3"
+              placeholder="Enter your issue here"></textarea>
+            <div *ngIf="formControls.issue.errors && formSubmitted" style="position: relative;">
+              <div *ngIf="formControls.issue.errors.required"
+                style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
+                ISSUE is required</div>
+              <div *ngIf="formControls.issue.errors.minlength"
+                style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; left: 15px; font-size:13px">
+                Minimum length of 10 characters</div>
+              <div *ngIf="formControls.issue.errors.maxlength"
+                style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; left: 15px; font-size:13px">
+                Maximum length of 150 characters</div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="formControls.sex">
+            <label>Sex</label>
+            <select class="form-control" formControlName="sex">
+              <option value="null" disabled selected>Select One</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Prefer not to disclose</option>
+            </select>
+            <div *ngIf="selectTagError && formSubmitted" style="position: relative;">
+              <div *ngIf="selectTagError"
+                style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
+                Gender is required</div>
+            </div>
+          </div>
+          <button type="submit" #dataSubmit>SUBMIT</button>
+        </form>
       </div>
 
       <!-- end chat-history -->
@@ -454,12 +496,12 @@
           </div>
         </form>
         <div class="muted" *ngIf="alert">{{alertMessage}}
-            <div class="spinner">
-              <div class="bounce1"></div>
-              <div class="bounce2"></div>
-              <div class="bounce3"></div>
-            </div>
+          <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
           </div>
+        </div>
       </div>
       <!-- end chat-message -->
     </div>
@@ -490,13 +532,13 @@
                   <!-- <div class="row"> -->
                   <!-- <div class="col col-4"> -->
                   <div class="allfiles-image">
-                    <app-image-message [message]="media" id="allFiles"></app-image-message>
+                    <app-image-message [message]="media" id="allFiles" [top]="40" [left]="50"></app-image-message>
                   </div>
                   <!-- </div> -->
                   <!-- <div class="col col-8" style="padding-left:0px"> -->
                   <div class="allfiles-image-info">
                     <span class="allfiles-sendername">{{media.senderName}}</span>
-                    <span class="allfiles-media-date">{{media.createdTime | date: 'sm'}}</span>
+                    <span class="allfiles-media-date">{{media.createdTime | date : 'dd-MM-yyyy hh:mm a'}}</span>
                   </div>
                   <!-- <span>{{media.contentData.data[0]}}</span> -->
                   <!-- </div> -->
@@ -507,17 +549,12 @@
                     <app-video-message [message]="media"></app-video-message>
                   </div>
                   <span class="allfiles-video-sendername">{{media.senderName}}</span>
-                  <span class="allfiles-video-date">{{media.createdTime | date: 'sm'}}</span>
-                  <div *ngSwitchCase="'doc'">
-                    <div class="row">
-                      <div class="col col-4">
-                        <app-document-message [message]="media"></app-document-message>
-                      </div>
-                      <div class="col col-8">
-                        <small
-                          class="text-muted">{{media.createdBy}}&nbsp;&nbsp;{{media.createdTime | date: 'sm'}}</small>
-                      </div>
-                    </div>
+                  <span class="allfiles-video-date">{{media.createdTime | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                </div>
+                <div *ngSwitchCase="'doc'">
+                  <div class="allfiles-doc">
+                    <app-document-message [message]="media"></app-document-message>
+                    <small class="text-muted">{{media.createdTime | date : 'dd-MM-yyyy hh:mm a'}}</small>
                   </div>
                 </div>
               </div>

@@ -3,15 +3,15 @@
     <h4>Consultation History</h4>
     <div class="card" *ngFor="let consultation of consultations;let i = index" #doctorDashboardComponent>
         <div class="card-header">
-            <img [src]="consultation.picUrl | safe: 'url'">
+            <img [src]="sharedService.isValidImage(consultation.picUrl) ? (consultation.picUrl | safe:'url') : ''" >
             <div class="head-text">
                 <span *ngIf="selectedUser.role==='patient'">Doctor</span>
                 <span *ngIf="selectedUser.role==='doctor'">Patient</span>
                 {{consultation.firstname+' '+consultation.lastname}}</div>
             <div class="head-text"><span>Consulted On</span>{{consultation.updatedAt | date: 'MMM dd, yyyy'}}</div>
             <div class="head-logos">
-                <a class="prescription" (click)="downloadDoc(i,$event)" *ngIf="consultation.prescriptionUrl" download><i class="fa fa-file-text" aria-hidden="true"></i>PRESCRIPTION</a>
-                <a class="bill" (click)="downloadBilling(i, $event)" *ngIf="consultation.billingUrl" download>BILL</a>
+                <a class="prescription" (click)="downloadDoc(i,$event)" [download]="consultation.prescriptionUrl" *ngIf="consultation.prescriptionUrl" download><i class="fa fa-file-text" aria-hidden="true" download style="padding-right: 5px;"></i>PRESCRIPTION</a>
+                <a class="bill" (click)="downloadBilling(i, $event)" [download]="consultation.billingUrl" *ngIf="consultation.billingUrl" download>BILL</a>
                 <div data-toggle="collapse" class="toggle-{{i}}" [attr.data-target]="'#toggle-'+i" role="button" aria-expanded="false" (click)="changeIcon(i);">
                     <span>
                         <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -21,8 +21,8 @@
         </div>
         <div class="wrapper collapse" id="toggle-{{i}}">
         <div class="card-body">
-            <p class="card-text"><span>Consultation Summary:&nbsp;</span>{{consultation.analysis}}</p>
-            <p class="card-text"><span>Special Instructions:&nbsp;</span>{{consultation.Instructions}}</p>
+            <p class="card-text"><span>Consultation Summary:&nbsp;</span>{{consultation.analysis || emptyMessage}}</p>
+            <p class="card-text"><span>Special Instructions:&nbsp;</span>{{consultation.Instructions || emptyMessage}}</p>
             <!-- <p class="card-text"><span>Consulted on:&nbsp;</span> {{ consultation?.prescription.createdAt | date:'md' }}</p> -->
             <div>
                 <!-- <div style="padding: 1% 0%;"> -->

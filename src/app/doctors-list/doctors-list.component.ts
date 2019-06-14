@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
@@ -15,13 +15,16 @@ import { takeUntil } from 'rxjs/operators';
     styleUrls: ['doctors-list.component.css']
 })
 
-export class DoctorsListComponent implements OnInit, OnDestroy {
+export class DoctorsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     doctors: any = [];
     message: string;
     selectedUser: any;
     doctorSelected: any;
+    page: any = 1;
+    emptyDoctors: Boolean;
+    notQuerying: Boolean = true;
     private unsubscribeObservables: any = new Subject();
 
     constructor(
@@ -51,30 +54,44 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
         }
     }
 
+    ngAfterViewInit() {
+        window.addEventListener('scroll', (event: any) => {
+            if (Math.max(event.target.documentElement.scrollTop / (event.target.documentElement.scrollHeight - window.innerHeight) 
+            * 100) > 98 && !this.emptyDoctors && this.notQuerying) {
+            this.page = this.page + 1;
+            this.getDoctors();
+            }
+        });
+    }
+
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
-      }
-
+    }
 
     getDoctors() {
         const location = this.sharedService.getLocation();
         const speciality = this.sharedService.getSpeciality();
         const gps = 39834758;
         const currentTime = moment(Date.now()).format();
-        const page = 1;
-        const size = 5;
+        const size = 10;
+        this.notQuerying = false;
         if (location && speciality) {
-            this.sharedService.getDoctors(this.selectedUser.id, location, speciality, gps, currentTime, page, size)
+            this.sharedService.getDoctors(this.selectedUser.id, location, speciality, gps, currentTime, this.page, size)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
                     console.log(res);
-                    if (res.doctors.length <= 0) {
-                        this.message = 'There are no doctors available currently. Try again later!';
-                    } else {
-                        this.doctors = res.doctors;
+                    this.notQuerying = true;
+                    const pastLength = this.doctors.length;
+                        this.doctors.push(...res.doctors);
+                        if(this.doctors.length === 0) {
+                            this.message = 'There are no doctors available currently. Try again later!';
+                        }
+                        if (res.doctors.length < 10) {
+                            this.emptyDoctors = true;
+                        }
                         if (this.doctors.length >= 1) {
-                            this.doctors.map((doctor: any) => {
+                            this.doctors.slice(pastLength, this.doctors.length).map((doctor: any) => {
                                 if (res.inactiveGroups.groups.length > 0) {
                                 res.inactiveGroups.groups.map((group: any) => {
                                     if (doctor.userId === group.doctorId) {
@@ -96,28 +113,12 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                 doctor.qualification = JSON.parse(doctor.qualification);
                                 doctor.location = JSON.parse(doctor.location);
                                 doctor.consultationMode = JSON.parse(doctor.consultationMode);
-
-                                // this.sharedService.getDoctorScheduleByDoctorId(doctor.userId)
-                                //     .pipe(takeUntil(this.unsubscribeObservables))
-                                //     .subscribe(response => {
-                                //         const updatedAt = new Date(response[response.length - 1].updatedAt);
-                                //         const currentTime1 = new Date();
-                                //         const ms = moment(currentTime1, 'DD/MM/YYYY HH:mm:ss')
-                                //         .diff(moment(updatedAt, 'DD/MM/YYYY HH:mm:ss'));
-                                //         const date = moment.duration(ms);
-                                //         doctor.lastupdated = this.getLastUpdated(date);
-                                //     });
-                                // this.sharedService.getDoctorStore(doctor.userId)
-                                //     .pipe(takeUntil(this.unsubscribeObservables))
-                                //     .subscribe(stores => {
-                                //         this.getStores(stores, doctor.userId);
-                                //     });
                                 if (doctor.picUrl) {
                                     this.chatService.downloadFile(doctor.picUrl)
                                         .pipe(takeUntil(this.unsubscribeObservables))
-                                        .subscribe((res1) => {
-                                            res1.onloadend = () => {
-                                                doctor.picUrl = res.result;
+                                        .subscribe((result) => {
+                                            result.onloadend = () => {
+                                                doctor.picUrl = result.result;
                                                 this.ref.detectChanges();
                                             };
                                         });
@@ -133,7 +134,7 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
                                 }
                             });
                         }
-                    }
+                    // }
                 });
         } else {
             this.router.navigate([`/`]);
@@ -178,9 +179,16 @@ export class DoctorsListComponent implements OnInit, OnDestroy {
     consultNow(doctor: any, event: any) {
         const user = JSON.parse(this.securityService.getCookie('userDetails'));
         const speciality = this.sharedService.getSpeciality();
+        const location = this.sharedService.getLocation();
         console.log('speciality: ' + speciality);
         this.doctorSelected = doctor.userId;
-        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality);
+        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality, 'Video', location);
+    }
+    navigate(doctor) {
+        console.log(doctor);
+        console.log(this.doctors);
+        this.sharedService.setSelectedDoctor(doctor);
+        this.router.navigate(['/profiles/doctors', doctor.userId]);
     }
 
     receiveConsultNow(user: any) {

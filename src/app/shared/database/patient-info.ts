@@ -11,6 +11,7 @@ export class PatientInfo {
     sex: string;
     weight: number;
     height: number;
+    dob: Date;
     bloodGroup: string;
     language: string;
     allergies: string;

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { UserDetails } from '../shared/database/user-details';
@@ -24,6 +24,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
     doctorProfiles: DoctorProfiles;
     userDetails: FormGroup;
     @Input() user: UserDetails;
+    @ViewChild('saveButton') saveButton: ElementRef;
     message: string;
     number: Array<number> = [];
     specialitiesDropdownList: Array<any> = [];
@@ -61,12 +62,14 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         this.sharedService.getSpecialities()
         .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((specialities: Specialities[]) => {
+            console.log(specialities);
             specialities.map((speciality: Specialities) => {
                 this.specialitiesDropdownList.push(speciality.name);
             });
             this.profileService.getDoctorProfilesById(this.user.id)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((result: any) => {
+                    console.log(result);
                     this.doctorProfiles = result.doctorDetails;
                     const doctorStores = result.doctorStores;
                     let language: string[];
@@ -135,6 +138,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         this.sharedService.getLocations()
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(locations => {
+                console.log(locations);
                 locations.map((location: any) => {
                     this.locationList.push(location.name);
                 });
@@ -145,6 +149,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         this.sharedService.getLanguages()
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(languages => {
+                console.log(languages);
                 languages.map((language: any) => {
                     this.languageList.push(language.name);
                 });
@@ -155,6 +160,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         this.sharedService.getConsultationModes()
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(consultationModes => {
+                console.log(consultationModes);
                 consultationModes.map((consultationMode: any) => {
                     this.consultationModeList.push(consultationMode.name);
                 });
@@ -165,6 +171,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         this.sharedService.getQualifications()
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(qualifications => {
+                console.log(qualifications);
                 qualifications.map((qualification: any) => {
                     this.qualificationList.push(qualification.name);
                 });
@@ -172,12 +179,17 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
     }
 
     update({ value }: { value: any }) {
+        this.saveButton.nativeElement.disabled = true;
         this.profileService.updateDoctorProfiles(value)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 this.profileService.updateUserDetails(value)
                     .pipe(takeUntil(this.unsubscribeObservables))
                     .subscribe((res1: any) => {
+                        this.user.firstname = value.firstname;
+                        this.user.lastname = value.lastname;
+                        this.securityService.setCookie('userDetails', JSON.stringify(this.user), 1);
+                        this.saveButton.nativeElement.disabled = false;
                         this.message = 'Profile is updated';
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     });

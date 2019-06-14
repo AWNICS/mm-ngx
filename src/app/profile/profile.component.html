@@ -5,7 +5,7 @@
         <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="display-image" title="Upload image">
                 <input type="file" accept="image/x-png,image/gif,image/jpeg" (change)="saveImage($event.target.files)" />
-                <img class="rounded-circle img-fluid img-thumbnail" [src]="url | safe: 'url'">
+                <img class="rounded-circle img-fluid img-thumbnail" [src]="url ? (url | safe: 'url') : ''">
             </div>
             <div class="row description">
                 {{user.description}}

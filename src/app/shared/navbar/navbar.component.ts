@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     notifications: Notification[] = [];
     notify = false;
     @ViewChild('navbar') navbar: ElementRef;
+    @ViewChild('notificationDropdown') notificationDropdown: ElementRef;
     @ViewChild('bell') bell: ElementRef;
     unreadNotifications = 0;
     unreadMessageCount = 0;
@@ -111,7 +112,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                 this.unreadMessageCount += inactiveGroup.unreadCount;
               });
               this.sharedService.setUnreadCount(this.unreadMessageCount);
-              console.log(this.unreadMessageCount);
             }
           });
     }
@@ -126,6 +126,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
 
     downloadPic(filename: string) {
+        console.log(filename);
         this.chatService.downloadFile(filename)
         .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
@@ -202,6 +203,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                             this.unreadNotifications++;
                         }
                     });
+                    console.log(this.unreadNotifications);
                     this.ref.detectChanges();
                 }
             });
@@ -249,5 +251,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
                     this.router.navigate([`/chat/${response.doctorId}`]);
                 }
             });
+    }
+    clearNotifications() {
+        this.sharedService.clearNotifications(this.user.id).subscribe((res) => {
+            if (res.status === 'success') {
+                this.notifications = [];
+                this.unreadNotifications = 0;
+                this.notify = false;
+            }
+        })
     }
 }

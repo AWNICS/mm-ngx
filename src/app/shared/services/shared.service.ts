@@ -7,11 +7,11 @@ import { map, catchError } from 'rxjs/operators';
 // import 'rxjs/add/operator/toPromise';
 // import 'rxjs/add/operator/catch';
 import { SecurityService } from './security.service';
+import { SocketService } from '../../chat/socket.service';
 import { Group } from '../database/group';
 
 @Injectable()
 export class SharedService {
-
     private url: string;  // URL to access server
     private location: string;
     private speciality: string;
@@ -26,27 +26,34 @@ export class SharedService {
     private doctorAddedGroupId: Object;
     private initialNavbarLoad: Boolean = true;
     private unreadMessageCount: number;
-
+    public selectedDoctor: Object;
     constructor(
         private http: HttpClient,
-        private securityService: SecurityService
+        private securityService: SecurityService,
+        private socketService: SocketService
     ) {
         this.url = this.securityService.baseUrl;
     }
 
-    setToken(){
+    setToken() {
         this.httpOptions = {
             headers: new HttpHeaders({
                 'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`
             })
         };
-        console.log(Headers);
     }
 
     setLocation(location: string) {
         this.location = location;
     }
-
+    makeSocketConnection(){
+        const user: any = JSON.parse(this.securityService.getCookie('userDetails'));
+        if (user && window.localStorage.getItem('pageReloaded')) {
+            console.log(user);
+            this.socketService.connection(user.id);
+            console.log('Page reloaded trying to make socket connection');
+          }
+    }
     getLocation() {
         return this.location;
     }
@@ -58,10 +65,23 @@ export class SharedService {
     setNavbarLoad(value: any) {
         this.initialNavbarLoad = value;
     }
+    toggleElements(buttons) {
+        if(buttons[0].nativeElement.disabled){
+            buttons.map((button) => {
+                button.nativeElement.disabled = false;
+            });
+        } else {
+            buttons.map((button) => {
+                button.nativeElement.disabled = true;
+            });
+        }
+    }
     setUnreadCount(count: number) {
         this.unreadMessageCount = count;
     }
-
+    setSelectedDoctor(doctor) {
+        this.selectedDoctor = doctor;
+    }
     getUnreadCount() {
      return this.unreadMessageCount;
     }
@@ -74,11 +94,10 @@ export class SharedService {
     }
     playsound() {
     try {
-        const audio = new Audio('https://instaud.io/_/2VGc.mp3');
+        const audio = new Audio('https://instaud.io/_/3LuQ.mp3');
         audio.play();
     } catch (e) {
         console.log('Failed to play audio');
-        console.log(e);
     }
     }
     setSpeciality(speciality: string) {
@@ -348,10 +367,15 @@ export class SharedService {
      * @/memberof SharedService
      */
     paymentGatewayCall(data: any): any {
+        const a: any  = {
+            headers: new HttpHeaders({
+              'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`,
+            }),
+            responseType: 'text'
+          };
+          console.log('calling');
         const uri = `${this.url}/payments/requests`;
-        const option = new Object(this.httpOptions);
-        option['responseType'] = 'text';
-        return this.http.post(uri, data, this.httpOptions)
+        return this.http.post(uri, data, a)
         .pipe(map((res: any) => res));
     }
 
@@ -364,6 +388,18 @@ export class SharedService {
             .pipe(map((res: any) => res));
     }
 
+    clearNotifications(userId: number) {
+        const uri = `${this.url}/notifications/users/${userId}/clearall`;
+        return this.http.put(uri, this.httpOptions)
+            .pipe(map((res: any) => res));
+    }
+
+    isValidImage(input) {
+        if (input && input.match(/data:/)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * get bill by billid
@@ -510,4 +546,3 @@ export class SharedService {
         return throwError(error.message || error);
     }
 }
-    

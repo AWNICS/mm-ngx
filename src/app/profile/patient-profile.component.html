@@ -51,8 +51,8 @@
             </div>
             <div class="col col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label>Age</label>
-                    <input type="text" placeholder="25" formControlName="age" autocomplete>
+                    <label>DOB</label>
+                    <input type="date" placeholder="25" formControlName="dob" autocomplete>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <label>
                         Blood Pressure (mmHg)
                     </label>
-                    <input type="text" placeholder="100" formControlName="bloodPressure" autocomplete>
+                    <input type="text" placeholder="120 | 80" formControlName="bloodPressure" (keyup)="bloodPressure($event)" autocomplete>
                 </div>
             </div>
         </div>
@@ -174,14 +174,14 @@
                 <div class="form-group">
                     <label>Upload</label>
                     <label class="file-upload" for="file-input">BROWSE</label>
-                    <input type="text" placeholder="No File Chosen" #fileUploadName/>
-                    <input type="file" id="file-input" accept="image/x-png,image/gif,image/jpeg, application/pdf" (change)="uploadReport($event.target.files)" />
+                    <input type="text" placeholder="No File Chosen" onformchange="" #fileUploadName disabled/>
+                    <input type="file" id="file-input" accept="image/x-png,image/gif,image/jpeg, application/pdf"  (change)="uploadReport($event.target.files)" />
                 </div>
         </div>
        </div>
        <div class="row">
           <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-             <button type="submit" class="button button-save" [disabled]="userDetails.invalid">SAVE</button>
+             <button type="submit" class="button button-save" [disabled]="userDetails.invalid" #submitButton>SAVE</button>
           </div>
        </div>
     </form>

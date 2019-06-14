@@ -8,6 +8,7 @@ import { SecurityService } from '../shared/services/security.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { SharedService } from '../shared/services/shared.service';
 import { SocketService } from '../chat/socket.service';
+import { ProfileService } from '../profile/profile.service';
 import { ChatService } from '../chat/chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   error = '';
   @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
   @ViewChild('email') email: ElementRef;
+  @ViewChild('loginButton') loginButton: ElementRef;
   @ViewChild('password') password: ElementRef;
   @ViewChild('eye') eye: ElementRef;
   form: FormGroup = this.fb.group({
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private socketService: SocketService,
     private chatService: ChatService,
+    private profileService: ProfileService,
     private fb: FormBuilder
   ) {
   }
@@ -55,8 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login(email: string, password: string) {
     // disables the fields so the user cannot enter anything else until server responds
-    this.email.nativeElement.disabled = true;
-    this.password.nativeElement.disabled = true;
+    this.sharedService.toggleElements([this.email, this.password, this.loginButton]);
     this.loginService.login(email, password)
       .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe(res => {
@@ -67,9 +69,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.securityService.setCookie('token', res.token, 1);
         this.sharedService.setToken();
         this.chatService.setToken();
+        this.profileService.setToken();
         this.socketService.connection(res.user.id);
         if (res.user.role === 'patient') {
-          this.router.navigate([`/dashboards/patients/${res.user.id}`]);
+          this.router.navigate(['/']);
         } else if (res.user.role === 'doctor') {
           this.sharedService.updateStatus('online', res.user.id)
             .pipe(takeUntil(this.unsubscribeObservables))
@@ -83,9 +86,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.router.navigate([`/chat/${res.user.id}`]);
         }
       }, err => {
-        this.error = err;
-        this.email.nativeElement.disabled = false;
-        this.password.nativeElement.disabled = false;
+        console.log(err);
+        this.error = err.message;
+        this.sharedService.toggleElements([this.email, this.password, this.loginButton]);
         setTimeout(() => {
           this.error = '';
         }, 8000);

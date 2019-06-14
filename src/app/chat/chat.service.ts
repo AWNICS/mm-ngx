@@ -11,6 +11,7 @@ import { SecurityService } from '../shared/services/security.service';
 @Injectable()
 export class ChatService {
     private url: string;
+    private hostUrl: string;
     private group: Group;
     private httpOptions = {
         headers: new HttpHeaders({
@@ -21,6 +22,7 @@ export class ChatService {
         private http: HttpClient,
         private securityService: SecurityService) {
             this.url = this.securityService.baseUrl;
+            this.hostUrl = this.securityService.hostUrl;
     }
 
     setToken() {
@@ -40,7 +42,12 @@ export class ChatService {
             .then((res: any) => res)
             .catch(this.handleError);
     }
-
+    getVisitorInfo(visitorId) {
+        const uri = `${this.url}/visitors/${visitorId}/info`;
+        return this.http.get(uri, this.httpOptions)
+        .pipe(map((res) =>  res ),
+        catchError(this.handleError));
+    }
     /**
      * GET userById from the server
      */
@@ -75,7 +82,7 @@ export class ChatService {
              catchError(this.handleError));
     }
 
-    getConsultationDetails(patientId: number, doctorId: number, groupId: number): Observable<any> {
+        getConsultationDetails(patientId: number, doctorId: number, groupId: number): Observable<any> {
         const uri = `${this.url}/visitors/${patientId}/doctors/${doctorId}/appointments?groupId=${groupId}`;
         return this.http.get(uri, this.httpOptions)
             .pipe(map((res: any) => res),
@@ -86,7 +93,7 @@ export class ChatService {
         const url = `${this.url}/doctors/${doctorId}/groups/${groupId}/files/pdf`;
         return this.http
             .post(url, data, this.httpOptions)
-            .pipe(map((res: any) => res.json()),
+            .pipe(map((res: any) => res),
              catchError(this.handleError));
     }
 
@@ -149,7 +156,37 @@ export class ChatService {
         catchError(this.handleError));
     }
 
-    downloadFile(file: string): Observable<any> {
+    downloadVideoFile(file: string): Observable<any> {
+            const uri = `${this.url}/file/${file}`;
+            return this.http.get(uri, {
+                responseType: 'blob',
+                headers: new HttpHeaders({
+                    'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`
+                })
+            })
+            .pipe(map((res: any) => {
+            const blob = new Blob([res], {type: 'video/mp4'});
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            return reader; }),
+            catchError(this.handleError)
+            );
+    }
+    downloadFile(file: string): any {
+        const commonImages = ['group.png', 'user.png', 'doc.png'];
+        if (commonImages.indexOf(file) !== -1) {
+            const uri = `https://mesomeds.com/assets/img/${file}`;
+            return this.http.get(uri, {
+                responseType: 'blob'
+            })
+            .pipe(map((res: any) => {
+            const blob = new Blob([res]);
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            return reader; }),
+            catchError(this.handleError)
+            );
+        } else {
         const uri = `${this.url}/file/${file}`;
         return this.http.get(uri, {
             responseType: 'blob',
@@ -165,6 +202,7 @@ export class ChatService {
         catchError(this.handleError)
         );
         }
+    }
     /**
      * for getting all the media files
      */

@@ -21,10 +21,13 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
     @Input() message: Message;
     @ViewChild('modal') modal: ElementRef;
     @Input() imageUrl;
+    @Input() top;
+    @Input() left;
     @Output() imageFullUrl = new EventEmitter();
     thumbImageUrl: SafeResourceUrl;
     fullImageUrl: SafeResourceUrl;
     imageName: string;
+    chatMode: Boolean;
     private unsubscribeObservables = new Subject();
 
     constructor(private chatService: ChatService, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) { }
@@ -32,6 +35,7 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         setTimeout(() => {
             this.message ? this.downloadThumbImage(this.message.contentData.data[0]) : this.downloadThumbImage(this.imageUrl);
+            this.message ? this.chatMode = true : this.chatMode = false;
         }, 5000);
     }
 
@@ -41,27 +45,38 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
     }
 
     downloadThumbImage(imageName: any) {
-        this.imageName = imageName;
-        this.chatService.downloadFile(imageName)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                res.onloadend = () => {
-                    this.thumbImageUrl = res.result;
-                    this.ref.markForCheck();
-                };
-            });
+        if(imageName){
+            this.imageName = imageName;
+            this.chatService.downloadFile(imageName)
+                .pipe(takeUntil(this.unsubscribeObservables))
+                .subscribe((res) => {
+                    res.onloadend = () => {
+                        this.thumbImageUrl = res.result;
+                        this.ref.markForCheck();
+                    };
+                });
+        } else {
+            console.log('hit');
+            this.thumbImageUrl = '';
+            this.ref.markForCheck();
+        }
     }
 
     downloadFullImage(imageName: string) {
-        imageName = imageName.replace('-thumb', '');
-        this.chatService.downloadFile(imageName)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                res.onloadend = () => {
-                    this.fullImageUrl = res.result;
-                    this.ref.markForCheck();
-                };
-            });
+        if(imageName){
+            imageName = imageName.replace('-thumb', '');
+            this.chatService.downloadFile(imageName)
+                .pipe(takeUntil(this.unsubscribeObservables))
+                .subscribe((res) => {
+                    res.onloadend = () => {
+                        console.log(this.fullImageUrl);
+                        this.fullImageUrl = res.result;
+                        this.ref.markForCheck();
+                    };
+                });
+        } else {
+            this.fullImageUrl = '';
+        }
     }
 
     openModal() {

@@ -27,6 +27,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     events: any = [];
     userId: number;
     message: string;
+    emptyMessage: String = 'Nothing mentioned by doctor';
     toggle = false;
     fileName: string;
     url: SafeResourceUrl;
@@ -56,7 +57,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        // this.navbarComponent.navbarColor(0, '#6960FF');
+        document.querySelector('body').style.background = 'rgb(244, 244, 244)';
         this.userId = +this.route.snapshot.paramMap.get('id');
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
@@ -84,6 +85,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnDestroy() {
+        document.querySelector('body').style.background = 'white';
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
@@ -94,7 +96,8 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
                 res.onloadend = () => {
-                    event.srcElement.href = res.result;
+                    const file = res.result.replace('octet-stream', 'pdf');
+                    event.srcElement.href = file;
                     event.srcElement.click();
                     event.srcElement.removeAttribute('href');
                 };
@@ -124,15 +127,16 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sharedService.getConsultationsByVisitorId(id, page, size)
                 .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res) => {
-                console.log('No of consultaions received: ' + res.length + ' on page: ' + page);
+                console.log(res);
                 if (res.prescriptions.length === 0) {
                     this.consultations.length > 0 ?  this.message = 'There are no more consultations to display' :
                     this.message = 'There are no past consultations to display';
                     this.emptyConsultations = true;
                 } else {
+                    const length = this.consultations.length
                     res.prescriptions.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
-                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
+                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, length + index):
                         this.downloadAltPic(this.selectedUser.role, index);
                     });
                     this.notquerying = true;
@@ -142,15 +146,16 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sharedService.getAllConsultationsByDoctorId(id, page, size)
                 .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
-                console.log('No of consultaions received: ' + res.consultations.length + ' on page: ' + page);
+                console.log(res);
                 if (res.consultations.length === 0) {
                     this.consultations.length > 0 ?  this.message = 'There are no more consultations to display' :
                     this.message = 'There are no past consultations to display';
                      this.emptyConsultations = true;
                 } else {
+                    const length = this.consultations.length;
                     res.consultations.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
-                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index) :
+                        consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, length + index) :
                         this.downloadAltPic(this.selectedUser.role, index);
                     });
                 }
@@ -192,13 +197,12 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             fileName = 'doc.png';
         }
-        this.chatService.downloadFile(fileName)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res: any) => {
-                res.onloadend = () => {
-                    this.consultations[index].picUrl = res.result;
-                };
-            });
+        this.chatService.downloadFile(fileName).subscribe((res) => {
+               res.onloadend = () => {
+                  this.consultations[index].picUrl = res.result;
+                  this.ref.markForCheck();
+               }
+           })
     }
 
     changeIcon(id: number) {

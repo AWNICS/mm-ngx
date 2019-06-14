@@ -11,7 +11,7 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
 @Component({
     selector: 'app-text-message',
     template: `
-            <div *ngIf="!youtubeLink" id="message">
+            <div *ngIf="!youtubeLink" id="message" [ngStyle]="{'white-space': message.info ? 'pre-line':'unset'}">
                 {{ textMessage }}
                 <a style="color:#c7c1c1c7;text-transform:none" *ngIf="linkFound" target="blank" [href]="link">{{ link }}</a>
             </div>
@@ -33,8 +33,8 @@ export class TextMessageComponent implements OnInit {
     constructor(public sanitizer: DomSanitizer) {}
     ngOnInit() {
         if (this.message.text) {
-        const youtubeMatch = this.message.text.match(/https:\/\/www.youtube.com\/watch\?v=([a-zA-Z0-9-]+)/) ||
-        this.message.text.match(/http:\/\/www.youtube.com\/watch\?v=([a-zA-Z0-9-]+)/);
+        const youtubeMatch = this.message.text.match(/https:\/\/www.youtube.com\/watch\?v=(\S+)/) ||
+        this.message.text.match(/http:\/\/www.youtube.com\/watch\?v=(\S+)/);
         if (youtubeMatch) {
             this.youtubeLink = 'https://www.youtube.com/embed/' + youtubeMatch[1] + '?fs=1';
         } else {

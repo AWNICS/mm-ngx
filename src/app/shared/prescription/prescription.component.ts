@@ -247,7 +247,10 @@ export class PrescriptionComponent implements OnInit, AfterViewInit, OnDestroy {
         .subscribe(res => {
             return;
         });
-      const doc: any = new (jsPDF as any).jsPDF('p', 'pt', 'a4');
+    //   console.log(jsPDF);
+    //   console.log(new jsPDF);
+    //   const doc: any = new (jsPDF as any).jsPDF('p', 'pt', 'a4');
+    const doc: any = new jsPDF('p','pt','a4');
       const symptoms = symptomsPassed;
       const issue = issuePassed;
       let qualificationFound: Boolean = false;

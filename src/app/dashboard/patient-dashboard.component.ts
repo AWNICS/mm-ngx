@@ -21,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 export class PatientDashboardComponent implements OnInit, OnDestroy {
 
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    // @ViewChild('lineChart') lineChart: ElementRef;
+    win: any  = window;
     visitorId: number;
     selectedUser: UserDetails;
     visitorDetail: any;
@@ -50,14 +50,12 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         console.log(this.securityService);
         this.visitorId = +this.route.snapshot.paramMap.get('id'); // this will give the visitor id
         const cookie = this.securityService.getCookie('userDetails');
-        if (cookie === '') {
+        if (!cookie || cookie === '') {
             this.router.navigate([`/login`]);
         } else {
             const userInfo = JSON.parse(cookie);
             console.log(userInfo);
-            if (window.localStorage.getItem('pageReloaded')) {
-                this.socketService.connection(userInfo.id);
-              }
+            this.sharedService.makeSocketConnection();
             this.chatService.getUserById(this.visitorId)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((user: any) => {
@@ -71,9 +69,7 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
             this.getVisitor(this.visitorId);
             this.getVisitorStore(this.visitorId);
             this.getVisitorAppointmentHistory(this.visitorId);
-            // this.getVisitorReport(this.visitorId);
-            this.getVisitorHealth(this.visitorId);
-            // this.getTimeline(this.visitorId);
+            // this.getVisitorHealth(this.visitorId);
         }
     }
 
@@ -149,17 +145,6 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
         }
     }
 
-    // getVisitorReport(visitorId: number) {
-    //     this.sharedService.getVisitorReport(visitorId)
-    //         .pipe(takeUntil(this.unsubscribeObservables))
-    //         .subscribe(visitorReport => {
-    //             this.visitorReport = visitorReport;
-    //             if (visitorReport.length === 0) {
-    //                 this.hideVisitorReports = true;
-    //             }
-    //         });
-    // }
-
     getVisitorHealth(visitorId: number) {
         this.sharedService.getVisitorHealth(visitorId)
             .pipe(takeUntil(this.unsubscribeObservables))
@@ -179,26 +164,8 @@ export class PatientDashboardComponent implements OnInit, OnDestroy {
                     consultation.picUrl1 = consultation.picUrl ? this.downloadPic(consultation.picUrl, index)
                     : this.downloadAltPic('doctor', index);
                 });
-                const reports = visitorAppointmentHistory.reports.monthly;
-                const vitals = visitorAppointmentHistory.vitals.monthly;
-                if (visitorAppointmentHistory) {
-                    // this.chart(consultations, reports, vitals);
-                }
             });
     }
-
-    /* get timeline related info */
-    // getTimeline(visitorId: number) {
-    //     this.sharedService.getTimeline(visitorId)
-    //         .pipe(takeUntil(this.unsubscribeObservables))
-    //         .subscribe(visitorTimeline => {
-    //             if (visitorTimeline.length === 0) {
-    //                 this.hideTimeline = true;
-    //             } else {
-    //                 this.visitorTimelines = visitorTimeline;
-    //             }
-    //         });
-    // }
 
     edit() {
         this.router.navigate([`/profiles/${this.selectedUser.id}`]);

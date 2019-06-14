@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     userDetails: UserDetails;
     error = '';
     message = '';
+    timerId: any;
     Math: Math = Math;
     otpMessage = '';
     otpFlag = true;
@@ -28,11 +29,15 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     loader: boolean;
     timer: any;
     endTime: any;
+    otpStatus: any = {};
     verifyOtp: Boolean;
+    userAge: number;
     formSubmitted: Boolean;
     formControls: any;
+    dobInvalid: Boolean = false;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('otpButton') otpButton: ElementRef;
+    @ViewChild('verifyButton') verifyButton: ElementRef;
     @ViewChild('otpInput') otpInput: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
     private unsubscribeObservables = new Subject();
@@ -49,8 +54,8 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
      * @memberOf RegisterComponent
      */
     ngOnInit(): void {
-        this.timer = 30 * 60 * 1000 + (2 * 60 * 1000);
-        this.endTime = 30 * 60 * 1000;
+        this.timer = 2 * 60 * 1000;
+        this.endTime = 0;
         this.registerDetails = this.fb.group({
             id: null,
             socketId: null,
@@ -61,6 +66,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             confirmPassword: ['', Validators.required],
             phoneNo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
             aadhaarNo: null,
+            dob: ['', Validators.required],
             picUrl: '',
             status: '',
             role: null,
@@ -97,6 +103,28 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
     }
+    displayAge() {
+        const userAge = this.registerDetails.value.dob;
+        if(userAge.split('-')[0].length > 4){
+            this.dobInvalid = true;
+        } else {
+            this.dobInvalid = false;
+        }
+        this.otpButton.nativeElement.disabled = true;
+        this.userAge = null;
+        if (userAge[0] !== '0' && userAge.split('-')[0].length === 4) {
+            const dob: any = new Date(userAge);
+            const val = Date.now() - dob ;
+            const temp: any = new Date(val);
+            const age = temp.getYear() - 70;
+            this.userAge = age;
+            if (this.userAge > 13) {
+                this.otpButton.nativeElement.disabled = false;
+            } else {
+                this.dobInvalid = false;
+            }
+        }
+    }
     submitForm() {
         this.error = '';
         this.message = '';
@@ -105,10 +133,12 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             return;
         } else {
             this.formSubmitted = false;
+            this.otpButton.nativeElement.disabled = true;
             this.loginService.checkDuplicates(this.registerDetails.value.email, this.registerDetails.value.phoneNo).subscribe((res) => {
                 if(res.error){
                     this.message = res.message;
                     this.clearErrorAndMessage();
+                    this.otpButton.nativeElement.disabled = false;
                 } else {
                 this.sendOtp(this.registerDetails.value.phoneNo);
                 }
@@ -138,8 +168,12 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
                         }
                     } else {
                         this.otpFlag = false;
+                        this.userAge = null;
                         this.registerDetails.reset();
                     }
+                },
+                (err) => {
+                    console.log(err);
                 });
 }
 
@@ -157,6 +191,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loader = true;
         if (phoneNo.length === 10 && this.registerDetails.valid) {
             this.loader = true;
+            this.phoneNo = phoneNo;
             this.sharedService.sendOtp(Number('91' + phoneNo))
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
@@ -171,37 +206,61 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     runTimer() {
-        const timer = setInterval(() => {
+        this.timerId = setInterval(() => {
+            console.log(this.timer);
             this.timer = this.timer - 1000;
             if (this.timer <= this.endTime ) {
-                this.timer = 30 * 60 * 1000 + (2 * 60 * 1000);
-                this.endTime = 30 * 60 * 1000;
-                clearInterval(timer);
+                this.timer = 0;
+                this.endTime = 0;
+                clearInterval(this.timerId);
+                return;
             }
         }, 1000);
     }
     resendOtp() {
-        this.loader = true;
-        this.sharedService.resendOtp(Number('91' + this.phoneNo))
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe(res => {
-                if (res.type === 'success') {
-                    this.loader = false;
-                }
-            });
+        if (this.timer === 0) {
+            this.timer = 2 * 60 * 1000;
+            this.runTimer();
+            this.sharedService.resendOtp(Number('91' + this.phoneNo))
+                .pipe(takeUntil(this.unsubscribeObservables))
+                .subscribe(res => {
+                    if (res.type === 'success') {
+                    this.otpStatus.error = false;
+                    this.otpStatus.message = 'OTP Resent Successfully';
+                    } else {
+                    this.otpStatus.error = true;
+                    this.otpStatus.message = 'OTP Resend Failed';
+                    }
+                });
+        }
     }
 
     confirmOtp(val1: any, val2: any, val3: any, val4: any, val5: any, val6: any ) {
         this.verifyOtp = true;
+        this.otpStatus = {};
+        this.verifyButton.nativeElement.disabled = true;
         let otp: any = String(val1) + String(val2) + String(val3) + String(val4) + String(val5) + String(val6) ;
         otp = Number(otp);
         this.sharedService.verifyOtp(Number('91' + this.registerDetails.value.phoneNo), otp)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {
                 if (res.type === 'success') {
+                    clearInterval(this.timerId);
                     this.verifyOtp = false;
                     this.register();
+                } else {
+                    this.verifyOtp = false;
+                    this.otpStatus.error = true;
+                    this.otpStatus.message = 'Invalid OTP. Try again';
+                    this.verifyButton.nativeElement.disabled = false;
+                    setTimeout(() => {
+                        this.otpStatus = {};
+                    }, 4000);
                 }
+            },
+            (err) => {
+                console.log(err);
+                this.verifyButton.nativeElement.disabled = false;
             });
     }
 }

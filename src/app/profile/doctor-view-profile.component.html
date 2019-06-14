@@ -5,11 +5,22 @@
       <div class="card doctor-info shadow">
         <div class="card-header">
           <div class="flex">
-            <img class="profile-image" src="../../assets/test.jpg" />
+            <img class="profile-image" [src]="doctor?.picUrl ? (doctor.picUrl | safe: 'url') : ''" />
+            <!-- <div [ngSwitch]="doctor.status">
+                <div *ngSwitchCase="'Online'">
+                    <div class="status-online" title="Online"></div>
+                </div>
+                <div *ngSwitchCase="'Offline'">
+                    <div class="status-offline" title="Offline"></div>
+                </div>
+                <div *ngSwitchCase="'Busy'">
+                    <div class="status-busy" title="Busy"></div>
+                </div>
+            </div> -->
             <div class="doctor-name flex flex-column">
-              <p>Dr. {{selectedUser?.firstname+' '+selectedUser?.lastname}}</p>
+              <p>Dr. {{selectedDoctor?.firstname+' '+selectedDoctor?.lastname}}</p>
               <div class="doctor-price">
-                <span>&#8377;150</span>
+                <span>&#8377;{{selectedDoctorDetails?.price || 0}}</span>
                 <span>&nbsp;&nbsp;Per Hour</span>
               </div>
             </div>
@@ -25,11 +36,11 @@
           <div class="flex">
             <div class="flex doctor-experience">
               <span>Experience:&nbsp;</span>
-              <span>{{doctor?.doctorDetails?.experience}} years</span>
+              <span>{{selectedDoctorDetails?.experience}} years</span>
             </div>
             <div class="flex doctor-patients">
               <span>Patients:&nbsp;</span>
-              <span>28</span>
+              <span>{{selectedDoctorDetails?.count || 0}}</span>
             </div>
           </div>
           <div class="flex flex-column doctor-details">
@@ -39,7 +50,10 @@
             <p>{{locations}}</p>
             <span>Consults via</span>
             <p>{{consultationModes}}</p>
-            <button (click)="consultNow()">PAY AND CONSULT NOW</button>
+            <button (click)="consultNow()" #consultNowButton>PAY AND CONSULT NOW</button>
+          </div>
+          <div class="doctor-message" *ngIf="doctorMessage">
+            <p style="color: red;">{{doctorMessage}}</p>
           </div>
         </div>
       </div>
@@ -74,11 +88,11 @@
               <div class="row">
                 <div class="col col-6 col-xl-4 col-lg-4 col-md-4 col-sm-6 doctor-body-info">
                   <span>Languages known</span>
-                  <p>{{languages}}</p>
+                  <p>{{languages || 'Not Updated'}}</p>
                 </div>
                 <div class="col col-6 col-xl-4 col-lg-4 col-md-4 col-sm-6 doctor-body-info">
                   <span>Education & Training</span>
-                  <p>{{qualifications}}</p>
+                  <p>{{qualifications || 'Not Updated'}}</p>
                 </div>
                 <div class="col col-6 col-xl-4 col-lg-4 col-md-4 col-sm-6 doctor-body-info">
                   <span>Certification & Licensure</span>
@@ -86,26 +100,28 @@
                 </div>
               </div>
               <span>Work History</span>
-
               <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="row">
-                  <ng-container *ngFor="let i of [1,2,3,4]">
-                    <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6 test">
+                  <ng-container *ngIf="(doctor?.doctorDetails?.workhistory.length > 0 && doctor?.doctorDetails?.workhistory); else noWorkHistory">
+                    <div class="col col-12 col-xl-6 col-lg-6 col-md-6 col-sm-6 test" *ngFor="let workHistory of doctor?.doctorDetails?.workhistory">
                       <div class="card work-history">
                         <div class="card-header"></div>
                         <div class="card-body">
-                          <span>9AM - 9PM</span>
-                          <p>Worked as full time doctor at abcdcabscba, chennai</p>
+                          <span>{{workHistory.time}}</span>
+                            <p>{{workHistory.place}}</p>
                         </div>
                       </div>
                     </div>
                   </ng-container>
+                  <ng-template #noWorkHistory>
+                    <p>There is no Work History Updated</p>
+                  </ng-template>
                 </div>
               </div>
               <div class="row professional-societies">
                 <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                   <span>Professional Societies</span>
-                  <p>{{professionalSociety}}</p>
+                  <p>{{professionalSociety || 'Not Updated'}}</p>
                 </div>
               </div>
             </div>
@@ -114,12 +130,8 @@
                 <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
                   <span class="sub-heading-text">Honours</span>
                   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <!-- <div class="wrapper"> -->
-                    <div class="owl-carousel owl-theme">
-                      <ng-container *ngIf="mediaFiles.honours?.length > 0">
-
+                    <div class="owl-carousel owl-theme" *ngIf="mediaFiles.honours?.length > 0; else noHonours">
                         <div class="image-holder" *ngFor="let honour of mediaFiles.honours">
-                          <!-- <img src="../../assets/png/male1.png"> -->
                           <app-image-message [imageUrl]="honour.thumbUrl" (imageFullUrl)="openModal(honour.thumbUrl)">
                           </app-image-message>
                           <div class="image-info">
@@ -127,12 +139,12 @@
                             <span>{{honour.description}}</span>
                           </div>
                         </div>
-                      </ng-container>
                     </div>
+                    <ng-template #noHonours>
+                      <p class="empty-message">There are no Honours updated to show</p>
+                    </ng-template>
                     <span class="sub-heading-text">Awards & Recognitions</span>
-                    <div class="owl-carousel owl-theme">
-                      <ng-container *ngIf="mediaFiles.awards?.length > 0">
-
+                    <div class="owl-carousel owl-theme" *ngIf="mediaFiles.awards?.length > 0;else noAwards">
                         <div class="image-holder" *ngFor="let award of mediaFiles.awards">
                           <app-image-message [imageUrl]="award.thumbUrl" (imageFullUrl)="openModal(award.thumbUrl)">
                           </app-image-message>
@@ -141,13 +153,13 @@
                             <span>{{award.description}}</span>
                           </div>
                         </div>
-                      </ng-container>
                     </div>
+                    <ng-template #noAwards>
+                      <p class="empty-message">There are no Awards updated to show</p>
+                    </ng-template>
 
                     <span class="sub-heading-text">Videos</span>
-                    <div class="owl-carousel owl-theme">
-                      <ng-container *ngIf="mediaFiles.videos?.length > 0">
-
+                    <div class="owl-carousel owl-theme" *ngIf="mediaFiles.videos?.length > 0; else noVideos">
                         <div class="image-holder" *ngFor="let video of mediaFiles.videos">
                           <app-image-message [imageUrl]="video.thumbUrl" (imageFullUrl)="openVideo(video.url)">
                           </app-image-message>
@@ -156,28 +168,33 @@
                             <span>{{video.description}}</span>
                           </div>
                         </div>
-                      </ng-container>
                     </div>
+                    <ng-template #noVideos>
+                      <p class="empty-message">There are no videos updated to show</p>
+                    </ng-template>
                   </div>
                 </div>
               </div>
             </div>
             <div class="tab-pane fade" id="pills-activities" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <span style="display: block;">Recent Activities</span>
               <div class="row">
-                <!-- <div class="col col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12"> -->
-                <span style="display: block;margin-left: 15px;">Recent Activities</span>
-                <ng-container *ngFor="let activity of doctorActivities">
-                  <div class="card recent-activity">
+                <ng-container *ngIf="doctorActivities.length > 0;else noActivities">
+                  <div class="card recent-activity" *ngFor="let activity of doctorActivities">
                     <div class="card-body">
                       <img [src]="activity.mediaUrl | safe : 'url'">
-                      <p> {{activity.title}}</p>
+                      <p>{{activity.title}}</p>
                     </div>
                   </div>
                 </ng-container>
-                <!-- </div> -->
+                <ng-template #noActivities>
+                  <p class="empty-message" style="width: 100%">There are no activities updated</p>
+                </ng-template>
               </div>
             </div>
-            <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+            <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <p class="empty-message">There are no reviews as of now</p>
+            </div>
           </div>
         </div>
       </div>
@@ -211,11 +228,11 @@
   <button class="close" (click)="closeModal()">
     <i class="fa fa-times-circle-o" aria-hidden="false"></i>
   </button>
-  <ng-container *ngIf="videoUrl; else load">
-    <video #video style="display: none" controls="true" style="width: 80%;height: auto;margin: auto">
+  <!-- <ng-container > -->
+    <video *ngIf="videoUrl; else load" #video style="display: none"  style="width: 80%;height: auto;margin: auto"  controls>
       <source [src]="videoUrl" type="video/mp4">
-    </video>
-  </ng-container>
+      </video>
+  <!-- </ng-container> -->
 
   <ng-template #load>
     <div class="lds-roller" style="top:34%;left:46%">

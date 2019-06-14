@@ -47,7 +47,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         private ref: ChangeDetectorRef,
         private route: ActivatedRoute,
         private domSanitizer: DomSanitizer,
-        private sharedService: SharedService,
+        public sharedService: SharedService,
         private securityService: SecurityService,
         private chatService: ChatService,
         private socketService: SocketService,
@@ -203,7 +203,9 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((consultations) => {
+                this.consultations = [];
                 this.consultations = consultations;
+                this.ref.markForCheck();
                 console.log(this.consultations);
                 this.consultations.map((consultation: any, index: number) => {
                     consultation.picUrl1 = consultation.picUrl ? this.downloadPic(consultation.picUrl, index)

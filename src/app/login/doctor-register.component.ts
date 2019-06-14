@@ -31,7 +31,7 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
     specialityDropdownSettings: Object;
     specialitiesDropdownList: Array<any> = [];
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
-    @ViewChild('otpButton') otpButton: ElementRef;
+    @ViewChild('registerButton') registerButton: ElementRef;
     @ViewChild('phoneNum') phoneNum: ElementRef;
     private unsubscribeObservables = new Subject();
 
@@ -110,10 +110,12 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
         if(this.registerDoctorProfiles.invalid){
             return;
         } else {
+            this.registerButton.nativeElement.disabled = true;
             this.formSubmitted = false;
             this.loginService.checkDuplicates(value.email, value.phoneNo).subscribe((res) => {
                 if (res.error) {
                     this.error = res.message;
+                    this.registerButton.nativeElement.disabled = false;
                 } else {
                         value.firstname = value.firstname.charAt(0).toUpperCase() + value.firstname.substring(1);
                         value.lastname = value.lastname.charAt(0).toUpperCase() + value.lastname.substring(1);
@@ -127,10 +129,11 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
                         .pipe(takeUntil(this.unsubscribeObservables))
                             .subscribe((response) => {
                                 window.scroll({top: 0, left: 0, behavior: 'smooth'});
-                                console.log(response);
                                 if (response.error === 'DUP_ENTRY') {
                                     this.error = response.message;
+                                    this.registerButton.nativeElement.disabled = false;
                                 } else if (response) {
+                                    this.registerButton.nativeElement.disabled = false;
                                     this.message = `Thank you for registering with us!
                                 We will get in touch with you to complete registration process.
                                 Kindly check inbox/spam folder for more details.`;

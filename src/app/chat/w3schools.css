@@ -518,7 +518,7 @@ a {
     width: 300px !important;
     background-color: white;
     position: absolute !important;
-    z-index: 2;
+    z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
     border: none;
@@ -616,7 +616,7 @@ a {
 
 .w3-block {
     display: block;
-    width: 100%
+    width: 100%;
 }
 
 .w3-responsive {
@@ -1161,16 +1161,16 @@ a {
 
 .w3-animate-right {
     position: relative;
-    animation: animateright 0.4s
+    animation: animateright 0.5s;
 }
 
 @keyframes animateright {
     from {
-        right: -300px;
+        right: -200px;
         opacity: 0
     }
     to {
-        right: 0;
+        right: -30px;
         opacity: 1
     }
 }

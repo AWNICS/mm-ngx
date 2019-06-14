@@ -64,7 +64,17 @@ export class SocketService {
     sendNotifyMessage(message: Message, group: Group) {
         this.socket.emit('send-message', message, group, 1);
     }
-
+    sendInfoMessage(message, values, doctorId){
+        this.socket.emit('required-info', message, values, doctorId);
+    }
+    receiveInfoMessage(): Observable<any> {
+        const observable = new Observable(observer => {
+            this.socket.on('required-info-receive', (data: any) => {
+                observer.next(data);
+            });
+        });
+        return observable;
+    }
     receiveMessages(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('receive-message', (data: any) => {
@@ -104,8 +114,8 @@ export class SocketService {
         this.socket.emit('notify-users', message);
     }
 
-    emitConsultNow(user: any, doctorId: number, doctorName: string, speciality: string) {
-        this.socket.emit('consult-now', user, doctorId, doctorName, speciality);
+    emitConsultNow(user: any, doctorId: number, doctorName: string, speciality: string, consultationMode: string, location: string) {
+        this.socket.emit('consult-now', user, doctorId, doctorName, speciality, consultationMode, location);
     }
 
     emitMessageRead(groupId: number, userId: number) {
@@ -212,7 +222,6 @@ export class SocketService {
     mediaReceive(): Observable<any> {
         const observable = new Observable(observer => {
             this.socket.on('media-file', (data: any) => {
-                console.log('media: ' + JSON.stringify(data));
                 observer.next(data);
             });
         });

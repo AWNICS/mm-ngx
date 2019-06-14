@@ -1,13 +1,13 @@
-<div *ngIf="thumbImageUrl; else loading" style="float:left">
+<div *ngIf="thumbImageUrl || thumbImageUrl === ''; else loading" class="img-holder" style="float:left; width: 100%">
   <img *ngIf="message else mediaImage" [src]="thumbImageUrl | safe:'url'" alt="Image"
     class="rounded img-fluid hover-shadow block" (click)="openModal();">
   <ng-template #mediaImage>
     <img [src]="thumbImageUrl | safe:'url'" alt="Image" class="rounded img-fluid block" (click)="openModal();">
   </ng-template>
 </div>
-
+<!-- background: gray; -->
 <ng-template #loading>
-  <div class="loader-holder" style="width:130px;height:130px">
+  <div class="loader-holder" style="max-width:100%;min-width:130px;height:130px;">
     <div class="lds-roller" style="top:24%;left:28%">
       <div></div>
       <div></div>

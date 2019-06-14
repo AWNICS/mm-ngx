@@ -1,72 +1,21 @@
-/* @import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-*,
-*:before,
-*:after {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+:host{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
-
-body {
-    background: #C5DDEB;
-    font: 14px/20px "Lato", Arial, sans-serif;
-    padding: 40px 0;
-    color: white;
-}
-
-.container {
-    padding-top: 102.66667px;
-}
-
-.card {
-    margin-bottom: 25px;
-}
-
-a:hover {
-    text-decoration: none;
-    cursor: pointer;
-}
-.modal-dialog{
-    max-width: fit-content;
-    height:97%;
-    width:95%;
-    margin-bottom: 0px;
-}
-.modal-content{
-    height:100%;
-}
-.modal-body {
-    overflow:scroll;
-    -webkit-overflow-scrolling: touch;
-}
-
-.card-body button, .card-body small a{
-    position: absolute;
-    bottom:21px;
-    right:25px;
-}
-
-.card-header{
-   background: #d70a0a94;
-}
-
-@media(max-width:450px){
-  
-.card-body button, .card-body small a{
-    position: static;
-}
-} */
-::ng-deep body {
-    background: rgb(244, 244, 244);
-}
-
 .container{
     padding-top: 102px;
+    flex: 1;
 }
 h1{
     font-size: 32px;
     font-weight: bold;      
 }
-
+.ellipsize{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 .heading{
     display: flex;
     margin-bottom: 15px;
@@ -80,7 +29,7 @@ h1{
 .sorting-button {
     height: 37px;
     font-size: 12px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     color: rgb(0, 0, 0);
     border-radius: 4px;
     border: none;
@@ -128,6 +77,7 @@ width: 50%;
     margin-left: auto;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 .download-icon img{
     padding: 5px 7px;
@@ -152,6 +102,9 @@ width: 50%;
     border: none;
     margin-top: 28px;
 }
+.patient-name{
+    max-width: 67%;
+}
 .patient-name .title,
 .payment-method .title{
     font-size: 11px;
@@ -160,7 +113,7 @@ width: 50%;
 .patient-name .name,
 .payment-method .method{
     font-size: 16px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     color: #000000;      
 }
 .payment-method .method{
@@ -180,7 +133,7 @@ width: 50%;
 }
 .bill-id{
     font-size: 14px;
-    font-family: "Poppins Medium";
+    font-weight: 500;
     color: rgb(157, 163, 165);
     margin-bottom: 12px;      
 }
@@ -192,7 +145,7 @@ width: 50%;
 .amount span:last-child,
 .bill-date span:last-child{
     font-size: 18px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
 }
 .bill-info{
     position: absolute;
@@ -204,13 +157,13 @@ width: 50%;
     display: none;
     clip-path: polygon(0% 0%, 96% 0%, 96% 46%, 100% 50%, 96% 54%, 96% 100%, 0% 100%);
 }
-.test1 div:not(:nth-child(3n+1)) div.bill-data:hover .bill-info{
+.test1 div:not(:nth-child(3n+1)) div.bill-data > .card-body:hover .bill-info{
     display: block;
     padding-right: 4%;
     left: 0;
     transform: translate(-90%,-50%);
 }
-.test1 div:nth-child(3n+1) div.bill-data:hover .bill-info{
+.test1 div:nth-child(3n+1) div.bill-data > .card-body:hover .bill-info{
     display: block;
     padding-left: 4%;
     right: 0;
@@ -267,11 +220,11 @@ width: 50%;
 } */
 .bill-info .wrapper div:first-child{
     font-size: 18px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     color: rgb(255, 255, 255);      
 }
 .bill-info .wrapper div:first-child span{
-    font-family: "Poppins Medium";
+    font-weight: 500;
     color: rgba(255, 255, 255, 0.502);           
 }
 .bill-info .wrapper{
@@ -280,7 +233,7 @@ width: 50%;
 .bill-info div{      
     font-size: 14px;
     padding: 0 20px;
-    font-family: "Poppins Medium";
+    font-weight: 500;
     color: rgba(255, 255, 255, 0.502);      
 }
 .bill-info .wrapper div span{
@@ -316,7 +269,7 @@ width: 50%;
         width: 625px;
         max-width: none;
     }
-    .test1 div:nth-child(even) div.bill-data:hover .bill-info{
+    .test1 div:nth-child(even) div.bill-data > .card-body:hover .bill-info{
         display: block;
         padding-right: 4%;
         left: 0;
@@ -326,7 +279,7 @@ width: 50%;
         clip-path: polygon(0% 0%, 96% 0%, 96% 46%, 100% 50%, 96% 54%, 96% 100%, 0% 100%);
     }
     
-    .test1 div:nth-child(odd) div.bill-data:hover .bill-info{
+    .test1 div:nth-child(odd) div.bill-data > .card-body:hover .bill-info{
         display: block;
         padding-left: 4%;
         right: 0;
@@ -344,7 +297,7 @@ width: 50%;
         margin-left: 0;
     }
 
-    .test1 div div.bill-data:hover .bill-info{
+    .test1 div div.bill-data > .card-body:hover .bill-info{
         display: block;
         padding-left: 4%;
         padding-right: 0% !important;

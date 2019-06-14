@@ -22,7 +22,14 @@ export class ProfileService {
     constructor(private http: HttpClient, private securityService: SecurityService) {
         this.url = this.securityService.baseUrl;
     }
-
+    setToken() {
+        this.httpOptions = {
+            headers: new HttpHeaders({
+                'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`
+            })
+        };
+        console.log(Headers);
+    }
     /**
      * GET userById from the server
      */

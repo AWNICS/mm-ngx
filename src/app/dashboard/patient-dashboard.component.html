@@ -11,10 +11,10 @@
             <div class="card person-info">
                 <div class="card-header">
                     <div class="person-info-head">
-                        <img class="profile-pic" [src]="picUrl | safe:'url'">
+                        <img class="profile-pic" [src]="picUrl ? (picUrl | safe:'url') : ''">
                         <div class="profile-name">{{selectedUser?.firstname+' '+selectedUser?.lastname}}</div>
                         <span class="profile-age">
-                            <span>{{visitorDetail?.age || 0}} Years Old </span>
+                            <span>{{visitorDetail?.age ? visitorDetail?.age + ' Years Old' : 'Not Updated'}} </span>
                             <span *ngIf="visitorDetail?.sex as sex">| {{sex}}</span>
                         </span>
                     </div>
@@ -69,7 +69,7 @@
                         Blood Pressure
                     </div>
                     <div class="bp-value">
-                        <span *ngIf="visitorHealth?.vitals?.bloodPressure as bp; else noBp">{{bp?.split('/')[0]}} &#124; {{bp?.split('/')[1]}}</span>
+                        <span *ngIf="visitorHealth?.vitals?.bloodPressure as bp; else noBp">{{bp?.split('|')[0]}} &#124; {{bp?.split('|')[1]}}</span>
                         <ng-template #noBp>
                             <span>0 &#124; 0</span>
                         </ng-template>                        
@@ -78,14 +78,14 @@
                     <div class="ideal bp-ideal">
                         <span  *ngIf="!visitorHealth?.vitals?.bloodPressure?.split('/')[0] else bpExists">BP not updated</span>
                         <ng-template #bpExists>
-                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] < 90">Low Blood Pressure</span>
-                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] <= bp <= 120">Ideal Blood Pressure</span>
-                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('/')[0] > 120">High Blood Pressure</span>
+                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('|')[0] < 90">Low Blood Pressure</span>
+                            <span *ngIf="90 <= visitorHealth?.vitals?.bloodPressure?.split('|')[0] && 90 <= visitorHealth?.vitals?.bloodPressure?.split('|')[0] <= 120">Ideal Blood Pressure</span>
+                            <span *ngIf="visitorHealth?.vitals?.bloodPressure?.split('|')[0] > 120">High Blood Pressure</span>
                         </ng-template>
                     </div>
                     <hr>
                     <div class="last-up bp-last-up">
-                        Last Updated on {{(visitorHealth?.updatedAt | date: 'dd MMM,yyyy') || 'Not updated'}}
+                        Last Updated on: {{(visitorHealth?.updatedAt | date: 'dd MMM,yyyy') || 'Not updated'}}
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     </div>
                     <hr>
                     <div class="last-up hr-last-up">
-                        Last Updated on: {{visitorHealth?.updatedAt | date: 'dd MMM,yyyy' || 'Not updated'}}
+                        Last Updated on: {{(visitorHealth?.updatedAt | date: 'dd MMM,yyyy') || 'Not updated'}}
                     </div>
                 </div>
             </div>
@@ -124,15 +124,14 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row" style="margin: 0px 0px;">
-                    <h4>Consultation History</h4>
+                    <h3>Consultation History</h3>
                 </div>                      
                 </div>
                 <div class="card-body scroll" style="max-height: 400px;overflow: auto;">
                     <div class="table-responsive">
                     <table class="table table-striped" *ngIf="consultations?.length > 0; else noConsultations">
-                        <ng-template *ngIf="consultations.length > 0; else noConsultations">
                             <tr *ngFor="let consultation of consultations">
-                            <td style="font-size: 14px;font-family: 'Poppins SemiBold';">
+                            <td style="font-size: 14px;font-weight: 600;">
                                 <img [src]="consultation.picUrl | safe:'url'" style="width: 44px;height: 44px;">&nbsp;&nbsp;&nbsp;{{consultation.firstname +' '+consultation.lastname}}
                             </td>
                             <td>{{consultation.speciality}}</td>
@@ -145,7 +144,6 @@
                                </div>
                             </td>
                         </tr>
-                        </ng-template>
                     </table>
                     <ng-template #noConsultations>
                         <p>There are no past consultations to display</p>
@@ -158,13 +156,13 @@
     </div>
 </div>
 <div class="container-fluid container-3 allergies-container" style="margin-top: 25px;padding-right: 6px;">
-    <div class="clearfix allergies">
+    <div class="clearfix allergies" style="border-radius: 0.25rem">
     <h3>Known Medical Conditions</h3>
     <ul *ngIf="visitorHealth?.allergies?.length > 0 else noAllergies">
         <li *ngFor="let allergy of visitorHealth?.allergies">{{allergy}}</li>
     </ul>
     <ng-template #noAllergies>
-            <h5 style="margin-left: 20px;color: #666;">There are no allergies updated</h5>
+            <p style="margin-left: 20px;color: #666;">There are no allergies updated</p>
     </ng-template>
 </div>
 </div>

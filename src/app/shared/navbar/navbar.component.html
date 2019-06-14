@@ -43,13 +43,13 @@
                     <div class="dropdown notification center-v navbar-link" *ngIf="loggedIn">
                         <a class="notification-icon" role="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-bell" aria-hidden="true" #bell style="color: rgb(68, 68, 68)"></i>
-                            <span style="position: absolute;font-size: 15px;bottom: -10px;right:-2px;color:#f0f0f1c2" *ngIf="unreadNotifications && unreadNotifications!==0">{{ unreadNotifications }}</span>
+                            <span style="position: absolute;font-size: 15px;bottom: -10px;color:#242481c2" [ngStyle]="{'right': 9 < unreadNotifications ? '-12px' : '-4px'  }" *ngIf="unreadNotifications && unreadNotifications!==0">{{ unreadNotifications }}</span>
                         </a>
                         <div id="notifications" class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="notification">
                             <div *ngIf="notify; else showThis">
                                 <h5>Notifications</h5>
-                                <span>CLEAR ALL</span>
-                                <div class="dropdown-holder">
+                                <span (click)="clearNotifications()" class="clear-all">CLEAR ALL</span>
+                                <div class="dropdown-holder" #notificationDropdown>
                                 <div *ngFor="let notification of notifications" class="dropdown-item notification-dropdown">
                                     <div class="notification-item">
                                         <div class="content">
@@ -80,7 +80,7 @@
                     </div>
                     <div class="dropdown center-v navbar-link" *ngIf="loggedIn">
                         <a class="inset" href="#" role="button" id="profileSetting" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img [src]="picUrl | safe: 'url'">
+                            <img [src]="picUrl ? (picUrl | safe: 'url') : ''">
                         </a>
                         <div class="dropdown-menu dropdown-menu-right bubble" aria-labelledby="profileSetting">
                             <!-- <a class="dropdown-item" [routerLink]="['/chat',user.id]" *ngIf="user.role !=='admin'">Chat</a> -->

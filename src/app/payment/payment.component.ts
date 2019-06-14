@@ -49,10 +49,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     ) { }
 
     ngOnInit() {
-        // this.navbarComponent.navbarColor(0, '#6960FF');
+        document.querySelector('body').style.background = 'rgb(244, 244, 244)';
         this.visitorId = +this.route.snapshot.paramMap.get('id'); // this will give the visitor id
         const cookie = JSON.parse(this.securityService.getCookie('userDetails'));
-        if (cookie === '') {
+        if (!cookie || cookie === '') {
             this.router.navigate([`/login`]);
         } else {
             this.selectedUser = cookie;
@@ -60,19 +60,19 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log('Page Reloaded');
                 this.socketService.connection(this.selectedUser.id);
               }
-        this.billById = this.route.snapshot.queryParams.bill_id;
+            this.billById = this.route.snapshot.queryParams.bill_id;
         // recheck here the case with billid as null and check if scroll bar in case of get bill by id
         if (this.billById && this.billById !== 'null') {
             this.getBillById(this.billById);
         } else {
             this.getBills(this.page);
         }
-        }
         this.userDetails = `merchant_id=192155&currency=INR&amount=1.00` +
             `&redirect_url=https://mesomeds.com:3000/payments/responses&cancel_url=https://mesomeds.com:3000/payments/responses` +
             `&integration_type=iframe_normal&language=en` +
             `&billing_name=${cookie.firstname + cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore` +
             `&billing_state=Karnataka&billing_zip=560043&billing_country=India&billing_email=${cookie.email}&billing_tel=${cookie.phoneNo}`;
+        }
     }
 
     ngAfterViewInit() {
@@ -95,6 +95,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
+        document.querySelector('body').style.background = 'white';
     }
     paymentModalClick(event: any) {
             // this.paymentModal.nativeElement.style.display === 'block' &&
@@ -107,10 +108,14 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         const billId = this.route.snapshot.queryParams.bill_id;
         if (billId && billId !== 'null') {
             if(environment.production){
+                console.log('calling');
                 this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[0].orderId}`)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res: any) => {
-                    this.response = res.response;
+                    this.response = res;
+                    this.ref.detectChanges();
+                    const win: any = window;
+                    win.$('.modal').modal('show');
                 });
             } else {
                 const win: any = window;
@@ -123,17 +128,17 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
 }
 
     downloadBill(index: number, event: any) {
-                this.chatService.downloadFile(this.bills[index].url)
-                    .pipe(takeUntil(this.unsubscribeObservables))
-                            .subscribe((res) => {
-                                res.onloadend = () => {
-                                    const file = res.result.replace('octet-stream', 'pdf');
-                                    const element = event.srcElement.parentNode.children[1];
-                                    element.href = file;
-                                    element.click();
-                                    element.removeAttribute('href');
-                                };
-                            });
+            this.chatService.downloadFile(this.bills[index].url)
+            .pipe(takeUntil(this.unsubscribeObservables))
+                    .subscribe((res) => {
+                        res.onloadend = () => {
+                            const file = res.result.replace('octet-stream', 'pdf');
+                            const element = event.srcElement.parentNode.children[1];
+                            element.href = file;
+                            element.click();
+                            element.removeAttribute('href');
+                        };
+                    });
     }
     getBills(page: number) {
         this.notquerying = false;
@@ -145,9 +150,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (billings.length === 0 || billings.length < 5) {
                         this.emptyBills = true;
                     }
+                    const length = this.bills.length;
                     billings.map((bill: any, index: any) => {
                         this.bills.push(bill);
-                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, index) :
+                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, length + index) :
                         this.downloadAltPic(this.selectedUser.role, index);
                     });
                     console.log(this.bills);
@@ -162,9 +168,10 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (billings.length === 0 || billings.length < 5) {
                         this.emptyBills = true;
                     }
+                    const length = this.bills.length
                     billings.map((bill: any, index: any) => {
                         this.bills.push(bill);
-                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, index) :
+                        bill.picUrl = bill.picUrl ? this.downloadPic(bill.picUrl, length + index) :
                         this.downloadAltPic(this.selectedUser.role, index);
                     });
                     this.notquerying = true;

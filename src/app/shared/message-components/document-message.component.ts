@@ -13,7 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
     selector: 'app-document-message',
     template: `
-    <div *ngIf="url; else loading">
+    <div *ngIf="url; else loading" style="text-align: center;">
         <a [href]="url" *ngIf="!toggleFileName" download="{{fileName}}">{{ fileName }}</a>
         <a i18n class="button button__accent" [href]="url" *ngIf="toggleFileName" download="{{fileName}}">
         Download Prescription</a>
@@ -81,6 +81,7 @@ export class DocumentMessageComponent implements OnInit, OnDestroy {
         ) { }
 
     ngOnInit() {
+        console.log(this.message);
         setTimeout(() => {
             this.downloadDoc(this.message.contentData.data[0]);
             this.fileName = this.message.contentData.data[0];

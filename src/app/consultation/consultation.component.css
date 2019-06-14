@@ -5,82 +5,10 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
-
-/* ::ng-deep body {
-    background: rgb(244, 244, 244);
-}
-
-.container {
-    padding-top: 102.66667px;
-}
-
-.card {
-    margin: 1rem;
-}
-
-.card:hover {
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-}
-
-.card-header {
-    padding: 0.4rem 1rem;
-}
-
-.card-body {
-    padding: 0.4rem 1rem;
-}
-
-.card-text {
-    margin-bottom: 0.25rem;
-    margin-top: 0.25em;
-    font-size: 0.9rem;
-}
-
-a {
-    text-decoration: none;
-    color: #463AFF;
-    font-size: 0.8rem;
-    cursor: pointer;
-}
-
-#download-prescription {
-    display: inline-block;
-}
-
-#download-bill {
-    float: right;
-}
-
-.bill,
-.prescription {
-    background: #6c63ff;
-    border-color: #6c63ff;
-    color: #fff;
-    padding: 1pt 6pt;
-    display: inline-block;
-    line-height: 1.5;
-    font-weight: 400;
-    white-space: nowrap;
-    cursor: pointer;
-    border-radius: 30px;
-    margin-bottom: 1.3em;
-    transition: 0.7s;
-    text-align: center;
-    text-decoration: none;
-    border: none;
-}
-
-.bill,
-.prescription {
-    background: #463aff;
-}
-
-.non-clickable {
-    cursor: not-allowed;
-} */
-
-::ng-deep body{
-    background-color: rgb(244, 244, 244);      
+:host{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .card{
     margin-top: 15px;
@@ -90,7 +18,7 @@ a {
     padding: 0 15px;
     border-radius: 4px;
     font-size: 12px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     cursor: pointer;
     line-height: 28px;
 }
@@ -100,7 +28,8 @@ a {
 }
 .container {
     padding-top: 102.66667px;
-    min-height: calc(90vh - 172px);
+    /* min-height: calc(90vh - 172px); */
+    flex: 1;
     margin-bottom: 30px;
 }
 .card-header img{
@@ -125,7 +54,7 @@ a {
     align-self: center;
 }
 .head-logos > *{
-    margin: 0 10px;
+    margin: 0 7px;
 }
 .card-header button i{
     padding-right: 8px;
@@ -140,13 +69,12 @@ a {
     display: flex;
 }
 .head-text{
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     font-size: 16px;
 }
 .head-text span,
 .card-text span{
     color: #9da3a5;
-    font-family: "Poppins";
     font-size: 11px;
 }
 .card-text{
@@ -160,7 +88,7 @@ button{
     padding: 0 15px;
     border-radius: 4px;
     font-size: 12px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     cursor: pointer;
 }
 a.prescription {

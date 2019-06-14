@@ -20,6 +20,7 @@ app-navbar{
     padding-right: 0;
     height: 92.3%;
     position: relative;
+    overflow-x: hidden;
 }
 a {
     cursor: pointer;
@@ -134,11 +135,10 @@ a {
     color: black;
     overflow: hidden;
     white-space: nowrap;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     text-overflow: ellipsis;
     max-width: 98%;
     font-size: 10px;
-    font-family: "Poppins SemiBold";
     color: rgb(68, 68, 68);
       
 }
@@ -298,12 +298,12 @@ a {
     border-radius: 7px;
     border-bottom-right-radius: 0px;
     width: auto;
-    max-width: 70%;
+    max-width: 90%;
     position: relative;
     word-wrap: break-word;
 }
 
-.chat .chat-history .message:after {
+/* .chat .chat-history .message:after { */
     /* position: absolute;
     content: "";
     top: -7px;
@@ -313,7 +313,7 @@ a {
     border-color: #EDE7F6 transparent;
     display: block;
     width: 0; */
-}
+/* } */
 
 .chat .chat-history .my-message {
     float: left;
@@ -359,7 +359,7 @@ textarea {
     /* border-radius: 30px; */
     padding: 5px 10px;
     padding-right: 40px;
-    margin-top: 15px !important;
+    margin-top: 12px !important;
     font-family: "Lato", sans-serif;
     font-weight: 300;
     line-height: 1;
@@ -606,7 +606,7 @@ textarea:focus {
     font-size: 12px;
     font: #9C9C9C;
     position: absolute;
-    top: 57px;
+    top: 47px;
     left: 30px;
     /* background: #ded4d4; */
     border-radius: 10px;
@@ -669,7 +669,7 @@ footer {
     left: 50% !important;
 }
 
-:host ::ng-deep .media-list img{
+:host ::ng-deep .media-list .img-holder img{
     height: 60px !important;
     width: 60px !important;
 }
@@ -693,8 +693,8 @@ footer {
 
 :host ::ng-deep .media-list small {
     position: absolute;
-    top: -5px;
-    right: 19px;
+    top: 0px;
+    right: 13px;
     font-size: 8px;
 }
 
@@ -749,12 +749,14 @@ footer {
 
 app-prescription {
     height: auto;
-    width: 93%;
+    width: 96%;
+    margin-top: 10px;
     position: absolute;
     background: #ecece9;
-    overflow-x: hidden;
     border: 4px solid #e4dcdc;
     border-radius: 11px;
+    overflow-x: scroll;
+    left : 2%;
 }
 
 .spinner {
@@ -886,8 +888,9 @@ app-prescription {
 }
 
 .allfiles-image::ng-deep .lds-roller{
-    left: 4% !important;
-    top: 6% !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
 }
 #image{
     display: flex;
@@ -971,6 +974,8 @@ form.message{
     display: flex;
     visibility: hidden;
     position: absolute;
+    background: #dbdfd0f7;
+    border-radius: 20px;
     left: -37px;
     opacity: 0;
     transition: all 0.6s;
@@ -983,13 +988,13 @@ form.message{
     opacity: 1;
     left: -127px;
 }
-
+/* 
 @media (min-width: 1200px) {
 }
 
 @media (max-width: 1199px) and (min-width: 992px) {
 
-}
+} */
 
 @media (max-width: 991px) and (min-width:768px) {
     .w3-sidebar {
@@ -1029,3 +1034,53 @@ form.message{
         height: 40px;
     }
 }
+
+form.data-form{
+    margin-top: 10px;
+    background: #ded1d1;
+    border-radius: 12px;
+    width: 98%;
+    padding: 0 10px;
+    position: relative;
+    height: fit-content;
+}
+form.data-form textarea,
+form.data-form select{
+    width: 98%;
+    margin: auto;
+}
+.data-form .form-group{
+    margin-bottom: 4px;
+}
+.data-form p{
+    text-align: center;
+    margin-bottom: 0;
+}
+.data-form p a{
+    color: blue;
+}
+form.data-form textarea:focus,
+form.data-form select:focus{
+    outline: 0;
+    box-shadow: unset;
+}
+form.data-form label{
+    margin-left: 1%;
+}
+form.data-form button{
+    position: relative;
+    left: 50%;
+    float: unset;
+    margin: 5px 0;
+    transform: translateX(-50%);
+    padding: 8px 30px;
+    background: #16a716cc;
+    color: white;
+    font-size: 13px;
+}
+form.data-form h4{
+    font-family: "Poppins";
+    text-align: center;
+    padding-top: 5px;
+}
+

@@ -13,16 +13,13 @@
       <div class="card person-info">
         <div class="card-header">
           <div class="person-info-head">
-            <img class="profile-pic" [src]="picUrl | safe:'url'">
+            <img class="profile-pic" [src]="sharedService.isValidImage(picUrl) ? (picUrl | safe:'url') : ''">
             <div [ngSwitch]="doctorSchedule?.status">
                 <div *ngSwitchCase="'Online'">
                     <div class="status-online" title="Online"></div>
                 </div>
                 <div *ngSwitchCase="'Offline'">
                     <div class="status-offline" title="Offline"></div>
-                </div>
-                <div *ngSwitchCase="'invisible'">
-                    <div class="status-invisible" title="Invisible"></div>
                 </div>
                 <div *ngSwitchCase="'Busy'">
                     <div class="status-busy" title="Busy"></div>
@@ -114,23 +111,23 @@
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-striped">
-              <ng-template *ngIf="consultations.length > 0; else noConsultations">
+              <ng-container *ngIf="consultations.length > 0; else noConsultations">
               <tr *ngFor="let consultation of consultations">
-                <td style="font-size: 14px;font-family: 'Poppins SemiBold';">
+                <td style="font-size: 14px;font-weight: 600;">
                   <img [src]="consultation.picUrl | safe:'url'"
                     style="width: 44px;height: 44px;">&nbsp;&nbsp;&nbsp;{{consultation.firstname +' '+consultation.lastname}}
                 </td>
-                <td>{{consultation.speciality}}</td>
+                <td>{{consultation.speciality}}</td>  
                 <td><i class="fa fa-calendar"></i>&nbsp;{{consultation.startTime | date: 'dd/MM/yyyy'}}</td>
                 <td>{{consultation.status}}</td>
-                <td><i class="fa fa-map-marker"></i>&nbsp;Chennai</td>
+                <td><i class="fa fa-map-marker"></i>&nbsp;{{consultation.location}}</td>
                 <td class="via-video">
                   <div>
                     <i class="fa fa-play-circle"></i>&nbsp;Via {{consultation?.consultationMode}}
                   </div>
                 </td>
               </tr>
-            </ng-template>
+            </ng-container>
             <ng-template #noConsultations>
               <p>There are no past consultations to display</p>
             </ng-template>

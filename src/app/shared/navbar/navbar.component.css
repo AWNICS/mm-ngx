@@ -6,8 +6,9 @@ nav {
     background-position: top left, center center;
     background-attachment: fixed, fixed;
     background-size: auto, cover;
-    height: 7%;
+    /* height: 7%; */
     transition: 0.7s;
+    height: 60px;
     background-color: white;
     box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.08); 
     padding: 0px 1rem;
@@ -18,7 +19,7 @@ a:link,
 a:visited,
 a:active {
     color: black;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     line-height: 1.2; 
 }
 
@@ -37,14 +38,14 @@ a.consult-button {
     font-size: 0.8rem;
     padding: 5px 6px;
     width: fit-content;
-    font-family: "Poppins";
+    margin: auto;
 }
 
 a.consult-button:hover {
     cursor: pointer;
     color: #F7F7F7;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
-    font-family: Lato, sans-serif;
+    /* font-family: Lato, sans-serif; */
 }
 
 #logo>img {
@@ -147,7 +148,7 @@ a.consult-button:hover {
         width: 13rem;
     }
     .notification>.dropdown-menu-right {
-        width: 17rem;
+        width: 19rem;
     }
     .notification-icon {
         left: 5rem !important;
@@ -164,7 +165,6 @@ a.consult-button:hover {
         padding-right: 0px;
     }
 }
-
 @media (max-width: 576px){
 
     div.navbar__menu > div.navbar-link:not(:last-child){
@@ -192,6 +192,11 @@ a.consult-button:hover {
     }
 }
 
+@media (max-width: 342px) and (min-width: 320px) {
+    div.navbar__menu > div.navbar-link:not(:last-child){
+        margin-right: 12px !important;
+    }
+}
 .notification-icon {
     /* position: absolute; */
     /* left: -2rem; */
@@ -214,6 +219,7 @@ a.consult-button:hover {
 
 #notifications {
     border-top: 3px solid rgba(9,138,238,1);
+    min-width: 310px;
 }
 .dropdown-holder{
     max-height: 45vh;
@@ -423,7 +429,7 @@ div.navbar__menu > div.navbar-link:not(:last-child){
 }
 #notifications h5 + span{
     font-size: 12px;
-    font-family: "Poppins SemiBold";
+    font-weight: 600;
     color: rgb(31, 214, 166);
     float: right;
     margin-right: 15px;
@@ -467,3 +473,27 @@ div.navbar__menu > div.navbar-link:not(:last-child){
 	/* box-shadow: inset 0 0 6px rgba(0,0,0,.3); */
     background-color: rgb(68, 68, 68);
 }
+
+.dropdown-item:active{
+    background: unset;
+}
+.clear-all{
+    cursor: pointer;
+}
+@media (max-width: 576px){
+    #notifications{
+        transform: translateX(23%);
+    }
+}
+/* .animate-remove{
+ position: relative;
+ animation: remove 3s fade-out;   
+}
+@keyframes remove{
+    0%{
+        left: 0px;
+    }
+    100%{
+        left: 80px;
+    }
+} */

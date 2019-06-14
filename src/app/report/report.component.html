@@ -9,7 +9,7 @@
     </div>
     <div class="nav-date">
       <div class="left-arrow" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()">
+        (viewDateChange)="closeOpenMonthViewDay()" (click)="test($event)">
         <i class="fa fa-2x fa-angle-left" aria-hidden="true"></i>
       </div>
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
@@ -23,7 +23,7 @@
       <div class="month" (click)="setView(CalendarView.Month, $event)" [class.active]="view === CalendarView.Month">
         31
       </div>
-      <div class="week" (click)="setView(CalendarView.Week, $event)" [class.active]="view === CalendarView.Week">
+      <div class="week" (click)="setView(CalendarView.Week, $event)" [class.active]="view === CalendarView.Week" *ngIf="activeItem === 'Consultations'">
         7
       </div>
     </div>
@@ -36,7 +36,7 @@
         (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-month-view>
       <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [eventTemplate]="weekEventTemplate"
-        [viewDate]="viewDate" [events]="consultationEvents" [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
+        [viewDate]="viewDate" [events]="consultationEvents"  [refresh]="refresh">
       </mwl-calendar-week-view>
     </div>
   </ng-container>
@@ -46,7 +46,7 @@
         [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen">
       </mwl-calendar-month-view>
       <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [eventTemplate]="weekEventTemplate" [viewDate]="viewDate" [events]="reportEvents"
-        [dayStartHour]="10" [dayEndHour]="22" [refresh]="refresh">
+        [refresh]="refresh">
       </mwl-calendar-week-view>
     </div>
   </ng-template>
@@ -87,7 +87,7 @@
 
 <!-- Template for eventHoverInfo for consultations -->
 <ng-template let-event="event" #eventHoverTemplateMonth>
-  <span>Details</span>
+  <span>Consultation</span>
   <ng-template [ngTemplateOutlet]="eventHoverTemplate" [ngTemplateOutletContext]="{event:event}"></ng-template>
 </ng-template>
 <!-- Template End for eventHoverInfo for consultations-->
@@ -97,7 +97,7 @@
   <div class="reports">
       <div class="report-info" *ngFor="let event of events">
         <span>{{event.reportname}}</span>
-        <a (click)="downloadItem(event.url, $event)" download>DOWNLOAD</a>
+        <a (click)="downloadItem(event.url, $event)" [download]="event.url">DOWNLOAD</a>
       </div>
   </div>
 </ng-template>
@@ -107,7 +107,7 @@
 <!-- Template for Week Event Start for consultations-->
 <ng-template #weekEventTemplate let-event="weekEvent.event" let-tooltipDisabled="tooltipDisabled">
   <div class="week-consultations shadow">
-    <img [src]="event.picUrl | safe:'url'">
+    <img [src]="sharedService.isValidImage(event.picUrl) ? (event.picUrl | safe:'url') : ''">
     <div class="doctor-info">
       <div class="doctor-name">
         {{event.doctorName}}
@@ -123,18 +123,19 @@
 <ng-template let-event="event" #eventHoverTemplate>
   <div class="consultation-info">
     <div class="consultation-info-header">
-      <img [src]="event.picUrl | safe:'url'">
+      <img [src]="sharedService.isValidImage(event.picUrl) ? (event.picUrl | safe:'url') : ''">
       <div class="consultation-doc-name">
         <div>{{event.doctorName}}</div>
-        <span>{{event.qualification}}</span>
+        <span>{{event.speciality}}</span>
       </div>
-      <button *ngIf="event.prescriptionUrl">DOWNLOAD</button>
+      <button *ngIf="event.prescriptionUrl" (click)="downloadDoc($event, event.prescriptionUrl)">DOWNLOAD</button>
+      <a *ngIf="event.prescriptionUrl" style="display: none" [download]="event.prescriptionUrl" download></a>
     </div>
     <div class="consultation-time">
       <div>{{event.start | date:'dd MMM,yyyy h:mm:ss a'}} to {{event.end | date:'dd MMM,yyyy h:mm:ss a'}}</div>
     </div>
     <div class="consultation-summary"> <span>Report Summary</span>
-      <div>{{event.summary}}</div>
+      <div>{{event.summary || 'No Summary'}}</div>
     </div>
   </div>
 </ng-template>

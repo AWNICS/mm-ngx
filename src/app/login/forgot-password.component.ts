@@ -15,11 +15,11 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
-    message: string;
+    result: any;
     @ViewChild(NavbarComponent) navbarComponent: NavbarComponent;
     @ViewChild('msg') msg: ElementRef;
+    @ViewChild('resetButton') resetButton: ElementRef;
     private unsubscribeObservables = new Subject();
-
     constructor(private loginService: LoginService) {}
 
     ngOnInit(): void {
@@ -31,11 +31,20 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
     }
 
     resetPassword(email: string) {
+        this.result = {};
+        this.resetButton.nativeElement.disabled = true;
         this.loginService.checkUser(email)
         .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((res: any) => {
-            this.message = res.message;
-            this.msg.nativeElement.style.display = 'block';
+            this.result = {};
+            if (res.error) {
+                this.result.error = true;
+                this.result.message = res.error;
+            } else {
+                this.result.error = false;
+                this.result.message = res.message;
+            }
+          this.resetButton.nativeElement.disabled = false;
         });
     }
 }

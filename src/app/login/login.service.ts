@@ -61,27 +61,32 @@ export class LoginService {
         const url = `${this.url}/resetPassword`;
         return this.http
         .post(url, {email: email}, this.httpOptions)
-        .pipe(map((res: any) => res.json()),
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
-
+    verifyToken(token){
+        const url = `${this.url}/resetPassword/${token}`;
+        return this.http
+        .get(url)
+        .pipe(map((res: any) => res),
+        catchError(this.handleError));
+    }
     resetPassword(password: string, token: string): Observable<any> {
         const url = `${this.url}/resetPassword/${token}`;
         return this.http
         .put(url, {password: password})
-        .pipe(map((res: any) => res.json()),
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
-
     activateUser(token: string): Observable<any> {
         const url = `${this.url}/activates/${token}`;
         return this.http
-        .put(url, {activate: 1})
-        .pipe(map((res: any) => res.json()),
+        .get(url)
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
 
     private handleError(error: any): Observable<any> {
-        return throwError(error.error.message || error);
+        return throwError(error.error);
     }
 }

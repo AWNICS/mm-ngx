@@ -9,8 +9,6 @@ import { SharedService } from '../shared/services/shared.service';
 import { ChatService } from '../chat/chat.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
@@ -44,7 +42,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
   view: CalendarView = CalendarView.Month;
 
   CalendarView = CalendarView;
-
+  activeItem: String = 'Consultations';
   activeDayIsOpen: Boolean = false;
   viewDate: Date = new Date();
 
@@ -104,12 +102,15 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.reportId = this.route.snapshot.queryParams.reportId; // report id
         if (this.securityService.getCookie('userDetails')) {
             this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
+            this.sharedService.makeSocketConnection();
+        } else {
+          // this.router
         }
         // if (this.selectedUser.role === 'patient') {
           this.getConsultations(this.selectedUser.id, this.page);
         // } else {
         // }
-        this.getReport();
+        // this.getReport();
     }
 
     ngOnDestroy() {
@@ -131,7 +132,7 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           draggable: false,
           doctorName: consultation.firstname + ' ' + consultation.lastname,
           doctorPicUrl: consultation.picUrl,
-          qualification: consultation.qualification,
+          speciality: consultation.speciality,
           prescriptionUrl: consultation.prescriptionUrl,
           mode: consultation.consultationMode,
           summary: consultation.analysis,
@@ -140,6 +141,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         });
         if(consultation.picUrl){
           this.downloadConsultationProfileImages(consultation.picUrl, index);
+        } else {
+          this.downloadAltPic(index);
         }
         this.cd.markForCheck();
       });
@@ -158,6 +161,22 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cd.markForCheck();
       }
     }
+    downloadAltPic(index) {
+      let fileName: string;
+      if (this.selectedUser.role === 'bot') {
+          fileName = 'bot.jpg';
+      } else if (this.selectedUser.role === 'doctor') {
+          fileName = 'user.png';
+      } else {
+          fileName = 'doc.png';
+      }
+      this.chatService.downloadFile(fileName).subscribe((res) => {
+             res.onloadend = () => {
+                this.consultationEvents[index].picUrl = res.result;
+                this.cd.markForCheck();
+             }
+         });
+    }
     toggleView(event: any, number: any) {
       if(number === 1 && this.firstCall ) {
         this.getReports();
@@ -165,21 +184,8 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       event.srcElement.className += ' active';
       number === 1 ? event.srcElement.parentNode.children[0].className = '' : event.srcElement.parentNode.children[1].className = '';
+      number === 1 ? this.activeItem = 'Reports' : this.activeItem = 'Consultations';
       this.showConsultation = !(this.showConsultation);
-    }
-    // get the details of the report
-    getReport() {
-        this.sharedService.getReportById(this.reportId)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((report: any) => {
-                if (report) {
-                    console.log('report: ' + JSON.stringify(report));
-                    this.report = report;
-                    this.downloadDoc();
-                 } else {
-                     this.message = 'Sorry no report is matching with this id';
-                 }
-            });
     }
 
     downloadConsultationProfileImages(fileName: string, index) {
@@ -201,8 +207,10 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
           .subscribe((res) => {
               res.onloadend = () => {
                 event.preventDefault();
-                const out = 
-                res.result.replace('application/octet-stream', 'image/jpeg');
+                console.log(url);
+                let out: string;
+                url.match(/pdf/) ? out = res.result.replace('application/octet-stream', 'application/pdf') 
+                : out = res.result.replace('application/octet-stream', 'image/jpeg');
                 event.srcElement.href = out;
                 event.srcElement.click();
                 event.srcElement.removeAttribute('href');
@@ -220,8 +228,6 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
               .subscribe((res) => {
                   res.prescriptions.map((consultation: any, index: number) => {
                       this.consultations.push(consultation);
-                      // consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, index):
-                      // this.downloadPic(this.selectedUser.role, index);
                   });
                   this.insertEvents('consultation');
           });
@@ -253,35 +259,20 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
 }
 }
 
-    downloadDoc() {
-        this.chatService.downloadFile(this.report.url)
-            .pipe(takeUntil(this.unsubscribeObservables))
-            .subscribe((res) => {
-                res.onloadend = () => {
-                    // event.srcElement.href = res.result;
-                    // event.srcElement.click();
-                    // event.srcElement.removeAttribute('href');
-                    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(res.result);
-                };
-            });
-    }
-
-      // eventTimesChanged({
-      //   event,
-      //   newStart,
-      //   newEnd
-      // }: CalendarEventTimesChangedEvent): void {
-      //   this.events = this.events.map(iEvent => {
-      //     if (iEvent === event) {
-      //       return {
-      //         ...event,
-      //         start: newStart,
-      //         end: newEnd
-      //       };
-      //     }
-      //     return iEvent;
-      //   });
-      // }
+downloadDoc(event, url) {
+    this.chatService.downloadFile(url)
+        .pipe(takeUntil(this.unsubscribeObservables))
+        .subscribe((res) => {
+            res.onloadend = () => {
+              console.log(res.result);
+                const file = res.result.replace('octet-stream', 'pdf');
+                const element = event.srcElement.parentNode.children[3];
+                element.href = file;
+                element.click();
+                element.removeAttribute('href');
+            };
+        });
+}
 
     setView(view: CalendarView, event: any) {
       this.view = view;
@@ -290,6 +281,9 @@ export class ReportComponent implements OnInit, AfterViewInit, OnDestroy {
     setWonthView(view: CalendarView, date: any) {
       this.viewDate = date;
       this.view = view;
+    }
+    test(event){
+      console.log(this.viewDate);
     }
 
     closeOpenMonthViewDay() {

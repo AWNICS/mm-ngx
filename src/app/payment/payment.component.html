@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
-<div class="container bill-container" style="height: 71.3vh">
+<div class="container bill-container">
   <div class="heading">
     <h1>Billings</h1>
-    <div class="sorting">
+    <!-- <div class="sorting">
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle sorting-button" type="button" id="payment-mode" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
@@ -23,22 +23,22 @@
       <div class="dropdown-menu items" aria-labelledby="dropdownMenuButton">
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
   <div class="row test1">
     <div *ngFor="let bill of bills;let i = index" class="col col-12 col-lg-4 col-md-6 col-sm-12 col-xs-12" style="display: flex;justify-content: center">
       <div class="card bill-data">
         <div class="card-header">
           <div class="row" style="align-items: center">
-            <img class="doctor-image" [src]="bill.picUrl | safe:'url'">
+            <img class="doctor-image" [src]="sharedService.isValidImage(bill.picUrl) ? (bill.picUrl | safe:'url') : ''">
             <div class="patient-name">
               <span class="title" *ngIf="selectedUser.role==='patient'"> Doctor</span>
               <span class="title" *ngIf="selectedUser.role==='doctor'"> Patient</span>
-              <div class="name">{{bill.firstname + ' '+ bill.lastname}}</div>
+              <div class="name ellipsize">{{bill.firstname + ' '+ bill.lastname}}</div>
             </div>
-            <div class="download-icon" *ngIf="bill.status==='Success'">
+            <div class="download-icon" *ngIf="bill.url">
               <img src="../../assets/images/download-icon.png" (click)="downloadBill(i, $event)">
-              <a style="display:none"></a>
+              <a style="display:none" [download]="bill.url"></a>
             </div>
           </div>
         </div>
@@ -56,6 +56,17 @@
               <span>{{bill.updatedAt | date: 'dd MMM yyyy'}}</span>
             </div>
           </div>
+          <div class="bill-info">
+          <div class="wrapper">
+          <div>Bill <span>#{{bill.orderId}}</span></div>
+          <div>{{bill.updatedAt | date: 'dd MMM yyyy'}}</div>
+          <div>Total Hours <span>#270832</span></div>
+          <div>Rate per hour <span>#270832</span></div>
+          <div>Subtotal <span>#270832</span></div>
+          <div>Taxes <span>#270832</span></div>
+          <div>Total Amount <span>&#8377;{{bill.amount}}</span></div>
+        </div>  
+        </div>
         </div>
         <div class="card-footer">
           <ng-container *ngIf="bill.status==='Success'">
@@ -81,17 +92,6 @@
                   Request Pay
                 </button> 
             </div>
-        </div>
-      <div class="bill-info">
-          <div class="wrapper">
-          <div>Bill <span>#{{bill.orderId}}</span></div>
-          <div>{{bill.updatedAt | date: 'dd MMM yyyy'}}</div>
-          <div>Total Hours <span>#270832</span></div>
-          <div>Rate per hour <span>#270832</span></div>
-          <div>Subtotal <span>#270832</span></div>
-          <div>Taxes <span>#270832</span></div>
-          <div>Total Amount <span>&#8377;{{bill.amount}}</span></div>
-        </div>
         </div>
       </div>
     </div>

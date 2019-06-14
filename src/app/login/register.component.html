@@ -14,10 +14,13 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label>First Name</label>
-                <input class="form-control" type="text" title="First Name" placeholder="First Name" formControlName="firstname"
-                  autocomplete [ngClass]="{'error-form':formControls.firstname.errors && formSubmitted}" autofocus>
+                <input class="form-control" type="text" title="First Name" placeholder="First Name"
+                  formControlName="firstname" autocomplete
+                  [ngClass]="{'error-form':formControls.firstname.errors && formSubmitted}" autofocus>
                 <div *ngIf="formControls.firstname.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.firstname.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">FirstName
+                  <div *ngIf="formControls.firstname.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    FirstName
                     is required</div>
                 </div>
               </div>
@@ -28,7 +31,9 @@
                 <input class="form-control" type="text" placeholder="Last Name" formControlName="lastname" autocomplete
                   [ngClass]="{'error-form':formControls.lastname.errors && formSubmitted}">
                 <div *ngIf="formControls.lastname.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.lastname.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">LastName
+                  <div *ngIf="formControls.lastname.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    LastName
                     is required</div>
                 </div>
               </div>
@@ -42,29 +47,41 @@
                 <input class="form-control" type="email" placeholder="you@example.com" formControlName="email"
                   autocomplete [ngClass]="{'error-form':formControls.email.errors && formSubmitted}">
                 <div *ngIf="formControls.email.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.email.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Email
+                  <div *ngIf="formControls.email.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Email
                     is required</div>
-                  <div *ngIf="formControls.email.errors.email && !formControls.email.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Valid
+                  <div *ngIf="formControls.email.errors.email && !formControls.email.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Valid
                     Email is required</div>
                 </div>
               </div>
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
-                <label>Mobile No.</label>
-                <input class="form-control" type="tel" id="phoneNo" style="margin-bottom:0px;" formControlName="phoneNo"
-                  placeholder="xxxxxxxxxx" #phoneNum [ngClass]="{'error-form':formControls.phoneNo.errors && formSubmitted}"
-                  name="phone-number"
+                <label>Mobile No</label>
+                <input class="form-control" type="tel" id="phoneNo" formControlName="phoneNo"
+                  placeholder="xxxxxxxxxx" #phoneNum
+                  [ngClass]="{'error-form':formControls.phoneNo.errors && formSubmitted}" name="phone-number"
                   autocomplete="phone-number" />
                 <div *ngIf="formControls.phoneNo.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.phoneNo.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Mobile
+                  <div *ngIf="formControls.phoneNo.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Mobile
                     Number is required</div>
-                  <div *ngIf="formControls.phoneNo.errors.minlength" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Not
+                  <div *ngIf="formControls.phoneNo.errors.minlength"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Not
                     a valid mobile number</div>
-                  <div *ngIf="formControls.phoneNo.errors.maxlength" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Not
+                  <div *ngIf="formControls.phoneNo.errors.maxlength"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Not
                     a valid mobile number</div>
-                  <div *ngIf="otpFlag && !formControls.phoneNo.errors.maxlength && !formControls.phoneNo.errors.minlength && !formControls.phoneNo.errors.required"
-                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Please
+                  <div
+                    *ngIf="otpFlag && !formControls.phoneNo.errors.maxlength && !formControls.phoneNo.errors.minlength && !formControls.phoneNo.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Please
                     Verify the Mobile number</div>
                 </div>
                 <!-- <div *ngIf="!formControls.phoneNo.errors && formSubmitted" style="position: relative;">
@@ -73,17 +90,47 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-12 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label>Date of Birth</label>
+                <input class="form-control" formControlName="dob" (change)="displayAge()" type="date" name="dob">
+                <span *ngIf="userAge" class="user-age">{{userAge + ' Years'}}</span>
+                <div *ngIf="formControls.dob.errors && formSubmitted" style="position: relative;">
+                  <div *ngIf="formControls.dob.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
+                    DOB
+                    is required</div>
+                </div>
+                <div style="position: relative">
+                  <div *ngIf="userAge && userAge < 13 && !formControls.dob.errors"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
+                    Age Should be Greater than 13 years</div>
+                  <div *ngIf="dobInvalid && !formControls.dob.errors"
+                  style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
+                  Enter a Valid DOB</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- password and confirm password -->
           <div class="row">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label>Password</label>
-                <input class="form-control" type="password" formControlName="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                  autocomplete="off" [ngClass]="{'error-form':formControls.password.errors && formSubmitted}">
+                <input class="form-control" type="password" formControlName="password"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off"
+                  [ngClass]="{'error-form':formControls.password.errors && formSubmitted}">
                 <div *ngIf="formControls.password.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.password.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Password
+                  <div *ngIf="formControls.password.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Password
                     is required</div>
-                  <div *ngIf="formControls.password.errors.minlength" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Password
+                  <div *ngIf="formControls.password.errors.minlength"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Password
                     should be 6 characters</div>
                 </div>
               </div>
@@ -91,12 +138,17 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
               <div class="form-group">
                 <label>Confirm Password</label>
-                <input class="form-control" type="password" formControlName="confirmPassword" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                  autocomplete="off" [ngClass]="{'error-form':formControls.confirmPassword.errors && formSubmitted}">
+                <input class="form-control" type="password" formControlName="confirmPassword"
+                  placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" autocomplete="off"
+                  [ngClass]="{'error-form':formControls.confirmPassword.errors && formSubmitted}">
                 <div *ngIf="formControls.confirmPassword.errors && formSubmitted" style="position: relative;">
-                  <div *ngIf="formControls.confirmPassword.errors.required" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Password
+                  <div *ngIf="formControls.confirmPassword.errors.required"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Password
                     is required</div>
-                  <div *ngIf="formControls.confirmPassword.errors.mismatch" style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">Password
+                  <div *ngIf="formControls.confirmPassword.errors.mismatch"
+                    style="margin-bottom:3px;color:#ff0000db; text-align: left;position: relative; left: 15px; font-size:13px">
+                    Password
                     should match</div>
                 </div>
                 <!-- <div class="alert alert-danger" *ngIf="registerDetails.controls.confirmPassword.errors?.matchPassword">Password -->
@@ -104,16 +156,22 @@
               </div>
             </div>
           </div>
-          <div class="terms-policy">By Signing up, you agree to mesomeds <a href="#" data-toggle="modal" data-target="#terms-conditions">Terms
-              and Conditions</a> & <a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a></div>
-          <button type="submit" class="send-otp" data-toggle="modal">
-            <div class="lds-ring" *ngIf="loader"><div></div><div></div><div></div><div></div></div>
+          <div class="terms-policy">By Signing up, you agree to mesomeds <a href="#" data-toggle="modal"
+              data-target="#terms-conditions">Terms
+              and Conditions</a> & <a href="#" data-toggle="modal" data-target="#privacy-policy">Privacy Policy</a>
+          </div>
+          <button type="submit" class="send-otp" data-toggle="modal" #otpButton>
+            <div class="lds-ring" *ngIf="loader">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
             SEND OTP
-            <i class="fa fa-lg fa-angle-right"
-              aria-hidden="true"></i>
+            <i class="fa fa-lg fa-angle-right" aria-hidden="true"></i>
           </button>
         </form>
-        <div class="sign-in">Already a member? <a  routerLink="/login">Sign in</a></div>
+        <div class="sign-in">Already a member? <a routerLink="/login">Sign in</a></div>
       </div>
     </div>
   </div>
@@ -144,7 +202,8 @@
 </div>
 
 <!-- Privacy policy Modal -->
-<div class="modal fade" id="privacy-policy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="privacy-policy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -165,10 +224,13 @@
 
 
 <!-- OTP Modal -->
-<div class="modal fade" id="otp-window" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="otp-window" tabindex="-1" role="dialog" style="padding-right: 0px;"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="padding: 0 1rem;">
       <div class="modal-header">
+        <span class="otp-message" *ngIf="otpStatus.message" [ngStyle]="{'color': otpStatus.error ? 'red' : 'green'}"
+          style="position: absolute">{{otpStatus.message}}</span>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -176,8 +238,8 @@
       <ng-container *ngIf="otpFlag">
         <div class="modal-body">
           <h3>OTP Verification</h3>
-          <p>Enter the OTP sent to <span>+91-7013842401</span></p>
-          <div class="otp-timer">{{ this.timer | date:'mm:ss'}}</div>
+          <p>Enter the OTP sent to <span>+91-{{phoneNo}}</span></p>
+          <div class="otp-timer">{{ this.timer | date: 'mm:ss' : '+000'}}</div>
           <div class="otp-inputs" #otpInput>
             <input type="tel" maxlength="1" size="1" #val1>
             <input type="tel" maxlength="1" size="1" #val2>
@@ -186,19 +248,29 @@
             <input type="tel" maxlength="1" size="1" #val5>
             <input type="tel" maxlength="1" size="1" #val6>
           </div>
-          <p>Didn't receive the verification code? <br /><a href="#">Resend OTP</a></p>
-          <button class="register"><span *ngIf="!verifyOtp" (click)="confirmOtp(val1.value,val2.value,val3.value,val4.value,val5.value,val6.value)">VERIFY & REGISTER</span><span *ngIf="verifyOtp"><div class="lds-ring verify-ring"><div></div><div></div><div></div><div></div></div>Verifying OTP</span></button>
-
+          <p>Didn't receive the verification code? <br /><a class="resend-otp"
+              [ngClass]="this.timer!==0 ? 'disabled':'enabled'" href="#" (click)="resendOtp()"
+              onclick="return false;">Resend OTP</a></p>
+          <button class="register" #verifyButton><span *ngIf="!verifyOtp"
+              (click)="confirmOtp(val1.value,val2.value,val3.value,val4.value,val5.value,val6.value)">VERIFY &
+              REGISTER</span><span *ngIf="verifyOtp">
+              <div class="lds-ring verify-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>Verifying OTP
+            </span></button>
         </div>
 
         <div class="modal-footer">
-          <p>Already a member?<a  routerLink="/login"> Sign in</a></p>
+          <p>Already a member?<a routerLink="/login"> Sign in</a></p>
         </div>
       </ng-container>
       <ng-container *ngIf="!otpFlag">
         <div class="modal-body" style="border-bottom: none; text-align: center">
           <img src="../../assets/images/verified-tick.png" style="width: 40px">
-          <h2 style="margin-top: 15px;font-size: 30px;font-family: 'Poppins SemiBold';color: blue;">OTP Verified!</h2>
+          <h2 style="margin-top: 15px;font-size: 30px;font-weight: 600;color: blue;">OTP Verified!</h2>
           <button class="proceed-to-signin" routerLink="/login">PROCEED TO SIGN IN</button>
         </div>
       </ng-container>

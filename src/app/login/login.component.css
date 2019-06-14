@@ -265,8 +265,17 @@ p{
     text-align: center;
     margin: 26px auto;
 }
+p.message{
+    text-align: center;
+}
 p.error{
     color: red;
+    position: relative;
+    animation: moveLeft 0.5s ease-out;
+    animation-fill-mode: forwards;
+}
+p.success{
+    color: green;
     position: relative;
     animation: moveLeft 0.5s ease-out;
     animation-fill-mode: forwards;
@@ -342,13 +351,11 @@ input::placeholder {
     position: relative;
     bottom: 2px;
     font-size: 13px;
-    font-family: "Poppins";
     color: rgb(157, 163, 165);      
 }
 .forgot-password{
     float: right;
     font-size: 13px;
-    font-family: "Poppins";
     color: rgb(0, 0, 0);
 }
 .login{

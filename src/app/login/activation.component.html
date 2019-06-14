@@ -1,10 +1,23 @@
 <app-navbar></app-navbar>
-<div class="content">
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <h1>Greetings from Awnics!</h1>
-    <p>You are successfully activated</p>
-    <p>Thanks and Regards<br/>Awnics</p>
-</div>
+<ng-container *ngIf="userActivated else activationFailed">
+    <div class="content">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h1>Greetings from Awnics!</h1>
+        <p>You are successfully activated</p>
+        <p>Thanks and Regards<br/>Awnics</p>
+    </div>
+</ng-container>
+<ng-template #activationFailed>
+    <ng-container *ngIf="userActivated === false">
+    <div class="content">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h1>Invalid user token. Please Singnup</h1>
+    </div>
+</ng-container>
+</ng-template>

@@ -6,6 +6,7 @@ export class SecurityService {
 
     public key = 'Bearer';
     public baseUrl = environment.serviceUrl;
+    public hostUrl = environment.hostUrl;
     private loginStatus = false;
 
     setLoginStatus(status: boolean) {
@@ -25,6 +26,7 @@ export class SecurityService {
 
     getCookie(cname: string) {
         const name = cname + '=';
+        if (document.cookie) {
         const ca = document.cookie.split(';');
         for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
@@ -37,7 +39,8 @@ export class SecurityService {
                 return c.substring(name.length, c.length);
             }
         }
-        return '';
+        }
+        return null;
     }
 
     deleteCookie(cname: string) {
