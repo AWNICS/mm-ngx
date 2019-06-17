@@ -90,10 +90,9 @@
                             <a class="dropdown-item" [routerLink]="['/dashboards/patients',user.id]" *ngIf="user.role ==='patient' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/dashboards/doctors',user.id]" *ngIf="user.role ==='doctor' && user.role !=='admin'">Dashboard</a>
                             <a class="dropdown-item" [routerLink]="['/']" *ngIf="user.role ==='bot' && user.role !=='admin'">Dashboard</a>
-                            <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role ==='doctor'">Consultation History</a>
-                            <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role ==='patient'">Consultation & History</a>
+                            <a class="dropdown-item" [routerLink]="['/consultation',user.id]" *ngIf="user.role ==='doctor' || user.role ==='patient'">Consultation History</a>
                             <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role ==='doctor'">Billings</a>
-                            <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role ==='patient'">Payment & Billing</a>
+                            <a class="dropdown-item" [routerLink]="['/payments',user.id]" *ngIf="user.role ==='patient'">Payments & Billing</a>
                             <a class="dropdown-item"  routerLinkActive='active' (click)="logout();">Logout</a>
                         </div>
                     </div>
