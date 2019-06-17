@@ -40,6 +40,11 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+#### Coverting images to webp
+
+- Webp theoritical referenve [Link](https://developers.google.com/speed/webp/docs/webp_study)
+- Web converter link [Webp converter](https://developers.google.com/speed/webp/)
+
 #### Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
