@@ -9,7 +9,7 @@
     </div>
     <div class="nav-date">
       <div class="left-arrow" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-        (viewDateChange)="closeOpenMonthViewDay()" (click)="test($event)">
+        (viewDateChange)="closeOpenMonthViewDay()" (click)="getLimitedItems()">
         <i class="fa fa-2x fa-angle-left" aria-hidden="true"></i>
       </div>
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="nav-span">
-      <button>TODAY</button>
+      <button mwlCalendarToday [(viewDate)]="viewDate" class="today">TODAY</button>
       <div class="month" (click)="setView(CalendarView.Month, $event)" [class.active]="view === CalendarView.Month">
         31
       </div>

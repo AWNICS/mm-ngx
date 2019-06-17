@@ -20,7 +20,7 @@
             <div class="doctor-name flex flex-column">
               <p>Dr. {{selectedDoctor?.firstname+' '+selectedDoctor?.lastname}}</p>
               <div class="doctor-price">
-                <span>&#8377;{{selectedDoctorDetails?.price || 0}}</span>
+                <span>&#8377;{{selectedDoctorDetails?.price || 'N/A'}}</span>
                 <span>&nbsp;&nbsp;Per Hour</span>
               </div>
             </div>
@@ -50,7 +50,7 @@
             <p>{{locations}}</p>
             <span>Consults via</span>
             <p>{{consultationModes}}</p>
-            <button (click)="consultNow()" #consultNowButton>PAY AND CONSULT NOW</button>
+            <button (click)="consultNow()" #consultNowButton [disabled]="!selectedDoctorDetails?.price">PAY AND CONSULT NOW</button>
           </div>
           <div class="doctor-message" *ngIf="doctorMessage">
             <p style="color: red;">{{doctorMessage}}</p>

@@ -82,10 +82,10 @@ export class DocumentMessageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         console.log(this.message);
-        setTimeout(() => {
+        // setTimeout(() => {
             this.downloadDoc(this.message.contentData.data[0]);
             this.fileName = this.message.contentData.data[0];
-        }, 5000);
+        // }, 5000);
     }
 
     ngOnDestroy() {

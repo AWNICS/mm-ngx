@@ -49,10 +49,11 @@
                             <div *ngIf="notify; else showThis">
                                 <h5>Notifications</h5>
                                 <span (click)="clearNotifications()" class="clear-all">CLEAR ALL</span>
-                                <div class="dropdown-holder" #notificationDropdown>
+                                <div class="dropdown-holder" (scroll)="trackScroll($event)" #notificationDropdown>
                                 <div *ngFor="let notification of notifications" class="dropdown-item notification-dropdown">
                                     <div class="notification-item">
                                         <div class="content">
+                                            <span class="time">{{notification?.createdAt | date: 'dd-MM-yyyy hh:mm a'}}</span>
                                             <img src="../../../assets/png/male1.png">
                                             <div>{{ notification?.title }}
                                                     <a class="consult-button" *ngIf="notification?.type==='consultation'" (click)="startConsultation(notification);">Start Consultation</a>

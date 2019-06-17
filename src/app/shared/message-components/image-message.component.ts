@@ -47,6 +47,7 @@ export class ImageMessageComponent implements OnInit, OnDestroy {
     downloadThumbImage(imageName: any) {
         if(imageName){
             this.imageName = imageName;
+            console.log(imageName);
             this.chatService.downloadFile(imageName)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res) => {

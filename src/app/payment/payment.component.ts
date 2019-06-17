@@ -67,7 +67,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
             this.getBills(this.page);
         }
-        this.userDetails = `merchant_id=192155&currency=INR&amount=1.00` +
+        this.userDetails = `merchant_id=192155&currency=INR` +
             `&redirect_url=https://mesomeds.com:3000/payments/responses&cancel_url=https://mesomeds.com:3000/payments/responses` +
             `&integration_type=iframe_normal&language=en` +
             `&billing_name=${cookie.firstname + cookie.lastname}&billing_address=Awnicstechnologiespvtltd&billing_city=Bangalore` +
@@ -108,7 +108,6 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         const billId = this.route.snapshot.queryParams.bill_id;
         if (billId && billId !== 'null') {
             if(environment.production){
-                console.log('calling');
                 this.service.paymentGatewayCall(this.userDetails + `&order_id=${this.bills[0].orderId}`)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res: any) => {
@@ -147,7 +146,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((billings) => {
                     console.log('No of bills received: ' + billings.length + ' on page: ' + page);
-                    if (billings.length === 0 || billings.length < 5) {
+                    if (billings.length === 0 || billings.length < 20) {
                         this.emptyBills = true;
                     }
                     const length = this.bills.length;
@@ -165,7 +164,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
                 .subscribe((billings) => {
                     console.log(billings);
                     console.log('No of bills received: ' + billings.length + ' on page: ' + page);
-                    if (billings.length === 0 || billings.length < 5) {
+                    if (billings.length === 0 || billings.length < 20) {
                         this.emptyBills = true;
                     }
                     const length = this.bills.length
@@ -212,6 +211,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     getBillById(billId: number) {
             this.sharedService.getBillById(this.visitorId, billId)
                 .subscribe((billing) => {
+                    this.userDetails += `&amount=${billing[0].amount}`;
                     console.log(billing);
                     if (billing) {
                         this.bills = billing;

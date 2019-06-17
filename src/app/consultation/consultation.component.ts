@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -48,6 +48,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(
         private route: ActivatedRoute,
+        private router: Router,
         private sharedService: SharedService,
         private chatService: ChatService,
         private sanitizer: DomSanitizer,
@@ -65,6 +66,8 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.log('Page Reloaded so making new socket connection');
                 this.socketService.connection(this.selectedUser.id);
               }
+        } else {
+            this.router.navigate(['/login']);
         }
         this.consultationId = this.route.snapshot.queryParams.consultationId;
         if ( this.consultationId && this.selectedUser.role === 'doctor') {
@@ -121,7 +124,7 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getConsultations(id: number, page: number) {
-        const size = 5;
+        const size = 20;
         this.notquerying = false;
         if (this.selectedUser.role === 'patient') {
             this.sharedService.getConsultationsByVisitorId(id, page, size)
@@ -133,7 +136,10 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.message = 'There are no past consultations to display';
                     this.emptyConsultations = true;
                 } else {
-                    const length = this.consultations.length
+                    if(res.prescriptions.length < size){
+                        this.emptyConsultations = true;
+                    }
+                    const length = this.consultations.length;
                     res.prescriptions.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);
                         consultation.picUrl = consultation.picUrl ? this.downloadPic(consultation.picUrl, length + index):
@@ -147,11 +153,14 @@ export class ConsultationComponent implements OnInit, AfterViewInit, OnDestroy {
                 .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
                 console.log(res);
-                if (res.consultations.length === 0) {
+                if (res.consultations.length    === 0) {
                     this.consultations.length > 0 ?  this.message = 'There are no more consultations to display' :
                     this.message = 'There are no past consultations to display';
                      this.emptyConsultations = true;
                 } else {
+                    if(res.consultations.length < size){
+                        this.emptyConsultations = true;
+                    }
                     const length = this.consultations.length;
                     res.consultations.map((consultation: any, index: number) => {
                         this.consultations.push(consultation);

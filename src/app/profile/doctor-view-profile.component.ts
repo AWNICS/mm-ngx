@@ -114,7 +114,7 @@ export class DoctorViewProfileComponent implements OnInit, AfterViewInit, OnDest
                     .subscribe(doctor => {
                         this.doctor = doctor;
                         console.log(this.doctor.doctorDetails.workhistory);
-                        this.doctor.doctorDetails.workhistory = JSON.parse(this.doctor.doctorDetails.workhistory);
+                        // this.doctor.doctorDetails.workhistory = JSON.parse(this.doctor.doctorDetails.workhistory);
                         this.doctor.speciality = doctor.doctorDetails.speciality;
                         const date = new Date(this.doctor.validity);
                         this.doctor.validity = date.getUTCDay() + '-' + date.getUTCMonth() + '-' + date.getUTCFullYear();
@@ -226,6 +226,7 @@ export class DoctorViewProfileComponent implements OnInit, AfterViewInit, OnDest
             this.sharedService.getActivities(doctorId)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe(res => {
+                console.log(res);
                 this.doctorActivities = res;
                 this.doctorActivities.map((activity, index) => {
                     if (activity.mediaUrl) {
@@ -389,7 +390,7 @@ export class DoctorViewProfileComponent implements OnInit, AfterViewInit, OnDest
         const location = this.sharedService.getLocation();
         // this.doctorSelected = this.doctor.userId;
         const doc: any = this.selectedDoctor;
-        this.socketService.emitConsultNow(user, doc.id, `${doc.firstName} ${doc.lastName}`, speciality, 'Video', location);
+        this.socketService.emitConsultNow(user, doc.id, `${doc.firstName} ${doc.lastName}`, speciality, 'Video', location, user.price );
         // console.log(this.doctor);/
         // const speciality = this.sharedService.getSpeciality();
         // console.log('speciality: ' + speciality);

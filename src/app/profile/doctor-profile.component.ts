@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DoctorProfiles } from '../shared/database/doctor-profiles';
 import { UserDetails } from '../shared/database/user-details';
@@ -43,7 +43,8 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
         private sharedService: SharedService,
         private router: Router,
         private securityService: SecurityService,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private cd: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -66,6 +67,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
             specialities.map((speciality: Specialities) => {
                 this.specialitiesDropdownList.push(speciality.name);
             });
+            this.cd.detectChanges();
             this.profileService.getDoctorProfilesById(this.user.id)
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((result: any) => {
@@ -142,6 +144,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                 locations.map((location: any) => {
                     this.locationList.push(location.name);
                 });
+                this.cd.detectChanges();
             });
     }
 
@@ -153,6 +156,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                 languages.map((language: any) => {
                     this.languageList.push(language.name);
                 });
+                this.cd.detectChanges();
             });
     }
 
@@ -164,6 +168,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                 consultationModes.map((consultationMode: any) => {
                     this.consultationModeList.push(consultationMode.name);
                 });
+                this.cd.detectChanges();
             });
     }
 
@@ -175,6 +180,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                 qualifications.map((qualification: any) => {
                     this.qualificationList.push(qualification.name);
                 });
+                this.cd.detectChanges();
             });
     }
 

@@ -114,8 +114,9 @@ export class SocketService {
         this.socket.emit('notify-users', message);
     }
 
-    emitConsultNow(user: any, doctorId: number, doctorName: string, speciality: string, consultationMode: string, location: string) {
-        this.socket.emit('consult-now', user, doctorId, doctorName, speciality, consultationMode, location);
+    emitConsultNow(user: any, doctorId: number, doctorName: string, speciality: string, consultationMode: string,
+         location: string, price: number) {
+        this.socket.emit('consult-now', user, doctorId, doctorName, speciality, consultationMode, location, price);
     }
 
     emitMessageRead(groupId: number, userId: number) {
@@ -219,14 +220,14 @@ export class SocketService {
     /**
      * all media files receive event
      */
-    mediaReceive(): Observable<any> {
-        const observable = new Observable(observer => {
-            this.socket.on('media-file', (data: any) => {
-                observer.next(data);
-            });
-        });
-        return observable;
-    }
+    // mediaReceive(): Observable<any> {
+    //     const observable = new Observable(observer => {
+    //         this.socket.on('media-file', (data: any) => {
+    //             observer.next(data);
+    //         });
+    //     });
+    //     return observable;
+    // }
 
     typingEmitter(groupId: any, userName: any, prescription: Boolean) {
         this.socket.emit('send-typing', groupId, userName, prescription);

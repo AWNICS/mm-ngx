@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { SharedService } from '../shared/services/shared.service';
 import { NavbarComponent } from '../shared/navbar/navbar.component';
@@ -37,6 +38,7 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
 
     constructor(
         private fb: FormBuilder,
+        private router: Router,
         private loginService: LoginService,
         private sharedService: SharedService
     ) {
@@ -139,7 +141,8 @@ export class DoctorRegisterComponent implements OnInit, OnDestroy {
                                 Kindly check inbox/spam folder for more details.`;
                                 setTimeout(() => {
                                     this.message = '';
-                                }, 8000);
+                                    this.router.navigate(['/login']);
+                                }, 5000);
                                     this.registerDoctorProfiles.reset();
                                 }
                         });

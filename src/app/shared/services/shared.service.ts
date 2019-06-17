@@ -296,13 +296,18 @@ export class SharedService {
     }
 
     getConsultationsByVisitorId(visitorId: number, page: number, size: number) {
-        const uri = `${this.url}/visitors/${visitorId}/consultations?page=${page}&size=${size}`;
+        const uri = `${this.url}/visitors/${visitorId}/consultations/readall?page=${page}&size=${size}`;
         return this.http.get(uri, this.httpOptions)
             .pipe(map((res: any) => res));
     }
 
-    getReportsByVisitorId(visitorId: number) {
-        const uri = `${this.url}/visitors/${visitorId}/reports`;
+    readAllConsultationsByVisitorId(visitorId: number, high: number, low: number) {
+        const uri = `${this.url}/visitors/${visitorId}/consultations?high='${high}'&low='${low}'`;
+        return this.http.get(uri, this.httpOptions)
+            .pipe(map((res: any) => res));
+    }
+    getReportsByVisitorId(visitorId: number, high: number, low: number) {
+        const uri = `${this.url}/visitors/${visitorId}/reports?high='${high}'&low='${low}'`;
         return this.http.get(uri, this.httpOptions)
             .pipe(map((res: any) => res));
     }
@@ -325,8 +330,8 @@ export class SharedService {
             .pipe(map((res: any) => res));
     }
 
-    readAllConsultationsByDoctorId(doctorId: number) {
-        const uri = `${this.url}/doctors/${doctorId}/consultations/readall`;
+    readAllConsultationsByDoctorId(doctorId: number, high:any, low:any) {
+        const uri = `${this.url}/doctors/${doctorId}/consultations/readall?high='${high}'&&low='${low}'`;
         return this.http.get(uri, this.httpOptions)
             .pipe(map((res: any) => res));
     }

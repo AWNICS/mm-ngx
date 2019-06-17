@@ -96,8 +96,8 @@
               </div>
               <div class="col col-8 col-xl-8 col-lg-8 col-md-8 col-sm-8">
                 <div>
-                  <p class="doctor-info-name">{{doctor.firstName+' '+doctor.lastName}}</p>
-                  <span class="doctor-info-price">&#8377;{{doctor.price || 0}}</span>
+                  <p class="doctor-info-name ellipsis">{{doctor.firstName+' '+doctor.lastName}}</p>
+                  <span class="doctor-info-price">&#8377;{{doctor.price || 'N/A'}}</span>
                   <span class="sub-heading-text small">&nbsp;&nbsp;Per Hour</span>
                 </div>
               </div>
@@ -122,8 +122,8 @@
             <p class="sub-heading-text-value">{{doctor.consultationMode || 'Not Updated'}}</p>
           </div>
           <div class="card-footer">
-              <button class="btn pay-button" [disabled]="doctor.status === 'Offline' ||  doctor.status === 'Busy'" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
-              <span style="position: absolute;bottom: 3px; left: 50%; transform: translateX(-50%);color: red" *ngIf="doctor.status === 'Offline' || doctor.status === 'Busy'">{{ doctor.status === 'Offline' ? 'Doctor Offline' : 'Doctor Busy'}}</span>
+              <button class="btn pay-button" [disabled]="doctor.status === 'Offline' ||  doctor.status === 'Busy' || !doctor.price" (click)="consultNow(doctor, $event);">PAY AND CONSULT NOW</button>
+              <span style="position: absolute;bottom: 3px; left: 50%; transform: translateX(-50%);color: red" *ngIf="(doctor.status === 'Offline' || doctor.status === 'Busy' ) && !doctor.message">{{ doctor.status === 'Offline' ? 'Doctor Offline' : 'Doctor Busy'}}</span>
               <div *ngIf="doctor.message" style="position: absolute;bottom: 3px; left: 50%; transform: translateX(-50%); color:#877474">
                   <span style="white-space: pre; color: red;font-size: 12px;" *ngIf="doctor.message && doctor.message!=='chat'">{{ doctor.message }}</span>
                   <a [routerLink]="['/chat',selectedUser.id]" [queryParams]="{inactive_group:doctor.group}" *ngIf="doctor.message==='chat'">

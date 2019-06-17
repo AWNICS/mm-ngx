@@ -31,7 +31,6 @@ export class ChatService {
                 'Authorization': `${this.securityService.key} ${this.securityService.getCookie('token')}`
             })
         };
-        console.log(Headers);
     }
 
     /** GET users from the server */
@@ -152,7 +151,7 @@ export class ChatService {
         const formData = new FormData();
         formData.append('file', file);
         return this.http.post(uri, formData, this.httpOptions)
-        .pipe(map((res: any) => res.json()),
+        .pipe(map((res: any) => res),
         catchError(this.handleError));
     }
 

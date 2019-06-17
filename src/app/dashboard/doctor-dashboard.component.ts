@@ -173,7 +173,11 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
             .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((status) => {
             status = status.charAt(0).toUpperCase() + status.substring(1);
-            this.doctorSchedule.status = status;
+            try {
+                this.doctorSchedule.status = status;
+            } catch (e) {
+                console.log('Doctor status not updated');
+            }
             this.selectedStatus = status;
         });
     }
@@ -199,7 +203,7 @@ export class DoctorDashboardComponent implements OnInit, AfterViewInit , OnDestr
 
     getConsultations(doctorId: number) {
         const page = 1;
-        const size = 20;
+        const size = 10;
         this.sharedService.getConsultationsByDoctorId(doctorId, page, size)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((consultations) => {

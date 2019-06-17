@@ -118,7 +118,7 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
             const temp: any = new Date(val);
             const age = temp.getYear() - 70;
             this.userAge = age;
-            if (this.userAge > 13) {
+            if (this.userAge >= 13) {
                 this.otpButton.nativeElement.disabled = false;
             } else {
                 this.dobInvalid = false;
@@ -207,7 +207,6 @@ export class RegisterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     runTimer() {
         this.timerId = setInterval(() => {
-            console.log(this.timer);
             this.timer = this.timer - 1000;
             if (this.timer <= this.endTime ) {
                 this.timer = 0;

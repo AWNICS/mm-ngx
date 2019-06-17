@@ -19,6 +19,7 @@ a:link,
 a:visited,
 a:active {
     color: black;
+    user-select: none;
     font-weight: 600;
     line-height: 1.2; 
 }
@@ -47,7 +48,12 @@ a.consult-button:hover {
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.15);
     /* font-family: Lato, sans-serif; */
 }
-
+span.time{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 9px;
+}
 #logo>img {
     width: auto;
     height: 80%;
@@ -55,6 +61,7 @@ a.consult-button:hover {
 }
 #logo{
     margin: 0% 0px;
+    user-select: none;
 }
 .navbar-light .navbar-toggler {
     border: none;
@@ -441,6 +448,8 @@ div.navbar__menu > div.navbar-link:not(:last-child){
     align-items: center;
     padding-bottom: 10px;
     border-bottom: 1px solid rgba(0,0,0,0.102);       
+    position: relative;
+    padding-top: 10px;
 }
 .notification-item .content img{
     width: 40px;

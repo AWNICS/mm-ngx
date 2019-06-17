@@ -229,7 +229,7 @@
             [ngStyle]="{'display':selectedUser?.role === 'doctor'&&selectedGroup.name!=='MedHelp' ? 'block' : 'none'}">
             <i class="fa fa-video-camera" aria-hidden="true" (click)="createAppear(message);" aria-hidden="true"></i>
           </div>
-          <div title="All Files" (click)="media();">
+          <div title="All Files" (click)="media(0);">
             <i class="fa fa-files-o" aria-hidden="true"></i>
           </div>
           <div title="Generate Prescription" (click)="togglePrescriptionComponent()"
@@ -434,6 +434,9 @@
           <textarea formControlName="text" name="message-to-send" id="message-to-send" placeholder="Type your message"
             rows="1" #textArea></textarea>
           <div class="row justify-content-between chat-footer">
+            <div class='send-button' (click)="sendMessage(message)">
+              <span></span>
+            </div>
             <!-- <div class="col col-2 dropup"> -->
             <div class="wrapper">
               <div class="three-green-dots">
@@ -506,7 +509,7 @@
       <!-- end chat-message -->
     </div>
     <!-- end chat -->
-    <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar>
+    <div class="w3-sidebar-right w3-bar-block w3-animate-right" #rightSidebar (scroll)="listenMediaScroll($event)">
       <div class="heading">
         <h5>Files</h5>
         <button class="w3-button w3-large" id="close" (click)="w3_close()">
@@ -521,7 +524,7 @@
       </ng-container>
       <ng-container *ngIf="mediaMessages.length > 0">
         <div class="search-right">
-          <input type="text" placeholder="Search" [(ngModel)]="searchFile" />
+          <input type="text" placeholder="Search" [(ngModel)]="searchFile" (input)="test()"/>
           <i class="fa fa-search"></i>
         </div>
         <div class="w3-bar-item w3-button" *ngFor="let media of mediaMessages | filter : searchFile">

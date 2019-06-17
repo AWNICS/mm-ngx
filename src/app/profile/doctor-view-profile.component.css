@@ -173,6 +173,7 @@ p.empty-message{
 .work-history{
     /* width: 48%; */
     border-left: 2px solid rgb(105,96,255);
+    height: 100%;
 }
 /* .work-history:nth-child(even){
     margin-left: 15px;
@@ -380,7 +381,9 @@ img{
     align-items: center;
 }
 :host ::ng-deep .lds-roller {
-    left: 31% !important;
+    left: 50% !important;
+    top: 42% !important;
+    transform: translate(-50%, -50%);
 }
 :host ::ng-deep .loader-holder {
     background: #c4bdbdd6 !important;

@@ -38,7 +38,6 @@ export class DoctorsListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnInit() {
         // work here on login status based on cookie
-        // console.log(this.securityService.getLoginStatus());
          this.selectedUser = JSON.parse(this.securityService.getCookie('userDetails'));
         if (window.localStorage.getItem('pageReloaded')) {
             console.log('Page Reloaded');
@@ -74,7 +73,7 @@ export class DoctorsListComponent implements OnInit, AfterViewInit, OnDestroy {
         const speciality = this.sharedService.getSpeciality();
         const gps = 39834758;
         const currentTime = moment(Date.now()).format();
-        const size = 10;
+        const size = 20;
         this.notQuerying = false;
         if (location && speciality) {
             this.sharedService.getDoctors(this.selectedUser.id, location, speciality, gps, currentTime, this.page, size)
@@ -87,7 +86,7 @@ export class DoctorsListComponent implements OnInit, AfterViewInit, OnDestroy {
                         if(this.doctors.length === 0) {
                             this.message = 'There are no doctors available currently. Try again later!';
                         }
-                        if (res.doctors.length < 10) {
+                        if (res.doctors.length < size) {
                             this.emptyDoctors = true;
                         }
                         if (this.doctors.length >= 1) {
@@ -182,7 +181,8 @@ export class DoctorsListComponent implements OnInit, AfterViewInit, OnDestroy {
         const location = this.sharedService.getLocation();
         console.log('speciality: ' + speciality);
         this.doctorSelected = doctor.userId;
-        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality, 'Video', location);
+        this.socketService.emitConsultNow(user, doctor.userId, `${doctor.firstName} ${doctor.lastName}`, speciality, 'Video', location,
+         doctor.price);
     }
     navigate(doctor) {
         console.log(doctor);

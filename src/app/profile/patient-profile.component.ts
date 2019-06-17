@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { UserDetails } from '../shared/database/user-details';
 import { ProfileService } from './profile.service';
@@ -39,6 +39,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
         private chatService: ChatService,
         private sharedService: SharedService,
         private securityService: SecurityService,
+        private cd: ChangeDetectorRef
     ) { }
 
     ngOnInit() {
@@ -127,6 +128,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                 allergies.map((allergy: any) => {
                     this.allergyList.push(allergy.name);
                 });
+                this.cd.detectChanges();
             });
     }
 
@@ -137,6 +139,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                 languages.map((language: any) => {
                     this.languageList.push(language.name);
                 });
+                this.cd.detectChanges();
             });
     }
 
@@ -147,6 +150,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                 locations.map((location: any) => {
                     this.locationList.push(location.name);
                 });
+                this.cd.detectChanges();
             });
     }
     update({ value, valid }: { value: any, valid: boolean }) {

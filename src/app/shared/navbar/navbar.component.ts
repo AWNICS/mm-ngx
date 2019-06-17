@@ -22,6 +22,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     picUrl: string;
     notifications: Notification[] = [];
     notify = false;
+    page: any = 1;
+    notificationQuerying: Boolean = false;
+    emptyNotifications: Boolean = false;
     @ViewChild('navbar') navbar: ElementRef;
     @ViewChild('notificationDropdown') notificationDropdown: ElementRef;
     @ViewChild('bell') bell: ElementRef;
@@ -74,22 +77,31 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         window.addEventListener('unload', () => {
             window.localStorage.setItem('pageReloaded', 'true');
         });
+        //     if ( !this.billById ) {
+        //     if (Math.max(event.target.documentElement.scrollTop / (event.target.documentElement.scrollHeight - window.innerHeight) 
+        //     * 100) > 94 && !this.emptyBills && this.notquerying) {
+        //     this.page = this.page + 1;
+        //     this.getBills(this.page);
+        //     }
+        // }
     }
 
     ngAfterViewChecked() {
         this.loggedIn = this.securityService.getLoginStatus();
     }
 
-    // ngOnChanges() {
-    //     console.log(this.unreadCount);
-    // }
-
     ngOnDestroy() {
         this.unsubscribeObservables.next();
         this.unsubscribeObservables.complete();
         this.sharedService.setUnreadCount(this.unreadMessageCount);
     }
-
+    trackScroll(event) {
+        if (Math.max(event.target.scrollTop / (event.target.scrollHeight - event.target.offsetHeight) * 100) > 94
+        && !this.notificationQuerying && !this.emptyNotifications) {
+            this.page += 1;
+            this.getNotifications(this.user);
+        }
+    }
   receiveMessageFromSocket() {
     this.socketService.receiveMessages()
     .pipe(takeUntil(this.unsubscribeObservables))
@@ -167,7 +179,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
         this.sharedService.setNavbarLoad(true);
         console.log('Made socketConnected as false');
     }
-
     navbarColor(number: number, color: string) {
         if (number > 800) {
             this.navbar.nativeElement.style.backgroundColor = color;
@@ -187,24 +198,28 @@ export class NavbarComponent implements OnInit, AfterViewInit, AfterViewChecked,
     }
 
     getNotifications(user: UserDetails) {
-        const page = 1;
         const size = 10;
-        this.sharedService.getNotificationsByUserId(user.id, page, size)
+        this.notificationQuerying = true;
+        this.sharedService.getNotificationsByUserId(user.id, this.page, size)
         .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((notifications) => {
+                this.notificationQuerying = false;
                 console.log('Notifications received all');
                 console.log(notifications);
                 if (notifications.length >= 1) {
                     this.notify = true;
                     // reverse to show the items from latest to last later will have to change the logic in db itself
-                    this.notifications = notifications;
                     notifications.map((notification: any) => {
+                        this.notifications.push(notification);
                         if (notification.status !== 'read') {
                             this.unreadNotifications++;
                         }
                     });
                     console.log(this.unreadNotifications);
                     this.ref.detectChanges();
+                }
+                if (notifications.length < 10) {
+                    this.emptyNotifications = true;
                 }
             });
     }

@@ -106,7 +106,7 @@
                 <div style="position: relative">
                   <div *ngIf="userAge && userAge < 13 && !formControls.dob.errors"
                     style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
-                    Age Should be Greater than 13 years</div>
+                    User should be 13 years of age</div>
                   <div *ngIf="dobInvalid && !formControls.dob.errors"
                   style="margin-bottom:3px;color:#ff0000db; text-align: center;position: relative; font-size:13px">
                   Enter a Valid DOB</div>
@@ -176,7 +176,7 @@
     </div>
   </div>
   <div class="container-fluid">
-    <img src="../../assets/images/blue-back.png">
+    <img src="../../assets/webp/blue-back.webp">
   </div>
 </div>
 
@@ -269,7 +269,7 @@
       </ng-container>
       <ng-container *ngIf="!otpFlag">
         <div class="modal-body" style="border-bottom: none; text-align: center">
-          <img src="../../assets/images/verified-tick.png" style="width: 40px">
+          <img src="../../assets/webp/verified-tick.webp" style="width: 40px">
           <h2 style="margin-top: 15px;font-size: 30px;font-weight: 600;color: blue;">OTP Verified!</h2>
           <button class="proceed-to-signin" routerLink="/login">PROCEED TO SIGN IN</button>
         </div>

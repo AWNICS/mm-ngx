@@ -26,8 +26,6 @@ import { SharedService } from '../shared/services/shared.service';
 import { ProfileService } from '../profile/profile.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-// const moment = require('moment');
-import * as moment from 'moment';
 
 /**
  * This class represents the lazy loaded ChatComponent.
@@ -74,7 +72,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   alertMessage: string; // alert for deleted message and doctor exit
   fileUrl: SafeResourceUrl;
   mediaMessages: Message[] = [];
-  mediaPage = 1;
+  mediaPage: any = 1;
+  emptyMedia: Boolean = false;
   emptyMessages: Boolean = true;
   activeGroups: Group[] = [];
   inactiveGroups: Group[] = [];
@@ -182,8 +181,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.navbarComponent.navbarColor(0, '#6960FF');
     this.userId = +this.route.snapshot.paramMap.get('userId');
     this.selectedGroup = this.sharedService.getGroup();
-    console.log('this.selectedGroup');
-    console.log(this.selectedGroup);
     const cookie = this.securityService.getCookie('userDetails');
     this.displayMessageLoader = true;
     if (cookie === '' || this.userId !== JSON.parse(cookie).id) {
@@ -199,7 +196,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.getUserById(this.userId)
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((user: any) => {
-          console.log(user);
           if(user.role==='patient') {
             this.getVisitorInfo(user.id);
           }
@@ -219,7 +215,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.typingEventEmitter();
       this.typingEventListener();
       this.receivedGroupStatus();
-      this.socketMedia(); // required for real time change in all file section
+      // this.socketMedia(); // required for real time change in all file section
       this.listenUserAdded();
       this.receiveEndConsultation();
       this.listenClicksOnChat();
@@ -249,7 +245,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   getVisitorInfo(visitorId) {
     this.chatService.getVisitorInfo(visitorId).subscribe((res) => {
-      console.log(res);
       this.visitorInfo = res;
     });
   }
@@ -266,7 +261,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-
   listenMessageRead() {
     this.socketService.receiveMessageread()
     .pipe(takeUntil(this.unsubscribeObservables))
@@ -350,6 +344,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
               this.activeGroups.map((group: any) => {
                 i++;
                 if (group.id === result.groupId) {
+                  group.phase = 'botInactive';
                   const inactiveGroup: any = this.activeGroups.splice(i - 1, 1)[0];
                   this.inactiveGroups.unshift(inactiveGroup);
                 }
@@ -637,7 +632,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.uploadFile(files[0])
       .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe(res => {
-          console.log(res)
           value.contentData = { data: res.fileName };
           value.receiverId = this.chatService.getGroup().id;
           value.senderId = this.selectedUser.id;
@@ -678,7 +672,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     value.createdBy = this.userDetails.id;
     const group: any = { id: groupId };
     this.socketService.sendMessage(value, group);
-    console.log('Created Message Notification');
   }
 
   createGroupAuto() {
@@ -764,7 +757,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
                this.chatService.downloadFile(group.picture)
                .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res) => {
-                  console.log(res);
                   res.onloadend = () => {
                     group.picture = res.result;
                     this.ref.detectChanges();
@@ -890,9 +882,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     //         i++;
     //         this.messages.push(message);
     //       });
-    //       console.log(group.unreadCount);
     //       if(group.unreadCount > 0) {
-    //         console.log('made nyull');
     //         this.socketService.emitMessageRead(group.id,this.selectedUser.id);
     //       }
     //       let result:any = this.sharedService.getdoctorAddedGroup();
@@ -907,7 +897,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     //     });
     // } else
     if (this.oldGroupId !== group.id && this.selectedUser) {
-      console.log('calling messages');
       // display  loading animaton upon message call in the intitial chat window load
       this.displayMessageLoader = true;
       // else if user selects different group, clear the messages from array and load new messages
@@ -918,7 +907,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
         .pipe(takeUntil(this.unsubscribeObservables))
         .subscribe((msg: any) => {
-          console.log(msg);
           if (this.selectedUser.role === 'patient' && this.archiveGroups.indexOf(this.selectedGroup) === -1) {
             this.checkRequiredInfo();
           }
@@ -1025,7 +1013,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatService.getMessages(this.selectedUser.id, group.id, this.page, size)
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((msgs) => {
-        console.log(msgs);
         if(msgs.length === 0 || msgs.length < 20){
           console.log('empty messages');
           this.emptyMessages = true;
@@ -1063,16 +1050,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       // make typing emite true so that user can send the next message and emit event immediately
       this.typingEvent = true;
-      // let notify: any;
-      // if(this.messages.length > 0){
-      //  notify = moment(this.messages[this.messages.length - 1].createdTime).add(1, 'h') < moment(value.createdTime);
-      // }
-      // && (this.messages.length = 0 || notify)
-      if (this.selectedGroup.phase === 'botInactive') {
+      if (this.selectedGroup.phase === 'botInactive' && this.selectedUser.role === 'patient'
+      && this.selectedGroup.emergency_message === true) {
         console.log('Trigerred notify message');
         this.socketService.sendNotifyMessage(value, this.selectedGroup);
+        this.selectedGroup.emergency_message = false;
       } else {
-        console.log('sending message');
         this.socketService.sendMessage(value, this.selectedGroup);
       }
     }
@@ -1094,6 +1077,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           //   // this.messages.push(msg);
           // } else {
             this.messages.push(msg);
+            if(msg.type === 'image' || msg.type === 'video' || msg.type === 'doc'){
+              this.mediaMessages.unshift(msg);
+            }
           // }
           // making the alert message null immediately after receiving message from socket
           this.alertMessage = null;
@@ -1119,7 +1105,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
             }
           });
           // if(msg.senderId !== this.selectedUser.id) {
-          //   console.log('emitting sync count');
           //   this.socketService.emitCountSync(this.selectedUser.id,this.unreadMessageCount);
           // }
      }
@@ -1185,7 +1170,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   onScroll() {
     const scrollPane: any = this.messageBox.nativeElement;
     if (scrollPane.scrollTop === 0 && this.messages.length > 0 && !this.emptyMessages) {
-      console.log('no empty messages');
       this.page = this.page + 1;
       this.getMoreMessages(this.selectedGroup);
     }
@@ -1283,7 +1267,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe((groupId: any) => {
         this.dataSubmit.nativeElement.disabled = false;
-        console.log('received info ' + groupId);
         this.activeGroups.map((group: any) => {
           if(group.id === groupId){
             group.requireInfo = false;
@@ -1305,49 +1288,60 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         this.alertMessage = notify.message;
       });
   }
-
+  listenMediaScroll(event){
+    // if (Math.max(event.target.scrollTop / (event.target.scrollHeight - event.target.offsetHeight) * 100) > 94
+    // && !this.emptyMedia && !this.gettingMessages) {
+    //     this.mediaPage += 1;
+    //     this.media(1);
+    // }
+  }
   /**
    * for getting all the media messages
    */
-  media() {
-    const x = window.matchMedia('(min-width: 769px)');
-    if (x.matches) {
-      this.rightSidebar.nativeElement.style.display = 'block';
-      this.chat.nativeElement.style.width = 'calc(100% - 266px)';
-      this.ref.detectChanges();
-    } else {
-      this.rightSidebar.nativeElement.style.display = 'block';
-      this.chat.nativeElement.style.width = '100%';
-      this.ref.detectChanges();
+  media(number) {
+    if(number === 0){
+      const x = window.matchMedia('(min-width: 769px)');
+      if (x.matches) {
+        this.rightSidebar.nativeElement.style.display = 'block';
+        this.chat.nativeElement.style.width = 'calc(100% - 266px)';
+        this.ref.detectChanges();
+      } else {
+        this.rightSidebar.nativeElement.style.display = 'block';
+        this.chat.nativeElement.style.width = '100%';
+        this.ref.detectChanges();
+      }
+      this.mediaMessages = [];
+      this.mediaPage = 1;
     }
-    const size = 5;
-    this.mediaMessages = [];
+    const size = 20;
+    // this.mediaMessages = [];
     this.gettingMessages = true;
-    console.log('made true');
     this.ref.markForCheck();
     this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
       .pipe(takeUntil(this.unsubscribeObservables))
       .subscribe(result => {
+        if(result.length < size){
+          this.emptyMedia = true;
+        }
         this.gettingMessages = false;
-        this.ref.markForCheck();
         result.map((message: any) => {
           this.mediaMessages.push(message);
-          this.ref.detectChanges();
         });
+        this.ref.detectChanges();
       });
   }
 
   // for all file section to be real time
-  socketMedia() {
-    this.socketService.mediaReceive()
-    .pipe(takeUntil(this.unsubscribeObservables))
-      .subscribe((result) => {
-        result.map((message: any) => {
-          this.mediaMessages.push(message);
-          this.ref.detectChanges();
-        });
-      });
-  }
+  // socketMedia() {
+  //   this.socketService.mediaReceive()
+  //   .pipe(takeUntil(this.unsubscribeObservables))
+  //     .subscribe((result) => {
+  //       result.map((message: any) => {
+  //         this.mediaMessages.push(message);
+  //         this.ref.detectChanges();
+  //       });
+  //     });
+  // }
   /**
    *
    * Close the right sidebar on click of close button and resize the chat window to 100% width
@@ -1358,25 +1352,25 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chat.nativeElement.style.width = '100%';
   }
 
-  getMoreMedia() {
-    const size = 5;
-    this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
-    .pipe(takeUntil(this.unsubscribeObservables))
-      .subscribe(result => {
-        result.map((message: any) => {
-          this.mediaMessages.push(message);
-        });
-      });
-  }
+  // getMoreMedia() {
+  //   const size = 5;
+  //   this.chatService.media(this.selectedGroup.id, this.mediaPage, size)
+  //   .pipe(takeUntil(this.unsubscribeObservables))
+  //     .subscribe(result => {
+  //       result.map((message: any) => {
+  //         this.mediaMessages.push(message);
+  //       });
+  //     });
+  // }
 
   // call get more media messages to get next page of media messages
-  scroll() {
-    const scrollPane = this.rightSidebar.nativeElement;
-    if (scrollPane.scrollTop === 0) {
-      this.mediaPage = this.mediaPage + 1;
-      this.getMoreMedia();
-    }
-  }
+  // scroll() {
+  //   const scrollPane = this.rightSidebar.nativeElement;
+  //   if (scrollPane.scrollTop === 0) {
+  //     this.mediaPage = this.mediaPage + 1;
+  //     // this.getMoreMedia();
+  //   }
+  // }
 
   receivedGroupStatus() {
     this.socketService.receivedGroupStatus()

@@ -48,7 +48,6 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
         this.unsubscribeObservables.complete();
     }
     verifyToken() {
-        console.log('called');
         this.loginService.verifyToken(this.token).subscribe((result) => {
             console.log(result);
             if (result.error) {

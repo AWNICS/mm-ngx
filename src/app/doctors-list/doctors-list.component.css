@@ -13,6 +13,11 @@ body {
     padding: 40px 0;
     color: #666;
 }
+.ellipsis{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 :host{
     display: flex;
     flex-direction: column;
@@ -246,6 +251,9 @@ p.message{
   }
   .text-left{
       text-align: left;
+  }
+  .doctor-info-name{
+      width: 100%;
   }
   .doctor-info-header{
     border-bottom: none;
