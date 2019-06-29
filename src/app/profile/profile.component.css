@@ -436,3 +436,8 @@ custom styles for ng-multiselect-dropdown
     border-left: 5px solid transparent !important;
     border-right: 5px solid transparent !important;
 }
+.lds-ring{
+    left: 31%;
+    z-index: 2;
+    top: 3px;
+}

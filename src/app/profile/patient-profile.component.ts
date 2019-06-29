@@ -24,6 +24,7 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
     message: string;
     reportUploaded: Boolean = false;
     allergyList: string[] = [];
+    loader: Boolean = false;
     dropdownSettings = {};
     languageList: string[] = [];
     locationList: string[] = [];
@@ -164,6 +165,8 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
             window.scroll({ top: 0, left: 0, behavior: 'smooth' });
             return;
         }
+        this.submitButton.nativeElement.disabled = true;
+        this.loader = true;
         this.visitorReport = {
             visitorId: this.user.id,
             url: this.visitorReportUrl,
@@ -179,6 +182,8 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this.unsubscribeObservables));
         const three = this.reportUploaded ? this.createReport() : new Observable((observer) => { observer.next(1); });
         zip(one, two, three).subscribe( val => {
+        this.submitButton.nativeElement.disabled = false;
+        this.loader = false;
             this.message = 'Profile is updated';
             this.user.firstname = value.firstname;
             this.user.lastname = value.lastname;
@@ -200,12 +205,14 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
             return;
         }
         this.submitButton.nativeElement.disabled = true;
+        this.loader = true;
         if (files[0].type.match('image')) {
             this.fileUploadName.nativeElement.value = files[0].name;
             this.sharedService.uploadReportsFile(files[0])
                 .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe(res => {
                     this.submitButton.nativeElement.disabled = false;
+                    this.loader = false;
                     this.visitorReportUrl = res.fileName; // setting url of report file
                     this.reportUploaded = true;
                 });
@@ -215,11 +222,13 @@ export class PatientProfileComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.unsubscribeObservables))
                 .subscribe((res: any) => {
                     this.submitButton.nativeElement.disabled = false;
+                    this.loader = false;
                     this.visitorReportUrl = res.fileName; // setting url of report file
                     this.reportUploaded = true;
                 });
         } else {
             this.submitButton.nativeElement.disabled = false;
+            this.loader = false;
             this.message = 'File format not supported';
             window.scroll({ top: 0, left: 0, behavior: 'smooth' });
         }

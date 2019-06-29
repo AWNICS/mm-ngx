@@ -181,6 +181,12 @@
        </div>
        <div class="row">
           <div class="col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="lds-ring" *ngIf="loader">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                </div>
              <button type="submit" class="button button-save" [disabled]="userDetails.invalid" #submitButton>SAVE</button>
           </div>
        </div>

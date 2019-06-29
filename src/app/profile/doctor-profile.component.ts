@@ -35,6 +35,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
     dropdownSettings: Object;
     specialityDropdownSettings: Object;
     selectedUser: any;
+    loader: Boolean = false;
     private unsubscribeObservables = new Subject();
 
     constructor(
@@ -186,6 +187,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
 
     update({ value }: { value: any }) {
         this.saveButton.nativeElement.disabled = true;
+        this.loader = true;
         this.profileService.updateDoctorProfiles(value)
             .pipe(takeUntil(this.unsubscribeObservables))
             .subscribe((res: any) => {
@@ -196,6 +198,7 @@ export class DoctorProfileComponent implements OnInit, OnDestroy {
                         this.user.lastname = value.lastname;
                         this.securityService.setCookie('userDetails', JSON.stringify(this.user), 1);
                         this.saveButton.nativeElement.disabled = false;
+                        this.loader = false;
                         this.message = 'Profile is updated';
                         window.scroll({ top: 0, left: 0, behavior: 'smooth' });
                     });
