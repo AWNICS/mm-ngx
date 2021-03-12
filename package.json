@@ -157,7 +157,7 @@
         "chart.js": "^2.7.2",
         "core-js": "^2.4.1",
         "intl": "^1.2.5",
-        "jspdf": "^1.4.1",
+        "jspdf": "^2.3.1",
         "jspdf-autotable": "^2.3.5",
         "moment": "^2.21.0",
         "ng-multiselect-dropdown": "^0.2.1",
